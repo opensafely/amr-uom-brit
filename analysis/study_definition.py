@@ -74,3 +74,55 @@ study = StudyDefinition(
         ),
 
     ),
+
+    ### Age
+    age=patients.age_as_of(
+        "index_date",
+        return_expectations={
+            "rate": "universal",
+            "int": {"distribution": "population_ages"},
+            "incidence": 0.001
+        },
+    ),    
+
+    ### Sex
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+        }
+    ),
+
+    ### Region - NHS England 9 regions
+    region=patients.registered_practice_as_of(
+        "index_date",
+        returning="nuts1_region_name",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                  "North East": 0.1,
+                  "North West": 0.1,
+                  "Yorkshire and The Humber": 0.1,
+                  "East Midlands": 0.1,
+                  "West Midlands": 0.1,
+                  "East": 0.1,
+                  "London": 0.2,
+                  "South West": 0.1,
+                  "South East": 0.1, }, },
+        },
+    ),
+
+    ## Variables
+
+    ### Practice
+    practice=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={"int": {"distribution": "normal",
+                                     "mean": 25, "stddev": 5}, "incidence": 0.5}
+    ),
+
+)
+
+
