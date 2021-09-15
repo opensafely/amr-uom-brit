@@ -15,7 +15,7 @@ from cohortextractor import (
     codelist,
     #filter_codes_by_category,
     #combine_codelists,
-    #Measure
+    Measure
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
