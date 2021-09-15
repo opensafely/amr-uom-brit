@@ -108,13 +108,25 @@ study = StudyDefinition(
 
     ### Age categories
 
-    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 64-74; 75+
-    age_cat=patients.age_as_of(
-        "index_date",
+    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
+    age_cat=patients.categorised_as(
+        {
+            "0":"DEFAULT",
+            "0-4": """ age >= 0 AND age < 5""",
+            "5-14": """ age >= 5 AND age < 15""",
+            "15-24": """ age >= 15 AND age < 25""",
+            "25-34": """ age >= 25 AND age < 35""",
+            "35-44": """ age >= 35 AND age < 45""",
+            "45-54": """ age >= 45 AND age < 55""",
+            "55-64": """ age >= 55 AND age < 65""",
+            "65-74": """ age >= 65 AND age < 75""",
+            "75+": """ age >= 75 AND age < 120""",
+        },
         return_expectations={
             "rate": "universal",
             "category": {
                 "ratios": {
+                    "0": 0.001,
                     "0-4": 0.11, 
                     "5-14": 0.11,
                     "15-24": 0.11,
@@ -122,11 +134,13 @@ study = StudyDefinition(
                     "35-44": 0.11,
                     "45-54": 0.11,
                     "55-64": 0.11,
-                    "64-74": 0.11,
-                    "75": 0.11,
-                    }},
+                    "65-74": 0.11,
+                    "75+": 0.11,
+                }
+            },
         },
-    ),
+    )
+
 
     ### Sex
     sex=patients.sex(
