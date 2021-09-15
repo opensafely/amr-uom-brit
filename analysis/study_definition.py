@@ -73,7 +73,7 @@ study = StudyDefinition(
     ),
 
 
-    ## Measures
+    
 
     ## All antibacterials
     antibacterial_prescriptions=patients.with_these_medications(
@@ -226,7 +226,7 @@ measures = [
             numerator="antibacterial_prescriptions",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
-    # ),
+    ),
 
 
 ]
