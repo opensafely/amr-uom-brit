@@ -230,6 +230,13 @@ study = StudyDefinition(
 # --- DEFINE MEASURES ---
 
 measures = [
+    ## antibiotic rx rate
+    Measure(id="antibiotics_overall",
+            numerator="antibacterial_prescriptions",
+            denominator="population",
+            group_by=["practice"]
+    ),
+    
     ## Broad spectrum antibiotics
     Measure(id="broad_spectrum_proportion",
             numerator="broad_spectrum_antibiotics_prescriptions",
