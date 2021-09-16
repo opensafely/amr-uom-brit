@@ -141,7 +141,7 @@ study = StudyDefinition(
                 }
             },
         },
-    )
+    ),
 
 
     ### Sex
