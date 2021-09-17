@@ -1,3 +1,10 @@
 {
-  "files": {}
+  "files": {
+    "opensafely-antibacterials.csv": {
+      "id": "opensafely/antibacterials/27089eaa",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/27089eaa/",
+      "downloaded_at": "2021-09-17 13:38:25.538531Z",
+      "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
+    }
+  }
 }
