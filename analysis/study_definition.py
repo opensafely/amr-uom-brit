@@ -1,3 +1,4 @@
+
 ######################################
 
 # This script provides the formal specification of the study data that will be extracted from
@@ -15,14 +16,11 @@ from cohortextractor import (
     codelist,
     #filter_codes_by_category,
     #combine_codelists,
-    #Measure
+    Measure
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-#  from codelists import *
-
-## code from template (same as above)
-#from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv  # NOQA
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -75,6 +73,30 @@ study = StudyDefinition(
 
     ),
 
+
+    
+
+    ## All antibacterials
+    antibacterial_prescriptions=patients.with_these_medications(
+        antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+    ),
+
+
+    ## Broad spectrum antibiotics
+    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+    ),
+
+
+    ########## patient demographics to group_by for measures:
     ### Age
     age=patients.age_as_of(
         "index_date",
@@ -83,7 +105,43 @@ study = StudyDefinition(
             "int": {"distribution": "population_ages"},
             "incidence": 0.001
         },
-    ),    
+    ),
+
+    ### Age categories
+
+    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
+    age_cat=patients.categorised_as(
+        {
+            "0":"DEFAULT",
+            "0-4": """ age >= 0 AND age < 5""",
+            "5-14": """ age >= 5 AND age < 15""",
+            "15-24": """ age >= 15 AND age < 25""",
+            "25-34": """ age >= 25 AND age < 35""",
+            "35-44": """ age >= 35 AND age < 45""",
+            "45-54": """ age >= 45 AND age < 55""",
+            "55-64": """ age >= 55 AND age < 65""",
+            "65-74": """ age >= 65 AND age < 75""",
+            "75+": """ age >= 75 AND age < 120""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0,
+                    "0-4": 0.12, 
+                    "5-14": 0.11,
+                    "15-24": 0.11,
+                    "25-34": 0.11,
+                    "35-44": 0.11,
+                    "45-54": 0.11,
+                    "55-64": 0.11,
+                    "65-74": 0.11,
+                    "75+": 0.11,
+                }
+            },
+        },
+    ),
+
 
     ### Sex
     sex=patients.sex(
@@ -93,6 +151,16 @@ study = StudyDefinition(
         }
     ),
 
+
+    ### Practice
+    practice=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={"int": {"distribution": "normal",
+                                     "mean": 25, "stddev": 5}, "incidence": 0.5}
+    ),
+
+      
     ### Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
         "index_date",
@@ -112,17 +180,75 @@ study = StudyDefinition(
                   "South East": 0.1, }, },
         },
     ),
-
-    ## Variables
-
-    ### Practice
-    practice=patients.registered_practice_as_of(
+    
+    ## middle layer super output area (msoa) - nhs administrative region 
+    msoa=patients.registered_practice_as_of(
         "index_date",
-        returning="pseudo_id",
-        return_expectations={"int": {"distribution": "normal",
-                                     "mean": 25, "stddev": 5}, "incidence": 0.5}
+        returning="msoa_code",
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"E02000001": 0.5, "E02000002": 0.5}},
+        },
+    ), 
+    
+    
+    ## index of multiple deprivation, estimate of SES based on patient post code 
+	imd=patients.categorised_as(
+        {
+            "0": "DEFAULT",
+            "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
+            "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
+            "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
+            "4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
+            "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
+        },
+        index_of_multiple_deprivation=patients.address_as_of(
+            "index_date",
+            returning="index_of_multiple_deprivation",
+            round_to_nearest=100,
+        ),
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0.05,
+                    "1": 0.19,
+                    "2": 0.19,
+                    "3": 0.19,
+                    "4": 0.19,
+                    "5": 0.19,
+                }
+            },
+        },
     ),
+
 
 )
 
 
+# --- DEFINE MEASURES ---
+
+measures = [
+    ## antibiotic rx rate
+    Measure(id="antibiotics_overall",
+            numerator="antibacterial_prescriptions",
+            denominator="population",
+            group_by=["practice"]
+    ),
+    
+    ## Broad spectrum antibiotics
+    Measure(id="broad_spectrum_proportion",
+            numerator="broad_spectrum_antibiotics_prescriptions",
+            denominator="antibacterial_prescriptions",
+            group_by=["practice"]),
+
+    
+    ## STRPU antibiotics
+    Measure(id="STARPU_antibiotics",
+            numerator="antibacterial_prescriptions",
+            denominator="population",
+            group_by=["practice", "sex", "age_cat"]
+    ),
+
+
+]
