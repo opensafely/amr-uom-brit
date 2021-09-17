@@ -1,4 +1,3 @@
-#####TEST
 
 ######################################
 
@@ -21,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-#  from codelists import *
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -128,8 +127,8 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "0": 0.001,
-                    "0-4": 0.11, 
+                    "0": 0,
+                    "0-4": 0.12, 
                     "5-14": 0.11,
                     "15-24": 0.11,
                     "25-34": 0.11,
