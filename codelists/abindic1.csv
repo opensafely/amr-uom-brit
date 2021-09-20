@@ -1,0 +1,28 @@
+readcode,medcode_desc,codegroup,frequency,hawkeslist,desc_class,codegroup_broad,medcode
+H00..00,Acute nasopharyngitis,Cough/cold,955,1,Acute nasopharyngitis,Cough/cold,3260
+H00..11,Common cold,Cough/cold,6136,1,Acute nasopharyngitis,Cough/cold,368
+H00..12,Coryza - acute,Cough/cold,7701,1,Acute nasopharyngitis,Cough/cold,1246
+H00..13,Febrile cold,Cough/cold,336,1,Acute nasopharyngitis,Cough/cold,6620
+H00..14,Nasal catarrh - acute,Cough/cold,3413,1,Acute nasopharyngitis,Cough/cold,896
+H00..15,Pyrexial cold,Cough/cold,861,1,Acute nasopharyngitis,Cough/cold,9093
+H00..16,Rhinitis - acute,Cough/cold,5013,1,Acute nasopharyngitis,Cough/cold,3821
+H07..00,Chest cold,Cough/cold,4376,0,Chest cold,Cough/cold,2476
+H27z.11,Flu like illness,Cough/cold,47569,1,Influenza,Cough/cold,2157
+H27z.12,Influenza like illness,Cough/cold,935,1,Influenza,Cough/cold,5947
+R062.00,[D]Cough,Cough/cold,51369,1,[D]Respiratory system and chest symptoms,Cough/cold,1160
+R2...13,cold,Cough/cold,12635,0,[D]Cause of morbidity and mortality unsure and ill-defined,Cough/cold,10654
+171..00,Cough,12.51,92,126700,Cough,Cough/cold,92
+171..11,C/O - cough,12.99,1273,114753,C/O - cough,Cough/cold,1273
+1719.00,Chesty cough,39.73,292,30377,Chesty cough,Cough/cold,292
+1714.00,Productive cough -green sputum,180.36,7773,5659,Productive cough -green sputum,Cough/cold,7773
+1716.00,Productive cough NOS,42.62,1234,3352,Productive cough NOS,Cough/cold,1234
+1712.00,Dry cough,3.76,4931,1927,Dry cough,Cough/cold,4931
+171B.00,Persistent cough,13.43,3628,1543,Persistent cough,Cough/cold,3628
+1715.00,Productive cough-yellow sputum,78.85,7708,1376,Productive cough-yellow sputum,Cough/cold,7708
+1713.00,Productive cough -clear sputum,8.06,7706,665,Productive cough -clear sputum,Cough/cold,7706
+16L..00,Influenza-like symptoms,4.74,8980,378,Influenza-like symptoms,Cough/cold,8980
+1719.11,Bronchial cough,20.68,1025,243,Bronchial cough,Cough/cold,1025
+171Z.00,Cough symptom NOS,6.77,7707,173,Cough symptom NOS,Cough/cold,7707
+1716.11,Coughing up phlegm,48.69,3645,158,Coughing up phlegm,Cough/cold,3645
+171F.00,Cough with fever,14.9,18907,82,Cough with fever,Cough/cold,18907
+A33..00,Whooping cough,20.95,763,48,Whooping cough,Cough/cold,763

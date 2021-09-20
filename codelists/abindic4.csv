@@ -1,0 +1,52 @@
+readcode,medcode_desc,codegroup,frequency,hawkeslist,desc_class,codegroup_broad,medcode
+F51..00,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,104152,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,5577
+F510.00,Acute non suppurative otitis media,Otitis media,82173,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,5887
+F510000,Acute otitis media with effusion,Otitis media,1171,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,18371
+F510011,Acute secretory otitis media,Otitis media,2231,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,5148
+F510100,Acute serous otitis media,Otitis media,3797,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,7730
+F510200,Acute mucoid otitis media,Otitis media,49,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,21012
+F510300,Acute sanguinous otitis media,Otitis media,26,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,15973
+F510z00,Acute nonsuppurative otitis media NOS,Otitis media,1916,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,20374
+F511.00,"Chronic otitis media with effusion, serous",Otitis media,1298,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,6559
+F511.11,"Chronic secretory otitis media, serous",Otitis media,95,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,24742
+F511z00,Chronic serous otitis media NOS,Otitis media,54,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,33661
+F512.00,"Chronic otitis media with effusion, mucoid",Otitis media,177,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,2686
+F512.11,Glue ear,Otitis media,3249,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,354
+F512.12,"Chronic secretory otitis media, mucoid",Otitis media,2866,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,1184
+F512000,"Glue ear, unspecified",Otitis media,33,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,5539
+F512z00,Chronic mucoid otitis media NOS,Otitis media,9,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,20578
+F513.00,"Chronic otitis media with effusion, other",Otitis media,29,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,34348
+F513100,"Chronic otitis media with effusion, purulent",Otitis media,21,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,25188
+F513111,"Chronic secretory otitis media, purulent",Otitis media,13,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,9993
+F514.00,Unspecified nonsuppurative otitis media,Otitis media,87,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,17772
+F514100,Serous otitis media NOS,Otitis media,488,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,5102
+F514200,Catarrhal otitis media NOS,Otitis media,2351,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,5390
+F514300,Mucoid otitis media NOS,Otitis media,9,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,21749
+F514z00,Nonsuppurative otitis media NOS,Otitis media,1016,1,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,21725
+F515.00,Eustachian tube salpingitis,Otitis media,103,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,16121
+F515.11,Catarrh - eustachian,Otitis media,2088,0,Nonsuppurative otitis media + eustachian tube disorders,Otitis media,7479
+F52..00,Suppurative and unspecified otitis media,Otitis media,92563,1,Suppurative and unspecified otitis media,Otitis media,1474
+F520.00,Acute suppurative otitis media,Otitis media,20456,1,Suppurative and unspecified otitis media,Otitis media,2137
+F520000,Acute suppurative otitis media tympanic membrane intact,Otitis media,391,1,Suppurative and unspecified otitis media,Otitis media,10781
+F520100,Acute suppurative otitis media tympanic membrane ruptured,Otitis media,289,1,Suppurative and unspecified otitis media,Otitis media,20669
+F520300,Acute suppurative otitis media due to disease EC,Otitis media,2,1,Suppurative and unspecified otitis media,Otitis media,61497
+F520z00,Acute suppurative otitis media NOS,Otitis media,1025,1,Suppurative and unspecified otitis media,Otitis media,20372
+F521.00,"Chronic suppurative otitis media, tubotympanic",Otitis media,187,0,Suppurative and unspecified otitis media,Otitis media,17866
+F522.00,"Chronic suppurative otitis media, atticoantral",Otitis media,15,0,Suppurative and unspecified otitis media,Otitis media,24590
+F523.00,Chronic suppurative otitis media NOS,Otitis media,887,0,Suppurative and unspecified otitis media,Otitis media,1376
+F524.00,Purulent otitis media NOS,Otitis media,168,1,Suppurative and unspecified otitis media,Otitis media,15568
+F524000,Bilateral suppurative otitis media,Otitis media,249,1,Suppurative and unspecified otitis media,Otitis media,20871
+F525.00,Recurrent acute otitis media,Otitis media,374,0,Suppurative and unspecified otitis media,Otitis media,9973
+F526.00,Acute left otitis media,Otitis media,44451,1,Suppurative and unspecified otitis media,Otitis media,3694
+F527.00,Acute right otitis media,Otitis media,46446,1,Suppurative and unspecified otitis media,Otitis media,4348
+F528.00,Acute bilateral otitis media,Otitis media,10115,1,Suppurative and unspecified otitis media,Otitis media,1134
+F52z.00,Otitis media NOS,Otitis media,183407,1,Suppurative and unspecified otitis media,Otitis media,267
+F52z.11,Infection ear,Otitis media,22836,1,Suppurative and unspecified otitis media,Otitis media,1513
+F586.00,Otorrhoea,Otitis media,6934,0,Other ear disorders,Otitis externa,638
+F586000,Unspecified otorrhoea,Otitis media,11,0,Other ear disorders,Otitis externa,16244
+F586011,Discharging ear NOS,Otitis media,1359,0,Other ear disorders,Otitis externa,6415
+F586200,Otorrhagia,Otitis media,412,0,Other ear disorders,Otitis externa,6958
+F586z00,Otorrhoea NOS,Otitis media,22,0,Other ear disorders,Otitis externa,15510
+SN30.11,Aero-otitis media,Otitis media,96,0,Effects of air pressure,Otitis media,46709
+2D95.00,O/E - tympanic membrane red,Otitis externa,18363,536,O/E - tympanic membrane red,Otitis externa,18363
+A552.00,Postmeasles otitis media,Otitis media,5903,102,Postmeasles otitis media,Otitis media,5903

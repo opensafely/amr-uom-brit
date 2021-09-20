@@ -1,0 +1,27 @@
+readcode,medcode_desc,codegroup,frequency,hawkeslist,desc_class,codegroup_broad,medcode
+K15..00,Cystitis,UTI,410005,1,Cystitis,UTI,389
+K150.00,Acute cystitis,UTI,16876,1,Cystitis,UTI,15074
+K155.00,Recurrent cystitis,UTI,1417,0,Cystitis,UTI,1353
+K15z.00,Cystitis NOS,UTI,177,1,Cystitis,UTI,12484
+K190.00,"Urinary tract infection, site not specified",UTI,291713,1,Other urethral and urinary tract disorders,UTI,1289
+K190.11,Recurrent urinary tract infection,UTI,2479,0,Other urethral and urinary tract disorders,UTI,1572
+K190000,"Bacteriuria, site not specified",UTI,63,0,Other urethral and urinary tract disorders,UTI,4993
+K190011,Asymptomatic bacteriuria,UTI,114,0,Other urethral and urinary tract disorders,UTI,10233
+K190200,Post operative urinary tract infection,UTI,579,0,Other urethral and urinary tract disorders,UTI,12570
+K190300,Recurrent urinary tract infection,UTI,503,0,Other urethral and urinary tract disorders,UTI,10515
+K190311,Recurrent UTI,UTI,5090,0,Other urethral and urinary tract disorders,UTI,2985
+K190500,Urinary tract infection,UTI,3373,1,Other urethral and urinary tract disorders,UTI,97002
+K190z00,"Urinary tract infection, site not specified NOS",UTI,165679,1,Other urethral and urinary tract disorders,UTI,150
+L166.00,Genitourinary tract infections in pregnancy,UTI,58,0,Other pregnancy complication NEC,UTI,67975
+L166.11,Cystitis of pregnancy,UTI,88,0,Other pregnancy complication NEC,UTI,2602
+L166000,Genitourinary tract infection in pregnancy unspecified,UTI,1,0,Other pregnancy complication NEC,UTI,27451
+L166100,Genitourinary tract infection in pregnancy - delivered,UTI,1,0,Other pregnancy complication NEC,UTI,16017
+L166500,Infections of kidney in pregnancy,UTI,3,0,Other pregnancy complication NEC,UTI,3029
+L166600,Urinary tract infection following delivery,UTI,57,0,Other pregnancy complication NEC,UTI,5721
+L166800,Urinary tract infection complicating pregnancy,UTI,583,0,Other pregnancy complication NEC,UTI,6649
+L166z00,Genitourinary tract infection in pregnancy NOS,UTI,5,0,Other pregnancy complication NEC,UTI,15634
+L166z11,UTI - urinary tract infection in pregnancy,UTI,60,0,Other pregnancy complication NEC,UTI,14644
+SP07Q00,Catheter-associated urinary tract infection,UTI,11,0,Complications of certain procedures,UTI,107568
+SP07Q11,CAUTI - catheter-associated urinary tract infection,UTI,1,0,Complications of certain procedures,UTI,107843
+1J4..00,Suspected UTI,UTI,7579,15860,Suspected UTI,UTI,7579
+1AG..00,Recurrent urinary tract infections,UTI,9378,1687,Recurrent urinary tract infections,UTI,9378

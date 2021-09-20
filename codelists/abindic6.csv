@@ -1,0 +1,52 @@
+readcode,medcode_desc,codegroup,frequency,hawkeslist,desc_class,codegroup_broad,medcode
+H15..00,Peritonsillar abscess - quinsy,Quinsy,349,0,Peritonsillar abscess - quinsy,Quinsy,3605
+H15..11,Quinsy,Quinsy,2099,0,Peritonsillar abscess - quinsy,Quinsy,911
+H02..00,Acute pharyngitis,Sore throat,169466,1,Acute pharyngitis,Sore throat,893
+H02..11,Sore throat NOS,Sore throat,17246,1,Acute pharyngitis,Sore throat,6014
+H02..12,Viral sore throat NOS,Sore throat,570,1,Acute pharyngitis,Sore throat,6466
+H02..13,Throat infection - pharyngitis,Sore throat,45461,1,Acute pharyngitis,Sore throat,310
+H021.00,Acute phlegmonous pharyngitis,Sore throat,90,0,Acute pharyngitis,Sore throat,24708
+H022.00,Acute ulcerative pharyngitis,Sore throat,88,0,Acute pharyngitis,Sore throat,21486
+H023z00,Acute bacterial pharyngitis NOS,Sore throat,27,1,Acute pharyngitis,Sore throat,53395
+H02z.00,Acute pharyngitis NOS,Sore throat,10668,1,Acute pharyngitis,Sore throat,407
+H03..00,Acute tonsillitis,Sore throat,769527,1,Acute tonsillitis,Sore throat,138
+H03..11,Throat infection - tonsillitis,Sore throat,4789,1,Acute tonsillitis,Sore throat,11499
+H03..12,Tonsillitis,Sore throat,46239,1,Acute tonsillitis,Sore throat,2125
+H030.00,Acute erythematous tonsillitis,Sore throat,80,1,Acute tonsillitis,Sore throat,12010
+H031.00,Acute follicular tonsillitis,Sore throat,7635,1,Acute tonsillitis,Sore throat,4061
+H032.00,Acute ulcerative tonsillitis,Sore throat,77,1,Acute tonsillitis,Sore throat,8452
+H033.00,Acute catarrhal tonsillitis,Sore throat,52,0,Acute tonsillitis,Sore throat,37409
+H037.00,Recurrent acute tonsillitis,Sore throat,2164,1,Acute tonsillitis,Sore throat,1747
+H03z.00,Acute tonsillitis NOS,Sore throat,11365,1,Acute tonsillitis,Sore throat,20104
+H14y500,Caseous tonsillitis,Sore throat,8,0,Chronic tonsil and adenoid disease,Sore throat,36462
+H14y600,Lingular tonsillitis,Sore throat,9,0,Chronic tonsil and adenoid disease,Sore throat,35249
+Hyu0100,[X]Acute pharyngitis due to other specified organisms,Sore throat,2,0,[X]Additional respiratory disease classification terms,URTI,93964
+Hyu0200,[X]Acute tonsillitis due to other specified organisms,Sore throat,3,0,[X]Additional respiratory disease classification terms,URTI,73118
+J083600,Uvulitis,Sore throat,977,1,Oral soft tissue disease,Sore throat_bacterial,8480
+R041.00,[D]Throat pain,Sore throat,108,1,[D]Head and neck symptoms,Sore throat,15039
+A34..00,Streptococcal sore throat and scarlatina,Sore throat_bacterial,20,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,54777
+A340.00,Streptococcal sore throat,Sore throat_bacterial,6021,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,1765
+A340000,Streptococcal angina,Sore throat_bacterial,1,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,24176
+A340200,Streptococcal pharyngitis,Sore throat_bacterial,2225,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,4902
+A340300,Streptococcal tonsillitis,Sore throat_bacterial,5416,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,8496
+A340z00,Streptococcal sore throat NOS,Sore throat_bacterial,11,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,16217
+A341.00,Scarlet fever - scarlatina,Sore throat_bacterial,5682,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,8210
+A341.11,Scarlet fever,Sore throat_bacterial,1993,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,456
+A341.12,Scarlatina,Sore throat_bacterial,1305,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,3218
+A34z.00,Streptococcal sore throat with scarlatina NOS,Sore throat_bacterial,9,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,16184
+AA1..00,Vincent's angina,Sore throat_bacterial,191,0,Vincent's angina,Sore throat,5096
+AA1..11,Trench mouth,Sore throat_bacterial,13,0,Vincent's angina,Sore throat,16197
+AA10.00,Vincent's stomatitis,Sore throat_bacterial,23,0,Vincent's angina,Sore throat,35750
+AA11.00,Vincent's gingivitis,Sore throat_bacterial,40,0,Vincent's angina,Sore throat,20896
+AA12.00,Vincent's pharyngitis,Sore throat_bacterial,13,0,Vincent's angina,Sore throat,31536
+AA1z.00,Vincent's angina NOS,Sore throat_bacterial,4,0,Vincent's angina,Sore throat,72176
+AA1z.11,Vincent's laryngitis,Sore throat_bacterial,12,0,Vincent's angina,Sore throat,16067
+AA1z.12,Vincent's tonsillitis,Sore throat_bacterial,29,0,Vincent's angina,Sore throat,16954
+H023.00,Acute bacterial pharyngitis,Sore throat_bacterial,728,0,Acute pharyngitis,Sore throat,17899
+H035.00,Acute bacterial tonsillitis,Sore throat_bacterial,2602,0,Acute tonsillitis,Sore throat,10156
+H035100,Acute staphylococcal tonsillitis,Sore throat_bacterial,4,0,Acute tonsillitis,Sore throat,64973
+H035z00,Acute bacterial tonsillitis NOS,Sore throat_bacterial,29,0,Acute tonsillitis,Sore throat,15970
+J083.00,Oral cellulitis and abscess,Sore throat_bacterial,194,0,Oral soft tissue disease,Sore throat_bacterial,4748
+1C9..00,Sore throat symptom,Sore throat_bacterial,5755,39826,Sore throat symptom,Sore throat,5755
+1C9..11,Throat soreness,Sore throat_bacterial,404,8509,Throat soreness,Sore throat,404
+1C9Z.00,Sore throat symptom NOS,Sore throat_bacterial,15287,115,Sore throat symptom NOS,Sore throat,15287

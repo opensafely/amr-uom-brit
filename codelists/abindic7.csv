@@ -1,0 +1,41 @@
+readcode,medcode_desc,codegroup,frequency,hawkeslist,desc_class,codegroup_broad,medcode
+H0...00,Acute respiratory infections,URTI,40785,1,Acute respiratory infections,URTI,8025
+H04..00,Acute laryngitis and tracheitis,URTI,992,1,Acute laryngitis and tracheitis,URTI,41324
+H040.00,Acute laryngitis,URTI,49928,1,Acute laryngitis and tracheitis,URTI,142
+H040000,Acute oedematous laryngitis,URTI,1,0,Acute laryngitis and tracheitis,URTI,26038
+H040100,Acute ulcerative laryngitis,URTI,2,0,Acute laryngitis and tracheitis,URTI,62885
+H040200,Acute catarrhal laryngitis,URTI,97,0,Acute laryngitis and tracheitis,URTI,10765
+H040300,Acute phlegmonous laryngitis,URTI,18,0,Acute laryngitis and tracheitis,URTI,31501
+H040z00,Acute laryngitis NOS,URTI,369,1,Acute laryngitis and tracheitis,URTI,22720
+H041.00,Acute tracheitis,URTI,48742,1,Acute laryngitis and tracheitis,URTI,1257
+H041000,Acute tracheitis without obstruction,URTI,12,1,Acute laryngitis and tracheitis,URTI,12476
+H041100,Acute tracheitis with obstruction,URTI,1,1,Acute laryngitis and tracheitis,URTI,68867
+H041z00,Acute tracheitis NOS,URTI,330,1,Acute laryngitis and tracheitis,URTI,16313
+H042.00,Acute laryngotracheitis,URTI,3352,1,Acute laryngitis and tracheitis,URTI,10087
+H042.11,Laryngotracheitis,URTI,1510,1,Acute laryngitis and tracheitis,URTI,1285
+H042000,Acute laryngotracheitis without obstruction,URTI,6,1,Acute laryngitis and tracheitis,URTI,25259
+H042100,Acute laryngotracheitis with obstruction,URTI,2,1,Acute laryngitis and tracheitis,URTI,69898
+H042z00,Acute laryngotracheitis NOS,URTI,53,1,Acute laryngitis and tracheitis,URTI,24471
+H043.00,Acute epiglottitis (non strep),URTI,62,0,Acute laryngitis and tracheitis,URTI,10641
+H043000,Acute epiglottitis without obstruction,URTI,3,0,Acute laryngitis and tracheitis,URTI,65650
+H043200,Acute obstructive laryngitis,URTI,5,0,Acute laryngitis and tracheitis,URTI,38128
+H043z00,Acute epiglottitis NOS,URTI,4,0,Acute laryngitis and tracheitis,URTI,892
+H04z.00,Acute laryngitis and tracheitis NOS,URTI,31,1,Acute laryngitis and tracheitis,URTI,16120
+H05..00,Other acute upper respiratory infections,URTI,619,1,Other acute upper respiratory infections,URTI,26010
+H050.00,Acute laryngopharyngitis,URTI,226,1,Other acute upper respiratory infections,URTI,18908
+H051.00,Acute upper respiratory tract infection,URTI,60935,1,Other acute upper respiratory infections,URTI,6294
+H052.00,Pharyngotracheitis,URTI,1378,1,Other acute upper respiratory infections,URTI,21415
+H053.00,Tracheopharyngitis,URTI,186,1,Other acute upper respiratory infections,URTI,10093
+H054.00,Recurrent upper respiratory tract infection,URTI,869,1,Other acute upper respiratory infections,URTI,4221
+H055.00,Pharyngolaryngitis,URTI,875,1,Other acute upper respiratory infections,URTI,4718
+H05y.00,Other upper respiratory infections of multiple sites,URTI,21,1,Other acute upper respiratory infections,URTI,15628
+H05z.00,Upper respiratory infection NOS,URTI,402720,1,Other acute upper respiratory infections,URTI,76
+H05z.11,Upper respiratory tract infection NOS,URTI,442764,1,Other acute upper respiratory infections,URTI,2637
+H0y..00,Other specified acute respiratory infections,URTI,98,0,Other specified acute respiratory infections,URTI,23640
+H0z..00,Acute respiratory infection NOS,URTI,5839,1,Acute respiratory infection NOS,URTI,21113
+H160100,Chronic catarrhal laryngitis,URTI,104,0,Chronic laryngitis and laryngotracheitis,URTI,17513
+H5yy.11,Respiratory infection NOS,URTI,9748,1,Other specified diseases of respiratory system,Sepsis,7074
+Hyu0.00,[X]Acute upper respiratory infections,URTI,3,1,[X]Additional respiratory disease classification terms,URTI,53055
+A340100,Streptococcal laryngitis,URTI_bacterial,38,0,Streptococcal sore throat and scarlatina,Sore throat_bacterial,16718
+H040600,Acute suppurative laryngitis,URTI_bacterial,1,0,Acute laryngitis and tracheitis,URTI,51562
+H040x00,Acute bacterial laryngitis unspecified,URTI_bacterial,29,0,Acute laryngitis and tracheitis,URTI,52756
