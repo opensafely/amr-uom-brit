@@ -18,3 +18,13 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+
+  describe:
+    run: r:latest analysis/plot/overall_ab_prescribing.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        cohort: output/overall.png
+        boxplot: output/overallbox.png
+
+
