@@ -231,6 +231,88 @@ study = StudyDefinition(
     ),
 
 
+    ## Date of birth
+    dob=patients.date_of_birth(
+        "YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "1950-01-01", "latest": "today"},
+            "rate": "uniform",
+        }
+    ),
+
+    
+    ## BMI, most recent
+    bmi=patients.most_recent_bmi(
+        between=["2010-02-01", "today"],
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "2010-02-01", "latest": "today"},
+            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
+            "incidence": 0.80,
+        }
+    ),
+
+
+    ## GP consultations
+    gp_count=patients.with_gp_consultations(
+        between=["2019-01-01", "today"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+
+    ## Flu vaccine
+    flu_vaccine=patients.with_tpp_vaccination_record(
+        target_disease_matches="influenza",
+        between=["2019-01-01", "today"],
+        returning="date",
+        date_format="YYYY-MM",
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2019-01-01", "latest": "today"}
+        }
+    ),
+
+    ## Antibiotics
+    #antibiotics_count=patients.with_these_medications(
+    #    antibiotics_codes,
+    #    between=["2019-01-01", "today"],
+    #    ignore_days_where_these_clinical_codes_occur=copd_reviews,
+    #    returning="number_of_episodes",
+    #    episode_defined_as="series of events each <= 28 days apart",
+    #    return_expectations={
+    #        "int": {"distribution": "normal", "mean": 2, "stddev": 1},
+    #        "incidence": 0.2,
+    #    },
+    #),
+
+
+    ## Hospitalisation records
+    #hospitalisation = patients.with_these_clinical_events(
+    #    hospitalisation_codes,
+    #    between=["2019-01-01", "today"],
+    #    returning="date",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"date": {earliest: "2019-01-01", "latest": "today"}},
+    #),
+
+
+    ## Death
+    died_any=patients.died_from_any_cause(
+        on_or_after="2019-01-01",
+        returning="date_of_death",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest" : "2019-01-01"},
+            "rate" : "exponential_increase"
+        },
+    ),
+
 )
 
 
@@ -241,15 +323,14 @@ measures = [
     Measure(id="antibiotics_overall",
             numerator="antibacterial_prescriptions",
             denominator="population",
-            group_by=["practice"]
+            group_by=["practice", "sex", "dob"]
     ),
     
     ## Broad spectrum antibiotics
     Measure(id="broad_spectrum_proportion",
             numerator="broad_spectrum_antibiotics_prescriptions",
             denominator="antibacterial_prescriptions",
-            group_by=["practice"]
-    ),
+            group_by=["practice"]),
 
     
     ## STRPU antibiotics
