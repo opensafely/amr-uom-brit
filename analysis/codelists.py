@@ -30,3 +30,10 @@ broad_spectrum_antibiotics_codes= codelist_from_csv(
   system = "snomed",
   column = "dmd_id"
 )
+
+### flu vaccine
+flu_vaccine_codes= codelist_from_csv(
+  "codelists/vaccination_med1_mapped.csv",
+  system = "snomed",
+  column = "dmd_id"
+)

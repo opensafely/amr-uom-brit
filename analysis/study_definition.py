@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -142,15 +142,7 @@ study = StudyDefinition(
         },
     ),
 
-    ### DoB
-    dob=patients.date_of_birth(
-        "YYYY-MM",
-        return_expectations={
-            "date": {"earliest": "1950-01-01", "latest": "today"},
-            "rate": "uniform",
-        }
-    ),
-
+    
     ### Sex
     sex=patients.sex(
         return_expectations={
@@ -257,7 +249,7 @@ study = StudyDefinition(
 
     ## GP consultations
     gp_count=patients.with_gp_consultations(
-        between=["2019-01-01", "today"],
+        between=["index_date", "today"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
@@ -267,21 +259,33 @@ study = StudyDefinition(
 
 
     ## Flu vaccine
+    #flu_vaccine=patients.with_tpp_vaccination_record(
+    #    target_disease_matches="influenza",
+    #    between=["index_date", "today"],
+    #    returning="date",
+    #    date_format="YYYY-MM",
+    #    find_first_match_in_period=True,
+    #    return_expectations={
+    #        "date": {"earliest": "2019-01-01", "latest": "today"}
+    #    }
+    #),
+
+    ## Flu vaccine 2
     flu_vaccine=patients.with_tpp_vaccination_record(
-        target_disease_matches="influenza",
-        between=["2019-01-01", "today"],
+        flu_vaccine_codes,
+        between=["index_date", "today"],
         returning="date",
         date_format="YYYY-MM",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "2019-01-01", "latest": "today"}
+            "date": {"earliest": "index_date", "latest": "today"}
         }
     ),
 
     ## Antibiotics
     #antibiotics_count=patients.with_these_medications(
     #    antibiotics_codes,
-    #    between=["2019-01-01", "today"],
+    #    between=["index_date", "today"],
     #    ignore_days_where_these_clinical_codes_occur=copd_reviews,
     #    returning="number_of_episodes",
     #    episode_defined_as="series of events each <= 28 days apart",
@@ -295,20 +299,20 @@ study = StudyDefinition(
     ## Hospitalisation records
     #hospitalisation = patients.with_these_clinical_events(
     #    hospitalisation_codes,
-    #    between=["2019-01-01", "today"],
+    #    between=["index_date", "today"],
     #    returning="date",
     #    find_first_match_in_period=True,
-    #    return_expectations={"date": {earliest: "2019-01-01", "latest": "today"}},
+    #    return_expectations={"date": {earliest: "index_date", "latest": "today"}},
     #),
 
 
     ## Death
     died_any=patients.died_from_any_cause(
-        on_or_after="2019-01-01",
+        on_or_after="index_date",
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest" : "2019-01-01"},
+            "date": {"earliest" : "index_date"},
             "rate" : "exponential_increase"
         },
     ),
