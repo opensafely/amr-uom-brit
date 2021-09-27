@@ -259,28 +259,28 @@ study = StudyDefinition(
 
 
     ## Flu vaccine
-    #flu_vaccine=patients.with_tpp_vaccination_record(
-    #    target_disease_matches="influenza",
-    #    between=["index_date", "today"],
-    #    returning="date",
-    #    date_format="YYYY-MM",
-    #    find_first_match_in_period=True,
-    #    return_expectations={
-    #        "date": {"earliest": "2019-01-01", "latest": "today"}
-    #    }
-    #),
-
-    ## Flu vaccine 2
     flu_vaccine=patients.with_tpp_vaccination_record(
-        flu_vaccine_codes,
+        target_disease_matches="influenza",
         between=["index_date", "today"],
         returning="date",
         date_format="YYYY-MM",
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "index_date", "latest": "today"}
+            "date": {"earliest": "2019-01-01", "latest": "today"}
         }
     ),
+
+    ## Flu vaccine 2
+    #flu_vaccine=patients.with_tpp_vaccination_record(
+    #    flu_vaccine_codes,
+    #    between=["index_date", "today"],
+    #    returning="date",
+    #    date_format="YYYY-MM",
+    #    find_first_match_in_period=True,
+    #    return_expectations={
+    #        "date": {"earliest": "index_date", "latest": "today"}
+    #    }
+    #),
 
     ## Antibiotics
     #antibiotics_count=patients.with_these_medications(
@@ -306,6 +306,15 @@ study = StudyDefinition(
     #),
 
 
+    ## hospitalisation
+    admitted=patients.admitted_to_hospital(
+        #returning="binary_flag",
+        between=["index_date", "today"],
+        returning="date_of_death",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1},
+    ),
+    
     ## Death
     died_any=patients.died_from_any_cause(
         on_or_after="index_date",
@@ -342,6 +351,14 @@ measures = [
             numerator="antibacterial_prescriptions",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
+    ),
+
+    ## hospitalisation 
+    Measure(
+        id="hosp_admission_by_stp",
+        numerator="admitted",
+        denominator="population",
+        group_by="stp",
     ),
 
 
