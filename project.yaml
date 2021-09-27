@@ -27,4 +27,12 @@ actions:
         cohort: output/overall.png
         boxplot: output/overallbox.png
 
+  describe_starpu:
+    run: r:latest analysis/plot/starpu_ab_prescribing.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        cohort: output/starpuline.png
+        boxplot: output/starpubox.png
+
 
