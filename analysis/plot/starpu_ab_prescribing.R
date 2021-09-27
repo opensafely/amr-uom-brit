@@ -16,11 +16,11 @@ starpu <- read_csv(
   col_types = cols_only(
 
   practice = col_double(),
-       sex = col_character(),
-       age_cat = col_character(),
-       antibacterial_prescriptions = col_double(),
-       population = col_double(),
-       value = col_double(),
+      sex = col_character(),
+      age_cat = col_character(),
+      antibacterial_prescriptions = col_double(),
+      population = col_double(),
+      value = col_double(),
     # Date
     date = col_date(format="%Y-%m-%d")
     
@@ -54,7 +54,7 @@ measurestar <- starpu%>%mutate(advalue= case_when(age_cat=="0-4" ~ value*0.8,
 measurstarpu=measurestar%>%
   group_by(date)%>%
   summarize(count=n(),
-            sumadvalue=sum(advalue，na.rm=TRUE),
+            sumadvalue=sum(advalue,na.rm=TRUE),
             prescrib=sumadvalue*1000/(count))
                       
 plot_starpu <- ggplot(data=measurstarpu,mapping = aes(
