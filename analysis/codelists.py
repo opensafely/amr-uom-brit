@@ -33,7 +33,7 @@ broad_spectrum_antibiotics_codes= codelist_from_csv(
 
 ### ethnicity 
 ethnicity_codes = codelist_from_csv(
-    "codelists/ethnicity.csv",
+    "codelists/opensafely-ethnicity-2020-04-27.csv",
     system="ctv3",
     column="Code",
     category_column="Grouping_6",
