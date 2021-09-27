@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -247,6 +247,19 @@ study = StudyDefinition(
     ),
 
 
+    # self-reported ethnicity 
+    ethnicity=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        find_last_match_in_period=True,
+        include_date_of_match=False,
+        return_expectations={
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "incidence": 0.75,
+        },
+    ),
+
+
     ## GP consultations
     gp_count=patients.with_gp_consultations(
         between=["index_date", "today"],
@@ -308,10 +321,10 @@ study = StudyDefinition(
 
     ## hospitalisation
     admitted=patients.admitted_to_hospital(
-        #returning="binary_flag",
+        returning="binary_flag",
+        #returning="date",
+        #date_format="YYYY-MM-DD",
         between=["index_date", "today"],
-        returning="date_of_death",
-        date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1},
     ),
     
@@ -337,29 +350,30 @@ measures = [
             numerator="antibacterial_prescriptions",
             denominator="population",
             group_by=["practice", "sex", "dob"]
-    ),
+            ),
     
+
     ## Broad spectrum antibiotics
     Measure(id="broad_spectrum_proportion",
             numerator="broad_spectrum_antibiotics_prescriptions",
             denominator="antibacterial_prescriptions",
-            group_by=["practice"]),
+            group_by=["practice"]
+            ),
 
     
     ## STRPU antibiotics
     Measure(id="STARPU_antibiotics",
             numerator="antibacterial_prescriptions",
             denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-    ),
+            group_by=["practice", "sex", "age_cat", "flu_vaccine"]
+            ),
+
 
     ## hospitalisation 
-    Measure(
-        id="hosp_admission_by_stp",
-        numerator="admitted",
-        denominator="population",
-        group_by="stp",
-    ),
-
+    Measure(id="hosp_admission",
+            numerator="admitted",
+            denominator="population",
+            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd"]
+            )
 
 ]

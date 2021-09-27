@@ -31,6 +31,14 @@ broad_spectrum_antibiotics_codes= codelist_from_csv(
   column = "dmd_id"
 )
 
+### ethnicity 
+ethnicity_codes = codelist_from_csv(
+    "codelists/ethnicity.csv",
+    system="ctv3",
+    column="Code",
+    category_column="Grouping_6",
+)
+
 ### flu vaccine
 #flu_vaccine_codes= codelist_from_csv(
 #  "codelists/vaccination_med1_mapped.csv",
