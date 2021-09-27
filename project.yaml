@@ -18,3 +18,11 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+  
+  # SNOMED indication codelist ----
+  indication_codelist:
+    run: r:latest analysis/indication.R
+    outputs:
+      moderately_sensitive:
+        data: codelists/indication_snomed.csv
+       
