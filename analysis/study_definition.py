@@ -229,7 +229,7 @@ study = StudyDefinition(
         return_expectations={
             "date": {"earliest": "1950-01-01", "latest": "today"},
             "rate": "uniform",
-        }
+        },
     ),
 
     
@@ -243,9 +243,10 @@ study = StudyDefinition(
             "date": {"earliest": "2010-02-01", "latest": "today"},
             "float": {"distribution": "normal", "mean": 28, "stddev": 8},
             "incidence": 0.80,
-        }
+        },
     ),
 
+    
 
     # self-reported ethnicity 
     ethnicity=patients.with_these_clinical_events(
