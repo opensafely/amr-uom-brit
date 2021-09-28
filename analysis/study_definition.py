@@ -14,13 +14,13 @@ from cohortextractor import (
     patients,
     #codelist_from_csv,
     codelist,
-    #filter_codes_by_category,
+    filter_codes_by_category,
     #combine_codelists,
     Measure
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -269,6 +269,47 @@ study = StudyDefinition(
         },
     ),
 
+    #########################################
+    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/6
+    smoking_status=patients.categorised_as(
+        {
+            "S": "most_recent_smoking_code = 'S'",
+            "E": """
+                 most_recent_smoking_code = 'E' OR (
+                   most_recent_smoking_code = 'N' AND ever_smoked
+                 )
+            """,
+            "N": "most_recent_smoking_code = 'N' AND NOT ever_smoked",
+            "M": "DEFAULT",
+        },
+        return_expectations={
+            "category": {"ratios": {"S": 0.6, "E": 0.1, "N": 0.2, "M": 0.1}}
+        },
+        most_recent_smoking_code=patients.with_these_clinical_events(
+            clear_smoking_codes,
+            find_last_match_in_period=True,
+            on_or_before="2020-02-01",
+            returning="category",
+        ),
+        ever_smoked=patients.with_these_clinical_events(
+            filter_codes_by_category(clear_smoking_codes, include=["S", "E"]),
+            on_or_before="2020-02-01",
+        ),
+    ),
+    smoking_status_date=patients.with_these_clinical_events(
+        clear_smoking_codes,
+        on_or_before="2020-02-01",
+        return_last_date_in_period=True,
+        include_month=True,
+    ),
+    most_recent_unclear_smoking_cat_date=patients.with_these_clinical_events(
+        unclear_smoking_codes,
+        on_or_before="2020-02-01",
+        return_last_date_in_period=True,
+        include_month=True,
+    ),
+
+    ################################################
 
     ## GP consultations
     gp_count=patients.with_gp_consultations(
@@ -284,12 +325,12 @@ study = StudyDefinition(
     ## Flu vaccine
     flu_vaccine=patients.with_tpp_vaccination_record(
         target_disease_matches="influenza",
-        between=["index_date", "today"],
-        returning="date",
-        date_format="YYYY-MM",
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        #date_format=binary,
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "2019-01-01", "latest": "today"}
+            "date": {"earliest": start_date, "latest": "index_date"}
         }
     ),
 
@@ -318,7 +359,36 @@ study = StudyDefinition(
     #    },
     #),
 
+    ### from opensafely/long-covid repo
+    ## Covid positive test result
+    sgss_positive=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    ),
 
+    ## Covid diagnosis
+    primary_care_covid=patients.with_these_clinical_events(
+        any_primary_care_code,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ## hospitalised because of covid diagnosis
+    #hospital_covid=patients.admitted_to_hospital(
+    #    with_these_diagnoses=covid_codes,
+    #    returning="date_admitted",
+    #    date_format="YYYY-MM-DD",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    #),
+
+    ### from OpenSafely website
     ## Hospitalisation records
     #hospitalisation = patients.with_these_clinical_events(
     #    hospitalisation_codes,
@@ -383,7 +453,8 @@ measures = [
     Measure(id="hosp_admission",
             numerator="admitted",
             denominator="population",
-            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "bmi_dat"]
+            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid",# "bmi_dat", "smoking_status", 
+            ]
             )
-
+    #these haven't worked: bmi, dob, sgss_positive, primary_care_covid
 ]

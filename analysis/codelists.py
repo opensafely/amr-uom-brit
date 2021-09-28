@@ -41,7 +41,7 @@ broad_spectrum_antibiotics_codes= codelist_from_csv(
 
 ### ethnicity 
 ethnicity_codes = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-eth2001-v1.csv",
+    "codelists/primis-covid19-vacc-uptake-eth2001.csv",
     system="snomed",
     column="code",
     category_column="grouping_6_id",
@@ -50,11 +50,25 @@ ethnicity_codes = codelist_from_csv(
 
 ### bmi 
 bmi_codes = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-bmi-v1.csv",
+    "codelists/primis-covid19-vacc-uptake-bmi_stage.csv",
     system="snomed",
     column="code",
 )
 
+#Smoking
+clear_smoking_codes = codelist_from_csv(
+    "codelists/opensafely-smoking-clear.csv",
+    system="ctv3",
+    column="CTV3Code",
+    category_column="Category",
+)
+
+unclear_smoking_codes = codelist_from_csv(
+    "codelists/opensafely-smoking-unclear.csv",
+    system="ctv3",
+    column="CTV3Code",
+    category_column="Category",
+)
 
 ### flu vaccine
 #flu_vaccine_codes= codelist_from_csv(
@@ -62,3 +76,31 @@ bmi_codes = codelist_from_csv(
 #  system = "snomed",
 #  column = "dmd_id"
 #)
+
+#Covid diagnosis
+covid_primary_care_code = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+covid_primary_care_positive_test = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+covid_primary_care_sequalae = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+any_primary_care_code = combine_codelists(
+    covid_primary_care_code,
+    covid_primary_care_positive_test,
+    covid_primary_care_sequalae,
+    )
+
+
+
