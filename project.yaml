@@ -34,3 +34,12 @@ actions:
       moderately_sensitive:
         percentile: output/overall_25th_75th_percentile.png
 
+  describe_starpu:
+    run: r:latest analysis/plot/starpu_ab_prescribing.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        cohort: output/starpuline.png
+        boxplot: output/starpubox.png
+
+
