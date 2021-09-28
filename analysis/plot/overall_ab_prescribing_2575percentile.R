@@ -52,7 +52,7 @@ df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
          highquart= quantile(ab_rate_1000)[4])
 
   
-plot_prescrib <- ggplot(df_mean, aes(x=date))+
+plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_line(aes(y=meanABrate),color="steelblue")+
   geom_point(aes(y=meanABrate),color="steelblue")+
   geom_line(aes(y=lowquart), color="darkred")+
@@ -65,22 +65,9 @@ plot_prescrib <- ggplot(df_mean, aes(x=date))+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")), linetype=4)+
   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")), linetype=4)
 
-plot_prescrib 
+plot_percentile 
 
 ggsave(
-  plot= plot_prescrib,
+  plot= plot_percentile,
   filename="overall_25th_75th_percentile.png", path=here::here("output"),
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
