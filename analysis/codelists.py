@@ -32,12 +32,29 @@ broad_spectrum_antibiotics_codes= codelist_from_csv(
 )
 
 ### ethnicity 
+#ethnicity_codes = codelist_from_csv(
+#    "codelists/opensafely-ethnicity-2020-04-27.csv",
+#    system="ctv3",
+#    column="Code",
+#    category_column="Grouping_6",
+#)
+
+### ethnicity 
 ethnicity_codes = codelist_from_csv(
-    "codelists/opensafely-ethnicity-2020-04-27.csv",
-    system="ctv3",
-    column="Code",
-    category_column="Grouping_6",
+    "codelists/primis-covid19-vacc-uptake-eth2001-v1.csv",
+    system="snomed",
+    column="code",
+    category_column="grouping_6_id",
 )
+
+
+### bmi 
+bmi_codes = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-bmi-v1.csv",
+    system="snomed",
+    column="code",
+)
+
 
 ### flu vaccine
 #flu_vaccine_codes= codelist_from_csv(

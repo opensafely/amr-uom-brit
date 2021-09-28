@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -246,7 +246,16 @@ study = StudyDefinition(
         },
     ),
 
-    
+    ###########################################
+    # BMI
+    bmi_dat=patients.with_these_clinical_events(
+        bmi_codes,
+        returning="date",
+        ignore_missing_values=True,
+        find_last_match_in_period=True,
+        on_or_before="index_date",
+        date_format="YYYY-MM-DD",
+    ),
 
     # self-reported ethnicity 
     ethnicity=patients.with_these_clinical_events(
@@ -374,7 +383,7 @@ measures = [
     Measure(id="hosp_admission",
             numerator="admitted",
             denominator="population",
-            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd"]
+            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "bmi_dat"]
             )
 
 ]
