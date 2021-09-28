@@ -32,5 +32,5 @@ actions:
     needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        cohort: output/overall_25_75_percentile.png
+        percentile: output/overall_25_75_percentile.png
 
