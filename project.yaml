@@ -42,4 +42,11 @@ actions:
         cohort: output/starpuline.png
         boxplot: output/starpubox.png
 
+  describe_infection_ab:
+    run: r:latest analysis/plot/infection_ab_boxplot.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        boxplot: output/all_infection_box.png
+
 
