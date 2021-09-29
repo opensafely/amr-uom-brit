@@ -1,4 +1,3 @@
-
 ######################################
 
 # This script provides the formal specification of the study data that will be extracted from
@@ -12,12 +11,13 @@
 from cohortextractor import (
     StudyDefinition,
     patients,
-    #codelist_from_csv,
+    # codelist_from_csv,
     codelist,
-    #filter_codes_by_category,
-    #combine_codelists,
-    Measure
+    # filter_codes_by_category,
+    # combine_codelists,
+    Measure,
 )
+from cohortextractor.codelistlib import combine_codelists
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
 from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
@@ -28,11 +28,10 @@ from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
 from datetime import datetime
 
 start_date = "2019-01-01"
-end_date = datetime.today().strftime('%Y-%m-%d')
+end_date = datetime.today().strftime("%Y-%m-%d")
 
 ## Define study population and variables
 study = StudyDefinition(
-
     # Configure the expectations framework
     default_expectations={
         "date": {"earliest": start_date, "latest": end_date},
@@ -54,48 +53,40 @@ study = StudyDefinition(
         AND
         (sex = "M" OR sex = "F")
         """,
-
         has_died=patients.died_from_any_cause(
             on_or_before="index_date",
             returning="binary_flag",
         ),
-
         registered=patients.satisfying(
             "registered_at_start",
             registered_at_start=patients.registered_as_of("index_date"),
         ),
-
         has_follow_up_previous_year=patients.registered_with_one_practice_between(
             start_date="index_date - 1 year",
             end_date="index_date",
             return_expectations={"incidence": 0.95},
         ),
-
     ),
-
-
-    
-
     ## All antibacterials
     antibacterial_prescriptions=patients.with_these_medications(
         antibacterials_codes,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
     ),
-
-
     ## Broad spectrum antibiotics
     broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
         broad_spectrum_antibiotics_codes,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
     ),
-
-
     ########## patient demographics to group_by for measures:
     ### Age
     age=patients.age_as_of(
@@ -103,16 +94,14 @@ study = StudyDefinition(
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
-            "incidence": 0.001
+            "incidence": 0.001,
         },
     ),
-
     ### Age categories
-
     ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
     age_cat=patients.categorised_as(
         {
-            "0":"DEFAULT",
+            "0": "DEFAULT",
             "0-4": """ age >= 0 AND age < 5""",
             "5-14": """ age >= 5 AND age < 15""",
             "15-24": """ age >= 15 AND age < 25""",
@@ -128,7 +117,7 @@ study = StudyDefinition(
             "category": {
                 "ratios": {
                     "0": 0,
-                    "0-4": 0.12, 
+                    "0-4": 0.12,
                     "5-14": 0.11,
                     "15-24": 0.11,
                     "25-34": 0.11,
@@ -141,8 +130,6 @@ study = StudyDefinition(
             },
         },
     ),
-
-
     ### Sex
     sex=patients.sex(
         return_expectations={
@@ -150,17 +137,15 @@ study = StudyDefinition(
             "category": {"ratios": {"M": 0.49, "F": 0.51}},
         }
     ),
-
-
     ### Practice
     practice=patients.registered_practice_as_of(
         "index_date",
         returning="pseudo_id",
-        return_expectations={"int": {"distribution": "normal",
-                                     "mean": 25, "stddev": 5}, "incidence": 0.5}
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 25, "stddev": 5},
+            "incidence": 0.5,
+        },
     ),
-
-      
     ### Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
         "index_date",
@@ -169,19 +154,20 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                  "North East": 0.1,
-                  "North West": 0.1,
-                  "Yorkshire and The Humber": 0.1,
-                  "East Midlands": 0.1,
-                  "West Midlands": 0.1,
-                  "East": 0.1,
-                  "London": 0.2,
-                  "South West": 0.1,
-                  "South East": 0.1, }, },
+                    "North East": 0.1,
+                    "North West": 0.1,
+                    "Yorkshire and The Humber": 0.1,
+                    "East Midlands": 0.1,
+                    "West Midlands": 0.1,
+                    "East": 0.1,
+                    "London": 0.2,
+                    "South West": 0.1,
+                    "South East": 0.1,
+                },
+            },
         },
     ),
-    
-    ## middle layer super output area (msoa) - nhs administrative region 
+    ## middle layer super output area (msoa) - nhs administrative region
     msoa=patients.registered_practice_as_of(
         "index_date",
         returning="msoa_code",
@@ -189,11 +175,9 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {"ratios": {"E02000001": 0.5, "E02000002": 0.5}},
         },
-    ), 
-    
-    
-    ## index of multiple deprivation, estimate of SES based on patient post code 
-	imd=patients.categorised_as(
+    ),
+    ## index of multiple deprivation, estimate of SES based on patient post code
+    imd=patients.categorised_as(
         {
             "0": "DEFAULT",
             "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
@@ -221,34 +205,93 @@ study = StudyDefinition(
             },
         },
     ),
+    asthma_copd_count=patients.with_these_clinical_events(
+        asthma_copd_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={"incidence":0.2, 
+        "int" : {"distribution": "normal", "mean": 5, "stddev": 1},}
+    ),
+    asthma_count=patients.with_these_clinical_events(
+        asthma_copd_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={"incidence":0.2, 
+        "int" : {"distribution": "normal", "mean": 5, "stddev": 1},}
+    ),
+    copd_count=patients.with_these_clinical_events(
+        copd_code,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={"incidence":0.2, 
+        "int" : {"distribution": "normal", "mean": 5, "stddev": 1},}
+    ),
 
+    any_infection_date1=patients.with_these_clinical_events(all_infection_codes,
+    returning='date',
+    on_or_after='index_date'),
 
+    any_infection_date2=patients.with_these_clinical_events(all_infection_codes,
+    returning='date',
+    on_or_after='any_infection_date1 + 1 day'),
+
+    any_infection_date3=patients.with_these_clinical_events(all_infection_codes,
+    returning='date',
+    on_or_after='any_infection_date2 + 1 day'),
+
+    any_infection_date4=patients.with_these_clinical_events(all_infection_codes,
+    returning='date',
+    on_or_after='any_infection_date3 + 1 day'),
+
+    antibiotic_infection_1 = patients.with_these_medications(antibacterials_codes,
+    between=['any_infection_date1','any_infection_date1'],returning='binary_flag'),
+
+    antibiotic_infection_2 = patients.with_these_medications(antibacterials_codes,
+    between=['any_infection_date2','any_infection_date2'],returning='binary_flag'),
+
+    antibiotic_infection_3 = patients.with_these_medications(antibacterials_codes,
+    between=['any_infection_date3','any_infection_date3'],returning='binary_flag'),
+
+    broad_spec_antibiotic_infection_1 = patients.with_these_medications(broad_spectrum_antibiotics_codes,
+    between=['any_infection_date1','any_infection_date1'],returning='binary_flag'),
+
+    broad_spec_antibiotic_infection_2 = patients.with_these_medications(broad_spectrum_antibiotics_codes,
+    between=['any_infection_date2','any_infection_date2'],returning='binary_flag'),
+
+    broad_spec_antibiotic_infection_3 = patients.with_these_medications(broad_spectrum_antibiotics_codes,
+    between=['any_infection_date3','any_infection_date3'],returning='binary_flag')
 )
 
 
 # --- DEFINE MEASURES ---
 
 measures = [
+    #copd rate
+    Measure(
+        id="copd_rate",
+        numerator="copd_count",
+        denominator="any_infection_count",
+        group_by=["practice"],
+    )
     ## antibiotic rx rate
-    Measure(id="antibiotics_overall",
-            numerator="antibacterial_prescriptions",
-            denominator="population",
-            group_by=["practice"]
+    Measure(
+        id="antibiotics_overall",
+        numerator="antibacterial_prescriptions",
+        denominator="population",
+        group_by=["practice"],
     ),
-    
     ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_prescriptions",
-            group_by=["practice"]),
-
-    
-    ## STRPU antibiotics
-    Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_prescriptions",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
+    Measure(
+        id="broad_spectrum_proportion",
+        numerator="broad_spectrum_antibiotics_prescriptions",
+        denominator="antibacterial_prescriptions",
+        group_by=["practice"],
     ),
-
-
+    ## STRPU antibiotics
+    Measure(
+        id="STARPU_antibiotics",
+        numerator="antibacterial_prescriptions",
+        denominator="population",
+        group_by=["practice", "sex", "age_cat"],
+    ),
 ]
