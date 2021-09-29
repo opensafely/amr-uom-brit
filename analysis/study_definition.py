@@ -245,11 +245,11 @@ measures = [
     ),
     
     ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_prescriptions",
-            group_by=["practice"]
-    ),
+    #Measure(id="broad_spectrum_proportion",
+    #        numerator="broad_spectrum_antibiotics_prescriptions",
+    #        denominator="antibacterial_prescriptions",
+    #        group_by=["practice"]
+    #),
 
     
     ## STRPU antibiotics
