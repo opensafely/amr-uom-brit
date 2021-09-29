@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, all_infection_codes
 
 # DEFINE STUDY POPULATION ---
 

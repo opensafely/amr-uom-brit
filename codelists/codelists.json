@@ -5,6 +5,108 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/27089eaa/",
       "downloaded_at": "2021-09-17 13:38:25.538531Z",
       "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
+    },
+    "user-rriefu-asthma_copd.csv": {
+      "id": "user/rriefu/asthma_copd/24430cba",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/asthma_copd/24430cba/",
+      "downloaded_at": "2021-09-27 19:42:32.366344Z",
+      "sha": "40c853a94ab635c14ee32161ddb0d943c21f6d20"
+    },
+    "user-rriefu-asthma.csv": {
+      "id": "user/rriefu/asthma/5914b31a",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/asthma/5914b31a/",
+      "downloaded_at": "2021-09-27 19:42:32.497029Z",
+      "sha": "1f3c8690e48ffcf5fb93ec99d695eddf94ab1eb7"
+    },
+    "user-rriefu-cold_subset.csv": {
+      "id": "user/rriefu/cold_subset/53af332e",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/cold_subset/53af332e/",
+      "downloaded_at": "2021-09-27 19:42:32.626033Z",
+      "sha": "5b86a2a5fdb6a807c7f10a7218a4ed9c71ccc560"
+    },
+    "user-rriefu-copd.csv": {
+      "id": "user/rriefu/copd/40053fe5",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/copd/40053fe5/",
+      "downloaded_at": "2021-09-27 19:42:32.744896Z",
+      "sha": "1eb4cb3d20b0c4d89b694c6af0492c6f9d436992"
+    },
+    "user-rriefu-cough_cold.csv": {
+      "id": "user/rriefu/cough_cold/031b59a3",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/cough_cold/031b59a3/",
+      "downloaded_at": "2021-09-27 19:42:32.893258Z",
+      "sha": "067ec093cdc3828fde57c46687eb54405172fbc7"
+    },
+    "user-rriefu-cough.csv": {
+      "id": "user/rriefu/cough/6a0be66d",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/cough/6a0be66d/",
+      "downloaded_at": "2021-09-27 19:42:33.021570Z",
+      "sha": "b2b180a7027c0658c7f4668c80ba3dc549622542"
+    },
+    "user-rriefu-lrti.csv": {
+      "id": "user/rriefu/lrti/1edd8cce",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/lrti/1edd8cce/",
+      "downloaded_at": "2021-09-27 19:42:33.155033Z",
+      "sha": "2d8caabb0d121b67edd291c4784cecff14b1c836"
+    },
+    "user-rriefu-ot_externa.csv": {
+      "id": "user/rriefu/ot_externa/05ce1999",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/ot_externa/05ce1999/",
+      "downloaded_at": "2021-09-27 19:42:33.294197Z",
+      "sha": "a56d73a35c07a8204dc2f5cfc45a5159535923c7"
+    },
+    "user-rriefu-otmedia.csv": {
+      "id": "user/rriefu/otmedia/3a9fbff9",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/otmedia/3a9fbff9/",
+      "downloaded_at": "2021-09-27 19:42:33.425021Z",
+      "sha": "3fc40388a9db53824c489d7c7ad9a8b5327ceef2"
+    },
+    "user-rriefu-pneumonia.csv": {
+      "id": "user/rriefu/pneumonia/0b339985",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/pneumonia/0b339985/",
+      "downloaded_at": "2021-09-27 19:42:33.545726Z",
+      "sha": "3d4c167dd2a19d655f8a006c8dabbbce01614e7f"
+    },
+    "user-rriefu-renal.csv": {
+      "id": "user/rriefu/renal/3d527fef",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/renal/3d527fef/",
+      "downloaded_at": "2021-09-27 19:42:33.666395Z",
+      "sha": "7472d55b3731caa38aabf12108d8194771f44a79"
+    },
+    "user-rriefu-sepsis.csv": {
+      "id": "user/rriefu/sepsis/7224264f",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/sepsis/7224264f/",
+      "downloaded_at": "2021-09-27 19:42:33.808303Z",
+      "sha": "727d85f2bf2e75f10ab632e50151d547e68846b9"
+    },
+    "user-rriefu-sinusits.csv": {
+      "id": "user/rriefu/sinusits/21904cc4",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/sinusits/21904cc4/",
+      "downloaded_at": "2021-09-27 19:42:34.017345Z",
+      "sha": "ffa3453643c81f6f6d17c0c857d5265c007e4def"
+    },
+    "user-rriefu-throat.csv": {
+      "id": "user/rriefu/throat/0880d98f",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/throat/0880d98f/",
+      "downloaded_at": "2021-09-27 19:42:34.132066Z",
+      "sha": "aa8a005bb4d4c778e60c5b188fd336880a81de80"
+    },
+    "user-rriefu-urti.csv": {
+      "id": "user/rriefu/urti/6f716659",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/urti/6f716659/",
+      "downloaded_at": "2021-09-27 19:42:34.252805Z",
+      "sha": "3d39317dbb1de0c5eeb28d3bc98cd9876f523c27"
+    },
+    "user-rriefu-uti.csv": {
+      "id": "user/rriefu/uti/5661f324",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/uti/5661f324/",
+      "downloaded_at": "2021-09-27 19:42:34.383859Z",
+      "sha": "6f1ce1b5a9c1504ebb622336afd06bfbfeccabce"
+    },
+    "user-rriefu-vaccination.csv": {
+      "id": "user/rriefu/vaccination/26f5ccb0",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/vaccination/26f5ccb0/",
+      "downloaded_at": "2021-09-27 19:48:57.567284Z",
+      "sha": "86fcdb32bda114499f56e7635e3203e096b0022d"
     }
   }
 }

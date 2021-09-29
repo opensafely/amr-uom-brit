@@ -1,0 +1,76 @@
+code,term
+1086701000000102,Life threatening acute exacerbation of allergic asthma
+1086711000000100,Life threatening acute exacerbation of intrinsic asthma
+12428000,Intrinsic asthma without status asthmaticus
+13645005,Chronic obstructive lung disease
+155568008,Mucopurulent chronic bronchitis
+155574008,Asthma
+155575009,Extrinsic asthma - atopy (& pollen)
+155578006,Asthma attack (& NOS)
+155579003,Asthma: [NOS] or [attack]
+155582008,Mild chronic obstructive pulmonary disease
+155583003,Moderate chronic obstructive pulmonary disease
+155584009,Severe chronic obstructive pulmonary disease
+155585005,Chronic obstructive airways disease NOS
+155617000,Chronic obstructive airways disease NOS
+187687003,Asthma
+195944003,Mucopurulent chronic bronchitis
+195945002,Purulent chronic bronchitis
+195946001,Purulent chronic bronchitis
+195947005,Mucopurulent chronic bronchitis NOS
+195951007,Acute exacerbation of chronic obstructive airways disease
+195967001,Asthma
+195970002,(Hay fever with asthma) or (extrinsic asthma without status asthmaticus)
+195971003,Extrinsic asthma with: [asthma attack] or [status asthmaticus]
+195972005,Extrinsic asthma NOS
+195973000,(Intrinsic asthma) or (late onset asthma)
+195974006,Intrinsic asthma without status asthmaticus
+195977004,Mixed asthma
+195979001,Asthma unspecified
+195980003,(Severe asthma attack) or (status asthmaticus NOS)
+195981004,Asthma attack (& NOS)
+195982006,Late onset asthma
+195983001,(Asthma: [exercise induced] or [allergic NEC] or [NOS]) or
+195996000,Mild chronic obstructive pulmonary disease
+195997009,Moderate chronic obstructive pulmonary disease
+195998004,Severe chronic obstructive pulmonary disease
+196001008,Chronic obstructive pulmonary disease with acute lower respiratory infection
+196003006,Chronic obstructive airways disease NOS
+21341004,Asthma
+225057002,Brittle asthma
+233678006,Childhood asthma
+233679003,Late onset asthma
+233680000,Allergic asthma
+233681001,Extrinsic asthma with asthma attack
+233682008,Allergic asthma NEC
+233683003,Hay fever with asthma
+233685005,Intrinsic asthma with asthma attack
+266359004,Extrinsic asthma without status asthmaticus
+266360009,Extrinsic asthma with status asthmaticus
+266361008,Non-allergic asthma
+266362001,Intrinsic asthma with status asthmaticus
+266363006,Status asthmaticus NOS
+266364000,Asthma attack
+266365004,Asthma NOS
+266398009,Asthma: [NOS] or [attack]
+274105009,Asthma attack NOS
+313296004,Mild chronic obstructive pulmonary disease
+313297008,Moderate chronic obstructive pulmonary disease
+313299006,Severe chronic obstructive pulmonary disease
+31387002,Exercise-induced asthma
+389145006,Allergic asthma
+405720007,Allergic bronchitis
+424643009,Immunoglobulin E-mediated allergic asthma
+59327009,Intrinsic asthma with status asthmaticus
+63088003,Allergic asthma without status asthmaticus
+708038006,Acute exacerbation of asthma
+708090002,Acute severe exacerbation of asthma
+708093000,Acute exacerbation of immunoglobulin E-mediated allergic asthma
+708094006,Acute exacerbation of intrinsic asthma
+734904007,Life threatening acute exacerbation of asthma
+74417001,Mucopurulent chronic bronchitis
+8141004,Purulent chronic bronchitis
+8312004,Intrinsic asthma
+84409004,Fetid chronic bronchitis
+866881000000101,Chronic asthma with fixed airflow obstruction
+91340006,Extrinsic asthma with status asthmaticus
