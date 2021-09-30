@@ -114,5 +114,10 @@ any_primary_care_code = combine_codelists(
     covid_primary_care_sequalae,
     )
 
-
+# COVID vaccination medication codes
+covrx_code = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-covrx.csv",
+    system="snomed",
+    column="code",
+)
 

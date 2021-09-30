@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -398,6 +398,51 @@ study = StudyDefinition(
         returning="binary_flag",
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+        # First COVID vaccination medication code (any)
+    covrx1_dat=patients.with_vaccination_record(
+        returning="date",
+        tpp={
+            "product_name_matches": [
+                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+            ],
+        },
+        emis={
+            "product_codes": covrx_code,
+        },
+        find_first_match_in_period=True,
+        on_or_before="index_date",
+        on_or_after="2020-11-29",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "rate": "exponential_increase",
+            "incidence": 0.5,
+        }
+    ),
+    # Second COVID vaccination medication code (any)
+    covrx2_dat=patients.with_vaccination_record(
+        returning="date",
+        tpp={
+            "product_name_matches": [
+                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+            ],
+        },
+        emis={
+            "product_codes": covrx_code,
+        },
+        find_last_match_in_period=True,
+        on_or_before="index_date",
+        on_or_after="covrx1_dat + 19 days",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "rate": "exponential_increase",
+            "incidence": 0.5,
+        }
     ),
 
     ## hospitalised because of covid diagnosis
