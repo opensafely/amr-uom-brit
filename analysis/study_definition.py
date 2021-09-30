@@ -400,7 +400,7 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
-        # First COVID vaccination medication code (any)
+    ### First COVID vaccination medication code (any)
     covrx1_dat=patients.with_vaccination_record(
         returning="date",
         tpp={

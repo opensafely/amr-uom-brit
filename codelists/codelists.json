@@ -65,6 +65,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0/",
       "downloaded_at": "2021-09-30 10:03:20.575978Z",
       "sha": "db68fd1368358f1ecbbc006c83419b3b47bcb82c"
+    },
+    "primis-covid19-vacc-uptake-covrx.csv": {
+      "id": "primis-covid19-vacc-uptake/covrx/65aef8fb",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/covrx/65aef8fb/",
+      "downloaded_at": "2021-09-30 14:35:47.095882Z",
+      "sha": "a742a5d534eeea2cb222b15e885487d5218f7d0b"
     }
   }
 }
