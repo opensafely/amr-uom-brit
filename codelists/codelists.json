@@ -47,6 +47,24 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/bmi_stage/261252c3/",
       "downloaded_at": "2021-09-28 17:21:55.231689Z",
       "sha": "7fd744bb94c1789632247a3fc1780910f421b172"
+    },
+    "opensafely-influenza-vaccination.csv": {
+      "id": "opensafely/influenza-vaccination/01ec0c67",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination/01ec0c67/",
+      "downloaded_at": "2021-09-30 10:03:20.149006Z",
+      "sha": "aa7cf32d4c16deb5a14fb3d68f0a2babfe431caf"
+    },
+    "opensafely-influenza-vaccination-clinical-codes-given.csv": {
+      "id": "opensafely/influenza-vaccination-clinical-codes-given/443b7295",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination-clinical-codes-given/443b7295/",
+      "downloaded_at": "2021-09-30 10:03:20.355330Z",
+      "sha": "c5e7b06fcd7a4f786bcf549e2c0c4ca944eba9b1"
+    },
+    "opensafely-influenza-vaccination-clinical-codes-not-given.csv": {
+      "id": "opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0/",
+      "downloaded_at": "2021-09-30 10:03:20.575978Z",
+      "sha": "db68fd1368358f1ecbbc006c83419b3b47bcb82c"
     }
   }
 }

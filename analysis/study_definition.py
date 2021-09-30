@@ -359,7 +359,7 @@ study = StudyDefinition(
 
     ### Antibiotics from opensafely antimicrobial-stewardship repo
     ## all antibacterials
-    antibiotic_prescriptions=patients.with_these_medications(
+    antibacterial_prescriptions=patients.with_these_medications(
         antibacterials_codes,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
@@ -474,7 +474,7 @@ measures = [
     Measure(id="hosp_admission",
             numerator="admitted",
             denominator="population",
-            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid", "antibiotic_prescriptions" # "bmi_dat", "smoking_status", 
+            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid", "antibacterial_prescriptions" # "bmi_dat", "smoking_status", 
             ]
             )
     #these haven't worked: bmi, dob, sgss_positive, primary_care_covid
