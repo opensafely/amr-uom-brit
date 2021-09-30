@@ -1,62 +1,79 @@
 
-# # # # # # # # # # # # # # # # # # # # #
-# This script: show percentage of infection received antibiotics - boxplot
-# Generate a plot to show overall antibiotics prescribing rate by month
-# By practice, by month, per 1000 patient
-# # # # # # # # # # # # # # # # # # # # #
+# add: UTI, 
 
-## Import libraries---
+library("data.table")
+library("dplyr")
+library('here')
+library("tidyverse")
 
-library('tidyverse')
-library("ggplot2")
+setwd(here::here("output", "measures"))
 
-# impoprt data
-df_input <- read_csv(
-  here::here("output", "measures", "measure_antibiotics_all_infection.csv"),
-  col_types = cols_only(
+# read flie list from input.csv
+csvFiles = list.files(pattern="input_", full.names = TRUE)
+temp <- vector("list", length(csvFiles))
+
+for (i in seq_along(csvFiles))
+  temp[[i]] <- read_csv(csvFiles[i],
+    
+    col_types = cols_only(
     
     # Identifier
     practice = col_integer(),
     
     # Outcomes
-    antibiotic_infection  = col_double(),
-    any_infection_count  = col_double(),
-    value = col_double(),
+    uti_ab_count_1  = col_double(),
+    uti_ab_count_2  = col_double(),
+    uti_ab_count_3  = col_double(),
+    uti_ab_count_4  = col_double(),
+    uti_counts1  = col_double(),
     
     # Date
-    date = col_date(format="%Y-%m-%d")
+    uti_date_1 = col_date(format="%Y-%m-%d"),
+    uti_date_2 = col_date(format="%Y-%m-%d"),
+    uti_date_3 = col_date(format="%Y-%m-%d"),
+    uti_date_4 = col_date(format="%Y-%m-%d")
     
   ),
   na = character()
   )
- 
+
+# combine list of data.table/data.frame
+df_input <- rbindlist(temp)
+
+
+
+df_input <- df_input %>% filter(practice >0)
+
+
+## sum up total number of uti antibiotics within each patient in one month & extract year-month for group data
+df_input=df_input%>%
+  mutate(total_ab_counts= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4) %>%
+  mutate(date=format(as.Date(uti_date_1) , "%Y-%m"))
+
+## remove date=NA (no antibiotics prescribed date)
+df_input <- df_input %>% filter(!is.na(df_input$date))
+
+
+
+## summarize patient-level data to paractice-level
+df_measure=df_input%>%  
+  group_by(date, practice) %>%
+  summarize(population=n(), ab_counts=sum(total_ab_counts)) %>%
+  mutate(value=ab_counts/population)
 
 
 #boxplot -describe percentage(value) of each practice
 
-overallbox <- ggplot(df_input, aes(group=date,x=date,y=value)) + 
+overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) + 
   geom_boxplot()+
   xlab("time") +
-  ylab("infection prescribed antibiotics(%)") +
+  ylab("prescribing rate by infection") +
   geom_dotplot(binaxis = 'y',     
                stackdir = 'center', 
                dotsize = 0.2) 
-   
+
+
 ggsave(
   plot= overallbox,
-  filename="all_infection_box.png", path=here::here("output"),
+  filename="uti_prescribing_rate_box.png", path=here::here("output")
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
