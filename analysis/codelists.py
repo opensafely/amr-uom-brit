@@ -71,11 +71,23 @@ unclear_smoking_codes = codelist_from_csv(
 )
 
 ### flu vaccine
-#flu_vaccine_codes= codelist_from_csv(
-#  "codelists/vaccination_med1_mapped.csv",
-#  system = "snomed",
-#  column = "dmd_id"
-#)
+flu_med_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
+flu_clinical_given_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination-clinical-codes-given.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+flu_clinical_not_given_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination-clinical-codes-not-given.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
 
 #Covid diagnosis
 covid_primary_care_code = codelist_from_csv(

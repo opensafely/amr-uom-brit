@@ -6,3 +6,6 @@ opensafely/smoking-clear/10307fc4
 opensafely/smoking-unclear/77210c8e
 primis-covid19-vacc-uptake/eth2001/357c1ef8
 primis-covid19-vacc-uptake/bmi_stage/261252c3
+opensafely/influenza-vaccination/01ec0c67
+opensafely/influenza-vaccination-clinical-codes-given/443b7295
+opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0

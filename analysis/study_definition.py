@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -72,29 +72,6 @@ study = StudyDefinition(
         ),
 
     ),
-
-
-    
-
-    ## All antibacterials
-    antibacterial_prescriptions=patients.with_these_medications(
-        antibacterials_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
-
-
-    ## Broad spectrum antibiotics
-    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
-
 
     ########## patient demographics to group_by for measures:
     ### Age
@@ -322,16 +299,50 @@ study = StudyDefinition(
     ),
 
 
-    ## Flu vaccine
-    flu_vaccine=patients.with_tpp_vaccination_record(
+    ### Flu vaccine
+    ## flu vaccine in tpp
+    flu_vaccine_tpp=patients.with_tpp_vaccination_record(
         target_disease_matches="influenza",
         between=[start_date, "index_date"],
         returning="binary_flag",
         #date_format=binary,
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": start_date, "latest": "index_date"}
+            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
         }
+    ),
+
+    ### flu vaccine 
+    ## flu vaccine entered as a medication 
+    flu_vaccine_med=patients.with_these_medications(
+        flu_med_codes,
+        between=["index_date - 6 months", "index_date"],  # current flu season
+        returning="binary_flag",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+        },
+    ),
+    ## flu vaccine as a read code 
+    flu_vaccine_clinical=patients.with_these_clinical_events(
+        flu_clinical_given_codes,
+        ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+        between=["index_date - 6 months", "index_date"],  # current flu season
+        returning="binary_flag",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+        },
+    ),
+    ## flu vaccine any of the above 
+    flu_vaccine=patients.satisfying(
+        """
+        flu_vaccine_tpp OR
+        flu_vaccine_med OR
+        flu_vaccine_clinical
+        """,
     ),
 
     ## Flu vaccine 2
@@ -346,18 +357,28 @@ study = StudyDefinition(
     #    }
     #),
 
-    ## Antibiotics
-    #antibiotics_count=patients.with_these_medications(
-    #    antibiotics_codes,
-    #    between=["index_date", "today"],
-    #    ignore_days_where_these_clinical_codes_occur=copd_reviews,
-    #    returning="number_of_episodes",
-    #    episode_defined_as="series of events each <= 28 days apart",
-    #    return_expectations={
-    #        "int": {"distribution": "normal", "mean": 2, "stddev": 1},
-    #        "incidence": 0.2,
-    #    },
-    #),
+    ### Antibiotics from opensafely antimicrobial-stewardship repo
+    ## all antibacterials
+    antibiotic_prescriptions=patients.with_these_medications(
+        antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    ## Broad spectrum antibiotics
+    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+    ),
+
+    
 
     ### from opensafely/long-covid repo
     ## Covid positive test result
@@ -453,7 +474,7 @@ measures = [
     Measure(id="hosp_admission",
             numerator="admitted",
             denominator="population",
-            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid",# "bmi_dat", "smoking_status", 
+            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid", "antibiotic_prescriptions" # "bmi_dat", "smoking_status", 
             ]
             )
     #these haven't worked: bmi, dob, sgss_positive, primary_care_covid
