@@ -142,6 +142,14 @@ study = StudyDefinition(
         },
     ),
 
+    ### DoB
+    dob=patients.date_of_birth(
+        "YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "1950-01-01", "latest": "today"},
+            "rate": "uniform",
+        }
+    ),
 
     ### Sex
     sex=patients.sex(
@@ -157,7 +165,7 @@ study = StudyDefinition(
         "index_date",
         returning="pseudo_id",
         return_expectations={"int": {"distribution": "normal",
-                                     "mean": 25, "stddev": 5}, "incidence": 0.5}
+                                     "mean": 25, "stddev": 5}, "incidence": 1}
     ),
 
       
@@ -237,10 +245,11 @@ measures = [
     ),
     
     ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_prescriptions",
-            group_by=["practice"]),
+    #Measure(id="broad_spectrum_proportion",
+    #        numerator="broad_spectrum_antibiotics_prescriptions",
+    #        denominator="antibacterial_prescriptions",
+    #        group_by=["practice"]
+    #),
 
     
     ## STRPU antibiotics

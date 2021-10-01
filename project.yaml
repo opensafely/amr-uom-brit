@@ -6,7 +6,7 @@ expectations:
 actions:
 
   generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2021-03-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_*.csv.gz
@@ -18,6 +18,26 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
-  
- 
-       
+
+  describe:
+    run: r:latest analysis/plot/overall_ab_prescribing.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        cohort: output/overall.png
+        boxplot: output/overallbox.png
+
+  describe_percentile:
+    run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        percentile: output/overall_25th_75th_percentile.png
+
+  describe_starpu:
+    run: r:latest analysis/plot/starpu_ab_prescribing.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        cohort: output/starpuline.png
+        boxplot: output/starpubox.png
