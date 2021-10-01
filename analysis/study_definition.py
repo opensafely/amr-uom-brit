@@ -519,7 +519,7 @@ measures = [
     Measure(id="hosp_admission",
             numerator="admitted",
             denominator="population",
-            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid", "antibacterial_prescriptions" # "bmi_dat", "smoking_status", 
+            group_by=["practice", "sex", "age_cat", "flu_vaccine", "ethnicity", "imd", "primary_care_covid", "antibacterial_prescriptions", "covrx1_dat" # "bmi_dat", "smoking_status", 
             ]
             )
     #these haven't worked: bmi, dob, sgss_positive, primary_care_covid
