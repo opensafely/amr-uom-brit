@@ -362,7 +362,7 @@ study = StudyDefinition(
 
     ### First COVID vaccination medication code (any)
     covrx1_dat=patients.with_vaccination_record(
-        returning="binary_flag",
+        returning="date",
         tpp={
             "product_name_matches": [
                 "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
@@ -384,7 +384,7 @@ study = StudyDefinition(
     ),
     # Second COVID vaccination medication code (any)
     covrx2_dat=patients.with_vaccination_record(
-        returning="binary_flag",
+        returning="date",
         tpp={
             "product_name_matches": [
                 "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
@@ -453,7 +453,7 @@ measures = [
     Measure(id="antibiotics_overall",
             numerator="antibacterial_prescriptions",
             denominator="population",
-            group_by=["practice", "sex", "dob"]
+            group_by=["practice", "sex"]
             ),
     
 
