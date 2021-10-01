@@ -41,5 +41,3 @@ actions:
       moderately_sensitive:
         cohort: output/starpuline.png
         boxplot: output/starpubox.png
-
-
