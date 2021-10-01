@@ -230,19 +230,12 @@ study = StudyDefinition(
         },
     ),
 
+
+
+    ########## patient infection to group_by for measures  #############
     
-
-
-
-
-     #### prescribing rate by 6 common infection type #####
-     #### each infection has 4 columns for antibiotics 
-
-    
-   
-    # ---- UTI 
-
-    ## find patient with specific infection 
+    #  --UTI 
+    ## count infection events 
     uti_counts=patients.with_these_clinical_events(
         uti_codes,
         returning="number_of_matches_in_period",
@@ -250,6 +243,18 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
+
+    
+
+
+
+
+
+
+    #### prescribing rate by 6 common infection type #####
+    #### each infection has 4 columns for antibiotics 
+
+    # ---- UTI 
 
     ## find patient's infection date 
     uti_date_1=patients.with_these_clinical_events(
@@ -319,7 +324,8 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
 
-
+  # ---- LRTI
+   
 
 )
 
@@ -351,7 +357,12 @@ measures = [
             numerator="antibacterial_prescriptions",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
+    ),
+
+    ## UTI event rate 
+    Measure(id="UTI_event",
+            numerator="uti_counts",
+            denominator="population",
+            group_by=["practice"]
     )
-
-
 ]
