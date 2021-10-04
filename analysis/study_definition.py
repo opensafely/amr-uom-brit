@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -443,7 +443,183 @@ study = StudyDefinition(
         },
     ),
 
+
+    ########## patient infection to group_by for measures  #############
+    
+    #  --UTI 
+    ## count infection events 
+    uti_counts=patients.with_these_clinical_events(
+        uti_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
+
+    #  --LRTI 
+    ## count infection events 
+    lrti_counts=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
+
+    
+
+
+
+
+
+
+    #### prescribing rate by 6 common infection type #####
+    #### each infection has 4 columns for antibiotics 
+
+    # ---- UTI 
+
+    ## find patient's infection date 
+    uti_date_1=patients.with_these_clinical_events(
+        uti_codes,
+        returning='date',
+        on_or_after='index_date',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+
+    ## antibiotic prescribed for this infection ("number of matiches"- pt may get more than one antibiotics)
+    uti_ab_count_1 = patients.with_these_medications(antibacterials_codes,
+        between=['uti_date_1','uti_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    
+    uti_date_2=patients.with_these_clinical_events(
+        uti_codes,
+        returning='date',
+        on_or_after='uti_date_1 + 1 day',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    uti_ab_count_2= patients.with_these_medications(antibacterials_codes,
+        between=['uti_date_2','uti_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    uti_date_3=patients.with_these_clinical_events(
+        uti_codes,
+        returning='date',
+        on_or_after='uti_date_2 + 1 day',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    uti_ab_count_3= patients.with_these_medications(antibacterials_codes,
+        between=['uti_date_3','uti_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    uti_date_4=patients.with_these_clinical_events(
+        uti_codes,
+        returning='date',
+        on_or_after='uti_date_3 + 1 day',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    uti_ab_count_4= patients.with_these_medications(antibacterials_codes,
+        between=['uti_date_4','uti_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+  # ---- LRTI
+
+    lrti_date_1=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        on_or_after='index_date',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    lrti_ab_count_1 = patients.with_these_medications(antibacterials_codes,
+        between=['lrti_date_1','lrti_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    
+    lrti_date_2=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        on_or_after='lrti_date_1 + 1 day',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    lrti_ab_count_2= patients.with_these_medications(antibacterials_codes,
+        between=['lrti_date_2','lrti_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    lrti_date_3=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        on_or_after='lrti_date_2 + 1 day',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    lrti_ab_count_3= patients.with_these_medications(antibacterials_codes,
+        between=['lrti_date_3','lrti_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    lrti_date_4=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        on_or_after='lrti_date_3 + 1 day',
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    lrti_ab_count_4= patients.with_these_medications(antibacterials_codes,
+        between=['lrti_date_4','lrti_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+
+
 )
+
+    
+    
+
 
 
 # --- DEFINE MEASURES ---
@@ -473,6 +649,19 @@ measures = [
             group_by=["practice", "sex", "age_cat"]
             ),
 
+    ## UTI event rate 
+    Measure(id="UTI_event",
+            numerator="uti_counts",
+            denominator="population",
+            group_by=["practice"]
+    ),
+
+    ## LRTI event rate 
+    Measure(id="LRTI_event",
+            numerator="lrti_counts",
+            denominator="population",
+            group_by=["practice"]
+    ),
 
     ## hospitalisation 
     Measure(id="hosp_admission_any",
@@ -480,7 +669,6 @@ measures = [
             denominator="population",
             group_by=["practice"]
             ),
-
 
     ## hospitalisation STARPU
     Measure(id="hosp_admission_STARPU",
