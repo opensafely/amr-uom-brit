@@ -138,7 +138,7 @@ asthma_copd_codes= codelist_from_csv(
 
 
 ### asthma 
-asthma_code= codelist_from_csv(
+asthma_codes= codelist_from_csv(
   "codelists/user-rriefu-asthma.csv",
   system = "snomed",
   column = "code"
@@ -146,7 +146,7 @@ asthma_code= codelist_from_csv(
 
 
 ### cold
-cold_code= codelist_from_csv(
+cold_codes= codelist_from_csv(
   "codelists/user-rriefu-cold_subset.csv",
   system = "snomed",
   column = "code"
@@ -154,14 +154,14 @@ cold_code= codelist_from_csv(
 
 
 ### copd
-copd_code= codelist_from_csv(
+copd_codes= codelist_from_csv(
   "codelists/user-rriefu-copd.csv",
   system = "snomed",
   column = "code"
 )
 
 ### cough & cold  
-cough_cold_code= codelist_from_csv(
+cough_cold_codes= codelist_from_csv(
   "codelists/user-rriefu-cough_cold.csv",
   system = "snomed",
   column = "code"
@@ -169,7 +169,7 @@ cough_cold_code= codelist_from_csv(
 
 
 ### cough
-cough_code= codelist_from_csv(
+cough_codes= codelist_from_csv(
   "codelists/user-rriefu-cough.csv",
   system = "snomed",
   column = "code"
@@ -177,7 +177,7 @@ cough_code= codelist_from_csv(
 
 
 ### LRTI
-lrti_code= codelist_from_csv(
+lrti_codes= codelist_from_csv(
   "codelists/user-rriefu-lrti.csv",
   system = "snomed",
   column = "code"
@@ -185,7 +185,7 @@ lrti_code= codelist_from_csv(
 
 
 ### ot externa
-ot_externa_code= codelist_from_csv(
+ot_externa_codes= codelist_from_csv(
   "codelists/user-rriefu-ot_externa.csv",
   system = "snomed",
   column = "code"
@@ -193,7 +193,7 @@ ot_externa_code= codelist_from_csv(
 
 
 ### otmedia
-otmedia_code= codelist_from_csv(
+otmedia_codes= codelist_from_csv(
   "codelists/user-rriefu-otmedia.csv",
   system = "snomed",
   column = "code"
@@ -201,7 +201,7 @@ otmedia_code= codelist_from_csv(
 
 
 ###  pneumonia
-pneumonia_code= codelist_from_csv(
+pneumonia_codes= codelist_from_csv(
   "codelists/user-rriefu-pneumonia.csv",
   system = "snomed",
   column = "code"
@@ -209,7 +209,7 @@ pneumonia_code= codelist_from_csv(
 
 
 ###  renal
-renal_code= codelist_from_csv(
+renal_codes= codelist_from_csv(
   "codelists/user-rriefu-renal.csv",
   system = "snomed",
   column = "code"
@@ -217,7 +217,7 @@ renal_code= codelist_from_csv(
 
 
 ###  sepsis
-sepsis_code= codelist_from_csv(
+sepsis_codes= codelist_from_csv(
   "codelists/user-rriefu-sepsis.csv",
   system = "snomed",
   column = "code"
@@ -225,7 +225,7 @@ sepsis_code= codelist_from_csv(
 
 
 ###  sinusits
-sinusits_code= codelist_from_csv(
+sinusits_codes= codelist_from_csv(
   "codelists/user-rriefu-sinusits.csv",
   system = "snomed",
   column = "code"
@@ -233,7 +233,7 @@ sinusits_code= codelist_from_csv(
 
 
 ###  throat
-throat_code= codelist_from_csv(
+throat_codes= codelist_from_csv(
   "codelists/user-rriefu-throat.csv",
   system = "snomed",
   column = "code"
@@ -241,7 +241,7 @@ throat_code= codelist_from_csv(
 
 
 ###  URTI
-urti_code= codelist_from_csv(
+urti_codes= codelist_from_csv(
   "codelists/user-rriefu-urti.csv",
   system = "snomed",
   column = "code"
