@@ -48,8 +48,8 @@ df_gprate <- dfls %>% group_by(practice, cal_mon, cal_year) %>%
 
 df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
   mutate(meanABrate = mean(ab_rate_1000),
-         lowquart= quantile(ab_rate_1000)[2],
-         highquart= quantile(ab_rate_1000)[4])
+         lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
+         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4])
 
   
 plot_percentile <- ggplot(df_mean, aes(x=date))+
