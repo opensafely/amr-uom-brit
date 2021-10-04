@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes,lrti_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -244,6 +244,16 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
 
+    #  --UTI 
+    ## count infection events 
+    lrti_counts=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
+
     
 
 
@@ -362,6 +372,13 @@ measures = [
     ## UTI event rate 
     Measure(id="UTI_event",
             numerator="uti_counts",
+            denominator="population",
+            group_by=["practice"]
+    ),
+
+    ## LRTI event rate 
+    Measure(id="LRTI_event",
+            numerator="lrti_counts",
             denominator="population",
             group_by=["practice"]
     )

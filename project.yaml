@@ -47,7 +47,8 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        percentile: output/uti_event_25th_75th_percentile.png
+        percentile1: output/uti_event_25th_75th_percentile.png
+        percentile2: output/lrti_event_25th_75th_percentile.png
 
 
   describe_infection_ab:
