@@ -663,7 +663,8 @@ measures = [
             numerator="lrti_counts",
             denominator="population",
             group_by=["practice"]
-    )
+    ),
+    
     ## hospitalisation 
     Measure(id="hosp_admission_any",
             numerator="admitted",
