@@ -44,7 +44,7 @@ asthma_codes = codelist_from_csv(
 
 ### cold
 cold_codes = codelist_from_csv(
-    "codelists/user-rriefu-cold_subset.csv", system="snomed", column="code"
+    "codelists/user-rriefu-cold_subset.csv", system="snomed", column="code")
 
 ### ethnicity 
 ethnicity_codes = codelist_from_csv(
