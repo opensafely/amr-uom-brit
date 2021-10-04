@@ -80,7 +80,9 @@ overallbox_uti <- ggplot(df_measure_uti, aes(group=date,x=date,y=value)) +
   ylab("prescribing rate by infection") +
   geom_dotplot(binaxis = 'y',     
                stackdir = 'center', 
-               dotsize = 0.2) 
+               dotsize = 0.2)+ 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
 
 
 ggsave(
@@ -106,7 +108,8 @@ overallbox_lrti <- ggplot(df_measure_lrti, aes(group=date,x=date,y=value)) +
   ylab("prescribing rate by infection") +
   geom_dotplot(binaxis = 'y',     
                stackdir = 'center', 
-               dotsize = 0.2) 
+               dotsize = 0.2)+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
 
 ggsave(
