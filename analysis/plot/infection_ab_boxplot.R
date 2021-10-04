@@ -74,7 +74,7 @@ df_measure_uti=df_input%>%
 
 #boxplot -describe percentage(value) of each practice
 
-overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) + 
+overallbox_uti <- ggplot(df_measure_uti, aes(group=date,x=date,y=value)) + 
   geom_boxplot()+
   xlab("time") +
   ylab("prescribing rate by infection") +
@@ -84,7 +84,7 @@ overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) +
 
 
 ggsave(
-  plot= overallbox,
+  plot= overallbox_uti,
   filename="uti_prescribing_rate_box.png", path=here::here("output")
 )
 
@@ -100,7 +100,7 @@ df_measure_lrti=df_input%>%
 
 #boxplot -describe percentage(value) of each practice
 
-overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) + 
+overallbox_lrti <- ggplot(df_measure_lrti, aes(group=date,x=date,y=value)) + 
   geom_boxplot()+
   xlab("time") +
   ylab("prescribing rate by infection") +
@@ -110,6 +110,6 @@ overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) +
 
 
 ggsave(
-  plot= overallbox,
+  plot= overallbox_lrti,
   filename="lrti_prescribing_rate_box.png", path=here::here("output")
 )
