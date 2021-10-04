@@ -1,5 +1,5 @@
 
-# update: UTI, 
+# update: UTI, LRTI,
 
 library("data.table")
 library("dplyr")
@@ -26,12 +26,21 @@ for (i in seq_along(csvFiles))
     uti_ab_count_3  = col_double(),
     uti_ab_count_4  = col_double(),
     uti_counts1  = col_double(),
+    lrti_ab_count_1  = col_double(),
+    lrti_ab_count_2  = col_double(),
+    lrti_ab_count_3  = col_double(),
+    lrti_ab_count_4  = col_double(),
+    lrti_counts1  = col_double(),
     
     # Date
     uti_date_1 = col_date(format="%Y-%m-%d"),
     uti_date_2 = col_date(format="%Y-%m-%d"),
     uti_date_3 = col_date(format="%Y-%m-%d"),
-    uti_date_4 = col_date(format="%Y-%m-%d")
+    uti_date_4 = col_date(format="%Y-%m-%d"),
+    lrti_date_1 = col_date(format="%Y-%m-%d"),
+    lrti_date_2 = col_date(format="%Y-%m-%d"),
+    lrti_date_3 = col_date(format="%Y-%m-%d"),
+    lrti_date_4 = col_date(format="%Y-%m-%d")
     
   ),
   na = character()
@@ -47,18 +56,19 @@ df_input <- df_input %>% filter(practice >0)
 
 ## sum up total number of uti antibiotics within each patient in one month & extract year-month for group data
 df_input=df_input%>%
-  mutate(total_ab_counts= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4) %>%
+  mutate(uti_ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4) %>%
+  mutate(lrti_ab_counts_all= lrti_ab_count_1 + lrti_ab_count_2 + lrti_ab_count_3 + lrti_ab_count_4) %>%
   mutate(date=format(as.Date(uti_date_1) , "%Y-%m"))
 
 ## remove date=NA (no antibiotics prescribed date)
 df_input <- df_input %>% filter(!is.na(df_input$date))
 
 
-
+# -----UTI
 ## summarize patient-level data to paractice-level
-df_measure=df_input%>%  
+df_measure_uti=df_input%>%  
   group_by(date, practice) %>%
-  summarize(population=n(), ab_counts=sum(total_ab_counts)) %>%
+  summarize(population=n(), ab_counts=sum(uti_ab_counts_all)) %>%
   mutate(value=ab_counts/population)
 
 
@@ -76,4 +86,30 @@ overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) +
 ggsave(
   plot= overallbox,
   filename="uti_prescribing_rate_box.png", path=here::here("output")
+)
+
+
+
+# -----LRTI
+## summarize patient-level data to paractice-level
+df_measure_lrti=df_input%>%  
+  group_by(date, practice) %>%
+  summarize(population=n(), ab_counts=sum(lrti_ab_counts_all)) %>%
+  mutate(value=ab_counts/population)
+
+
+#boxplot -describe percentage(value) of each practice
+
+overallbox <- ggplot(df_measure, aes(group=date,x=date,y=value)) + 
+  geom_boxplot()+
+  xlab("time") +
+  ylab("prescribing rate by infection") +
+  geom_dotplot(binaxis = 'y',     
+               stackdir = 'center', 
+               dotsize = 0.2) 
+
+
+ggsave(
+  plot= overallbox,
+  filename="lrti_prescribing_rate_box.png", path=here::here("output")
 )

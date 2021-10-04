@@ -56,6 +56,7 @@ actions:
     needs: [generate_study_population]
     outputs:
        moderately_sensitive:
-        boxplot: output/uti_prescribing_rate_box.png
+        boxplot1: output/uti_prescribing_rate_box.png
+        boxplot2: output/lrti_prescribing_rate_box.png
 
 
