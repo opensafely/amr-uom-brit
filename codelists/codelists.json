@@ -6,6 +6,74 @@
       "downloaded_at": "2021-09-17 13:38:25.538531Z",
       "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
     },
+
+    "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
+      "downloaded_at": "2021-09-28 17:21:53.996377Z",
+      "sha": "5de38f993b166d6ef97c6ea822635317a6c7ae85"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b/",
+      "downloaded_at": "2021-09-28 17:21:54.191811Z",
+      "sha": "563b536aaf850da011233653e91e10030a5bc15f"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521/",
+      "downloaded_at": "2021-09-28 17:21:54.393306Z",
+      "sha": "38dc0c0a34e2b8b376ba72819923f442c30b4946"
+    },
+    "opensafely-smoking-clear.csv": {
+      "id": "opensafely/smoking-clear/10307fc4",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-clear/10307fc4/",
+      "downloaded_at": "2021-09-28 17:21:54.621421Z",
+      "sha": "0b5f3afe1db96dcce5141220e893a42ba2e5a8f7"
+    },
+    "opensafely-smoking-unclear.csv": {
+      "id": "opensafely/smoking-unclear/77210c8e",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-unclear/77210c8e/",
+      "downloaded_at": "2021-09-28 17:21:54.826694Z",
+      "sha": "d9dad3e9d9491f765863b2617114c521957b6db1"
+    },
+    "primis-covid19-vacc-uptake-eth2001.csv": {
+      "id": "primis-covid19-vacc-uptake/eth2001/357c1ef8",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth2001/357c1ef8/",
+      "downloaded_at": "2021-09-28 17:21:55.036689Z",
+      "sha": "36e4eacba898e6ec72da8ff66e8c673bfd9aa8e4"
+    },
+    "primis-covid19-vacc-uptake-bmi_stage.csv": {
+      "id": "primis-covid19-vacc-uptake/bmi_stage/261252c3",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/bmi_stage/261252c3/",
+      "downloaded_at": "2021-09-28 17:21:55.231689Z",
+      "sha": "7fd744bb94c1789632247a3fc1780910f421b172"
+    },
+    "opensafely-influenza-vaccination.csv": {
+      "id": "opensafely/influenza-vaccination/01ec0c67",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination/01ec0c67/",
+      "downloaded_at": "2021-09-30 10:03:20.149006Z",
+      "sha": "aa7cf32d4c16deb5a14fb3d68f0a2babfe431caf"
+    },
+    "opensafely-influenza-vaccination-clinical-codes-given.csv": {
+      "id": "opensafely/influenza-vaccination-clinical-codes-given/443b7295",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination-clinical-codes-given/443b7295/",
+      "downloaded_at": "2021-09-30 10:03:20.355330Z",
+      "sha": "c5e7b06fcd7a4f786bcf549e2c0c4ca944eba9b1"
+    },
+    "opensafely-influenza-vaccination-clinical-codes-not-given.csv": {
+      "id": "opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0/",
+      "downloaded_at": "2021-09-30 10:03:20.575978Z",
+      "sha": "db68fd1368358f1ecbbc006c83419b3b47bcb82c"
+    },
+    "primis-covid19-vacc-uptake-covrx.csv": {
+      "id": "primis-covid19-vacc-uptake/covrx/65aef8fb",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/covrx/65aef8fb/",
+      "downloaded_at": "2021-09-30 14:35:47.095882Z",
+      "sha": "a742a5d534eeea2cb222b15e885487d5218f7d0b"
+
+    }, 
     "user-rriefu-asthma_copd.csv": {
       "id": "user/rriefu/asthma_copd/24430cba",
       "url": "https://codelists.opensafely.org/codelist/user/rriefu/asthma_copd/24430cba/",

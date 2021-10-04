@@ -18,6 +18,7 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+        
 
   describe:
     run: r:latest analysis/plot/overall_ab_prescribing.R
@@ -58,5 +59,4 @@ actions:
        moderately_sensitive:
         boxplot1: output/uti_prescribing_rate_box.png
         boxplot2: output/lrti_prescribing_rate_box.png
-
 
