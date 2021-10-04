@@ -1,4 +1,15 @@
 opensafely/antibacterials/27089eaa
+opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
+opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
+opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
+opensafely/smoking-clear/10307fc4
+opensafely/smoking-unclear/77210c8e
+primis-covid19-vacc-uptake/eth2001/357c1ef8
+primis-covid19-vacc-uptake/bmi_stage/261252c3
+opensafely/influenza-vaccination/01ec0c67
+opensafely/influenza-vaccination-clinical-codes-given/443b7295
+opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0
+primis-covid19-vacc-uptake/covrx/65aef8fb
 user/rriefu/asthma_copd/24430cba
 user/rriefu/asthma/5914b31a
 user/rriefu/cold_subset/53af332e
@@ -16,3 +27,4 @@ user/rriefu/throat/0880d98f
 user/rriefu/urti/6f716659
 user/rriefu/uti/5661f324
 user/rriefu/vaccination/26f5ccb0
+

@@ -14,13 +14,13 @@ from cohortextractor import (
     patients,
     #codelist_from_csv,
     codelist,
-    #filter_codes_by_category,
+    filter_codes_by_category,
     #combine_codelists,
     Measure
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -73,29 +73,6 @@ study = StudyDefinition(
 
     ),
 
-
-    
-
-    ## All antibacterials
-    antibacterial_prescriptions=patients.with_these_medications(
-        antibacterials_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
-
-
-    ## Broad spectrum antibiotics
-    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
-
-
     ########## patient demographics to group_by for measures:
     ### Age
     age=patients.age_as_of(
@@ -142,15 +119,7 @@ study = StudyDefinition(
         },
     ),
 
-    ### DoB
-    dob=patients.date_of_birth(
-        "YYYY-MM",
-        return_expectations={
-            "date": {"earliest": "1950-01-01", "latest": "today"},
-            "rate": "uniform",
-        }
-    ),
-
+    
     ### Sex
     sex=patients.sex(
         return_expectations={
@@ -229,7 +198,250 @@ study = StudyDefinition(
             },
         },
     ),
+    
+    ## BMI, most recent
+    bmi=patients.most_recent_bmi(
+        between=["2010-02-01", "today"],
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {"earliest": "2010-02-01", "latest": "today"},
+            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
+            "incidence": 0.80,
+        },
+    ),
 
+    # self-reported ethnicity 
+    ethnicity=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        find_last_match_in_period=True,
+        include_date_of_match=False,
+        return_expectations={
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "incidence": 0.75,
+        },
+    ),
+
+    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/6
+    smoking_status=patients.categorised_as(
+        {
+            "S": "most_recent_smoking_code = 'S'",
+            "E": """
+                 most_recent_smoking_code = 'E' OR (
+                   most_recent_smoking_code = 'N' AND ever_smoked
+                 )
+            """,
+            "N": "most_recent_smoking_code = 'N' AND NOT ever_smoked",
+            "M": "DEFAULT",
+        },
+        return_expectations={
+            "category": {"ratios": {"S": 0.6, "E": 0.1, "N": 0.2, "M": 0.1}}
+        },
+        most_recent_smoking_code=patients.with_these_clinical_events(
+            clear_smoking_codes,
+            find_last_match_in_period=True,
+            on_or_before="today",
+            returning="category",
+        ),
+        ever_smoked=patients.with_these_clinical_events(
+            filter_codes_by_category(clear_smoking_codes, include=["S", "E"]),
+            on_or_before="today",
+        ),
+    ),
+    smoking_status_date=patients.with_these_clinical_events(
+        clear_smoking_codes,
+        on_or_before="today",
+        return_last_date_in_period=True,
+        include_month=True,
+    ),
+    most_recent_unclear_smoking_cat_date=patients.with_these_clinical_events(
+        unclear_smoking_codes,
+        on_or_before="today",
+        return_last_date_in_period=True,
+        include_month=True,
+    ),
+
+    ## GP consultations
+    gp_count=patients.with_gp_consultations(
+        between=["index_date", "today"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+
+    ### Flu vaccine
+    ## flu vaccine in tpp
+    flu_vaccine_tpp=patients.with_tpp_vaccination_record(
+        target_disease_matches="influenza",
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        #date_format=binary,
+        find_first_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+        }
+    ),
+
+    ### flu vaccine 
+    ## flu vaccine entered as a medication 
+    flu_vaccine_med=patients.with_these_medications(
+        flu_med_codes,
+        between=["index_date - 12 months", "index_date"],  # current flu season
+        returning="binary_flag",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
+        },
+    ),
+    ## flu vaccine as a read code 
+    flu_vaccine_clinical=patients.with_these_clinical_events(
+        flu_clinical_given_codes,
+        ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
+        between=["index_date - 12 months", "index_date"],  # current flu season
+        returning="binary_flag",
+        return_first_date_in_period=True,
+        include_month=True,
+        return_expectations={
+            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+        },
+    ),
+    ## flu vaccine any of the above 
+    flu_vaccine=patients.satisfying(
+        """
+        flu_vaccine_tpp OR
+        flu_vaccine_med OR
+        flu_vaccine_clinical
+        """,
+    ),
+
+    ### Antibiotics from opensafely antimicrobial-stewardship repo
+    ## all antibacterials
+    antibacterial_prescriptions=patients.with_these_medications(
+        antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    ## Broad spectrum antibiotics
+    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+    ),
+
+    ## Covid positive test result
+    sgss_positive=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    ),
+
+    ## Covid diagnosis
+    primary_care_covid=patients.with_these_clinical_events(
+        any_primary_care_code,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ### First COVID vaccination medication code (any)
+    covrx1_dat=patients.with_vaccination_record(
+        returning="date",
+        tpp={
+            "product_name_matches": [
+                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+            ],
+        },
+        emis={
+            "product_codes": covrx_code,
+        },
+        find_first_match_in_period=True,
+        on_or_before="index_date",
+        on_or_after="2020-11-29",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "rate": "exponential_increase",
+            "incidence": 0.5,
+        }
+    ),
+    # Second COVID vaccination medication code (any)
+    covrx2_dat=patients.with_vaccination_record(
+        returning="date",
+        tpp={
+            "product_name_matches": [
+                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+            ],
+        },
+        emis={
+            "product_codes": covrx_code,
+        },
+        find_last_match_in_period=True,
+        on_or_before="index_date",
+        on_or_after="covrx1_dat + 19 days",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "rate": "exponential_increase",
+            "incidence": 0.5,
+        }
+    ),
+
+    ## hospitalisation
+    admitted=patients.admitted_to_hospital(
+        returning="binary_flag",
+        #returning="date",
+        #date_format="YYYY-MM-DD",
+        between=["index_date", "today"],
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    ## hospitalised because of covid diagnosis
+    #hospital_covid=patients.admitted_to_hospital(
+    #    with_these_diagnoses=covid_codes,
+    #    returning="date_admitted",
+    #    date_format="YYYY-MM-DD",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    #),
+
+    ## Hospitalisation records
+    #hospitalisation = patients.with_these_clinical_events(
+    #    hospitalisation_codes,
+    #    between=["index_date", "today"],
+    #    returning="date",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"date": {earliest: "index_date", "latest": "today"}},
+    #),
+
+    ## Death
+    died_date=patients.died_from_any_cause(
+        on_or_after="index_date",
+        returning="date_of_death",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest" : "index_date"},
+            "rate" : "exponential_increase"
+        },
+    ),
 
 )
 
@@ -241,9 +453,10 @@ measures = [
     Measure(id="antibiotics_overall",
             numerator="antibacterial_prescriptions",
             denominator="population",
-            group_by=["practice"]
-    ),
+            group_by=["practice", "sex"]
+            ),
     
+
     ## Broad spectrum antibiotics
     #Measure(id="broad_spectrum_proportion",
     #        numerator="broad_spectrum_antibiotics_prescriptions",
@@ -251,13 +464,28 @@ measures = [
     #        group_by=["practice"]
     #),
 
+
     
     ## STRPU antibiotics
     Measure(id="STARPU_antibiotics",
             numerator="antibacterial_prescriptions",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
-    ),
+            ),
 
 
+    ## hospitalisation 
+    Measure(id="hosp_admission_any",
+            numerator="admitted",
+            denominator="population",
+            group_by=["practice"]
+            ),
+
+
+    ## hospitalisation STARPU
+    Measure(id="hosp_admission_STARPU",
+            numerator="admitted",
+            denominator="population",
+            group_by=["practice", "sex", "age_cat"]
+            )
 ]

@@ -34,6 +34,89 @@ broad_spectrum_antibiotics_codes= codelist_from_csv(
 )
 
 
+### ethnicity 
+ethnicity_codes = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-eth2001.csv",
+    system="snomed",
+    column="code",
+    category_column="grouping_6_id",
+)
+
+
+### bmi 
+bmi_codes = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-bmi_stage.csv",
+    system="snomed",
+    column="code",
+)
+
+#Smoking
+clear_smoking_codes = codelist_from_csv(
+    "codelists/opensafely-smoking-clear.csv",
+    system="ctv3",
+    column="CTV3Code",
+    category_column="Category",
+)
+
+unclear_smoking_codes = codelist_from_csv(
+    "codelists/opensafely-smoking-unclear.csv",
+    system="ctv3",
+    column="CTV3Code",
+    category_column="Category",
+)
+
+### flu vaccine
+flu_med_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination.csv",
+    system="snomed",
+    column="snomed_id",
+)
+
+flu_clinical_given_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination-clinical-codes-given.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+flu_clinical_not_given_codes = codelist_from_csv(
+    "codelists/opensafely-influenza-vaccination-clinical-codes-not-given.csv",
+    system="ctv3",
+    column="CTV3ID",
+)
+
+#Covid diagnosis
+covid_primary_care_code = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+covid_primary_care_positive_test = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+covid_primary_care_sequalae = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+any_primary_care_code = combine_codelists(
+    covid_primary_care_code,
+    covid_primary_care_positive_test,
+    covid_primary_care_sequalae,
+    )
+
+# COVID vaccination medication codes
+covrx_code = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-covrx.csv",
+    system="snomed",
+    column="code",
+)
+
+
 ### asthma & COPD
 asthma_copd_codes= codelist_from_csv(
   "codelists/user-rriefu-asthma_copd.csv",
@@ -74,14 +157,12 @@ cough_cold_code= codelist_from_csv(
 )
 
 
-
 ### cough
 cough_code= codelist_from_csv(
   "codelists/user-rriefu-cough.csv",
   system = "snomed",
   column = "code"
 )
-
 
 
 ### LRTI
@@ -92,16 +173,12 @@ lrti_code= codelist_from_csv(
 )
 
 
-
-
 ### ot externa
 ot_externa_code= codelist_from_csv(
   "codelists/user-rriefu-ot_externa.csv",
   system = "snomed",
   column = "code"
 )
-
-
 
 
 ### otmedia
@@ -112,14 +189,12 @@ otmedia_code= codelist_from_csv(
 )
 
 
-
 ###  pneumonia
 pneumonia_code= codelist_from_csv(
   "codelists/user-rriefu-pneumonia.csv",
   system = "snomed",
   column = "code"
 )
-
 
 
 ###  renal
@@ -130,16 +205,12 @@ renal_code= codelist_from_csv(
 )
 
 
-
-
 ###  sepsis
 sepsis_code= codelist_from_csv(
   "codelists/user-rriefu-sepsis.csv",
   system = "snomed",
   column = "code"
 )
-
-
 
 
 ###  sinusits
@@ -150,14 +221,12 @@ sinusits_code= codelist_from_csv(
 )
 
 
-
 ###  throat
 throat_code= codelist_from_csv(
   "codelists/user-rriefu-throat.csv",
   system = "snomed",
   column = "code"
 )
-
 
 
 ###  URTI
@@ -168,8 +237,6 @@ urti_code= codelist_from_csv(
 )
 
 
-
-
 ###  UTI
 uti_code= codelist_from_csv(
   "codelists/user-rriefu-uti.csv",
@@ -178,10 +245,10 @@ uti_code= codelist_from_csv(
 )
 
 
-
 ###  vaccination
 vaccination_code= codelist_from_csv(
   "codelists/user-rriefu-vaccination.csv",
   system = "snomed",
   column = "code"
 )
+
