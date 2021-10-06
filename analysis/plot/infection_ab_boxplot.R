@@ -25,12 +25,12 @@ for (i in seq_along(csvFiles))
     uti_ab_count_2  = col_double(),
     uti_ab_count_3  = col_double(),
     uti_ab_count_4  = col_double(),
-    uti_counts1  = col_double(),
+    uti_counts  = col_double(),
     lrti_ab_count_1  = col_double(),
     lrti_ab_count_2  = col_double(),
     lrti_ab_count_3  = col_double(),
     lrti_ab_count_4  = col_double(),
-    lrti_counts1  = col_double(),
+    lrti_counts  = col_double(),
     
     # Date
     uti_date_1 = col_date(format="%Y-%m-%d"),
@@ -56,8 +56,9 @@ df_input <- df_input %>% filter(practice >0)
 
 ## sum up total number of uti antibiotics within each patient in one month & extract year-month for group data
 df_input=df_input%>%
-  mutate(uti_ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4) %>%
-  mutate(lrti_ab_counts_all= lrti_ab_count_1 + lrti_ab_count_2 + lrti_ab_count_3 + lrti_ab_count_4) %>%
+  mutate(
+  uti_ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4,
+  lrti_ab_counts_all= lrti_ab_count_1 + lrti_ab_count_2 + lrti_ab_count_3 + lrti_ab_count_4) %>%
   mutate(date=format(as.Date(uti_date_1) , "%Y-%m"))
 
 ## remove date=NA (no antibiotics prescribed date)
