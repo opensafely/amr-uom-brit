@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, asthma_copd_codes, asthma_codes, cold_codes, copd_codes, cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes 
 
 # DEFINE STUDY POPULATION ---
 
@@ -466,7 +466,43 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
 
-    
+    #  --URTI  
+    urti_counts=patients.with_these_clinical_events(
+        urti_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
+
+    #  --sinusits 
+    sinusits_counts=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ), 
+
+    #  --otitis externa
+    ot_externa_counts=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),    
+
+    #  --otitis media
+    otmedia_counts=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),    
+
+    #asthma_copd_codes, asthma_codes, cold_codes, copd_codes, cough_cold_codes, cough_codes,  pneumonia_codes, renal_codes, sepsis_codes, sinusits_codes, throat_codes, , 
 
 
 
@@ -662,6 +698,34 @@ measures = [
             denominator="population",
             group_by=["practice"]
     ),
+
+    ## URTI event rate 
+    Measure(id="URTI_event",
+            numerator="urti_counts",
+            denominator="population",
+            group_by=["practice"]
+    ),
+
+    ## sinusitis event rate 
+    Measure(id="sinusitis_event",
+            numerator="sinusitis_counts",
+            denominator="population",
+            group_by=["practice"]
+    ),
+
+    ## otitis externa event rate 
+    Measure(id="ot_externa_event",
+            numerator="ot_externa_counts",
+            denominator="population",
+            group_by=["practice"]
+     ),
+
+    ## otitis media event rate 
+    Measure(id="otmedia_event",
+            numerator="otmedia_counts",
+            denominator="population",
+            group_by=["practice"]
+     ),
 
     ## hospitalisation 
     Measure(id="hosp_admission_any",
