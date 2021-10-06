@@ -48,9 +48,10 @@ for (i in seq_along(csvFiles))
 
 # combine list of data.table/data.frame
 df_input <- rbindlist(temp)
+# remove temopary list
+rm(temp,csvFiles,i)
 
-
-
+# select valid practice number
 df_input <- df_input %>% filter(practice >0)
 
 
@@ -67,6 +68,7 @@ df_input <- df_input %>% filter(!is.na(df_input$date))
 
 # -----UTI
 ## summarize patient-level data to paractice-level
+## population = number of patients with UTI (not all population)
 df_measure_uti=df_input%>%  
   group_by(date, practice) %>%
   summarize(population=n(), ab_counts=sum(uti_ab_counts_all)) %>%
