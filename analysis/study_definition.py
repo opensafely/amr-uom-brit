@@ -476,7 +476,7 @@ study = StudyDefinition(
     ),
 
     #  --sinusits 
-    sinusits_counts=patients.with_these_clinical_events(
+    sinusitis_counts=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="number_of_matches_in_period",
         between=["index_date", "last_day_of_month(index_date)"],
