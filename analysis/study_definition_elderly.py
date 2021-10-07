@@ -20,7 +20,22 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
+from codelists import (
+    antibacterials_codes, 
+    broad_spectrum_antibiotics_codes, 
+    uti_codes, 
+    lrti_codes, 
+    ethnicity_codes, 
+    bmi_codes, 
+    any_primary_care_code, 
+    clear_smoking_codes, 
+    unclear_smoking_codes, 
+    flu_med_codes, 
+    flu_clinical_given_codes, 
+    flu_clinical_not_given_codes, 
+    covrx_code,
+    carehome_primis_codes,
+)#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -137,7 +152,14 @@ study = StudyDefinition(
                                      "mean": 25, "stddev": 5}, "incidence": 1}
     ),
 
-      
+    ### Care home
+    care_home=patients.with_these_clinical_events(
+        carehome_primis_codes,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.5},
+    ),
+
     ### Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
         "index_date",

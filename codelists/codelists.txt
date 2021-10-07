@@ -27,3 +27,6 @@ user/rriefu/throat/0880d98f
 user/rriefu/urti/6f716659
 user/rriefu/uti/5661f324
 user/rriefu/vaccination/26f5ccb0
+nhsd-primary-care-domain-refsets/ld_cod/20210127
+nhsd-primary-care-domain-refsets/mh_cod/20210127
+primis-covid19-vacc-uptake/longres/v1

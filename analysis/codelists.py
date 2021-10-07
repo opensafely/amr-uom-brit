@@ -265,3 +265,9 @@ vaccination_codes = codelist_from_csv(
     "codelists/user-rriefu-vaccination.csv", system="snomed", column="code"
 )
 
+## Patients in long-stay nursing and residential care
+carehome_primis_codes = codelist_from_csv(
+  "codelists/primis-covid19-vacc-uptake-longres.csv",
+  system = "snomed",
+  column = "code",
+)
