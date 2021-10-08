@@ -60,3 +60,14 @@ actions:
         boxplot1: output/uti_prescribing_rate_box.png
         boxplot2: output/lrti_prescribing_rate_box.png
 
+  
+  generate_notebook_starpu:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        notebook: output/starpu.html 
+        figures: output/*
+        #tables: output/tables/*
+        #csvs: output/*/* # two possible subfolders
+        #text: output/text/*
