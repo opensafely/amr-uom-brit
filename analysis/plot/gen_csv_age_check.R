@@ -12,7 +12,7 @@ library('lubridate')
 
 # impoprt data
 df <- read_csv(
-  here::here("output", "cohorts", "input_elderly.csv"),
+  here::here("output", "input_elderly.csv"),
   col_types = cols_only(
     
     # Identifier

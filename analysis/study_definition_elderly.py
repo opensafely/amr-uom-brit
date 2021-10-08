@@ -638,6 +638,3 @@ study = StudyDefinition(
 
 
 )
-
-    
-    

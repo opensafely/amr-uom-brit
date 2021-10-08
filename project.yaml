@@ -13,7 +13,7 @@ actions:
 
   generate_study_population_elderly:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_elderly 
-      --output-format=csv.gz
+      --output-format=csv
     outputs:
       highly_sensitive:
         cohort: output/cohorts/input_elderly.csv
