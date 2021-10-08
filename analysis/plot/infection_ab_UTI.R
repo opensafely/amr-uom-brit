@@ -43,20 +43,19 @@ for (i in seq_along(csvFiles))
 
 # combine list of data.table/data.frame
 df_input <- rbindlist(temp)
-# remove temopary list
-rm(temp,csvFiles,i)
+rm(temp,csvFiles,i)# remove temopary list
 
 # select valid practice number
 df_input <- df_input %>% filter(practice >0)
 
-# sum up total number of uti antibiotics within each patient in one month & extract year-month for group data
+# sum up total number of uti antibiotics within each patient in one month & extract year-month for grouping data
 df_input=df_input%>%
   mutate(
   ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4) %>%
   mutate(date=format(as.Date(uti_date_1) , "%Y-%m"))
 
 # remove date=NA (no antibiotics prescribed date)
-df_input <- df_input %>% filter(!is.na(df_input$date))
+df_input= df_input %>% filter(!is.na(df_input$date))
 
 # -----UTI
 ## summarize patient-level data to paractice-level
@@ -92,3 +91,14 @@ df_infection <- read_csv(
 ### merge two dataframe with "practice" & "date(year-month)" ###
 df_infection$date=format(as.Date(df_infection$date) , "%Y-%m")
 df=merge(df_infection, df_ab, by.x = c('practice','date'))
+
+
+df=df%>%
+  mutate(inf.rate=value*1000,
+         ab.rate=ab_counts*1000 /population)
+
+
+#check row number
+nrow(df_infection)
+nrow(df_ab)
+nrow(df)
