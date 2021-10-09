@@ -444,7 +444,7 @@ study = StudyDefinition(
     ),
 
 
-    ########## patient infection to group_by for measures  #############
+    ########## patient infection events to group_by for measures #############
     
     #  --UTI 
     ## count infection events 
@@ -502,7 +502,17 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),    
 
-    #asthma_copd_codes, asthma_codes, cold_codes, copd_codes, cough_cold_codes, cough_codes,  pneumonia_codes, renal_codes, sepsis_codes, sinusits_codes, throat_codes, , 
+   ########## infection P't numbers to group_by for measures #############
+    
+    #  --UTI 
+    ## count patient number
+    uti_pt=patients.with_these_clinical_events(
+        uti_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
 
 
 
@@ -739,5 +749,12 @@ measures = [
             numerator="admitted",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
-            )
+            ),
+
+    ## UTI pt propotion 
+    Measure(id="UTI_patient",
+            numerator="uti_pt",
+            denominator="population",
+            group_by=["practice"]
+    )
 ]
