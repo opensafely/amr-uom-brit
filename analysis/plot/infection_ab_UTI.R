@@ -10,6 +10,7 @@ library("data.table")
 library("dplyr")
 library('here')
 library("tidyverse")
+library("cowplot")
 
 setwd(here::here("output", "measures"))
 
@@ -151,23 +152,18 @@ df_sum=df_all%>%
             q2=quantile(ab.rate,0.5),
             q3=quantile(ab.rate,0.75))
 
-plot_ab <- ggplot(df_sum, aes(x = date, y =m.ab, group=1))+  # one-line, so group=1
+plot_ab <- ggplot(df_sum, aes(x = date, y =m.ab, group=1))+  # one-line
   geom_ribbon(aes(ymin=q1, ymax=q3), fill="grey80")+
   geom_line(aes(y =q2), col="grey70") +
   geom_line()+
   geom_point()+
   labs(
-    title = "UTI prescribing rate",
-    x = "Time",
-    y = "UTI prescriptions(per 1,000 registered patients)")+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+    title = "UTI prescribing rate(per 1,000 patients)",
+    caption = "black line: mean, grey line:median, grey area:Q1-Q3",
+    x = "",
+    y = "UTI prescriptions")+
+  scale_x_discrete(labels = NULL) 
 
-plot_ab
-
-ggsave(
-  plot= plot_ab,
-  filename="UTI_ab_Q1_Q3_mean.png", path=here::here("output"),
-)
 
 ### 3.2 bar chart- UTI event rate & patient infection rate
 df_sum2=df_all%>%
@@ -180,13 +176,17 @@ plot_infection <- ggplot(df_sum2, aes(x = date, y =inf))+
   geom_bar(aes(y =pt), stat="identity",fill="grey60")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
-    title = "UTI events rate",
+    title = "UTI events rate(per 1,000 patients)",
+    caption = "dark grey:person counts, light grey:event counts",
     x = "Time", 
-    y = "UTI events (per 1,000 patients)")
+    y = "UTI patients & events")
 
-plot_infection
+
+### 3.3 combine two charts
+plot_com=plot_grid(
+  plot_ab, plot_infection, labels = "auto", ncol = 1)
 
 ggsave(
-  plot= plot_infection,
-  filename="UTI_event.png", path=here::here("output"),
+  plot= plot_com,
+  filename="UTI.png", path=here::here("output"),
 )

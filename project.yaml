@@ -65,7 +65,6 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        plot1: output/UTI_ab_Q1_Q3_mean.png
-        plot2: output/UTI_event.png
+        plot: output/UTI.png
     
 
