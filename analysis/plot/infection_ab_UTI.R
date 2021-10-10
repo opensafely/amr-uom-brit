@@ -50,12 +50,7 @@ for (i in seq_along(csvFiles))
 # combine list -> data.table/data.frame
 df_input <- rbindlist(temp)
 rm(temp,csvFiles,i)# remove temopary list
-
 ############ loop reaaing multiple CSV files ################
-
-
-# select valid practice number
-df_input <- df_input %>% filter(practice >0)
 
 # sum up total number of uti antibiotics within each patient in one month & extract year-month for grouping data
 df_input=df_input%>%
@@ -66,7 +61,6 @@ df_input=df_input%>%
 # remove date=NA (no antibiotics prescribed date)
 df_input= df_input %>% filter(!is.na(df_input$date))
 
-
 # summarize patient-level data to paractice-level (by date, by practice)
 df_ab=df_input%>%  
   group_by(date, practice) %>%
@@ -74,9 +68,7 @@ df_ab=df_input%>%
   select(date, practice, ab_counts)
 
 
-
 ### 1.2 import practice-level data(measure.csv) for infection event 
-
 df_infection <- read_csv(
   here::here("output", "measures", "measure_UTI_event.csv"),
   col_types = cols_only(
@@ -97,7 +89,6 @@ df_infection <- read_csv(
   )
 
 ### 1.3 import practice-level data(measure.csv) for number of infection patient 
-
 df_pt <- read_csv(
   here::here("output", "measures", "measure_UTI_patient.csv"),
   col_types = cols_only(
@@ -120,7 +111,7 @@ df_pt <- read_csv(
 ### 2. merge dataframe ###
 # key variable: "practice" & "date(year-month)"
 
-# 2.1 combine 1.2(infection event)&1.3(patient number)
+# 2.1 combine 1.2df_infection (event)& 1.3df_patient (pt number)
 df_infection$date=format(as.Date(df_infection$date) , "%Y-%m")
 df_infection=df_infection%>%
   rename(inf.rate=value)
@@ -131,7 +122,7 @@ df_pt=df_pt%>%
 
 df=merge(df_infection, df_pt, by = c('practice','date'))
 
-# 2.2 combine 1.1 & df(1.2+1.3)
+# 2.2 combine 1.1df_ab(prescriptions) & above df(1.2+1.3)
 df_all=merge(df, df_ab, by.x = c('practice','date') )
 df_all=df_all%>%
   mutate(ab.rate=ab_counts*1000 /population, #prescribing rate (per 1000 registered patients)
@@ -142,6 +133,7 @@ df_all=df_all%>%
 
 #check row number- suppose to be equal- but how to print that result???? -
 nrow(df_infection)
+nrow(df_pt)
 nrow(df_ab)
 nrow(df)
 
@@ -177,12 +169,12 @@ ggsave(
   filename="UTI_ab_Q1_Q3_mean.png", path=here::here("output"),
 )
 
-### 3.2 bar chart- UTI event rate & infection rate
+### 3.2 bar chart- UTI event rate & patient infection rate
 df_sum2=df_all%>%
   group_by(date)%>%
   summarise(inf=mean(inf.rate),
          pt=mean(pt.rate))
-         
+
 plot_infection <- ggplot(df_sum2, aes(x = date, y =inf))+
   geom_bar(stat="identity",fill="grey70")+
   geom_bar(aes(y =pt), stat="identity",fill="grey60")+
