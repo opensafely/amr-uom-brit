@@ -46,7 +46,7 @@ geom_line()+geom_point()+
   labs(
     title = "Overall antibiotics prescribing rate by month",
     subtitle = "01/2019 -09/2021 ",
-    caption = "dummy data",
+    caption = "TPP Practices",
     x = "Time",
     y = "overall AB prescribing rate"
   )
