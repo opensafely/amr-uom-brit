@@ -49,7 +49,7 @@ df_gprate <- dfls %>% group_by(practice, cal_mon, cal_year) %>%
 df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
   mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
          lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
-         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4]),
+         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4],
          ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
          five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
 
