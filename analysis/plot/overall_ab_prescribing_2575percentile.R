@@ -47,18 +47,24 @@ df_gprate <- dfls %>% group_by(practice, cal_mon, cal_year) %>%
   mutate(ab_rate_1000 = value*1000) 
 
 df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
-  mutate(meanABrate = mean(ab_rate_1000),
+  mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
          lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
-         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4])
+         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4]),
+         ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
+         five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
 
   
 plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_line(aes(y=meanABrate),color="steelblue")+
   geom_point(aes(y=meanABrate),color="steelblue")+
-  geom_line(aes(y=lowquart), color="darkred")+
-  geom_point(aes(y=lowquart), color="darkred")+
-  geom_line(aes(y=highquart), color="darkred")+
-  geom_point(aes(y=highquart), color="darkred")+
+  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_line(aes(y=highquart), color="darkred", linetype=3)+
+  geom_point(aes(y=highquart), color="darkred", linetype=3)+
+  geom_line(aes(y=ninefive), color="black", linetype=3)+
+  geom_point(aes(y=ninefive), color="black", linetype=3)+
+  geom_line(aes(y=five), color="black", linetype=3)+
+  geom_point(aes(y=five), color="black", linetype=3)+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(x=NULL, y="Antibiotic Prescribing Rate per 1000 registered patients")+
