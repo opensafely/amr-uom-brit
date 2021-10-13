@@ -467,12 +467,6 @@ study = StudyDefinition(
     ),
 
     
-
-
-
-
-
-
     #### prescribing rate by 6 common infection type #####
     #### each infection has 4 columns for antibiotics 
 
@@ -612,17 +606,11 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
-
-
-
 )
-
-    
-    
-
 
 
 # --- DEFINE MEASURES ---
+
 
 measures = [
     ## antibiotic rx rate
