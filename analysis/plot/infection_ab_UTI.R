@@ -131,14 +131,6 @@ df_all=df_all%>%
          inf.rate=inf.rate*1000) # measure value(infection event)*1000
 
 
-
-#check row number- suppose to be equal- but how to print that result???? -
-nrow(df_infection)
-nrow(df_pt)
-nrow(df_ab)
-nrow(df)
-
-
 ### 3. plot  ###
 ### 3.1 line chart- UTI prescribing rate (mean, Q1,median,Q3) 
 
@@ -158,10 +150,10 @@ plot_ab <- ggplot(df_sum, aes(x = date, y =m.ab, group=1))+  # one-line
   geom_line()+
   geom_point()+
   labs(
-    title = "UTI prescribing rate(per 1,000 patients)",
+    title = "Urinary Tract Infection(rate per 1,000 registered patients)",
     caption = "black line: mean, grey line:median, grey area:Q1-Q3",
     x = "",
-    y = "UTI prescriptions")+
+    y = "prescribing rate")+
   scale_x_discrete(labels = NULL) 
 
 
@@ -176,10 +168,9 @@ plot_infection <- ggplot(df_sum2, aes(x = date, y =inf))+
   geom_bar(aes(y =pt), stat="identity",fill="grey60")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
-    title = "UTI events rate(per 1,000 patients)",
-    caption = "dark grey:person counts, light grey:event counts",
+    caption = "dark grey:patient rate, light grey:consultation rate",
     x = "Time", 
-    y = "UTI patients & events")
+    y = "infection rate")
 
 
 ### 3.3 combine two charts
