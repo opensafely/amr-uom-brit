@@ -201,14 +201,14 @@ study = StudyDefinition(
     
     ## BMI, most recent
     bmi=patients.most_recent_bmi(
-        between=["2010-02-01", "today"],
+        on_or_after="2010-02-01",
         minimum_age_at_measurement=18,
         include_measurement_date=True,
-        date_format="YYYY-MM",
+        include_month=True,
         return_expectations={
-            "date": {"earliest": "2010-02-01", "latest": "today"},
-            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
-            "incidence": 0.80,
+            "date": {},
+            "float": {"distribution": "normal", "mean": 35, "stddev": 10},
+            "incidence": 0.95,
         },
     ),
 
