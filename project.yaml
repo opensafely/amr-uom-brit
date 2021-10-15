@@ -54,24 +54,6 @@ actions:
       moderately_sensitive:
         cohort: output/starpuline.png
         boxplot: output/starpubox.png
-
-  describe_infection_event:
-    run: r:latest analysis/plot/infection_event_2575percentile.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        percentile1: output/uti_event_25th_75th_percentile.png
-        percentile2: output/lrti_event_25th_75th_percentile.png
-
-
-  describe_infection_ab:
-    run: r:latest analysis/plot/infection_ab_boxplot.R
-    needs: [generate_study_population]
-    outputs:
-       moderately_sensitive:
-        boxplot1: output/uti_prescribing_rate_box.png
-        boxplot2: output/lrti_prescribing_rate_box.png
-
   
   generate_notebook_starpu:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
@@ -83,3 +65,11 @@ actions:
         #tables: output/tables/*
         #csvs: output/*/* # two possible subfolders
         #text: output/text/*
+  
+  describe_infection_ab_UTI:
+    run: r:latest analysis/plot/infection_ab_UTI.R
+    needs: [generate_study_population, generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot: output/UTI.png
+    

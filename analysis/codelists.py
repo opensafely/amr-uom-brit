@@ -225,7 +225,7 @@ sepsis_codes= codelist_from_csv(
 
 
 ###  sinusits
-sinusits_codes= codelist_from_csv(
+sinusitis_codes= codelist_from_csv(
   "codelists/user-rriefu-sinusits.csv",
   system = "snomed",
   column = "code"
@@ -257,7 +257,7 @@ uti_codes = codelist_from_csv(
 ## all infections
 all_infection_codes = combine_codelists(asthma_copd_codes, asthma_codes, cold_codes, copd_codes, 
       cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, 
-      renal_codes, sepsis_codes, sinusits_codes, throat_codes, urti_codes, uti_codes )
+      renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes )
 
 
 ###  vaccination

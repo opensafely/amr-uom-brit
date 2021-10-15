@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, asthma_copd_codes, asthma_codes, cold_codes, copd_codes, cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -444,7 +444,7 @@ study = StudyDefinition(
     ),
 
 
-    ########## patient infection to group_by for measures  #############
+    ########## patient infection events to group_by for measures #############
     
     #  --UTI 
     ## count infection events 
@@ -466,12 +466,97 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
 
+    #  --URTI  
+    urti_counts=patients.with_these_clinical_events(
+        urti_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
+
+    #  --sinusitis 
+    sinusitis_counts=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ), 
+
+    #  --otitis externa
+    ot_externa_counts=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),    
+
+    #  --otitis media
+    otmedia_counts=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="number_of_matches_in_period",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),    
+
+   ########## infection P't numbers to group_by for measures #############
     
+    #  --UTI 
+    ## count patient number
+    uti_pt=patients.with_these_clinical_events(
+        uti_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
+    #  --LRTI 
+    lrti_pt=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
 
+    #  --URTI  
+    urti_pt=patients.with_these_clinical_events(
+        urti_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
 
+    #  --sinusitis 
+    sinusitis_pt=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ), 
 
+    #  --otitis externa
+    ot_externa_pt=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),    
 
-
+    #  --otitis media
+    otmedia_pt=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="binary_flag",
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ), 
 
     #### prescribing rate by 6 common infection type #####
     #### each infection has 4 columns for antibiotics 
@@ -649,20 +734,6 @@ measures = [
             group_by=["practice", "sex", "age_cat"]
             ),
 
-    ## UTI event rate 
-    Measure(id="UTI_event",
-            numerator="uti_counts",
-            denominator="population",
-            group_by=["practice"]
-    ),
-
-    ## LRTI event rate 
-    Measure(id="LRTI_event",
-            numerator="lrti_counts",
-            denominator="population",
-            group_by=["practice"]
-    ),
-
     ## hospitalisation 
     Measure(id="hosp_admission_any",
             numerator="admitted",
@@ -675,5 +746,89 @@ measures = [
             numerator="admitted",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
-            )
+            ),
+    
+    ## UTI event rate 
+    Measure(id="UTI_event",
+            numerator="uti_counts",
+            denominator="population",
+            group_by=["practice"]
+    ),
+
+    ## LRTI event rate 
+    #Measure(id="LRTI_event",
+    #        numerator="lrti_counts",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## URTI event rate 
+    #Measure(id="URTI_event",
+    #        numerator="urti_counts",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## sinusitis event rate 
+    #Measure(id="sinusitis_event",
+    #        numerator="sinusitis_counts",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## otitis externa event rate 
+    #Measure(id="ot_externa_event",
+    #        numerator="ot_externa_counts",
+    #        denominator="population",
+    #        group_by=["practice"]
+    # ),
+
+    ## otitis media event rate 
+    #Measure(id="otmedia_event",
+    #        numerator="otmedia_counts",
+    #        denominator="population",
+    #        group_by=["practice"]
+    # ),
+
+    ## UTI pt propotion 
+    Measure(id="UTI_patient",
+            numerator="uti_pt",
+            denominator="population",
+            group_by=["practice"]
+    ),
+
+    ## LTI pt propotion 
+    #Measure(id="LRTI_patient",
+    #        numerator="lrti_pt",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## URTI pt propotion 
+    #Measure(id="URTI_patient",
+    #        numerator="urti_pt",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## sinusitis pt propotion 
+    #Measure(id="sinusitis_patient",
+    #        numerator="sinusitis_pt",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## ot_externa pt propotion 
+    #Measure(id="ot_externa_patient",
+    #        numerator="ot_externa_pt",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
+
+    ## otmedia pt propotion 
+    #Measure(id="otmedia_patient",
+    #        numerator="otmedia_pt",
+    #        denominator="population",
+    #        group_by=["practice"]
+    #),
 ]
