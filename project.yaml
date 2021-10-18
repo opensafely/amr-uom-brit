@@ -73,21 +73,21 @@ actions:
         boxplot2: output/lrti_prescribing_rate_box.png
 
   
-  generate_notebook_starpu:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        notebook: output/starpu.html 
-        figures: output/*
+  #generate_notebook_starpu:
+  #  run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
+  #  needs: [generate_measures]
+  #  outputs:
+  #    moderately_sensitive:
+  #      notebook: output/hospitalisation_risk/starpu.html 
+  #      figures: output/hospitalisation_risk/*
         #tables: output/tables/*
         #csvs: output/*/* # two possible subfolders
         #text: output/text/*
 
   generate_notebook_hospitalisation_analysis:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_analysis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population]
+    needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        notebook: output/hospitalisation_analysis.html 
-        figures: output/*
+        notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
+        figures: output/hospitalisation_risk/*
