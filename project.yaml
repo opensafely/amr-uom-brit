@@ -78,8 +78,8 @@ actions:
     needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        notebook: output/starpu.html 
-        figures: output/*
+        notebook: output/hospitalisation_risk/starpu.html 
+        figures: output/hospitalisation_risk/*
         #tables: output/tables/*
         #csvs: output/*/* # two possible subfolders
         #text: output/text/*
