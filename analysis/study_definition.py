@@ -338,8 +338,8 @@ study = StudyDefinition(
         between=["first_day_of_month(index_date) - 12 months", "first_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.7,
         },
     ),
 
