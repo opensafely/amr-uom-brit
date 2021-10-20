@@ -335,7 +335,7 @@ study = StudyDefinition(
     ## all antibacterials 12m before
     antibacterial_12mb4=patients.with_these_medications(
         antibacterials_codes,
-        between=["last_day_of_month(index_date) - 12 months", "last_day_of_month(index_date)"],
+        between=["first_day_of_month(index_date) - 12 months", "first_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
@@ -729,7 +729,7 @@ measures = [
             ),
     
     ## antibiotic count rolling 12m before
-    Measure(id="antibacterial_12mb4",
+    Measure(id="ABs_12mb4",
             numerator="antibacterial_12mb4",
             denominator="population",
             group_by=["practice", "patient_id"]
