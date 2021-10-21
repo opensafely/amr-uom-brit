@@ -219,7 +219,7 @@ study = StudyDefinition(
         find_last_match_in_period=True,
         include_date_of_match=False,
         return_expectations={
-            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+        #    "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
             "incidence": 0.75,
         },
     ),
@@ -407,9 +407,9 @@ study = StudyDefinition(
 
     ## hospitalisation
     admitted=patients.admitted_to_hospital(
-        returning="binary_flag",
-        #returning="date",
-        #date_format="YYYY-MM-DD",
+        #returning="binary_flag",
+        returning="date_admitted",
+        date_format="YYYY-MM-DD",
         between=["index_date", "today"],
         return_expectations={"incidence": 0.1},
     ),
@@ -438,8 +438,7 @@ study = StudyDefinition(
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest" : "index_date"},
-            "rate" : "exponential_increase"
+            "date": {"earliest" : "index_date"},  "rate" : "exponential_increase"
         },
     ),
 
