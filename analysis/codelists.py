@@ -271,3 +271,10 @@ carehome_primis_codes = codelist_from_csv(
   system = "snomed",
   column = "code",
 )
+
+## Hospitalisation
+#any_lrti_urti_uti_hospitalisation_codes = combine_codelists(
+#    lrti_codes,
+#    urti_codes,
+#    uti_codes,
+#    )

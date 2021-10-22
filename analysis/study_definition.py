@@ -20,7 +20,7 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
+from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
 
 # DEFINE STUDY POPULATION ---
 
@@ -219,7 +219,7 @@ study = StudyDefinition(
         find_last_match_in_period=True,
         include_date_of_match=False,
         return_expectations={
-        #    "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
             "incidence": 0.75,
         },
     ),
@@ -332,6 +332,17 @@ study = StudyDefinition(
         },
     ),
 
+    antibacterial_prescriptions_date=patients.with_these_medications(
+        antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
     ## Broad spectrum antibiotics
     broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
         broad_spectrum_antibiotics_codes,
@@ -407,12 +418,21 @@ study = StudyDefinition(
 
     ## hospitalisation
     admitted=patients.admitted_to_hospital(
-        #returning="binary_flag",
-        returning="date_admitted",
-        date_format="YYYY-MM-DD",
+        returning="binary_flag",
+        #returning="date_admitted",
+        #date_format="YYYY-MM-DD",
         between=["index_date", "today"],
         return_expectations={"incidence": 0.1},
     ),
+
+    ## hospitalisation with diagnosis of lrti, urti, or uti
+    #admitted_date=patients.admitted_to_hospital(
+    #    with_these_diagnoses=any_lrti_urti_uti_hospitalisation_codes,
+    #    returning="date_admitted",
+    #    date_format="YYYY-MM-DD",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.3},
+    #),
     
     ## hospitalised because of covid diagnosis
     #hospital_covid=patients.admitted_to_hospital(
