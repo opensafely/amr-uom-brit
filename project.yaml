@@ -90,4 +90,4 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
-        antibacterial_prescirption: output/antibacterial_prescirption.png
+        figures: output/hospitalisation_risk/*
