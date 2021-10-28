@@ -564,7 +564,7 @@ study = StudyDefinition(
     incdt_uti_pt=patients.with_these_clinical_events(
         uti_codes,
         returning="binary_flag",
-        between=["index_date", "index_date- 42 days"],
+        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
@@ -572,7 +572,7 @@ study = StudyDefinition(
     incdt_lrti_pt=patients.with_these_clinical_events(
         lrti_codes,
         returning="binary_flag",
-        between=["index_date", "index_date- 42 days"],
+        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
@@ -581,7 +581,7 @@ study = StudyDefinition(
     incdt_urti_pt=patients.with_these_clinical_events(
         urti_codes,
         returning="binary_flag",
-        between=["index_date", "index_date- 42 days"],
+        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
@@ -590,7 +590,7 @@ study = StudyDefinition(
     incdt_sinusitis_pt=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        between=["index_date", "index_date- 42 days"],
+        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
@@ -599,7 +599,7 @@ study = StudyDefinition(
     incdt_ot_externa_pt=patients.with_these_clinical_events(
         ot_externa_codes,
         returning="binary_flag",
-        between=["index_date", "index_date- 42 days"],
+        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),    
@@ -608,7 +608,7 @@ study = StudyDefinition(
     incdt_otmedia_pt=patients.with_these_clinical_events(
         otmedia_codes,
         returning="binary_flag",
-        between=["index_date","index_date- 42 days"],
+        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
@@ -837,7 +837,6 @@ study = StudyDefinition(
         ),
 
 # ---- sinusitis
-## find patient's infection date 
     sinusitis_date_1=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
@@ -847,7 +846,6 @@ study = StudyDefinition(
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
         ),
 
-## numbers of antibiotic prescribed for this infection 
     sinusitis_ab_count_1 = patients.with_these_medications(
         antibacterials_codes,
         between=['sinusitis_date_1','sinusitis_date_1'],
@@ -918,8 +916,6 @@ study = StudyDefinition(
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
         ),
 
-
-    ## numbers of antibiotic prescribed for this infection 
     otmedia_ab_count_1 = patients.with_these_medications(
         antibacterials_codes,
         between=['otmedia_date_1','otmedia_date_1'],
