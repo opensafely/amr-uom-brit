@@ -6,7 +6,6 @@
       "downloaded_at": "2021-09-17 13:38:25.538531Z",
       "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
     },
-
     "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
@@ -72,8 +71,7 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/covrx/65aef8fb/",
       "downloaded_at": "2021-09-30 14:35:47.095882Z",
       "sha": "a742a5d534eeea2cb222b15e885487d5218f7d0b"
-
-    }, 
+    },
     "user-rriefu-asthma_copd.csv": {
       "id": "user/rriefu/asthma_copd/24430cba",
       "url": "https://codelists.opensafely.org/codelist/user/rriefu/asthma_copd/24430cba/",
@@ -181,6 +179,18 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/longres/v1/",
       "downloaded_at": "2021-06-11 12:31:13.723622Z",
       "sha": "4d4c94b9c6aa267c6a60657150bbc5ec7d2d7625"
+    },
+    "user-rriefu-antibiotics_dmd.csv": {
+      "id": "user/rriefu/antibiotics_dmd/0ea3a40d",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/0ea3a40d/",
+      "downloaded_at": "2021-11-02 12:56:17.780181Z",
+      "sha": "3de7dc9b7761cd87f763d0d460d9c4b5148523aa"
+    },
+    "user-rriefu-broad-spectrum-antibiotics.csv": {
+      "id": "user/rriefu/broad-spectrum-antibiotics/40c28a77",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/broad-spectrum-antibiotics/40c28a77/",
+      "downloaded_at": "2021-11-02 12:56:17.934969Z",
+      "sha": "9234261b5c10ab94fab0e66a283c147c9d8e40ae"
     }
   }
 }
