@@ -565,8 +565,8 @@ study = StudyDefinition(
         uti_codes,
         returning="binary_flag",
         between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
     #  --LRTI 
     incdt_lrti_pt=patients.with_these_clinical_events(
@@ -582,8 +582,8 @@ study = StudyDefinition(
         urti_codes,
         returning="binary_flag",
         between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
 
     #  --sinusitis 
@@ -1181,4 +1181,11 @@ measures = [
     #        denominator="population",
     #        group_by=["practice"]
     #),
+    
+    ## incident consultation: UTI
+    Measure(id="UTI consultation rate",
+            numerator="uti_counts",
+            denominator="population",
+            group_by=["practice", "incdt_uti_pt", "age_cat"]
+    ),
 ]
