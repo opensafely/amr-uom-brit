@@ -321,9 +321,20 @@ study = StudyDefinition(
     ),
 
     ### Antibiotics from opensafely antimicrobial-stewardship repo
-    ## all antibacterials
+    ## all antibacterials 
     antibacterial_prescriptions=patients.with_these_medications(
         antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    ## all antibacterials from BRIT (dmd codes)
+    antibacterial_brit=patients.with_these_medications(
+        antibacterials_codes_brit,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -714,16 +725,16 @@ measures = [
     Measure(id="antibiotics_overall",
             numerator="antibacterial_prescriptions",
             denominator="population",
-            group_by=["practice", "sex"]
+            group_by=["practice"]
             ),
     
 
     ## Broad spectrum antibiotics
-    #Measure(id="broad_spectrum_proportion",
-    #        numerator="broad_spectrum_antibiotics_prescriptions",
-    #        denominator="antibacterial_prescriptions",
-    #        group_by=["practice"]
-    #),
+    Measure(id="broad_spectrum_proportion",
+            numerator="broad_spectrum_antibiotics_prescriptions",
+            denominator="antibacterial_prescriptions",
+            group_by=["practice"]
+    ),
 
 
     
