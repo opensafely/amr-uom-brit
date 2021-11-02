@@ -28,3 +28,5 @@ user/rriefu/urti/6f716659
 user/rriefu/uti/5661f324
 user/rriefu/vaccination/26f5ccb0
 primis-covid19-vacc-uptake/longres/v1
+user/rriefu/antibiotics_dmd/0ea3a40d
+user/rriefu/broad-spectrum-antibiotics/40c28a77
