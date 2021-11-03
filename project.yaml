@@ -72,4 +72,5 @@ actions:
     outputs:
        moderately_sensitive:
         plot: output/UTI.png
+        csvs: uti_prescrib_check.csv
     

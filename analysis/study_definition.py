@@ -1060,43 +1060,43 @@ study = StudyDefinition(
 # --- DEFINE MEASURES ---
 
 measures = [
-    ## antibiotic rx rate
-    Measure(id="antibiotics_overall",
-            numerator="antibacterial_prescriptions",
-            denominator="population",
-            group_by=["practice", "sex"]
-            ),
+    # ## antibiotic rx rate
+    # Measure(id="antibiotics_overall",
+    #         numerator="antibacterial_prescriptions",
+    #         denominator="population",
+    #         group_by=["practice", "sex"]
+    #         ),
     
 
-    ## Broad spectrum antibiotics
-    #Measure(id="broad_spectrum_proportion",
-    #        numerator="broad_spectrum_antibiotics_prescriptions",
-    #        denominator="antibacterial_prescriptions",
-    #        group_by=["practice"]
-    #),
+    # ## Broad spectrum antibiotics
+    # #Measure(id="broad_spectrum_proportion",
+    # #        numerator="broad_spectrum_antibiotics_prescriptions",
+    # #        denominator="antibacterial_prescriptions",
+    # #        group_by=["practice"]
+    # #),
 
 
     
-    ## STRPU antibiotics
-    Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_prescriptions",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+    # ## STRPU antibiotics
+    # Measure(id="STARPU_antibiotics",
+    #         numerator="antibacterial_prescriptions",
+    #         denominator="population",
+    #         group_by=["practice", "sex", "age_cat"]
+    #         ),
 
-    ## hospitalisation 
-    Measure(id="hosp_admission_any",
-            numerator="admitted",
-            denominator="population",
-            group_by=["practice"]
-            ),
+    # ## hospitalisation 
+    # Measure(id="hosp_admission_any",
+    #         numerator="admitted",
+    #         denominator="population",
+    #         group_by=["practice"]
+    #         ),
 
-    ## hospitalisation STARPU
-    Measure(id="hosp_admission_STARPU",
-            numerator="admitted",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+    # ## hospitalisation STARPU
+    # Measure(id="hosp_admission_STARPU",
+    #         numerator="admitted",
+    #         denominator="population",
+    #         group_by=["practice", "sex", "age_cat"]
+    #         ),
     
     ## UTI event rate 
     Measure(id="UTI_event",
@@ -1105,40 +1105,40 @@ measures = [
             group_by=["practice"]
     ),
 
-    ## LRTI event rate 
-    #Measure(id="LRTI_event",
-    #        numerator="lrti_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+    # ## LRTI event rate 
+    # #Measure(id="LRTI_event",
+    # #        numerator="lrti_counts",
+    # #        denominator="population",
+    # #        group_by=["practice"]
+    # #),
 
-    ## URTI event rate 
-    #Measure(id="URTI_event",
-    #        numerator="urti_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+    # ## URTI event rate 
+    # #Measure(id="URTI_event",
+    # #        numerator="urti_counts",
+    # #        denominator="population",
+    # #        group_by=["practice"]
+    # #),
 
-    ## sinusitis event rate 
-    #Measure(id="sinusitis_event",
-    #        numerator="sinusitis_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+    # ## sinusitis event rate 
+    # #Measure(id="sinusitis_event",
+    # #        numerator="sinusitis_counts",
+    # #        denominator="population",
+    # #        group_by=["practice"]
+    # #),
 
-    ## otitis externa event rate 
-    #Measure(id="ot_externa_event",
-    #        numerator="ot_externa_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    # ),
+    # ## otitis externa event rate 
+    # #Measure(id="ot_externa_event",
+    # #        numerator="ot_externa_counts",
+    # #        denominator="population",
+    # #        group_by=["practice"]
+    # # ),
 
-    ## otitis media event rate 
-    #Measure(id="otmedia_event",
-    #        numerator="otmedia_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    # ),
+    # ## otitis media event rate 
+    # #Measure(id="otmedia_event",
+    # #        numerator="otmedia_counts",
+    # #        denominator="population",
+    # #        group_by=["practice"]
+    # # ),
 
     ## UTI pt propotion 
     Measure(id="UTI_patient",
@@ -1188,4 +1188,6 @@ measures = [
             denominator="population",
             group_by=["practice", "incdt_uti_pt", "age_cat"]
     ),
+
+
 ]

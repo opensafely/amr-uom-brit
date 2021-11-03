@@ -53,11 +53,36 @@ df_input <- rbindlist(temp)
 rm(temp,csvFiles,i)# remove temopary list
 ############ loop reaaing multiple CSV files ################
 
+
+
+
+######### check table ##########
+## 4 times of records /total uti consultation counts - per patient per month
+## coverage rate
+df_check=df_input[,1:6]
+df_check$count4times=4-rowSums(is.na(df_check))
+df_check$date=format(as.Date(df_check$uti_date_1), "%Y-%m")
+
+df_check_gp=df_check%>%
+  group_by(practice,date)%>%
+  summarise(total_consultations=sum(uti_counts),
+            include_consultations=sum(count4times))
+df_check_gp$coverage=df_check_gp$include_consultations/df_check_gp$total_consultations
+
+write.csv(df_check_gp,here::here("output", "uti_prescrib_check.csv")
+
+######### check table ##########
+
+
+
+
+
+
 # sum up total number of uti antibiotics within each patient in one month & extract year-month for grouping data
-df_input=df_input%>%
-  mutate(
-  ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4) %>%
-  mutate(date=format(as.Date(uti_date_1) , "%Y-%m"))
+df_input=
+  df_input%>%
+  mutate(ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4,
+    date=format(as.Date(uti_date_1), "%Y-%m"))
 
 # remove date=NA (no antibiotics prescribed date)
 df_input= df_input %>% filter(!is.na(df_input$date))
