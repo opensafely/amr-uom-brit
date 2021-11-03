@@ -69,7 +69,7 @@ df_check_gp=df_check%>%
             include_consultations=sum(count4times))
 df_check_gp$coverage=df_check_gp$include_consultations/df_check_gp$total_consultations
 
-write.csv(df_check_gp,here::here("output", "uti_prescrib_check.csv")
+write.csv(df_check_gp,here::here("output", "uti_prescrib_check.csv"))
 
 ######### check table ##########
 
@@ -79,8 +79,8 @@ write.csv(df_check_gp,here::here("output", "uti_prescrib_check.csv")
 
 
 # sum up total number of uti antibiotics within each patient in one month & extract year-month for grouping data
-df_input=
-  df_input%>%
+df_input =
+  df_input %>% 
   mutate(ab_counts_all= uti_ab_count_1 + uti_ab_count_2 + uti_ab_count_3 + uti_ab_count_4,
     date=format(as.Date(uti_date_1), "%Y-%m"))
 
