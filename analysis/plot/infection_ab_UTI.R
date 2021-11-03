@@ -179,6 +179,8 @@ plot_ab <- ggplot(df_sum, aes(x = date, y =m.ab, group=1))+  # one-line
     caption = "black line: mean, grey line:median, grey area:Q1-Q3",
     x = "",
     y = "prescribing rate")+
+  geom_vline(xintercept = "2019-12", linetype=4)+
+  geom_vline(xintercept = "2020-12", linetype=4)+
   scale_x_discrete(labels = NULL) 
 
 
@@ -195,7 +197,9 @@ plot_infection <- ggplot(df_sum2, aes(x = date, y =inf))+
   labs(
     caption = "dark grey:patient rate, light grey:consultation rate",
     x = "Time", 
-    y = "infection rate")
+    y = "infection rate")+
+  geom_vline(xintercept = "2019-12", linetype=4)+
+  geom_vline(xintercept = "2020-12", linetype=4)
 
 
 ### 3.3 combine two charts
