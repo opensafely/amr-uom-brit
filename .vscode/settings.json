@@ -11,5 +11,5 @@
     "window.autoDetectColorScheme": true,
     "extensions.ignoreRecommendations": true,
     "data.preview.theme": "light",
-    "jupyter.notebookFileRoot": "${workspaceFolder}"
+    "jupyter.notebookFileRoot": "${fileDirname}"
 }
