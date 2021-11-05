@@ -79,4 +79,5 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        plot: output/incident_consultation_rate.png
+        bar: output/incident_consultation_rate.png
+        line: output/incident_consultation_rate_line.png

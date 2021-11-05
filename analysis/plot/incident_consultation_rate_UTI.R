@@ -65,19 +65,40 @@ df_plot=df_sum_gp_age%>%
 
 
 
+# stacked bar chart
 stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
     x = "Time", 
     y = "consultation rate per 1,000 registered patients")+
-  scale_y_continuous(labels = scales::percent) +
-  scale_fill_brewer(palette = "Paired")
+  scale_fill_brewer(palette = "Paired")+
+  geom_vline(xintercept = "2019-12", linetype=4)+
+  geom_vline(xintercept = "2020-12", linetype=4)
+
 
 
 ggsave(
   plot= stackedbar,
-  filename="incident_consultation_rate.png", path=here::here("output")
+  filename="incident_consultation_rate.png", path=here::here("output"),
 )
 
-  
+
+# line 
+
+lineplot<- ggplot(df_plot, aes(x=cal_YM, y=rate, colour=age_cat,group=1))+
+  geom_line()+
+  geom_point()+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  labs(
+    x = "Time", 
+    y = "consultation rate per 1,000 registered patients")+
+  geom_vline(xintercept = "2019-12", linetype=4)+
+  geom_vline(xintercept = "2020-12", linetype=4)
+
+
+
+ggsave(
+  plot= lineplot,
+  filename="incident_consultation_rate_line.png", path=here::here("output"),
+)
