@@ -1064,7 +1064,7 @@ measures = [
     # Measure(id="antibiotics_overall",
     #         numerator="antibacterial_prescriptions",
     #         denominator="population",
-    #         group_by=["practice", "sex"]
+    #         group_by=["practice"]
     #         ),
     
 
