@@ -45,7 +45,7 @@ df$antibacterial_12mb4[is.na(df$antibacterial_12mb4)] <- 0
 df_gp <- df %>% group_by(practice, cal_mon, cal_year) %>%
   mutate(ab_cat = case_when(antibacterial_12mb4 >0 & antibacterial_12mb4 <4 ~ 2,
                             antibacterial_12mb4 >3 & antibacterial_12mb4 <7 ~ 3,
-                            antibacterial_12mb4 >7 ~ 4,
+                            antibacterial_12mb4 >=7 ~ 4,
                             antibacterial_12mb4 == 0 ~1)) 
 df_gp$ab_cat <- as.factor(df_gp$ab_cat)
 
