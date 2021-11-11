@@ -55,17 +55,6 @@ actions:
         cohort: output/starpuline.png
         boxplot: output/starpubox.png
   
-  generate_notebook_starpu:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        notebook: output/starpu.html 
-        figures: output/*
-        #tables: output/tables/*
-        #csvs: output/*/* # two possible subfolders
-        #text: output/text/*
-  
   describe_infection_ab_UTI:
     run: r:latest analysis/plot/infection_ab_UTI.R
     needs: [generate_study_population, generate_measures]
