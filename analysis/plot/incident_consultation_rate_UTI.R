@@ -33,6 +33,10 @@ df <- read_csv(
   na = character()
 )
 
+# 1.1 unifrom col name
+
+df=df%>% rename(infection_counts=uti_counts, incdt_pt=incdt_uti_pt)
+
 ### 2. summarise table
 
 df$cal_YM=format(as.Date(df$date) , "%Y-%m")# group_by calendar Year-Month
@@ -40,7 +44,7 @@ df$cal_YM=format(as.Date(df$date) , "%Y-%m")# group_by calendar Year-Month
 df[is.na(df)] <- 0 # replace NA ->0
 
 # select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
-df$incdt_counts=ifelse(df$incdt_uti_pt==0,df$uti_counts,0)
+df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -66,6 +70,8 @@ df_plot=df_sum_gp_age%>%
 
 
 # stacked bar chart
+df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
 stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
@@ -73,8 +79,9 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
     x = "Time", 
     y = "consultation rate per 1,000 registered patients")+
   scale_fill_brewer(palette = "Paired")+
-  geom_vline(xintercept = "2019-12", linetype=4)+
-  geom_vline(xintercept = "2020-12", linetype=4)
+  geom_vline(xintercept = "2020-03", linetype=4)+
+  geom_vline(xintercept = "2020-11", linetype=4)+
+  geom_vline(xintercept = "2021-01", linetype=4)
 
 
 
@@ -83,22 +90,3 @@ ggsave(
   filename="incident_consultation_rate.png", path=here::here("output"),
 )
 
-
-# line 
-
-lineplot<- ggplot(df_plot, aes(x=cal_YM, y=rate, colour=age_cat,group=1))+
-  geom_line()+
-  geom_point()+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  labs(
-    x = "Time", 
-    y = "consultation rate per 1,000 registered patients")+
-  geom_vline(xintercept = "2019-12", linetype=4)+
-  geom_vline(xintercept = "2020-12", linetype=4)
-
-
-
-ggsave(
-  plot= lineplot,
-  filename="incident_consultation_rate_line.png", path=here::here("output"),
-)
