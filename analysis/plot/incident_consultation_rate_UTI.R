@@ -73,20 +73,22 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
+  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
+  geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
+  geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
+    title = "UTI",
     x = "Time", 
     y = "consultation rate per 1,000 registered patients")+
-  scale_fill_brewer(palette = "Paired")+
-  geom_vline(xintercept = "2020-03", linetype=4)+
-  geom_vline(xintercept = "2020-11", linetype=4)+
-  geom_vline(xintercept = "2021-01", linetype=4)
+  scale_fill_brewer(palette = "RdYlBu")
 
 
 
 ggsave(
   plot= stackedbar,
-  filename="incident_consultation_rate.png", path=here::here("output"),
+  filename="UTI.png", path=here::here("output","plot_consultation"),
 )
 

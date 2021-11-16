@@ -79,4 +79,4 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        bar: output/incident_consultation_rate.png
+        bar: output/plot_consultation/UTI.png
