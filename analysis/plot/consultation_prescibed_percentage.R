@@ -32,6 +32,7 @@ for (i in seq_along(csvFiles))
                           uti_ab_flag_3  = col_double(),
                           uti_ab_flag_4  = col_double(),
                           uti_counts  = col_double(),
+                          incdt_uti_pt  = col_double(),
                           
                           
                           # Date
@@ -51,6 +52,9 @@ rm(temp,csvFiles,i)
 
 # select valid practice number
 df_input <- df_input %>% filter(practice >0)
+# select incident case
+df_input <- df_input %>% filter(incdt_uti_pt==0)
+
 
 # sum up total number of uti antibiotics within each patient in one month & extract year-month for group data
 df_input=
@@ -61,8 +65,6 @@ df_input=
 # remove date=NA (no antibiotics prescribed date)
 df_input <- df_input %>% filter(!is.na(df_input$date))
 
-# select incident case
-df_input <- df_input %>% filter(incdt_uti_pt==0)
 
 
 ######### check table ##########
