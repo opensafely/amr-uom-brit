@@ -75,7 +75,7 @@ actions:
         csvs: output/uti_prescrib_check.csv
 
   describe_incdt_consult_UTI:
-    run: r:latest analysis/plot/incident_consultation_rate_UTI.R
+    run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
