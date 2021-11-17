@@ -79,4 +79,9 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        bar: output/plot_consultation/UTI.png
+        bar1: output/plot_consultation/UTI.png
+        bar2: output/plot_consultation/LRTI.png
+        bar3: output/plot_consultation/URTI.png
+        bar4: output/plot_consultation/sinusitis.png
+        bar5: output/plot_consultation/ot_externa.png
+        bar6: output/plot_consultation/otmedia.png

@@ -444,7 +444,7 @@ study = StudyDefinition(
     ),
 
 
-    ########## unmber of infection cousultations #############
+    ########## number of infection cousultations #############
     
     #  --UTI 
     ## count infection events 
@@ -1183,11 +1183,42 @@ measures = [
     #),
     
     ## incident consultation: UTI
-    Measure(id="UTI consultation rate",
+    Measure(id="consult_UTI",
             numerator="uti_counts",
             denominator="population",
             group_by=["practice", "incdt_uti_pt", "age_cat"]
     ),
+    ## incident consultation: LRTI
+    Measure(id="consult_LRTI",
+            numerator="lrti_counts",
+            denominator="population",
+            group_by=["practice", "incdt_lrti_pt", "age_cat"]
+    ),
+    ## incident consultation: URTI
+    Measure(id="consult_URTI",
+            numerator="urti_counts",
+            denominator="population",
+            group_by=["practice", "incdt_urti_pt", "age_cat"]
+    ),
+    ## incident consultation: sinusitis
+    Measure(id="consult_sinusitis",
+            numerator="sinusitis_counts",
+            denominator="population",
+            group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
+    ),
+    ## incident consultation: ot_externa
+    Measure(id="consult_ot_externa",
+            numerator="ot_externa_counts",
+            denominator="population",
+            group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
+    ),
+    ## incident consultation: otmedia
+    Measure(id="consult_otmedia",
+            numerator="otmedia_counts",
+            denominator="population",
+            group_by=["practice", "incdt_otmedia_pt", "age_cat"]
+    ),
 
+   
 
 ]
