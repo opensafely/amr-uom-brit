@@ -559,7 +559,7 @@ study = StudyDefinition(
     ), 
 
 ########## identify incidenct case (without same infection in prior 6 weeks)#############
-    
+## incdt=0 incident case  
     #  --UTI 
     incdt_uti_pt=patients.with_these_clinical_events(
         uti_codes,

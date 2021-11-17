@@ -74,14 +74,15 @@ actions:
         plot: output/UTI.png
         csvs: output/uti_prescrib_check.csv
 
-  describe_incdt_consult_UTI:
+  describe_consultation_rate:
     run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        bar1: output/plot_consultation/UTI.png
-        bar2: output/plot_consultation/LRTI.png
-        bar3: output/plot_consultation/URTI.png
-        bar4: output/plot_consultation/sinusitis.png
-        bar5: output/plot_consultation/ot_externa.png
-        bar6: output/plot_consultation/otmedia.png
+        bar1: output/consult_age_stackedbar_UTI.png
+        bar2: output/consult_age_stackedbar_LRTI.png
+        bar3: output/consult_age_stackedbar_URTI.png
+        bar4: output/consult_age_stackedbar_sinusitis.png
+        bar5: output/consult_age_stackedbar_ot_externa.png
+        bar6: output/consult_age_stackedbar_otmedia.png
+        bar7: output/consult_age_stackedbar_repeatedUTI.png
