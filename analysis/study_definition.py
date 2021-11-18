@@ -454,7 +454,6 @@ study = StudyDefinition(
         },
     ),
 
-
     ########## patient infection events to group_by for measures #############
     
     #  --UTI 
@@ -708,6 +707,145 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
+
+    
+    ######### comorbidities
+
+    cancer_comor=patients.with_these_clinical_events(
+        charlson01_cancer,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    cardiovascular_comor=patients.with_these_clinical_events(
+        charlson02_cvd,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    #chronic_obstructive_pulmonary_comor=patients.with_these_clinical_events(
+    #    charlson03_copd,
+    #    between=[start_date, "index_date"],
+    #    returning="binary_flag",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    #),
+
+    #heart_failure_comor=patients.with_these_clinical_events(
+    #    charlson04_heart_failure,
+    #    between=[start_date, "index_date"],
+    #    returning="binary_flag",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    #),
+
+    connective_tissue_comor=patients.with_these_clinical_events(
+        charlson05_connective_tissue,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    dementia_comor=patients.with_these_clinical_events(
+        charlson06_dementia,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    diabetes_comor=patients.with_these_clinical_events(
+        charlson07_diabetes,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    diabetes_complications_comor=patients.with_these_clinical_events(
+        charlson08_diabetes_with_complications,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    hemiplegia_comor=patients.with_these_clinical_events(
+        charlson09_hemiplegiad,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    hiv_comor=patients.with_these_clinical_events(
+        charlson10_hiv,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    metastatic_cancer_comor=patients.with_these_clinical_events(
+        charlson11_metastatic_cancer,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    mild_liver_comor=patients.with_these_clinical_events(
+        charlson12_mild_liver,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    mod_severe_liver_comor=patients.with_these_clinical_events(
+        charlson13_mod_severe_liver,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    mod_severe_renal_comor=patients.with_these_clinical_events(
+        charlson14_moderate_several_renaldiseae,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    mi_comor=patients.with_these_clinical_events(
+        charlson15_mi,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    peptic_ulcer_comor=patients.with_these_clinical_events(
+        charlson16_peptic_ulcer,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    peripheral_vascular_comor=patients.with_these_clinical_events(
+        charlson17_peripheral_vascular,
+        between=[start_date, "index_date"],
+        returning="binary_flag",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
 
 
 
