@@ -1,0 +1,188 @@
+code,term
+1055001,Stenosis of precerebral artery
+111298007,Chronic cerebral ischemia
+1386000,Intracranial hemorrhage
+138755007,H/O: cerebrovascular disease
+15258001,Subclavian steal syndrome
+155395002,Precerebral arterial occlusion
+155396001,Basilar artery occlusion
+155397005,Carotid artery occlusion
+155398000,Vertebral artery occlusion
+155399008,Precerebral artery occlusion NOS
+155400001,Cerebral arterial occlusion
+155401002,Cerebral thrombosis
+155402009,Cerebral embolus
+155404005,(Transient ischaemic attacks) or (vertebro-basilar insufficiency) or (drop attacks)
+155406007,Other cerebrovascular disease
+155410005,Other cerebrovascular disease NOS
+155411009,Late effects of cerebrovascular disease
+155412002,Cerebrovascular disease NOS
+158205008,[D]Transient paralysis of a limb
+158207000,[D]Transient limb paralysis NOS
+161484004,H/O: cerebrovascular disease
+186893003,Rupture of syphilitic cerebral aneurysm
+191505005,"Acute confusional state, of cerebrovascular origin"
+191512001,"Subacute confusional state, of cerebrovascular origin"
+192813004,Cerebral degeneration due to cerebrovascular disease
+193377008,Retinal transient arterial occlusion NOS
+193644003,Other transient visual loss
+195153006,Subarachnoid haemorrhage
+195154000,Ruptured berry aneurysm
+195155004,Subarachnoid hemorrhage from carotid siphon and bifurcation
+195160000,Intracranial subarachnoid hemorrhage from vertebral artery
+195162008,Subarachnoid hemorrhage NOS
+195165005,Basal ganglia hemorrhage
+195166006,Bulbar hemorrhage
+195167002,External capsule hemorrhage
+195168007,Intracerebral hemorrhage with intraventricular hemorrhage
+195169004,"Intracerebral hemorrhage, multiple localized"
+195173001,Intracerebral hemorrhage NOS
+195175008,Extradural hemorrhage - nontraumatic
+195176009,Non-traumatic intracranial subdural hemorrhage
+195180004,Basilar artery occlusion
+195182007,Vertebral artery occlusion
+195183002,Multiple and bilateral precerebral arterial occlusion
+195184008,Other precerebral artery occlusion
+195185009,Cerebral infarct due to thrombosis of precerebral arteries
+195186005,Cerebral infarction due to embolism of precerebral arteries
+195187001,Precerebral artery occlusion NOS
+195188006,Cerebral arterial occlusion(&[cerebrovascular accident due to] or [stroke due to]) or (cerebral infarction)
+195189003,Cerebral infarction due to thrombosis of cerebral arteries
+195190007,Cerebral infarction due to embolism of cerebral arteries
+195191006,Infarction (& [cerebellar] or [cerebral NOS] or [brainstem NOS])
+195192004,Brainstem infarction
+195193009,Wallenberg syndrome
+195194003,Left sided cerebral infarction
+195195002,Right sided cerebral infarction
+195196001,(Drop attack) or (transient cerebral ischaemia) or (vertebro-basilar insufficiency)
+195197005,Basilar artery syndrome
+195198000,Vertebral artery syndrome
+195199008,Vertebrobasilar artery syndrome
+195200006,Carotid artery syndrome hemispheric
+195201005,Multiple and bilateral precerebral artery syndromes
+195202003,Transient global amnesia
+195204002,Transient cerebral ischemia NOS
+195205001,Impending cerebral ischemia
+195206000,Intermittent cerebral ischemia
+195207009,Transient cerebral ischaemia NOS
+195208004,CVA - cerebrovascular accident (& unspecified [& stroke])
+195209007,Middle cerebral artery syndrome
+195210002,Anterior cerebral artery syndrome
+195211003,Posterior cerebral artery syndrome
+195212005,Brainstem stroke syndrome
+195213000,Cerebellar stroke syndrome
+195216008,Left sided cerebral hemisphere cerebrovascular accident
+195217004,Right sided cerebral hemisphere cerebrovascular accident
+195219001,Other cerebrovascular disease
+195222004,Acute cerebrovascular insufficiency NOS
+195226001,"Dissection of cerebral arteries, nonruptured"
+195228000,Cerebral amyloid angiopathy
+195229008,Non-pyogenic venous sinus thrombosis
+195230003,"Cerebral infarction due to cerebral venous thrombosis, non-pyogenic"
+195231004,"Occlusion and stenosis of cerebral arteries, not resulting in cerebral infarction"
+195232006,Occlusion and stenosis of middle cerebral artery
+195233001,Occlusion and stenosis of anterior cerebral artery
+195234007,Occlusion and stenosis of posterior cerebral artery
+195235008,Occlusion and stenosis of cerebellar arteries
+195236009,Occlusion and stenosis of multiple and bilateral cerebral arteries
+195237000,Other cerebrovascular disease OS
+195238005,Other cerebrovascular disease NOS
+195239002,Late effects of cerebrovascular disease
+195240000,Sequelae of subarachnoid hemorrhage
+195241001,Sequelae of intracerebral hemorrhage
+195243003,Sequelae of cerebral infarction
+195248007,Other specified cerebrovascular disease
+195249004,Cerebrovascular disease NOS
+195595007,Cerebrovascular disease
+195597004,[X]Other subarachnoid hemorrhage
+195600003,[X]Other cerebral infarction
+200329005,Puerperal cerebrovascular disorder unspecified
+200330000,Puerperal cerebrovascular disorder - delivered
+200332008,Puerperal cerebrovascular disorder with antenatal complication
+20059004,Occlusion of cerebral artery
+206829008,[D]Transient paralysis of a limb
+206830003,[D]Transient monoplegia NOS
+206831004,[D]Transient limb paralysis NOS
+21454007,Subarachnoid intracranial hemorrhage
+230690007,Cerebrovascular accident
+230691006,Cerebrovascular accident due to occlusion of cerebral artery
+230692004,Infarction - precerebral
+230697005,Brainstem infarction NOS
+230699008,Pure motor lacunar infarction
+230700009,Pure sensory lacunar infarction
+230710000,Lobar cerebral hemorrhage
+230716006,Carotid territory transient ischemic attack
+230724001,Cerebral amyloid angiopathy
+230729006,Carotid artery dissection
+230730001,Dissection of vertebral artery
+230736007,Transient global amnesia
+233963002,Stenosis of precerebral arteries
+266253001,Precerebral arterial occlusion
+266254007,Occlusion of carotid artery
+266255008,Cerebral arterial occlusion
+266256009,Cerebral infarction NOS
+266257000,Transient ischemic attack
+266258005,Cerebral atherosclerosis
+266995000,History of cardiovascular disease
+270883006,Stroke and cerebrovascular accident unspecified
+271371007,Cerebrovascular disorders in the puerperium
+274100004,Cerebral hemorrhage
+274662006,Transient limb paralysis
+275434003,Stroke in the puerperium
+275526006,History of cerebrovascular accident
+276284000,Subarachnoid hemorrhage from basilar artery aneurysm
+28366008,Cerebral arteritis
+29322000,Acute cerebrovascular insufficiency
+302213007,Caroticocavernous sinus fistula
+302909007,Diffuse cerebrovascular disease
+307756005,"Cerebral palsy, not congenital or infantile, acute"
+307766002,Left sided cerebral infarction
+307767006,Right sided cerebral infarction
+308064009,History of cerebrovascular disease
+308128006,"Right sided intracerebral hemorrhage, unspecified"
+315757009,[V]Personal history of circulatory system disease
+34781003,Vertebral artery syndrome
+35486000,Subdural intracranial hemorrhage
+363302008,Sequelae of neurological disorders
+366963000,Transient global amnesia
+367187006,Transient global amnesia
+36994005,Transient visual loss
+390936003,Cerebral autosomal dominant arteriopathy with subcortical infarcts and leukoencephalopathy
+394517009,Vertebrobasilar insufficiency
+397809001,Nontraumatic extradural intracranial hemorrhage
+411911000000103,[X]Other intracerebral haemorrhage
+413102000,Infarction of basal ganglia
+419701000000103,[X]Other cerebral infarction
+42994005,Nonruptured cerebral aneurysm
+431981000000102,[X]Other subarachnoid haemorrhage
+432504007,Cerebral infarction
+442413005,Transient monoplegia
+443929000,Small vessel cerebrovascular disease
+462581000000105,[D]Transient monoplegia NOS
+478331000000109,[D]Transient limb paralysis NOS
+49422009,Cortical hemorrhage
+496211000000103,[D]Transient paralysis of a limb
+509351000000105,Pure motor lacunar syndrome
+509371000000101,Pure sensory lacunar syndrome
+52201006,Internal capsule hemorrhage
+55382008,Cerebral atherosclerosis
+61683000,Drop attack
+62914000,Cerebrovascular disease
+64009001,Basilar artery syndrome
+64586002,Carotid artery stenosis
+6594005,Cerebrovascular disorder in the puerperium
+69116000,Moyamoya disease
+705066004,Dissection of internal carotid artery
+713082007,Nonruptured cerebral aneurysm due to dissection of cerebral artery
+71444005,Cerebral arterial thrombosis
+732923001,Hemorrhage of medulla oblongata
+75038005,Cerebellar hemorrhage
+75543006,Cerebral embolism
+7713009,Intrapontine hemorrhage
+78569004,Posterior inferior cerebellar artery syndrome
+86003009,Carotid artery thrombosis
+87224000,Transient arterial retinal occlusion
+88032003,Amaurosis fugax
+95455008,Thrombosis of cerebral veins
+95457000,Brain stem infarction
+95460007,Cerebellar infarction
