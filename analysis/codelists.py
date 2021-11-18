@@ -286,8 +286,13 @@ charlson02_cvd= codelist_from_csv(
   system = "snomed",
   column = "code"
 )
-charlson04_heart_failure= codelist_from_csv(
+charlson03_copd= codelist_from_csv(
   "codelists/user-yayang-charlson03_copd.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson04_heart_failure= codelist_from_csv(
+  "codelists/user-yayang-charlson04_heart_failure.csv",
   system = "snomed",
   column = "code"
 )
@@ -311,7 +316,7 @@ charlson08_diabetes_with_complications= codelist_from_csv(
   system = "snomed",
   column = "code"
 )
-charlson09_hemiplegiad= codelist_from_csv(
+charlson09_hemiplegia= codelist_from_csv(
   "codelists/user-yayang-charlson09_hemiplegia.csv",
   system = "snomed",
   column = "code"
@@ -336,7 +341,7 @@ charlson13_mod_severe_liver= codelist_from_csv(
   system = "snomed",
   column = "code"
 )
-charlson14_moderate_several_renaldiseae= codelist_from_csv(
+charlson14_moderate_several_renal_disease= codelist_from_csv(
   "codelists/user-yayang-charlson14_moderate_several_renaldiseae.csv",
   system = "snomed",
   column = "code"
