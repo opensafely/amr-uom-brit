@@ -727,21 +727,21 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
-    #chronic_obstructive_pulmonary_comor=patients.with_these_clinical_events(
-    #    charlson03_copd,
-    #    between=[start_date, "index_date"],
-    #    returning="binary_flag",
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #),
+    chronic_obstructive_pulmonary_comor=patients.with_these_clinical_events(
+       charlson03_copd,
+       between=[start_date, "index_date"],
+       returning="binary_flag",
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
 
-    #heart_failure_comor=patients.with_these_clinical_events(
-    #    charlson04_heart_failure,
-    #    between=[start_date, "index_date"],
-    #    returning="binary_flag",
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #),
+    heart_failure_comor=patients.with_these_clinical_events(
+       charlson04_heart_failure,
+       between=[start_date, "index_date"],
+       returning="binary_flag",
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
 
     connective_tissue_comor=patients.with_these_clinical_events(
         charlson05_connective_tissue,
@@ -776,7 +776,7 @@ study = StudyDefinition(
     ),
 
     hemiplegia_comor=patients.with_these_clinical_events(
-        charlson09_hemiplegiad,
+        charlson09_hemiplegia,
         between=[start_date, "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
@@ -816,7 +816,7 @@ study = StudyDefinition(
     ),
 
     mod_severe_renal_comor=patients.with_these_clinical_events(
-        charlson14_moderate_several_renaldiseae,
+        charlson14_moderate_several_renal_disease,
         between=[start_date, "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
