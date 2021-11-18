@@ -17,6 +17,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_elderly.csv.gz
+  
+  generate_study_population_case_control:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_control 
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_control.csv.gz
 
   generate_measures:
     run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
