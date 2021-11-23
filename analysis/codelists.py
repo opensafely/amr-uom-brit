@@ -273,7 +273,7 @@ carehome_primis_codes = codelist_from_csv(
 )
 
 hospitalisation_infection_related = codelist_from_csv(
-  "codelists/alifahmi-hospital-admissions-with-infection-related-complication-1906959f.csv",
+  "codelists/user-alifahmi-hospital-admissions-with-infection-related-complication.csv",
   system="icd10",
   column="code",
 )
