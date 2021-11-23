@@ -21,7 +21,7 @@ from cohortextractor import (
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
 
-##from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
+#from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
 
 from codelists import *
 
@@ -336,12 +336,14 @@ study = StudyDefinition(
         },
     ),
 
-    ## hospitalisation_analysis
     antibacterial_prescriptions_date=patients.with_these_medications(
         antibacterials_codes,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="date",
         date_format="YYYY-MM-DD",
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
 
     ## all antibacterials from BRIT (dmd codes)
     antibacterial_brit=patients.with_these_medications(
@@ -840,7 +842,8 @@ study = StudyDefinition(
         between=["index_date - 5 years", "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
+        },
     ),
 
     mi_comor=patients.with_these_clinical_events(
@@ -848,7 +851,8 @@ study = StudyDefinition(
         between=["index_date - 5 years", "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
+        },
     ),
 
     peptic_ulcer_comor=patients.with_these_clinical_events(
@@ -856,7 +860,8 @@ study = StudyDefinition(
         between=["index_date - 5 years", "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
+        },
     ),
 
     peripheral_vascular_comor=patients.with_these_clinical_events(
@@ -864,9 +869,12 @@ study = StudyDefinition(
         between=["index_date - 5 years", "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
+        },
     ),
-),
+
+)
+
 
 
 # --- DEFINE MEASURES ---
@@ -886,7 +894,7 @@ measures = [
             numerator="broad_spectrum_antibiotics_prescriptions",
             denominator="antibacterial_prescriptions",
             group_by=["practice"]
-    ),
+            ),
 
 
     
