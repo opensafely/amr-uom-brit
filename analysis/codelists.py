@@ -280,7 +280,7 @@ hospitalisation_infection_related = codelist_from_csv(
   "codelists/user-alifahmi-hospital-admissions-with-infection-related-complication.csv",
   system="icd10",
   column="code",
-
+)
 ##Charlson comobidities
 charlson01_cancer= codelist_from_csv(
   "codelists/user-yayang-charlson01_cancer.csv",
