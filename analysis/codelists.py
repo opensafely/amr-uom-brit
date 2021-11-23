@@ -271,3 +271,9 @@ carehome_primis_codes = codelist_from_csv(
   system = "snomed",
   column = "code",
 )
+
+hospitalisation_infection_related = codelist_from_csv(
+  "codelists/alifahmi-hospital-admissions-with-infection-related-complication-1906959f.csv",
+  system="icd10",
+  column="code",
+)
