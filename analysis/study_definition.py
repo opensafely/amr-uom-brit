@@ -866,7 +866,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
-)
+),
 
 
 # --- DEFINE MEASURES ---
