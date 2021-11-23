@@ -438,14 +438,14 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1},
     ),
 
-    ## hospitalisation with diagnosis of lrti, urti, or uti
-    #admitted_date=patients.admitted_to_hospital(
-    #    with_these_diagnoses=any_lrti_urti_uti_hospitalisation_codes,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    #),
+    # hospitalisation with diagnosis of lrti, urti, or uti
+    admitted_date=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
     
     ## hospitalised because of covid diagnosis
     #hospital_covid=patients.admitted_to_hospital(
