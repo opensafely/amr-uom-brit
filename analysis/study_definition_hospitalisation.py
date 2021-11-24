@@ -378,8 +378,10 @@ study = StudyDefinition(
     ## Covid diagnosis
     primary_care_covid=patients.with_these_clinical_events(
         any_primary_care_code,
-        between=[start_date, "index_date"],
-        returning="binary_flag",
+        #between=[start_date, "index_date"],
+        returning="date",
+        date_format="YYYY-MM-DD",
+        #returning="binary_flag",
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
