@@ -11,6 +11,12 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_*.csv.gz
 
+  generate_study_population_hospitalisation:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/hospitalisation_data --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/hospitalisation_data/input_hospitalisation_*.csv.gz
+
   generate_study_population_elderly:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_elderly 
       --output-format=csv.gz
@@ -68,7 +74,7 @@ actions:
 
   generate_notebook_hospitalisation_analysis:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_analysis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population]
+    needs: [generate_study_population_hospitalisation]
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
