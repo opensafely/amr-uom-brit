@@ -708,6 +708,8 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
 
+
+    ## ab types:79
     Rx_Amikacin=patients.with_these_medications(codes_ab_type_Amikacin,between=['index_date', 'last_day_of_month(index_date)'],returning='number_of_matches_in_period',
   return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
     Rx_Amoxicillin=patients.with_these_medications(codes_ab_type_Amoxicillin,between=['index_date', 'last_day_of_month(index_date)'],returning='number_of_matches_in_period',
