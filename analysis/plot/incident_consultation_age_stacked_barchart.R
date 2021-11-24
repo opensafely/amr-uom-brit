@@ -78,7 +78,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
@@ -164,7 +164,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
@@ -251,7 +251,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
@@ -338,7 +338,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
@@ -426,7 +426,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
@@ -513,7 +513,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
@@ -601,7 +601,7 @@ stackedbar <- ggplot(df_plot, aes(x=cal_YM, y=rate,fill=age_cat))+
   geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
   geom_rect(xmin = -Inf,xmax = "2021-01",ymin = -Inf, ymax = Inf,fill="grey80")+
   geom_rect(xmin = -Inf,xmax = "2020-11",ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey70")+
+  geom_rect(xmin = -Inf,xmax = "2020-03",ymin = -Inf, ymax = Inf,fill="grey60")+
   geom_col()+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   labs(
