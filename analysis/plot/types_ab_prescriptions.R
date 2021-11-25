@@ -258,7 +258,7 @@ DF.top10=DF%>%
 
 DF$types=ifelse(DF$type %in% DF.top10$type, DF$type, "others")
 
-### stacked bar chart ###
+###  bar chart ###
 DF$types <- factor(DF$types, levels=c(DF.top10$type,"others"))# reorder
 
 stackedbar <- 
