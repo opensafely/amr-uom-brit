@@ -263,14 +263,14 @@ DF$types <- factor(DF$types, levels=c(DF.top10$type,"others"))# reorder
 
 stackedbar <- 
   ggplot(DF, aes(x=date, y=value, fill=types))+
-  geom_bar(position="stack", stat="identity") +
+  geom_bar(position="fill", stat="identity") +
   geom_vline(xintercept = "2020-03-01", linetype="dashed",color = "grey", size=0.5)+
   geom_vline(xintercept = "2020-11-01", linetype="dashed",color = "grey", size=0.5)+
   geom_vline(xintercept = "2021-01-01", linetype="dashed",color = "grey", size=0.5)+
   labs(
-    title = "Propotion of antibiotics types",
+    title = "Typs of antibiotics prescribed per month ",
     x = "Time", 
-    y = "number of antibiotic prescriptions")+
+    y = "percentage of prescriptions")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   scale_fill_brewer(palette = "RdYlBu")
 
