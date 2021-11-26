@@ -109,9 +109,4 @@ actions:
         notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
         figures: output/hospitalisation_risk/*
   
-  describe_infection_ab_UTI:
-    run: r:latest analysis/plot/infection_ab_UTI.R
-    needs: [generate_study_population, generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot: output/UTI.png
+
