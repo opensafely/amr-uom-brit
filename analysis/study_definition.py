@@ -22,7 +22,7 @@ from cohortextractor import (
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
 
 from codelists import *
-=======
+
 
 #from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
 
