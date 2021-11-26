@@ -108,5 +108,11 @@ actions:
       moderately_sensitive:
         notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
         figures: output/hospitalisation_risk/*
-  
 
+
+  describe_types_ab_prescriptions:
+    run: r:latest analysis/plot/types_ab_prescriptions.R
+    needs: [generate_study_population]
+    outputs:
+       moderately_sensitive:
+        plot: output/types_ab_barchart.png
