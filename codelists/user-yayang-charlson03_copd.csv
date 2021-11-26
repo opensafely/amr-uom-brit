@@ -1,0 +1,269 @@
+code,term
+10501004,Pulmonary alveolar proteinosis
+1086701000000102,Life threatening acute exacerbation of allergic asthma
+1086711000000100,Life threatening acute exacerbation of intrinsic asthma
+11211003,Interstitial emphysema
+12295008,Bronchiectasis
+12428000,Intrinsic asthma without status asthmaticus
+134381004,Asthma treatment compliance satisfactory
+134383001,Asthma treatment compliance unsatisfactory
+134384007,Asthma daytime symptoms
+135855000,Asthma never causes daytime symptoms
+135859006,Asthma causes daytime symptoms most days
+135861002,Asthma limits walking up hills or stairs
+135862009,Asthma limits walking on the flat
+135863004,Number of asthma exacerbations in past year
+14700006,Bauxite fibrosis of lung
+147877003,Asthma disturbing sleep
+147878008,Asthma not disturbing sleep
+147879000,Asthma limiting activities
+147880002,Asthma not limiting activities
+147883000,Asthma management plan given
+147884006,Asthma severity
+147885007,Asthma prophylactic medication used
+147893007,Asthma restricts exercise
+147894001,Asthma never restricts exercise
+147896004,Asthma - currently dormant
+147897008,Asthma - currently active
+150990002,Asthma control step 0
+150991003,Asthma control step 1
+150992005,Asthma control step 2
+150993000,Asthma control step 3
+150994006,Asthma control step 4
+150995007,Asthma control step 5
+153445004,Seen in asthma clinic
+155574008,Asthma
+155575009,Extrinsic asthma - atopy (& pollen)
+155578006,Asthma attack (& NOS)
+155579003,Asthma: [NOS] or [attack]
+155580000,Bronchiectasis
+155588007,Coal workers' pneumoconiosis
+155591007,(Pneumoconiosis NOS) or (siderosis)
+155613001,Pulmonary fibrosis
+16838000,Mediastinal emphysema
+170631002,Asthma disturbing sleep
+170632009,Asthma causing night waking
+170633004,Asthma disturbs sleep weekly
+170634005,Asthma disturbs sleep frequently
+170635006,Asthma not disturbing sleep
+170636007,Asthma never disturbs sleep
+170637003,Asthma limiting activities
+170638008,Asthma not limiting activities
+170641004,Asthma management plan given
+170642006,Asthma severity
+170643001,Occasional asthma
+170644007,Mild asthma
+170645008,Moderate asthma
+170646009,Severe asthma
+170647000,Asthma prophylactic medication used
+170655007,Asthma restricts exercise
+170656008,Asthma sometimes restricts exercise
+170657004,Asthma severely restricts exercise
+170658009,Asthma never restricts exercise
+170664002,Asthma - currently dormant
+170665001,Asthma - currently active
+17385007,Graphite fibrosis of lung
+17996008,Pneumoconiosis caused by inorganic dust
+182724005,Further asthma - drug prevention
+182726007,Asthma control step 0
+182727003,Asthma control step 1
+182728008,Asthma control step 2
+182729000,Asthma control step 3
+182730005,Asthma control step 4
+182731009,Asthma control step 5
+185242005,Seen in asthma clinic
+187687003,Asthma
+190848001,Idiopathic pulmonary haemosiderosis
+195738009,Obliterating fibrous bronchiolitis
+195967001,Asthma
+195970002,(Hay fever with asthma) or (extrinsic asthma without status asthmaticus)
+195971003,Extrinsic asthma with: [asthma attack] or [status asthmaticus]
+195972005,Extrinsic asthma NOS
+195973000,(Intrinsic asthma) or (late onset asthma)
+195974006,Intrinsic asthma without status asthmaticus
+195976008,Intrinsic asthma NOS
+195977004,Mixed asthma
+195979001,Asthma unspecified
+195980003,(Severe asthma attack) or (status asthmaticus NOS)
+195981004,Asthma attack (& NOS)
+195982006,Late onset asthma
+195983001,(Asthma: [exercise induced] or [allergic NEC] or [NOS]) or
+195984007,Recurrent bronchiectasis
+195985008,Post-infective bronchiectasis
+195986009,Bronchiectasis NOS
+196005004,Asbestos-induced pleural plaque
+196006003,Asbestosis NOS
+196007007,Simple silicosis
+196008002,Complicated silicosis
+196009005,Massive silicotic fibrosis
+196010000,Silica pneumoconiosis NOS
+196011001,Pneumoconiosis due to other inorganic dust
+196012008,Pneumoconiosis due to inorganic dust NOS
+196013003,Pneumopathy due to inhalation of other dust
+196016006,Pneumoconiosis NOS
+196017002,Pneumoconiosis associated with tuberculosis
+196025000,Chronic respiratory conditions caused by chemical fumes
+196026004,Chronic emphysema caused by chemical fumes
+196027008,Toxic bronchiolitis obliterans
+196028003,Chronic pulmonary fibrosis caused by chemical fumes
+196049002,Chronic pulmonary radiation disease
+196050002,Chronic pulmonary radiation disease NOS
+196053000,Chronic drug-induced interstitial lung disorders
+196123009,Fibrosing alveolitis: [idiopathic] or [cryptogenic]) or (Hamman - Rich syndrome)
+196125002,Diffuse interstitial pulmonary fibrosis
+196126001,Idiopathic fibrosing alveolitis NOS
+196128000,Endogenous lipoid pneumonia
+196160008,Pulmonary alveolar microlithiasis
+196229000,[X]Chronic lower respiratory diseases
+201031000000108,Asthma trigger - respiratory infection
+201041000000104,Asthma trigger - seasonal
+201051000000101,Asthma trigger - animal
+201191000000108,Asthma trigger - cold air
+201201000000105,Asthma trigger - damp
+201211000000107,Asthma trigger - emotion
+21341004,Asthma
+225057002,Brittle asthma
+22607003,Asbestosis
+23315001,Sequoiosis
+233659006,Asbestos-induced pleural plaque
+233678006,Childhood asthma
+233679003,Late onset asthma
+233680000,Allergic asthma
+233681001,Extrinsic asthma with asthma attack
+233682008,Allergic asthma NEC
+233683003,Hay fever with asthma
+233685005,Intrinsic asthma with asthma attack
+233703007,Interstitial lung disease
+233721005,Usual interstitial pneumonitis
+236302005,Acute interstitial pneumonia
+266356006,Atrophic (senile) emphysema
+266359004,Extrinsic asthma without status asthmaticus
+266360009,Extrinsic asthma with status asthmaticus
+266361008,Non-allergic asthma
+266362001,Intrinsic asthma with status asthmaticus
+266363006,Status asthmaticus NOS
+266364000,Asthma attack
+266365004,Asthma NOS
+266398009,Asthma: [NOS] or [attack]
+266400008,(Asbestosis) or (byssinosis) or (pleural plaque disease)
+266401007,(Pneumoconiosis NOS) or (siderosis)
+274105009,Asthma attack NOS
+286964001,Radiation respiratory disease
+29422001,Coal workers' pneumoconiosis
+312453004,Asthma - currently active
+312454005,Asthma - currently dormant
+31387002,Exercise-induced asthma
+33325001,Compensatory emphysema
+340891000000106,Asthma trigger - airborne dust
+340901000000107,Asthma trigger - exercise
+340911000000109,Asthma trigger - pollen
+340921000000103,Asthma trigger - tobacco smoke
+340931000000101,Asthma trigger - warm air
+366787009,Asthma treatment compliance satisfactory
+366788004,Asthma treatment compliance unsatisfactory
+366790003,Asthma never causes daytime symptoms
+366793001,Asthma causes daytime symptoms most days
+366794007,Asthma limits walking up hills or stairs
+366795008,Asthma limits walking on the flat
+366796009,Number of asthma exacerbations in past year
+366865006,Asthma treatment compliance satisfactory
+366866007,Asthma treatment compliance unsatisfactory
+366868008,Asthma never causes daytime symptoms
+366871000,Asthma causes daytime symptoms most days
+366872007,Asthma limits walking up hills or stairs
+366873002,Asthma limits walking on the flat
+366874008,Number of asthma exacerbations in past year
+367039004,Asthma daytime symptoms
+367268006,Asthma daytime symptoms
+370202007,Asthma causes daytime symptoms 1 to 2 times per month
+370203002,Asthma causes daytime symptoms 1 to 2 times per week
+370204008,Asthma causes daytime symptoms most days
+370205009,Asthma causes night symptoms 1 to 2 times per month
+370206005,Asthma limits walking on the flat
+370207001,Asthma limits walking up hills or stairs
+370208006,Asthma never causes daytime symptoms
+370210008,Number of asthma exacerbations in past year
+370218001,Mild asthma
+370219009,Moderate asthma
+370220003,Occasional asthma
+370221004,Severe asthma
+370225008,Asthma treatment compliance unsatisfactory
+370226009,Asthma treatment compliance satisfactory
+373899003,Asthma daytime symptoms
+389145006,Allergic asthma
+389853000,Change in asthma management plan
+389857004,Step up change in asthma management plan
+389858009,Step down change in asthma management plan
+389860006,Absent from work or school due to asthma
+390585000,Change in asthma management plan
+390589006,Step up change in asthma management plan
+390590002,Step down change in asthma management plan
+390592005,Absent from work or school due to asthma
+390872009,Change in asthma management plan
+390877003,Step up change in asthma management plan
+390878008,Step down change in asthma management plan
+390921001,Absent from work or school due to asthma
+393030008,Asthma annual review
+393031007,Asthma follow-up
+393036002,Asthma night-time symptoms
+393082005,Asthma medication review
+393986005,Asthma annual review
+393987001,Asthma follow-up
+393992004,Asthma night-time symptoms
+394033000,Asthma medication review
+394700004,Asthma annual review
+394701000,Asthma follow-up
+394720003,Asthma medication review
+395022009,Asthma night-time symptoms
+39871006,Chronic respiratory failure
+400987003,Asthma trigger
+40100001,Obliterative bronchiolitis
+401193004,Asthma confirmed
+40122008,Pneumoconiosis
+40527005,Idiopathic pulmonary hemosiderosis
+405720007,Allergic bronchitis
+406162001,Asthma management
+40640008,Massive fibrosis of lung co-occurrent and due to silicosis
+407674008,Aspirin-induced asthma
+412775002,Asthma clinical management plan
+41553006,Detergent asthma
+416601004,Work aggravated asthma
+424643009,Immunoglobulin E-mediated allergic asthma
+42680007,Endogenous lipoid pneumonia
+426896000,Chronic hypercapnic respiratory failure
+471141000000109,[X]Chronic lower respiratory diseases
+473391009,Asthma never causes night symptoms
+47515009,Simple silicosis
+49840000,Complicated silicosis
+51277007,Stannosis
+51615001,Fibrosis of lung
+56968009,Asthma caused by wood dust
+57607007,Occupational asthma
+59327009,Intrinsic asthma with status asthmaticus
+62371005,Pulmonary siderosis
+63088003,Allergic asthma without status asthmaticus
+700250006,Idiopathic pulmonary fibrosis
+708038006,Acute exacerbation of asthma
+708090002,Acute severe exacerbation of asthma
+708093000,Acute exacerbation of immunoglobulin E-mediated allergic asthma
+708094006,Acute exacerbation of intrinsic asthma
+708358003,Emergency asthma admission since last encounter
+708373002,Emergency asthma patient visit since last encounter
+71193007,Fibrosis of lung caused by radiation
+719218000,Cryptogenic organizing pneumonia
+73144008,Pneumoconiosis caused by talc
+734904007,Life threatening acute exacerbation of asthma
+736056000,Asthma clinical management plan
+74015002,Pneumonopathy due to inhalation of dust
+771941000000102,Asthma causes symptoms most nights
+772051000000106,Asthma limits activities most days
+77690003,Interstitial emphysema of lung
+78723001,Cannabinosis
+805002,Pneumoconiosis caused by silica
+8247009,Berylliosis
+8312004,Intrinsic asthma
+85761009,Byssinosis
+86157004,Occupational lung disease
+866901000000103,Eosinophilic bronchitis
+87153008,Pulmonary alveolar microlithiasis
+91340006,Extrinsic asthma with status asthmaticus

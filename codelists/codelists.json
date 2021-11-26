@@ -180,6 +180,12 @@
       "downloaded_at": "2021-06-11 12:31:13.723622Z",
       "sha": "4d4c94b9c6aa267c6a60657150bbc5ec7d2d7625"
     },
+    "user-alifahmi-hospital-admissions-with-infection-related-complication.csv": {
+      "id": "user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f",
+      "url": "https://codelists.opensafely.org/codelist/user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f/",
+      "downloaded_at": "2021-11-23 10:45:19.024119Z",
+      "sha": "57f75538d842da15d153aea6e41622f562bf0d1e"
+    },
     "user-rriefu-antibiotics_dmd.csv": {
       "id": "user/rriefu/antibiotics_dmd/0ea3a40d",
       "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/0ea3a40d/",
@@ -665,6 +671,108 @@
       "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_vancomycincsv/7d446273/",
       "downloaded_at": "2021-11-22 15:24:32.441162Z",
       "sha": "097feaf4c3d67715ffd3d735305076673a464290"
+
+    "user-yayang-charlson01_cancer.csv": {
+      "id": "user/yayang/charlson01_cancer/796c49a5",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson01_cancer/796c49a5/",
+      "downloaded_at": "2021-11-18 14:37:43.048020Z",
+      "sha": "895fcd0b8035397a388040bb336eec5b8593171a"
+    },
+    "user-yayang-charlson02_cvd.csv": {
+      "id": "user/yayang/charlson02_cvd/605cd670",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson02_cvd/605cd670/",
+      "downloaded_at": "2021-11-18 14:37:43.373259Z",
+      "sha": "f4726f905db6d93ea972b0e01e6e86d72577954e"
+    },
+    "user-yayang-charlson03_copd.csv": {
+      "id": "user/yayang/charlson03_copd/474d633b",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson03_copd/474d633b/",
+      "downloaded_at": "2021-11-18 14:37:43.597703Z",
+      "sha": "1e629952ccb5f524588396b20355a05f24d6aa0e"
+    },
+    "user-yayang-charlson04_heart_failure.csv": {
+      "id": "user/yayang/charlson04_heart_failure/2e3df006",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson04_heart_failure/2e3df006/",
+      "downloaded_at": "2021-11-18 14:37:43.794391Z",
+      "sha": "50de55d8d4c507b68dbec1ec8aab3b9290600d58"
+    },
+    "user-yayang-charlson05_connective_tissue.csv": {
+      "id": "user/yayang/charlson05_connective_tissue/152e7cd1",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson05_connective_tissue/152e7cd1/",
+      "downloaded_at": "2021-11-18 14:37:44.068994Z",
+      "sha": "bb42e79479af0bd2d54d33c003d9f267a571c69b"
+    },
+    "user-yayang-charlson06_dementia.csv": {
+      "id": "user/yayang/charlson06_dementia/7c1f099b",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson06_dementia/7c1f099b/",
+      "downloaded_at": "2021-11-18 14:37:44.259236Z",
+      "sha": "0259d6178b270cff103a5d83ba57ad1c1919b490"
+    },
+    "user-yayang-charlson07_diabetes.csv": {
+      "id": "user/yayang/charlson07_diabetes/630f9666",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson07_diabetes/630f9666/",
+      "downloaded_at": "2021-11-18 14:37:44.457295Z",
+      "sha": "4a7a09759af3c3034ecf97e0aaa6db8f13ba58d9"
+    },
+    "user-yayang-charlson08_diabetes_with_complications.csv": {
+      "id": "user/yayang/charlson08_diabetes_with_complications/4a002331",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson08_diabetes_with_complications/4a002331/",
+      "downloaded_at": "2021-11-18 14:37:44.686017Z",
+      "sha": "f1de834ca2112506250f8d119671659f9bfbd0d7"
+    },
+    "user-yayang-charlson09_hemiplegia.csv": {
+      "id": "user/yayang/charlson09_hemiplegia/30f0affc",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson09_hemiplegia/30f0affc/",
+      "downloaded_at": "2021-11-18 14:37:44.902039Z",
+      "sha": "9f87a677e6f3ce68706582206011f0ce09299c83"
+    },
+    "user-yayang-charlson10_hiv.csv": {
+      "id": "user/yayang/charlson10_hiv/17e13cc7",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson10_hiv/17e13cc7/",
+      "downloaded_at": "2021-11-18 14:37:45.153522Z",
+      "sha": "67c7437c41c6a271ce573ce5cf07cf30278175bd"
+    },
+    "user-yayang-charlson11_metastatic_cancer.csv": {
+      "id": "user/yayang/charlson11_metastatic_cancer/7ed1c991",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson11_metastatic_cancer/7ed1c991/",
+      "downloaded_at": "2021-11-18 14:37:45.441951Z",
+      "sha": "e9f5858aad1cc6ab8ec5b0ae819759ab5fb23ed2"
+    },
+    "user-yayang-charlson12_mild_liver.csv": {
+      "id": "user/yayang/charlson12_mild_liver/65c2565c",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson12_mild_liver/65c2565c/",
+      "downloaded_at": "2021-11-18 14:37:45.642464Z",
+      "sha": "3b0412d99b325c7b144ab9a7a8da8ff980dbe06c"
+    },
+    "user-yayang-charlson13_mod_severe_liver.csv": {
+      "id": "user/yayang/charlson13_mod_severe_liver/4cb2e327",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson13_mod_severe_liver/4cb2e327/",
+      "downloaded_at": "2021-11-18 14:37:45.868059Z",
+      "sha": "7e96302542b2eaed3437c3f4424681893819fb89"
+    },
+    "user-yayang-charlson14_moderate_several_renaldiseae.csv": {
+      "id": "user/yayang/charlson14_moderate_several_renaldiseae/33a36ff2",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson14_moderate_several_renaldiseae/33a36ff2/",
+      "downloaded_at": "2021-11-18 14:37:46.324799Z",
+      "sha": "41ad0e621a42a813917dbe89640360bdfcd3f825"
+    },
+    "user-yayang-charlson15_mi.csv": {
+      "id": "user/yayang/charlson15_mi/1a93fcbd",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson15_mi/1a93fcbd/",
+      "downloaded_at": "2021-11-18 14:37:46.509148Z",
+      "sha": "e603d8a43f47bb9d3449563689880ce725fa0f19"
+    },
+    "user-yayang-charlson16_peptic_ulcer.csv": {
+      "id": "user/yayang/charlson16_peptic_ulcer/36562fe8",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson16_peptic_ulcer/36562fe8/",
+      "downloaded_at": "2021-11-18 14:37:46.698434Z",
+      "sha": "9499cc50f98fda64906379448027c59e8fde8e39"
+    },
+    "user-yayang-charlson17_peripheral_vascular.csv": {
+      "id": "user/yayang/charlson17_peripheral_vascular/68751652",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson17_peripheral_vascular/68751652/",
+      "downloaded_at": "2021-11-18 14:37:46.921916Z",
+      "sha": "93cdab3534d0c44371d41ab73d861aaafba20270"
     }
   }
 }
