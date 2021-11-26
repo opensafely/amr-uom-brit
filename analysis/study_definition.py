@@ -20,7 +20,11 @@ from cohortextractor import (
 )
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
-from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, asthma_copd_codes, asthma_codes, cold_codes, copd_codes, cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code#, flu_vaccine_codes
+
+#from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
+
+from codelists import *
+
 
 # DEFINE STUDY POPULATION ---
 
@@ -201,14 +205,14 @@ study = StudyDefinition(
     
     ## BMI, most recent
     bmi=patients.most_recent_bmi(
-        between=["2010-02-01", "today"],
+        on_or_after="2010-02-01",
         minimum_age_at_measurement=18,
         include_measurement_date=True,
-        date_format="YYYY-MM",
+        include_month=True,
         return_expectations={
-            "date": {"earliest": "2010-02-01", "latest": "today"},
-            "float": {"distribution": "normal", "mean": 28, "stddev": 8},
-            "incidence": 0.80,
+            "date": {},
+            "float": {"distribution": "normal", "mean": 35, "stddev": 10},
+            "incidence": 0.95,
         },
     ),
 
@@ -321,9 +325,29 @@ study = StudyDefinition(
     ),
 
     ### Antibiotics from opensafely antimicrobial-stewardship repo
-    ## all antibacterials
+    ## all antibacterials 
     antibacterial_prescriptions=patients.with_these_medications(
         antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_prescriptions_date=patients.with_these_medications(
+        antibacterials_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+
+    ## all antibacterials from BRIT (dmd codes)
+    antibacterial_brit=patients.with_these_medications(
+        antibacterials_codes_brit,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -408,11 +432,20 @@ study = StudyDefinition(
     ## hospitalisation
     admitted=patients.admitted_to_hospital(
         returning="binary_flag",
-        #returning="date",
+        #returning="date_admitted",
         #date_format="YYYY-MM-DD",
         between=["index_date", "today"],
         return_expectations={"incidence": 0.1},
     ),
+
+    ## hospitalisation with diagnosis of lrti, urti, or uti
+    #admitted_date=patients.admitted_to_hospital(
+    #    with_these_diagnoses=any_lrti_urti_uti_hospitalisation_codes,
+    #    returning="date_admitted",
+    #    date_format="YYYY-MM-DD",
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.3},
+    #),
     
     ## hospitalised because of covid diagnosis
     #hospital_covid=patients.admitted_to_hospital(
@@ -438,13 +471,11 @@ study = StudyDefinition(
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest" : "index_date"},
-            "rate" : "exponential_increase"
+            "date": {"earliest" : "index_date"},  "rate" : "exponential_increase"
         },
     ),
 
-
-    ########## number of infection cousultations #############
+  ########## number of infection cousultations #############
     
     #  --UTI 
     ## count infection events 
@@ -465,6 +496,7 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
+
 
     #  --URTI  
     urti_counts=patients.with_these_clinical_events(
@@ -1127,30 +1159,27 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
-)
-    
-    
-
 
 
 # --- DEFINE MEASURES ---
 
+
 measures = [
-    # ## antibiotic rx rate
-    # Measure(id="antibiotics_overall",
-    #         numerator="antibacterial_prescriptions",
-    #         denominator="population",
-    #         group_by=["practice"]
-    #         ),
+
+    ## antibiotic rx rate
+    Measure(id="antibiotics_overall",
+            numerator="antibacterial_prescriptions",
+            denominator="population",
+            group_by=["practice"]
+            ),
     
 
-    # ## Broad spectrum antibiotics
-    # #Measure(id="broad_spectrum_proportion",
-    # #        numerator="broad_spectrum_antibiotics_prescriptions",
-    # #        denominator="antibacterial_prescriptions",
-    # #        group_by=["practice"]
-    # #),
-
+    ## Broad spectrum antibiotics
+    Measure(id="broad_spectrum_proportion",
+            numerator="broad_spectrum_antibiotics_prescriptions",
+            denominator="antibacterial_prescriptions",
+            group_by=["practice"]
+            ),
 
     
     # ## STRPU antibiotics

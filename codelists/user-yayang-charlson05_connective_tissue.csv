@@ -1,0 +1,224 @@
+code,term
+105969002,Disorder of connective tissue
+10713006,Diffuse interstitial rheumatoid disease of lung
+138835002,H/O: rheumatoid arthritis
+143243002,Rheumatoid factor positive
+148071003,Rheumatology disorder monitoring (& arthritis [& rheumatoid])
+154425004,Sarcoidosis
+155440007,Polyarteritis nodosa and allied conditions
+155441006,Polyarteritis nodosa
+155445002,(Goodpasture's syndrome) or (Wegener's granulomatosis) or (Takayasu's disease) or (polyarteritis nodosa NOS)
+155621007,Rheumatoid lung
+156450004,Systemic lupus erythematosus
+156451000,Scleroderma (& [systemic sclerosis])
+156455009,(Sicca - Sjogren's - syndrome) or (keraconjunctivitis sicca) or (Sjogren's disease)
+156457001,Polymyositis
+156471009,Rheumatoid arthritis
+156472002,Rheumatoid arthritis - multiple joint
+156473007,Rheumatoid arthritis of shoulder
+156474001,Rheumatoid arthritis of elbow
+156475000,Rheumatoid arthritis of wrist
+156477008,Rheumatoid arthritis of hip
+156478003,Rheumatoid arthritis of knee
+156482001,Felty's syndrome
+156656001,Polymyalgia rheumatica
+161567008,History of rheumatoid arthritis
+164773008,Sleep studies
+165839004,Rheumatoid factor positive
+170845006,Rheumatology disorder monitoring (& arthritis [& rheumatoid])
+170848008,Rheumatology disorder - joints affected
+170849000,Rheumatology symptom change
+170850000,Rheumatology drug side effect
+170851001,Rheumatology disorder treatment changed
+170853003,Rheumatology disorder treatment started
+170854009,Rheumatology disorder treatment stopped
+187230004,Pulmonary sarcoidosis
+187233002,Sarcoidosis of lung with sarcoidosis of lymph nodes
+187235009,Sarcoidosis of inferior turbinates
+190815001,Cryoglobulinemic vasculitis
+191033003,[X]Sarcoidosis of other and combined sites
+192673008,Sarcoid meningitis
+193101001,Multiple cranial nerve palsies in sarcoidosis
+193177003,Polyneuropathy in collagen vascular disease
+193178008,Polyneuropathy in disseminated lupus erythematosus
+193179000,Polyneuropathy in polyarteritis nodosa
+193180002,Polyneuropathy in rheumatoid arthritis
+193181003,Polyneuropathy in collagen vascular disease NOS
+193195000,Sarcoid neuropathy
+193248005,Myopathy due to disseminated lupus erythematosus
+193249002,Myopathy due to polyarteritis nodosa
+193250002,Myopathy due to rheumatoid arthritis
+193251003,Sarcoid myopathy
+193252005,Myopathy due to scleroderma
+193253000,Myopathy due to Sjögren's disease
+193776001,Keratoconjunctivitis sicca (excluding Sjögren syndrome)
+195033009,Sarcoid heart muscle disease
+195135000,Sarcoid myocarditis
+195136004,Rheumatoid myocarditis
+195138003,Rheumatoid carditis
+195346008,Polyarteritis nodosa and allied conditions
+195347004,(Polyarteritis nodosa) or (necrotising angiitis)
+195351002,Goodpasture's syndrome
+195352009,Hypersensitivity angiitis NOS
+195353004,Granulomatosis with polyangiitis
+195354005,Giant cell arteritis
+195355006,Giant cell arteritis
+195356007,Giant cell arteritis
+195357003,Giant cell arteritis NOS
+195361009,(Aortic arch arteritis) or (Takayasu's disease[& pulseless])
+195362002,Churg-Strauss vasculitis
+195363007,Juvenile polyarteritis
+195365000,Polyarteritis nodosa and allied conditions NOS
+195368003,(Arteritis unspecified) or (aortitis)
+195375002,Vasculitis
+196132006,Rheumatoid lung
+196133001,Lung disease with systemic sclerosis
+196136009,Lung disease co-occurrent with polymyositis
+196137000,Lung disease with Sjögren's disease
+196138005,Lung disease with systemic lupus erythematosus
+197368002,Hepatic granulomas in sarcoidosis
+197607004,Nephrotic syndrome in polyarteritis nodosa
+201435004,Systemic lupus erythematosus
+201436003,Drug-induced systemic lupus erythematosus
+201438002,Systemic lupus erythematosus with pericarditis
+201439005,Systemic lupus erythematosus NOS
+201440007,Scleroderma (& [acrosclerosis] or [systemic sclerosis])
+201441006,Scleroderma
+201444003,(Sicca - Sjogren's - syndrome) or (keratoconjunctivitis sicca)
+201764007,Rheumatoid arthritis of cervical spine
+201765008,Other rheumatoid arthritis of spine
+201766009,Rheumatoid arthritis of shoulder
+201767000,Rheumatoid arthritis of sternoclavicular joint
+201768005,Rheumatoid arthritis of acromioclavicular joint
+201769002,Rheumatoid arthritis of elbow
+201770001,Rheumatoid arthritis of distal radioulnar joint
+201771002,Rheumatoid arthritis of wrist
+201772009,Rheumatoid arthritis of metacarpophalangeal joint
+201773004,Rheumatoid arthritis of proximal interphalangeal joint of finger
+201774005,Rheumatoid arthritis of distal interphalangeal joint of finger
+201775006,Rheumatoid arthritis of hip
+201776007,Rheumatoid arthritis of sacroiliac joint
+201777003,Rheumatoid arthritis of knee
+201778008,Rheumatoid arthritis of tibiofibular joint
+201779000,Rheumatoid arthritis of ankle
+201780002,Rheumatoid arthritis of subtalar joint
+201781003,Rheumatoid arthritis of talonavicular joint
+201782005,Rheumatoid arthritis of other tarsal joint
+201783000,Rheumatoid arthritis of first metatarsophalangeal joint
+201784006,Rheumatoid arthritis of lesser metatarsophalangeal joint
+201785007,Rheumatoid arthritis of interphalangeal joint of toe
+201786008,Rheumatoid vasculitis
+201787004,Seronegative rheumatoid arthritis
+201788009,Rheumatoid bursitis
+201789001,Rheumatoid nodule
+201790005,Rheumatoid arthritis - multiple joint
+201791009,Flare of rheumatoid arthritis
+201794001,Rheumatoid lung
+201797008,Juvenile rheumatoid arthropathy unspecified
+201799006,Monarticular juvenile rheumatoid arthritis
+201800005,Juvenile rheumatoid arthritis NOS
+201808003,Juvenile rheumatoid arthritis
+201810001,Seropositive errosive rheumatoid arthritis
+202834009,Polymyalgia (& [rheumatica])
+203042003,Myositis in sarcoidosis
+203730003,[X]Other seropositive rheumatoid arthritis
+203732006,[X]Other specified rheumatoid arthritis
+203780009,[X]Systemic connective tissue disorders
+203782001,[X]Other giant cell arteritis
+203784000,[X]Other forms of systemic lupus erythematosus
+203786003,[X]Other forms of systemic sclerosis
+203787007,[X]Other overlap syndromes
+203788002,[X]Other systemic diseases of connective tissue
+236502006,Renal involvement in scleroderma
+236503001,Acute scleroderma renal crisis
+236506009,Goodpasture's disease
+23782005,Wegener's granulomatosis
+239791005,Seropositive rheumatoid arthritis
+239792003,Seronegative rheumatoid arthritis
+239793008,Rheumatoid arthritis with organ / system involvement
+239801005,Juvenile rheumatoid arthritis
+239887007,Systemic lupus erythematosus with organ/system involvement
+239920006,Adult onset Still's disease
+239933000,Primary necrotizing vasculitis with granulomata
+239938009,Giant cell arteritis with polymyalgia rheumatica
+24369008,Pulmonary sarcoidosis
+266265002,Arteritis unspecified
+266323005,(Goodpasture's syndrome) or (Wegener's granulomatosis) or (Takayasu's disease) or (polyarteritis nodosa NOS)
+267874003,Scleroderma
+267988003,Polymyalgia rheumatica
+268049000,Scleroderma (& [systemic sclerosis])
+268524007,Rheumatology disorder monitoring
+275902004,Rheumatoid arthritis monitoring
+276657008,Overlap syndrome
+276681000000101,[X]Mixed connective tissue disease
+287006005,Rheumatoid arthritis of multiple joints
+28880005,Rheumatoid carditis
+298285004,Systemic sclerosis with limited cutaneous involvement
+302896008,Keratoconjunctivitis sicca
+308143008,Seropositive erosive rheumatoid arthritis
+309762007,Systemic lupus erythematosus with pericarditis
+310607007,Sarcoidosis of inferior turbinates
+31384009,Polymyositis
+31541009,Sarcoidosis
+31848007,"Calcinosis, Raynaud's phenomenon, esophageal dysmotility, sclerodactyly, and telangiectasia syndrome"
+31996006,Vasculitis
+33719002,Subcutaneous rheumatoid nodule
+359789008,Takayasu's disease
+361197009,Sarcoid arthropathy
+372929001,Scleroderma
+390001000,Wegener's granulomatosis
+393589007,Vasculitis
+398049005,Mixed collagen vascular disease
+398640008,Rheumatoid pneumoconiosis
+398726004,Rheumatoid lung disease
+400054000,Rheumatoid vasculitis
+400130008,Temporal arteritis
+408471000000106,[X]Other systemic diseases of connective tissue
+408751000000108,[X]Other seropositive rheumatoid arthritis
+409421000000100,[X]Other forms of systemic lupus erythematosus
+409631000000101,[X]Systemic connective tissue disorders
+410793008,Chronic arthritis of juvenile onset
+410795001,Juvenile rheumatoid arthritis
+414341000,Giant cell arteritis
+42153001,Takayasu's disease
+422801000,Genus Scleroderma (fungus)
+424881000000105,[X]Other forms of systemic sclerosis
+425481000000106,[X]Other specified rheumatoid arthritis
+429192004,Rheumatoid arthritis of foot
+444133002,Progressive systemic sclerosis
+452681000000101,[X]Sarcoidosis of other and combined sites
+477721000000109,[X]Other overlap syndromes
+478741000000101,[X]Other giant cell arteritis
+50581000,Goodpasture's syndrome
+50782009,Rheumatoid nodule
+50803006,Acrosclerosis
+515691000000108,Rheumatic disorder annual review invitation
+52089001,Arteritis
+54072008,Nonbacterial verrucal endocardiosis
+55464009,Systemic lupus erythematosus
+55941000,Cutaneous sarcoidosis
+57160007,Felty's syndrome
+60555002,Hypersensitivity angiitis
+64757003,Lymph node sarcoidosis
+65323003,Polymyalgia rheumatica
+66121003,Polyarteritis nodosa
+68815009,Systemic lupus erythematosus glomerulonephritis syndrome
+698706005,Rheumatology disorder annual review
+69896004,Rheumatoid arthritis
+70933002,Aortitis
+72470008,"Sarcoidosis, lupus pernio type"
+74250003,Genus Scleroderma (wasp)
+74391003,Pauciarticular juvenile rheumatoid arthritis
+75053002,Acute febrile mucocutaneous lymph node syndrome
+7548000,Rheumatic pneumonia
+75822003,Acute polyarticular juvenile rheumatoid arthritis
+82275008,Allergic granulomatosis angiitis
+829821000000102,Microscopic polyangiitis
+83901003,Sjögren's syndrome
+84017003,Bursitis
+847261000000104,Rheumatoid arthritis annual review
+89155008,Systemic sclerosis
+95415006,Polymyalgia
+95609003,Neonatal lupus erythematosus
+95644001,Systemic lupus erythematosus encephalitis
+9631008,Ankylosing spondylitis
