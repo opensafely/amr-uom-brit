@@ -1159,7 +1159,7 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
-
+)
 
 # --- DEFINE MEASURES ---
 
