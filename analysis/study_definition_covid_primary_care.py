@@ -19,6 +19,10 @@ end_date = "2020-12-31"
 
 ###### Study population & variables
 
+## ab 79 types Variables 
+from ab_variables import generate_ab_variables
+ab_variables = generate_ab_variables(index_date_variable="patient_index_date")#covid primary care date
+
 study = StudyDefinition(
 
     # Configure the expectations framework
@@ -43,6 +47,7 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        AND NOT stp = ""
         """,
 
         has_died=patients.died_from_any_cause(
@@ -64,7 +69,7 @@ study = StudyDefinition(
     ),
 
     # observation end date
-    # de-register after start date
+    ## de-register after start date
     dereg_date=patients.date_deregistered_from_all_supported_practices(
         on_or_after="index_date",
         date_format="YYYY-MM-DD",
@@ -73,7 +78,7 @@ study = StudyDefinition(
         "incidence": 0.05
         }
     ),
-    # died after start date
+    ## died after start date
     ons_died_date_=patients.died_from_any_cause(
         on_or_before="index_date",
         returning="date_of_death",
@@ -98,7 +103,8 @@ study = StudyDefinition(
     },
 ),
     
-    primary_care_covid_date=patients.with_these_clinical_events(
+    #primary_care_covid_date
+    patient_index_date=patients.with_these_clinical_events(
         any_primary_care_code,        
         returning="date",
         find_first_match_in_period=True,
@@ -138,7 +144,7 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2020-03-01"}},
    ),
 
-    #ICU ADMISSION
+    ##ICU ADMISSION
     icu_date_admitted=patients.admitted_to_icu(
         on_or_after="index_date",
         find_first_match_in_period=True,
@@ -195,139 +201,9 @@ study = StudyDefinition(
 
 
 
-    # Exposure
-    ## number of total prescriptions
-    ### covid infection (1/2)
-    ab_prescriptions_sgss=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["SGSS_positive_test_date - 1137 days", "SGSS_positive_test_date - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### covid infection (2/2)
-    ab_prescriptions_primarycare=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["primary_care_covid_date - 1137 days", "primary_care_covid_date - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### hospital
-    ab_prescriptions_hosp=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["covid_admission_date - 1137 days", "covid_admission_date - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### ICU
-    ab_prescriptions_icu=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["icu_date_admitted - 1137 days", "icu_date_admitted - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### died(1/2)
-    ab_prescriptions_died_cpns=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["died_date_cpns - 1137 days", "died_date_cpns - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### died(2/2)
-    ab_prescriptions_died_ons=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["died_ons_covid_flag_underlying - 1137 days", "died_ons_covid_flag_underlying - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
+    
 
-
-
-
-    ## number of broad-spectrum ab prescriptions
-    ### covid infection (1/2)
-    broad_ab_prescriptions_sgss=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["SGSS_positive_test_date - 1137 days", "SGSS_positive_test_date - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### covid infection (2/2)
-    broad_ab_prescriptions_primarycare=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["primary_care_covid_date - 1137 days", "primary_care_covid_date - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### hospital
-    broad_ab_prescriptions_hosp=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["covid_admission_date - 1137 days", "covid_admission_date - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### ICU
-    broad_ab_prescriptions_icu=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["icu_date_admitted - 1137 days", "icu_date_admitted - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### died(1/2)
-    broad_ab_prescriptions_died_cpns=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["died_date_cpns - 1137 days", "died_date_cpns - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-    ### died(2/2)
-    broad_ab_prescriptions_died_ons=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["died_ons_covid_flag_underlying - 1137 days", "died_ons_covid_flag_underlying - 42 days"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-
-
-
-
-
-
+ 
     # DEMOGRAPHICS
     ## Age
     age=patients.age_as_of(
@@ -440,7 +316,29 @@ study = StudyDefinition(
         return_expectations={"int": {"distribution": "normal",
                                      "mean": 25, "stddev": 5}, "incidence": 1}
     ), 
-      
+
+        stp=patients.registered_practice_as_of(
+            "index_date",
+            returning="stp_code",
+            return_expectations={
+                "rate": "universal",
+                "category": {
+                    "ratios": {
+                        "STP1": 0.1,
+                        "STP2": 0.1,
+                        "STP3": 0.1,
+                        "STP4": 0.1,
+                        "STP5": 0.1,
+                        "STP6": 0.1,
+                        "STP7": 0.1,
+                        "STP8": 0.1,
+                        "STP9": 0.1,
+                        "STP10": 0.1,
+                    }
+                },
+            },  
+    ),
+
     ## Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
         "index_date",
@@ -624,8 +522,8 @@ study = StudyDefinition(
 
 
 
-    # COMOBIDDITIES
-   # Blood pressure
+    # COMOBIDDITIES https://github.com/opensafely/ethnicity-covid-research/blob/main/analysis/study_definition.py
+   ## Blood pressure
     bp_sys=patients.mean_recorded_value(
         systolic_blood_pressure_codes,
         on_most_recent_day_of_measurement=True,
@@ -1007,6 +905,10 @@ study = StudyDefinition(
             "date": {"earliest": "2019-02-01", "latest": "2020-01-31"}
         },
     ),
+
+ # exposure variables: ab types
+    **ab_variables,
+  
 )
 
 
