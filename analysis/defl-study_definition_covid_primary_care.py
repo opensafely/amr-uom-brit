@@ -189,7 +189,7 @@ study = StudyDefinition(
     # #     "rate" : "exponential_increase"},
     # # ),
 
-    died_ons_covid_flag_underlying=patients.with_these_codes_on_death_certificate(
+    died_ons_covid=patients.with_these_codes_on_death_certificate(
         covid_codelist,
         on_or_after="index_date",
         returning="date_of_death",
