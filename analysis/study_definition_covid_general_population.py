@@ -15,17 +15,17 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2020-02-01"
-end_date = "2020-12-31"
+end_date = "2021-12-31"
 
 ###### Import variables
 
-## covid history before patient_index_date
-from variables_covid import generate_covid_variables
-covid_variables = generate_covid_variables(index_date_variable="patient_index_date")
+# ## covid history before patient_index_date
+# from variables_covid import generate_covid_variables
+# covid_variables = generate_covid_variables(index_date_variable="index_date")
 
 ## Exposure variables: antibiotics 
 from variables_antibiotics import generate_ab_variables
-ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
+ab_variables = generate_ab_variables(index_date_variable="index_date")
 
 ## Demographics, vaccine, included as they are potential confounders 
 from variables_confounding import generate_confounding_variables
@@ -70,23 +70,14 @@ study = StudyDefinition(
         ),
 
     ),
-    ### patient index date = covid infection
-    #SGSS_positive_test_date
-    patient_index_date=patients.with_test_result_in_sgss(
-    pathogen="SARS-CoV-2",
-    test_result="positive",
-    on_or_after="index_date",
-    find_first_match_in_period=True,
-    returning="date",
-    date_format="YYYY-MM-DD",
-    return_expectations={
-        "date": {"earliest" : "2020-03-01"},
-        "rate" : "exponential_increase"
-    },
-    ),
+
+    ### patient index date = covid infection 
+    # primary_care_covid_date
+    patient_index_date="index_date",
+
     ## Age
     age=patients.age_as_of(
-        "patient_index_date",
+        "index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},

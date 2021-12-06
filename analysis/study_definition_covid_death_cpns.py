@@ -70,20 +70,16 @@ study = StudyDefinition(
         ),
 
     ),
-    ### patient index date = covid infection
-    #SGSS_positive_test_date
-    patient_index_date=patients.with_test_result_in_sgss(
-    pathogen="SARS-CoV-2",
-    test_result="positive",
-    on_or_after="index_date",
-    find_first_match_in_period=True,
-    returning="date",
-    date_format="YYYY-MM-DD",
-    return_expectations={
-        "date": {"earliest" : "2020-03-01"},
-        "rate" : "exponential_increase"
-    },
+    ### patient index date = covid death
+    ## CPNS: all in-hospital covid-related deaths
+    patient_index_date=patients.with_death_recorded_in_cpns(
+        on_or_after="index_date",
+        returning="date_of_death",
+        date_format="YYYY-MM-DD",
+        return_expectations={"date": {"earliest" : "2020-02-01"},
+        "rate" : "exponential_increase"},
     ),
+
     ## Age
     age=patients.age_as_of(
         "patient_index_date",
