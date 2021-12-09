@@ -37,6 +37,13 @@ df$date <- as.Date(df$date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon <- (format(min(df$date), "%m-%Y"))
+last_mon <- (format(max(df$date), "%m-%Y"))
+
+
 ### replace NA in number of abs 12 months before to 0
 df$antibacterial_12mb4[is.na(df$antibacterial_12mb4)] <- 0
 
@@ -60,7 +67,8 @@ df_per_abgp <- df_percent %>% group_by(practice, cal_mon, cal_year, ab_cat) %>%
 
 stackedbar <- ggplot(df_per_abgp, aes(x=date, y=percentgp))+
     geom_col(aes(fill=ab_cat)) +
-    scale_x_date(date_labels = "%b %Y")
+    scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+    theme(axis.text.x=element_text(angle=60,hjust=1))
 
 
 

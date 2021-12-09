@@ -73,3 +73,10 @@ actions:
        moderately_sensitive:
         plot: output/UTI.png
     
+  describe_prior_ab_12mb4:
+    run: r:latest analysis/plot/ab_1yb4_stackedbar_2.R
+    needs: [generate_study_population]
+    outputs:
+       moderately_sensitive:
+        plot: output/AB_1yb4_line.jpeg
+        plot_sex: output/AB_1yb4_SEX.jpeg
