@@ -14,6 +14,8 @@ library('stringr')
 library("data.table")
 library("ggpubr")
 
+setwd(here::here("output", "measures"))
+
 ### read data  ###
 ### 1.1 import patient-level data(study definition input.csv) to summarize antibiotics counts
 ############ loop reading multiple CSV files ################
