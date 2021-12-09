@@ -21,14 +21,14 @@ setwd(here::here("output", "measures"))
 ### 1.1 import patient-level data(study definition input.csv) to summarize antibiotics counts
 ############ loop reading multiple CSV files ################
 # read file list from input.csv
-csvFiles = list.files(pattern="input_", full.names = TRUE)
+csvFiles = list.files(pattern="input_2", full.names = TRUE)
 temp <- vector("list", length(csvFiles))
 
 for (i in seq_along(csvFiles)){
   filename <- csvFiles[i]
   temp_df <- read_csv(filename)
-  
-  filename <-str_remove(filename, "./input_")
+  filename <- basename(filename)
+  filename <-str_remove(filename, "input_")
   filename <-str_remove(filename, ".csv.gz")
   
   #add to per-month temp df
@@ -88,7 +88,7 @@ prior12m_line <- ggplot(df_per_abgp, aes(x=date, y=percentgp, group=`Prior ABs`)
                   theme(axis.text.x=element_text(angle=60,hjust=1))+
                   labs(title = "Distribution of population level of prior antibiotic use (12m before) over time",
                        x = "", y = "Percentage",
-                       caption = paste("Data from", num_pats,"patients"),)
+                       caption = paste("Data from", num_pats,"patients"))
 ggsave(
   plot= prior12m_line,
   filename="AB_1yb4_line.jpeg", path=here::here("output"),
