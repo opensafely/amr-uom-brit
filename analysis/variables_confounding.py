@@ -6,8 +6,57 @@ def generate_confounding_variables(index_date_variable):
     confounding_variables  = dict(
          
 
+    ## Demographics
+    #age
+    age=patients.age_as_of(
+        "patient_index_date",
+        return_expectations={
+            "rate": "universal",
+            "int": {"distribution": "population_ages"},
+            "incidence": 0.001
+        },
+    ),
 
-    ## self-reported ethnicity 
+    # Age categories(18-29; 30-39; 40-49; 50-59; 60-69; 70-79; 80+)
+    age_cat=patients.categorised_as(
+        {
+            "0":"DEFAULT",
+            "18-29": """ age >= 18 AND age < 30""",
+            "30-39": """ age >= 30 AND age < 40""",
+            "40-49": """ age >= 40 AND age < 50""",
+            "50-59": """ age >= 50 AND age < 60""",
+            "60-69": """ age >= 60 AND age < 70""",
+            "70-79": """ age >= 70 AND age < 80""",
+            "80+": """ age >= 80 AND age < 110""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0,
+                    "18-29": 0.24, 
+                    "30-39": 0.21,
+                    "40-49": 0.11,
+                    "50-59": 0.11,
+                    "60-69": 0.11,
+                    "70-79": 0.11,
+                    "80+": 0.11,
+                }
+            },
+        },
+    ),
+
+    
+    #Sex
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+        }
+    ),
+
+
+    # self-reported ethnicity 
     ethnicity=patients.with_these_clinical_events(
         ethnicity_codes,
         returning="category",
@@ -19,7 +68,7 @@ def generate_confounding_variables(index_date_variable):
         },
     ),
 
-    ## Care home
+    # Care home
     care_home=patients.with_these_clinical_events(
         carehome_primis_codes,
         on_or_before=f'{index_date_variable}',
@@ -27,7 +76,7 @@ def generate_confounding_variables(index_date_variable):
         return_expectations={"incidence": 0.5},
      ),
 
-     ## index of multiple deprivation, estimate of SES based on patient post code 
+    # index of multiple deprivation, estimate of SES based on patient post code 
 	imd=patients.categorised_as(
         {
             "0": "DEFAULT",
@@ -126,7 +175,7 @@ def generate_confounding_variables(index_date_variable):
         between=["2010-02-01", f'{index_date_variable}'],
         minimum_age_at_measurement=18,
         include_measurement_date=True,
-        date_format="YYYY-MM",
+        date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": "2010-02-01", "latest": "today"},
             "float": {"distribution": "normal", "mean": 28, "stddev": 8},
@@ -190,7 +239,7 @@ def generate_confounding_variables(index_date_variable):
     ## flu vaccine entered as a medication 
     flu_vaccine_med=patients.with_these_medications(
         flu_med_codes,
-        between=[f'{index_date_variable}- 12 months', f'{index_date_variable}'],  # current flu season
+        between=[f'{index_date_variable}- 12 months', f'{index_date_variable}'],  
         returning="binary_flag",
         return_first_date_in_period=True,
         include_month=True,
@@ -202,7 +251,7 @@ def generate_confounding_variables(index_date_variable):
     flu_vaccine_clinical=patients.with_these_clinical_events(
         flu_clinical_given_codes,
         ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
-        between=[f'{index_date_variable}- 12 months', f'{index_date_variable}'],  # current flu season
+        between=[f'{index_date_variable}- 12 months', f'{index_date_variable}'],  
         returning="binary_flag",
         return_first_date_in_period=True,
         include_month=True,
@@ -233,7 +282,7 @@ def generate_confounding_variables(index_date_variable):
             "product_codes": covrx_code,
         },
         find_first_match_in_period=True,
-        on_or_before="index_date",
+        on_or_before=f'{index_date_variable}',
         on_or_after="2020-11-29",
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -256,7 +305,7 @@ def generate_confounding_variables(index_date_variable):
             "product_codes": covrx_code,
         },
         find_last_match_in_period=True,
-        on_or_before="index_date",
+        on_or_before=f'{index_date_variable}',
         on_or_after="covrx1_dat + 19 days",
         date_format="YYYY-MM-DD",
         return_expectations={

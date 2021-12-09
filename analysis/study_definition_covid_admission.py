@@ -27,19 +27,16 @@ covid_variables = generate_covid_variables(index_date_variable="patient_index_da
 from variables_antibiotics import generate_ab_variables
 ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
 
-# Exposure variables: antibiotics time
-from variables_antibiotics_time import with_these_ab_date_X
-ab_time_variables = with_these_ab_date_X(index_date_variable="patient_index_date")
-
-
 ## Demographics, vaccine, included as they are potential confounders 
 from variables_confounding import generate_confounding_variables
-confounding_variables = generate_confounding_variables(index_date_variable="index_date")
+confounding_variables = generate_confounding_variables(index_date_variable="patient_index_date")
 
 ## Comobidities related to covid outcome 
 from variables_comobidities import generate_comobidities_variables
-comobidities_variables = generate_comobidities_variables(index_date_variable="index_date")
+comobidities_variables = generate_comobidities_variables(index_date_variable="patient_index_date")
 
+# ## import recurring event functions
+# from recurrent_event_funs import *
 
 study = StudyDefinition(
 
@@ -85,58 +82,6 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.25},
     ),
-    ## Age
-    age=patients.age_as_of(
-        "patient_index_date",
-        return_expectations={
-            "rate": "universal",
-            "int": {"distribution": "population_ages"},
-            "incidence": 0.001
-        },
-    ),
-
-    ## Age categories
-    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
-    age_cat=patients.categorised_as(
-        {
-            "0":"DEFAULT",
-            "0-4": """ age >= 0 AND age < 5""",
-            "5-14": """ age >= 5 AND age < 15""",
-            "15-24": """ age >= 15 AND age < 25""",
-            "25-34": """ age >= 25 AND age < 35""",
-            "35-44": """ age >= 35 AND age < 45""",
-            "45-54": """ age >= 45 AND age < 55""",
-            "55-64": """ age >= 55 AND age < 65""",
-            "65-74": """ age >= 65 AND age < 75""",
-            "75+": """ age >= 75 AND age < 120""",
-        },
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0": 0,
-                    "0-4": 0.12, 
-                    "5-14": 0.11,
-                    "15-24": 0.11,
-                    "25-34": 0.11,
-                    "35-44": 0.11,
-                    "45-54": 0.11,
-                    "55-64": 0.11,
-                    "65-74": 0.11,
-                    "75+": 0.11,
-                }
-            },
-        },
-    ),
-
-    
-    ## Sex
-    sex=patients.sex(
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-        }
-    ),
 
 
     # observation end date
@@ -150,29 +95,43 @@ study = StudyDefinition(
         }
     ),
     ## died after start date
-    ons_died_date_=patients.died_from_any_cause(
-        on_or_before="index_date",
+    ons_died_date=patients.died_from_any_cause(
+        on_or_after="index_date",
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"}},
     ),
+
+    # # antibiotics prescribing time 
+    # ab_0_date=patients.with_these_medications(
+    #     antibacterials_codes_brit,
+    #     returning="date",
+    #     date_format="YYYY-MM-DD",
+    #     on_or_before="patient_index_date",
+    #     find_last_match_in_period=True,
+    #     return_expectations={
+    #         "date": {"earliest": start_date, "latest": end_date},
+    #         "rate": "exponential_increase",
+    #         "incidence": 0.01
+    #     },
+    # ),
+    # **with_these_medications_date_X(
+    #     name="ab",
+    #     n=6,
+    #     index_date="patient_index_date",
+    #     codelist=mantibacterials_codes_brit,
+    #     return_expectations={
+    #         "date": {"earliest": start_date, "latest": end_date},
+    #         "rate": "uniform",
+    #         "incidence": 0.01,
+    #     },
+    # ),
 
 
     **ab_variables,
     **confounding_variables,
     **covid_variables,
     **comobidities_variables,
-    **ab_time_variables,
+    # **ab_time_variables,
   
 )
-
-
-
-
-
-
-
-
-
-
-    

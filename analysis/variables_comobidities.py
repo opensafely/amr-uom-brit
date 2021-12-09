@@ -11,11 +11,11 @@ def generate_comobidities_variables(index_date_variable):
     bp_sys=patients.mean_recorded_value(
         systolic_blood_pressure_codes,
         on_most_recent_day_of_measurement=True,
-        between=["index_date- 3 years", "index_date"],
+        between=[f'{index_date_variable}- 3 years', f'{index_date_variable}'],
         include_measurement_date=True,
-        include_month=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
-            "float": {"distribution": "normal", "mean": 80, "stddev": 10},
+            "float": {"distribution": "normal", "mean": 120, "stddev": 10},
             "date": {"earliest": "2019-02-01", "latest": "2020-01-31"},
             "incidence": 0.95,
         },
@@ -24,11 +24,11 @@ def generate_comobidities_variables(index_date_variable):
     bp_dias=patients.mean_recorded_value(
         diastolic_blood_pressure_codes,
         on_most_recent_day_of_measurement=True,
-        between=["index_date- 3 years", "index_date"],
+        between=[f'{index_date_variable}- 3 years', f'{index_date_variable}'],
         include_measurement_date=True,
-        include_month=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
-            "float": {"distribution": "normal", "mean": 120, "stddev": 10},
+            "float": {"distribution": "normal", "mean": 80, "stddev": 10},
             "date": {"earliest": "2019-02-01", "latest": "2020-01-31"},
             "incidence": 0.95,
         },
@@ -38,10 +38,10 @@ def generate_comobidities_variables(index_date_variable):
     hba1c_mmol_per_mol=patients.with_these_clinical_events(
         hba1c_new_codes,
         find_last_match_in_period=True,
-        between=["index_date- 3 years", "index_date"],
+        between=[f'{index_date_variable}- 3 years', f'{index_date_variable}'],
         returning="numeric_value",
         include_date_of_match=True,
-        include_month=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": "2019-02-01", "latest": "2020-01-31"},
             "float": {"distribution": "normal", "mean": 40.0, "stddev": 20},
@@ -52,10 +52,10 @@ def generate_comobidities_variables(index_date_variable):
     hba1c_percentage=patients.with_these_clinical_events(
         hba1c_old_codes,
         find_last_match_in_period=True,
-        between=["index_date- 3 years", "index_date"],
+        between=[f'{index_date_variable}- 3 years', f'{index_date_variable}'],
         returning="numeric_value",
         include_date_of_match=True,
-        include_month=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
             "date": {"earliest": "2019-02-01", "latest": "2020-01-31"},
             "float": {"distribution": "normal", "mean": 5, "stddev": 2},
@@ -63,14 +63,14 @@ def generate_comobidities_variables(index_date_variable):
         },
     ),
 
-    # # Creatinine
+    ## Creatinine
     creatinine=patients.with_these_clinical_events(
         creatinine_codes,
         find_last_match_in_period=True,
-        between=["index_date- 3 years", "index_date"],
+        between=[f'{index_date_variable}- 3 years', f'{index_date_variable}'],
         returning="numeric_value",
         include_date_of_match=True,
-        include_month=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
             "float": {"distribution": "normal", "mean": 60.0, "stddev": 15},
             "date": {"earliest": "index_date - 3 years", "latest": "index_date"},

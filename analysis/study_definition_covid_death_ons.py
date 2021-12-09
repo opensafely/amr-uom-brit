@@ -29,11 +29,11 @@ ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
 
 ## Demographics, vaccine, included as they are potential confounders 
 from variables_confounding import generate_confounding_variables
-confounding_variables = generate_confounding_variables(index_date_variable="index_date")
+confounding_variables = generate_confounding_variables(index_date_variable="patient_index_date")
 
 ## Comobidities related to covid outcome 
 from variables_comobidities import generate_comobidities_variables
-comobidities_variables = generate_comobidities_variables(index_date_variable="index_date")
+comobidities_variables = generate_comobidities_variables(index_date_variable="patient_index_date")
 
 
 study = StudyDefinition(
@@ -147,8 +147,8 @@ study = StudyDefinition(
         }
     ),
     ## died after start date
-    ons_died_date_=patients.died_from_any_cause(
-        on_or_before="index_date",
+    ons_died_date=patients.died_from_any_cause(
+        on_or_after="index_date",
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"}},

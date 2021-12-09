@@ -40,7 +40,7 @@ df=df%>%
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
 
-write_csv(df, here::here("output", "input_covid_infection.csv"))
+write_csv(df, here::here("output", "case_covid_infection.csv"))
 
 rm(list=ls())
 
@@ -62,7 +62,7 @@ df=df%>%
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
 
-write_csv(df, here::here("output", "input_covid_hospital_admission.csv"))
+write_csv(df, here::here("output", "case_covid_admission.csv"))
 
 rm(list=ls())
 
@@ -92,4 +92,4 @@ df=df%>%
   distinct(patient_id, .keep_all = TRUE)
 
 
-write_csv(df, here::here("output", "input_covid_icu&died.csv"))
+write_csv(df, here::here("output", "case_covid_icu_death.csv"))

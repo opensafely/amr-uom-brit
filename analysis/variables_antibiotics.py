@@ -176,6 +176,25 @@ def generate_ab_variables(index_date_variable):
         },
     ),
     
+    ## time period ab prescriptions 
+    ab_first_date=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],
+        returning="date",
+        find_first_match_in_period=True,  
+        date_format="YYYY-MM-DD",  
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.5},
+    ),
+
+    ab_last_date=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],
+        returning="date",
+        find_last_match_in_period=True,  
+        date_format="YYYY-MM-DD",  
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.5},
+    ),
+
 
     ## number of broad-spectrum ab prescriptions
    

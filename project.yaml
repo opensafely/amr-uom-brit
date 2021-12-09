@@ -115,9 +115,9 @@ actions:
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_icu,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
     outputs:
        highly_sensitive:
-        cohort1: output/input_covid_infection.csv
-        cohort2: output/input_covid_hospital_admission.csv
-        cohort3: output/input_covid_icu&died.csv
+        cohort1: output/case_covid_infection.csv
+        cohort2: output/case_covid_admission.csv
+        cohort3: output/case_covid_icu_death.csv
 
   matching:
     run: python:latest python analysis/matching.py
