@@ -44,7 +44,14 @@ df=df%>% rename(infection_counts=uti_counts, incdt_pt=incdt_uti_pt)
 
 df[is.na(df)] <- 0 # replace NA ->0
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
+
+# select incident pt and count consultations
+## incdt_pt==0 means has no consultation in prior 6 weeks
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -74,17 +81,19 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar1 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
+  geom_rect(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90", alpha=0.01)+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
   theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
+  #theme(panel.background = element_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),fill = "#67c9ff"))+
+  scale_x_date(date_labels = "%m %Y")+
   labs(
     title = "UTI",
-    x = "Time", 
+    x = "", 
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; Lockdown time: grey area"),
     y = "consultation rate per 1,000 registered patients")
 
 
