@@ -77,7 +77,7 @@ actions:
         bar4: output/consult_age_sinusitis.png
         bar5: output/consult_age_ot_externa.png
         bar6: output/consult_age_otmedia.png
-        bar7: output/consult_age_repeatedUTI.png
+        #bar7: output/consult_age_repeatedUTI.png
        
 
 

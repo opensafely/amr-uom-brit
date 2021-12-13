@@ -81,21 +81,18 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar1 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90", alpha=0.01)+
   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
-  #theme(panel.background = element_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),fill = "#67c9ff"))+
-  scale_x_date(date_labels = "%m %Y")+
+  theme(axis.text.x = element_text(angle = 30,hjust=1))+
+  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
   labs(
     title = "UTI",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; Lockdown time: grey area"),
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "consultation rate per 1,000 registered patients")
-
 
 
 ggsave(
@@ -137,6 +134,11 @@ df=df%>% rename(infection_counts=lrti_counts, incdt_pt=incdt_lrti_pt) ### !!  ##
 ### 2. summarise table
 
 df[is.na(df)] <- 0 # replace NA ->0
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
@@ -168,17 +170,17 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar2 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
+  theme(axis.text.x = element_text(angle = 30,hjust=1))+
+  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
   labs(
     title = "LRTI",   ### !!  ####
-    x = "Time", 
+    x = "", 
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "consultation rate per 1,000 registered patients")
 
 
@@ -223,6 +225,11 @@ df=df%>% rename(infection_counts=urti_counts, incdt_pt=incdt_urti_pt) ### !!  ##
 ## 2. summarise table
 
 df[is.na(df)] <- 0 # replace NA ->0
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
@@ -254,17 +261,17 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar3 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
+  theme(axis.text.x = element_text(angle = 30,hjust=1))+
+  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
   labs(
     title = "URTI",   ### !!  ####
-    x = "Time", 
+    x = "", 
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "consultation rate per 1,000 registered patients")
 
 
@@ -308,6 +315,11 @@ df=df%>% rename(infection_counts=sinusitis_counts, incdt_pt=incdt_sinusitis_pt) 
 ### 2. summarise table
 
 df[is.na(df)] <- 0 # replace NA ->0
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
@@ -339,17 +351,17 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar4 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
+  theme(axis.text.x = element_text(angle = 30,hjust=1))+
+  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
   labs(
     title = "sinusitis",   ### !!  ####
-    x = "Time", 
+    x = "", 
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "consultation rate per 1,000 registered patients")
 
 
@@ -395,6 +407,11 @@ df=df%>% rename(infection_counts=ot_externa_counts, incdt_pt=incdt_ot_externa_pt
 ### 2. summarise table
 
 df[is.na(df)] <- 0 # replace NA ->0
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
@@ -426,17 +443,17 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar5 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
+  theme(axis.text.x = element_text(angle = 30,hjust=1))+
+  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
   labs(
-    title = "ot_externa",   ### !!  ####
-    x = "Time", 
+    title = "otitis externa",   ### !!  ####
+    x = "", 
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "consultation rate per 1,000 registered patients")
 
 
@@ -481,6 +498,11 @@ df=df%>% rename(infection_counts=otmedia_counts, incdt_pt=incdt_otmedia_pt) ### 
 ## 2. summarise table
 
 df[is.na(df)] <- 0 # replace NA ->0
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
@@ -512,17 +534,17 @@ df_plot=df_sum_gp_age%>%
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 bar6 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
+  theme(axis.text.x = element_text(angle = 30,hjust=1))+
+  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
   labs(
-    title = "ot_externa",   ### !!  ####
-    x = "Time", 
+    title = "otitis externa",   ### !!  ####
+    x = "", 
+    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "consultation rate per 1,000 registered patients")
 
 
@@ -537,86 +559,85 @@ rm(list=ls())
 
 
 
-########### repeated UTI ################
-### 1. import data 
+# ########### repeated UTI ################
+# ### 1. import data 
 
-df <- read_csv(
-  here::here("output", "measures", "measure_consult_UTI.csv"),
-  col_types = cols_only(
+# df <- read_csv(
+#   here::here("output", "measures", "measure_consult_UTI.csv"),
+#   col_types = cols_only(
     
-    # Identifier
-    practice = col_integer(),
+#     # Identifier
+#     practice = col_integer(),
     
-    # Outcomes
-    uti_counts  = col_double(),
-    population  = col_double(),
-    incdt_uti_pt = col_double(),
-    age_cat = col_character(),
-    value = col_double(),
+#     # Outcomes
+#     uti_counts  = col_double(),
+#     population  = col_double(),
+#     incdt_uti_pt = col_double(),
+#     age_cat = col_character(),
+#     value = col_double(),
     
-    # Date
-    date = col_date(format="%Y-%m-%d")
+#     # Date
+#     date = col_date(format="%Y-%m-%d")
     
-  ),
-  na = character()
-)
-df$date <- as.Date(df$date)
-# 1.1 unifrom col name
+#   ),
+#   na = character()
+# )
+# df$date <- as.Date(df$date)
+# # 1.1 unifrom col name
 
-df=df%>% rename(infection_counts=uti_counts, incdt_pt=incdt_uti_pt)
+# df=df%>% rename(infection_counts=uti_counts, incdt_pt=incdt_uti_pt)
 
-### 2. summarise table
+# ### 2. summarise table
 
-df[is.na(df)] <- 0 # replace NA ->0
+# df[is.na(df)] <- 0 # replace NA ->0
 
-# select incdt=1 (means repeated UTI case) , count consultation times
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+# # select incdt=1 (means repeated UTI case) , count consultation times
+# df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
+# # add col: population per GP in each time point- same number in multiple row within same gp
+# df=df%>%
+#   group_by(date,practice)%>% 
+#   mutate(population=sum(population))
          
-# summarize incident number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+# # summarize incident number of each age_cat
+# df_sum_gp_age=df%>%
+#   group_by(date,practice,age_cat)%>% 
+#   summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+#             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
-# "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+# # "rate per 1,000 registered patients"
+# df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
-### 3. plot
+# ### 3. plot
 
-df_plot=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
-
-
-
-# bar chart
-df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
-
-bar7 <- ggplot(df_plot, aes(x=date, y=rate))+
-  scale_x_date(date_labels = "%b %Y")+
-  geom_rect(xmin = -Inf,xmax = Inf, ymin = -Inf, ymax = Inf,fill="grey90")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2021-01-01"),ymin = -Inf, ymax = Inf,fill="grey80")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-11-01"),ymin = -Inf, ymax = Inf,fill="grey70")+
-  geom_rect(xmin = -Inf,xmax = as.Date("2020-03-01"),ymin = -Inf, ymax = Inf,fill="grey60")+
-  geom_col()+
-  facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))+
-  labs(
-    title = "repeated UTI",
-    x = "Time", 
-    y = "consultation rate per 1,000 registered patients")
+# df_plot=df_sum_gp_age%>%
+#   group_by(date,age_cat)%>%
+#   summarise(rate=mean(rate))
 
 
 
-ggsave(
-  plot= bar7,
-  filename="consult_age_repeatedUTI.png", path=here::here("output"),
-)
+# # bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-rm(list=ls())
+# bar7 <- gplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "repeated UTI",
+#     x = "Time", 
+#     y = "consultation rate per 1,000 registered patients")
+
+
+
+# ggsave(
+#   plot= bar7,
+#   filename="consult_age_repeatedUTI.png", path=here::here("output"),
+# )
+
+# rm(list=ls())
