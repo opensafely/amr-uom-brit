@@ -71,33 +71,51 @@ df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 ### 3. plot
 
+
 df_plot=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
-
+  summarise(rate=mean(rate))%>%
+  mutate(year=format(date,"%Y"))
 
 
 # bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+# bar1 <- ggplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "UTI",
+#     x = "", 
+#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     y = "consultation rate per 1,000 registered patients")
+
+# line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-bar1 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
-  geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 30,hjust=1))+
-  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+  geom_line(aes(color=year))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
+  #theme(axis.text.x = element_blank())+
   labs(
-    title = "UTI",
+    title = "UTI Consultation Rate",
     x = "", 
     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
-    y = "consultation rate per 1,000 registered patients")
-
+    y = "rate per 1,000 registered patients")
 
 ggsave(
-  plot=bar1,
-  filename="consult_age_UTI.png", path=here::here("output"),
+  plot=lineplot,
+  filename="consult_age_UTI.jpg", path=here::here("output"),
 )
 
 rm(list=ls())
@@ -162,32 +180,49 @@ df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 df_plot=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
+  summarise(rate=mean(rate))%>%
+  mutate(year=format(date,"%Y"))
 
 
+# # bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-# bar chart
+# bar2 <- ggplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "LRTI",   ### !!  ####
+#     x = "", 
+#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     y = "consultation rate per 1,000 registered patients")
+
+# line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-bar2 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
-  geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 30,hjust=1))+
-  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+  geom_line(aes(color=year))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
+  #theme(axis.text.x = element_blank())+
   labs(
-    title = "LRTI",   ### !!  ####
+    title = "LRTI Consultation Rate",
     x = "", 
     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
-    y = "consultation rate per 1,000 registered patients")
-
+    y = "rate per 1,000 registered patients")
 
 
 ggsave(
-  plot= bar2,
-  filename="consult_age_LRTI.png", path=here::here("output"), ### !!  ####
+  plot= lineplot,
+  filename="consult_age_LRTI.jpg", path=here::here("output"), ### !!  ####
 )
 
 rm(list=ls())
@@ -253,31 +288,49 @@ df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 df_plot=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
+  summarise(rate=mean(rate))%>%
+  mutate(year=format(date,"%Y"))
 
 
 
-# bar chart
+# # bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+# bar3 <- ggplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "URTI",   ### !!  ####
+#     x = "", 
+#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     y = "consultation rate per 1,000 registered patients")
+
+# line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-bar3 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
-  geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 30,hjust=1))+
-  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+  geom_line(aes(color=year))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
+  #theme(axis.text.x = element_blank())+
   labs(
-    title = "URTI",   ### !!  ####
+    title = "URTI Consultation Rate",
     x = "", 
     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
-    y = "consultation rate per 1,000 registered patients")
-
+    y = "rate per 1,000 registered patients")
 
 ggsave(
-  plot= bar3,
-  filename="consult_age_URTI.png", path=here::here("output"), ### !!  ####
+  plot= lineplot,
+  filename="consult_age_URTI.jpg", path=here::here("output"), ### !!  ####
 )
 
 rm(list=ls())
@@ -343,32 +396,50 @@ df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 df_plot=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
+  summarise(rate=mean(rate))%>%
+  mutate(year=format(date,"%Y"))
 
 
 
-#  bar chart
+# #  bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+# bar4 <- ggplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "sinusitis",   ### !!  ####
+#     x = "", 
+#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     y = "consultation rate per 1,000 registered patients")
+
+# line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-bar4 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
-  geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 30,hjust=1))+
-  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+  geom_line(aes(color=year))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
+  #theme(axis.text.x = element_blank())+
   labs(
-    title = "sinusitis",   ### !!  ####
+    title = "Sinusitis Consultation Rate",
     x = "", 
     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
-    y = "consultation rate per 1,000 registered patients")
-
+    y = "rate per 1,000 registered patients")
 
 
 ggsave(
-  plot= bar4,
-  filename="consult_age_sinusitis.png", path=here::here("output"), ### !!  ####
+  plot= lineplot,
+  filename="consult_age_sinusitis.jpg", path=here::here("output"), ### !!  ####
 )
 
 rm(list=ls())
@@ -435,32 +506,49 @@ df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 df_plot=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
+  summarise(rate=mean(rate))%>%
+  mutate(year=format(date,"%Y"))
 
 
 
-#  bar chart
+# #  bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+# bar5 <- ggplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "otitis externa",   ### !!  ####
+#     x = "", 
+#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     y = "consultation rate per 1,000 registered patients")
+
+# line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-bar5 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
-  geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 30,hjust=1))+
-  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+  geom_line(aes(color=year))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
+  #theme(axis.text.x = element_blank())+
   labs(
-    title = "otitis externa",   ### !!  ####
+    title = "Otitis Externa Consultation Rate",
     x = "", 
     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
-    y = "consultation rate per 1,000 registered patients")
-
-
+    y = "rate per 1,000 registered patients")
 
 ggsave(
-  plot= bar5,
-  filename="consult_age_ot_externa.png", path=here::here("output"), ### !!  ####
+  plot= lineplot,
+  filename="consult_age_ot_externa.jpg", path=here::here("output"), ### !!  ####
 )
 
 rm(list=ls())
@@ -523,35 +611,50 @@ df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
 ## 3. plot
-
 df_plot=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))
+  summarise(rate=mean(rate))%>%
+  mutate(year=format(date,"%Y"))
 
 
+# #bar chart
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-#bar chart
+# bar6 <- ggplot(df_plot, aes(x=date, y=rate))+
+#   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+#   geom_col()+
+#   facet_grid(rows = vars(age_cat))+
+#   theme(axis.text.x = element_text(angle = 30,hjust=1))+
+#   scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+#   labs(
+#     title = "otitis media",   ### !!  ####
+#     x = "", 
+#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     y = "consultation rate per 1,000 registered patients")
+
+# line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-bar6 <- ggplot(df_plot, aes(x=date, y=rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
+lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.01)+
-  geom_col()+
   facet_grid(rows = vars(age_cat))+
-  theme(axis.text.x = element_text(angle = 30,hjust=1))+
-  scale_x_date(date_breaks = "3 month", date_labels =  "%m-%Y")+
+  geom_line(aes(color=year))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
+  #theme(axis.text.x = element_blank())+
   labs(
-    title = "otitis externa",   ### !!  ####
+    title = "Otitis Media Consultation Rate",
     x = "", 
     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
-    y = "consultation rate per 1,000 registered patients")
-
-
+    y = "rate per 1,000 registered patients")
 
 ggsave(
-  plot= bar6,
-  filename="consult_age_otmedia.png", path=here::here("output"), ### !!  ####
+  plot= lineplot,
+  filename="consult_age_otmedia.jpg", path=here::here("output"), ### !!  ####
 )
 
 rm(list=ls())

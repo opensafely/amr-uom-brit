@@ -71,12 +71,12 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        bar1: output/consult_age_UTI.png
-        bar2: output/consult_age_LRTI.png
-        bar3: output/consult_age_URTI.png
-        bar4: output/consult_age_sinusitis.png
-        bar5: output/consult_age_ot_externa.png
-        bar6: output/consult_age_otmedia.png
+        bar1: output/consult_age_UTI.jpg
+        bar2: output/consult_age_LRTI.jpg
+        bar3: output/consult_age_URTI.jpg
+        bar4: output/consult_age_sinusitis.jpg
+        bar5: output/consult_age_ot_externa.jpg
+        bar6: output/consult_age_otmedia.jpg
         #bar7: output/consult_age_repeatedUTI.png
        
 
