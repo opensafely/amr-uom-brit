@@ -1,6 +1,6 @@
 ##############
 ## Consultation rates for 6 common infection over time,
-## stratified overall and by age categories. 
+## stratified by age categories. 
 ## Consultation for common infection will only include those with no prior records in 6 weeks of the same infection.
 ##############
 
@@ -92,7 +92,7 @@ df_plot=df_sum_gp_age%>%
 #   labs(
 #     title = "UTI",
 #     x = "", 
-#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
 #     y = "consultation rate per 1,000 registered patients")
 
 # line graph- by age group and divided by year
@@ -110,7 +110,7 @@ lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
   labs(
     title = "UTI Consultation Rate",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "rate per 1,000 registered patients")
 
 ggsave(
@@ -198,7 +198,7 @@ df_plot=df_sum_gp_age%>%
 #   labs(
 #     title = "LRTI",   ### !!  ####
 #     x = "", 
-#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
 #     y = "consultation rate per 1,000 registered patients")
 
 # line graph- by age group and divided by year
@@ -216,7 +216,7 @@ lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
   labs(
     title = "LRTI Consultation Rate",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "rate per 1,000 registered patients")
 
 
@@ -307,7 +307,7 @@ df_plot=df_sum_gp_age%>%
 #   labs(
 #     title = "URTI",   ### !!  ####
 #     x = "", 
-#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
 #     y = "consultation rate per 1,000 registered patients")
 
 # line graph- by age group and divided by year
@@ -325,7 +325,7 @@ lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
   labs(
     title = "URTI Consultation Rate",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "rate per 1,000 registered patients")
 
 ggsave(
@@ -415,7 +415,7 @@ df_plot=df_sum_gp_age%>%
 #   labs(
 #     title = "sinusitis",   ### !!  ####
 #     x = "", 
-#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
 #     y = "consultation rate per 1,000 registered patients")
 
 # line graph- by age group and divided by year
@@ -433,7 +433,7 @@ lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
   labs(
     title = "Sinusitis Consultation Rate",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "rate per 1,000 registered patients")
 
 
@@ -525,7 +525,7 @@ df_plot=df_sum_gp_age%>%
 #   labs(
 #     title = "otitis externa",   ### !!  ####
 #     x = "", 
-#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
 #     y = "consultation rate per 1,000 registered patients")
 
 # line graph- by age group and divided by year
@@ -543,7 +543,7 @@ lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
   labs(
     title = "Otitis Externa Consultation Rate",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "rate per 1,000 registered patients")
 
 ggsave(
@@ -631,7 +631,7 @@ df_plot=df_sum_gp_age%>%
 #   labs(
 #     title = "otitis media",   ### !!  ####
 #     x = "", 
-#     caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+#     caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
 #     y = "consultation rate per 1,000 registered patients")
 
 # line graph- by age group and divided by year
@@ -649,7 +649,7 @@ lineplot<- ggplot(df_plot, aes(x=date, y=rate))+
   labs(
     title = "Otitis Media Consultation Rate",
     x = "", 
-    caption = paste0("Dara from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
+    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon),"; National lockdown in grey area"),
     y = "rate per 1,000 registered patients")
 
 ggsave(

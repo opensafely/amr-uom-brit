@@ -78,7 +78,15 @@ actions:
         bar5: output/consult_age_ot_externa.jpg
         bar6: output/consult_age_otmedia.jpg
         #bar7: output/consult_age_repeatedUTI.png
-       
+  
+  describe_consultation_rate_all:
+    run: r:latest analysis/plot/incident_consultation_by_age_infection.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot: output/consult_age_all.jpg
+        csv: output/consultation_rate.csv
+      
 
 
   describe_consultation_prescribed:
