@@ -1245,11 +1245,63 @@ study = StudyDefinition(
 
 
     #### perscribed percentage #####
-    #### search infection codes for 4 times in one month
+    #### infection history in prior 1 month (incident/prevelent prescribing)
     #### count same-date prescriobing numbers of AB
 
-# ---- UTI flags
+########## infection history in prior 1 month (incident/prevelent prescribing)#############
+## 0=incident case  / 1=prevelent
+    #  --UTI 
+    hx_uti=patients.with_these_clinical_events(
+        uti_codes,
+        returning="binary_flag",
+        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+    #  --LRTI 
+    hx_lrti=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="binary_flag",
+        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),
 
+    #  --URTI  
+    hx_urti=patients.with_these_clinical_events(
+        urti_codes,
+        returning="binary_flag",
+        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    #  --sinusitis 
+    hx_sinusitis=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ), 
+
+    #  --otitis externa
+    hx_ot_externa=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="binary_flag",
+        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),    
+
+    #  --otitis media
+    hx_otmedia=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="binary_flag",
+        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ), 
     ## numbers of antibiotic prescribed for this infection 
     uti_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes,

@@ -49,6 +49,7 @@ last.date=max(df$date)
 df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
+TPPnumber=length(unique(df$practice))
 
 # select incident pt and count consultations
 ## incdt_pt==0 means has no consultation in prior 6 weeks
@@ -427,18 +428,37 @@ write.csv(df_plot,here::here("output","consultation_rate.csv"))
 # line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-lineplot<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
+lineplot_age<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
   facet_grid(rows = vars(age_cat), cols = vars(indic))+
   geom_line()+
   theme(legend.position = "bottom",legend.title =element_blank())+
   scale_x_discrete(breaks =c("01","04","07","10"))+
-  #theme(axis.text.x = element_blank())+
   labs(
     title = "consultation rate per 1,000 registered patients",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
     x = "month", 
-    y = "rate",
-    caption = paste0("Data from TPP Practices, ",paste(first_mon,"-",last_mon)))
+    y = "rate")
 
-ggsave(
+lineplot<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "4 month",date_labels =  "%Y-%m")+
+  facet_grid(rows = vars(indic))+
+  geom_line(aes(color=age_cat))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+   labs(
+    title = "consultation rate per 1,000 registered patients",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; National lockdown in grey background"),
+    x = "month", 
+    y = "rate")
+
+  ggsave(
+  plot= lineplot_age,
+  filename="consult_age_grid.jpg", path=here::here("output"))
+
+  ggsave(
   plot= lineplot,
   filename="consult_age_all.jpg", path=here::here("output"))

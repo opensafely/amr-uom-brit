@@ -84,7 +84,8 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        plot: output/consult_age_all.jpg
+        plot1: output/consult_age_all.jpg
+        plot2: output/consult_age_grid.jpg
         csv: output/consultation_rate.csv
       
 
