@@ -97,6 +97,16 @@ actions:
        moderately_sensitive:
         bar1: output/prescribed_percentage_UTI.png
         csvs: output/uti_prescrib_check.csv
+
+  describe_infection_prescribed_percent:
+    run: r:latest analysis/plot/infection_prescibed_percent.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/infection_ab_precent_p1.jpg
+        plot2: output/infection_ab_precent_p2.jpg
+        plot3: output/infection_ab_precent_i1.jpg
+        plot4: output/infection_ab_precent_i2.jpg
      
 
   #generate_notebook_starpu:
@@ -125,3 +135,5 @@ actions:
     outputs:
        moderately_sensitive:
         plot: output/types_ab_barchart.png
+
+

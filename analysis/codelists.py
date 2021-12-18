@@ -32,22 +32,6 @@ broad_spectrum_antibiotics_codes = codelist_from_csv(
 )
 
 
-### asthma & COPD
-asthma_copd_codes = codelist_from_csv(
-    "codelists/user-rriefu-asthma_copd.csv", system="snomed", column="code"
-)
-
-
-### asthma
-asthma_codes = codelist_from_csv(
-    "codelists/user-rriefu-asthma.csv", system="snomed", column="code"
-)
-
-
-
-### cold
-cold_codes = codelist_from_csv(
-    "codelists/user-rriefu-cold_subset.csv", system="snomed", column="code")
 
 ### ethnicity 
 ethnicity_codes = codelist_from_csv(
