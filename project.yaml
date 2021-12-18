@@ -107,6 +107,7 @@ actions:
         plot2: output/infection_ab_precent_p2.jpg
         plot3: output/infection_ab_precent_i1.jpg
         plot4: output/infection_ab_precent_i2.jpg
+        plot5: output/infection_ab_precent_all.jpg
      
 
   #generate_notebook_starpu:

@@ -283,6 +283,7 @@ df.p=df%>%group_by(date,age_cat,infection)%>%
   summarise(percent=mean(percent))
 
 df.p$age_cat <- factor(df.p$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df.p$infection<-factor(df.p$infection, levels=c("UTI", "URTI", "LRTI","otitis externa", "otitis media", "sinusitis"))
 
 df.p$month=format(df.p$date,"%m")
 df.p$year=format(df.p$date,"%Y")
@@ -295,9 +296,9 @@ lineplot.p1<- ggplot(df.p, aes(x=month, y=percent,group=year,color=year))+
   theme(axis.text.x = element_text(angle = 90,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
-    title = "Percentage of infection records with antibiotic prescribing- prevalent) ",
+    title = "Percentage of infection records with antibiotic prescribing- prevalent ",
     subtitle = paste(first_mon,"-",last_mon),
-   caption = "estimated first infection record in each month and same day prescribing",
+   caption = "Estimated from patients' first infection record in each month and same day prescribing",
     x = "", 
     y = "")
 
@@ -309,11 +310,13 @@ lineplot.p2<- ggplot(df.p, aes(x=date, y=percent,group=age_cat))+
   scale_y_continuous(labels = scales::percent)+
   facet_grid(rows = vars(infection))+
   geom_line(aes(color=age_cat))+
-  theme(legend.position = "bottom",legend.title =element_blank())+
+  theme(axis.text.x = element_text(angle = 90,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Percentage of infection records with antibiotic prescribing- prevalent ",
     subtitle = paste(first_mon,"-",last_mon),
-  caption = "Estimated first infection record in each month and same day prescribing; National lockdown time in grey background. ",
+  caption = "Estimated from patients' first infection record in each month and same day prescribing; 
+  National lockdown time in grey background. ",
     x = "", 
     y = "")
 
@@ -326,6 +329,7 @@ df.i=df%>%group_by(date,age_cat,infection)%>%
 
 
 df.i$age_cat <- factor(df.i$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df.i$infection<-factor(df.i$infection, levels=c("UTI", "URTI", "LRTI","otitis externa", "otitis media", "sinusitis"))
 
 df.i$month=format(df.i$date,"%m")
 df.i$year=format(df.i$date,"%Y")
@@ -340,10 +344,10 @@ lineplot.i1<- ggplot(df.i, aes(x=month, y=percent,group=year,color=year))+
   labs(
     title = "Percentage of infection records with antibiotic prescribing- incident",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "estimated first infection record in each month and same day prescribing",
+    caption = "Estimated from patients' first infection record in each month and same day prescribing",
     x = "", 
     y = "")
-    
+
 lineplot.i2<- ggplot(df.i, aes(x=date, y=percent,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -352,13 +356,43 @@ lineplot.i2<- ggplot(df.i, aes(x=date, y=percent,group=age_cat))+
   scale_y_continuous(labels = scales::percent)+
   facet_grid(rows = vars(infection))+
   geom_line(aes(color=age_cat))+
-  theme(legend.position = "bottom",legend.title =element_blank())+
+  theme(axis.text.x = element_text(angle = 90,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Percentage of infection records with antibiotic prescribing- incident ",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated first infection record in each month and same day prescribing; National lockdown time in grey background. ",
+    caption = "Estimated from patients' first infection record in each month and same day prescribing; 
+    National lockdown time in grey background. ",
     x = "", 
     y = "")
+
+
+
+## 3.3 overall
+df$type=ifelse(df$hx_antibiotics==0&df$hx_indications==0,"incident","prevalent")
+df.all=df%>%group_by(date, infection,type)%>%
+  summarise(percent=mean(percent))
+
+df.all$infection<-factor(df.all$infection, levels=c("UTI", "URTI", "LRTI","otitis externa", "otitis media", "sinusitis"))
+
+lineplot.all<- ggplot(df.all, aes(x=date, y=percent,group=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "2 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(labels = scales::percent)+
+  facet_grid(rows = vars(infection))+
+  geom_line(aes(color=type))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Percentage of infection records with antibiotic prescribing ",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated from patients' first infection record in each month and same day prescribing; 
+    National lockdown time in grey background. ",
+    x = "", 
+    y = "")
+lineplot.all
+
 
 
 
@@ -377,3 +411,7 @@ ggsave(
 ggsave(
   plot= lineplot.i2,
   filename="infection_ab_precent_i2.jpg", path=here::here("output"))
+
+ggsave(
+  plot= lineplot.all,
+  filename="infection_ab_precent_all.jpg", path=here::here("output"))
