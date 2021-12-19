@@ -310,7 +310,7 @@ lineplot.p2<- ggplot(df.p, aes(x=date, y=percent,group=age_cat))+
   scale_y_continuous(labels = scales::percent)+
   facet_grid(rows = vars(infection))+
   geom_line(aes(color=age_cat))+
-  theme(axis.text.x = element_text(angle = 90,hjust=1),
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Percentage of infection records with antibiotic prescribing- prevalent ",
@@ -356,7 +356,7 @@ lineplot.i2<- ggplot(df.i, aes(x=date, y=percent,group=age_cat))+
   scale_y_continuous(labels = scales::percent)+
   facet_grid(rows = vars(infection))+
   geom_line(aes(color=age_cat))+
-  theme(axis.text.x = element_text(angle = 90,hjust=1),
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Percentage of infection records with antibiotic prescribing- incident ",
@@ -383,7 +383,8 @@ lineplot.all<- ggplot(df.all, aes(x=date, y=percent,group=type))+
   scale_y_continuous(labels = scales::percent)+
   facet_grid(rows = vars(infection))+
   geom_line(aes(color=type))+
-  theme(legend.position = "bottom",legend.title =element_blank())+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+      legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Percentage of infection records with antibiotic prescribing ",
     subtitle = paste(first_mon,"-",last_mon),

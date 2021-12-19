@@ -12,9 +12,9 @@ library("cowplot")
 
 
 
-############ UTI ################
-### 1. import data 
 
+### 1. import data 
+##1.1 UTI
 df <- read_csv(
   here::here("output", "measures", "measure_consult_UTI.csv"),
   col_types = cols_only(
@@ -36,11 +36,8 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-# 1.1 unifrom col name
 
 df=df%>% rename(infection_counts=uti_counts, incdt_pt=incdt_uti_pt)
-
-### 2. summarise table
 
 df[is.na(df)] <- 0 # replace NA ->0
 
@@ -52,7 +49,7 @@ last_mon= format(max(df$date),"%m-%Y")
 TPPnumber=length(unique(df$practice))
 
 # select incident pt and count consultations
-## incdt_pt==0 means has no consultation in prior 6 weeks
+# incdt_pt==0 means has no consultation in prior 6 weeks
 df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -70,32 +67,30 @@ df_sum_gp_age=df%>%
 df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
-### 3. plot
-
-
+# add variables
 df_1=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))%>%
+  #group_by(date,age_cat)%>%
+  #summarise(rate=mean(rate))%>%
   mutate(year=format(date,"%Y"),
         month=format(date,"%m"),
          indic="UTI")
 rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
-############ LRTI ################
-### 1. import data 
+###1.2 LRTI
+#import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_consult_LRTI.csv"), ### !!  ####
+  here::here("output", "measures", "measure_consult_LRTI.csv"),
   col_types = cols_only(
     
     # Identifier
     practice = col_integer(),
     
     # Outcomes
-    lrti_counts  = col_double(), ### !!  ####
+    lrti_counts  = col_double(), 
     population  = col_double(),
-    incdt_lrti_pt = col_double(), ### !!  ####
+    incdt_lrti_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -106,13 +101,9 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-# 1.1 unifrom col name
-
-df=df%>% rename(infection_counts=lrti_counts, incdt_pt=incdt_lrti_pt) ### !!  ####
-
-### 2. summarise table
-
+df=df%>% rename(infection_counts=lrti_counts, incdt_pt=incdt_lrti_pt) 
 df[is.na(df)] <- 0 # replace NA ->0
+
 # remove last month data
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
@@ -137,11 +128,9 @@ df_sum_gp_age=df%>%
 df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
-### 3. plot
+# add variables
 
 df_2=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))%>%
   mutate(year=format(date,"%Y"),
         month=format(date,"%m"),
          indic="LRTI")
@@ -149,20 +138,20 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
 
-########### URTI ################
-## 1. import data 
+### 1.3 URTI
+#import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_consult_URTI.csv"), ### !!  ####
+  here::here("output", "measures", "measure_consult_URTI.csv"), 
   col_types = cols_only(
     
    # Identifier
     practice = col_integer(),
     
     #Outcomes
-    urti_counts  = col_double(), ### !!  ####
+    urti_counts  = col_double(), 
     population  = col_double(),
-    incdt_urti_pt = col_double(), ### !!  ####
+    incdt_urti_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -173,13 +162,9 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-#1.1 unifrom col name
-
-df=df%>% rename(infection_counts=urti_counts, incdt_pt=incdt_urti_pt) ### !!  ####
-
-## 2. summarise table
-
+df=df%>% rename(infection_counts=urti_counts, incdt_pt=incdt_urti_pt) 
 df[is.na(df)] <- 0 # replace NA ->0
+
 # remove last month data
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
@@ -204,11 +189,8 @@ df_sum_gp_age=df%>%
 df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
-## 3. plot
-
+# add variables
 df_3=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))%>%
   mutate(year=format(date,"%Y"),
         month=format(date,"%m"),
          indic="URTI")
@@ -217,20 +199,20 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
 
-############ sinusitis ################
-### 1. import data 
+###1.4 sinusitis 
+#import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_consult_sinusitis.csv"), ### !!  ####
+  here::here("output", "measures", "measure_consult_sinusitis.csv"), 
   col_types = cols_only(
     
     # Identifier
     practice = col_integer(),
     
     # Outcomes
-    sinusitis_counts  = col_double(), ### !!  ####
+    sinusitis_counts  = col_double(), 
     population  = col_double(),
-    incdt_sinusitis_pt = col_double(), ### !!  ####
+    incdt_sinusitis_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -241,13 +223,9 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-# 1.1 unifrom col name
-
-df=df%>% rename(infection_counts=sinusitis_counts, incdt_pt=incdt_sinusitis_pt) ### !!  ####
-
-### 2. summarise table
-
+df=df%>% rename(infection_counts=sinusitis_counts, incdt_pt=incdt_sinusitis_pt) 
 df[is.na(df)] <- 0 # replace NA ->0
+
 # remove last month data
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
@@ -272,7 +250,7 @@ df_sum_gp_age=df%>%
 df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
-### 3. plot
+# add variables
 
 df_4=df_sum_gp_age%>%
   group_by(date,age_cat)%>%
@@ -286,20 +264,20 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
 
-########### ot_externa ################
-### 1. import data 
+### 1.5 ot_externa 
+# import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_consult_ot_externa.csv"), ### !!  ####
+  here::here("output", "measures", "measure_consult_ot_externa.csv"), 
   col_types = cols_only(
     
     # Identifier
     practice = col_integer(),
     
     # Outcomes
-    ot_externa_counts  = col_double(), ### !!  ####
+    ot_externa_counts  = col_double(), 
     population  = col_double(),
-    incdt_ot_externa_pt = col_double(), ### !!  ####
+    incdt_ot_externa_pt = col_double(), 
     age_cat = col_character(),
     value = col_double(),
     
@@ -310,13 +288,11 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-# 1.1 unifrom col name
 
-df=df%>% rename(infection_counts=ot_externa_counts, incdt_pt=incdt_ot_externa_pt) ### !!  ####
-
-### 2. summarise table
+df=df%>% rename(infection_counts=ot_externa_counts, incdt_pt=incdt_ot_externa_pt) 
 
 df[is.na(df)] <- 0 # replace NA ->0
+
 # remove last month data
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
@@ -341,11 +317,9 @@ df_sum_gp_age=df%>%
 df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
 
-### 3. plot
+# add variables
 
 df_5=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))%>%
   mutate(year=format(date,"%Y"),
         month=format(date,"%m"),
          indic="otitis externa")
@@ -354,20 +328,20 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
 
-########## otmedia ################
-## 1. import data 
+### 1.6 otmedia 
+# import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_consult_otmedia.csv"), ### !!  ####
+  here::here("output", "measures", "measure_consult_otmedia.csv"), 
   col_types = cols_only(
     
     #Identifier
     practice = col_integer(),
     
     #Outcomes
-    otmedia_counts  = col_double(), ### !!  ####
+    otmedia_counts  = col_double(), 
     population  = col_double(),
-    incdt_otmedia_pt = col_double(), ### !!  ####
+    incdt_otmedia_pt = col_double(), 
     age_cat = col_character(),
     value = col_double(),
     
@@ -379,12 +353,10 @@ df <- read_csv(
 )
 df$date <- as.Date(df$date)
 
-# 1.1 unifrom col name
-df=df%>% rename(infection_counts=otmedia_counts, incdt_pt=incdt_otmedia_pt) ### !!  ####
-
-## 2. summarise table
+df=df%>% rename(infection_counts=otmedia_counts, incdt_pt=incdt_otmedia_pt) 
 
 df[is.na(df)] <- 0 # replace NA ->0
+
 # remove last month data
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
@@ -408,11 +380,8 @@ df_sum_gp_age=df%>%
 # "rate per 1,000 registered patients"
 df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
 
-
-## 3. plot
+# add variables
 df_6=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))%>%
   mutate(year=format(date,"%Y"),
         month=format(date,"%m"),
          indic="otitis media")
@@ -420,45 +389,112 @@ rm(df,df_sum_gp_age,last.date)
 
 
 
-##### 4. combined plots
+### 2. combined dataframe
 
-df_plot=rbind(df_1,df_2,df_3,df_4,df_5,df_6)
-write.csv(df_plot,here::here("output","consultation_rate.csv"))
+df=rbind(df_1,df_2,df_3,df_4,df_5,df_6)
+#write.csv(df_plot,here::here("output","consultation_rate.csv"))
+
+
+### 3. plots
+
+## 3.1 consultation rate by age group
+
+#summarise table
+df_plot=df%>%
+group_by(date,age_cat,indic)%>%
+summarise(rate=mean(rate))
 
 # line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df_plot$year=format(df_plot$date,"%Y")
+df_plot$month=format(df_plot$date,"%m")
 
-lineplot_age<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
+lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
   facet_grid(rows = vars(age_cat), cols = vars(indic))+
   geom_line()+
   theme(legend.position = "bottom",legend.title =element_blank())+
-  scale_x_discrete(breaks =c("01","04","07","10"))+
+  scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
   labs(
     title = "consultation rate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
-    x = "month", 
-    y = "rate")
+    x = "", 
+    y = "")
 
-lineplot<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
+lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  scale_x_date(date_breaks = "4 month",date_labels =  "%Y-%m")+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   facet_grid(rows = vars(indic))+
   geom_line(aes(color=age_cat))+
-  theme(legend.position = "bottom",legend.title =element_blank())+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+    legend.position = "bottom",legend.title =element_blank())+
    labs(
     title = "consultation rate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices; National lockdown in grey background"),
-    x = "month", 
-    y = "rate")
+    x = "", 
+    y = "")
 
   ggsave(
-  plot= lineplot_age,
-  filename="consult_age_grid.jpg", path=here::here("output"))
+  plot= lineplot_1,
+  filename="consult_age_1.jpg", path=here::here("output"))
 
   ggsave(
-  plot= lineplot,
-  filename="consult_age_all.jpg", path=here::here("output"))
+  plot= lineplot_2,
+  filename="consult_age_2.jpg", path=here::here("output"))
+
+
+## 3.2 consultation rate by percentile 
+
+#summarise table
+df_gprate=df%>%
+group_by(date,practice)%>%
+summarise(ab_rate_1000=mean(rate))
+
+df_gprate$cal_year=format(df_gprate$date,"%Y")
+df_gprate$cal_mon=format(df_gprate$date,"%m")
+
+
+num_uniq_prac <- as.numeric(dim(table((df_gprate$practice))))
+
+df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
+  mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
+         lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
+         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4],
+         ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
+         five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
+
+  
+plot_percentile <- ggplot(df_mean, aes(x=date))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line(aes(y=meanABrate),color="steelblue")+
+  geom_point(aes(y=meanABrate),color="steelblue")+
+  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_line(aes(y=highquart), color="darkred", linetype=3)+
+  geom_point(aes(y=highquart), color="darkred", linetype=3)+
+  geom_line(aes(y=ninefive), color="black", linetype=3)+
+  geom_point(aes(y=ninefive), color="black", linetype=3)+
+  geom_line(aes(y=five), color="black", linetype=3)+
+  geom_point(aes(y=five), color="black", linetype=3)+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  labs(
+    title = "Consultation rate per 1000 registered patients",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
+    x = "",
+    y = "")+
+  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
+  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
+
+plot_percentile 
+
+ggsave(
+  plot= plot_percentile,
+  filename="consult_all.jpg", path=here::here("output"),
+)
