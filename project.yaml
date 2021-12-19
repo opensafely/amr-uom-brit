@@ -84,10 +84,11 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        plot1: output/consult_age_1.jpg
-        plot2: output/consult_age_2.jpg
-        plot3: output/consult_all.jpg
-        #csv: output/consultation_rate.csv
+        plot1: output/consult_age_1.jpeg
+        plot2: output/consult_age_2.jpeg
+        plot3: output/consult_all.jpeg
+        csv1: output/consultation_rate.csv
+        csv2: output/consultation_GP_rate.csv
       
 
 
@@ -104,11 +105,14 @@ actions:
     needs: [generate_measures]
     outputs:
        moderately_sensitive:
-        plot1: output/infection_ab_precent_p1.jpg
-        plot2: output/infection_ab_precent_p2.jpg
-        plot3: output/infection_ab_precent_i1.jpg
-        plot4: output/infection_ab_precent_i2.jpg
-        plot5: output/infection_ab_precent_all.jpg
+        plot1: output/infection_ab_precent_p1.jpeg
+        plot2: output/infection_ab_precent_p2.jpeg
+        plot3: output/infection_ab_precent_i1.jpeg
+        plot4: output/infection_ab_precent_i2.jpeg
+        plot5: output/infection_ab_precent_all.jpeg
+        csv1: output/prescribed_infection_prevalent.csv
+        csv2: output/prescribed_infection_incident.csv
+
      
 
   #generate_notebook_starpu:

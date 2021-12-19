@@ -282,6 +282,9 @@ rm(df1,df2,df3,df4,df5,df6)
 df.p=df%>%group_by(date,age_cat,infection)%>%
   summarise(percent=mean(percent))
 
+write.csv(df.p,here::here("output","prescribed_infection_prevalent.csv"))
+
+
 df.p$age_cat <- factor(df.p$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 df.p$infection<-factor(df.p$infection, levels=c("UTI", "URTI", "LRTI","otitis externa", "otitis media", "sinusitis"))
 
@@ -326,6 +329,8 @@ lineplot.p2<- ggplot(df.p, aes(x=date, y=percent,group=age_cat))+
 df.i=df%>%group_by(date,age_cat,infection)%>%
   filter(hx_indications==0&hx_antibiotics==0)%>%
   summarise(percent=mean(percent))
+
+write.csv(df.i,here::here("output","prescribed_infection_incident.csv"))
 
 
 df.i$age_cat <- factor(df.i$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
@@ -399,20 +404,20 @@ lineplot.all
 
 ggsave(
   plot= lineplot.p1,
-  filename="infection_ab_precent_p1.jpg", path=here::here("output"))
+  filename="infection_ab_precent_p1.jpeg", path=here::here("output"))
 
 ggsave(
   plot= lineplot.p2,
-  filename="infection_ab_precent_p2.jpg", path=here::here("output"))
+  filename="infection_ab_precent_p2.jpeg", path=here::here("output"))
 
 ggsave(
   plot= lineplot.i1,
-  filename="infection_ab_precent_i1.jpg", path=here::here("output"))
+  filename="infection_ab_precent_i1.jpeg", path=here::here("output"))
 
 ggsave(
   plot= lineplot.i2,
-  filename="infection_ab_precent_i2.jpg", path=here::here("output"))
+  filename="infection_ab_precent_i2.jpeg", path=here::here("output"))
 
 ggsave(
   plot= lineplot.all,
-  filename="infection_ab_precent_all.jpg", path=here::here("output"))
+  filename="infection_ab_precent_all.jpeg", path=here::here("output"))

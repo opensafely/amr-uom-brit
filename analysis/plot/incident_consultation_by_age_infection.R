@@ -392,7 +392,6 @@ rm(df,df_sum_gp_age,last.date)
 ### 2. combined dataframe
 
 df=rbind(df_1,df_2,df_3,df_4,df_5,df_6)
-#write.csv(df_plot,here::here("output","consultation_rate.csv"))
 
 
 ### 3. plots
@@ -404,6 +403,9 @@ df_plot=df%>%
 group_by(date,age_cat,indic)%>%
 summarise(rate=mean(rate))
 
+write.csv(df_plot,here::here("output","consultation_rate.csv"))
+
+
 # line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 df_plot$year=format(df_plot$date,"%Y")
@@ -414,6 +416,7 @@ lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
   geom_line()+
   theme(legend.position = "bottom",legend.title =element_blank())+
   scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
+  scale_y_continuous(n.breaks = 20)+
   labs(
     title = "consultation rate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
@@ -426,6 +429,7 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(n.breaks = 20)+
   facet_grid(rows = vars(indic))+
   geom_line(aes(color=age_cat))+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
@@ -439,11 +443,11 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_1,
-  filename="consult_age_1.jpg", path=here::here("output"))
+  filename="consult_age_1.jpeg", path=here::here("output"))
 
   ggsave(
   plot= lineplot_2,
-  filename="consult_age_2.jpg", path=here::here("output"))
+  filename="consult_age_2.jpeg", path=here::here("output"))
 
 
 ## 3.2 consultation rate by percentile 
@@ -452,6 +456,9 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
 df_gprate=df%>%
 group_by(date,practice)%>%
 summarise(ab_rate_1000=mean(rate))
+
+write.csv(df_gprate,here::here("output","consultation_GP_rate.csv"))
+
 
 df_gprate$cal_year=format(df_gprate$date,"%Y")
 df_gprate$cal_mon=format(df_gprate$date,"%m")
@@ -482,11 +489,13 @@ plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_line(aes(y=five), color="black", linetype=3)+
   geom_point(aes(y=five), color="black", linetype=3)+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
     title = "Consultation rate per 1000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
+    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices; 
+    National lockdown in grey background"),
     x = "",
     y = "")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
@@ -496,5 +505,5 @@ plot_percentile
 
 ggsave(
   plot= plot_percentile,
-  filename="consult_all.jpg", path=here::here("output"),
+  filename="consult_all.jpeg", path=here::here("output"),
 )
