@@ -141,5 +141,18 @@ actions:
     outputs:
        moderately_sensitive:
         plot: output/types_ab_barchart.png
+  
+  describe_top10ABtypes_byInfection:
+    run: r:latest analysis/plot/abtypes_top10.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/abtype_UTI.jpeg
+        plot2: output/abtype_URTI.jpeg
+        plot3: output/abtype_LRTI.jpeg
+        plot4: output/abtype_sinusitis.jpeg
+        plot5: output/abtype_ot_externa.jpeg
+        plot6: output/abtype_otmedia.jpeg
+        csv: output/abtype_top10_by_infection.csv
 
 

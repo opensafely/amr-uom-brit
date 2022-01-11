@@ -416,9 +416,9 @@ lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
   geom_line()+
   theme(legend.position = "bottom",legend.title =element_blank())+
   scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
-  scale_y_continuous(n.breaks = 20)+
+  #scale_y_continuous(n.breaks = 20)+
   labs(
-    title = "consultation rate per 1,000 registered patients",
+    title = "Consultation rate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
     x = "", 
@@ -429,13 +429,13 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
-  scale_y_continuous(n.breaks = 20)+
+  #scale_y_continuous(n.breaks = 20)+
   facet_grid(rows = vars(indic))+
   geom_line(aes(color=age_cat))+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
     legend.position = "bottom",legend.title =element_blank())+
    labs(
-    title = "consultation rate per 1,000 registered patients",
+    title = "Consultation rate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices; National lockdown in grey background"),
     x = "", 

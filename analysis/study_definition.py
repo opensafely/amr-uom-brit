@@ -1238,6 +1238,326 @@ study = StudyDefinition(
     Rx_Vancomycin=patients.with_these_medications(codes_ab_type_Vancomycin,between=['index_date', 'last_day_of_month(index_date)'],returning='number_of_matches_in_period',
   return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
 
+### Antibiotics by infection
+
+    uti_abtype1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_1","uti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    urti_abtype1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_1","urti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    lrti_abtype1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_1","lrti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    sinusitis_abtype1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_1","sinusitis_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+
+    otmedia_abtype1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_1","otmedia_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    ot_externa_abtype1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_1","ot_externa_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+
+    uti_abtype2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_1","uti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    urti_abtype2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_1","urti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    lrti_abtype2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_1","lrti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    sinusitis_abtype2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_1","sinusitis_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    otmedia_abtype2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_1","otmedia_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    ot_externa_abtype2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_1","ot_externa_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+
+    uti_abtype3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_1","uti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    urti_abtype3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_1","urti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    lrti_abtype3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_1","lrti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    sinusitis_abtype3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_1","sinusitis_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+
+    otmedia_abtype3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_1","otmedia_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    ot_externa_abtype3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_1","ot_externa_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    uti_abtype4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_1","uti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    urti_abtype4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_1","urti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    lrti_abtype4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_1","lrti_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    sinusitis_abtype4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_1","sinusitis_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+
+    otmedia_abtype4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_1","otmedia_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    ot_externa_abtype4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_1","ot_externa_date_1"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+    
 
 
 ########## any infection or any AB records in prior 1 month (incident/prevelent prescribing)#############
@@ -1524,6 +1844,133 @@ measures = [
             numerator="ot_externa_ab_flag_1",
             denominator="ot_externa_pt",
             group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    ),
+    ),   
+    
+    ##  AB TYPE by infection-1
+    Measure(id="abtype_UTI_1",
+            numerator="uti_ab_count_1",
+            denominator="population",
+            group_by=["uti_abtype1"]
+            ),
+     Measure(id="abtype_URTI_1",
+            numerator="urti_ab_count_1",
+            denominator="population",
+            group_by=["urti_abtype1"]
+            ),
+     Measure(id="abtype_LRTI_1",
+            numerator="lrti_ab_count_1",
+            denominator="population",
+            group_by=["lrti_abtype1"]
+            ),
+     Measure(id="abtype_sinusitis_1",
+            numerator="sinusitis_ab_count_1",
+            denominator="population",
+            group_by=["sinusitis_abtype1"]
+            ),
+     Measure(id="abtype_ot_externa_1",
+            numerator="ot_externa_ab_count_1",
+            denominator="population",
+            group_by=["ot_externa_abtype1"]
+            ),
+     Measure(id="abtype_otmedia_1",
+            numerator="otmedia_ab_count_1",
+            denominator="population",
+            group_by=["otmedia_abtype1"]
+            ),
 
+    ##  AB TYPE by infection-2
+    Measure(id="abtype_UTI_2",
+            numerator="uti_ab_count_2",
+            denominator="population",
+            group_by=["uti_abtype2"]
+            ),
+     Measure(id="abtype_URTI_2",
+            numerator="urti_ab_count_2",
+            denominator="population",
+            group_by=["urti_abtype2"]
+            ),
+     Measure(id="abtype_LRTI_2",
+            numerator="lrti_ab_count_2",
+            denominator="population",
+            group_by=["lrti_abtype2"]
+            ),
+     Measure(id="abtype_sinusitis_2",
+            numerator="sinusitis_ab_count_2",
+            denominator="population",
+            group_by=["sinusitis_abtype2"]
+            ),
+     Measure(id="abtype_ot_externa_2",
+            numerator="ot_externa_ab_count_2",
+            denominator="population",
+            group_by=["ot_externa_abtype2"]
+            ),
+     Measure(id="abtype_otmedia_2",
+            numerator="otmedia_ab_count_2",
+            denominator="population",
+            group_by=["otmedia_abtype2"]
+            ),
+    
+    ##  AB TYPE by infection-3
+    Measure(id="abtype_UTI_3",
+            numerator="uti_ab_count_3",
+            denominator="population",
+            group_by=["uti_abtype3"]
+            ),
+     Measure(id="abtype_URTI_3",
+            numerator="urti_ab_count_3",
+            denominator="population",
+            group_by=["urti_abtype3"]
+            ),
+     Measure(id="abtype_LRTI_3",
+            numerator="lrti_ab_count_3",
+            denominator="population",
+            group_by=["lrti_abtype3"]
+            ),
+     Measure(id="abtype_sinusitis_3",
+            numerator="sinusitis_ab_count_3",
+            denominator="population",
+            group_by=["sinusitis_abtype3"]
+            ),
+     Measure(id="abtype_ot_externa_3",
+            numerator="ot_externa_ab_count_3",
+            denominator="population",
+            group_by=["ot_externa_abtype3"]
+            ),
+     Measure(id="abtype_otmedia_3",
+            numerator="otmedia_ab_count_3",
+            denominator="population",
+            group_by=["otmedia_abtype3"]
+            ),
+    
+    ##  AB TYPE by infection-4
+    Measure(id="abtype_UTI_4",
+            numerator="uti_ab_count_4",
+            denominator="population",
+            group_by=["uti_abtype4"]
+            ),
+     Measure(id="abtype_URTI_4",
+            numerator="urti_ab_count_4",
+            denominator="population",
+            group_by=["urti_abtype4"]
+            ),
+     Measure(id="abtype_LRTI_4",
+            numerator="lrti_ab_count_4",
+            denominator="population",
+            group_by=["lrti_abtype4"]
+            ),
+     Measure(id="abtype_sinusitis_4",
+            numerator="sinusitis_ab_count_4",
+            denominator="population",
+            group_by=["sinusitis_abtype4"]
+            ),
+     Measure(id="abtype_ot_externa_4",
+            numerator="ot_externa_ab_count_4",
+            denominator="population",
+            group_by=["ot_externa_abtype4"]
+            ),
+     Measure(id="abtype_otmedia_4",
+            numerator="otmedia_ab_count_4",
+            denominator="population",
+            group_by=["otmedia_abtype4"]
+            ),
 ]
