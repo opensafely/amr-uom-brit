@@ -98,7 +98,8 @@ df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
 df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value))
+  summarise(value=sum(value),
+            count=sum(ab_count))
   
 
 # remove last month data
@@ -118,17 +119,24 @@ df2 <- filter(df, abtype != "")
 df2$value2 <- df2$value*1000
 df2$abtype  <- as.character(df2$abtype)
 
+df=df2
 
 
-df_top10 <- df2 %>% group_by(cal_year, cal_mon) %>%
-  arrange(desc(value2, .group_by=T)) %>%
-  slice(n = 1:10)
 
+######barchart1. rate per 1000 pt#####
+### select most common ab (rate)###
+DF.top10=df%>%
+  group_by(abtype)%>%
+  summarise(value=mean(value))%>% # RX: average per month
+  arrange(desc(value))%>%
+  slice(1:10)
 
-abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=abtype, group=-value2))+
-  #scale_fill_manual(values=as.vector(stepped()))+#library(plas)
-  #scale_fill_manual(values=color)+library(randomcoloR)
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+
+df$date=format(df$date,"%Y-%m")
+
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
@@ -138,21 +146,53 @@ abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
+
+
+#####barchart2. total consumption- counts ####
+### select most common ab##
+DF.top10.count=df2%>%
+  group_by(abtype)%>%
+  summarise(count=mean(count))%>% # RX: average per month
+  arrange(desc(count))%>%
+  slice(1:10)
+
+df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
+
+df2$date=format(df2$date,"%Y-%m")
+
+bar_propotion <- 
+  ggplot(df2, aes(x=date, y=count, fill=type))+
+  geom_bar(position="fill", stat="identity")+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - UTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ggsave(
   plot= abtype_bar,
   filename="abtype_UTI.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= bar_propotion,
+  filename="abtype_percent_UTI.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(df_top10)
+df.1 <- ungroup(DF.top10)
 df.1$type="UTI"
-df.1<- select(df.1, date, abtype, value2,type)
+df.1<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,df_top10,df2)
+rm(df_plot,DF.top10,df2)
 
 
 
@@ -245,7 +285,8 @@ df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
 df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value))
+  summarise(value=sum(value),
+            count=sum(ab_count))
   
 
 # remove last month data
@@ -265,17 +306,24 @@ df2 <- filter(df, abtype != "")
 df2$value2 <- df2$value*1000
 df2$abtype  <- as.character(df2$abtype)
 
+df=df2
 
 
-df_top10 <- df2 %>% group_by(cal_year, cal_mon) %>%
-  arrange(desc(value2, .group_by=T)) %>%
-  slice(n = 1:10)
 
+######barchart1. rate per 1000 pt#####
+### select most common ab (rate)###
+DF.top10=df%>%
+  group_by(abtype)%>%
+  summarise(value=mean(value))%>% # RX: average per month
+  arrange(desc(value))%>%
+  slice(1:10)
 
-abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=abtype, group=-value2))+
-  #scale_fill_manual(values=as.vector(stepped()))+#library(plas)
-  #scale_fill_manual(values=color)+library(randomcoloR)
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+
+df$date=format(df$date,"%Y-%m")
+
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
@@ -285,20 +333,51 @@ abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
+
+
+#####barchart2. total consumption- counts ####
+### select most common ab##
+DF.top10.count=df2%>%
+  group_by(abtype)%>%
+  summarise(count=mean(count))%>% # RX: average per month
+  arrange(desc(count))%>%
+  slice(1:10)
+
+df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
+
+df2$date=format(df2$date,"%Y-%m")
+
+bar_propotion <- 
+  ggplot(df2, aes(x=date, y=count, fill=type))+
+  geom_bar(position="fill", stat="identity")+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - URTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ggsave(
   plot= abtype_bar,
   filename="abtype_URTI.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= bar_propotion,
+  filename="abtype_percent_URTI.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
-df.2 <- ungroup(df_top10)
-df.2$type="URTI"
-df.2<- select(df.2, date, abtype, value2,type)
-
-rm(df_plot,df_top10,df2)
+df.1 <- ungroup(DF.top10)
+df.1$type="URTI"
+df.1<- select(df.1, date, abtype, value2,count,type)
+rm(df_plot,DF.top10,df2)
 
 
 
@@ -389,7 +468,8 @@ df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
 df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value))
+  summarise(value=sum(value),
+            count=sum(ab_count))
   
 
 # remove last month data
@@ -409,17 +489,24 @@ df2 <- filter(df, abtype != "")
 df2$value2 <- df2$value*1000
 df2$abtype  <- as.character(df2$abtype)
 
+df=df2
 
 
-df_top10 <- df2 %>% group_by(cal_year, cal_mon) %>%
-  arrange(desc(value2, .group_by=T)) %>%
-  slice(n = 1:10)
 
+######barchart1. rate per 1000 pt#####
+### select most common ab (rate)###
+DF.top10=df%>%
+  group_by(abtype)%>%
+  summarise(value=mean(value))%>% # RX: average per month
+  arrange(desc(value))%>%
+  slice(1:10)
 
-abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=abtype, group=-value2))+
-  #scale_fill_manual(values=as.vector(stepped()))+#library(plas)
-  #scale_fill_manual(values=color)+library(randomcoloR)
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+
+df$date=format(df$date,"%Y-%m")
+
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
@@ -429,21 +516,53 @@ abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
+
+
+#####barchart2. total consumption- counts ####
+### select most common ab##
+DF.top10.count=df2%>%
+  group_by(abtype)%>%
+  summarise(count=mean(count))%>% # RX: average per month
+  arrange(desc(count))%>%
+  slice(1:10)
+
+df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
+
+df2$date=format(df2$date,"%Y-%m")
+
+bar_propotion <- 
+  ggplot(df2, aes(x=date, y=count, fill=type))+
+  geom_bar(position="fill", stat="identity")+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - LRTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ggsave(
   plot= abtype_bar,
   filename="abtype_LRTI.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= bar_propotion,
+  filename="abtype_percent_LRTI.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
-df.3 <- ungroup(df_top10)
-df.3$type="LRTI"
-df.3<- select(df.3, date, abtype, value2,type)
+df.1 <- ungroup(DF.top10)
+df.1$type="LRTI"
+df.1<- select(df.1, date, abtype, value2,count,type)
 
-rm(df_plot,df_top10,df2)
 
+rm(df_plot,DF.top10,df2)
 
 
 
@@ -535,7 +654,8 @@ df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
 df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value))
+  summarise(value=sum(value),
+            count=sum(ab_count))
   
 
 # remove last month data
@@ -555,40 +675,79 @@ df2 <- filter(df, abtype != "")
 df2$value2 <- df2$value*1000
 df2$abtype  <- as.character(df2$abtype)
 
+df=df2
 
 
-df_top10 <- df2 %>% group_by(cal_year, cal_mon) %>%
-  arrange(desc(value2, .group_by=T)) %>%
-  slice(n = 1:10)
 
+######barchart1. rate per 1000 pt#####
+### select most common ab (rate)###
+DF.top10=df%>%
+  group_by(abtype)%>%
+  summarise(value=mean(value))%>% # RX: average per month
+  arrange(desc(value))%>%
+  slice(1:10)
 
-abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=abtype, group=-value2))+
-  #scale_fill_manual(values=as.vector(stepped()))+#library(plas)
-  #scale_fill_manual(values=color)+library(randomcoloR)
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+
+df$date=format(df$date,"%Y-%m")
+
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed - sinusitis",
+    title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "TPP Practices",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
+
+
+#####barchart2. total consumption- counts ####
+### select most common ab##
+DF.top10.count=df2%>%
+  group_by(abtype)%>%
+  summarise(count=mean(count))%>% # RX: average per month
+  arrange(desc(count))%>%
+  slice(1:10)
+
+df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
+
+df2$date=format(df2$date,"%Y-%m")
+
+bar_propotion <- 
+  ggplot(df2, aes(x=date, y=count, fill=type))+
+  geom_bar(position="fill", stat="identity")+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ggsave(
   plot= abtype_bar,
-  filename="abtype_sinusitis.jpeg", path=here::here("output"),
+  filename="abtype_Sinusitis.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= bar_propotion,
+  filename="abtype_percent_Sinusitis.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
-df.4 <- ungroup(df_top10)
-df.4$type="sinusitis"
-df.4<- select(df.4, date, abtype, value2,type)
+df.1 <- ungroup(DF.top10)
+df.1$type="Sinusitis"
+df.1<- select(df.1, date, abtype, value2,count,type)
 
-rm(df_plot,df_top10,df2)
+rm(df_plot,DF.top10,df2)
 
 
 
@@ -680,7 +839,8 @@ df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
 df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value))
+  summarise(value=sum(value),
+            count=sum(ab_count))
   
 
 # remove last month data
@@ -700,40 +860,83 @@ df2 <- filter(df, abtype != "")
 df2$value2 <- df2$value*1000
 df2$abtype  <- as.character(df2$abtype)
 
+df=df2
 
 
-df_top10 <- df2 %>% group_by(cal_year, cal_mon) %>%
-  arrange(desc(value2, .group_by=T)) %>%
-  slice(n = 1:10)
 
+######barchart1. rate per 1000 pt#####
+### select most common ab (rate)###
+DF.top10=df%>%
+  group_by(abtype)%>%
+  summarise(value=mean(value))%>% # RX: average per month
+  arrange(desc(value))%>%
+  slice(1:10)
 
-abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=abtype, group=-value2))+
-  #scale_fill_manual(values=as.vector(stepped()))+#library(plas)
-  #scale_fill_manual(values=color)+library(randomcoloR)
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+
+df$date=format(df$date,"%Y-%m")
+
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed - otitis externa",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "TPP Practices",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
+
+
+#####barchart2. total consumption- counts ####
+### select most common ab##
+DF.top10.count=df2%>%
+  group_by(abtype)%>%
+  summarise(count=mean(count))%>% # RX: average per month
+  arrange(desc(count))%>%
+  slice(1:10)
+
+df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
+
+df2$date=format(df2$date,"%Y-%m")
+
+bar_propotion <- 
+  ggplot(df2, aes(x=date, y=count, fill=type))+
+  geom_bar(position="fill", stat="identity")+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ggsave(
   plot= abtype_bar,
   filename="abtype_ot_externa.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= bar_propotion,
+  filename="abtype_percent_ot_externa.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
-df.5 <- ungroup(df_top10)
-df.5$type="ot_externa"
-df.5<- select(df.5, date, abtype, value2,type)
+df.1 <- ungroup(DF.top10)
+df.1$type="ot_externa"
+df.1<- select(df.1, date, abtype, value2,count,type)
 
-rm(df_plot,df_top10,df2)
+
+rm(df_plot,DF.top10,df2)
+
+
+
 
 
 
@@ -824,7 +1027,8 @@ df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
 df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value))
+  summarise(value=sum(value),
+            count=sum(ab_count))
   
 
 # remove last month data
@@ -844,40 +1048,80 @@ df2 <- filter(df, abtype != "")
 df2$value2 <- df2$value*1000
 df2$abtype  <- as.character(df2$abtype)
 
+df=df2
 
 
-df_top10 <- df2 %>% group_by(cal_year, cal_mon) %>%
-  arrange(desc(value2, .group_by=T)) %>%
-  slice(n = 1:10)
 
+######barchart1. rate per 1000 pt#####
+### select most common ab (rate)###
+DF.top10=df%>%
+  group_by(abtype)%>%
+  summarise(value=mean(value))%>% # RX: average per month
+  arrange(desc(value))%>%
+  slice(1:10)
 
-abtype_bar <- ggplot(df_top10, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=abtype, group=-value2))+
-  #scale_fill_manual(values=as.vector(stepped()))+#library(plas)
-  #scale_fill_manual(values=color)+library(randomcoloR)
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+
+df$date=format(df$date,"%Y-%m")
+
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed - otitis media",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "TPP Practices",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
+
+
+#####barchart2. total consumption- counts ####
+### select most common ab##
+DF.top10.count=df2%>%
+  group_by(abtype)%>%
+  summarise(count=mean(count))%>% # RX: average per month
+  arrange(desc(count))%>%
+  slice(1:10)
+
+df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
+
+df2$date=format(df2$date,"%Y-%m")
+
+bar_propotion <- 
+  ggplot(df2, aes(x=date, y=count, fill=type))+
+  geom_bar(position="fill", stat="identity")+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis media",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_y_continuous(labels = scales::percent)
+
+
 
 ggsave(
   plot= abtype_bar,
   filename="abtype_otmedia.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= bar_propotion,
+  filename="abtype_percent_otmedia.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
-df.6 <- ungroup(df_top10)
-df.6$type="otmedia"
-df.6<- select(df.6, date, abtype, value2,type)
+df.1 <- ungroup(DF.top10)
+df.1$type="otmedia"
+df.1<- select(df.1, date, abtype, value2,count,type)
 
-rm(df_plot,df_top10,df2)
+
+rm(df_plot,DF.top10,df2)
 
 
 ## combine table
