@@ -187,12 +187,12 @@ ggsave(
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(DF.top10)
+df.1 <- ungroup(df)
 df.1$type="UTI"
 df.1<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2)
+rm(df_plot,DF.top10,df2,df)
 
 
 
@@ -374,10 +374,10 @@ ggsave(
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(DF.top10)
-df.1$type="URTI"
-df.1<- select(df.1, date, abtype, value2,count,type)
-rm(df_plot,DF.top10,df2)
+df.2 <- ungroup(df)
+df.2$type="URTI"
+df.2<- select(df.1, date, abtype, value2,count,type)
+rm(df_plot,DF.top10,df2,df)
 
 
 
@@ -557,12 +557,12 @@ ggsave(
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(DF.top10)
-df.1$type="LRTI"
-df.1<- select(df.1, date, abtype, value2,count,type)
+df.3 <- ungroup(df)
+df.3$type="LRTI"
+df.3<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2)
+rm(df_plot,DF.top10,df2,df)
 
 
 
@@ -743,11 +743,11 @@ ggsave(
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(DF.top10)
-df.1$type="Sinusitis"
-df.1<- select(df.1, date, abtype, value2,count,type)
+df.4 <- ungroup(df)
+df.4$type="Sinusitis"
+df.4<- select(df.1, date, abtype, value2,count,type)
 
-rm(df_plot,DF.top10,df2)
+rm(df_plot,DF.top10,df2,df)
 
 
 
@@ -928,12 +928,12 @@ ggsave(
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(DF.top10)
-df.1$type="ot_externa"
-df.1<- select(df.1, date, abtype, value2,count,type)
+df.5 <- ungroup(df)
+df.5$type="ot_externa"
+df.5<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2)
+rm(df_plot,DF.top10,df2,df)
 
 
 
@@ -1116,12 +1116,12 @@ ggsave(
 ) 
 
 ## ungroup for table
-df.1 <- ungroup(DF.top10)
-df.1$type="otmedia"
-df.1<- select(df.1, date, abtype, value2,count,type)
+df.6 <- ungroup(df)
+df.6$type="otmedia"
+df.6<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2)
+rm(df_plot,DF.top10,df2,df)
 
 
 ## combine table
