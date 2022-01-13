@@ -30,3 +30,6 @@ user/rriefu/vaccination/26f5ccb0
 primis-covid19-vacc-uptake/longres/v1
 user/rriefu/antibiotics_dmd/0ea3a40d
 user/rriefu/broad-spectrum-antibiotics/40c28a77
+primis-covid19-vacc-uptake/covadm1/v1
+primis-covid19-vacc-uptake/covadm2/v1
+opensafely/covid-19-vaccination-given/0f315647

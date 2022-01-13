@@ -274,3 +274,34 @@ carehome_primis_codes = codelist_from_csv(
   system = "snomed",
   column = "code",
 )
+
+
+# First COVID vaccination administration codes - PRIMIS
+covadm1_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-covadm1.csv",
+    system="snomed",
+    column="code",
+)
+
+# Second COVID vaccination administration codes - PRIMIS
+covadm2_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-covadm2.csv",
+    system="snomed",
+    column="code",
+)
+
+# Any COVID vaccination administration codes - OpenSafely
+covadm_all = codelist_from_csv(
+    "codelists/opensafely-covid-19-vaccination-given.csv",
+    system="snomed",
+    column="code",
+)
+
+covadm1 = combine_codelists(
+    covadm1_primis,
+    covadm_all
+)
+covadm2 = combine_codelists(
+    covadm2_primis,
+    covadm_all
+)

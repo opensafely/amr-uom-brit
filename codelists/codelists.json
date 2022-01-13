@@ -191,6 +191,24 @@
       "url": "https://codelists.opensafely.org/codelist/user/rriefu/broad-spectrum-antibiotics/40c28a77/",
       "downloaded_at": "2021-11-02 12:56:17.934969Z",
       "sha": "9234261b5c10ab94fab0e66a283c147c9d8e40ae"
+    },
+    "primis-covid19-vacc-uptake-covadm1.csv": {
+      "id": "primis-covid19-vacc-uptake/covadm1/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/covadm1/v1/",
+      "downloaded_at": "2022-01-13 13:47:34.245433Z",
+      "sha": "5e6a8bef2da93467d11c25affbd33755205e4204"
+    },
+    "primis-covid19-vacc-uptake-covadm2.csv": {
+      "id": "primis-covid19-vacc-uptake/covadm2/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/covadm2/v1/",
+      "downloaded_at": "2022-01-13 13:47:34.443641Z",
+      "sha": "1faed2cda35ad12c432e67a6630cf4f2093aed52"
+    },
+    "opensafely-covid-19-vaccination-given.csv": {
+      "id": "opensafely/covid-19-vaccination-given/0f315647",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-19-vaccination-given/0f315647/",
+      "downloaded_at": "2022-01-13 13:49:57.069411Z",
+      "sha": "56fbe4da7893d93a05d13f5f491ad31dad8e1b21"
     }
   }
 }
