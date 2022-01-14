@@ -133,9 +133,12 @@ DF.top10=df%>%
 
 df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
 
-df$date=format(df$date,"%Y-%m")
+#df$date=format(df$date,"%Y-%m")
 
 abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
@@ -146,6 +149,7 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
 
@@ -159,10 +163,13 @@ DF.top10.count=df2%>%
 
 df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
 
-df2$date=format(df2$date,"%Y-%m")
+#df2$date=format(df2$date,"%Y-%m")
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type))+
+  ggplot(df2, aes(x=date, y=count, fill=type)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
@@ -173,6 +180,7 @@ bar_propotion <-
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 
@@ -320,9 +328,12 @@ DF.top10=df%>%
 
 df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
 
-df$date=format(df$date,"%Y-%m")
+#df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
+ annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+ 
   geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
@@ -333,6 +344,7 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
 
@@ -346,10 +358,13 @@ DF.top10.count=df2%>%
 
 df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
 
-df2$date=format(df2$date,"%Y-%m")
+#df2$date=format(df2$date,"%Y-%m")
 
 bar_propotion <- 
   ggplot(df2, aes(x=date, y=count, fill=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
@@ -360,6 +375,7 @@ bar_propotion <-
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 
@@ -503,9 +519,12 @@ DF.top10=df%>%
 
 df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
 
-df$date=format(df$date,"%Y-%m")
+#df$date=format(df$date,"%Y-%m")
 
 abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
@@ -516,6 +535,7 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
 
@@ -529,10 +549,13 @@ DF.top10.count=df2%>%
 
 df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
 
-df2$date=format(df2$date,"%Y-%m")
+#df2$date=format(df2$date,"%Y-%m")
 
 bar_propotion <- 
   ggplot(df2, aes(x=date, y=count, fill=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
@@ -543,6 +566,7 @@ bar_propotion <-
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 
@@ -689,10 +713,13 @@ DF.top10=df%>%
 
 df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
 
-df$date=format(df$date,"%Y-%m")
+#df$date=format(df$date,"%Y-%m")
 
 abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
   geom_col(aes(fill=type,group=-value2))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
@@ -702,6 +729,7 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
 
@@ -715,10 +743,13 @@ DF.top10.count=df2%>%
 
 df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
 
-df2$date=format(df2$date,"%Y-%m")
+#df2$date=format(df2$date,"%Y-%m")
 
 bar_propotion <- 
   ggplot(df2, aes(x=date, y=count, fill=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
@@ -729,6 +760,7 @@ bar_propotion <-
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 
@@ -874,9 +906,12 @@ DF.top10=df%>%
 
 df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
 
-df$date=format(df$date,"%Y-%m")
+#df$date=format(df$date,"%Y-%m")
 
 abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
@@ -887,6 +922,7 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
 
@@ -900,10 +936,13 @@ DF.top10.count=df2%>%
 
 df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
 
-df2$date=format(df2$date,"%Y-%m")
+#df2$date=format(df2$date,"%Y-%m")
 
 bar_propotion <- 
   ggplot(df2, aes(x=date, y=count, fill=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
@@ -914,6 +953,7 @@ bar_propotion <-
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 
@@ -1062,10 +1102,13 @@ DF.top10=df%>%
 
 df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
 
-df$date=format(df$date,"%Y-%m")
+#df$date=format(df$date,"%Y-%m")
 
 abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
-  geom_col(aes(fill=type,group=-value2))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+ geom_col(aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
@@ -1075,6 +1118,7 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
 
@@ -1088,10 +1132,13 @@ DF.top10.count=df2%>%
 
 df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
 
-df2$date=format(df2$date,"%Y-%m")
+#df2$date=format(df2$date,"%Y-%m")
 
 bar_propotion <- 
   ggplot(df2, aes(x=date, y=count, fill=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
@@ -1102,6 +1149,7 @@ bar_propotion <-
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 

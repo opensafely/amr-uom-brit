@@ -22,8 +22,8 @@ from cohortextractor import (
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
 
 from codelists import *
-all_indication_codes = combine_codelists(
-    asthma_copd_codes, asthma_codes, cold_codes, copd_codes,cough_codes,lrti_codes,ot_externa_codes,otmedia_codes,pneumonia_codes,renal_codes,sepsis_codes,sinusitis_codes,throat_codes,urti_codes,uti_codes)
+
+all_indication_codes = combine_codelists(asthma_copd_codes, asthma_codes, cold_codes, copd_codes,cough_codes,lrti_codes,ot_externa_codes,otmedia_codes,pneumonia_codes,renal_codes,sepsis_codes,sinusitis_codes,throat_codes,urti_codes,uti_codes)
 
 #from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
 
@@ -1852,27 +1852,27 @@ measures = [
             denominator="population",
             group_by=["uti_abtype1"]
             ),
-     Measure(id="abtype_URTI_1",
+    Measure(id="abtype_URTI_1",
             numerator="urti_ab_count_1",
             denominator="population",
             group_by=["urti_abtype1"]
             ),
-     Measure(id="abtype_LRTI_1",
+    Measure(id="abtype_LRTI_1",
             numerator="lrti_ab_count_1",
             denominator="population",
             group_by=["lrti_abtype1"]
             ),
-     Measure(id="abtype_sinusitis_1",
+    Measure(id="abtype_sinusitis_1",
             numerator="sinusitis_ab_count_1",
             denominator="population",
             group_by=["sinusitis_abtype1"]
             ),
-     Measure(id="abtype_ot_externa_1",
+    Measure(id="abtype_ot_externa_1",
             numerator="ot_externa_ab_count_1",
             denominator="population",
             group_by=["ot_externa_abtype1"]
             ),
-     Measure(id="abtype_otmedia_1",
+    Measure(id="abtype_otmedia_1",
             numerator="otmedia_ab_count_1",
             denominator="population",
             group_by=["otmedia_abtype1"]
@@ -1884,27 +1884,27 @@ measures = [
             denominator="population",
             group_by=["uti_abtype2"]
             ),
-     Measure(id="abtype_URTI_2",
+    Measure(id="abtype_URTI_2",
             numerator="urti_ab_count_2",
             denominator="population",
             group_by=["urti_abtype2"]
             ),
-     Measure(id="abtype_LRTI_2",
+    Measure(id="abtype_LRTI_2",
             numerator="lrti_ab_count_2",
             denominator="population",
             group_by=["lrti_abtype2"]
             ),
-     Measure(id="abtype_sinusitis_2",
+    Measure(id="abtype_sinusitis_2",
             numerator="sinusitis_ab_count_2",
             denominator="population",
             group_by=["sinusitis_abtype2"]
             ),
-     Measure(id="abtype_ot_externa_2",
+    Measure(id="abtype_ot_externa_2",
             numerator="ot_externa_ab_count_2",
             denominator="population",
             group_by=["ot_externa_abtype2"]
             ),
-     Measure(id="abtype_otmedia_2",
+    Measure(id="abtype_otmedia_2",
             numerator="otmedia_ab_count_2",
             denominator="population",
             group_by=["otmedia_abtype2"]
@@ -1916,27 +1916,27 @@ measures = [
             denominator="population",
             group_by=["uti_abtype3"]
             ),
-     Measure(id="abtype_URTI_3",
+    Measure(id="abtype_URTI_3",
             numerator="urti_ab_count_3",
             denominator="population",
             group_by=["urti_abtype3"]
             ),
-     Measure(id="abtype_LRTI_3",
+    Measure(id="abtype_LRTI_3",
             numerator="lrti_ab_count_3",
             denominator="population",
             group_by=["lrti_abtype3"]
             ),
-     Measure(id="abtype_sinusitis_3",
+    Measure(id="abtype_sinusitis_3",
             numerator="sinusitis_ab_count_3",
             denominator="population",
             group_by=["sinusitis_abtype3"]
             ),
-     Measure(id="abtype_ot_externa_3",
+    Measure(id="abtype_ot_externa_3",
             numerator="ot_externa_ab_count_3",
             denominator="population",
             group_by=["ot_externa_abtype3"]
             ),
-     Measure(id="abtype_otmedia_3",
+    Measure(id="abtype_otmedia_3",
             numerator="otmedia_ab_count_3",
             denominator="population",
             group_by=["otmedia_abtype3"]
@@ -1948,27 +1948,27 @@ measures = [
             denominator="population",
             group_by=["uti_abtype4"]
             ),
-     Measure(id="abtype_URTI_4",
+    Measure(id="abtype_URTI_4",
             numerator="urti_ab_count_4",
             denominator="population",
             group_by=["urti_abtype4"]
             ),
-     Measure(id="abtype_LRTI_4",
+    Measure(id="abtype_LRTI_4",
             numerator="lrti_ab_count_4",
             denominator="population",
             group_by=["lrti_abtype4"]
             ),
-     Measure(id="abtype_sinusitis_4",
+    Measure(id="abtype_sinusitis_4",
             numerator="sinusitis_ab_count_4",
             denominator="population",
             group_by=["sinusitis_abtype4"]
             ),
-     Measure(id="abtype_ot_externa_4",
+    Measure(id="abtype_ot_externa_4",
             numerator="ot_externa_ab_count_4",
             denominator="population",
             group_by=["ot_externa_abtype4"]
             ),
-     Measure(id="abtype_otmedia_4",
+    Measure(id="abtype_otmedia_4",
             numerator="otmedia_ab_count_4",
             denominator="population",
             group_by=["otmedia_abtype4"]

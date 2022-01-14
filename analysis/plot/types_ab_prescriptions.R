@@ -234,6 +234,7 @@ colnames(data.summary)=list.month
 DF=data.summary%>%
   gather(data.summary)%>%
   rename(date=data.summary) #rename colname_data.summary
+DF$date=as.Date(DF$date)
 
 # create column: ab name
 list.ab.n=rep(list.ab,n)
@@ -246,7 +247,11 @@ colnames(DF)[3]="type"
 
 rm(ab.type,data.summary,i,n,list.ab,list.ab.n, list.month)
 
-
+# remove last month data
+last.date=max(DF$date)
+DF=DF%>% filter(date!=last.date)
+first_mon <- (format(min(DF$date), "%m-%Y"))
+last_mon <- (format(max(DF$date), "%m-%Y"))
 
 
 ### select most common ab ###
@@ -258,25 +263,58 @@ DF.top10=DF%>%
 
 DF$types=ifelse(DF$type %in% DF.top10$type, DF$type, "others")
 
+
 ###  bar chart ###
 DF$types <- factor(DF$types, levels=c(DF.top10$type,"others"))# reorder
+#DF$date=format(DF$date,"%Y-%m")
 
-stackedbar <- 
+
+#plot_propotion
+bar_propotion <- 
   ggplot(DF, aes(x=date, y=value, fill=types))+
-  geom_bar(position="fill", stat="identity") +
-  geom_vline(xintercept = "2020-03-01", linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = "2020-11-01", linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = "2021-01-01", linetype="dashed",color = "grey", size=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_bar(position="fill", stat="identity")+
   labs(
-    title = "Typs of antibiotics prescribed per month ",
-    x = "Time", 
-    y = "percentage of prescriptions")+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
-  scale_fill_brewer(palette = "RdYlBu")
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
 
+
+#plot_stacked bar
+DF2=DF%>%group_by(date,types)%>%summarise(value=sum(value)) #sum numbers in "others"
+stakedbar <- ggplot(DF2, aes(y=value, x=date,fill=types)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_col(aes(group=-value)) +
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "TPP Practices",
+    y = "Number of prescriptions",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
 
 
 ggsave(
-  plot= stackedbar,
-  filename="types_ab_barchart.png", path=here::here("output"),
+  plot= bar_propotion,
+  filename="abtype_all_Rx_percent.jpeg", path=here::here("output"),
+)
+
+ggsave(
+  plot= stakedbar,
+  filename="abtype_all_Rx.jpeg", path=here::here("output"),
 )
