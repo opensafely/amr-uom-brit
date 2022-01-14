@@ -383,7 +383,7 @@ study = StudyDefinition(
         },
         find_first_match_in_period=True,
         on_or_before="index_date",
-        on_or_after="2020-11-29",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
     ),
     # Second COVID vaccination administration codes
@@ -408,7 +408,7 @@ study = StudyDefinition(
         returning="binary_flag",
         find_first_match_in_period=True,
         on_or_before="index_date",
-        on_or_after="2019-01-01",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
     ),
 
@@ -427,7 +427,7 @@ study = StudyDefinition(
         },
         find_first_match_in_period=True,
         on_or_before="index_date",
-        on_or_after="2020-11-29",
+        on_or_after="index_date",
         date_format="YYYY-MM-DD",
         return_expectations={
             "rate": "exponential_increase",
