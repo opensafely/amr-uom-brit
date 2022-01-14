@@ -73,6 +73,17 @@ actions:
   #      moderately_sensitive:
   #       plot: output/UTI.png
   
+  generate_study_population:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_general_population --index-date-range "2020-01-01 to 2020-12-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_*.csv.gz
+  
+  # generate_study_population_general_population:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_general_population
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_covid_general_population.csv
 
   generate_study_population_covid_primarycare:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_primarycare

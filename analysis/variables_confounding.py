@@ -7,53 +7,53 @@ def generate_confounding_variables(index_date_variable):
          
 
     ## Demographics
-    #age
-    age=patients.age_as_of(
-        "patient_index_date",
-        return_expectations={
-            "rate": "universal",
-            "int": {"distribution": "population_ages"},
-            "incidence": 0.001
-        },
-    ),
+    # #age
+    # age=patients.age_as_of(
+    #     "patient_index_date",
+    #     return_expectations={
+    #         "rate": "universal",
+    #         "int": {"distribution": "population_ages"},
+    #         "incidence": 0.001
+    #     },
+    # ),
 
-    # Age categories(18-29; 30-39; 40-49; 50-59; 60-69; 70-79; 80+)
-    age_cat=patients.categorised_as(
-        {
-            "0":"DEFAULT",
-            "18-29": """ age >= 18 AND age < 30""",
-            "30-39": """ age >= 30 AND age < 40""",
-            "40-49": """ age >= 40 AND age < 50""",
-            "50-59": """ age >= 50 AND age < 60""",
-            "60-69": """ age >= 60 AND age < 70""",
-            "70-79": """ age >= 70 AND age < 80""",
-            "80+": """ age >= 80 AND age < 110""",
-        },
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0": 0,
-                    "18-29": 0.24, 
-                    "30-39": 0.21,
-                    "40-49": 0.11,
-                    "50-59": 0.11,
-                    "60-69": 0.11,
-                    "70-79": 0.11,
-                    "80+": 0.11,
-                }
-            },
-        },
-    ),
+    # # Age categories(18-29; 30-39; 40-49; 50-59; 60-69; 70-79; 80+)
+    # age_cat=patients.categorised_as(
+    #     {
+    #         "0":"DEFAULT",
+    #         "18-29": """ age >= 18 AND age < 30""",
+    #         "30-39": """ age >= 30 AND age < 40""",
+    #         "40-49": """ age >= 40 AND age < 50""",
+    #         "50-59": """ age >= 50 AND age < 60""",
+    #         "60-69": """ age >= 60 AND age < 70""",
+    #         "70-79": """ age >= 70 AND age < 80""",
+    #         "80+": """ age >= 80 AND age < 110""",
+    #     },
+    #     return_expectations={
+    #         "rate": "universal",
+    #         "category": {
+    #             "ratios": {
+    #                 "0": 0,
+    #                 "18-29": 0.24, 
+    #                 "30-39": 0.21,
+    #                 "40-49": 0.11,
+    #                 "50-59": 0.11,
+    #                 "60-69": 0.11,
+    #                 "70-79": 0.11,
+    #                 "80+": 0.11,
+    #             }
+    #         },
+    #     },
+    # ),
 
     
-    #Sex
-    sex=patients.sex(
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-        }
-    ),
+    # #Sex
+    # sex=patients.sex(
+    #     return_expectations={
+    #         "rate": "universal",
+    #         "category": {"ratios": {"M": 0.49, "F": 0.51}},
+    #     }
+    # ),
 
 
     # self-reported ethnicity 

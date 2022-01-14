@@ -19,9 +19,9 @@ end_date = "2021-12-31"
 
 ###### Import variables
 
-# ## covid history before patient_index_date
-# from variables_covid import generate_covid_variables
-# covid_variables = generate_covid_variables(index_date_variable="index_date")
+## covid history before patient_index_date
+from variables_covid import generate_covid_variables
+covid_variables = generate_covid_variables(index_date_variable="index_date")
 
 ## Exposure variables: antibiotics 
 from variables_antibiotics import generate_ab_variables
@@ -47,7 +47,9 @@ study = StudyDefinition(
 
     # Set index date to start date
     index_date=start_date,
-   
+    #patient_index_date=start_date,
+
+
     # study population
     population=patients.satisfying(
         """
@@ -64,16 +66,13 @@ study = StudyDefinition(
         ),
 
         has_follow_up_previous_3years=patients.registered_with_one_practice_between(
-            start_date="patient_index_date - 1137 days",
-            end_date="patient_index_date",
+            start_date="index_date - 1137 days",
+            end_date="index_date",
             return_expectations={"incidence": 0.95},
         ),
 
     ),
-
-    ### patient index date = covid infection 
-    # primary_care_covid_date
-    patient_index_date="index_date",
+    
 
     ## Age
     age=patients.age_as_of(
