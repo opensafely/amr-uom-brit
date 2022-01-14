@@ -767,16 +767,16 @@ bar_propotion <-
 
 ggsave(
   plot= abtype_bar,
-  filename="abtype_Sinusitis.jpeg", path=here::here("output"),
+  filename="abtype_sinusitis.jpeg", path=here::here("output"),
 )
 ggsave(
   plot= bar_propotion,
-  filename="abtype_percent_Sinusitis.jpeg", path=here::here("output"),
+  filename="abtype_percent_sinusitis.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
 df.4 <- ungroup(df)
-df.4$type="Sinusitis"
+df.4$type="sinusitis"
 df.4<- select(df.1, date, abtype, value2,count,type)
 
 rm(df_plot,DF.top10,df2,df)
