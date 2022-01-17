@@ -93,3 +93,40 @@ df=df%>%
 
 
 write_csv(df, here::here("output", "case_covid_icu_death.csv"))
+
+
+
+## general population
+rm(list=ls())
+
+list=seq(as.Date("2020-02-01"), as.Date("2021-12-01"), "month")
+
+
+for (i in 1:length(list)){
+
+df=read_csv(here::here("output","measures", paste0("input_covid_general_population_",list[i],".csv")))
+
+        
+df$patient_index_date=as.Date(list[i])
+
+df=df%>%
+  filter(is.na(covid_admission_date),
+         is.na(icu_date_admitted),
+         is.na(died_date_cpns),
+         is.na(died_date_ons_covid))
+
+write_csv(df, here::here("output", paste0("control_general_population_",list[i],".csv")))
+}
+
+df=read_csv(here::here("output","measures", paste0("input_covid_general_population_",list[i],".csv")))
+
+        
+df$patient_index_date=as.Date(list[i])
+
+df=df%>%
+  filter(is.na(covid_admission_date),
+         is.na(icu_date_admitted),
+         is.na(died_date_cpns),
+         is.na(died_date_ons_covid))
+
+write_csv(df, here::here("output", paste0("control_general_population_",list[i],".csv")))
