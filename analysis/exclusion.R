@@ -42,6 +42,18 @@ df=df%>%
 
 write_csv(df, here::here("output", "case_covid_infection.csv"))
 
+
+# split data by month (for matching general population)
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+list=sort(unique(df$cal_YM))
+
+for (i in 1:length(list)){
+  DF=subset(df,cal_YM==list[i])
+  DF$cal_YM <- NULL
+  write_csv(DF, here::here("output", paste0("case_covid_infection_",list[i],".csv")))
+}
+
+
 rm(list=ls())
 
 
@@ -96,7 +108,7 @@ write_csv(df, here::here("output", "case_covid_icu_death.csv"))
 
 
 
-### general population
+#### general population
 
 rm(list=ls())
 list=seq(as.Date("2020-02-01"), as.Date("2021-12-01"), "month")

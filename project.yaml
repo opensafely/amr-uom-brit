@@ -129,7 +129,8 @@ actions:
         cohort1: output/case_covid_infection.csv
         cohort2: output/case_covid_admission.csv
         cohort3: output/case_covid_icu_death.csv
-        cohort: output/control_general_population_*.csv
+        cohort4: output/control_general_population_*.csv
+        cohort5: output/case_covid_infection_*.csv
 
   matching:
     run: python:latest python analysis/matching.py
