@@ -580,3 +580,90 @@ codes_ab_type_Tinidazole= codelist_from_csv('codelists/user-yayang-codes_ab_type
 codes_ab_type_Tobramycin= codelist_from_csv('codelists/user-yayang-codes_ab_type_tobramycincsv.csv', system ='snomed',column ='dmd_id')
 codes_ab_type_Trimethoprim= codelist_from_csv('codelists/user-yayang-codes_ab_type_trimethoprimcsv.csv', system ='snomed',column ='dmd_id')
 codes_ab_type_Vancomycin= codelist_from_csv('codelists/user-yayang-codes_ab_type_vancomycincsv.csv', system ='snomed',column ='dmd_id')
+
+##Charlson comobidities
+charlson01_cancer= codelist_from_csv(
+  "codelists/user-yayang-charlson01_cancer.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson02_cvd= codelist_from_csv(
+  "codelists/user-yayang-charlson02_cvd.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson03_copd= codelist_from_csv(
+  "codelists/user-yayang-charlson03_copd.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson04_heart_failure= codelist_from_csv(
+  "codelists/user-yayang-charlson04_heart_failure.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson05_connective_tissue= codelist_from_csv(
+  "codelists/user-yayang-charlson05_connective_tissue.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson06_dementia= codelist_from_csv(
+  "codelists/user-yayang-charlson06_dementia.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson07_diabetes= codelist_from_csv(
+  "codelists/user-yayang-charlson07_diabetes.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson08_diabetes_with_complications= codelist_from_csv(
+  "codelists/user-yayang-charlson08_diabetes_with_complications.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson09_hemiplegia= codelist_from_csv(
+  "codelists/user-yayang-charlson09_hemiplegia.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson10_hiv= codelist_from_csv(
+  "codelists/user-yayang-charlson10_hiv.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson11_metastatic_cancer= codelist_from_csv(
+  "codelists/user-yayang-charlson11_metastatic_cancer.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson12_mild_liver= codelist_from_csv(
+  "codelists/user-yayang-charlson12_mild_liver.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson13_mod_severe_liver= codelist_from_csv(
+  "codelists/user-yayang-charlson13_mod_severe_liver.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson14_moderate_several_renal_disease= codelist_from_csv(
+  "codelists/user-yayang-charlson14_moderate_several_renaldiseae.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson15_mi= codelist_from_csv(
+  "codelists/user-yayang-charlson15_mi.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson16_peptic_ulcer= codelist_from_csv(
+  "codelists/user-yayang-charlson16_peptic_ulcer.csv",
+  system = "snomed",
+  column = "code"
+)
+charlson17_peripheral_vascular= codelist_from_csv(
+  "codelists/user-yayang-charlson17_peripheral_vascular.csv",
+  system = "snomed",
+  column = "code"
+)

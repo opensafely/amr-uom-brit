@@ -15,7 +15,7 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2020-02-01"
-end_date = "2020-12-31"
+end_date = "2021-12-31"
 
 ###### Import variables
 
@@ -34,6 +34,11 @@ confounding_variables = generate_confounding_variables(index_date_variable="pati
 ## Comobidities related to covid outcome 
 from variables_comobidities import generate_comobidities_variables
 comobidities_variables = generate_comobidities_variables(index_date_variable="patient_index_date")
+
+## Charlson Comobidity Index
+from variables_CCI import generate_CCI_variables
+CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
+
 
 # ## import recurring event functions
 # from recurrent_event_funs import *
@@ -186,6 +191,6 @@ study = StudyDefinition(
     **confounding_variables,
     **covid_variables,
     **comobidities_variables,
-    # **ab_time_variables,
+    **CCI_variables,
   
 )

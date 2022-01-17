@@ -53,7 +53,7 @@ rm(list=ls())
 df <- read_csv(here::here("output", "input_covid_admission.csv"))
 
 # has covid admission record
-df =df%>%filter(patient_index_date>0) # SGSS case
+df =df%>%filter(patient_index_date>0) # hosp admission case
 
 
 # exclude case has previous covid related history (variables before patient_index_date)
