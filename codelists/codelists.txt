@@ -29,7 +29,7 @@ user/rriefu/uti/5661f324
 user/rriefu/vaccination/26f5ccb0
 primis-covid19-vacc-uptake/longres/v1
 user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f
-user/rriefu/antibiotics_dmd/0ea3a40d
+user/rriefu/antibiotics_dmd/15f53060
 user/rriefu/broad-spectrum-antibiotics/40c28a77
 user/yayang/codes_ab_type_amikacincsv/3908efde
 user/yayang/codes_ab_type_amoxicillincsv/1ff97ca9

@@ -187,10 +187,10 @@
       "sha": "57f75538d842da15d153aea6e41622f562bf0d1e"
     },
     "user-rriefu-antibiotics_dmd.csv": {
-      "id": "user/rriefu/antibiotics_dmd/0ea3a40d",
-      "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/0ea3a40d/",
-      "downloaded_at": "2021-11-02 12:56:17.780181Z",
-      "sha": "3de7dc9b7761cd87f763d0d460d9c4b5148523aa"
+      "id": "user/rriefu/antibiotics_dmd/15f53060",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/15f53060/",
+      "downloaded_at": "2022-01-18 12:33:05.940249Z",
+      "sha": "6399c02c4c97a18687e8a132e948716cb38f6e83"
     },
     "user-rriefu-broad-spectrum-antibiotics.csv": {
       "id": "user/rriefu/broad-spectrum-antibiotics/40c28a77",
@@ -666,14 +666,12 @@
       "downloaded_at": "2021-11-22 15:24:32.259200Z",
       "sha": "2aeffeea4db5c63937622a596ff5cc9dd888ea1a"
     },
-
     "user-yayang-codes_ab_type_vancomycincsv.csv": {
       "id": "user/yayang/codes_ab_type_vancomycincsv/7d446273",
       "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_vancomycincsv/7d446273/",
       "downloaded_at": "2021-11-22 15:24:32.441162Z",
       "sha": "097feaf4c3d67715ffd3d735305076673a464290"
     },
-
     "user-yayang-charlson01_cancer.csv": {
       "id": "user/yayang/charlson01_cancer/796c49a5",
       "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson01_cancer/796c49a5/",
