@@ -1,7 +1,7 @@
 from osmatching import match
 #The algorithm currently does matching without replacement.
 
-#### covid infection & hospital admission
+#### covid infection(control) & hospital admission(case)
 match(
     case_csv="case_covid_admission",
     match_csv="case_covid_infection",
@@ -23,7 +23,7 @@ match(
 )
 
 
-#### covid hospital admission & covid ICU or death
+#### covid hospital admission(control) & covid ICU or death(case)
 
 match(
     case_csv="case_covid_icu_death",
@@ -46,10 +46,11 @@ match(
 )
 
 
-#### general population & covid infection
+#### general population(control) & covid infection(case)- matching monthly datasets
+# 2020-02-01 ~ 2021-12-31
 match(
-    case_csv="case_covid_infection_2020-08",
-    match_csv="control_general_population_2020-08",
+    case_csv="case_covid_infection_2020-02",
+    match_csv="control_general_population_2020-02-01",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -63,7 +64,447 @@ match(
         "dereg_date": "before",
         "ons_died_date": "before",
     },
-    output_suffix="_hosp_icu_death",
+    output_suffix="_general_pupulation_infection_2020_02",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-03",
+    match_csv="control_general_population_2020-03-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_03",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-04",
+    match_csv="control_general_population_2020-04-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_04",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-05",
+    match_csv="control_general_population_2020-05-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_05",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-06",
+    match_csv="control_general_population_2020-06-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_06",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-07",
+    match_csv="control_general_population_2020-07-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_07",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-08",
+    match_csv="control_general_population_2020-08-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_08",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-09",
+    match_csv="control_general_population_2020-09-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_09",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-10",
+    match_csv="control_general_population_2020-10-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_10",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-11",
+    match_csv="control_general_population_2020-11-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_11",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2020-12",
+    match_csv="control_general_population_2020-12-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2020_12",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-01",
+    match_csv="control_general_population_2021-01-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-01",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-02",
+    match_csv="control_general_population_2021-02-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-02",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-03",
+    match_csv="control_general_population_2021-03-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-03",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-04",
+    match_csv="control_general_population_2021-04-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-04",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-05",
+    match_csv="control_general_population_2021-05-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-05",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-06",
+    match_csv="control_general_population_2021-06-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-06",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-07",
+    match_csv="control_general_population_2021-07-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-07",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-08",
+    match_csv="control_general_population_2021-08-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021_08",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-09",
+    match_csv="control_general_population_2021-09-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-09",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-10",
+    match_csv="control_general_population_2021-10-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-10",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-11",
+    match_csv="control_general_population_2021-11-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-11",
+    output_path="output",
+)
+
+match(
+    case_csv="case_covid_infection_2021-12",
+    match_csv="control_general_population_2021-12-01",
+    matches_per_case=6,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_general_pupulation_infection_2021-12",
     output_path="output",
 )
 
