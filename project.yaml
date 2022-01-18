@@ -66,28 +66,28 @@ actions:
   #       #csvs: output/*/* # two possible subfolders
   #       #text: output/text/*
   
-  describe_consultation_rate:
-    run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        bar1: output/consult_age_UTI.png
-        bar2: output/consult_age_LRTI.png
-        bar3: output/consult_age_URTI.png
-        bar4: output/consult_age_sinusitis.png
-        bar5: output/consult_age_ot_externa.png
-        bar6: output/consult_age_otmedia.png
-        bar7: output/consult_age_repeatedUTI.png
+  # describe_consultation_rate:
+  #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       bar1: output/consult_age_UTI.png
+  #       bar2: output/consult_age_LRTI.png
+  #       bar3: output/consult_age_URTI.png
+  #       bar4: output/consult_age_sinusitis.png
+  #       bar5: output/consult_age_ot_externa.png
+  #       bar6: output/consult_age_otmedia.png
+  #       bar7: output/consult_age_repeatedUTI.png
        
 
 
-  describe_consultation_prescribed:
-    run: r:latest analysis/plot/consultation_prescibed_percentage.R
-    needs: [generate_study_population]
-    outputs:
-       moderately_sensitive:
-        bar1: output/prescribed_percentage_UTI.png
-        csvs: output/uti_prescrib_check.csv
+  # describe_consultation_prescribed:
+  #   run: r:latest analysis/plot/consultation_prescibed_percentage.R
+  #   needs: [generate_study_population]
+  #   outputs:
+  #      moderately_sensitive:
+  #       bar1: output/prescribed_percentage_UTI.png
+  #       csvs: output/uti_prescrib_check.csv
      
 
   #generate_notebook_starpu:
@@ -110,9 +110,9 @@ actions:
         figures: output/hospitalisation_risk/*
 
 
-  describe_types_ab_prescriptions:
-    run: r:latest analysis/plot/types_ab_prescriptions.R
-    needs: [generate_study_population]
-    outputs:
-       moderately_sensitive:
-        plot: output/types_ab_barchart.png
+  # describe_types_ab_prescriptions:
+  #   run: r:latest analysis/plot/types_ab_prescriptions.R
+  #   needs: [generate_study_population]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot: output/types_ab_barchart.png
