@@ -282,12 +282,12 @@ study = StudyDefinition(
     ## flu vaccine in tpp
     flu_vaccine_tpp=patients.with_tpp_vaccination_record(
         target_disease_matches="influenza",
-        between=[start_date, "index_date"],
+        between=["index_date - 12 months", "index_date"],
         returning="binary_flag",
         #date_format=binary,
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
         }
     ),
 
@@ -312,7 +312,7 @@ study = StudyDefinition(
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={
-            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
         },
     ),
     ## flu vaccine any of the above 
@@ -325,24 +325,24 @@ study = StudyDefinition(
     ),
 
     ### Antibiotics from opensafely antimicrobial-stewardship repo
-    ## all antibacterials 
-    antibacterial_prescriptions=patients.with_these_medications(
-        antibacterials_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
+    # ## all antibacterials 
+    # antibacterial_prescriptions=patients.with_these_medications(
+    #     antibacterials_codes,
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     returning="number_of_matches_in_period",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+    #         "incidence": 0.5,
+    #     },
+    # ),
 
-    antibacterial_prescriptions_date=patients.with_these_medications(
-        antibacterials_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-        ),
+    # antibacterial_prescriptions_date=patients.with_these_medications(
+    #     antibacterials_codes,
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     returning="date",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+    #     ),
 
 
     ## all antibacterials from BRIT (dmd codes)
@@ -429,14 +429,14 @@ study = StudyDefinition(
         }
     ),
 
-    ## hospitalisation
-    admitted=patients.admitted_to_hospital(
-        returning="binary_flag",
-        #returning="date_admitted",
-        #date_format="YYYY-MM-DD",
-        between=["index_date", "today"],
-        return_expectations={"incidence": 0.1},
-    ),
+    # ## hospitalisation
+    # admitted=patients.admitted_to_hospital(
+    #     returning="binary_flag",
+    #     #returning="date_admitted",
+    #     #date_format="YYYY-MM-DD",
+    #     between=["index_date", "today"],
+    #     return_expectations={"incidence": 0.1},
+    # ),
 
     ## hospitalisation with diagnosis of lrti, urti, or uti
     #admitted_date=patients.admitted_to_hospital(
@@ -665,7 +665,7 @@ study = StudyDefinition(
 
     ##numbers of antibiotic prescribed for this infection 
     uti_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_1','uti_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -683,7 +683,7 @@ study = StudyDefinition(
         ),
 
     uti_ab_count_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_2','uti_date_2'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -700,7 +700,7 @@ study = StudyDefinition(
         ),
 
     uti_ab_count_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_3','uti_date_3'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -717,7 +717,7 @@ study = StudyDefinition(
         ),
 
     uti_ab_count_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_4','uti_date_4'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -736,7 +736,7 @@ study = StudyDefinition(
         ),
 
     lrti_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['lrti_date_1','lrti_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -754,7 +754,7 @@ study = StudyDefinition(
         ),
 
     lrti_ab_count_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['lrti_date_2','lrti_date_2'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -771,7 +771,7 @@ study = StudyDefinition(
         ),
 
     lrti_ab_count_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['lrti_date_3','lrti_date_3'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -788,7 +788,7 @@ study = StudyDefinition(
         ),
 
     lrti_ab_count_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['lrti_date_4','lrti_date_4'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -809,7 +809,7 @@ study = StudyDefinition(
 
 #numbers of antibiotic prescribed for this infection 
     urti_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['urti_date_1','urti_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -827,7 +827,7 @@ study = StudyDefinition(
         ),
 
     urti_ab_count_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['urti_date_2','urti_date_2'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -844,7 +844,7 @@ study = StudyDefinition(
         ),
 
     urti_ab_count_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['urti_date_3','urti_date_3'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -861,7 +861,7 @@ study = StudyDefinition(
         ),
 
     urti_ab_count_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['urti_date_4','urti_date_4'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -879,7 +879,7 @@ study = StudyDefinition(
         ),
 
     sinusitis_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['sinusitis_date_1','sinusitis_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -897,7 +897,7 @@ study = StudyDefinition(
         ),
 
     sinusitis_ab_count_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['sinusitis_date_2','sinusitis_date_2'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -914,7 +914,7 @@ study = StudyDefinition(
         ),
 
     sinusitis_ab_count_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['sinusitis_date_3','sinusitis_date_3'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -931,7 +931,7 @@ study = StudyDefinition(
         ),
 
     sinusitis_ab_count_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['sinusitis_date_4','sinusitis_date_4'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -949,7 +949,7 @@ study = StudyDefinition(
         ),
 
     otmedia_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['otmedia_date_1','otmedia_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -967,7 +967,7 @@ study = StudyDefinition(
         ),
 
     otmedia_ab_count_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['otmedia_date_2','otmedia_date_2'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -984,7 +984,7 @@ study = StudyDefinition(
         ),
 
     otmedia_ab_count_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['otmedia_date_3','otmedia_date_3'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -1001,7 +1001,7 @@ study = StudyDefinition(
         ),
 
     otmedia_ab_count_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['otmedia_date_4','otmedia_date_4'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -1021,7 +1021,7 @@ study = StudyDefinition(
 
 #    numbers of antibiotic prescribed for this infection 
     ot_externa_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['ot_externa_date_1','ot_externa_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -1039,7 +1039,7 @@ study = StudyDefinition(
         ),
 
     ot_externa_ab_count_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['ot_externa_date_2','ot_externa_date_2'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -1056,7 +1056,7 @@ study = StudyDefinition(
         ),
 
     ot_externa_ab_count_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['ot_externa_date_3','ot_externa_date_3'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -1073,7 +1073,7 @@ study = StudyDefinition(
         ),
 
     ot_externa_ab_count_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['ot_externa_date_4','ot_externa_date_4'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -1252,7 +1252,7 @@ study = StudyDefinition(
 
     ## numbers of antibiotic prescribed for this infection 
     uti_ab_flag_1 = patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_1','uti_date_1'],
         returning='binary_flag',
         return_expectations={
@@ -1261,7 +1261,7 @@ study = StudyDefinition(
 
     
     uti_ab_flag_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_2','uti_date_2'],
         returning='binary_flag',
         return_expectations={
@@ -1269,7 +1269,7 @@ study = StudyDefinition(
         ),
     
     uti_ab_flag_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_3','uti_date_3'],
         returning='binary_flag',
         return_expectations={
@@ -1277,7 +1277,7 @@ study = StudyDefinition(
         ),
 
     uti_ab_flag_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_4','uti_date_4'],
         returning='binary_flag',
         return_expectations={
@@ -1292,7 +1292,7 @@ measures = [
 
     ## antibiotic rx rate
     Measure(id="antibiotics_overall",
-            numerator="antibacterial_prescriptions",
+            numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice"]
             ),
@@ -1301,14 +1301,14 @@ measures = [
     ## Broad spectrum antibiotics
     Measure(id="broad_spectrum_proportion",
             numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_prescriptions",
+            denominator="antibacterial_brit",
             group_by=["practice"]
             ),
 
     
     # ## STRPU antibiotics
     # Measure(id="STARPU_antibiotics",
-    #         numerator="antibacterial_prescriptions",
+    #         numerator="antibacterial_brit",
     #         denominator="population",
     #         group_by=["practice", "sex", "age_cat"]
     #         ),
@@ -1369,12 +1369,12 @@ measures = [
     # #        group_by=["practice"]
     # # ),
 
-    ## UTI pt propotion 
-    Measure(id="UTI_patient",
-            numerator="uti_pt",
-            denominator="population",
-            group_by=["practice"]
-    ),
+    # ## UTI pt propotion 
+    # Measure(id="UTI_patient",
+    #         numerator="uti_pt",
+    #         denominator="population",
+    #         group_by=["practice"]
+    # ),
 
     ## LTI pt propotion 
     #Measure(id="LRTI_patient",
@@ -1411,42 +1411,42 @@ measures = [
     #        group_by=["practice"]
     #),
     
-    ## incident consultation: UTI
-    Measure(id="consult_UTI",
-            numerator="uti_counts",
-            denominator="population",
-            group_by=["practice", "incdt_uti_pt", "age_cat"]
-    ),
-    ## incident consultation: LRTI
-    Measure(id="consult_LRTI",
-            numerator="lrti_counts",
-            denominator="population",
-            group_by=["practice", "incdt_lrti_pt", "age_cat"]
-    ),
-    ## incident consultation: URTI
-    Measure(id="consult_URTI",
-            numerator="urti_counts",
-            denominator="population",
-            group_by=["practice", "incdt_urti_pt", "age_cat"]
-    ),
-    ## incident consultation: sinusitis
-    Measure(id="consult_sinusitis",
-            numerator="sinusitis_counts",
-            denominator="population",
-            group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
-    ),
-    ## incident consultation: ot_externa
-    Measure(id="consult_ot_externa",
-            numerator="ot_externa_counts",
-            denominator="population",
-            group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
-    ),
-    ## incident consultation: otmedia
-    Measure(id="consult_otmedia",
-            numerator="otmedia_counts",
-            denominator="population",
-            group_by=["practice", "incdt_otmedia_pt", "age_cat"]
-    ),
+    # ## incident consultation: UTI
+    # Measure(id="consult_UTI",
+    #         numerator="uti_counts",
+    #         denominator="population",
+    #         group_by=["practice", "incdt_uti_pt", "age_cat"]
+    # ),
+    # ## incident consultation: LRTI
+    # Measure(id="consult_LRTI",
+    #         numerator="lrti_counts",
+    #         denominator="population",
+    #         group_by=["practice", "incdt_lrti_pt", "age_cat"]
+    # ),
+    # ## incident consultation: URTI
+    # Measure(id="consult_URTI",
+    #         numerator="urti_counts",
+    #         denominator="population",
+    #         group_by=["practice", "incdt_urti_pt", "age_cat"]
+    # ),
+    # ## incident consultation: sinusitis
+    # Measure(id="consult_sinusitis",
+    #         numerator="sinusitis_counts",
+    #         denominator="population",
+    #         group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
+    # ),
+    # ## incident consultation: ot_externa
+    # Measure(id="consult_ot_externa",
+    #         numerator="ot_externa_counts",
+    #         denominator="population",
+    #         group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
+    # ),
+    # ## incident consultation: otmedia
+    # Measure(id="consult_otmedia",
+    #         numerator="otmedia_counts",
+    #         denominator="population",
+    #         group_by=["practice", "incdt_otmedia_pt", "age_cat"]
+    # ),
 
 
 ]
