@@ -73,17 +73,17 @@ actions:
   #      moderately_sensitive:
   #       plot: output/UTI.png
   
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_general_population --index-date-range "2020-02-01 to 2021-12-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_*.csv.gz
-  
-  # generate_study_population_general_population:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_general_population
+  # generate_study_population:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_general_population --index-date-range "2020-02-01 to 2021-12-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
   #   outputs:
   #     highly_sensitive:
-  #       cohort: output/input_covid_general_population.csv
+  #       cohort: output/measures/input_*.csv.gz
+  
+  generate_study_population:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population
+    outputs:
+      highly_sensitive:
+        cohort: output/input_general_population.csv
 
   generate_study_population_covid_primarycare:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_primarycare
@@ -121,26 +121,38 @@ actions:
       highly_sensitive:
         cohort: output/input_covid_death_cpns.csv
   
-  exclusion:
-    run: r:latest analysis/exclusion.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_icu,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns,generate_study_population]
+  # exclusion:
+  #   run: r:latest analysis/exclusion.R
+  #   needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_icu,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns,generate_study_population]
+  #   outputs:
+  #      highly_sensitive:
+  #       cohort1: output/case_covid_infection.csv
+  #       cohort2: output/case_covid_admission.csv
+  #       cohort3: output/case_covid_icu_death.csv
+  #       cohort4: output/control_general_population_*.csv
+  #       cohort5: output/case_covid_infection_*.csv
+
+  process:
+    run: r:latest analysis/process.R
+    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_icu,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
     outputs:
-       highly_sensitive:
-        cohort1: output/case_covid_infection.csv
+      highly_sensitive:
+        cohort1.1: output/case_covid_infection.csv
+        cohort1.2: output/control_covid_infection.csv
         cohort2: output/case_covid_admission.csv
         cohort3: output/case_covid_icu_death.csv
-        cohort4: output/control_general_population_*.csv
-        cohort5: output/case_covid_infection_*.csv
+        
 
   matching:
-    run: python:latest python analysis/matching.py
-    needs: [exclusion]
+    run: python:latest python analysis/matching_case_control.py
+    needs: [generate_study_population, process]
     outputs:
       moderately_sensitive: 
-        matching_report1: output/matching_report_infection_hosp.txt
-        matching_report2: output/matching_report_hosp_icu_death.txt 
-        matching_report3: output/matching_report_general_pupulation_infection_2020_08.txt
+        matching_report1: output/matching_report_general_population_infection.txt
+        matching_report2: output/matching_report_infection_hosp.txt
+        matching_report3: output/matching_report_hosp_icu_death.txt 
       highly_sensitive: 
-        combined1: output/matched_combined_infection_hosp.csv
-        combined2: output/matched_combined_hosp_icu_death.csv
-        combined3: output/matched_combined_general_pupulation_infection_2020_08.csv
+        combined1: output/matched_combined_general_population_infection.csv
+        combined2: output/matched_combined_infection_hosp.csv
+        combined3: output/matched_combined_hosp_icu_death.csv
+        

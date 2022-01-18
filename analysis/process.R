@@ -39,20 +39,10 @@ df=df%>%
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
 
-df$cal_YM=format(df$patient_index_date,"%Y-%m")
-
 write_csv(df, here::here("output", "case_covid_infection.csv"))
 
-
-# split data by month (for matching general population)
-
-list=sort(unique(df$cal_YM))
-
-for (i in 1:length(list)){
-  DF=subset(df,cal_YM==list[i])
-  
-  write_csv(DF, here::here("output", paste0("case_covid_infection_",list[i],".csv")))
-}
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+write_csv(df, here::here("output", "control_covid_infection.csv"))
 
 
 rm(list=ls())
@@ -111,23 +101,23 @@ write_csv(df, here::here("output", "case_covid_icu_death.csv"))
 
 
 
-#### general population
+# #### general population
 
-rm(list=ls())
-list=seq(as.Date("2020-02-01"), as.Date("2021-12-01"), "month")
+# rm(list=ls())
+# list=seq(as.Date("2020-02-01"), as.Date("2021-12-01"), "month")
 
-for (i in 1:length(list)){
-df=read_csv(here::here("output","measures", paste0("input_covid_general_population_",list[i],".csv.gz")))
+# for (i in 1:length(list)){
+# df=read_csv(here::here("output","measures", paste0("input_covid_general_population_",list[i],".csv.gz")))
 
-df$patient_index_date=as.Date(list[i])
+# df$patient_index_date=as.Date(list[i])
 
-df=df%>%
-  filter(is.na(covid_admission_date),
-         is.na(icu_date_admitted),
-         is.na(died_date_cpns),
-         is.na(died_date_ons_covid))
+# df=df%>%
+#   filter(is.na(covid_admission_date),
+#          is.na(icu_date_admitted),
+#          is.na(died_date_cpns),
+#          is.na(died_date_ons_covid))
 
-df$cal_YM=format(df$patient_index_date,"%Y-%m")
+# df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
-write_csv(df, here::here("output", paste0("control_general_population_",list[i],".csv")))
-}
+# write_csv(df, here::here("output", paste0("control_general_population_",list[i],".csv")))
+# }

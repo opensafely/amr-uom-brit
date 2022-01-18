@@ -21,23 +21,23 @@ end_date = "2021-12-31"
 
 ## covid history before patient_index_date
 from variables_covid import generate_covid_variables
-covid_variables = generate_covid_variables(index_date_variable="patient_index_date")
+covid_variables = generate_covid_variables(index_date_variable="index_date")
 
 ## Exposure variables: antibiotics 
 from variables_antibiotics import generate_ab_variables
-ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
+ab_variables = generate_ab_variables(index_date_variable="index_date")
 
 ## Demographics, vaccine, included as they are potential confounders 
 from variables_confounding import generate_confounding_variables
-confounding_variables = generate_confounding_variables(index_date_variable="patient_index_date")
+confounding_variables = generate_confounding_variables(index_date_variable="index_date")
 
 ## Comobidities related to covid outcome 
 from variables_comobidities import generate_comobidities_variables
-comobidities_variables = generate_comobidities_variables(index_date_variable="patient_index_date")
+comobidities_variables = generate_comobidities_variables(index_date_variable="index_date")
 
 ## Charlson Comobidity Index
 from variables_CCI import generate_CCI_variables
-CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
+CCI_variables = generate_CCI_variables(index_date_variable="index_date")
 
 
 study = StudyDefinition(
@@ -51,7 +51,9 @@ study = StudyDefinition(
 
     # Set index date to start date
     index_date=start_date,
-   
+    #patient_index_date=start_date,
+
+
     # study population
     population=patients.satisfying(
         """
@@ -68,27 +70,17 @@ study = StudyDefinition(
         ),
 
         has_follow_up_previous_3years=patients.registered_with_one_practice_between(
-            start_date="patient_index_date - 1137 days",
-            end_date="patient_index_date",
+            start_date="index_date - 1137 days",
+            end_date="index_date",
             return_expectations={"incidence": 0.95},
         ),
 
     ),
-    ### patient index date = covid death
-    # ONS - underlying cause of death
-    patient_index_date=patients.with_these_codes_on_death_certificate(
-        covid_codelist,
-        on_or_after="index_date",
-        returning="date_of_death",
-        date_format="YYYY-MM-DD",
-        match_only_underlying_cause=True,
-        return_expectations={"date": {"earliest": "2020-02-01"},
-        "incidence" : 0.25},
-       ),
+    
 
     ## Age
     age=patients.age_as_of(
-        "patient_index_date",
+        "index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},

@@ -35,6 +35,10 @@ confounding_variables = generate_confounding_variables(index_date_variable="inde
 from variables_comobidities import generate_comobidities_variables
 comobidities_variables = generate_comobidities_variables(index_date_variable="index_date")
 
+## Charlson Comobidity Index
+from variables_CCI import generate_CCI_variables
+CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
+
 
 study = StudyDefinition(
 
@@ -159,7 +163,7 @@ study = StudyDefinition(
     **confounding_variables,
     **covid_variables,
     **comobidities_variables,
-  
+    **CCI_variables,
 )
 
 
