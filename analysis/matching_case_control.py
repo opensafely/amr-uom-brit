@@ -20,7 +20,7 @@ match(
         "SGSS_positive_test_date": "before",
         "primary_care_covid_date": "before",
         "covid_admission_date": "before",
-        "icu_date_admitted": "before",
+        #"icu_date_admitted": "before",
         "died_date_cpns": "before",
         "died_date_ons_covid": "before",
     },
@@ -50,7 +50,7 @@ match(
 )
 
 
-#### covid hospital admission(control) & covid ICU or death(case)
+#### covid hospital admission(control) & covid death(case)
 
 match(
     case_csv="case_covid_icu_death",

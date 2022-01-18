@@ -74,18 +74,18 @@ study = StudyDefinition(
         ),
 
     ),
-    ### patient index date = ICU admission
-    # ICU admission date
-    patient_index_date=patients.admitted_to_icu(
-        on_or_after="index_date",
-        find_first_match_in_period=True,
-        returning="date_admitted",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "2020-03-01"},
-            "incidence" : 0.25
-       },
-    ),
+    # ### patient index date = ICU admission
+    # # ICU admission date
+    # patient_index_date=patients.admitted_to_icu(
+    #     on_or_after="index_date",
+    #     find_first_match_in_period=True,
+    #     returning="date_admitted",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest" : "2020-03-01"},
+    #         "incidence" : 0.25
+    #    },
+    # ),
     ## Age
     age=patients.age_as_of(
         "patient_index_date",

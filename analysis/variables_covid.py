@@ -60,17 +60,17 @@ def generate_covid_variables(index_date_variable):
         return_expectations={"date": {"earliest": "2020-03-01"}},
    ),
 
-    ##ICU ADMISSION
-    icu_date_admitted=patients.admitted_to_icu(
-        on_or_before=f'{index_date_variable}',
-        find_first_match_in_period=True,
-        returning="date_admitted",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "2020-03-01"},
-            "incidence" : 0.25
-       },
-    ),
+    # ##ICU ADMISSION
+    # icu_date_admitted=patients.admitted_to_icu(
+    #     on_or_before=f'{index_date_variable}',
+    #     find_first_match_in_period=True,
+    #     returning="date_admitted",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "date": {"earliest" : "2020-03-01"},
+    #         "incidence" : 0.25
+    #    },
+    # ),
 
     ## died (CPNS: all in-hospital covid-related deaths)
     died_date_cpns=patients.with_death_recorded_in_cpns(
