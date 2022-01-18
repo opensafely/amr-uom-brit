@@ -25,53 +25,89 @@ actions:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
         
-  describe_elderly_agedis:
-    run: r:latest analysis/tables/gen_csv_age_check.R
-    needs: [generate_study_population_elderly]
-    outputs:
-      moderately_sensitive:
-        agetable: output/age_quant.csv
+  # describe_elderly_agedis:
+  #   run: r:latest analysis/tables/gen_csv_age_check.R
+  #   needs: [generate_study_population_elderly]
+  #   outputs:
+  #     moderately_sensitive:
+  #       agetable: output/age_quant.csv
 
-  describe:
-    run: r:latest analysis/plot/overall_ab_prescribing.R
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        cohort: output/overall.png
-        boxplot: output/overallbox.png
+  # describe:
+  #   run: r:latest analysis/plot/overall_ab_prescribing.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       cohort: output/overall.png
+  #       boxplot: output/overallbox.png
 
-  describe_percentile:
-    run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        percentile: output/overall_25th_75th_percentile.png
+  # describe_percentile:
+  #   run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       percentile: output/overall_25th_75th_percentile.png
 
-  describe_starpu:
-    run: r:latest analysis/plot/starpu_ab_prescribing.R
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        cohort: output/starpuline.png
-        boxplot: output/starpubox.png
+  # describe_starpu:
+  #   run: r:latest analysis/plot/starpu_ab_prescribing.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       cohort: output/starpuline.png
+  #       boxplot: output/starpubox.png
   
-  generate_notebook_starpu:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        notebook: output/starpu.html 
-        figures: output/*
+  # generate_notebook_starpu:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/starpu.html 
+  #       figures: output/*
+  #       #tables: output/tables/*
+  #       #csvs: output/*/* # two possible subfolders
+  #       #text: output/text/*
+  
+  # describe_consultation_rate:
+  #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       bar1: output/consult_age_UTI.png
+  #       bar2: output/consult_age_LRTI.png
+  #       bar3: output/consult_age_URTI.png
+  #       bar4: output/consult_age_sinusitis.png
+  #       bar5: output/consult_age_ot_externa.png
+  #       bar6: output/consult_age_otmedia.png
+  #       bar7: output/consult_age_repeatedUTI.png
+       
+
+
+  # describe_consultation_prescribed:
+  #   run: r:latest analysis/plot/consultation_prescibed_percentage.R
+  #   needs: [generate_study_population]
+  #   outputs:
+  #      moderately_sensitive:
+  #       bar1: output/prescribed_percentage_UTI.png
+  #       csvs: output/uti_prescrib_check.csv
+     
+
+  #generate_notebook_starpu:
+  #  run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
+  #  needs: [generate_measures]
+  #  outputs:
+  #    moderately_sensitive:
+  #      notebook: output/hospitalisation_risk/starpu.html 
+  #      figures: output/hospitalisation_risk/*
         #tables: output/tables/*
         #csvs: output/*/* # two possible subfolders
         #text: output/text/*
-  
-  describe_infection_ab_UTI:
-    run: r:latest analysis/plot/infection_ab_UTI.R
-    needs: [generate_study_population, generate_measures]
+
+  generate_notebook_hospitalisation_analysis:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_analysis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
+    needs: [generate_study_population]
     outputs:
-       moderately_sensitive:
-        plot: output/UTI.png
+    moderately_sensitive:
+        notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
+        figures: output/hospitalisation_risk/*
     
   describe_prior_ab_12mb4:
     run: r:latest analysis/plot/ab_1yb4_stackedbar_2.R
@@ -80,4 +116,12 @@ actions:
        moderately_sensitive:
         plot: output/AB_1yb4_line.jpeg
         plot_sex: output/AB_1yb4_SEX.jpeg
-        count_table: output/prior_ab_by_month.csv
+        count_table: output/prior_ab_by_month.csv      
+
+  # describe_types_ab_prescriptions:
+  #   run: r:latest analysis/plot/types_ab_prescriptions.R
+  #   needs: [generate_study_population]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot: output/types_ab_barchart.png
+
