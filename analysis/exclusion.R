@@ -32,7 +32,6 @@ df=df%>%
   arrange(patient_id,patient_index_date)%>%
   distinct(patient_id, .keep_all = TRUE)
 
-
 # exclude case has previous covid related history (variables before patient_index_date)
 df=df%>%
   filter(is.na(covid_admission_date),
@@ -40,16 +39,18 @@ df=df%>%
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
 
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+
 write_csv(df, here::here("output", "case_covid_infection.csv"))
 
 
 # split data by month (for matching general population)
-df$cal_YM=format(df$patient_index_date,"%Y-%m")
+
 list=sort(unique(df$cal_YM))
 
 for (i in 1:length(list)){
   DF=subset(df,cal_YM==list[i])
-  DF$cal_YM <- NULL
+  
   write_csv(DF, here::here("output", paste0("case_covid_infection_",list[i],".csv")))
 }
 
@@ -67,12 +68,13 @@ df <- read_csv(here::here("output", "input_covid_admission.csv"))
 # has covid admission record
 df =df%>%filter(patient_index_date>0) # hosp admission case
 
-
 # exclude case has previous covid related history (variables before patient_index_date)
 df=df%>%
   filter(is.na(icu_date_admitted),
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
+
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
 write_csv(df, here::here("output", "case_covid_admission.csv"))
 
@@ -103,6 +105,7 @@ df=df%>%
   arrange(patient_id,patient_index_date)%>%
   distinct(patient_id, .keep_all = TRUE)
 
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
 write_csv(df, here::here("output", "case_covid_icu_death.csv"))
 
@@ -123,6 +126,8 @@ df=df%>%
          is.na(icu_date_admitted),
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
+
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
 write_csv(df, here::here("output", paste0("control_general_population_",list[i],".csv")))
 }

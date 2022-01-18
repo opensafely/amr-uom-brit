@@ -134,9 +134,11 @@ actions:
 
   matching:
     run: python:latest python analysis/matching.py
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS, generate_study_population_covid_admission,exclusion]
+    needs: [exclusion]
     outputs:
       moderately_sensitive: 
-        matching_report: output/matching_report_infection&admission.txt  
+        matching_report1: output/matching_report_infection_hosp.txt
+        matching_report2: output/matching_report_hosp_icu_death.txt   
       highly_sensitive: 
-        combined: output/matched_combined_infection&admission.csv
+        combined1: output/matched_combined_infection_hosp.csv
+        combined2: output/matched_combined_hosp_icu_death.csv
