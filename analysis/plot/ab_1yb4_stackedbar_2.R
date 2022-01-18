@@ -94,6 +94,18 @@ ggsave(
   filename="AB_1yb4_line.jpeg", path=here::here("output"),
 )
 
+# generate data table 
+dt_counts <- df_per_abgp %>% group_by(date) %>% count(`Prior ABs`) %>%
+  group_by(date)%>% mutate(totalobs = sum(n)) %>%
+  mutate(perc_per_month = round((n / totalobs)*100, digits=2))
+
+dt_counts_gender <- df_per_abgp %>% group_by(date, sex) %>% count(`Prior ABs`) %>%
+  group_by(date)%>% mutate(totalobs = sum(n)) %>%
+  mutate(perc_per_month = round((n / totalobs)*100, digits=2))
+
+dt_counts_combined <- rbind(dt_counts, dt_counts_gender)
+write_csv(dt_counts_combined, here::here("output", "prior_ab_by_month.csv"))
+
 ## plot by sex
 male_df <- filter(df_per_abgp, sex == "M")
 female_df <- filter(df_per_abgp, sex == "F")
