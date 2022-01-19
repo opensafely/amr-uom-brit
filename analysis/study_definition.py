@@ -2156,5 +2156,10 @@ measures = [
             group_by=["otmedia_abtype4"]
             ),
 
+    Measure(id="repeat_antibiotics",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "sex", "age_cat"],
+            ),
 
 ]
