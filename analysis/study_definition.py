@@ -351,8 +351,19 @@ study = StudyDefinition(
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "int": {"distribution": "poisson", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },
+    ),
+
+    ## all antibacterials 12m before
+    antibacterial_12mb4=patients.with_these_medications(
+        antibacterials_codes,
+        between=["first_day_of_month(index_date) - 12 months", "first_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
+            "incidence": 1,
         },
     ),
 
@@ -867,6 +878,8 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
+
+  
 
 #---- sinusitis
     sinusitis_date_1=patients.with_these_clinical_events(
@@ -1812,6 +1825,13 @@ measures = [
             numerator="broad_spectrum_antibiotics_prescriptions",
             denominator="antibacterial_brit",
             group_by=["practice"]
+            ),
+
+    ## antibiotic count rolling 12m before
+    Measure(id="ABs_12mb4",
+            numerator="antibacterial_12mb4",
+            denominator="population",
+            group_by=["practice", "patient_id"]
             ),
 
     
