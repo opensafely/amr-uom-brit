@@ -358,7 +358,7 @@ study = StudyDefinition(
 
     ## all antibacterials 12m before
     antibacterial_12mb4=patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=["first_day_of_month(index_date) - 12 months", "first_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -1607,21 +1607,21 @@ study = StudyDefinition(
 
     
     uti_ab_flag_2= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_2','uti_date_2'],
         returning='binary_flag',
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
     
     uti_ab_flag_3= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_3','uti_date_3'],
         returning='binary_flag',
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
     uti_ab_flag_4= patients.with_these_medications(
-        antibacterials_codes,
+        antibacterials_codes_brit,
         between=['uti_date_4','uti_date_4'],
         returning='binary_flag',
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
