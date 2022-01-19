@@ -351,7 +351,7 @@ study = StudyDefinition(
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 1},
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
             "incidence": 1,
         },
     ),
@@ -373,26 +373,100 @@ study = StudyDefinition(
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+            "int": {"distribution": "poisson", "mean": 3, "stddev": 1}, "incidence": 0.5}
     ),
+
+    broad_prescriptions_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    
 
     ## Covid positive test result
-    sgss_positive=patients.with_test_result_in_sgss(
+    ## Positive covid test_sgss
+    Covid_test_result_sgss=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        returning="date",
-        date_format="YYYY-MM-DD",
+        on_or_after="index_date",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+        returning='binary_flag',
+        return_expectations={
+            "incidence": 0.5, "date": {"earliest": "index_date"}
+        },
     ),
 
-    ## Covid diagnosis
+    ## positive date_sgss
+    first_positive_test_date_sgss=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="index_date",
+        find_first_match_in_period=True,
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"date": {"earliest": "index_date"},
+                             "rate": "exponential_increase",
+                             "incidence":0.5},
+    ),
+
+    ## number of posstive test patients
+    covid_positive_count_sgss=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="index_date",
+        find_first_match_in_period=True,
+        returning='number_of_matches_in_period',
+        restrict_to_earliest_specimen_date = False,
+        return_expectations={
+            "int": {"distribution":"normal","mean":10,"stddev":1},"incidence":0.5},
+    ),        
+
+    ## Same day antibiotic prescribed binary
+
+    sgss_ab_prescribed=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["first_positive_test_date_sgss - 2 days","first_positive_test_date_sgss + 2 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.3,},
+    ),
+
+    ## Covid diagnosis record by primary care
+
     primary_care_covid=patients.with_these_clinical_events(
         any_primary_care_code,
         between=[start_date, "index_date"],
         returning="binary_flag",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        return_expectations={"incidence": 0.5, "date": {"earliest": start_date}},
+    ),
+
+    positive_date=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        on_or_after="index_date",
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date},
+                             "rate": "exponential_increase",
+                             "incidence": 0.5},
+    ),
+
+    covid_positive_count=patients.with_these_clinical_events(
+        any_primary_care_code,
+        on_or_after="index_date",
+        find_first_match_in_period=True,
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution":"normal","mean":10,"stddev":1},"incidence":0.5},
+    ),   
+
+    positive_ab_prescribed=patients.with_these_clinical_events(
+        antibacterials_codes_brit,
+        between=["positive_date - 2 days","positive_date + 2 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.3,},
     ),
 
     ### First COVID vaccination medication code (any)
@@ -2161,5 +2235,24 @@ measures = [
             denominator="population",
             group_by=["practice", "hx_antibiotics", "sex", "age_cat"],
             ),
+    
+    Measure(id="Same_day_pos_ab",
+            numerator="population",
+            denominator="population",
+            group_by=["practice","primary_care_covid","positive_ab_prescribed","age_cat"]
+            ),
+
+    Measure(id="Same_day_pos_ab_sgss",
+            numerator="population",
+            denominator="population",
+            group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
+            ),
+
+    Measure(id="broad_narrow_prescribing",
+            numerator="population",
+            denominator="population",
+            group_by=["practice","broad_prescriptions_check","age_cat"]
+            ),    
+
 
 ]
