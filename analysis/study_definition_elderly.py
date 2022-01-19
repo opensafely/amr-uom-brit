@@ -300,7 +300,7 @@ study = StudyDefinition(
     ## flu vaccine in tpp
     flu_vaccine_tpp=patients.with_tpp_vaccination_record(
         target_disease_matches="influenza",
-        between=[start_date, "index_date"],
+        between=["index_date - 12 months", "index_date"],
         returning="binary_flag",
         #date_format=binary,
         find_first_match_in_period=True,
