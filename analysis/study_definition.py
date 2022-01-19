@@ -356,6 +356,21 @@ study = StudyDefinition(
         },
     ),
 
+    ### Antibiotics - TYPE
+    antibacterial_brit_abtype=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="category",
+        return_expectations={
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
+        },
+    ),
+
     ## all antibacterials 12m before
     antibacterial_12mb4=patients.with_these_medications(
         antibacterials_codes_brit,
@@ -1893,6 +1908,12 @@ measures = [
             group_by=["practice"]
             ),
     
+    ## Antibiotic Rx rate by TyPE
+    Measure(id="antibiotics_overall_brit_abtype",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["antibacterial_brit_abtype"]
+            ),
 
     ## Broad spectrum antibiotics
     Measure(id="broad_spectrum_proportion",
