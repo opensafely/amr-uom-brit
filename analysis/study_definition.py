@@ -476,7 +476,7 @@ study = StudyDefinition(
             "int": {"distribution":"normal","mean":10,"stddev":1},"incidence":0.5},
     ),   
 
-    gp_covid_ab_prescribed=patients.with_these_medications(patients.with_these_clinical_events(
+    gp_covid_ab_prescribed=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["gp_covid_date - 2 days","gp_covid_date + 2 days"],
         returning="binary_flag",
