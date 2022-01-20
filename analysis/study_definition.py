@@ -497,7 +497,7 @@ study = StudyDefinition(
     #        "product_codes": covrx_code,
     #    },
         find_first_match_in_period=True,
-        on_or_before="index_date"
+        on_or_before="index_date",
         date_format="YYYY-MM-DD",
         return_expectations={
             "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
