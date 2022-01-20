@@ -559,7 +559,7 @@ study = StudyDefinition(
         between=["index_date - 12 months", "index_date"],
         returning="date",
         find_first_match_in_period=True,
-        return_expectations={"date": {earliest: "index_date", "latest": "today"}},
+        return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
     ),
 
     ## Death
