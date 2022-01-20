@@ -553,14 +553,14 @@ study = StudyDefinition(
     #    return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     #),
 
-    ## Infaction Hospitalisation records
-    hospitalisation_infec = patients.with_these_clinical_events(
-        hospitalisation_infection_related,
-        between=["index_date - 12 months", "index_date"],
-        returning="date",
-        find_first_match_in_period=True,
-        return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
-    ),
+    # ## Infaction Hospitalisation records
+    # hospitalisation_infec = patients.with_these_clinical_events(
+    #     hospitalisation_infection_related,
+    #     between=["index_date - 12 months", "index_date"],
+    #     returning="date",
+    #     find_first_match_in_period=True,
+    #     return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
+    # ),
 
     ## Death
     died_date=patients.died_from_any_cause(
@@ -889,12 +889,12 @@ measures = [
             group_by=["practice", "sex", "age_cat"]
             ),
 
-    ## hospitalisation 
-    Measure(id="hosp_admission_infection",
-            numerator="hospitalisation_infec",
-            denominator="population",
-            group_by=["practice"]
-            ),
+    # ## hospitalisation 
+    # Measure(id="hosp_admission_infection",
+    #         numerator="hospitalisation_infec",
+    #         denominator="population",
+    #         group_by=["practice"]
+    #         ),
 
     # # ## hospitalisation STARPU
     # # Measure(id="hosp_admission_STARPU",
