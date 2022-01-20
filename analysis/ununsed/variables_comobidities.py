@@ -220,7 +220,7 @@ def generate_comobidities_variables(index_date_variable):
         return_expectations={"date": {"latest": "index_date"}},
     ),
 
-    #### PERMANENT
+    #### PERMANENT immunodeficiency
     permanent_immunodeficiency=patients.with_these_clinical_events(
         combine_codelists(hiv_codes,
                           permanent_immune_codes,
