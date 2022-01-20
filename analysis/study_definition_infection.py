@@ -1686,14 +1686,14 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
-    ##  consultation with AB prescribing 
+    ###  consultation with AB prescribing 
+    ## uti
     uti_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['uti_date_1','uti_date_1'],
         returning='binary_flag',
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
-
     
     uti_ab_flag_2= patients.with_these_medications(
         antibacterials_codes_brit,
@@ -1716,7 +1716,16 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
+    uti_ab_flag=patients.satisfying(
+        """"
+        uti_ab_flag_1 OR
+        uti_ab_flag_2 OR
+        uti_ab_flag_3 OR
+        uti_ab_flag_4
+        """",
+    ),
 
+    ## urti
     urti_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['urti_date_1','urti_date_1'],
@@ -1724,6 +1733,37 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
+    urti_ab_flag_2 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_2','urti_date_2'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    urti_ab_flag_3 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_3','urti_date_3'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    urti_ab_flag_4 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_4','urti_date_4'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    urti_ab_flag=patients.satisfying(
+        """"
+        urti_ab_flag_1 OR
+        urti_ab_flag_2 OR
+        urti_ab_flag_3 OR
+        urti_ab_flag_4
+        """",
+    ),
+
+    #lrti
     lrti_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['lrti_date_1','lrti_date_1'],
@@ -1731,6 +1771,37 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
+    lrti_ab_flag_2 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_2','lrti_date_2'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    lrti_ab_flag_3 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_3','lrti_date_3'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    lrti_ab_flag_4 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_4','lrti_date_4'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    lrti_ab_flag=patients.satisfying(
+        """"
+        lrti_ab_flag_1 OR
+        lrti_ab_flag_2 OR
+        lrti_ab_flag_3 OR
+        lrti_ab_flag_4
+        """",
+    ),
+
+    #sinusitis
     sinusitis_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['sinusitis_date_1','sinusitis_date_1'],
@@ -1738,6 +1809,37 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
+    sinusitis_ab_flag_2 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_2','sinusitis_date_2'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    sinusitis_ab_flag_3 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_3','sinusitis_date_3'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    sinusitis_ab_flag_4 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_4','sinusitis_date_4'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    sinusitis_ab_flag=patients.satisfying(
+        """"
+        sinusitis_ab_flag_1 OR
+        sinusitis_ab_flag_2 OR
+        sinusitis_ab_flag_3 OR
+        sinusitis_ab_flag_4
+        """",
+    ),
+
+    #otmedia
     otmedia_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['otmedia_date_1','otmedia_date_1'],
@@ -1745,11 +1847,72 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
+    otmedia_ab_flag_2 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_2','otmedia_date_2'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    otmedia_ab_flag_3 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_3','otmedia_date_3'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    otmedia_ab_flag_4 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_4','otmedia_date_4'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    otmedia_ab_flag=patients.satisfying(
+        """"
+        otmedia_ab_flag_1 OR
+        otmedia_ab_flag_2 OR
+        otmedia_ab_flag_3 OR
+        otmedia_ab_flag_4
+        """",
+    ),
+
+    #ot_externa
     ot_externa_ab_flag_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['ot_externa_date_1','ot_externa_date_1'],
         returning='binary_flag',
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ot_externa_ab_flag_2 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_2','ot_externa_date_2'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ot_externa_ab_flag_3 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_3','ot_externa_date_3'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ot_externa_ab_flag_4 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_4','ot_externa_date_4'],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ot_externa_ab_flag=patients.satisfying(
+        """"
+        ot_externa_ab_flag_1 OR
+        ot_externa_ab_flag_2 OR
+        ot_externa_ab_flag_3 OR
+        ot_externa_ab_flag_4
+        """",
     ),
 
 ######### comorbidities
@@ -2256,6 +2419,43 @@ measures = [
             denominator="population",
             group_by=["practice", "hx_antibiotics", "sex", "age_cat"],
             ),
+
+    Measure(id="repeat_antibiotics_uti",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "uti_ab_flag", "sex", "age_cat"],
+            ),
+
+    Measure(id="repeat_antibiotics_urti",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "urti_ab_flag", "sex", "age_cat"],
+            ),
+
+    Measure(id="repeat_antibiotics_lrti",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "lrti_ab_flag", "sex", "age_cat"],
+            ),
+
+    Measure(id="repeat_antibiotics_sinusitis",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "sinusitis_ab_flag", "sex", "age_cat"],
+            ),
+
+    Measure(id="repeat_antibiotics_otmedia",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "otmedia_ab_flag", "sex", "age_cat"],
+            ),
+
+    Measure(id="repeat_antibiotics_ot_externa",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "hx_antibiotics", "ot_externa_ab_flag", "sex", "age_cat"],
+            ),
+    
     
     Measure(id="gp_same_day_pos_ab",
             numerator="population",
