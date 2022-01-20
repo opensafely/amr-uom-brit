@@ -907,7 +907,7 @@ measures = [
     Measure(id="repeat_antibiotics",
             numerator="antibacterial_brit",
             denominator="population",
-            group_by=["practice", "hx_antibiotics", "sex", "age_cat"],
+            group_by=["practice", "hx_antibiotics", "sex", "age_cat"]
             ),
     
     ## covid diagnosis same day prescribing
