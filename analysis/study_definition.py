@@ -493,9 +493,9 @@ study = StudyDefinition(
                 "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
             ],
         },
-    #    emis={
-    #        "product_codes": covrx_code,
-    #    },
+        emis={
+            "product_codes": covrx_code,
+        },
         find_first_match_in_period=True,
         on_or_before="index_date",
         date_format="YYYY-MM-DD",
@@ -514,9 +514,9 @@ study = StudyDefinition(
                 "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
             ],
         },
-       # emis={
-       #     "product_codes": covrx_code,
-       # },
+        emis={
+            "product_codes": covrx_code,
+        },
         find_last_match_in_period=True,
         on_or_after="covrx1_dat + 19 days",
         date_format="YYYY-MM-DD",
