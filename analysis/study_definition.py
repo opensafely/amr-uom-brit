@@ -205,7 +205,7 @@ study = StudyDefinition(
     
     ## BMI, most recent
     bmi=patients.most_recent_bmi(
-        between=["2015-01-01", "index date"],
+        between=["2015-01-01", "index_date"],
         minimum_age_at_measurement=18,
         include_measurement_date=True,
         date_format="YYYY-MM-DD",
