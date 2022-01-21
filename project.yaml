@@ -15,7 +15,7 @@ actions:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_infection --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/measures/input_infec*.csv.gz
+        cohort: output/measures/input_infec_*.csv.gz
 
   generate_study_population_elderly:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_elderly 
