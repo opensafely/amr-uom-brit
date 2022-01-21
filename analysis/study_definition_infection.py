@@ -2061,41 +2061,41 @@ study = StudyDefinition(
 
 measures = [
 
-    ## antibiotic rx rate
-    Measure(id="antibiotics_overall",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice"]
-            ),
+    # ## antibiotic rx rate
+    # Measure(id="antibiotics_overall",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["practice"]
+    #         ),
     
-    ## Antibiotic Rx rate by TyPE
-    Measure(id="antibiotics_overall_brit_abtype",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["antibacterial_brit_abtype"]
-            ),
+    # ## Antibiotic Rx rate by TyPE
+    # Measure(id="antibiotics_overall_brit_abtype",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["antibacterial_brit_abtype"]
+    #         ),
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_brit",
-            group_by=["practice"]
-            ),
+    # ## Broad spectrum antibiotics
+    # Measure(id="broad_spectrum_proportion",
+    #         numerator="broad_spectrum_antibiotics_prescriptions",
+    #         denominator="antibacterial_brit",
+    #         group_by=["practice"]
+    #         ),
 
-    ## antibiotic count rolling 12m before
-    Measure(id="ABs_12mb4",
-            numerator="antibacterial_12mb4",
-            denominator="population",
-            group_by=["practice", "patient_id"]
-            ),
+    # ## antibiotic count rolling 12m before
+    # Measure(id="ABs_12mb4",
+    #         numerator="antibacterial_12mb4",
+    #         denominator="population",
+    #         group_by=["practice", "patient_id"]
+    #         ),
 
     
-    ## STRPU antibiotics
-    Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+    # ## STRPU antibiotics
+    # Measure(id="STARPU_antibiotics",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["practice", "sex", "age_cat"]
+    #         ),
 
     # # ## hospitalisation 
     # # Measure(id="hosp_admission_any",
@@ -2194,283 +2194,251 @@ measures = [
     # #        denominator="population",
     # #        group_by=["practice"]
     # #),
-    
-    # # ## incident consultation: UTI
-    # # Measure(id="consult_UTI",
-    # #         numerator="uti_counts",
-    # #         denominator="population",
-    # #         group_by=["practice", "incdt_uti_pt", "age_cat"]
-    # # ),
-    # # ## incident consultation: LRTI
-    # # Measure(id="consult_LRTI",
-    # #         numerator="lrti_counts",
-    # #         denominator="population",
-    # #         group_by=["practice", "incdt_lrti_pt", "age_cat"]
-    # # ),
 
 
-    # ## incident consultation: UTI
-    # Measure(id="consult_UTI",
-    #         numerator="uti_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_uti_pt", "age_cat"]
-    # ),
-    # ## incident consultation: LRTI
-    # Measure(id="consult_LRTI",
-    #         numerator="lrti_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_lrti_pt", "age_cat"]
-    # ),
-    # ## incident consultation: URTI
-    # Measure(id="consult_URTI",
-    #         numerator="urti_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_urti_pt", "age_cat"]
-    # ),
-    # ## incident consultation: sinusitis
-    # Measure(id="consult_sinusitis",
-    #         numerator="sinusitis_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
-    # ),
-    # ## incident consultation: ot_externa
-    # Measure(id="consult_ot_externa",
-    #         numerator="ot_externa_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
-    # ),
-    # ## incident consultation: otmedia
-    # Measure(id="consult_otmedia",
-    #         numerator="otmedia_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_otmedia_pt", "age_cat"]
-    # ),
+    # incident consultation: UTI
+    Measure(id="infec_consult_UTI",
+            numerator="uti_counts",
+            denominator="population",
+            group_by=["practice", "incdt_uti_pt", "age_cat"]
+    ),
+    # incident consultation: LRTI
+    Measure(id="infec_consult_LRTI",
+            numerator="lrti_counts",
+            denominator="population",
+            group_by=["practice", "incdt_lrti_pt", "age_cat"]
+    ),
+    # incident consultation: URTI
+    Measure(id="infec_consult_URTI",
+            numerator="urti_counts",
+            denominator="population",
+            group_by=["practice", "incdt_urti_pt", "age_cat"]
+    ),
+    # incident consultation: sinusitis
+    Measure(id="infec_consult_sinusitis",
+            numerator="sinusitis_counts",
+            denominator="population",
+            group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
+    ),
+    # incident consultation: ot_externa
+    Measure(id="infec_consult_ot_externa",
+            numerator="ot_externa_counts",
+            denominator="population",
+            group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
+    ),
+    # incident consultation: otmedia
+    Measure(id="infec_consult_otmedia",
+            numerator="otmedia_counts",
+            denominator="population",
+            group_by=["practice", "incdt_otmedia_pt", "age_cat"]
+    ),
 
-    # ## incident prescribing: UTI
-    # Measure(id="Rx_percent_UTI",
-    #         numerator="uti_ab_flag_1",
-    #         denominator="uti_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: URTI
-    # Measure(id="Rx_percent_URTI",
-    #         numerator="urti_ab_flag_1",
-    #         denominator="urti_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: LRTI
-    # Measure(id="Rx_percent_LRTI",
-    #         numerator="lrti_ab_flag_1",
-    #         denominator="lrti_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: sinusitis
-    # Measure(id="Rx_percent_sinusitis",
-    #         numerator="sinusitis_ab_flag_1",
-    #         denominator="sinusitis_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: otmedia
-    # Measure(id="Rx_percent_otmedia",
-    #         numerator="otmedia_ab_flag_1",
-    #         denominator="otmedia_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    #  ## incident prescribing: ot_externa
-    # Measure(id="Rx_percent_ot_externa",
-    #         numerator="ot_externa_ab_flag_1",
-    #         denominator="ot_externa_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),   
+    # incident prescribing: UTI
+    Measure(id="infec_Rx_percent_UTI",
+            numerator="uti_ab_flag_1",
+            denominator="uti_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: URTI
+    Measure(id="infec_Rx_percent_URTI",
+            numerator="urti_ab_flag_1",
+            denominator="urti_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: LRTI
+    Measure(id="infec_Rx_percent_LRTI",
+            numerator="lrti_ab_flag_1",
+            denominator="lrti_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: sinusitis
+    Measure(id="infec_Rx_percent_sinusitis",
+            numerator="sinusitis_ab_flag_1",
+            denominator="sinusitis_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: otmedia
+    Measure(id="infec_Rx_percent_otmedia",
+            numerator="otmedia_ab_flag_1",
+            denominator="otmedia_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+     # incident prescribing: ot_externa
+    Measure(id="infec_Rx_percent_ot_externa",
+            numerator="ot_externa_ab_flag_1",
+            denominator="ot_externa_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),   
     
     ##  AB TYPE by infection-1
-    Measure(id="abtype_UTI_1",
+    Measure(id="infec_abtype_UTI_1",
             numerator="uti_ab_count_1",
             denominator="population",
             group_by=["uti_abtype1"]
             ),
-    Measure(id="abtype_URTI_1",
+    Measure(id="infec_abtype_URTI_1",
             numerator="urti_ab_count_1",
             denominator="population",
             group_by=["urti_abtype1"]
             ),
-    Measure(id="abtype_LRTI_1",
+    Measure(id="infec_abtype_LRTI_1",
             numerator="lrti_ab_count_1",
             denominator="population",
             group_by=["lrti_abtype1"]
             ),
-    Measure(id="abtype_sinusitis_1",
+    Measure(id="infec_abtype_sinusitis_1",
             numerator="sinusitis_ab_count_1",
             denominator="population",
             group_by=["sinusitis_abtype1"]
             ),
-    Measure(id="abtype_ot_externa_1",
+    Measure(id="infec_abtype_ot_externa_1",
             numerator="ot_externa_ab_count_1",
             denominator="population",
             group_by=["ot_externa_abtype1"]
             ),
-    Measure(id="abtype_otmedia_1",
+    Measure(id="infec_abtype_otmedia_1",
             numerator="otmedia_ab_count_1",
             denominator="population",
             group_by=["otmedia_abtype1"]
             ),
 
     ##  AB TYPE by infection-2
-    Measure(id="abtype_UTI_2",
+    Measure(id="infec_abtype_UTI_2",
             numerator="uti_ab_count_2",
             denominator="population",
             group_by=["uti_abtype2"]
             ),
-    Measure(id="abtype_URTI_2",
+    Measure(id="infec_abtype_URTI_2",
             numerator="urti_ab_count_2",
             denominator="population",
             group_by=["urti_abtype2"]
             ),
-    Measure(id="abtype_LRTI_2",
+    Measure(id="infec_abtype_LRTI_2",
             numerator="lrti_ab_count_2",
             denominator="population",
             group_by=["lrti_abtype2"]
             ),
-    Measure(id="abtype_sinusitis_2",
+    Measure(id="infec_abtype_sinusitis_2",
             numerator="sinusitis_ab_count_2",
             denominator="population",
             group_by=["sinusitis_abtype2"]
             ),
-    Measure(id="abtype_ot_externa_2",
+    Measure(id="infec_abtype_ot_externa_2",
             numerator="ot_externa_ab_count_2",
             denominator="population",
             group_by=["ot_externa_abtype2"]
             ),
-    Measure(id="abtype_otmedia_2",
+    Measure(id="infec_abtype_otmedia_2",
             numerator="otmedia_ab_count_2",
             denominator="population",
             group_by=["otmedia_abtype2"]
             ),
     
     ##  AB TYPE by infection-3
-    Measure(id="abtype_UTI_3",
+    Measure(id="infec_abtype_UTI_3",
             numerator="uti_ab_count_3",
             denominator="population",
             group_by=["uti_abtype3"]
             ),
-    Measure(id="abtype_URTI_3",
+    Measure(id="infec_abtype_URTI_3",
             numerator="urti_ab_count_3",
             denominator="population",
             group_by=["urti_abtype3"]
             ),
-    Measure(id="abtype_LRTI_3",
+    Measure(id="infec_abtype_LRTI_3",
             numerator="lrti_ab_count_3",
             denominator="population",
             group_by=["lrti_abtype3"]
             ),
-    Measure(id="abtype_sinusitis_3",
+    Measure(id="infec_abtype_sinusitis_3",
             numerator="sinusitis_ab_count_3",
             denominator="population",
             group_by=["sinusitis_abtype3"]
             ),
-    Measure(id="abtype_ot_externa_3",
+    Measure(id="infec_abtype_ot_externa_3",
             numerator="ot_externa_ab_count_3",
             denominator="population",
             group_by=["ot_externa_abtype3"]
             ),
-    Measure(id="abtype_otmedia_3",
+    Measure(id="infec_abtype_otmedia_3",
             numerator="otmedia_ab_count_3",
             denominator="population",
             group_by=["otmedia_abtype3"]
             ),
     
     ##  AB TYPE by infection-4
-    Measure(id="abtype_UTI_4",
+    Measure(id="infec_abtype_UTI_4",
             numerator="uti_ab_count_4",
             denominator="population",
             group_by=["uti_abtype4"]
             ),
-    Measure(id="abtype_URTI_4",
+    Measure(id="infec_abtype_URTI_4",
             numerator="urti_ab_count_4",
             denominator="population",
             group_by=["urti_abtype4"]
             ),
-    Measure(id="abtype_LRTI_4",
+    Measure(id="infec_abtype_LRTI_4",
             numerator="lrti_ab_count_4",
             denominator="population",
             group_by=["lrti_abtype4"]
             ),
-    Measure(id="abtype_sinusitis_4",
+    Measure(id="infec_abtype_sinusitis_4",
             numerator="sinusitis_ab_count_4",
             denominator="population",
             group_by=["sinusitis_abtype4"]
             ),
-    Measure(id="abtype_ot_externa_4",
+    Measure(id="infec_abtype_ot_externa_4",
             numerator="ot_externa_ab_count_4",
             denominator="population",
             group_by=["ot_externa_abtype4"]
             ),
-    Measure(id="abtype_otmedia_4",
+    Measure(id="infec_abtype_otmedia_4",
             numerator="otmedia_ab_count_4",
             denominator="population",
             group_by=["otmedia_abtype4"]
             ),
 
-    Measure(id="repeat_antibiotics",
+    Measure(id="infec_repeat_antibiotics",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_uti",
+    Measure(id="infec_repeat_antibiotics_uti",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "uti_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_urti",
+    Measure(id="infec_repeat_antibiotics_urti",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "urti_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_lrti",
+    Measure(id="infec_repeat_antibiotics_lrti",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "lrti_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_sinusitis",
+    Measure(id="infec_repeat_antibiotics_sinusitis",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "sinusitis_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_otmedia",
+    Measure(id="infec_repeat_antibiotics_otmedia",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "otmedia_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_ot_externa",
+    Measure(id="infec_repeat_antibiotics_ot_externa",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "ot_externa_ab_flag", "sex", "age_cat"],
-            ),
-    
-    
-    Measure(id="gp_same_day_pos_ab",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","gp_covid","gp_covid_ab_prescribed","age_cat"]
-            ),
-
-    Measure(id="Same_day_pos_ab_sgss",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
-            ),
-
-    Measure(id="broad_narrow_prescribing",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","broad_prescriptions_check","age_cat"]
-            ),    
+            ), 
 
 
 ]
