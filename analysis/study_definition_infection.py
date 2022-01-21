@@ -552,14 +552,14 @@ study = StudyDefinition(
     #    return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     #),
 
-    ## Infaction Hospitalisation records
-    hospitalisation_infec = patients.with_these_clinical_events(
-        hospitalisation_infection_related,
-        between=["index_date - 12 months", "index_date"],
-        returning="date",
-        find_first_match_in_period=True,
-        return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
-    ),
+    # ## Infaction Hospitalisation records
+    # hospitalisation_infec = patients.with_these_clinical_events(
+    #     hospitalisation_infection_related,
+    #     between=["index_date - 12 months", "index_date"],
+    #     returning="date",
+    #     find_first_match_in_period=True,
+    #     return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
+    # ),
 
     ## Death
     died_date=patients.died_from_any_cause(
@@ -1714,12 +1714,12 @@ study = StudyDefinition(
     ),
 
     uti_ab_flag=patients.satisfying(
-        """"
+        """
         uti_ab_flag_1 OR
         uti_ab_flag_2 OR
         uti_ab_flag_3 OR
         uti_ab_flag_4
-        """",
+        """,
     ),
 
     ## urti
@@ -1752,12 +1752,12 @@ study = StudyDefinition(
     ),
 
     urti_ab_flag=patients.satisfying(
-        """"
+        """
         urti_ab_flag_1 OR
         urti_ab_flag_2 OR
         urti_ab_flag_3 OR
         urti_ab_flag_4
-        """",
+        """,
     ),
 
     #lrti
@@ -1790,12 +1790,12 @@ study = StudyDefinition(
     ),
 
     lrti_ab_flag=patients.satisfying(
-        """"
+        """
         lrti_ab_flag_1 OR
         lrti_ab_flag_2 OR
         lrti_ab_flag_3 OR
         lrti_ab_flag_4
-        """",
+        """,
     ),
 
     #sinusitis
@@ -1828,12 +1828,12 @@ study = StudyDefinition(
     ),
 
     sinusitis_ab_flag=patients.satisfying(
-        """"
+        """
         sinusitis_ab_flag_1 OR
         sinusitis_ab_flag_2 OR
         sinusitis_ab_flag_3 OR
         sinusitis_ab_flag_4
-        """",
+        """,
     ),
 
     #otmedia
@@ -1866,12 +1866,12 @@ study = StudyDefinition(
     ),
 
     otmedia_ab_flag=patients.satisfying(
-        """"
+        """
         otmedia_ab_flag_1 OR
         otmedia_ab_flag_2 OR
         otmedia_ab_flag_3 OR
         otmedia_ab_flag_4
-        """",
+        """,
     ),
 
     #ot_externa
@@ -1904,12 +1904,12 @@ study = StudyDefinition(
     ),
 
     ot_externa_ab_flag=patients.satisfying(
-        """"
+        """
         ot_externa_ab_flag_1 OR
         ot_externa_ab_flag_2 OR
         ot_externa_ab_flag_3 OR
         ot_externa_ab_flag_4
-        """",
+        """,
     ),
 
 ######### comorbidities
