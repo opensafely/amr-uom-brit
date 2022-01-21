@@ -1,4 +1,3 @@
-
 ######################################
 
 # This script provides the formal specification of the study data that will be extracted from
@@ -205,14 +204,14 @@ study = StudyDefinition(
     
     ## BMI, most recent
     bmi=patients.most_recent_bmi(
-        on_or_after="2015-01-01",
+        between=["2015-01-01", "index_date"],
         minimum_age_at_measurement=18,
         include_measurement_date=True,
-        include_month=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {},
-            "float": {"distribution": "normal", "mean": 35, "stddev": 10},
-            "incidence": 0.95,
+            "date": {"earliest": "2015-01-01", "latest": "index_date"},
+            "float": {"distribution": "normal", "mean": 27, "stddev": 6},
+            "incidence": 0.70,
         },
     ),
 
@@ -246,23 +245,23 @@ study = StudyDefinition(
         most_recent_smoking_code=patients.with_these_clinical_events(
             clear_smoking_codes,
             find_last_match_in_period=True,
-            on_or_before="today",
+            on_or_before="index_date",
             returning="category",
         ),
         ever_smoked=patients.with_these_clinical_events(
             filter_codes_by_category(clear_smoking_codes, include=["S", "E"]),
-            on_or_before="today",
+            on_or_before="index_date",
         ),
     ),
     smoking_status_date=patients.with_these_clinical_events(
         clear_smoking_codes,
-        on_or_before="today",
+        on_or_before="index_date",
         return_last_date_in_period=True,
         include_month=True,
     ),
     most_recent_unclear_smoking_cat_date=patients.with_these_clinical_events(
         unclear_smoking_codes,
-        on_or_before="today",
+        on_or_before="index_date",
         return_last_date_in_period=True,
         include_month=True,
     ),
@@ -405,19 +404,18 @@ study = StudyDefinition(
     Covid_test_result_sgss=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_after="index_date",
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         returning='binary_flag',
         return_expectations={
-            "incidence": 0.5, "date": {"earliest": "index_date"}
-        },
+            "incidence": 0.5},
     ),
 
     ## positive date_sgss
     first_positive_test_date_sgss=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_after="index_date",
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         returning='date',
         date_format="YYYY-MM-DD",
@@ -451,16 +449,16 @@ study = StudyDefinition(
 
     gp_covid=patients.with_these_clinical_events(
         any_primary_care_code,
-        between=[start_date, "index_date"],
+        between=["index_date", "last_day_of_month(index_date)"],
         returning="binary_flag",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.5, "date": {"earliest": start_date}},
+        return_expectations={"incidence": 0.5},
     ),
 
     gp_covid_date=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        on_or_after="index_date",
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date},
@@ -477,7 +475,7 @@ study = StudyDefinition(
             "int": {"distribution":"normal","mean":10,"stddev":1},"incidence":0.5},
     ),   
 
-    gp_covid_ab_prescribed=patients.with_these_medications(=patients.with_these_clinical_events(
+    gp_covid_ab_prescribed=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["gp_covid_date - 2 days","gp_covid_date + 2 days"],
         returning="binary_flag",
@@ -499,10 +497,9 @@ study = StudyDefinition(
         },
         find_first_match_in_period=True,
         on_or_before="index_date",
-        on_or_after="2020-11-29",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "rate": "exponential_increase",
+            "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
             "incidence": 0.5,
         }
     ),
@@ -520,11 +517,10 @@ study = StudyDefinition(
             "product_codes": covrx_code,
         },
         find_last_match_in_period=True,
-        on_or_before="index_date",
         on_or_after="covrx1_dat + 19 days",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "rate": "exponential_increase",
+            "rate": "exponential_increase", 
             "incidence": 0.5,
         }
     ),
@@ -557,12 +553,12 @@ study = StudyDefinition(
     #),
 
     ## Infaction Hospitalisation records
-    hospitalisation = patients.with_these_clinical_events(
+    hospitalisation_infec = patients.with_these_clinical_events(
         hospitalisation_infection_related,
-        between=["index_date", "today"],
+        between=["index_date - 12 months", "index_date"],
         returning="date",
         find_first_match_in_period=True,
-        return_expectations={"date": {earliest: "index_date", "latest": "today"}},
+        return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
     ),
 
     ## Death
@@ -574,6 +570,7 @@ study = StudyDefinition(
             "date": {"earliest" : "index_date"},  "rate" : "exponential_increase"
         },
     ),
+
 
   ########## number of infection cousultations #############
     
