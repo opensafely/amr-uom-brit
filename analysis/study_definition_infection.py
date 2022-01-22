@@ -693,7 +693,7 @@ study = StudyDefinition(
     incdt_uti_pt=patients.with_these_clinical_events(
         uti_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
+        between=["index_date - 42 days", "index_date"],
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -701,7 +701,7 @@ study = StudyDefinition(
     incdt_lrti_pt=patients.with_these_clinical_events(
         lrti_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
+        between=["index_date - 42 days", "index_date"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
@@ -710,7 +710,7 @@ study = StudyDefinition(
     incdt_urti_pt=patients.with_these_clinical_events(
         urti_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
+        between=["index_date - 42 days", "index_date"],
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -719,7 +719,7 @@ study = StudyDefinition(
     incdt_sinusitis_pt=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
+        between=["index_date - 42 days", "index_date"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
@@ -728,7 +728,7 @@ study = StudyDefinition(
     incdt_ot_externa_pt=patients.with_these_clinical_events(
         ot_externa_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
+        between=["index_date - 42 days", "index_date"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),    
@@ -737,7 +737,7 @@ study = StudyDefinition(
     incdt_otmedia_pt=patients.with_these_clinical_events(
         otmedia_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 42 days", "first_day_of_month(index_date)"],
+        between=["index_date - 42 days", "index_date"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
@@ -753,7 +753,7 @@ study = StudyDefinition(
     uti_date_1=patients.with_these_clinical_events(
         uti_codes,
         returning='date',
-        on_or_after='index_date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -773,7 +773,7 @@ study = StudyDefinition(
     uti_date_2=patients.with_these_clinical_events(
         uti_codes,
         returning='date',
-        on_or_after='uti_date_1 + 1 day',
+        between=["uti_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -790,7 +790,7 @@ study = StudyDefinition(
     uti_date_3=patients.with_these_clinical_events(
         uti_codes,
         returning='date',
-        on_or_after='uti_date_2 + 1 day',
+        between=["uti_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -807,7 +807,7 @@ study = StudyDefinition(
     uti_date_4=patients.with_these_clinical_events(
         uti_codes,
         returning='date',
-        on_or_after='uti_date_3 + 1 day',
+        between=["uti_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -826,7 +826,7 @@ study = StudyDefinition(
     lrti_date_1=patients.with_these_clinical_events(
         lrti_codes,
         returning='date',
-        on_or_after='index_date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -844,7 +844,7 @@ study = StudyDefinition(
     lrti_date_2=patients.with_these_clinical_events(
         lrti_codes,
         returning='date',
-        on_or_after='lrti_date_1 + 1 day',
+        between=["lrti_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -861,7 +861,7 @@ study = StudyDefinition(
     lrti_date_3=patients.with_these_clinical_events(
         lrti_codes,
         returning='date',
-        on_or_after='lrti_date_2 + 1 day',
+        between=["lrti_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -878,7 +878,7 @@ study = StudyDefinition(
     lrti_date_4=patients.with_these_clinical_events(
         lrti_codes,
         returning='date',
-        on_or_after='lrti_date_3 + 1 day',
+        between=["lrti_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -898,7 +898,7 @@ study = StudyDefinition(
     urti_date_1=patients.with_these_clinical_events(
         urti_codes,
         returning='date',
-        on_or_after='index_date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -917,7 +917,7 @@ study = StudyDefinition(
     urti_date_2=patients.with_these_clinical_events(
         urti_codes,
         returning='date',
-        on_or_after='urti_date_1 + 1 day',
+        between=["urti_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -934,7 +934,7 @@ study = StudyDefinition(
     urti_date_3=patients.with_these_clinical_events(
         urti_codes,
         returning='date',
-        on_or_after='urti_date_2 + 1 day',
+        between=["urti_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -951,7 +951,7 @@ study = StudyDefinition(
     urti_date_4=patients.with_these_clinical_events(
         urti_codes,
         returning='date',
-        on_or_after='urti_date_3 + 1 day',
+        between=["urti_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -971,7 +971,7 @@ study = StudyDefinition(
     sinusitis_date_1=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
-        on_or_after='index_date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -989,7 +989,7 @@ study = StudyDefinition(
     sinusitis_date_2=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
-        on_or_after='sinusitis_date_1 + 1 day',
+        between=["sinusitis_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1006,7 +1006,7 @@ study = StudyDefinition(
     sinusitis_date_3=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
-        on_or_after='sinusitis_date_2 + 1 day',
+        between=["sinusitis_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1023,7 +1023,7 @@ study = StudyDefinition(
     sinusitis_date_4=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
-        on_or_after='sinusitis_date_3 + 1 day',
+        between=["sinusitis_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1041,7 +1041,7 @@ study = StudyDefinition(
     otmedia_date_1=patients.with_these_clinical_events(
         otmedia_codes,
         returning='date',
-        on_or_after='index_date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1059,7 +1059,7 @@ study = StudyDefinition(
     otmedia_date_2=patients.with_these_clinical_events(
         otmedia_codes,
         returning='date',
-        on_or_after='otmedia_date_1 + 1 day',
+        between=["otmedia_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1076,7 +1076,7 @@ study = StudyDefinition(
     otmedia_date_3=patients.with_these_clinical_events(
         otmedia_codes,
         returning='date',
-        on_or_after='otmedia_date_2 + 1 day',
+        between=["otmedia_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1093,7 +1093,7 @@ study = StudyDefinition(
     otmedia_date_4=patients.with_these_clinical_events(
         otmedia_codes,
         returning='date',
-        on_or_after='otmedia_date_3 + 1 day',
+        between=["otmedia_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1111,7 +1111,7 @@ study = StudyDefinition(
     ot_externa_date_1=patients.with_these_clinical_events(
         ot_externa_codes,
         returning='date',
-        on_or_after='index_date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1131,7 +1131,7 @@ study = StudyDefinition(
     ot_externa_date_2=patients.with_these_clinical_events(
         ot_externa_codes,
         returning='date',
-        on_or_after='ot_externa_date_1 + 1 day',
+        between=["ot_externa_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1148,7 +1148,7 @@ study = StudyDefinition(
     ot_externa_date_3=patients.with_these_clinical_events(
         ot_externa_codes,
         returning='date',
-        on_or_after='ot_externa_date_2 + 1 day',
+        between=["ot_externa_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1165,7 +1165,7 @@ study = StudyDefinition(
     ot_externa_date_4=patients.with_these_clinical_events(
         ot_externa_codes,
         returning='date',
-        on_or_after='ot_externa_date_3 + 1 day',
+        between=["ot_externa_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
@@ -1427,7 +1427,7 @@ study = StudyDefinition(
 
     uti_abtype2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_1","uti_date_1"],
+        between=["uti_date_2","uti_date_2"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1440,7 +1440,7 @@ study = StudyDefinition(
     ),
     urti_abtype2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_1","urti_date_1"],
+        between=["urti_date_2","urti_date_2"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1453,7 +1453,7 @@ study = StudyDefinition(
     ),
     lrti_abtype2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_1","lrti_date_1"],
+        between=["lrti_date_2","lrti_date_2"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1466,7 +1466,7 @@ study = StudyDefinition(
     ),
     sinusitis_abtype2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_1","sinusitis_date_1"],
+        between=["sinusitis_date_2","sinusitis_date_2"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1479,7 +1479,7 @@ study = StudyDefinition(
     ),
     otmedia_abtype2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_1","otmedia_date_1"],
+        between=["otmedia_date_2","otmedia_date_2"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1492,7 +1492,7 @@ study = StudyDefinition(
     ),
     ot_externa_abtype2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_1","ot_externa_date_1"],
+        between=["ot_externa_date_2","ot_externa_date_2"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1506,7 +1506,7 @@ study = StudyDefinition(
 
     uti_abtype3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_1","uti_date_1"],
+        between=["uti_date_3","uti_date_3"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1519,7 +1519,7 @@ study = StudyDefinition(
     ),
     urti_abtype3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_1","urti_date_1"],
+        between=["urti_date_3","urti_date_3"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1532,7 +1532,7 @@ study = StudyDefinition(
     ),
     lrti_abtype3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_1","lrti_date_1"],
+        between=["lrti_date_3","lrti_date_3"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1545,7 +1545,7 @@ study = StudyDefinition(
     ),
     sinusitis_abtype3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_1","sinusitis_date_1"],
+        between=["sinusitis_date_3","sinusitis_date_3"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1559,7 +1559,7 @@ study = StudyDefinition(
 
     otmedia_abtype3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_1","otmedia_date_1"],
+        between=["otmedia_date_3","otmedia_date_3"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1572,7 +1572,7 @@ study = StudyDefinition(
     ),
     ot_externa_abtype3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_1","ot_externa_date_1"],
+        between=["ot_externa_date_3","ot_externa_date_3"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1585,7 +1585,7 @@ study = StudyDefinition(
     ),
     uti_abtype4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_1","uti_date_1"],
+        between=["uti_date_4","uti_date_4"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1598,7 +1598,7 @@ study = StudyDefinition(
     ),
     urti_abtype4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_1","urti_date_1"],
+        between=["urti_date_4","urti_date_4"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1611,7 +1611,7 @@ study = StudyDefinition(
     ),
     lrti_abtype4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_1","lrti_date_1"],
+        between=["lrti_date_4","lrti_date_4"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1624,7 +1624,7 @@ study = StudyDefinition(
     ),
     sinusitis_abtype4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_1","sinusitis_date_1"],
+        between=["sinusitis_date_4","sinusitis_date_4"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1638,7 +1638,7 @@ study = StudyDefinition(
 
     otmedia_abtype4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_1","otmedia_date_1"],
+        between=["otmedia_date_4","otmedia_date_4"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1651,7 +1651,7 @@ study = StudyDefinition(
     ),
     ot_externa_abtype4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_1","ot_externa_date_1"],
+        between=["ot_externa_date_4","ot_externa_date_4"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
@@ -1671,14 +1671,14 @@ study = StudyDefinition(
     hx_indications=patients.with_these_clinical_events(
         all_indication_codes,
         returning="binary_flag",
-        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        between=["index_date - 30 days", "index_date"],
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
     
     hx_antibiotics= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["first_day_of_month(index_date) - 1 month", "index_date"],
+        between=["index_date - 30 days", "index_date"],
         returning='binary_flag',
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
