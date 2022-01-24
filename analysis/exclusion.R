@@ -72,7 +72,7 @@ df$patient_index_date=as.Date(list[i])
 
 df=df%>%
   filter(is.na(covid_admission_date),
-         is.na(icu_date_admitted),
+      #   is.na(icu_date_admitted),
          is.na(died_date_cpns),
          is.na(died_date_ons_covid))
 

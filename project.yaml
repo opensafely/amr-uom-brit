@@ -47,8 +47,6 @@ actions:
       highly_sensitive:
         cohort: output/input_covid_death_cpns.csv
   
-
-
   process:
     run: r:latest analysis/process.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
