@@ -66,7 +66,7 @@ rm(list=ls())
 list=seq(as.Date("2020-02-01"), as.Date("2021-12-01"), "month")
 
 for (i in 1:length(list)){
-df=read_csv(here::here("output","measures", paste0("input_covid_general_population_",list[i],".csv.gz")))
+df=read_csv(here::here("output","measures", paste0("input_general_population_",list[i],".csv.gz")))
 
 df$patient_index_date=as.Date(list[i])
 
