@@ -59,14 +59,12 @@ study = StudyDefinition(
 
     # study population
     population=patients.which_exist_in_file(CONTROLS),
+    
     patient_index_date=patients.with_value_from_file(
         CONTROLS,
         returning="case_index_date",
         returning_type="date",
     ),
-
-    ),
-    
 
     ## Age
     age=patients.age_as_of(
