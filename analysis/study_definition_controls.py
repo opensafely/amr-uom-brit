@@ -62,7 +62,7 @@ study = StudyDefinition(
     
     patient_index_date=patients.with_value_from_file(
         CONTROLS,
-        returning="case_index_date",
+        returning="patient_index_date",
         returning_type="date",
     ),
 
