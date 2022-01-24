@@ -29,7 +29,7 @@ ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
 
 ## Demographics, vaccine, included as they are potential confounders 
 from variables_confounding import generate_confounding_variables
-confounding_variables = generate_confounding_variables(index_date_variable="index_date")
+confounding_variables = generate_confounding_variables(index_date_variable="patient_index_date")
 
 # ## Comobidities related to covid outcome 
 # from variables_comobidities import generate_comobidities_variables

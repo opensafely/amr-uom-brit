@@ -63,12 +63,12 @@ study = StudyDefinition(
     patient_index_date=patients.with_value_from_file(
         CONTROLS,
         returning="patient_index_date",
-        returning_type="date",
+        returning_type="date",    
     ),
 
     ## Age
     age=patients.age_as_of(
-        "index_date",
+        "patient_index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},

@@ -9,6 +9,9 @@ from cohortextractor import (
     Measure
 )
 
+###### import matched control
+CONTROLS = "output/matched_combined_general_population_infection.csv"
+
 ###### Code lists
 from codelists import *
 
@@ -53,39 +56,16 @@ study = StudyDefinition(
     index_date=start_date,
    
     # study population
-    population=patients.satisfying(
-        """
-        NOT has_died
-        AND has_follow_up_previous_3years
-        AND (sex = "M" OR sex = "F")
-        AND (age >=18 AND age <= 110)
-        AND NOT stp = ""
-        """,
+    population=patients.which_exist_in_file(CONTROLS),
 
-        has_died=patients.died_from_any_cause(
-            on_or_before="index_date",
-            returning="binary_flag",
-        ),
-
-        has_follow_up_previous_3years=patients.registered_with_one_practice_between(
-            start_date="patient_index_date - 1137 days",
-            end_date="patient_index_date",
-            return_expectations={"incidence": 0.95},
-        ),
-
+    ### patient index date  
+    # case_infection_date
+    patient_index_date=patients.with_value_from_file(
+        CONTROLS,
+        returning="patient_index_date",
+        returning_type="date",
     ),
-    # ### patient index date = ICU admission
-    # # ICU admission date
-    # patient_index_date=patients.admitted_to_icu(
-    #     on_or_after="index_date",
-    #     find_first_match_in_period=True,
-    #     returning="date_admitted",
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={
-    #         "date": {"earliest" : "2020-03-01"},
-    #         "incidence" : 0.25
-    #    },
-    # ),
+
     ## Age
     age=patients.age_as_of(
         "patient_index_date",

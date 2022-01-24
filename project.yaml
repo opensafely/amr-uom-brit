@@ -73,7 +73,7 @@ actions:
         combined3: output/matched_combined_hosp_icu_death.csv
 
   extract_controls:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_controls
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control
     needs: [matching]
     outputs:
       highly_sensitive:
