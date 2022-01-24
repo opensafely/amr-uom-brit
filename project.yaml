@@ -72,7 +72,16 @@ actions:
         combined2: output/matched_combined_infection_hosp.csv
         combined3: output/matched_combined_hosp_icu_death.csv
 
+  extract_controls:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_controls
+    needs: [matching]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_controls.csv
 
+  # combined_covid_control:
+  #   run: 
+  #   needs: [extract_controls]
 
 ## monthly matching datasets
   generate_study_population_month:
