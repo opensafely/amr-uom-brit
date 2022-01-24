@@ -1,50 +1,6 @@
 from osmatching import match
 #The algorithm currently does matching without replacement.
 
-#### covid infection(control) & hospital admission(case)
-match(
-    case_csv="case_covid_admission",
-    match_csv="case_covid_infection",
-    matches_per_case=6,
-    match_variables={
-        "sex": "category",
-        "age": 5, #+- 5 years old
-        "stp": "category",
-        "cal_YM": "category"
-    },
-    closest_match_variables=["age"],
-    index_date_variable="patient_index_date",
-    date_exclusion_variables={
-        "dereg_date": "before",
-        "ons_died_date": "before",
-    },
-    output_suffix="_infection_hosp",
-    output_path="output",
-)
-
-
-#### covid hospital admission(control) & covid ICU or death(case)
-
-match(
-    case_csv="case_covid_icu_death",
-    match_csv="case_covid_admission",
-    matches_per_case=6,
-    match_variables={
-        "sex": "category",
-        "age": 5, #+- 5 years old
-        "stp": "category",
-        "cal_YM": "category"
-    },
-    closest_match_variables=["age"],
-    index_date_variable="patient_index_date",
-    date_exclusion_variables={
-        "dereg_date": "before",
-        "ons_died_date": "before",
-    },
-    output_suffix="_hosp_icu_death",
-    output_path="output",
-)
-
 
 #### general population(control) & covid infection(case)- matching monthly datasets
 # 2020-02-01 ~ 2021-12-31

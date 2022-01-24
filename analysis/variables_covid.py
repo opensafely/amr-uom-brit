@@ -45,7 +45,7 @@ def generate_covid_variables(index_date_variable):
     covid_admission_date=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
         with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
-        on_or_after=f'{index_date_variable}',
+        on_or_before=f'{index_date_variable}',
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.25},
@@ -59,6 +59,24 @@ def generate_covid_variables(index_date_variable):
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"}},
    ),
+
+    icu_days=patients.admitted_to_hospital(
+        with_these_primary_diagnoses=covid_codelist,
+        on_or_after="covid_admission_date",
+        returning="days_in_critical_care",
+        find_first_match_in_period=True,
+        return_expectations={
+            "category": {
+                "ratios": {
+                    "0": 0.6,
+                    "1": 0.1,
+                    "2": 0.2,
+                    "3": 0.1,
+                }
+            },
+            "incidence": 0.1,
+        },
+    ),
 
     # ##ICU ADMISSION
     # icu_date_admitted=patients.admitted_to_icu(
