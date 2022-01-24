@@ -24,15 +24,15 @@ end_date = "2021-12-31"
 
 ## covid history before patient_index_date
 from variables_covid import generate_covid_variables
-covid_variables = generate_covid_variables(index_date_variable="index_date")
+covid_variables = generate_covid_variables(index_date_variable="patient_index_date")
 
 ## Exposure variables: antibiotics 
 from variables_antibiotics import generate_ab_variables
-ab_variables = generate_ab_variables(index_date_variable="index_date")
+ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
 
 ## Demographics, vaccine, included as they are potential confounders 
 from variables_confounding import generate_confounding_variables
-confounding_variables = generate_confounding_variables(index_date_variable="index_date")
+confounding_variables = generate_confounding_variables(index_date_variable="patient_index_date")
 
 # ## Comobidities related to covid outcome 
 # from variables_comobidities import generate_comobidities_variables
@@ -40,7 +40,7 @@ confounding_variables = generate_confounding_variables(index_date_variable="inde
 
 ## Charlson Comobidity Index
 from variables_CCI import generate_CCI_variables
-CCI_variables = generate_CCI_variables(index_date_variable="index_date")
+CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
 
 
 study = StudyDefinition(
