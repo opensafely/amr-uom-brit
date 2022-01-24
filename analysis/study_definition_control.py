@@ -20,7 +20,7 @@ from datetime import datetime
 start_date = "2020-02-01"
 end_date = "2021-12-31"
 
-###### Import variables
+####### Import variables
 
 ## covid history before patient_index_date
 from variables_covid import generate_covid_variables
@@ -68,7 +68,7 @@ study = StudyDefinition(
 
     ## Age
     age=patients.age_as_of(
-        "patient_index_date",
+        "index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -145,14 +145,3 @@ study = StudyDefinition(
     #**comobidities_variables,
     **CCI_variables,
 )
-
-
-
-
-
-
-
-
-
-
-    
