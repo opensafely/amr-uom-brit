@@ -122,13 +122,13 @@ actions:
   #       notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
   #       figures: output/hospitalisation_risk/*
     
-  generate_notebook_hospitalisation_analysis:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_analysis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population]
-    outputs:
-      moderately_sensitive:
-        notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
-        figures: output/hospitalisation_risk/*
+  # generate_notebook_hospitalisation_analysis:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_analysis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_study_population]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
+  #       figures: output/hospitalisation_risk/*
 
   # describe_prior_ab_12mb4:
   #   run: r:latest analysis/plot/ab_1yb4_stackedbar_2.R
