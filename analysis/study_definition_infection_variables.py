@@ -174,9 +174,10 @@ study = StudyDefinition(
 
     ## Infection Hospitalisation records
     hospitalisation_infec = patients.admitted_to_hospital(
-        with_these_diagnoses=hospitalisation_infection_related,
+        with_these_diagnoses= hospitalisation_infection_related,
         between=["index_date - 12 months", "index_date"],
-        returning="date",
+        returning="date_admitted",
+        date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
         return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
     ),
