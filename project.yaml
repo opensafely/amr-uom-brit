@@ -86,7 +86,7 @@ actions:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population --index-date-range "2020-02-01 to 2021-12-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/measures/input_*.csv.gz
+        cohort: output/measures/input_general_population_*.csv.gz
   
   exclusion:
     run: r:latest analysis/exclusion.R
