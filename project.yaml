@@ -32,7 +32,7 @@ actions:
         measure_csv: output/measures/measure_*.csv
   
   generate_measures_infection:
-    run: cohortextractor:latest generate_measures --study-definition study_definition_infection --skip-existing --output-dir=output/measures
+    run: cohortextractor:latest generate_measures --study-definition study_definition_infection_variables --skip-existing --output-dir=output/measures
     needs: [generate_study_population_infection]
     outputs:
       moderately_sensitive:
