@@ -269,7 +269,7 @@ study = StudyDefinition(
 
     ## GP consultations
     gp_count=patients.with_gp_consultations(
-        between=["index_date", "today"],
+        between=["index_date - 12 months", "index_date"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
@@ -609,7 +609,8 @@ study = StudyDefinition(
 
 
     ## antibiotic prescribed for this infection ("number of matiches"- pt may get more than one antibiotics)
-    uti_ab_count_1 = patients.with_these_medications(antibacterials_codes,
+    uti_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes,
         between=['uti_date_1','uti_date_1'],
         returning='number_of_matches_in_period',
         return_expectations={
@@ -731,6 +732,1166 @@ study = StudyDefinition(
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
         ),
+
+
+    #---- URTI 
+    #find patient's infection date 
+    urti_date_1=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    #numbers of antibiotic prescribed for this infection 
+    urti_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_1','urti_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    
+    urti_date_2=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["urti_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    urti_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_2','urti_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    urti_date_3=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["urti_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    urti_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_3','urti_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    urti_date_4=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["urti_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    urti_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_4','urti_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    #---- sinusitis
+    sinusitis_date_1=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sinusitis_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_1','sinusitis_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    
+    sinusitis_date_2=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sinusitis_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_2','sinusitis_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    sinusitis_date_3=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sinusitis_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_3','sinusitis_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    sinusitis_date_4=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sinusitis_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_4','sinusitis_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+#---- otmedia
+    otmedia_date_1=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    otmedia_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_1','otmedia_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    
+    otmedia_date_2=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["otmedia_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    otmedia_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_2','otmedia_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    otmedia_date_3=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["otmedia_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    otmedia_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_3','otmedia_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    otmedia_date_4=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["otmedia_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    otmedia_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_4','otmedia_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+#---- ot_externa
+    ot_externa_date_1=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+
+#    numbers of antibiotic prescribed for this infection 
+    ot_externa_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_1','ot_externa_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    
+    ot_externa_date_2=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["ot_externa_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    ot_externa_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_2','ot_externa_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    ot_externa_date_3=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["ot_externa_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    ot_externa_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_3','ot_externa_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ot_externa_date_4=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["ot_externa_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    ot_externa_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_4','ot_externa_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+
+########## any infection or any AB records in prior 1 month (incident/prevelent prescribing)#############
+## 0=incident case  / 1=prevelent
+    # 
+    # hx_indications=patients.with_these_clinical_events(
+    #     all_indication_codes,
+    #     returning="binary_flag",
+    #     between=["index_date - 30 days", "index_date"],
+    #     find_first_match_in_period=True,
+    #     return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    # ),
+    
+    hx_antibiotics= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["index_date - 30 days", "index_date"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+        ## GP consultations for uti
+    gp_cons_uti_1=patients.with_gp_consultations(
+        between=["uti_date_1", "uti_date_1"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_uti_2=patients.with_gp_consultations(
+        between=["uti_date_2", "uti_date_2"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_uti_3=patients.with_gp_consultations(
+        between=["uti_date_3", "uti_date_3"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_uti_4=patients.with_gp_consultations(
+        between=["uti_date_4", "uti_date_4"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ## GP consultations for lrti
+    gp_cons_lrti_1=patients.with_gp_consultations(
+        between=["lrti_date_1", "lrti_date_1"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_lrti_2=patients.with_gp_consultations(
+        between=["lrti_date_2", "lrti_date_2"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_lrti_3=patients.with_gp_consultations(
+        between=["lrti_date_3", "lrti_date_3"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_lrti_4=patients.with_gp_consultations(
+        between=["lrti_date_4", "lrti_date_4"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ## GP consultations for sinusitis
+    gp_cons_sinusitis_1=patients.with_gp_consultations(
+        between=["sinusitis_date_1", "sinusitis_date_1"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_sinusitis_2=patients.with_gp_consultations(
+        between=["sinusitis_date_2", "sinusitis_date_2"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_sinusitis_3=patients.with_gp_consultations(
+        between=["sinusitis_date_3", "sinusitis_date_3"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_sinusitis_4=patients.with_gp_consultations(
+        between=["sinusitis_date_4", "sinusitis_date_4"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ## GP consultations for otmedia
+    gp_cons_otmedia_1=patients.with_gp_consultations(
+        between=["otmedia_date_1", "otmedia_date_1"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_otmedia_2=patients.with_gp_consultations(
+        between=["otmedia_date_2", "otmedia_date_2"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_otmedia_3=patients.with_gp_consultations(
+        between=["otmedia_date_3", "otmedia_date_3"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_otmedia_4=patients.with_gp_consultations(
+        between=["otmedia_date_4", "otmedia_date_4"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    ## GP consultations for ot_externa
+    gp_cons_ot_externa_1=patients.with_gp_consultations(
+        between=["ot_externa_date_1", "ot_externa_date_1"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_ot_externa_2=patients.with_gp_consultations(
+        between=["ot_externa_date_2", "ot_externa_date_2"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_ot_externa_3=patients.with_gp_consultations(
+        between=["ot_externa_date_3", "ot_externa_date_3"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_ot_externa_4=patients.with_gp_consultations(
+        between=["ot_externa_date_4", "ot_externa_date_4"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+        ## GP consultations for urti
+    gp_cons_urti_1=patients.with_gp_consultations(
+        between=["urti_date_1", "urti_date_1"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_urti_2=patients.with_gp_consultations(
+        between=["urti_date_2", "urti_date_2"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_urti_3=patients.with_gp_consultations(
+        between=["urti_date_3", "urti_date_3"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+    gp_cons_urti_4=patients.with_gp_consultations(
+        between=["urti_date_4", "urti_date_4"],
+        #returning='binary_flag',
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    ),
+
+
+    ## GP consultations for uti resulted in antibiotics
+    gp_cons_uti_ab_1=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_uti_1','gp_cons_uti_1 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_uti_ab_2=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_uti_2','gp_cons_uti_2 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_uti_ab_3=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_uti_3','gp_cons_uti_3 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_uti_ab_4=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_uti_4','gp_cons_uti_4 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ## GP consultations for lrti resulted in antibiotics
+    gp_cons_lrti_ab_1=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_lrti_1','gp_cons_lrti_1 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_lrti_ab_2=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_lrti_2','gp_cons_lrti_2 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_lrti_ab_3=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_lrti_3','gp_cons_lrti_3 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_lrti_ab_4=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_lrti_4','gp_cons_lrti_4 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ## GP consultations for urti resulted in antibiotics
+    gp_cons_urti_ab_1=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_urti_1','gp_cons_urti_1 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_urti_ab_2=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_urti_2','gp_cons_urti_2 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_urti_ab_3=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_urti_3','gp_cons_urti_3 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_urti_ab_4=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_urti_4','gp_cons_urti_4 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ## GP consultations for sinusitis resulted in antibiotics
+    gp_cons_sinusitis_ab_1=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_sinusitis_1','gp_cons_sinusitis_1 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_sinusitis_ab_2=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_sinusitis_2','gp_cons_sinusitis_2 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_sinusitis_ab_3=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_sinusitis_3','gp_cons_sinusitis_3 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_sinusitis_ab_4=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_sinusitis_4','gp_cons_sinusitis_4 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ## GP consultations for otmedia resulted in antibiotics
+    gp_cons_otmedia_ab_1=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_otmedia_1','gp_cons_otmedia_1 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_otmedia_ab_2=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_otmedia_2','gp_cons_otmedia_2 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_otmedia_ab_3=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_otmedia_3','gp_cons_otmedia_3 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_otmedia_ab_4=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_otmedia_4','gp_cons_otmedia_4 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ## GP consultations for ot_externa resulted in antibiotics
+    gp_cons_ot_externa_ab_1=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_ot_externa_1','gp_cons_ot_externa_1 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_ot_externa_ab_2=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_ot_externa_2','gp_cons_ot_externa_2 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_ot_externa_ab_3=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_ot_externa_3','gp_cons_ot_externa_3 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    gp_cons_ot_externa_ab_4=patients.with_these_medications(
+        antibacterials_codes,
+        between=['gp_cons_ot_externa_4','gp_cons_ot_externa_4 + 5 days'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+
+########## identify incidenct case (without same infection in prior 6 weeks)#############
+## incdt=0 incident case  
+    #  --UTI 
+    incdt_uti_date_1=patients.with_these_clinical_events(
+        uti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["uti_date_1 - 42 days", "uti_date_1"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}} #could not use "uti_date_1 - 42 days", as only index_date and today allowed??
+    ),
+
+    incdt_uti_date_2=patients.with_these_clinical_events(
+        uti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["uti_date_2 - 42 days", "uti_date_2"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_uti_date_3=patients.with_these_clinical_events(
+        uti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["uti_date_3 - 42 days", "uti_date_3"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_uti_date_4=patients.with_these_clinical_events(
+        uti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["uti_date_4 - 42 days", "uti_date_4"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+
+    #  --URTI 
+    incdt_urti_date_1=patients.with_these_clinical_events(
+        urti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["urti_date_1 - 42 days", "urti_date_1"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_urti_date_2=patients.with_these_clinical_events(
+        urti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["urti_date_2 - 42 days", "urti_date_2"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_urti_date_3=patients.with_these_clinical_events(
+        urti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["urti_date_3 - 42 days", "urti_date_3"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_urti_date_4=patients.with_these_clinical_events(
+        urti_codes,
+        #returning="binary_flag",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["urti_date_4 - 42 days", "urti_date_4"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+
+    #  --LRTI 
+    incdt_lrti_date_1=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["lrti_date_1 - 42 days", "lrti_date_1"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_lrti_date_2=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["lrti_date_2 - 42 days", "lrti_date_2"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_lrti_date_3=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["lrti_date_3 - 42 days", "lrti_date_3"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_lrti_date_4=patients.with_these_clinical_events(
+        lrti_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["lrti_date_4 - 42 days", "lrti_date_4"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    #  --Sinusitis 
+    incdt_sinusitis_date_1=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["sinusitis_date_1 - 42 days", "sinusitis_date_1"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_2=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["sinusitis_date_2 - 42 days", "sinusitis_date_2"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_3=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["sinusitis_date_3 - 42 days", "sinusitis_date_3"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_4=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["sinusitis_date_4 - 42 days", "sinusitis_date_4"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    #  --otmedia 
+    incdt_otmedia_date_1=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["otmedia_date_1 - 42 days", "otmedia_date_1"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_otmedia_date_2=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["otmedia_date_2 - 42 days", "otmedia_date_2"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_otmedia_date_3=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["otmedia_date_3 - 42 days", "otmedia_date_3"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_otmedia_date_4=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["otmedia_date_4 - 42 days", "otmedia_date_4"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    #  --ot_externa 
+    incdt_ot_externa_date_1=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["ot_externa_date_1 - 42 days", "ot_externa_date_1"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_ot_externa_date_2=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["ot_externa_date_2 - 42 days", "ot_externa_date_2"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_ot_externa_date_3=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["ot_externa_date_3 - 42 days", "ot_externa_date_3"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+    incdt_ot_externa_date_4=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        between=["ot_externa_date_4 - 42 days", "ot_externa_date_4"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+    ),
+
+
+# incident hospitalisation 
+## hospitalisation with incident diagnosis of uti
+    admitted_incdt_uti_date_1=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_uti_date_1", "incdt_uti_date_1 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_uti_date_2=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_uti_date_2", "incdt_uti_date_2 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_uti_date_3=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_uti_date_3", "incdt_uti_date_3 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_uti_date_4=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_uti_date_4", "incdt_uti_date_4 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+## hospitalisation with incident diagnosis of urti
+    admitted_incdt_urti_date_1=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_urti_date_1", "incdt_urti_date_1 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_urti_date_2=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_urti_date_2", "incdt_urti_date_2 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_urti_date_3=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_urti_date_3", "incdt_urti_date_3 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_urti_date_4=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_urti_date_4", "incdt_urti_date_4 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+## hospitalisation with incident diagnosis of lrti
+    admitted_incdt_lrti_date_1=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_lrti_date_1", "incdt_lrti_date_1 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_lrti_date_2=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_lrti_date_2", "incdt_lrti_date_2 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_lrti_date_3=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_lrti_date_3", "incdt_lrti_date_3 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_lrti_date_4=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_lrti_date_4", "incdt_lrti_date_4 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+## hospitalisation with incident diagnosis of sinusitis
+    admitted_incdt_sinusitis_date_1=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_sinusitis_date_1", "incdt_sinusitis_date_1 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_sinusitis_date_2=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_sinusitis_date_2", "incdt_sinusitis_date_2 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_sinusitis_date_3=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_sinusitis_date_3", "incdt_sinusitis_date_3 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_sinusitis_date_4=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_sinusitis_date_4", "incdt_sinusitis_date_4 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+## hospitalisation with incident diagnosis of otmedia
+    admitted_incdt_otmedia_date_1=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_otmedia_date_1", "incdt_otmedia_date_1 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_otmedia_date_2=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_otmedia_date_2", "incdt_otmedia_date_2 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_otmedia_date_3=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_otmedia_date_3", "incdt_otmedia_date_3 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_otmedia_date_4=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_otmedia_date_4", "incdt_otmedia_date_4 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+## hospitalisation with incident diagnosis of ot_externa
+    admitted_incdt_ot_externa_date_1=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_ot_externa_date_1", "incdt_ot_externa_date_1 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_ot_externa_date_2=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_ot_externa_date_2", "incdt_ot_externa_date_2 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_ot_externa_date_3=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_ot_externa_date_3", "incdt_ot_externa_date_3 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_incdt_ot_externa_date_4=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["incdt_ot_externa_date_4", "incdt_ot_externa_date_4 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
 
     
     ######### comorbidities
