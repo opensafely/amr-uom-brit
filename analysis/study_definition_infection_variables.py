@@ -140,208 +140,6 @@ study = StudyDefinition(
                                      "mean": 25, "stddev": 5}, "incidence": 1}
     ),
 
-      
-    ### Region - NHS England 9 regions
-    region=patients.registered_practice_as_of(
-        "index_date",
-        returning="nuts1_region_name",
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                  "North East": 0.1,
-                  "North West": 0.1,
-                  "Yorkshire and The Humber": 0.1,
-                  "East Midlands": 0.1,
-                  "West Midlands": 0.1,
-                  "East": 0.1,
-                  "London": 0.2,
-                  "South West": 0.1,
-                  "South East": 0.1, }, },
-        },
-    ),
-    
-    ## middle layer super output area (msoa) - nhs administrative region 
-    msoa=patients.registered_practice_as_of(
-        "index_date",
-        returning="msoa_code",
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"E02000001": 0.5, "E02000002": 0.5}},
-        },
-    ), 
-    
-    
-    ## index of multiple deprivation, estimate of SES based on patient post code 
-	imd=patients.categorised_as(
-        {
-            "0": "DEFAULT",
-            "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
-            "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
-            "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
-            "4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
-            "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
-        },
-        index_of_multiple_deprivation=patients.address_as_of(
-            "index_date",
-            returning="index_of_multiple_deprivation",
-            round_to_nearest=100,
-        ),
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0": 0.05,
-                    "1": 0.19,
-                    "2": 0.19,
-                    "3": 0.19,
-                    "4": 0.19,
-                    "5": 0.19,
-                }
-            },
-        },
-    ),
-    
-    ## BMI, most recent
-    bmi=patients.most_recent_bmi(
-        between=["2015-01-01", "index_date"],
-        minimum_age_at_measurement=18,
-        include_measurement_date=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest": "2015-01-01", "latest": "index_date"},
-            "float": {"distribution": "normal", "mean": 27, "stddev": 6},
-            "incidence": 0.70,
-        },
-    ),
-
-    # self-reported ethnicity 
-    ethnicity=patients.with_these_clinical_events(
-        ethnicity_codes,
-        returning="category",
-        find_last_match_in_period=True,
-        include_date_of_match=False,
-        return_expectations={
-            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
-            "incidence": 0.75,
-        },
-    ),
-
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/6
-    smoking_status=patients.categorised_as(
-        {
-            "S": "most_recent_smoking_code = 'S'",
-            "E": """
-                 most_recent_smoking_code = 'E' OR (
-                   most_recent_smoking_code = 'N' AND ever_smoked
-                 )
-            """,
-            "N": "most_recent_smoking_code = 'N' AND NOT ever_smoked",
-            "M": "DEFAULT",
-        },
-        return_expectations={
-            "category": {"ratios": {"S": 0.6, "E": 0.1, "N": 0.2, "M": 0.1}}
-        },
-        most_recent_smoking_code=patients.with_these_clinical_events(
-            clear_smoking_codes,
-            find_last_match_in_period=True,
-            on_or_before="index_date",
-            returning="category",
-        ),
-        ever_smoked=patients.with_these_clinical_events(
-            filter_codes_by_category(clear_smoking_codes, include=["S", "E"]),
-            on_or_before="index_date",
-        ),
-    ),
-    smoking_status_date=patients.with_these_clinical_events(
-        clear_smoking_codes,
-        on_or_before="index_date",
-        return_last_date_in_period=True,
-        include_month=True,
-    ),
-    most_recent_unclear_smoking_cat_date=patients.with_these_clinical_events(
-        unclear_smoking_codes,
-        on_or_before="index_date",
-        return_last_date_in_period=True,
-        include_month=True,
-    ),
-
-    ## GP consultations
-    gp_count=patients.with_gp_consultations(
-        between=["index_date - 12 months", "index_date"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
-
-
-    ### Flu vaccine
-    ## flu vaccine in tpp
-    flu_vaccine_tpp=patients.with_tpp_vaccination_record(
-        target_disease_matches="influenza",
-        between=["index_date - 12 months", "index_date"],
-        returning="binary_flag",
-        #date_format=binary,
-        find_first_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
-        }
-    ),
-
-    ### flu vaccine 
-    ## flu vaccine entered as a medication 
-    flu_vaccine_med=patients.with_these_medications(
-        flu_med_codes,
-        between=["index_date - 12 months", "index_date"],  # current flu season
-        returning="binary_flag",
-        return_first_date_in_period=True,
-        include_month=True,
-        return_expectations={
-            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
-        },
-    ),
-    ## flu vaccine as a read code 
-    flu_vaccine_clinical=patients.with_these_clinical_events(
-        flu_clinical_given_codes,
-        ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
-        between=["index_date - 12 months", "index_date"],  # current flu season
-        returning="binary_flag",
-        return_first_date_in_period=True,
-        include_month=True,
-        return_expectations={
-            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
-        },
-    ),
-    ## flu vaccine any of the above 
-    flu_vaccine=patients.satisfying(
-        """
-        flu_vaccine_tpp OR
-        flu_vaccine_med OR
-        flu_vaccine_clinical
-        """,
-    ),
-
-    ### Antibiotics from opensafely antimicrobial-stewardship repo
-    # ## all antibacterials 
-    # antibacterial_prescriptions=patients.with_these_medications(
-    #     antibacterials_codes,
-    #     between=["index_date", "last_day_of_month(index_date)"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
-
-    # antibacterial_prescriptions_date=patients.with_these_medications(
-    #     antibacterials_codes,
-    #     between=["index_date", "last_day_of_month(index_date)"],
-    #     returning="date",
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-    #     ),
 
 
     ## all antibacterials from BRIT (dmd codes)
@@ -355,185 +153,7 @@ study = StudyDefinition(
         },
     ),
 
-    ### Antibiotics - TYPE
-    antibacterial_brit_abtype=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="category",
-        return_expectations={
-            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-            "incidence": 0.99,
-        },
-    ),
-
-    ## all antibacterials 12m before
-    antibacterial_12mb4=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["first_day_of_month(index_date) - 12 months", "first_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
-            "incidence": 1,
-        },
-    ),
-
-    ## Broad spectrum antibiotics
-    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
-
-    broad_prescriptions_check=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="binary_flag",
-        return_expectations={
-            "incidence": 0.3,},
-    ),
     
-
-    ## Covid positive test result
-    ## Positive covid test_sgss
-    Covid_test_result_sgss=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        between=["index_date", "last_day_of_month(index_date)"],
-        find_first_match_in_period=True,
-        returning='binary_flag',
-        return_expectations={
-            "incidence": 0.5},
-    ),
-
-    ## positive date_sgss
-    first_positive_test_date_sgss=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        between=["index_date", "last_day_of_month(index_date)"],
-        find_first_match_in_period=True,
-        returning='date',
-        date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "index_date"},
-                             "rate": "exponential_increase",
-                             "incidence":0.5},
-    ),
-
-    ## number of posstive test patients
-    covid_positive_count_sgss=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        on_or_after="index_date",
-        find_first_match_in_period=True,
-        returning='number_of_matches_in_period',
-        restrict_to_earliest_specimen_date = False,
-        return_expectations={
-            "int": {"distribution":"normal","mean":10,"stddev":1},"incidence":0.5},
-    ),        
-
-    ## Same day antibiotic prescribed binary
-
-    sgss_ab_prescribed=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["first_positive_test_date_sgss - 2 days","first_positive_test_date_sgss + 2 days"],
-        returning="binary_flag",
-        return_expectations={"incidence":0.3,},
-    ),
-
-    ## Covid diagnosis record by primary care (gp)
-
-    gp_covid=patients.with_these_clinical_events(
-        any_primary_care_code,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.5},
-    ),
-
-    gp_covid_date=patients.with_these_clinical_events(
-        any_primary_care_code,
-        returning="date",
-        between=["index_date", "last_day_of_month(index_date)"],
-        find_first_match_in_period=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={"date":{"earliest":start_date},
-                             "rate": "exponential_increase",
-                             "incidence": 0.5},
-    ),
-
-    gp_covid_count=patients.with_these_clinical_events(
-        any_primary_care_code,
-        on_or_after="index_date",
-        find_first_match_in_period=True,
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution":"normal","mean":10,"stddev":1},"incidence":0.5},
-    ),   
-
-    gp_covid_ab_prescribed=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["gp_covid_date - 2 days","gp_covid_date + 2 days"],
-        returning="binary_flag",
-        return_expectations={"incidence":0.3,},
-    ),
-
-    ### First COVID vaccination medication code (any)
-    covrx1_dat=patients.with_vaccination_record(
-        returning="date",
-        tpp={
-            "product_name_matches": [
-                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
-            ],
-        },
-        emis={
-            "product_codes": covrx_code,
-        },
-        find_first_match_in_period=True,
-        on_or_before="index_date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
-            "incidence": 0.5,
-        }
-    ),
-    # Second COVID vaccination medication code (any)
-    covrx2_dat=patients.with_vaccination_record(
-        returning="date",
-        tpp={
-            "product_name_matches": [
-                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
-            ],
-        },
-        emis={
-            "product_codes": covrx_code,
-        },
-        find_last_match_in_period=True,
-        on_or_after="covrx1_dat + 19 days",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "rate": "exponential_increase", 
-            "incidence": 0.5,
-        }
-    ),
-
-    # ## hospitalisation
-    # admitted=patients.admitted_to_hospital(
-    #     returning="binary_flag",
-    #     #returning="date_admitted",
-    #     #date_format="YYYY-MM-DD",
-    #     between=["index_date", "today"],
-    #     return_expectations={"incidence": 0.1},
-    # ),
-
     ## hospitalisation with diagnosis of lrti, urti, or uti
     #admitted_date=patients.admitted_to_hospital(
     #    with_these_diagnoses=any_lrti_urti_uti_hospitalisation_codes,
@@ -552,23 +172,13 @@ study = StudyDefinition(
     #    return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     #),
 
-    # ## Infaction Hospitalisation records
-    # hospitalisation_infec = patients.with_these_clinical_events(
-    #     hospitalisation_infection_related,
-    #     between=["index_date - 12 months", "index_date"],
-    #     returning="date",
-    #     find_first_match_in_period=True,
-    #     return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
-    # ),
-
-    ## Death
-    died_date=patients.died_from_any_cause(
-        on_or_after="index_date",
-        returning="date_of_death",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "index_date"},  "rate" : "exponential_increase"
-        },
+    ## Infection Hospitalisation records
+    hospitalisation_infec = patients.admitted_to_hospital(
+        with_these_diagnoses=hospitalisation_infection_related,
+        between=["index_date - 12 months", "index_date"],
+        returning="date",
+        find_first_match_in_period=True,
+        return_expectations={"date": {"earliest": "index_date", "latest": "today"}},
     ),
 
 
@@ -1912,148 +1522,6 @@ study = StudyDefinition(
         """,
     ),
 
-######### comorbidities
-
-    cancer_comor=patients.with_these_clinical_events(
-        charlson01_cancer,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    cardiovascular_comor=patients.with_these_clinical_events(
-        charlson02_cvd,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    chronic_obstructive_pulmonary_comor=patients.with_these_clinical_events(
-       charlson03_copd,
-       between=["index_date - 5 years", "index_date"],
-       returning="binary_flag",
-       find_first_match_in_period=True,
-       return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    heart_failure_comor=patients.with_these_clinical_events(
-       charlson04_heart_failure,
-       between=["index_date - 5 years", "index_date"],
-       returning="binary_flag",
-       find_first_match_in_period=True,
-       return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    connective_tissue_comor=patients.with_these_clinical_events(
-        charlson05_connective_tissue,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    dementia_comor=patients.with_these_clinical_events(
-        charlson06_dementia,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    diabetes_comor=patients.with_these_clinical_events(
-        charlson07_diabetes,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    diabetes_complications_comor=patients.with_these_clinical_events(
-        charlson08_diabetes_with_complications,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    hemiplegia_comor=patients.with_these_clinical_events(
-        charlson09_hemiplegia,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    hiv_comor=patients.with_these_clinical_events(
-        charlson10_hiv,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    metastatic_cancer_comor=patients.with_these_clinical_events(
-        charlson11_metastatic_cancer,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    mild_liver_comor=patients.with_these_clinical_events(
-        charlson12_mild_liver,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    mod_severe_liver_comor=patients.with_these_clinical_events(
-        charlson13_mod_severe_liver,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    ),
-
-    mod_severe_renal_comor=patients.with_these_clinical_events(
-        charlson14_moderate_several_renal_disease,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
-        },
-    ),
-
-    mi_comor=patients.with_these_clinical_events(
-        charlson15_mi,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
-        },
-    ),
-
-    peptic_ulcer_comor=patients.with_these_clinical_events(
-        charlson16_peptic_ulcer,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
-        },
-    ),
-
-    peripheral_vascular_comor=patients.with_these_clinical_events(
-        charlson17_peripheral_vascular,
-        between=["index_date - 5 years", "index_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}
-        },
-    ),
-
 )
 
 # --- DEFINE MEASURES ---
@@ -2061,416 +1529,251 @@ study = StudyDefinition(
 
 measures = [
 
-    ## antibiotic rx rate
-    Measure(id="antibiotics_overall",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice"]
-            ),
     
-    ## Antibiotic Rx rate by TyPE
-    Measure(id="antibiotics_overall_brit_abtype",
-            numerator="antibacterial_brit",
+    # incident consultation: UTI
+    Measure(id="infec_consult_UTI",
+            numerator="uti_counts",
             denominator="population",
-            group_by=["antibacterial_brit_abtype"]
-            ),
-
-    ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_brit",
-            group_by=["practice"]
-            ),
-
-    ## antibiotic count rolling 12m before
-    Measure(id="ABs_12mb4",
-            numerator="antibacterial_12mb4",
+            group_by=["practice", "incdt_uti_pt", "age_cat"]
+    ),
+    # incident consultation: LRTI
+    Measure(id="infec_consult_LRTI",
+            numerator="lrti_counts",
             denominator="population",
-            group_by=["practice", "patient_id"]
-            ),
-
-    
-    ## STRPU antibiotics
-    Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_brit",
+            group_by=["practice", "incdt_lrti_pt", "age_cat"]
+    ),
+    # incident consultation: URTI
+    Measure(id="infec_consult_URTI",
+            numerator="urti_counts",
             denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+            group_by=["practice", "incdt_urti_pt", "age_cat"]
+    ),
+    # incident consultation: sinusitis
+    Measure(id="infec_consult_sinusitis",
+            numerator="sinusitis_counts",
+            denominator="population",
+            group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
+    ),
+    # incident consultation: ot_externa
+    Measure(id="infec_consult_ot_externa",
+            numerator="ot_externa_counts",
+            denominator="population",
+            group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
+    ),
+    # incident consultation: otmedia
+    Measure(id="infec_consult_otmedia",
+            numerator="otmedia_counts",
+            denominator="population",
+            group_by=["practice", "incdt_otmedia_pt", "age_cat"]
+    ),
 
-    # # ## hospitalisation 
-    # # Measure(id="hosp_admission_any",
-    # #         numerator="admitted",
-    # #         denominator="population",
-    # #         group_by=["practice"]
-    # #         ),
-
-    # # ## hospitalisation STARPU
-    # # Measure(id="hosp_admission_STARPU",
-    # #         numerator="admitted",
-    # #         denominator="population",
-    # #         group_by=["practice", "sex", "age_cat"]
-    # #         ),
-    
-    # # ## UTI event rate 
-    # # Measure(id="UTI_event",
-    # #         numerator="uti_counts",
-    # #         denominator="population",
-    # #         group_by=["practice"]
-    # # ),
-
-    # # ## LRTI event rate 
-    # # #Measure(id="LRTI_event",
-    # # #        numerator="lrti_counts",
-    # # #        denominator="population",
-    # # #        group_by=["practice"]
-    # # #),
-
-    # # ## URTI event rate 
-    # # #Measure(id="URTI_event",
-    # # #        numerator="urti_counts",
-    # # #        denominator="population",
-    # # #        group_by=["practice"]
-    # # #),
-
-    # # ## sinusitis event rate 
-    # # #Measure(id="sinusitis_event",
-    # # #        numerator="sinusitis_counts",
-    # # #        denominator="population",
-    # # #        group_by=["practice"]
-    # # #),
-
-    # # ## otitis externa event rate 
-    # # #Measure(id="ot_externa_event",
-    # # #        numerator="ot_externa_counts",
-    # # #        denominator="population",
-    # # #        group_by=["practice"]
-    # # # ),
-
-    # # ## otitis media event rate 
-    # # #Measure(id="otmedia_event",
-    # # #        numerator="otmedia_counts",
-    # # #        denominator="population",
-    # # #        group_by=["practice"]
-    # # # ),
-
-    # # ## UTI pt propotion 
-    # # Measure(id="UTI_patient",
-    # #         numerator="uti_pt",
-    # #         denominator="population",
-    # #         group_by=["practice"]
-    # # ),
-
-    # ## LTI pt propotion 
-    # #Measure(id="LRTI_patient",
-    # #        numerator="lrti_pt",
-    # #        denominator="population",
-    # #        group_by=["practice"]
-    # #),
-
-    # ## URTI pt propotion 
-    # #Measure(id="URTI_patient",
-    # #        numerator="urti_pt",
-    # #        denominator="population",
-    # #        group_by=["practice"]
-    # #),
-
-    # ## sinusitis pt propotion 
-    # #Measure(id="sinusitis_patient",
-    # #        numerator="sinusitis_pt",
-    # #        denominator="population",
-    # #        group_by=["practice"]
-    # #),
-
-    # ## ot_externa pt propotion 
-    # #Measure(id="ot_externa_patient",
-    # #        numerator="ot_externa_pt",
-    # #        denominator="population",
-    # #        group_by=["practice"]
-    # #),
-
-    # ## otmedia pt propotion 
-    # #Measure(id="otmedia_patient",
-    # #        numerator="otmedia_pt",
-    # #        denominator="population",
-    # #        group_by=["practice"]
-    # #),
-    
-    # # ## incident consultation: UTI
-    # # Measure(id="consult_UTI",
-    # #         numerator="uti_counts",
-    # #         denominator="population",
-    # #         group_by=["practice", "incdt_uti_pt", "age_cat"]
-    # # ),
-    # # ## incident consultation: LRTI
-    # # Measure(id="consult_LRTI",
-    # #         numerator="lrti_counts",
-    # #         denominator="population",
-    # #         group_by=["practice", "incdt_lrti_pt", "age_cat"]
-    # # ),
-
-
-    # ## incident consultation: UTI
-    # Measure(id="consult_UTI",
-    #         numerator="uti_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_uti_pt", "age_cat"]
-    # ),
-    # ## incident consultation: LRTI
-    # Measure(id="consult_LRTI",
-    #         numerator="lrti_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_lrti_pt", "age_cat"]
-    # ),
-    # ## incident consultation: URTI
-    # Measure(id="consult_URTI",
-    #         numerator="urti_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_urti_pt", "age_cat"]
-    # ),
-    # ## incident consultation: sinusitis
-    # Measure(id="consult_sinusitis",
-    #         numerator="sinusitis_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_sinusitis_pt", "age_cat"]
-    # ),
-    # ## incident consultation: ot_externa
-    # Measure(id="consult_ot_externa",
-    #         numerator="ot_externa_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_ot_externa_pt", "age_cat"]
-    # ),
-    # ## incident consultation: otmedia
-    # Measure(id="consult_otmedia",
-    #         numerator="otmedia_counts",
-    #         denominator="population",
-    #         group_by=["practice", "incdt_otmedia_pt", "age_cat"]
-    # ),
-
-    # ## incident prescribing: UTI
-    # Measure(id="Rx_percent_UTI",
-    #         numerator="uti_ab_flag_1",
-    #         denominator="uti_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: URTI
-    # Measure(id="Rx_percent_URTI",
-    #         numerator="urti_ab_flag_1",
-    #         denominator="urti_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: LRTI
-    # Measure(id="Rx_percent_LRTI",
-    #         numerator="lrti_ab_flag_1",
-    #         denominator="lrti_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: sinusitis
-    # Measure(id="Rx_percent_sinusitis",
-    #         numerator="sinusitis_ab_flag_1",
-    #         denominator="sinusitis_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    # ## incident prescribing: otmedia
-    # Measure(id="Rx_percent_otmedia",
-    #         numerator="otmedia_ab_flag_1",
-    #         denominator="otmedia_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),
-    #  ## incident prescribing: ot_externa
-    # Measure(id="Rx_percent_ot_externa",
-    #         numerator="ot_externa_ab_flag_1",
-    #         denominator="ot_externa_pt",
-    #         group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
-    # ),   
+    # incident prescribing: UTI
+    Measure(id="infec_Rx_percent_UTI",
+            numerator="uti_ab_flag_1",
+            denominator="uti_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: URTI
+    Measure(id="infec_Rx_percent_URTI",
+            numerator="urti_ab_flag_1",
+            denominator="urti_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: LRTI
+    Measure(id="infec_Rx_percent_LRTI",
+            numerator="lrti_ab_flag_1",
+            denominator="lrti_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: sinusitis
+    Measure(id="infec_Rx_percent_sinusitis",
+            numerator="sinusitis_ab_flag_1",
+            denominator="sinusitis_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+    # incident prescribing: otmedia
+    Measure(id="infec_Rx_percent_otmedia",
+            numerator="otmedia_ab_flag_1",
+            denominator="otmedia_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),
+     # incident prescribing: ot_externa
+    Measure(id="infec_Rx_percent_ot_externa",
+            numerator="ot_externa_ab_flag_1",
+            denominator="ot_externa_pt",
+            group_by=["practice","hx_indications", "hx_antibiotics","age_cat"]
+    ),   
     
     ##  AB TYPE by infection-1
-    Measure(id="abtype_UTI_1",
+    Measure(id="infec_abtype_UTI_1",
             numerator="uti_ab_count_1",
             denominator="population",
             group_by=["uti_abtype1"]
             ),
-    Measure(id="abtype_URTI_1",
+    Measure(id="infec_abtype_URTI_1",
             numerator="urti_ab_count_1",
             denominator="population",
             group_by=["urti_abtype1"]
             ),
-    Measure(id="abtype_LRTI_1",
+    Measure(id="infec_abtype_LRTI_1",
             numerator="lrti_ab_count_1",
             denominator="population",
             group_by=["lrti_abtype1"]
             ),
-    Measure(id="abtype_sinusitis_1",
+    Measure(id="infec_abtype_sinusitis_1",
             numerator="sinusitis_ab_count_1",
             denominator="population",
             group_by=["sinusitis_abtype1"]
             ),
-    Measure(id="abtype_ot_externa_1",
+    Measure(id="infec_abtype_ot_externa_1",
             numerator="ot_externa_ab_count_1",
             denominator="population",
             group_by=["ot_externa_abtype1"]
             ),
-    Measure(id="abtype_otmedia_1",
+    Measure(id="infec_abtype_otmedia_1",
             numerator="otmedia_ab_count_1",
             denominator="population",
             group_by=["otmedia_abtype1"]
             ),
 
     ##  AB TYPE by infection-2
-    Measure(id="abtype_UTI_2",
+    Measure(id="infec_abtype_UTI_2",
             numerator="uti_ab_count_2",
             denominator="population",
             group_by=["uti_abtype2"]
             ),
-    Measure(id="abtype_URTI_2",
+    Measure(id="infec_abtype_URTI_2",
             numerator="urti_ab_count_2",
             denominator="population",
             group_by=["urti_abtype2"]
             ),
-    Measure(id="abtype_LRTI_2",
+    Measure(id="infec_abtype_LRTI_2",
             numerator="lrti_ab_count_2",
             denominator="population",
             group_by=["lrti_abtype2"]
             ),
-    Measure(id="abtype_sinusitis_2",
+    Measure(id="infec_abtype_sinusitis_2",
             numerator="sinusitis_ab_count_2",
             denominator="population",
             group_by=["sinusitis_abtype2"]
             ),
-    Measure(id="abtype_ot_externa_2",
+    Measure(id="infec_abtype_ot_externa_2",
             numerator="ot_externa_ab_count_2",
             denominator="population",
             group_by=["ot_externa_abtype2"]
             ),
-    Measure(id="abtype_otmedia_2",
+    Measure(id="infec_abtype_otmedia_2",
             numerator="otmedia_ab_count_2",
             denominator="population",
             group_by=["otmedia_abtype2"]
             ),
     
     ##  AB TYPE by infection-3
-    Measure(id="abtype_UTI_3",
+    Measure(id="infec_abtype_UTI_3",
             numerator="uti_ab_count_3",
             denominator="population",
             group_by=["uti_abtype3"]
             ),
-    Measure(id="abtype_URTI_3",
+    Measure(id="infec_abtype_URTI_3",
             numerator="urti_ab_count_3",
             denominator="population",
             group_by=["urti_abtype3"]
             ),
-    Measure(id="abtype_LRTI_3",
+    Measure(id="infec_abtype_LRTI_3",
             numerator="lrti_ab_count_3",
             denominator="population",
             group_by=["lrti_abtype3"]
             ),
-    Measure(id="abtype_sinusitis_3",
+    Measure(id="infec_abtype_sinusitis_3",
             numerator="sinusitis_ab_count_3",
             denominator="population",
             group_by=["sinusitis_abtype3"]
             ),
-    Measure(id="abtype_ot_externa_3",
+    Measure(id="infec_abtype_ot_externa_3",
             numerator="ot_externa_ab_count_3",
             denominator="population",
             group_by=["ot_externa_abtype3"]
             ),
-    Measure(id="abtype_otmedia_3",
+    Measure(id="infec_abtype_otmedia_3",
             numerator="otmedia_ab_count_3",
             denominator="population",
             group_by=["otmedia_abtype3"]
             ),
     
     ##  AB TYPE by infection-4
-    Measure(id="abtype_UTI_4",
+    Measure(id="infec_abtype_UTI_4",
             numerator="uti_ab_count_4",
             denominator="population",
             group_by=["uti_abtype4"]
             ),
-    Measure(id="abtype_URTI_4",
+    Measure(id="infec_abtype_URTI_4",
             numerator="urti_ab_count_4",
             denominator="population",
             group_by=["urti_abtype4"]
             ),
-    Measure(id="abtype_LRTI_4",
+    Measure(id="infec_abtype_LRTI_4",
             numerator="lrti_ab_count_4",
             denominator="population",
             group_by=["lrti_abtype4"]
             ),
-    Measure(id="abtype_sinusitis_4",
+    Measure(id="infec_abtype_sinusitis_4",
             numerator="sinusitis_ab_count_4",
             denominator="population",
             group_by=["sinusitis_abtype4"]
             ),
-    Measure(id="abtype_ot_externa_4",
+    Measure(id="infec_abtype_ot_externa_4",
             numerator="ot_externa_ab_count_4",
             denominator="population",
             group_by=["ot_externa_abtype4"]
             ),
-    Measure(id="abtype_otmedia_4",
+    Measure(id="infec_abtype_otmedia_4",
             numerator="otmedia_ab_count_4",
             denominator="population",
             group_by=["otmedia_abtype4"]
             ),
 
-    Measure(id="repeat_antibiotics",
+    Measure(id="infec_repeat_antibiotics",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_uti",
+    Measure(id="infec_repeat_antibiotics_uti",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "uti_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_urti",
+    Measure(id="infec_repeat_antibiotics_urti",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "urti_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_lrti",
+    Measure(id="infec_repeat_antibiotics_lrti",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "lrti_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_sinusitis",
+    Measure(id="infec_repeat_antibiotics_sinusitis",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "sinusitis_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_otmedia",
+    Measure(id="infec_repeat_antibiotics_otmedia",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "otmedia_ab_flag", "sex", "age_cat"],
             ),
 
-    Measure(id="repeat_antibiotics_ot_externa",
+    Measure(id="infec_repeat_antibiotics_ot_externa",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "hx_antibiotics", "ot_externa_ab_flag", "sex", "age_cat"],
-            ),
-    
-    
-    Measure(id="gp_same_day_pos_ab",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","gp_covid","gp_covid_ab_prescribed","age_cat"]
-            ),
+            ), 
 
-    Measure(id="Same_day_pos_ab_sgss",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
-            ),
-
-    Measure(id="broad_narrow_prescribing",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","broad_prescriptions_check","age_cat"]
-            ),    
 
 
 ]
