@@ -1893,7 +1893,92 @@ study = StudyDefinition(
        return_expectations={"incidence": 0.3},
     ),
 
-    
+    # for exclusion of covid positive cases while diagnosed with a common infection
+    ## Covid positive test result during hospital admission related to uti
+    sgss__pos_covid_date_uti_1=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["admitted_incdt_uti_date_1 - 90 days", "admitted_incdt_uti_date_1 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis during hospital admission related to uti
+    gp_covid_date_uti_1=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["admitted_incdt_uti_date_1 - 90 days", "admitted_incdt_uti_date_1 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid positive test result
+    sgss__pos_covid_date_uti_2=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["admitted_incdt_uti_date_2 - 90 days", "admitted_incdt_uti_date_2 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_uti_2=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["admitted_incdt_uti_date_2 - 90 days", "admitted_incdt_uti_date_2 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid positive test result
+    sgss__pos_covid_date_uti_3=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["admitted_incdt_uti_date_3 - 90 days", "admitted_incdt_uti_date_3 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_uti_3=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["admitted_incdt_uti_date_3 - 90 days", "admitted_incdt_uti_date_3 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid positive test result
+    sgss__pos_covid_date_uti_4=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["admitted_incdt_uti_date_4 - 90 days", "admitted_incdt_uti_date_4 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_uti_4=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["admitted_incdt_uti_date_4 - 90 days", "admitted_incdt_uti_date_4 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+
     ######### comorbidities
 
     cancer_comor=patients.with_these_clinical_events(
