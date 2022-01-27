@@ -58,7 +58,6 @@ actions:
         cohort2: output/case_covid_admission.csv
         cohort3: output/case_covid_icu_death.csv
         
-
   matching:
     run: python:latest python analysis/matching_case_control.py
     needs: [generate_study_population, process]
@@ -78,6 +77,18 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control.csv
+
+  variables:
+    run: r:latest analysis/variables.R
+    needs: [matching]
+    outputs:
+      highly_sensitive:
+        cohort1.1: output/matched_outcome2.csv
+        # cohort1.2: output/control_covid_infection.csv 
+        # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
+        # cohort2: output/case_covid_admission.csv
+        # cohort3: output/case_covid_icu_death.csv
+  
 
  
 
