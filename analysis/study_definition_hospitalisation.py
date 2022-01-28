@@ -401,10 +401,9 @@ study = StudyDefinition(
         },
         find_first_match_in_period=True,
         on_or_before="index_date",
-        on_or_after="2020-11-29",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "rate": "exponential_increase",
+            "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
             "incidence": 0.5,
         }
     ),
@@ -422,11 +421,10 @@ study = StudyDefinition(
             "product_codes": covrx_code,
         },
         find_last_match_in_period=True,
-        on_or_before="index_date",
         on_or_after="covrx1_dat + 19 days",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "rate": "exponential_increase",
+            "rate": "exponential_increase", 
             "incidence": 0.5,
         }
     ),
@@ -1895,7 +1893,7 @@ study = StudyDefinition(
 
     # for exclusion of covid positive cases while diagnosed with a common infection
     ## Covid positive test result during hospital admission related to uti
-    sgss__pos_covid_date_uti_1=patients.with_test_result_in_sgss(
+    sgss_pos_covid_date_uti_1=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         between=["admitted_incdt_uti_date_1 - 90 days", "admitted_incdt_uti_date_1 + 30 days"],
@@ -1916,7 +1914,7 @@ study = StudyDefinition(
     ),
 
     ## Covid positive test result
-    sgss__pos_covid_date_uti_2=patients.with_test_result_in_sgss(
+    sgss_pos_covid_date_uti_2=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         between=["admitted_incdt_uti_date_2 - 90 days", "admitted_incdt_uti_date_2 + 30 days"],
@@ -1937,7 +1935,7 @@ study = StudyDefinition(
     ),
 
     ## Covid positive test result
-    sgss__pos_covid_date_uti_3=patients.with_test_result_in_sgss(
+    sgss_pos_covid_date_uti_3=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         between=["admitted_incdt_uti_date_3 - 90 days", "admitted_incdt_uti_date_3 + 30 days"],
@@ -1958,7 +1956,7 @@ study = StudyDefinition(
     ),
 
     ## Covid positive test result
-    sgss__pos_covid_date_uti_4=patients.with_test_result_in_sgss(
+    sgss_pos_covid_date_uti_4=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         between=["admitted_incdt_uti_date_4 - 90 days", "admitted_incdt_uti_date_4 + 30 days"],
