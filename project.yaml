@@ -80,9 +80,10 @@ actions:
 
   variables:
     run: r:latest analysis/variables.R
-    needs: [matching]
+    needs: [matching,extract_control]
     outputs:
       highly_sensitive:
+        cohort1: output/matched_outcome1.csv
         cohort2: output/matched_outcome2.csv
         cohort3: output/matched_outcome3.csv
         # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
