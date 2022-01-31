@@ -83,8 +83,8 @@ actions:
     needs: [matching]
     outputs:
       highly_sensitive:
-        cohort1.1: output/matched_outcome2.csv
-        # cohort1.2: output/control_covid_infection.csv 
+        cohort2: output/matched_outcome2.csv
+        cohort3: output/matched_outcome3.csv
         # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
         # cohort2: output/case_covid_admission.csv
         # cohort3: output/case_covid_icu_death.csv
