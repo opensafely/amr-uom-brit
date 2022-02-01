@@ -4,6 +4,9 @@
 # Generate charlson comorbidity scores and baseline table for service evaluation
 # # # # # # # # # # # # # # # # # # # # #
 
+## install package
+install.packages("tableone")
+
 ## Import libraries---
 library("tidyverse") 
 library("ggplot2")
