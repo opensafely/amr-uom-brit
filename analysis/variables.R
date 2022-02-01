@@ -260,22 +260,24 @@ df$bmi=ifelse(df$bmi.time>365*10 | df$bmi.time<0,NA,df$bmi)
 # South Asian:normal weight (18·5–22.9 kg/m2), overweight (23–27·4 kg/m2); obese I (27·5–32·4 kg/m2); obese II (32·5–37·4 kg/m2); and obese III [≥37·5 kg/m2]. 
 
 df=df%>%mutate(bmi_cat_6.nonSA=case_when(is.na(bmi) ~"unknown",
-                                         bmi<18.5 ~"underweight",
+                                         bmi<18.5 ~"under weight",
                                          bmi<25 ~"normal weight",
-                                         bmi<30 ~"overweight",
-                                         bmi<35 ~"obese I",
-                                         bmi<40 ~"obese II",
-                                         bmi>40|bmi==40 ~ "obese III"
-                                         ))
+                                         bmi<30 ~"over weight",
+                                         bmi>30|bmi==30 ~"obese"))
+                                   #       bmi<35 ~"obese I",
+                                   #       bmi<40 ~"obese II",
+                                   #       bmi>40|bmi==40 ~ "obese III"
+                                   #       ))
                         
 
 df=df%>%mutate(bmi_cat_6.SA= case_when(is.na(bmi) ~"unknown",
-                                       bmi<18.5 ~"underweight",
+                                       bmi<18.5 ~"under weight",
                                        bmi<23 ~"normal weight",
-                                       bmi<27.5 ~"overweight",
-                                       bmi<32.5 ~"obese I",
-                                       bmi<37.5 ~"obese II",
-                                       bmi>37.5|bmi==37.5 ~ "obese III"))
+                                       bmi<27.5 ~"over weight",
+                                       bmi>30|bmi==30 ~"obese"))
+                                   #     bmi<32.5 ~"obese I",
+                                   #     bmi<37.5 ~"obese II",
+                                   #     bmi>37.5|bmi==37.5 ~ "obese III"))
 
 df$bmi_cat_6=ifelse(df$ethnicity==3, df$bmi_cat_6.SA,df$bmi_cat_6.nonSA)
 
