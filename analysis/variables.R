@@ -119,7 +119,7 @@ df=df%>%mutate(bmi_cat_6.SA= case_when(is.na(bmi) ~"unknown",
                                        bmi<18.5 ~"under weight",
                                        bmi<23 ~"normal weight",
                                        bmi<27.5 ~"over weight",
-                                       bmi>30|bmi==30 ~"obese"))
+                                       bmi>27.5|bmi==27.5 ~"obese"))
                                    #     bmi<32.5 ~"obese I",
                                    #     bmi<37.5 ~"obese II",
                                    #     bmi>37.5|bmi==37.5 ~ "obese III"))
@@ -283,7 +283,7 @@ df=df%>%mutate(bmi_cat_6.SA= case_when(is.na(bmi) ~"unknown",
                                        bmi<18.5 ~"under weight",
                                        bmi<23 ~"normal weight",
                                        bmi<27.5 ~"over weight",
-                                       bmi>30|bmi==30 ~"obese"))
+                                       bmi>27.5|bmi==27.5 ~"obese"))
                                    #     bmi<32.5 ~"obese I",
                                    #     bmi<37.5 ~"obese II",
                                    #     bmi>37.5|bmi==37.5 ~ "obese III"))
@@ -451,7 +451,7 @@ df=df%>%mutate(bmi_cat_6.SA= case_when(is.na(bmi) ~"unknown",
                                        bmi<18.5 ~"under weight",
                                        bmi<23 ~"normal weight",
                                        bmi<27.5 ~"over weight",
-                                       bmi>30|bmi==30 ~"obese"))
+                                       bmi>27.5|bmi==27.5 ~"obese"))
                                    #     bmi<32.5 ~"obese I",
                                    #     bmi<37.5 ~"obese II",
                                    #     bmi>37.5|bmi==37.5 ~ "obese III"))

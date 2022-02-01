@@ -89,8 +89,14 @@ actions:
         # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
         # cohort2: output/case_covid_admission.csv
         # cohort3: output/case_covid_icu_death.csv
-  
-  describe_
+
+  rmd_report:
+    run: r:latest -e 'rmarkdown::render("analysis/matching_report.Rmd",  knit_root_dir
+      = "/workspace",  output_dir = "/workspace/output/report", output_format = c("html_document")   )'
+    needs: [variables]
+    outputs:
+      moderately_sensitive:
+        html: output/report/matching_report.html
   
 
  
