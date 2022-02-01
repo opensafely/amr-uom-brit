@@ -72,7 +72,7 @@ df_one_pat <- df %>% group_by(patient_id) %>%
 
 ## create charlson index
 df_one_pat$cancer<- ifelse(df_one_pat$cancer_comor == 1, 2, 0)
-df_one_pat$cvd <- ifelse(df_one_pat$cardiovascular_comor == 1, 1, 0)
+df_one_pat$cvd <- ifelse(df_one_pat$cerebrovascular_comor == 1, 1, 0)
 df_one_pat$copd <- ifelse(df_one_pat$chronic_obstructive_pulmonary_comor == 1, 1, 0)
 df_one_pat$heart_failure <- ifelse(df_one_pat$heart_failure_comor == 1, 1, 0)
 df_one_pat$connective_tissue <- ifelse(df_one_pat$connective_tissue_comor == 1, 1, 0)
