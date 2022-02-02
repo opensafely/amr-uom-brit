@@ -17,7 +17,7 @@ require("ggplot2")
 # <font color=blue>**Outcome 1**</font>
 ```{r include=FALSE}
 # import data
-df <- read_csv(here::here("output", "matched_outcome2.csv"))
+df <- read_csv(here::here("output", "matched_outcome1.csv"))
 ```
 
 
