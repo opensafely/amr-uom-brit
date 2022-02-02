@@ -874,12 +874,12 @@ measures = [
             group_by=["practice"]
             ),
 
-    ## antibiotic count rolling 12m before
-    Measure(id="ABs_12mb4",
-            numerator="antibacterial_12mb4",
-            denominator="population",
-            group_by=["practice", "patient_id"]
-            ),
+    # ## antibiotic count rolling 12m before
+    # Measure(id="ABs_12mb4",
+    #         numerator="antibacterial_12mb4",
+    #         denominator="population",
+    #         group_by=["practice", "patient_id"]
+    #         ),
 
     
     ## STRPU antibiotics
