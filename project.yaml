@@ -79,12 +79,13 @@ actions:
   #       #csvs: output/*/* # two possible subfolders
   #       #text: output/text/*
   
-  describe_service_eval_baseline_table:
-    run: r:latest analysis/tables/baseline_table.R
-    needs: [generate_study_population]
-    outputs:
-      moderately_sensitive:
-        baseline_table: output/blt_one_random_obs_perpat.csv
+  # describe_service_eval_baseline_table:
+  #   run: r:latest analysis/tables/baseline_table.R
+  #   needs: [generate_study_population]
+  #   outputs:
+  #     moderately_sensitive:
+  #       baseline_overall: output/overall_counts_blt.csv
+  #       baseline_table: output/blt_one_random_obs_perpat.csv
 
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R

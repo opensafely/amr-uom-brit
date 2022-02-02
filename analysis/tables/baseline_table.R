@@ -5,17 +5,19 @@
 # # # # # # # # # # # # # # # # # # # # #
 
 ## install package
-install.packages("tableone")
+#install.packages("tableone")
 
 ## Import libraries---
 library("tidyverse") 
-library("ggplot2")
+#library("ggplot2")
 library('dplyr')
 library('lubridate')
 library('stringr')
 library("data.table")
 library("ggpubr")
-library("tableone")
+#library("finalfit")
+#library("tableone")
+#library("gtsummary")
 
 setwd(here::here("output", "measures"))
 
@@ -106,7 +108,7 @@ df_one_pat <- df_one_pat %>%
 
 df_one_pat$charlsonGrp <- as.factor(df_one_pat$charlsonGrp)
 df_one_pat$charlsonGrp <- factor(df_one_pat$charlsonGrp, 
-                                 labels = c("zero", "low", "medium", "high", "very_high"))
+                                 labels = c("zero", "low", "medium", "high", "very high"))
 
 
 #bmi 
@@ -133,7 +135,7 @@ df_one_pat <- df_one_pat %>%
                                  smoking_status=="N" ~ "never",
                                  smoking_status=="M"| smoking_status=="" ~ "unknown"))
 df_one_pat$smoking_cat<- as.factor(df_one_pat$smoking_cat)
-summary(df_one_pat$smoking_cat)
+#summary(df_one_pat$smoking_cat)
 
 # imd levels
 #summary(df_one_pat$imd) #str(df_one_pat$imd) ## int 0,1,2,3,4,5
@@ -155,7 +157,8 @@ df_one_pat$ethnicity_6 <- as.factor(df_one_pat$ethnicity_6)
 
 # count of GP consultations in 12m before random index date
 #summary(df_one_pat$gp_count)
-df_one_pat$gp_count <- ifelse(df_one_pat$gp_count > 0, df_one_pat$gp_count, 0)
+df_one_pat$gp_count <- ifelse(df_one_pat$gp_count > 0, 
+                              df_one_pat$gp_count, 0)
 
 
 ### flu vac in 12m before random index date
@@ -185,11 +188,32 @@ bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, 
                      bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine,
                      covid_positive, died_ever, covrx, imd)
 
-# generate data table       
-blt <- CreateTableOne(data=bltab_vars)
-blt_all_levs <- print(blt, showAllLevels=T, quote=F)
+# generate data table 
+
+# baseline_tab <-
+#   bltab_vars %>%
+#   summarise(
+#     n = n(),
+#     age_median = median(age),
+#     age_Q1 = quantile(age, 0.25),
+#     age_Q3 = quantile(age, 0.75),
+#     age_mean = mean(age),
+#     "0-4" = mean(age_cat=="0-4")
+#     )
+
+
+#trying with tbl_summary() in gtsummary
+#test <- bltab_vars %>% rownames_to_column()
+
+# columns for baseline table
+#colsfortab <- colnames(bltab_vars)[-c(2:3)] # patient ID, practice id
+#bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
+
+#str(t)
+#blt <- CreateTableOne(data=bltab_vars)
+#blt_all_levs <- print(blt, showAllLevels=T, quote=F)
 #View(blt_all_levs)
 
-write_csv(blt, here::here("output", "blt_one_random_obs_perpat.csv"))
+#write_csv(t, here::here("output", "blt_one_random_obs_perpat.csv"))
 #write.csv(blt_all_levs, "blt_one_random_obs_perpat.csv")
 
