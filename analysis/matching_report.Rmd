@@ -17,7 +17,7 @@ require("ggplot2")
 # <font color=blue>**Outcome 1**</font>
 ```{r include=FALSE}
 # import data
-df <- read_csv(here::here("output", "matched_outcome1.csv"))
+df <- read_csv(here::here("output", "matched_outcome2.csv"))
 ```
 
 
@@ -245,6 +245,7 @@ df.case %>%
 # <font color=blue>**Outcome 2**</font>
 ```{r include=FALSE}
 # import data
+rm(list=ls())
 df <- read_csv(here::here("output", "matched_outcome2.csv"))
 ```
 
@@ -474,6 +475,7 @@ df.case %>%
 # <font color=blue>**Outcome 3**</font>
 ```{r include=FALSE}
 # import data
+rm(list=ls())
 df <- read_csv(here::here("output","matched_outcome3.csv"))
 ```
 
