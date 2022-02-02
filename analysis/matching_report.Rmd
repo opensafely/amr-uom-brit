@@ -474,7 +474,7 @@ df.case %>%
 # <font color=blue>**Outcome 3**</font>
 ```{r include=FALSE}
 # import data
-df <- rread_csv(here::here("output","matched_outcome3.csv"))
+df <- read_csv(here::here("output","matched_outcome3.csv"))
 ```
 
 
