@@ -17,6 +17,12 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_infection_*.csv.gz
 
+  generate_study_population_antibiotics:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to 2019-02-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_antibiotics_*.csv.gz
+
   generate_study_population_elderly:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_elderly 
       --output-format=csv.gz
