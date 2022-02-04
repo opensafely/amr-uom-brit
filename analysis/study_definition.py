@@ -714,7 +714,7 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
-    cerebrovascular_comor=patients.with_these_clinical_events(
+    cardiovascular_comor=patients.with_these_clinical_events(
         charlson02_cvd,
         between=["index_date - 5 years", "index_date"],
         returning="binary_flag",

@@ -15,7 +15,7 @@ library('lubridate')
 library('stringr')
 library("data.table")
 library("ggpubr")
-#library("finalfit")
+library("finalfit")
 #library("tableone")
 #library("gtsummary")
 
@@ -74,7 +74,7 @@ df_one_pat <- df %>% group_by(patient_id) %>%
 
 ## create charlson index
 df_one_pat$cancer<- ifelse(df_one_pat$cancer_comor == 1, 2, 0)
-df_one_pat$cvd <- ifelse(df_one_pat$cerebrovascular_comor == 1, 1, 0)
+df_one_pat$cvd <- ifelse(df_one_pat$cardiovascular_comor == 1, 1, 0)
 df_one_pat$copd <- ifelse(df_one_pat$chronic_obstructive_pulmonary_comor == 1, 1, 0)
 df_one_pat$heart_failure <- ifelse(df_one_pat$heart_failure_comor == 1, 1, 0)
 df_one_pat$connective_tissue <- ifelse(df_one_pat$connective_tissue_comor == 1, 1, 0)
@@ -110,17 +110,16 @@ df_one_pat$charlsonGrp <- as.factor(df_one_pat$charlsonGrp)
 df_one_pat$charlsonGrp <- factor(df_one_pat$charlsonGrp, 
                                  labels = c("zero", "low", "medium", "high", "very high"))
 
-
 #bmi 
 #remove very low observations
 df_one_pat$bmi <- ifelse(df_one_pat$bmi <8 | df_one_pat$bmi>50, NA, df_one_pat$bmi)
 # bmi categories 
 df_one_pat<- df_one_pat %>% 
   mutate(bmi_cat = case_when(is.na(bmi) ~ "unknown",
-                             bmi< 18.5 ~ "underweight",
-                             bmi>=18.5 & bmi<24.9 ~ "healthy weight",
-                             bmi>=25 & bmi<29.9 ~ "overweight",
-                             bmi>30 ~"obese"))
+                             bmi>=8 & bmi< 18.5 ~ "underweight",
+                             bmi>=18.5 & bmi<=24.9 ~ "healthy weight",
+                             bmi>24.9 & bmi<=29.9 ~ "overweight",
+                             bmi>29.9 ~"obese"))
 df_one_pat$bmi_cat<- as.factor(df_one_pat$bmi_cat)
 #summary(df_one_pat$bmi_cat)
 
@@ -156,7 +155,7 @@ df_one_pat$ethnicity_6 <- as.factor(df_one_pat$ethnicity_6)
 
 
 # count of GP consultations in 12m before random index date
-#summary(df_one_pat$gp_count)
+#summary(df_one_pat$gp_count) #negative values in dummy data
 df_one_pat$gp_count <- ifelse(df_one_pat$gp_count > 0, 
                               df_one_pat$gp_count, 0)
 
@@ -167,11 +166,15 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 
 
 ## Any covid vaccine
-df_one_pat$covrx1=ifelse(df_one_pat$covrx1_dat>0,1,0)
-df_one_pat$covrx2=ifelse(df_one_pat$covrx2_dat>0,1,0)
-df_one_pat$covrx=ifelse(df_one_pat$covrx1>0|df_one_pat$covrx2>0,1,0)
-df_one_pat$covrx<-as.factor(df_one_pat$covrx)
+df_one_pat$covrx1=ifelse(df_one_pat$covrx1_dat != "", 1,0)
+df_one_pat$covrx2=ifelse(df_one_pat$covrx2_dat != "", 1,0)
+df_one_pat$covrx=ifelse(df_one_pat$covrx1 == 1 | df_one_pat$covrx2 ==1, 1, 0)
+#df_one_pat$covrx<-as.factor(df_one_pat$covrx)
+df_one_pat$covrx <- as.numeric(df_one_pat$covrx)
+df_one_pat$covrx[is.na(df_one_pat$covrx)] <- 0
+df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 #str(df_one_pat$covrx)
+#summary(df_one_pat$covrx)
 
 # ever died
 df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
@@ -190,30 +193,20 @@ bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, 
 
 # generate data table 
 
-# baseline_tab <-
-#   bltab_vars %>%
-#   summarise(
-#     n = n(),
-#     age_median = median(age),
-#     age_Q1 = quantile(age, 0.25),
-#     age_Q3 = quantile(age, 0.75),
-#     age_mean = mean(age),
-#     "0-4" = mean(age_cat=="0-4")
-#     )
-
-
-#trying with tbl_summary() in gtsummary
-#test <- bltab_vars %>% rownames_to_column()
 
 # columns for baseline table
-#colsfortab <- colnames(bltab_vars)[-c(2:3)] # patient ID, practice id
-#bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
-
+colsfortab <- colnames(bltab_vars)[-c(2:3)] # patient ID, practice id
+bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
+write_csv(t, here::here("output", "blt_one_random_obs_perpat.csv"))
+
+####### code for tableone package - not in OS platform yet
 #blt <- CreateTableOne(data=bltab_vars)
 #blt_all_levs <- print(blt, showAllLevels=T, quote=F)
 #View(blt_all_levs)
-
-#write_csv(t, here::here("output", "blt_one_random_obs_perpat.csv"))
 #write.csv(blt_all_levs, "blt_one_random_obs_perpat.csv")
+
+####### code for tbl_summary() in gtsummary package
+#test <- bltab_vars %>% rownames_to_column()
+
 
