@@ -165,16 +165,16 @@ df_one_pat$gp_count <- ifelse(df_one_pat$gp_count > 0,
 df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 
 
-## Any covid vaccine
-df_one_pat$covrx1=ifelse(df_one_pat$covrx1_dat != "", 1,0)
-df_one_pat$covrx2=ifelse(df_one_pat$covrx2_dat != "", 1,0)
-df_one_pat$covrx=ifelse(df_one_pat$covrx1 == 1 | df_one_pat$covrx2 ==1, 1, 0)
-#df_one_pat$covrx<-as.factor(df_one_pat$covrx)
-df_one_pat$covrx <- as.numeric(df_one_pat$covrx)
-df_one_pat$covrx[is.na(df_one_pat$covrx)] <- 0
-df_one_pat$covrx <- as.factor(df_one_pat$covrx)
-#str(df_one_pat$covrx)
-#summary(df_one_pat$covrx)
+# ## Any covid vaccine
+# df_one_pat$covrx1=ifelse(df_one_pat$covrx1_dat != "", 1,0)
+# df_one_pat$covrx2=ifelse(df_one_pat$covrx2_dat != "", 1,0)
+# df_one_pat$covrx=ifelse(df_one_pat$covrx1 == 1 | df_one_pat$covrx2 ==1, 1, 0)
+# #df_one_pat$covrx<-as.factor(df_one_pat$covrx)
+# df_one_pat$covrx <- as.numeric(df_one_pat$covrx)
+# df_one_pat$covrx[is.na(df_one_pat$covrx)] <- 0
+# df_one_pat$covrx <- as.factor(df_one_pat$covrx)
+# #str(df_one_pat$covrx)
+# #summary(df_one_pat$covrx)
 
 # ever died
 df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
