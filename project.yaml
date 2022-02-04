@@ -203,4 +203,7 @@ actions:
     outputs:
        moderately_sensitive:
         plot1: output/ab_recoded_indication.jpeg
-        csv: output/check_infection_cover.csv
+        plot2: output/check_infection_cover.jpeg
+        plot3: output/check_infection_ab_cover.jpeg
+        csv1: output/check_infection_cover.csv
+        csv2: output/check_infection_ab_cover.csv

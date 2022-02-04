@@ -1,8 +1,8 @@
 ## Import libraries---
 library("tidyverse") 
 library("ggplot2")
-library('dplyr')
 library('plyr')
+library('dplyr')#conflict with plyr; load after plyr
 library('lubridate')
 library('stringr')
 library("data.table")
@@ -35,7 +35,7 @@ for (i in seq_along(csvFiles)){
 }
 
 # combine list -> data.table/data.frame
-df <-ldply(temp, data.frame) 
+df <-plyr::ldply(temp, data.frame) 
 rm(temp,csvFiles,i,temp_df,filename)# remove temporary list
 
 
@@ -86,37 +86,7 @@ df=df%>% filter(date!=last.date)
 first_mon=min(df$date)
 last_mon= max(df$date)
 
-
-
-
-### data check ###
-names=c("uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat")
-temp <- vector("list")
-
-for (i in names){
-  
-  df_check=df%>%select(paste0(i,"_date_1"),paste0(i,"_date_2"),paste0(i,"_date_3"),paste0(i,"_date_4"),"practice",paste0(i,"_counts"),date)
-  df_check$count4times=4-rowSums(is.na(df_check))
-  names(df_check)[6] <- "counts"
-  
-  df_check_gp=df_check%>%
-    group_by(practice,date)%>%
-    summarise(total_infection=sum(counts),
-              included=sum(count4times))
-  df_check_gp$coverage=df_check_gp$included/df_check_gp$total_infection
-  df_check_gp$infection=paste0(i)
-  
-  temp[[i]]=df_check_gp
- 
-}
-
-df_check_gp <-ldply(temp, data.frame) 
-
-write.csv(df_check_gp,here::here("output","check_infection_cover.csv"))
-
- 
-### data check ###
-
+df$date=as.Date(df$date)
 
 
 # crude percent
@@ -151,9 +121,9 @@ df1.2=df1.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otm
 #stackedbar <- 
 plot=ggplot(df1.2, aes(x=date, y=counts, fill=types))+
   geom_bar(position="stack", stat="identity") +
-  geom_vline(xintercept = "2020-03-01", linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = "2020-11-01", linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = "2021-01-01", linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
   labs(
     title = "Propotion of prescriptions with indications",
     x = "Time", 
@@ -163,3 +133,123 @@ plot=ggplot(df1.2, aes(x=date, y=counts, fill=types))+
 ggsave(
   plot= plot,
   filename="ab_recoded_indication.jpeg", path=here::here("output"))
+
+
+
+
+
+
+### data check -infection consultations###
+names=c("uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat")
+temp <- vector("list")
+
+for (i in names){
+  
+  df_check=df%>%select(paste0(i,"_date_1"),paste0(i,"_date_2"),paste0(i,"_date_3"),paste0(i,"_date_4"),paste0(i,"_counts"),"practice","date")
+  df_check$count4times=4-rowSums(is.na(df_check))
+  names(df_check)[5] <- "counts"
+  
+  df_check_gp=df_check%>%
+    group_by(practice,date)%>%
+    summarise(total_infection=sum(counts),
+              included=sum(count4times))
+  df_check_gp$rate=df_check_gp$included/df_check_gp$total_infection
+  df_check_gp$infection=paste0(i)
+  
+  temp[[i]]=df_check_gp
+ 
+}
+
+df_check_gp <-plyr::ldply(temp, data.frame) 
+write.csv(df_check_gp,here::here("output","check_infection_cover.csv"))
+
+df_summary <- df_check_gp %>% group_by(date) %>%
+  mutate(mean = mean(rate,na.rm=TRUE),
+         lowquart= quantile(rate, na.rm=TRUE)[2],
+         highquart= quantile(rate, na.rm=TRUE)[4],
+         ninefive= quantile(rate, na.rm=TRUE, c(0.95)),
+         five=quantile(rate, na.rm=TRUE, c(0.05)))
+
+num_uniq_prac=length(unique(as.factor(df_summary$practice)))
+
+plot <- ggplot(df_summary, aes(x=date))+
+  geom_line(aes(y=mean),color="steelblue")+
+  geom_point(aes(y=mean),color="steelblue")+
+  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_line(aes(y=highquart), color="darkred", linetype=3)+
+  geom_point(aes(y=highquart), color="darkred", linetype=3)+
+  geom_line(aes(y=ninefive), color="black", linetype=3)+
+  geom_point(aes(y=ninefive), color="black", linetype=3)+
+  geom_line(aes(y=five), color="black", linetype=3)+
+  geom_point(aes(y=five), color="black", linetype=3)+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  labs(
+    title = "infection consultations",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
+    x = "Time",
+    y = "% covered by this study"
+  )+
+  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
+  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
+
+ggsave(
+  plot= plot,
+  filename="check_infection_cover.jpeg", path=here::here("output")) 
+
+rm(df_check,df_check_gp,df_summary,temp,plot)
+
+### data check -infection ab prescriptions ###
+
+col_abcount=c("uti_ab_count", "lrti_ab_count", "urti_ab_count", "sinusitis_ab_count", "otmedia_ab_count", "ot_externa_ab_count", "asthma_ab_count", "cold_ab_count", "cough_ab_count", "copd_ab_count", "pneumonia_ab_count", "renal_ab_count", "sepsis_ab_count", "throat_ab_count", "renal_ab_count", "others_ab_count")
+df_check=df%>%select(col_abcount,"practice","date","antibacterial_brit")
+df_check$included=rowSums(df_check[col_abcount])
+
+df_check_gp=df_check%>%
+  group_by(practice,date)%>%
+  summarise(included=sum(included),
+            total=sum(antibacterial_brit))
+df_check_gp$rate=df_check_gp$included/df_check_gp$total
+
+write.csv(df_check_gp,here::here("output","check_infection_ab_cover.csv"))
+
+df_summary <- df_check_gp %>% group_by(date) %>%
+  mutate(mean = mean(rate,na.rm=TRUE),
+         lowquart= quantile(rate, na.rm=TRUE)[2],
+         highquart= quantile(rate, na.rm=TRUE)[4],
+         ninefive= quantile(rate, na.rm=TRUE, c(0.95)),
+         five=quantile(rate, na.rm=TRUE, c(0.05)))
+
+num_uniq_prac=length(unique(as.factor(df_summary$practice)))
+
+plot<- ggplot(df_summary, aes(x=date))+
+  geom_line(aes(y=mean),color="steelblue")+
+  geom_point(aes(y=mean),color="steelblue")+
+  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_line(aes(y=highquart), color="darkred", linetype=3)+
+  geom_point(aes(y=highquart), color="darkred", linetype=3)+
+  geom_line(aes(y=ninefive), color="black", linetype=3)+
+  geom_point(aes(y=ninefive), color="black", linetype=3)+
+  geom_line(aes(y=five), color="black", linetype=3)+
+  geom_point(aes(y=five), color="black", linetype=3)+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  labs(
+    title = "antibiotics prescriptions",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices",
+                    ",coverage=extracted prescriptions/ total prescriotions"),
+    x = "Time",
+    y = "% covered by this study"
+  )+
+  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
+  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
+
+ggsave(
+  plot= plot,
+  filename="check_infection_ab_cover.jpeg", path=here::here("output")) 
+
+### data check ###
