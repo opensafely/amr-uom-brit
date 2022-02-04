@@ -151,1394 +151,1014 @@ study = StudyDefinition(
 
 
 ######## all antibacterials from BRIT (dmd codes)
-#  return counts & date
-    ab_count_1=patients.with_these_medications(
+
+
+    ## all antibacterials from BRIT (dmd codes)
+    antibacterial_brit=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
-        find_first_match_in_period=True,
-        include_date_of_match=True,
-        date_format="YYYY-MM-DD",
         return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
             "incidence": 1,
         },
     ),
 
-    ab_count_2=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_1_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        find_first_match_in_period=True,
-        include_date_of_match=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
-            "incidence": 1,
-        },
-    ),
 
-    ab_count_3=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_2_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        find_first_match_in_period=True,
-        include_date_of_match=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
-            "incidence": 1,
-        },
-    ),
+######## antibiotics for infection
+#  return code date and ab counts
+    ## search infection codes date for 4 times in one month
+    ## count same-date AB prescriobing numbers
 
-    ab_count_4=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_3_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        find_first_match_in_period=True,
-        include_date_of_match=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 2},
-            "incidence": 1,
-        },
-    ),
+#### 6 common ifenction ####
+#---- UTI 
 
- # return binary flag: with indication 
-    ab_indication_flag_1=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_1_date", "ab_count_1_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={
-            "incidence": 0.3,
-        },
-    ),
-
-   ab_indication_flag_2=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_2_date", "ab_count_2_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={
-            "incidence": 0.3,
-        },
-    ),
-
-   ab_indication_flag_3=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_3_date", "ab_count_3_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={
-            "incidence": 0.3,
-        },
-    ),
-
-    ab_indication_flag_4=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["ab_count_4_date", "ab_count_4_date"],
-        returning="binary_flag",
-        find_first_match_in_period=True,
-        return_expectations={
-            "incidence": 0.3,
-        },
-    ),
-
-
-   ######### number of infected patients #############
-   
-    
-    #--UTI 
-    uti_pt=patients.with_these_clinical_events(
+    #find patient's infection date 
+    uti_date_1=patients.with_these_clinical_events(
         uti_codes,
-        returning="binary_flag",
+        returning='date',
         between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),
-    # --LRTI 
-    lrti_pt=patients.with_these_clinical_events(
-        lrti_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-    # --URTI  
-    urti_pt=patients.with_these_clinical_events(
-        urti_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
+
+    ##numbers of antibiotic prescribed for this infection 
+    uti_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['uti_date_1','uti_date_1'],
+        returning='number_of_matches_in_period',
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),
+        ),
 
-    # --sinusitis 
-    sinusitis_pt=patients.with_these_clinical_events(
-        sinusitis_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
-
-    # --otitis externa
-    ot_externa_pt=patients.with_these_clinical_events(
-        ot_externa_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),    
-
-    # --otitis media
-    otmedia_pt=patients.with_these_clinical_events(
-        otmedia_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
-
-######### identify incidenct case (without same infection in prior 6 weeks)#############
-# incdt=0 incident case  
-    # --UTI 
-    hx_uti=patients.with_these_clinical_events(
+    
+    uti_date_2=patients.with_these_clinical_events(
         uti_codes,
-        returning="binary_flag",
-        between=["index_date - 42 days", "index_date"],
+        returning='date',
+        between=["uti_date_1 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
-    ),
-    # --LRTI 
-    hx_lrti=patients.with_these_clinical_events(
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    uti_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['uti_date_2','uti_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    uti_date_3=patients.with_these_clinical_events(
+        uti_codes,
+        returning='date',
+        between=["uti_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    uti_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['uti_date_3','uti_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    uti_date_4=patients.with_these_clinical_events(
+        uti_codes,
+        returning='date',
+        between=["uti_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    uti_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['uti_date_4','uti_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+#---- LRTI
+
+    lrti_date_1=patients.with_these_clinical_events(
         lrti_codes,
-        returning="binary_flag",
-        between=["index_date - 42 days", "index_date"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),
-
-    # --URTI  
-    hx_urti=patients.with_these_clinical_events(
-        urti_codes,
-        returning="binary_flag",
-        between=["index_date - 42 days", "index_date"],
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
-    ),
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-    # --sinusitis 
-    hx_sinusitis=patients.with_these_clinical_events(
-        sinusitis_codes,
-        returning="binary_flag",
-        between=["index_date - 42 days", "index_date"],
+    lrti_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_1','lrti_date_1'],
+        returning='number_of_matches_in_period',
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
+        ),
 
-     #--otitis externa
-    hx_ot_externa=patients.with_these_clinical_events(
-        ot_externa_codes,
-        returning="binary_flag",
-        between=["index_date - 42 days", "index_date"],
+    
+    lrti_date_2=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        between=["lrti_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    lrti_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_2','lrti_date_2'],
+        returning='number_of_matches_in_period',
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),    
+        ),
+    
+    lrti_date_3=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        between=["lrti_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-    #--otitis media
-    hx_otmedia=patients.with_these_clinical_events(
-        otmedia_codes,
-        returning="binary_flag",
-        between=["index_date - 42 days", "index_date"],
+    lrti_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_3','lrti_date_3'],
+        returning='number_of_matches_in_period',
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
+        ),
 
+    lrti_date_4=patients.with_these_clinical_events(
+        lrti_codes,
+        returning='date',
+        between=["lrti_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-
-#   ######### number of infection cousultations #############
-    
-#      --UTI 
-#     # count infection events 
-#     uti_counts=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning="number_of_matches_in_period",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-
-#      --LRTI 
-#     # count infection events 
-#     lrti_counts=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning="number_of_matches_in_period",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-
-
-#      --URTI  
-#     urti_counts=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning="number_of_matches_in_period",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-
-#      --sinusitis 
-#     sinusitis_counts=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning="number_of_matches_in_period",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ), 
-
-#      --otitis externa
-#     ot_externa_counts=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning="number_of_matches_in_period",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),    
-
-#      --otitis media
-#     otmedia_counts=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning="number_of_matches_in_period",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),    
-
-#    ######### number of infected patients #############
-    
-#      --UTI 
-#     # count patient number
-#     uti_pt=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning="binary_flag",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-#      --LRTI 
-#     lrti_pt=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning="binary_flag",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-
-#      --URTI  
-#     urti_pt=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning="binary_flag",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-
-#      --sinusitis 
-#     sinusitis_pt=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning="binary_flag",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ), 
-
-#      --otitis externa
-#     ot_externa_pt=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning="binary_flag",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),    
-
-#      --otitis media
-#     otmedia_pt=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning="binary_flag",
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ), 
-
-# ######### identify incidenct case (without same infection in prior 6 weeks)#############
-# # incdt=0 incident case  
-#      --UTI 
-#     incdt_uti_pt=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning="binary_flag",
-#         between=["index_date - 42 days", "index_date"],
-#         find_first_match_in_period=True,
-#         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
-#     ),
-#      --LRTI 
-#     incdt_lrti_pt=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning="binary_flag",
-#         between=["index_date - 42 days", "index_date"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),
-
-#      --URTI  
-#     incdt_urti_pt=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning="binary_flag",
-#         between=["index_date - 42 days", "index_date"],
-#         find_first_match_in_period=True,
-#         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
-#     ),
-
-#      --sinusitis 
-#     incdt_sinusitis_pt=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning="binary_flag",
-#         between=["index_date - 42 days", "index_date"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ), 
-
-#      --otitis externa
-#     incdt_ot_externa_pt=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning="binary_flag",
-#         between=["index_date - 42 days", "index_date"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ),    
-
-#      --otitis media
-#     incdt_otmedia_pt=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning="binary_flag",
-#         between=["index_date - 42 days", "index_date"],
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#     ), 
-
-
-#     # prescribing rate by 6 common infection type #####
-#     # search infection codes for 4 times in one month
-#     # count same-date prescriobing numbers of AB
-
-# ---- UTI 
-
-#     find patient's infection date 
-#     uti_date_1=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning='date',
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-
-#     #numbers of antibiotic prescribed for this infection 
-#     uti_ab_count_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_1','uti_date_1'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-    
-#     uti_date_2=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning='date',
-#         between=["uti_date_1 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     uti_ab_count_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_2','uti_date_2'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-    
-#     uti_date_3=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning='date',
-#         between=["uti_date_2 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     uti_ab_count_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_3','uti_date_3'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-#     uti_date_4=patients.with_these_clinical_events(
-#         uti_codes,
-#         returning='date',
-#         between=["uti_date_3 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     uti_ab_count_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_4','uti_date_4'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-# ---- LRTI
-
-#     lrti_date_1=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning='date',
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     lrti_ab_count_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_1','lrti_date_1'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-    
-#     lrti_date_2=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning='date',
-#         between=["lrti_date_1 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     lrti_ab_count_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_2','lrti_date_2'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-    
-#     lrti_date_3=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning='date',
-#         between=["lrti_date_2 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     lrti_ab_count_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_3','lrti_date_3'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-#     lrti_date_4=patients.with_these_clinical_events(
-#         lrti_codes,
-#         returning='date',
-#         between=["lrti_date_3 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     lrti_ab_count_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_4','lrti_date_4'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    lrti_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['lrti_date_4','lrti_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
         
         
-# ---- URTI 
-# find patient's infection date 
-#     urti_date_1=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning='date',
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+#---- URTI 
 
-# numbers of antibiotic prescribed for this infection 
-#     urti_ab_count_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_1','urti_date_1'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    urti_date_1=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    urti_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_1','urti_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
     
-#     urti_date_2=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning='date',
-#         between=["urti_date_1 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    urti_date_2=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["urti_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     urti_ab_count_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_2','urti_date_2'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    urti_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_2','urti_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     urti_date_3=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning='date',
-#         between=["urti_date_2 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    urti_date_3=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["urti_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     urti_ab_count_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_3','urti_date_3'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    urti_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_3','urti_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     urti_date_4=patients.with_these_clinical_events(
-#         urti_codes,
-#         returning='date',
-#         between=["urti_date_3 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    urti_date_4=patients.with_these_clinical_events(
+        urti_codes,
+        returning='date',
+        between=["urti_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     urti_ab_count_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_4','urti_date_4'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    urti_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['urti_date_4','urti_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
   
 
-# ---- sinusitis
-#     sinusitis_date_1=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning='date',
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+#---- sinusitis
+    sinusitis_date_1=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     sinusitis_ab_count_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_1','sinusitis_date_1'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-    
-#     sinusitis_date_2=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning='date',
-#         between=["sinusitis_date_1 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     sinusitis_ab_count_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_2','sinusitis_date_2'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-    
-#     sinusitis_date_3=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning='date',
-#         between=["sinusitis_date_2 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     sinusitis_ab_count_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_3','sinusitis_date_3'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-#     sinusitis_date_4=patients.with_these_clinical_events(
-#         sinusitis_codes,
-#         returning='date',
-#         between=["sinusitis_date_3 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     sinusitis_ab_count_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_4','sinusitis_date_4'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
-
-# ---- otmedia
-#     otmedia_date_1=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning='date',
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
-
-#     otmedia_ab_count_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_1','otmedia_date_1'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    sinusitis_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_1','sinusitis_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
     
-#     otmedia_date_2=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning='date',
-#         between=["otmedia_date_1 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    sinusitis_date_2=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     otmedia_ab_count_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_2','otmedia_date_2'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    sinusitis_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_2','sinusitis_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     otmedia_date_3=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning='date',
-#         between=["otmedia_date_2 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    sinusitis_date_3=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     otmedia_ab_count_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_3','otmedia_date_3'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    sinusitis_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_3','sinusitis_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     otmedia_date_4=patients.with_these_clinical_events(
-#         otmedia_codes,
-#         returning='date',
-#         between=["otmedia_date_3 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    sinusitis_date_4=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     otmedia_ab_count_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_4','otmedia_date_4'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    sinusitis_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_4','sinusitis_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-# ---- ot_externa
-#     ot_externa_date_1=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning='date',
-#         between=["index_date", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+#---- otmedia
+    otmedia_date_1=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-
-#    numbers of antibiotic prescribed for this infection 
-#     ot_externa_ab_count_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_1','ot_externa_date_1'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    otmedia_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_1','otmedia_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
     
-#     ot_externa_date_2=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning='date',
-#         between=["ot_externa_date_1 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    otmedia_date_2=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["otmedia_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     ot_externa_ab_count_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_2','ot_externa_date_2'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    otmedia_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_2','otmedia_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     ot_externa_date_3=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning='date',
-#         between=["ot_externa_date_2 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    otmedia_date_3=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["otmedia_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     ot_externa_ab_count_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_3','ot_externa_date_3'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    otmedia_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_3','otmedia_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     ot_externa_date_4=patients.with_these_clinical_events(
-#         ot_externa_codes,
-#         returning='date',
-#         between=["ot_externa_date_3 + 1 day", "last_day_of_month(index_date)"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD", 
-#         return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
-#         ),
+    otmedia_date_4=patients.with_these_clinical_events(
+        otmedia_codes,
+        returning='date',
+        between=["otmedia_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     ot_externa_ab_count_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_4','ot_externa_date_4'],
-#         returning='number_of_matches_in_period',
-#         return_expectations={
-#             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-#         ),
+    otmedia_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['otmedia_date_4','otmedia_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-# )
+#---- ot_externa
+    ot_externa_date_1=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
 
-#     ## ab types:79
+    ot_externa_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_1','ot_externa_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#    ## Antibiotics by infection
-
-#     uti_abtype1=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["uti_date_1","uti_date_1"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     urti_abtype1=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["urti_date_1","urti_date_1"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     lrti_abtype1=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["lrti_date_1","lrti_date_1"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     sinusitis_abtype1=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["sinusitis_date_1","sinusitis_date_1"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-
-#     otmedia_abtype1=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["otmedia_date_1","otmedia_date_1"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     ot_externa_abtype1=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["ot_externa_date_1","ot_externa_date_1"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-
-#     uti_abtype2=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["uti_date_2","uti_date_2"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     urti_abtype2=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["urti_date_2","urti_date_2"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     lrti_abtype2=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["lrti_date_2","lrti_date_2"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     sinusitis_abtype2=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["sinusitis_date_2","sinusitis_date_2"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     otmedia_abtype2=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["otmedia_date_2","otmedia_date_2"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     ot_externa_abtype2=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["ot_externa_date_2","ot_externa_date_2"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-
-#     uti_abtype3=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["uti_date_3","uti_date_3"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     urti_abtype3=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["urti_date_3","urti_date_3"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     lrti_abtype3=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["lrti_date_3","lrti_date_3"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     sinusitis_abtype3=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["sinusitis_date_3","sinusitis_date_3"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-
-#     otmedia_abtype3=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["otmedia_date_3","otmedia_date_3"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     ot_externa_abtype3=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["ot_externa_date_3","ot_externa_date_3"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     uti_abtype4=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["uti_date_4","uti_date_4"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     urti_abtype4=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["urti_date_4","urti_date_4"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     lrti_abtype4=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["lrti_date_4","lrti_date_4"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     sinusitis_abtype4=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["sinusitis_date_4","sinusitis_date_4"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-
-#     otmedia_abtype4=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["otmedia_date_4","otmedia_date_4"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
-#     ot_externa_abtype4=patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["ot_externa_date_4","ot_externa_date_4"],
-#         returning="category",
-#         return_expectations={
-#             "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
-#             "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
-#             "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
-#             "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
-#             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
-#             "incidence": 0.99,
-#         },
-#     ),
     
+    ot_externa_date_2=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["ot_externa_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-
-# ######### any infection or any AB records in prior 1 month (incident/prevelent prescribing)#############
-# # 0=incident case  / 1=prevelent
+    ot_externa_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_2','ot_externa_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     hx_indications=patients.with_these_clinical_events(
-#         all_indication_codes,
-#         returning="binary_flag",
-#         between=["index_date - 30 days", "index_date"],
-#         find_first_match_in_period=True,
-#         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
-#     ),
+    ot_externa_date_3=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["ot_externa_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    ot_externa_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_3','ot_externa_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    ot_externa_date_4=patients.with_these_clinical_events(
+        ot_externa_codes,
+        returning='date',
+        between=["ot_externa_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    ot_externa_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['ot_externa_date_4','ot_externa_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+
+#### other ifenction:8types ####
+#----01. asthma_codes
+
+    #find patient's infection date 
+    asthma_date_1=patients.with_these_clinical_events(
+        asthma_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    ##numbers of antibiotic prescribed for this infection 
+    asthma_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['asthma_date_1','asthma_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     hx_antibiotics= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=["index_date - 30 days", "index_date"],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    asthma_date_2=patients.with_these_clinical_events(
+        asthma_codes,
+        returning='date',
+        between=["asthma_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     ##  consultation with AB prescribing 
-#     # uti
-#     uti_ab_flag_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_1','uti_date_1'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    asthma_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['asthma_date_2','asthma_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     uti_ab_flag_2= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_2','uti_date_2'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    asthma_date_3=patients.with_these_clinical_events(
+        asthma_codes,
+        returning='date',
+        between=["asthma_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    asthma_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['asthma_date_3','asthma_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    asthma_date_4=patients.with_these_clinical_events(
+        asthma_codes,
+        returning='date',
+        between=["asthma_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    asthma_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['asthma_date_4','asthma_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+#----02. cold_codes
+    cold_date_1=patients.with_these_clinical_events(
+        cold_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    cold_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cold_date_1','cold_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    cold_date_2=patients.with_these_clinical_events(
+        cold_codes,
+        returning='date',
+        between=["cold_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    cold_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cold_date_2','cold_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
     
-#     uti_ab_flag_3= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_3','uti_date_3'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cold_date_3=patients.with_these_clinical_events(
+        cold_codes,
+        returning='date',
+        between=["cold_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     uti_ab_flag_4= patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['uti_date_4','uti_date_4'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cold_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cold_date_3','cold_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     uti_ab_flag=patients.satisfying(
-#         """
-#         uti_ab_flag_1 OR
-#         uti_ab_flag_2 OR
-#         uti_ab_flag_3 OR
-#         uti_ab_flag_4
-#         """,
-#     ),
+    cold_date_4=patients.with_these_clinical_events(
+        cold_codes,
+        returning='date',
+        between=["cold_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     # urti
-#     urti_ab_flag_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_1','urti_date_1'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cold_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cold_date_4','cold_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     urti_ab_flag_2 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_2','urti_date_2'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+#----03. cough_codes
+    cough_date_1=patients.with_these_clinical_events(
+        cough_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     urti_ab_flag_3 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_3','urti_date_3'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cough_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cough_date_1','cough_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+ 
+    cough_date_2=patients.with_these_clinical_events(
+        cough_codes,
+        returning='date',
+        between=["cough_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     urti_ab_flag_4 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['urti_date_4','urti_date_4'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cough_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cough_date_2','cough_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    cough_date_3=patients.with_these_clinical_events(
+        cough_codes,
+        returning='date',
+        between=["cough_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     urti_ab_flag=patients.satisfying(
-#         """
-#         urti_ab_flag_1 OR
-#         urti_ab_flag_2 OR
-#         urti_ab_flag_3 OR
-#         urti_ab_flag_4
-#         """,
-#     ),
+    cough_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cough_date_3','cough_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     lrti
-#     lrti_ab_flag_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_1','lrti_date_1'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cough_date_4=patients.with_these_clinical_events(
+        cough_codes,
+        returning='date',
+        between=["cough_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     lrti_ab_flag_2 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_2','lrti_date_2'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    cough_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['cough_date_4','cough_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     lrti_ab_flag_3 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_3','lrti_date_3'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+#----04. copd_codes
+    copd_date_1=patients.with_these_clinical_events(
+        copd_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     lrti_ab_flag_4 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['lrti_date_4','lrti_date_4'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    copd_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['copd_date_1','copd_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+ 
+    copd_date_2=patients.with_these_clinical_events(
+        copd_codes,
+        returning='date',
+        between=["copd_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     lrti_ab_flag=patients.satisfying(
-#         """
-#         lrti_ab_flag_1 OR
-#         lrti_ab_flag_2 OR
-#         lrti_ab_flag_3 OR
-#         lrti_ab_flag_4
-#         """,
-#     ),
+    copd_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['copd_date_2','copd_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    copd_date_3=patients.with_these_clinical_events(
+        copd_codes,
+        returning='date',
+        between=["copd_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     sinusitis
-#     sinusitis_ab_flag_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_1','sinusitis_date_1'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    copd_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['copd_date_3','copd_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     sinusitis_ab_flag_2 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_2','sinusitis_date_2'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    copd_date_4=patients.with_these_clinical_events(
+        copd_codes,
+        returning='date',
+        between=["copd_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     sinusitis_ab_flag_3 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_3','sinusitis_date_3'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    copd_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['copd_date_4','copd_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     sinusitis_ab_flag_4 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['sinusitis_date_4','sinusitis_date_4'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+#----05. pneumonia_codes
 
-#     sinusitis_ab_flag=patients.satisfying(
-#         """
-#         sinusitis_ab_flag_1 OR
-#         sinusitis_ab_flag_2 OR
-#         sinusitis_ab_flag_3 OR
-#         sinusitis_ab_flag_4
-#         """,
-#     ),
+    pneumonia_date_1=patients.with_these_clinical_events(
+         pneumonia_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+    pneumonia_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_1','pneumonia_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     otmedia
-#     otmedia_ab_flag_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_1','otmedia_date_1'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    pneumonia_date_2=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     otmedia_ab_flag_2 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_2','otmedia_date_2'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    pneumonia_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_2','pneumonia_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    pneumonia_date_3=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     otmedia_ab_flag_3 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_3','otmedia_date_3'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    pneumonia_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_3','pneumonia_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     otmedia_ab_flag_4 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['otmedia_date_4','otmedia_date_4'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    pneumonia_date_4=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     otmedia_ab_flag=patients.satisfying(
-#         """
-#         otmedia_ab_flag_1 OR
-#         otmedia_ab_flag_2 OR
-#         otmedia_ab_flag_3 OR
-#         otmedia_ab_flag_4
-#         """,
-#     ),
+    pneumonia_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_4','pneumonia_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     ot_externa
-#     ot_externa_ab_flag_1 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_1','ot_externa_date_1'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+#----06. renal_codes
 
-#     ot_externa_ab_flag_2 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_2','ot_externa_date_2'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    renal_date_1=patients.with_these_clinical_events(
+        renal_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     ot_externa_ab_flag_3 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_3','ot_externa_date_3'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    renal_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['renal_date_1','renal_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
-#     ot_externa_ab_flag_4 = patients.with_these_medications(
-#         antibacterials_codes_brit,
-#         between=['ot_externa_date_4','ot_externa_date_4'],
-#         returning='binary_flag',
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
+    
+    renal_date_2=patients.with_these_clinical_events(
+        renal_codes,
+        returning='date',
+        between=["renal_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
 
-#     ot_externa_ab_flag=patients.satisfying(
-#         """
-#         ot_externa_ab_flag_1 OR
-#         ot_externa_ab_flag_2 OR
-#         ot_externa_ab_flag_3 OR
-#         ot_externa_ab_flag_4
-#         """,
-#     ),
+    renal_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['renal_date_2','renal_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    renal_date_3=patients.with_these_clinical_events(
+        renal_codes,
+        returning='date',
+        between=["renal_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    renal_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['renal_date_3','renal_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    renal_date_4=patients.with_these_clinical_events(
+        renal_codes,
+        returning='date',
+        between=["renal_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    renal_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['renal_date_4','renal_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+#----07. sepsis_codes
+    sepsis_date_1=patients.with_these_clinical_events(
+        sepsis_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sepsis_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sepsis_date_1','sepsis_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    sepsis_date_2=patients.with_these_clinical_events(
+        sepsis_codes,
+        returning='date',
+        between=["sepsis_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sepsis_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sepsis_date_2','sepsis_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    sepsis_date_3=patients.with_these_clinical_events(
+        sepsis_codes,
+        returning='date',
+        between=["sepsis_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sepsis_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sepsis_date_3','sepsis_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    sepsis_date_4=patients.with_these_clinical_events(
+        sepsis_codes,
+        returning='date',
+        between=["sepsis_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    sepsis_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sepsis_date_4','sepsis_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    #----08. throat_codes
+    throat_date_1=patients.with_these_clinical_events(
+        throat_codes,
+        returning='date',
+        between=["index_date", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    throat_ab_count_1 = patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['throat_date_1','throat_date_1'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    throat_date_2=patients.with_these_clinical_events(
+        throat_codes,
+        returning='date',
+        between=["throat_date_1 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    throat_ab_count_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['throat_date_2','throat_date_2'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    
+    throat_date_3=patients.with_these_clinical_events(
+        throat_codes,
+        returning='date',
+        between=["throat_date_2 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    throat_ab_count_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['throat_date_3','throat_date_3'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+
+    throat_date_4=patients.with_these_clinical_events(
+        throat_codes,
+        returning='date',
+        between=["throat_date_3 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", 
+        return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
+        ),
+
+    throat_ab_count_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['throat_date_4','throat_date_4'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
 
  )
 
