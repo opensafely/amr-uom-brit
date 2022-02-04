@@ -177,8 +177,8 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 # #summary(df_one_pat$covrx)
 
 # ever died
-df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
-df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
+#df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
+#df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
 #summary(df_one_pat$died_ever)
 
 ## covid positive ever
