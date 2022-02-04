@@ -1161,6 +1161,362 @@ study = StudyDefinition(
         ),
 
 
+
+####### ab history: incident(no ab 90 days before index)/ prevalent
+# --UTI
+    hx_ab_uti_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_1 - 90 days", " uti_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_uti_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_2 - 90 days", " uti_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_uti_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_3 - 90 days", " uti_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_uti_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["uti_date_4 - 90 days", " uti_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# --URTI
+    hx_ab_urti_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_1 - 90 days", " urti_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_urti_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_2 - 90 days", " urti_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_urti_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_3 - 90 days", " urti_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_urti_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["urti_date_4 - 90 days", " urti_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# -- LRTI
+    hx_ab_lrti_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_1 - 90 days", " lrti_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_lrti_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_2 - 90 days", " lrti_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_lrti_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_3 - 90 days", " lrti_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_lrti_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["lrti_date_4 - 90 days", " lrti_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+
+# -- sisusitis
+    hx_ab_sinusitis_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_1 - 90 days", " sinusitis_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_sinusitis_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_2 - 90 days", " sinusitis_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_sinusitis_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_3 - 90 days", " sinusitis_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_sinusitis_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_4 - 90 days", " sinusitis_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# otmedia
+
+    hx_ab_otmedia_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_1 - 90 days", " otmedia_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_otmedia_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_2 - 90 days", " otmedia_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_otmedia_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_3 - 90 days", " otmedia_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_otmedia_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["otmedia_date_4 - 90 days", " otmedia_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# ot_externa
+    hx_ab_ot_externa_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_1 - 90 days", " ot_externa_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_ot_externa_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_2 - 90 days", " ot_externa_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_ot_externa_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_3 - 90 days", " ot_externa_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_ot_externa_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["ot_externa_date_4 - 90 days", " ot_externa_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# asthma
+    hx_ab_asthma_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["asthma_date_1 - 90 days", " asthma_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_asthma_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["asthma_date_2 - 90 days", " asthma_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_asthma_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["asthma_date_3 - 90 days", " asthma_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_asthma_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["asthma_date_4 - 90 days", " asthma_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# cough
+    hx_ab_cough_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cough_date_1 - 90 days", " cough_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_cough_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cough_date_2 - 90 days", " cough_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_cough_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cough_date_3 - 90 days", " cough_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_cough_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cough_date_4 - 90 days", " cough_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# cold
+    hx_ab_cold_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cold_date_1 - 90 days", " cold_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_cold_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cold_date_2 - 90 days", " cold_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_cold_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cold_date_3 - 90 days", " cold_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_cold_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["cold_date_4 - 90 days", " cold_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# copd
+    hx_ab_copd_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["copd_date_1 - 90 days", " copd_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_copd_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["copd_date_2 - 90 days", " copd_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_copd_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["copd_date_3 - 90 days", " copd_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_copd_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["copd_date_4 - 90 days", " copd_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# pneumonia
+    hx_ab_pneumonia_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_1 - 90 days", " pneumonia_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_pneumonia_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_2 - 90 days", " pneumonia_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_pneumonia_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_3 - 90 days", " pneumonia_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_pneumonia_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_4 - 90 days", " pneumonia_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# renal
+    hx_ab_renal_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["renal_date_1 - 90 days", " renal_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_renal_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["renal_date_2 - 90 days", " renal_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_renal_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["renal_date_3 - 90 days", " renal_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_renal_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["renal_date_4 - 90 days", " renal_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# sepsis
+    hx_ab_sepsis_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sepsis_date_1 - 90 days", " sepsis_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_sepsis_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sepsis_date_2 - 90 days", " sepsis_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_sepsis_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sepsis_date_3 - 90 days", " sepsis_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_sepsis_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sepsis_date_4 - 90 days", " sepsis_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+# throat
+    hx_ab_throat_date_1= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["throat_date_1 - 90 days", " throat_date_1"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_throat_date_2= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["throat_date_2 - 90 days", " throat_date_2"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_throat_date_3= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["throat_date_3 - 90 days", " throat_date_3"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    hx_ab_throat_date_4= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["throat_date_4 - 90 days", " throat_date_4"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+
+
 ########## for table check: number of infection cousultations #############
     
     #  --UTI 
