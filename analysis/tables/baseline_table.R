@@ -189,7 +189,7 @@ df_one_pat$covid_positive<-as.factor(df_one_pat$covid_positive)
 ## select variables for the baseline table
 bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, bmi, 
                      bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine,
-                     covid_positive, died_ever, covrx, imd)
+                     covid_positive, imd)#covrx, died_ever, 
 
 # generate data table 
 
