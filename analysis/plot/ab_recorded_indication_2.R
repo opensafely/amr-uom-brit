@@ -9,21 +9,21 @@ library("data.table")
 library("ggpubr")
 
 rm(list=ls())
+
 setwd(here::here("output", "measures"))
 
-
 ### read data  ###
-### 1.1 import study definition input.csv
+### import input_antibiotics_2_XXXX-XX-XX.csv 
 ############ loop reading multiple CSV files ################
 # read file list from input.csv
-csvFiles = list.files(pattern="input_antibiotics_", full.names = TRUE)
+csvFiles = list.files(pattern="input_antibiotics_2_", full.names = TRUE)
 temp <- vector("list", length(csvFiles))
 
 for (i in seq_along(csvFiles)){
   filename <- csvFiles[i]
   temp_df <- read_csv(filename)
   filename <- basename(filename)
-  filename <-str_remove(filename, "input_antibiotics_")
+  filename <-str_remove(filename, "input_antibiotics_2_")
   filename <-str_remove(filename, ".csv.gz")
   
   #add to per-month temp df
@@ -37,50 +37,10 @@ for (i in seq_along(csvFiles)){
 # combine list -> data.table/data.frame
 df <-plyr::ldply(temp, data.frame) 
 rm(temp,csvFiles,i,temp_df,filename)# remove temporary list
+############ loop reading multiple CSV files ################
 
 
-## count prescriptions by infection per patient
-uti=c("uti_ab_count_1","uti_ab_count_2","uti_ab_count_3","uti_ab_count_4" )
-lrti=c("lrti_ab_count_1"     ,  "lrti_ab_count_2"     ,  "lrti_ab_count_3"    ,   "lrti_ab_count_4" )
-urti=c("urti_ab_count_1"    ,   "urti_ab_count_2"     ,  "urti_ab_count_3"   ,    "urti_ab_count_4"   )
-sinusitis=c("sinusitis_ab_count_1", "sinusitis_ab_count_2" ,"sinusitis_ab_count_3" , "sinusitis_ab_count_4")
-otmedia=c("otmedia_ab_count_1"  ,  "otmedia_ab_count_2"   , "otmedia_ab_count_3"  ,  "otmedia_ab_count_4" )
-ot_externa=c("ot_externa_ab_count_1" ,"ot_externa_ab_count_2" ,"ot_externa_ab_count_3","ot_externa_ab_count_4")
-asthma=c("asthma_ab_count_1"   ,  "asthma_ab_count_2"   ,  "asthma_ab_count_3"    , "asthma_ab_count_4" )
-cold=c("cold_ab_count_1"    ,   "cold_ab_count_2"    ,   "cold_ab_count_3"    ,   "cold_ab_count_4")
-cough=c("cough_ab_count_1"  ,   "cough_ab_count_2"  ,    "cough_ab_count_3"  ,    "cough_ab_count_4")
-copd=c("copd_ab_count_1"    ,   "copd_ab_count_2"  ,     "copd_ab_count_3"   ,    "copd_ab_count_4" )
-pneumonia=c("pneumonia_ab_count_1" , "pneumonia_ab_count_2" , "pneumonia_ab_count_3" , "pneumonia_ab_count_4")
-renal=c("renal_ab_count_1"  ,    "renal_ab_count_2"   ,   "renal_ab_count_3"    ,  "renal_ab_count_4" )
-sepsis=c("sepsis_ab_count_1"  ,   "sepsis_ab_count_2"   ,  "sepsis_ab_count_3"   ,  "sepsis_ab_count_4"  )
-throat=c("throat_ab_count_1"  ,  "throat_ab_count_2"  ,   "throat_ab_count_3"  ,   "throat_ab_count_4"  )
-others=c("asthma_ab_count_1"   ,  "asthma_ab_count_2"   ,  "asthma_ab_count_3"    , "asthma_ab_count_4" ,"cold_ab_count_1"    ,   "cold_ab_count_2"    ,   "cold_ab_count_3"    ,   "cold_ab_count_4",
-        "cough_ab_count_1"  ,   "cough_ab_count_2"  ,    "cough_ab_count_3"  ,    "cough_ab_count_4","copd_ab_count_1"    ,   "copd_ab_count_2"  ,     "copd_ab_count_3"   ,    "copd_ab_count_4" ,
-        "pneumonia_ab_count_1" , "pneumonia_ab_count_2" , "pneumonia_ab_count_3" , "pneumonia_ab_count_4","renal_ab_count_1"  ,    "renal_ab_count_2"   ,   "renal_ab_count_3"    ,  "renal_ab_count_4",
-        "sepsis_ab_count_1"  ,   "sepsis_ab_count_2"   ,  "sepsis_ab_count_3"   ,  "sepsis_ab_count_4","throat_ab_count_1"  ,  "throat_ab_count_2"  ,   "throat_ab_count_3"  ,   "throat_ab_count_4" )
-
-
-df$uti_ab_count=rowSums(df[uti])
-df$lrti_ab_count=rowSums(df[lrti])
-df$urti_ab_count=rowSums(df[urti])
-df$sinusitis_ab_count=rowSums(df[sinusitis])
-df$otmedia_ab_count=rowSums(df[otmedia])
-df$ot_externa_ab_count=rowSums(df[ot_externa])
-df$asthma_ab_count=rowSums(df[asthma])
-df$cold_ab_count=rowSums(df[cold])
-df$cough_ab_count=rowSums(df[cough])
-df$copd_ab_count=rowSums(df[copd])
-df$pneumonia_ab_count=rowSums(df[pneumonia])
-df$renal_ab_count=rowSums(df[renal])
-df$sepsis_ab_count=rowSums(df[sepsis])
-df$throat_ab_count=rowSums(df[throat])
-df$renal_ab_count=rowSums(df[renal])
-df$others_ab_count=rowSums(df[others])
-
-rm("uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat","others")
-
-
-# remove last month data
+### remove last month data
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
 first_mon=min(df$date)
@@ -89,134 +49,171 @@ last_mon= max(df$date)
 df$date=as.Date(df$date)
 
 
-# crude percent
+# variables names list
+prevalent_check=paste0("prevalent_AB_date_",rep(1:10))
+ab_count_10=paste0("AB_date_",rep(1:10),"_count")
+ab_category=paste0("AB_date_",rep(1:10),"_indication")
+indications=c("uti","lrti","urti","sinusits","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat","uncoded")
 
-detach(package:plyr)# need removed, or group_by doesn't work
-df1=df%>% group_by(date)%>%
-  summarise(
-    total=sum(antibacterial_brit),
-    uti=sum(uti_ab_count),
-    lrti=sum(lrti_ab_count),
-    urti=sum(urti_ab_count),
-    sinusitis=sum(sinusitis_ab_count),
-    otmedia=sum(otmedia_ab_count),
-    ot_externa=sum(ot_externa_ab_count),
-    asthma=sum(asthma_ab_count),
-    cold=sum(cold_ab_count),
-    cough=sum(cough_ab_count),
-    copd=sum(copd_ab_count),
-    pneumonia=sum(pneumonia_ab_count),
-    renal=sum(renal_ab_count),
-    sepsis=sum(sepsis_ab_count),
-    throat=sum(throat_ab_count),
-    others=sum(others_ab_count)
-      )
 
-df1$uncoded=df1$total-rowSums(df1[c("uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat")])
-df1.1=df1%>%select(-c("others","total"))
+#replace NA with "uncoded" in AB_indication_1-10 columns
+for (i in 1:10){
+df[,ab_category[i]]=ifelse(is.na(df[,ab_category[i]]),"uncoded", df[,ab_category[i]])}
+
+
+
+####### prevalent prescriptions #######
+df1=df
+
+# select prevalent case ->count AB numbers
+df1$total_ab_counts=0
+for (i in 1:10){ #ab_date1....10
+  df1$total_ab_counts=ifelse(df1[,prevalent_check[i]]==1, # if prevalent=1
+                     df1[,ab_count_10[i]] + df1$total_ab_counts, df1$total_ab_counts) # sum(ab_count_date1,...10)
+  }
+
+# select prevalent case -> count AB numbers by infection
+df1[,indications[1:15]]=0 # create empty columns: df$uti, df$urti,.....df$uncoded
+for (i in 1:10)
+  for (j in 1:15){ #uti,urti,....uncoded)
+  df1[,indications[j]]=ifelse(df1[,prevalent_check[i]]==1 &  # if prevalent=1
+                               df1[,ab_category[i]]==indications[j], # and ab_date_1_category==uti
+                    df1[,ab_count_10[i]]+df1[,indications[j]],  df1[,indications[j]]) # sum(ab_count_date1,...10)
+
+  }
+# summarise AB counts by infections per month
+df1.1=df1%>%dplyr::group_by(date)%>%
+  dplyr::summarise(uti=sum(uti),
+                   urti=sum(urti),
+                   lrti=sum(lrti),
+                   sinusits=sum(sinusits),
+                   otmedia=sum(otmedia),
+                   ot_externa=sum(ot_externa),
+                   asthma=sum(asthma),
+                   cold=sum(cold),
+                   cough=sum(cough),
+                   copd=sum(copd),
+                   pneumonia=sum(pneumonia),
+                   renal=sum(renal),
+                   sepsis=sum(sepsis),
+                   throat=sum(throat),
+                   uncoded=sum(uncoded))
+names(df1.1)[5]<-"sinusitis"# fix typo
 
 df1.2=df1.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat",-date)
 
-
-#stackedbar <- 
-plot=ggplot(df1.2, aes(x=date, y=counts, fill=types))+
+# reorder types
+df1.2$types=factor(df1.2$types,levels=c("uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat"))
+#stackedbar  
+plot1.2=ggplot(df1.2, aes(x=date, y=counts, fill=types))+
   geom_bar(position="stack", stat="identity") +
   geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
   geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
   geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
   labs(
-    title = "Propotion of prescriptions with indications",
+    title = "Propotion of antibiotics prescriptions with indications- Prevalent prescribing",
     x = "Time", 
     y = "number of antibiotic prescriptions")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ggsave(
-  plot= plot,
-  filename="ab_recoded_indication.jpeg", path=here::here("output"))
+  plot= plot1.2,
+  filename="ab_recoded_prevalent.jpeg", path=here::here("output"))
 
 
 
 
 
-
-### data check -infection consultations###
-names=c("uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat")
-temp <- vector("list")
-
-for (i in names){
-  
-  df_check=df%>%select(paste0(i,"_date_1"),paste0(i,"_date_2"),paste0(i,"_date_3"),paste0(i,"_date_4"),paste0(i,"_counts"),"practice","date")
-  df_check$count4times=4-rowSums(is.na(df_check))
-  names(df_check)[5] <- "counts"
-  
-  df_check_gp=df_check%>%
-    group_by(practice,date)%>%
-    summarise(total_infection=sum(counts),
-              included=sum(count4times))
-  df_check_gp$rate=df_check_gp$included/df_check_gp$total_infection
-  df_check_gp$infection=paste0(i)
-  
-  temp[[i]]=df_check_gp
- 
+###### incident prescriptions ###### 
+df2=df
+# select prevalent case ->count AB numbers
+df2$total_ab_counts=0
+for (i in 1:10){ #ab_date1....10
+  df2$total_ab_counts=ifelse(df2[,prevalent_check[i]]==0, # if prevalent=0
+                             df2[,ab_count_10[i]] + df2$total_ab_counts, df2$total_ab_counts) # sum(ab_count_date1,...10)
 }
 
-df_check_gp <-plyr::ldply(temp, data.frame) 
-write.csv(df_check_gp,here::here("output","check_infection_cover.csv"))
+# select prevalent case -> count AB numbers by infection
+df2[,indications[1:15]]=0 # create empty columns: df$uti, df$urti,.....df$uncoded
+for (i in 1:10)
+  for (j in 1:15){ #uti,urti,....uncoded)
+    df2[,indications[j]]=ifelse(df2[,prevalent_check[i]]==0 &  # if prevalent=0
+                                  df2[,ab_category[i]]==indications[j], # and ab_date_1_category==uti
+                                df2[,ab_count_10[i]]+df2[,indications[j]],  df2[,indications[j]]) # sum(ab_count_date1,...10)
+    
+  }
 
-df_summary <- df_check_gp %>% group_by(date) %>%
-  mutate(mean = mean(rate,na.rm=TRUE),
-         lowquart= quantile(rate, na.rm=TRUE)[2],
-         highquart= quantile(rate, na.rm=TRUE)[4],
-         ninefive= quantile(rate, na.rm=TRUE, c(0.95)),
-         five=quantile(rate, na.rm=TRUE, c(0.05)))
+# summarise AB counts by infections per month
+df2.1=df2%>%dplyr::group_by(date)%>%
+  dplyr::summarise(uti=sum(uti),
+                   urti=sum(urti),
+                   lrti=sum(lrti),
+                   sinusits=sum(sinusits),
+                   otmedia=sum(otmedia),
+                   ot_externa=sum(ot_externa),
+                   asthma=sum(asthma),
+                   cold=sum(cold),
+                   cough=sum(cough),
+                   copd=sum(copd),
+                   pneumonia=sum(pneumonia),
+                   renal=sum(renal),
+                   sepsis=sum(sepsis),
+                   throat=sum(throat),
+                   uncoded=sum(uncoded))
+names(df2.1)[5]<-"sinusitis"# fix typo
 
-num_uniq_prac=length(unique(as.factor(df_summary$practice)))
 
-plot <- ggplot(df_summary, aes(x=date))+
-  geom_line(aes(y=mean),color="steelblue")+
-  geom_point(aes(y=mean),color="steelblue")+
-  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_line(aes(y=highquart), color="darkred", linetype=3)+
-  geom_point(aes(y=highquart), color="darkred", linetype=3)+
-  geom_line(aes(y=ninefive), color="black", linetype=3)+
-  geom_point(aes(y=ninefive), color="black", linetype=3)+
-  geom_line(aes(y=five), color="black", linetype=3)+
-  geom_point(aes(y=five), color="black", linetype=3)+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  theme(axis.text.x=element_text(angle=60,hjust=1))+
+df2.2=df2.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat",-date)
+
+df2.2$types=factor(df2.2$types,levels=c("uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat"))
+
+#stackedbar  
+plot2.2=ggplot(df2.2, aes(x=date, y=counts, fill=types))+
+  geom_bar(position="stack", stat="identity") +
+  geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
   labs(
-    title = "infection consultations",
-    subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
-    x = "Time",
-    y = "% covered by this study"
-  )+
-  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
-  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
+    title = "Propotion of antibiotics prescriptions with indications- Incident prescribing",
+    x = "Time", 
+    y = "number of antibiotic prescriptions")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ggsave(
-  plot= plot,
-  filename="check_infection_cover.jpeg", path=here::here("output")) 
+  plot= plot2.2,
+  filename="ab_recoded_incident.jpeg", path=here::here("output"))
 
-rm(df_check,df_check_gp,df_summary,temp,plot)
+rm(df1.1,df2.1,df1.2,df2.2)
 
-### data check -infection ab prescriptions ###
 
-col_abcount=c("uti_ab_count", "lrti_ab_count", "urti_ab_count", "sinusitis_ab_count", "otmedia_ab_count", "ot_externa_ab_count", "asthma_ab_count", "cold_ab_count", "cough_ab_count", "copd_ab_count", "pneumonia_ab_count", "renal_ab_count", "sepsis_ab_count", "throat_ab_count", "renal_ab_count", "others_ab_count")
-df_check=df%>%select(col_abcount,"practice","date","antibacterial_brit")
-df_check$included=rowSums(df_check[col_abcount])
 
-df_check_gp=df_check%>%
-  group_by(practice,date)%>%
-  summarise(included=sum(included),
-            total=sum(antibacterial_brit))
-df_check_gp$rate=df_check_gp$included/df_check_gp$total
 
-write.csv(df_check_gp,here::here("output","check_infection_ab_cover.csv"))
 
-df_summary <- df_check_gp %>% group_by(date) %>%
-  mutate(mean = mean(rate,na.rm=TRUE),
+
+##### check data ##### 
+
+df_gp=df%>%dplyr::group_by(date,practice)%>%
+  dplyr::summarise(total_ab_brit=sum(antibacterial_brit))
+
+# prevalent
+df1_gp=df1%>%dplyr::group_by(date,practice)%>%
+  dplyr::summarise(total_ab_prevalence=sum(total_ab_counts))
+
+# incident
+df2_gp=df2%>%dplyr::group_by(date,practice)%>%
+  dplyr::summarise(total_ab_incidence=sum(total_ab_counts))
+
+# prevalence+incidence
+df1_2_gp=merge(df1_gp,df2_gp,by=c("date","practice"))
+
+# rate= counts from 10 extractions / antibiotics_brit numbers
+df_check_gp=merge(df1_2_gp,df_gp,by=c("date","practice") )
+df_check_gp$included=df_check_gp$total_ab_prevalence+df_check_gp$total_ab_incidence
+df_check_gp$rate=df_check_gp$included/df_check_gp$total_ab_brit
+
+# 25-75 percentile plot check for GP-level data
+df_summary <- df_check_gp %>% dplyr::group_by(date) %>%
+  dplyr::mutate(mean = mean(rate,na.rm=TRUE),
          lowquart= quantile(rate, na.rm=TRUE)[2],
          highquart= quantile(rate, na.rm=TRUE)[4],
          ninefive= quantile(rate, na.rm=TRUE, c(0.95)),
@@ -224,7 +221,7 @@ df_summary <- df_check_gp %>% group_by(date) %>%
 
 num_uniq_prac=length(unique(as.factor(df_summary$practice)))
 
-plot<- ggplot(df_summary, aes(x=date))+
+plot_percentile <- ggplot(df_summary, aes(x=date))+
   geom_line(aes(y=mean),color="steelblue")+
   geom_point(aes(y=mean),color="steelblue")+
   geom_line(aes(y=lowquart), color="darkred", linetype=3)+
@@ -240,8 +237,7 @@ plot<- ggplot(df_summary, aes(x=date))+
   labs(
     title = "antibiotics prescriptions",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices",
-                    ",coverage=extracted prescriptions/ total prescriotions"),
+    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
     x = "Time",
     y = "% covered by this study"
   )+
@@ -249,7 +245,28 @@ plot<- ggplot(df_summary, aes(x=date))+
   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
 
 ggsave(
-  plot= plot,
-  filename="check_infection_ab_cover.jpeg", path=here::here("output")) 
+  plot= plot_percentile,
+  filename="check_prescriptions_cover_GP.jpeg", path=here::here("output")) 
 
-### data check ###
+
+# overall: incidence+precalence vs. antibiotics_brit numbers
+df_check_gp2=df_check_gp%>%dplyr:: group_by(date)%>%
+  dplyr::summarise(prevalence=sum(total_ab_prevalence),
+                   incidence=sum(total_ab_incidence),
+                   total_brit=sum(total_ab_brit))
+df_check_gp2.2=df_check_gp2%>%gather(types,counts,"prevalence","incidence","total_brit",-date)
+#bar  
+plot_overall=ggplot(df_check_gp2.2, aes(x=date, y=counts,fill=types))+
+  geom_bar( position=position_dodge(),stat="identity") +
+  geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
+  geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
+  labs(
+    title = "comparison of 10 extractions of AB records and exact AB numbers",
+    x = "Time", 
+    y = "number of antibiotic prescriptions")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+ggsave(
+  plot= plot_overall,
+  filename="check_prescriptions_cover.jpeg", path=here::here("output")) 
