@@ -141,13 +141,13 @@ study = StudyDefinition(
     ),
 
 
-    ## ab history: incident(no ab 90 days before index)/ prevalent
-    hx_antibiotics= patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["first_day_of_month(index_date) - 90 days", "index_date"],
-        returning='binary_flag',
-        return_expectations={"incidence": 0.8},
-    ),
+    # ## ab history: incident(no ab 90 days before index)/ prevalent
+    # hx_antibiotics= patients.with_these_medications(
+    #     antibacterials_codes_brit,
+    #     between=["first_day_of_month(index_date) - 90 days", "index_date"],
+    #     returning='binary_flag',
+    #     return_expectations={"incidence": 0.8},
+    # ),
 
 
 ######## all antibacterials from BRIT (dmd codes)
