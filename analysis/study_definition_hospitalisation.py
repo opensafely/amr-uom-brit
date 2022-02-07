@@ -205,7 +205,7 @@ study = StudyDefinition(
     
     ## BMI, most recent
     bmi=patients.most_recent_bmi(
-        on_or_after="2010-02-01",
+        on_or_after="2010-01-01",
         minimum_age_at_measurement=18,
         include_measurement_date=True,
         include_month=True,
@@ -282,12 +282,12 @@ study = StudyDefinition(
     ## flu vaccine in tpp
     flu_vaccine_tpp=patients.with_tpp_vaccination_record(
         target_disease_matches="influenza",
-        between=[start_date, "index_date"],
+        between=["index_date - 12 months", "index_date"],
         returning="binary_flag",
         #date_format=binary,
         find_first_match_in_period=True,
         return_expectations={
-            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
         }
     ),
 
@@ -312,7 +312,7 @@ study = StudyDefinition(
         return_first_date_in_period=True,
         include_month=True,
         return_expectations={
-            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
+            "date": {"earliest": "index_date - 12 months", "latest": "index_date"}
         },
     ),
     ## flu vaccine any of the above 
