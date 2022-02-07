@@ -79,6 +79,14 @@ actions:
   #       #csvs: output/*/* # two possible subfolders
   #       #text: output/text/*
   
+  describe_service_eval_baseline_table:
+    run: r:latest analysis/tables/baseline_table.R
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        baseline_overall: output/overall_counts_blt.csv
+        baseline_table: output/blt_one_random_obs_perpat.csv
+
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
   #   needs: [generate_measures]
@@ -130,14 +138,14 @@ actions:
   #       notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
   #       figures: output/hospitalisation_risk/*
 
-  # describe_prior_ab_12mb4:
-  #   run: r:latest analysis/plot/ab_1yb4_stackedbar_2.R
-  #   needs: [generate_study_population]
-  #   outputs:
-  #      moderately_sensitive:
-  #       plot: output/AB_1yb4_line.jpeg
-  #       plot_sex: output/AB_1yb4_SEX.jpeg
-  #       count_table: output/prior_ab_by_month.csv      
+  describe_prior_ab_12mb4:
+    run: r:latest analysis/plot/ab_1yb4_stackedbar_2.R
+    needs: [generate_study_population]
+    outputs:
+       moderately_sensitive:
+        plot: output/AB_1yb4_line.jpeg
+        plot_sex: output/AB_1yb4_SEX.jpeg
+        count_table: output/prior_ab_by_month.csv      
 
 
   describe_consultation_rate_all:
