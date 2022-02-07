@@ -207,3 +207,9 @@ actions:
         plot3: output/check_infection_ab_cover.jpeg
         csv1: output/check_infection_cover.csv
         csv2: output/check_infection_ab_cover.csv
+  
+  generate_study_population_antibiotics_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_2 --index-date-range "2019-01-01 to 2019-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_antibiotics_2_*.csv.gz
