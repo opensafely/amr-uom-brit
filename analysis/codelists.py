@@ -449,3 +449,9 @@ charlson17_peripheral_vascular= codelist_from_csv(
   system = "snomed",
   column = "code"
 )
+
+combined_indications= codelist_from_csv(
+  "codelists/user-yayang-antibiotics_indications.csv",
+  system = "snomed",
+  column = "code"
+)
