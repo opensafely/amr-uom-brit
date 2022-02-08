@@ -104,7 +104,7 @@ DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
 
 # exclude observation without AB prescription date
 DF=DF%>%filter(!is.na(date))
-DF$date=as.Date(DF$date)
+ DF$date=as.Date(DF$date,origin="1970-01-01")
 
 write_rds(DF, here::here("output", "total_ab.rds"))
 
