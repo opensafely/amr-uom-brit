@@ -136,8 +136,8 @@ df=df%>%mutate(smoking_cat_3= case_when(smoking_status=="S" ~ "current",
 
 
 # covid vaccine
-df$covrx1=ifelse(df$covrx1_dat>0,1,0)
-df$covrx2=ifelse(df$covrx2_dat>0,1,0)
+df$covrx1=ifelse(is.na(df$covrx1_dat),0,1)
+df$covrx2=ifelse(is.na(df$covrx2_dat),0,1)
 df$covrx=ifelse(df$covrx1>0|df$covrx2>0,1,0)
 
 
