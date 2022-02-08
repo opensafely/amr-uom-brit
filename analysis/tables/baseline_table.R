@@ -179,10 +179,11 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 df_one_pat$covrx1=ifelse(is.na(df_one_pat$covrx1_dat),0,1)
 df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat),0,1)
 df_one_pat$covrx=ifelse(df_one_pat$covrx1 >0 | df_one_pat$covrx2 >0, 1, 0)
+df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 
 # ever died
-#df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
-#df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
+df_one_pat$died_ever <- ifelse(is.na(df_one_pat$died_date),0,1)
+df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
 #summary(df_one_pat$died_ever)
 
 ## covid positive ever
@@ -196,7 +197,7 @@ df_one_pat$hx_antibiotics <- as.factor(df_one_pat$hx_antibiotics)
 ## select variables for the baseline table
 bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, bmi, 
                      bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine,
-                     covid_positive, imd, hx_indications, hx_antibiotics)#covrx, died_ever, 
+                     covid_positive, imd, hx_indications, hx_antibiotics, covrx, died_ever) 
 
 # generate data table 
 
