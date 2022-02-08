@@ -18,11 +18,13 @@ rm(list=ls())
 setwd(here::here("output", "measures"))
 
 
-### read data  ###
+### read data_ 2020-01-01 ro 2020-06-01
 ### mport patient-level data(study definition input.csv) to summarize antibiotics counts
 ############ loop reading multiple CSV files ################
 # read file list from input.csv
 csvFiles = list.files(pattern="input_antibiotics_2_", full.names = TRUE)
+csvFiles =csvFiles [1:6] # select half year
+
 temp <- vector("list", length(csvFiles))
 
 for (i in seq_along(csvFiles)){
