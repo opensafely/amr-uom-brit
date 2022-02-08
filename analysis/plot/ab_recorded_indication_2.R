@@ -81,44 +81,44 @@ for (i in 1:10)
                     df1[,ab_count_10[i]]+df1[,indications[j]],  df1[,indications[j]]) # sum(ab_count_date1,...10)
 
   }
-# summarise AB counts by infections per month
-df1.1=df1%>%dplyr::group_by(date)%>%
-  dplyr::summarise(uti=sum(uti),
-                   urti=sum(urti),
-                   lrti=sum(lrti),
-                   sinusits=sum(sinusits),
-                   otmedia=sum(otmedia),
-                   ot_externa=sum(ot_externa),
-                   asthma=sum(asthma),
-                   cold=sum(cold),
-                   cough=sum(cough),
-                   copd=sum(copd),
-                   pneumonia=sum(pneumonia),
-                   renal=sum(renal),
-                   sepsis=sum(sepsis),
-                   throat=sum(throat),
-                   uncoded=sum(uncoded))
-names(df1.1)[5]<-"sinusitis"# fix typo
+# # summarise AB counts by infections per month
+# df1.1=df1%>%dplyr::group_by(date)%>%
+#   dplyr::summarise(uti=sum(uti),
+#                    urti=sum(urti),
+#                    lrti=sum(lrti),
+#                    sinusits=sum(sinusits),
+#                    otmedia=sum(otmedia),
+#                    ot_externa=sum(ot_externa),
+#                    asthma=sum(asthma),
+#                    cold=sum(cold),
+#                    cough=sum(cough),
+#                    copd=sum(copd),
+#                    pneumonia=sum(pneumonia),
+#                    renal=sum(renal),
+#                    sepsis=sum(sepsis),
+#                    throat=sum(throat),
+#                    uncoded=sum(uncoded))
+# names(df1.1)[5]<-"sinusitis"# fix typo
 
-df1.2=df1.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat",-date)
+# df1.2=df1.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat",-date)
 
-# reorder types
-df1.2$types=factor(df1.2$types,levels=c("uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat"))
-#stackedbar  
-plot1.2=ggplot(df1.2, aes(x=date, y=counts, fill=types))+
-  geom_bar(position="stack", stat="identity") +
-  geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
-  labs(
-    title = "Propotion of antibiotics prescriptions with indications- Prevalent prescribing",
-    x = "Time", 
-    y = "number of antibiotic prescriptions")+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+# # reorder types
+# df1.2$types=factor(df1.2$types,levels=c("uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat"))
+# #stackedbar  
+# plot1.2=ggplot(df1.2, aes(x=date, y=counts, fill=types))+
+#   geom_bar(position="stack", stat="identity") +
+#   geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
+#   geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
+#   geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
+#   labs(
+#     title = "Propotion of antibiotics prescriptions with indications- Prevalent prescribing",
+#     x = "Time", 
+#     y = "number of antibiotic prescriptions")+
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
-ggsave(
-  plot= plot1.2,
-  filename="ab_recoded_prevalent.jpeg", path=here::here("output"))
+# ggsave(
+#   plot= plot1.2,
+#   filename="ab_recoded_prevalent.jpeg", path=here::here("output"))
 
 
 
@@ -143,47 +143,47 @@ for (i in 1:10)
     
   }
 
-# summarise AB counts by infections per month
-df2.1=df2%>%dplyr::group_by(date)%>%
-  dplyr::summarise(uti=sum(uti),
-                   urti=sum(urti),
-                   lrti=sum(lrti),
-                   sinusits=sum(sinusits),
-                   otmedia=sum(otmedia),
-                   ot_externa=sum(ot_externa),
-                   asthma=sum(asthma),
-                   cold=sum(cold),
-                   cough=sum(cough),
-                   copd=sum(copd),
-                   pneumonia=sum(pneumonia),
-                   renal=sum(renal),
-                   sepsis=sum(sepsis),
-                   throat=sum(throat),
-                   uncoded=sum(uncoded))
-names(df2.1)[5]<-"sinusitis"# fix typo
+# # summarise AB counts by infections per month
+# df2.1=df2%>%dplyr::group_by(date)%>%
+#   dplyr::summarise(uti=sum(uti),
+#                    urti=sum(urti),
+#                    lrti=sum(lrti),
+#                    sinusits=sum(sinusits),
+#                    otmedia=sum(otmedia),
+#                    ot_externa=sum(ot_externa),
+#                    asthma=sum(asthma),
+#                    cold=sum(cold),
+#                    cough=sum(cough),
+#                    copd=sum(copd),
+#                    pneumonia=sum(pneumonia),
+#                    renal=sum(renal),
+#                    sepsis=sum(sepsis),
+#                    throat=sum(throat),
+#                    uncoded=sum(uncoded))
+# names(df2.1)[5]<-"sinusitis"# fix typo
 
 
-df2.2=df2.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat",-date)
+# df2.2=df2.1%>%gather(types,counts,"uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat",-date)
 
-df2.2$types=factor(df2.2$types,levels=c("uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat"))
+# df2.2$types=factor(df2.2$types,levels=c("uncoded","uti","lrti","urti","sinusitis","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat"))
 
-#stackedbar  
-plot2.2=ggplot(df2.2, aes(x=date, y=counts, fill=types))+
-  geom_bar(position="stack", stat="identity") +
-  geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
-  geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
-  labs(
-    title = "Propotion of antibiotics prescriptions with indications- Incident prescribing",
-    x = "Time", 
-    y = "number of antibiotic prescriptions")+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+# #stackedbar  
+# plot2.2=ggplot(df2.2, aes(x=date, y=counts, fill=types))+
+#   geom_bar(position="stack", stat="identity") +
+#   geom_vline(xintercept = as.Date("2020-03-01"), linetype="dashed",color = "grey", size=0.5)+
+#   geom_vline(xintercept = as.Date("2020-11-01"), linetype="dashed",color = "grey", size=0.5)+
+#   geom_vline(xintercept = as.Date("2021-01-01"), linetype="dashed",color = "grey", size=0.5)+
+#   labs(
+#     title = "Propotion of antibiotics prescriptions with indications- Incident prescribing",
+#     x = "Time", 
+#     y = "number of antibiotic prescriptions")+
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
-ggsave(
-  plot= plot2.2,
-  filename="ab_recoded_incident.jpeg", path=here::here("output"))
+# ggsave(
+#   plot= plot2.2,
+#   filename="ab_recoded_incident.jpeg", path=here::here("output"))
 
-rm(df1.1,df2.1,df1.2,df2.2)
+# rm(df1.1,df2.1,df1.2,df2.2)
 
 
 
