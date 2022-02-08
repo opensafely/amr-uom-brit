@@ -219,8 +219,8 @@ actions:
     needs: [generate_study_population_antibiotics_2]
     outputs:
        moderately_sensitive:
-        plot1: output/ab_recoded_prevalent.jpeg
-        plot2: output/ab_recoded_incident.jpeg
+        #plot1: output/ab_recoded_prevalent.jpeg
+        #plot2: output/ab_recoded_incident.jpeg
         plot3: output/check_prescriptions_cover_GP.jpeg
         plot4: output/check_prescriptions_cover.jpeg
       
