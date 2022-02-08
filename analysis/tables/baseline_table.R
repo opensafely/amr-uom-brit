@@ -47,10 +47,7 @@ for (i in seq_along(csvFiles)){
 
 # combine list -> data.table/data.frame
 df_input <- plyr::ldply(temp, data.frame)
-rm(temp,csvFiles,i,temp_df)# remove temporary list
-
-## select rows of interest
-#df_input <- select(df_input, age, sex, region, ethnicity, antibacterial_12mb4, date)
+rm(temp,csvFiles,i)# remove temporary list
 
 df_input$date <- as.Date(df_input$date)
 df_input$cal_mon <- month(df_input$date)
@@ -69,7 +66,7 @@ write_csv(overall_counts, here::here("output", "overall_counts_blt.csv"))
   
 ## randomly select one observation for each patient 
 ## in the study period to generate baseline table for service evaluation
-df_one_pat <- df %>% group_by(patient_id) %>%
+df_one_pat <- df %>% dplyr::group_by(patient_id) %>%
   arrange(date, .group_by=TRUE) %>%
   sample_n(1)
 
