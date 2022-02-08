@@ -15,7 +15,7 @@ library("tidyverse")
 ### 01. read csv -measures by 6 infection
 ## 1.1 UTI
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_Rx_percent_UTI.csv"),
+  here::here("output", "measures", "measure_infection_Rx_percent_UTI.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -57,7 +57,7 @@ rm(df,first_mon,last_mon,last.date)
 
 ## 1.2 URTI
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_Rx_percent_URTI.csv"),
+  here::here("output", "measures", "measure_infection_Rx_percent_URTI.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -100,7 +100,7 @@ rm(df,first_mon,last_mon,last.date)
 
 ## 1.3 LRTI
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_Rx_percent_LRTI.csv"),
+  here::here("output", "measures", "measure_infection_Rx_percent_LRTI.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -143,7 +143,7 @@ rm(df,first_mon,last_mon,last.date)
 
 # 1.4 sinusitis
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_Rx_percent_sinusitis.csv"),
+  here::here("output", "measures", "measure_infection_Rx_percent_sinusitis.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -186,7 +186,7 @@ rm(df,first_mon,last_mon,last.date)
 
 # 1.5 ot_externa
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_Rx_percent_ot_externa.csv"),
+  here::here("output", "measures", "measure_infection_Rx_percent_ot_externa.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -230,7 +230,7 @@ rm(df,first_mon,last_mon,last.date)
 
 # 1.6 otmedia
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_Rx_percent_otmedia.csv"),
+  here::here("output", "measures", "measure_infection_Rx_percent_otmedia.csv"),
                col_types = cols_only(
                  
                  # Identifier

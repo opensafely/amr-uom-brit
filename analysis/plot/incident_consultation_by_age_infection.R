@@ -16,7 +16,7 @@ library("cowplot")
 ### 1. import data 
 ##1.1 UTI
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_consult_UTI.csv"),
+  here::here("output", "measures", "measure_infection_consult_UTI.csv"),
   col_types = cols_only(
     
     # Identifier
@@ -81,7 +81,7 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 #import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_consult_LRTI.csv"),
+  here::here("output", "measures", "measure_infection_consult_LRTI.csv"),
   col_types = cols_only(
     
     # Identifier
@@ -142,7 +142,7 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 #import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_consult_URTI.csv"), 
+  here::here("output", "measures", "measure_infection_consult_URTI.csv"), 
   col_types = cols_only(
     
    # Identifier
@@ -203,7 +203,7 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 #import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_consult_sinusitis.csv"), 
+  here::here("output", "measures", "measure_infection_consult_sinusitis.csv"), 
   col_types = cols_only(
     
     # Identifier
@@ -268,7 +268,7 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 # import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_consult_ot_externa.csv"), 
+  here::here("output", "measures", "measure_infection_consult_ot_externa.csv"), 
   col_types = cols_only(
     
     # Identifier
@@ -332,7 +332,7 @@ rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 # import data 
 
 df <- read_csv(
-  here::here("output", "measures", "measure_infec_consult_otmedia.csv"), 
+  here::here("output", "measures", "measure_infection_consult_otmedia.csv"), 
   col_types = cols_only(
     
     #Identifier
@@ -507,3 +507,4 @@ ggsave(
   plot= plot_percentile,
   filename="consult_all.jpeg", path=here::here("output"),
 )
+

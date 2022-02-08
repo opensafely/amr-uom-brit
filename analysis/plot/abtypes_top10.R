@@ -13,7 +13,7 @@ rm(list=ls())
 
 ######## UTI 
 df1 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_UTI_1.csv"),
+    here::here("output", "measures", "measure_infection_abtype_UTI_1.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -32,7 +32,7 @@ df1 <- read_csv(
 )
 
 df2 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_UTI_2.csv"),
+    here::here("output", "measures", "measure_infection_abtype_UTI_2.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -51,7 +51,7 @@ df2 <- read_csv(
 )
 
 df3 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_UTI_3.csv"),
+    here::here("output", "measures", "measure_infection_abtype_UTI_3.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -71,7 +71,7 @@ df3 <- read_csv(
 
 
 df4 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_UTI_4.csv"),
+    here::here("output", "measures", "measure_infection_abtype_UTI_4.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -208,7 +208,7 @@ rm(df_plot,DF.top10,df2,df)
 
 ######## URTI 
 df1 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_URTI_1.csv"),
+    here::here("output", "measures", "measure_infection_abtype_URTI_1.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -227,7 +227,7 @@ df1 <- read_csv(
 )
 
 df2 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_URTI_2.csv"),
+    here::here("output", "measures", "measure_infection_abtype_URTI_2.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -246,7 +246,7 @@ df2 <- read_csv(
 )
 
 df3 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_URTI_3.csv"),
+    here::here("output", "measures", "measure_infection_abtype_URTI_3.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -266,7 +266,7 @@ df3 <- read_csv(
 
 
 df4 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_URTI_4.csv"),
+    here::here("output", "measures", "measure_infection_abtype_URTI_4.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -399,7 +399,7 @@ rm(df_plot,DF.top10,df2,df)
 
 ######## LRTI 
 df1 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_LRTI_1.csv"),
+    here::here("output", "measures", "measure_infection_abtype_LRTI_1.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -418,7 +418,7 @@ df1 <- read_csv(
 )
 
 df2 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_LRTI_2.csv"),
+    here::here("output", "measures", "measure_infection_abtype_LRTI_2.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -437,7 +437,7 @@ df2 <- read_csv(
 )
 
 df3 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_LRTI_3.csv"),
+    here::here("output", "measures", "measure_infection_abtype_LRTI_3.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -457,7 +457,7 @@ df3 <- read_csv(
 
 
 df4 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_LRTI_4.csv"),
+    here::here("output", "measures", "measure_infection_abtype_LRTI_4.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -593,7 +593,7 @@ rm(df_plot,DF.top10,df2,df)
 
 ######## sinusitis
 df1 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_sinusitis_1.csv"),
+    here::here("output", "measures", "measure_infection_abtype_sinusitis_1.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -612,7 +612,7 @@ df1 <- read_csv(
 )
 
 df2 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_sinusitis_2.csv"),
+    here::here("output", "measures", "measure_infection_abtype_sinusitis_2.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -631,7 +631,7 @@ df2 <- read_csv(
 )
 
 df3 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_sinusitis_3.csv"),
+    here::here("output", "measures", "measure_infection_abtype_sinusitis_3.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -651,7 +651,7 @@ df3 <- read_csv(
 
 
 df4 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_sinusitis_4.csv"),
+    here::here("output", "measures", "measure_infection_abtype_sinusitis_4.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -786,7 +786,7 @@ rm(df_plot,DF.top10,df2,df)
 
 ######## ot_externa
 df1 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_ot_externa_1.csv"),
+    here::here("output", "measures", "measure_infection_abtype_ot_externa_1.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -805,7 +805,7 @@ df1 <- read_csv(
 )
 
 df2 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_ot_externa_2.csv"),
+    here::here("output", "measures", "measure_infection_abtype_ot_externa_2.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -824,7 +824,7 @@ df2 <- read_csv(
 )
 
 df3 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_ot_externa_3.csv"),
+    here::here("output", "measures", "measure_infection_abtype_ot_externa_3.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -844,7 +844,7 @@ df3 <- read_csv(
 
 
 df4 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_ot_externa_4.csv"),
+    here::here("output", "measures", "measure_infection_abtype_ot_externa_4.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -982,7 +982,7 @@ rm(df_plot,DF.top10,df2,df)
 
 ######## otmedia
 df1 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_otmedia_1.csv"),
+    here::here("output", "measures", "measure_infection_abtype_otmedia_1.csv"),
                col_types = cols_only(
                  
                  # Identifier
@@ -1001,7 +1001,7 @@ df1 <- read_csv(
 )
 
 df2 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_otmedia_2.csv"),
+    here::here("output", "measures", "measure_infection_abtype_otmedia_2.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -1020,7 +1020,7 @@ df2 <- read_csv(
 )
 
 df3 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_otmedia_3.csv"),
+    here::here("output", "measures", "measure_infection_abtype_otmedia_3.csv"),
                 col_types = cols_only(
                   
                   # Identifier
@@ -1040,7 +1040,7 @@ df3 <- read_csv(
 
 
 df4 <- read_csv(
-    here::here("output", "measures", "measure_infec_abtype_otmedia_4.csv"),
+    here::here("output", "measures", "measure_infection_abtype_otmedia_4.csv"),
                 col_types = cols_only(
                   
                   # Identifier
