@@ -1,5 +1,5 @@
-### This script is to transger patinet/row --> ab_prescription/ row
-### every patient has 10 ab extraction 
+### This script is to transger patinet/row --> ab_prescription_times/ row
+### every patient has 10 times of ab extraction 
 ### variabless include:
 ### patient(id), age, sex, times(1-10), ab_date, prevalent(1/0),ab_count, infection type,  
 

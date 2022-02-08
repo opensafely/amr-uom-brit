@@ -48,6 +48,8 @@ last_mon= max(df$date)
 
 df$date=as.Date(df$date)
 
+# filter all antibiotics users
+df=df%>%filter(antibacterial_brit !=0)
 
 # variables names list
 prevalent_check=paste0("prevalent_AB_date_",rep(1:10))
