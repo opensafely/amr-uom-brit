@@ -229,4 +229,4 @@ actions:
     needs: [generate_study_population_antibiotics_2]
     outputs:
        highly_sensitive:
-        plot1: output/total_ab.rds
+        plot1: output/ab_2020-01-01.rds

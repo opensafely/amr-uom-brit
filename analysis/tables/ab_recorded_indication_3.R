@@ -18,35 +18,39 @@ rm(list=ls())
 setwd(here::here("output", "measures"))
 
 
-### read data_ 2020-01-01 ro 2020-06-01
-### mport patient-level data(study definition input.csv) to summarize antibiotics counts
-############ loop reading multiple CSV files ################
-# read file list from input.csv
-csvFiles = list.files(pattern="input_antibiotics_2_", full.names = TRUE)
-csvFiles =csvFiles [1:6] # select half year
+# # ### read data_ 2020-01-01 ro 2020-06-01
+# # ### mport patient-level data(study definition input.csv) to summarize antibiotics counts
+# # ############ loop reading multiple CSV files ################
+# # # read file list from input.csv
+# # csvFiles = list.files(pattern="input_antibiotics_2_", full.names = TRUE)
+# # csvFiles =csvFiles [1:6] # select half year
 
-temp <- vector("list", length(csvFiles))
+# # temp <- vector("list", length(csvFiles))
 
-for (i in seq_along(csvFiles)){
-  filename <- csvFiles[i]
-  temp_df <- read_csv(filename)
-  filename <- basename(filename)
-  filename <-str_remove(filename, "input_antibiotics_2_")
-  filename <-str_remove(filename, ".csv.gz")
+# # for (i in seq_along(csvFiles)){
+# #   filename <- csvFiles[i]
+# #   temp_df <- read_csv(filename)
+# #   filename <- basename(filename)
+# #   filename <-str_remove(filename, "input_antibiotics_2_")
+# #   filename <-str_remove(filename, ".csv.gz")
   
-  #add to per-month temp df
-  temp_df$date <- filename
-  mutate(temp_df, date = as.Date(date, "%Y-%m-%d"))
+# #   #add to per-month temp df
+# #   temp_df$date <- filename
+# #   mutate(temp_df, date = as.Date(date, "%Y-%m-%d"))
   
-  #add df to list
-  temp[[i]] <- temp_df
-}
+# #   #add df to list
+# #   temp[[i]] <- temp_df
+# # }
 
-# combine list -> data.table/data.frame
-df <-plyr::ldply(temp, data.frame) 
-rm(temp,csvFiles,i,temp_df,filename)# remove temporary list
+# # # combine list -> data.table/data.frame
+# # df <-plyr::ldply(temp, data.frame) 
+# # rm(temp,csvFiles,i,temp_df,filename)# remove temporary list
 
 
+
+# read in one-month data
+df <- read_csv(
+  here::here("output", "measures", "input_antibiotics_2_2020-01-01.csv.gz")
 # filter all antibiotics users
 df=df%>%filter(antibacterial_brit !=0)
 
