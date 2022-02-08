@@ -191,8 +191,8 @@ actions:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
 
-  generate_study_population_antibiotics:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2020-01-01 to 2020-12-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  generate_study_population_antibiotics: # infections -> Antibiotics
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2020-01-01 to 2020-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
@@ -208,8 +208,8 @@ actions:
         csv1: output/check_infection_cover.csv
         csv2: output/check_infection_ab_cover.csv
   
-  generate_study_population_antibiotics_2:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_2 --index-date-range "2020-01-01 to 2020-12-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  generate_study_population_antibiotics_2: #  Antibiotics -> infections
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_2 --index-date-range "2020-01-01 to 2020-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_2_*.csv.gz

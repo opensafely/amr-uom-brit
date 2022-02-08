@@ -493,4 +493,76 @@ study = StudyDefinition(
             "incidence": 0.8,},
             ),
 
+#### broad sprctrum antibiotics- binary flag
+    Ab_date_1_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_1", "AB_date_1"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_2_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_2", "AB_date_2"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_3_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_3", "AB_date_3"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_4_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_4", "AB_date_4"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_5_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_5", "AB_date_5"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_6_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_6", "AB_date_6"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_7_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_7", "AB_date_7"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_8_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_8", "AB_date_8"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_9_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_9", "AB_date_9"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_10_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_10", "AB_date_10"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+
 )
