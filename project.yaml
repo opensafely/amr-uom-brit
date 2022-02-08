@@ -145,7 +145,7 @@ actions:
        moderately_sensitive:
         plot: output/AB_1yb4_line.jpeg
         plot_sex: output/AB_1yb4_SEX.jpeg
-        count_table: output/prior_ab_by_month.csv      
+        #count_table: output/prior_ab_by_month.csv      
 
 
   describe_consultation_rate_all:
