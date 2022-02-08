@@ -50,7 +50,7 @@ setwd(here::here("output", "measures"))
 
 # read in one-month data
 df <- read_csv(
-  here::here("output", "measures", "input_antibiotics_2_2020-01-01.csv.gz")
+  here::here("output", "measures", "input_antibiotics_2_2020-01-01.csv.gz"))
 # filter all antibiotics users
 df=df%>%filter(antibacterial_brit !=0)
 
