@@ -67,7 +67,7 @@ write_csv(overall_counts, here::here("output", "overall_counts_blt.csv"))
 ## randomly select one observation for each patient 
 ## in the study period to generate baseline table for service evaluation
 df_one_pat <- df %>% dplyr::group_by(patient_id) %>%
-  arrange(date, .group_by=TRUE) %>%
+  dplyr::arrange(date, .group_by=TRUE) %>%
   sample_n(1)
 
 ## clear environment to make more space on server...? 
@@ -176,6 +176,9 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 # df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 # #str(df_one_pat$covrx)
 # #summary(df_one_pat$covrx)
+df_one_pat$covrx1=ifelse(is.na(df_one_pat$covrx1_dat),0,1)
+df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat),0,1)
+df_one_pat$covrx=ifelse(df_one_pat$covrx1 >0 | df_one_pat$covrx2 >0, 1, 0)
 
 # ever died
 #df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
