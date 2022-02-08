@@ -10,6 +10,7 @@
 ## Import libraries---
 library("tidyverse") 
 #library("ggplot2")
+library('plyr')
 library('dplyr')
 library('lubridate')
 library('stringr')
@@ -45,11 +46,8 @@ for (i in seq_along(csvFiles)){
 }
 
 # combine list -> data.table/data.frame
-df_input <- rbindlist(temp, fill=TRUE)
+df_input <- plyr::ldply(temp, data.frame)
 rm(temp,csvFiles,i)# remove temporary list
-
-## select rows of interest
-#df_input <- select(df_input, age, sex, region, ethnicity, antibacterial_12mb4, date)
 
 df_input$date <- as.Date(df_input$date)
 df_input$cal_mon <- month(df_input$date)
@@ -66,12 +64,14 @@ num_pracs <- length(unique(df$practice))
 overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs))
 write_csv(overall_counts, here::here("output", "overall_counts_blt.csv"))
   
-  
 ## randomly select one observation for each patient 
 ## in the study period to generate baseline table for service evaluation
-df_one_pat <- df %>% group_by(patient_id) %>%
-  arrange(date, .group_by=TRUE) %>%
+df_one_pat <- df %>% dplyr::group_by(patient_id) %>%
+  dplyr::arrange(date, .group_by=TRUE) %>%
   sample_n(1)
+
+## clear environment to make more space on server...? 
+rm(df_input, df)  
 
 ## create charlson index
 df_one_pat$cancer<- ifelse(df_one_pat$cancer_comor == 1, 2, 0)
@@ -176,21 +176,28 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 # df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 # #str(df_one_pat$covrx)
 # #summary(df_one_pat$covrx)
+df_one_pat$covrx1=ifelse(is.na(df_one_pat$covrx1_dat),0,1)
+df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat),0,1)
+df_one_pat$covrx=ifelse(df_one_pat$covrx1 >0 | df_one_pat$covrx2 >0, 1, 0)
+df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 
 # ever died
-#df_one_pat$died_ever <- ifelse(df_one_pat$died_date != "", 1, 0)
-#df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
+df_one_pat$died_ever <- ifelse(is.na(df_one_pat$died_date),0,1)
+df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
 #summary(df_one_pat$died_ever)
 
 ## covid positive ever
 df_one_pat$covid_positive<- df_one_pat$Covid_test_result_sgss
 df_one_pat$covid_positive<-as.factor(df_one_pat$covid_positive)
 
+df_one_pat$hx_indications <- as.factor(df_one_pat$hx_indications)
+df_one_pat$hx_antibiotics <- as.factor(df_one_pat$hx_antibiotics)
+
 
 ## select variables for the baseline table
 bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, bmi, 
                      bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine,
-                     covid_positive, imd)#covrx, died_ever, 
+                     covid_positive, imd, hx_indications, hx_antibiotics, covrx, died_ever) 
 
 # generate data table 
 

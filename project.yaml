@@ -53,12 +53,12 @@ actions:
   #       cohort: output/overall.png
   #       boxplot: output/overallbox.png
 
-  # describe_percentile:
-  #   run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
-  #   needs: [generate_measures]
-  #   outputs:
-  #     moderately_sensitive:
-  #       percentile: output/overall_25th_75th_percentile.png
+  describe_percentile:
+    run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        percentile: output/overall_25th_75th_percentile.png
 
   # describe_starpu:
   #   run: r:latest analysis/plot/starpu_ab_prescribing.R
@@ -145,7 +145,7 @@ actions:
        moderately_sensitive:
         plot: output/AB_1yb4_line.jpeg
         plot_sex: output/AB_1yb4_SEX.jpeg
-        count_table: output/prior_ab_by_month.csv      
+        #count_table: output/prior_ab_by_month.csv      
 
 
   describe_consultation_rate_all:
