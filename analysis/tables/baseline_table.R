@@ -10,6 +10,7 @@
 ## Import libraries---
 library("tidyverse") 
 #library("ggplot2")
+library('plyr')
 library('dplyr')
 library('lubridate')
 library('stringr')
@@ -45,7 +46,7 @@ for (i in seq_along(csvFiles)){
 }
 
 # combine list -> data.table/data.frame
-df_input <- rbindlist(temp, fill=TRUE)
+df_input <- plyr::ldply(temp, data.frame)
 rm(temp,csvFiles,i,temp_df)# remove temporary list
 
 ## select rows of interest
