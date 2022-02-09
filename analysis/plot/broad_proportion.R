@@ -13,13 +13,14 @@ df <- read_csv(
     broad_prescriptions_check  = col_double(),
     practice  = col_double(),
     age_cat = col_character(),
-    population = col_double(),
+    broad_spectrum_antibiotics_prescriptions = col_double(),
+    antibacterial_brit = col_double(),
+    value = col_double(),
     # Date
     date = col_date(format="%Y-%m-%d")
   ),
   na = character()
 )
-
 
 
 # remove last month data
@@ -33,26 +34,31 @@ df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 df$broad_prescriptions_check <- as.factor(df$broad_prescriptions_check)
 
+dfrate <- df%>% group_by(date,age_cat) %>% 
+  mutate(total_broad=sum(broad_spectrum_antibiotics_prescriptions[broad_prescriptions_check==1],na.rm = TRUE))
 
-df_ab <- df%>% group_by(date,practice,age_cat)%>%
-  mutate(total_ab_population=population[broad_prescriptions_check==1]+population[broad_prescriptions_check==0])
+dfrate <- dfrate%>% group_by(date,age_cat) %>% 
+  mutate(total_anti=sum(antibacterial_brit,na.rm = TRUE))
+
+df_plot <- dfrate%>% group_by(date,age_cat) %>% 
+  summarise(broad_rate=total_broad/total_anti)
+
+df_plot_2 <- dfrate%>% group_by(date) %>% 
+  summarise(broad_rate=total_broad/total_anti)
 
 
-df_ab <- df_ab%>%filter(broad_prescriptions_check==1)
+num_uniq_prac <- as.numeric(dim(table((dfrate$practice))))
 
-num_uniq_prac <- as.numeric(dim(table((df_ab$practice))))
-
-df_plot <- df_ab%>%group_by(date,age_cat)%>%
-  summarise(broad_population=sum(population,na.rm = TRUE),
-            ab_population=sum(total_ab_population,na.rm = TRUE))%>%
+df_plot <- df_plot %>% distinct(date,age_cat, .keep_all = TRUE) %>%
   mutate(year=format(date,"%Y"))
 
-df_plot$rate <- df_plot$broad_population/df_plot$ab_population
+df_plot_2 <- df_plot_2 %>% distinct(date, .keep_all = TRUE) %>%
+  mutate(year=format(date,"%Y"))
 
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 
-plot1 <- ggplot(df_plot, aes(x=date, y=rate))+
+plot1 <- ggplot(df_plot, aes(x=date, y=broad_rate))+
   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-12"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-23"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
@@ -70,12 +76,7 @@ plot1 <- ggplot(df_plot, aes(x=date, y=rate))+
 plot1
 
 
-df_plot_2 <- df_plot%>%group_by(date)%>%summarise(broad_population=sum(broad_population,na.rm = TRUE),
-                                                  ab_population=sum(ab_population,na.rm = TRUE))%>%
-  mutate(year=format(date,"%Y"))
-df_plot_2$rate<- df_plot_2$broad_population/df_plot_2$ab_population
-
-plot2 <- ggplot(df_plot_2, aes(x=date, y=rate))+
+plot2 <- ggplot(df_plot_2, aes(x=date, y=broad_rate))+
   geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-12"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-03-23"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
@@ -92,7 +93,7 @@ plot2 <- ggplot(df_plot_2, aes(x=date, y=rate))+
 plot2
 
 ## table 
-write_csv(df_plot, here::here("output", "broad_prescriptions_proportion.csv"))
+write_csv(df_plot_2, here::here("output", "broad_prescriptions_proportion.csv"))
 
 ## plot
 ggsave(

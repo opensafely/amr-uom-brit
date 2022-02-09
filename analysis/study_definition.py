@@ -925,8 +925,8 @@ measures = [
 
     ## broad_vs_narrow
     Measure(id="broad_narrow_prescribing",
-            numerator="population",
-            denominator="population",
+            numerator="broad_spectrum_antibiotics_prescriptions",
+            denominator="antibacterial_brit",
             group_by=["practice","broad_prescriptions_check","age_cat"]
             ),    
 
