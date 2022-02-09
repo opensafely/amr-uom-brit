@@ -250,13 +250,14 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 # df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 # #str(df_one_pat$covrx)
 # #summary(df_one_pat$covrx)
-df_one_pat$covrx1=ifelse(is.na(df_one_pat$covrx1_dat),0,1)
-df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat),0,1)
+
+df_one_pat$covrx1=ifelse(is.na(df_one_pat$covrx1_dat)|df_one_pat$covrx1_dat==as.Date("1900-01-01"),0,1)
+df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat)|df_one_pat$covrx1_dat==as.Date("1900-01-01"),0,1)
 df_one_pat$covrx=ifelse(df_one_pat$covrx1 >0 | df_one_pat$covrx2 >0, 1, 0)
 df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 
 # ever died
-df_one_pat$died_ever <- ifelse(is.na(df_one_pat$died_date),0,1)
+df_one_pat$died_ever <- ifelse(is.na(df_one_pat$died_date)|df_one_pat$covrx1_dat==as.Date("1900-01-01"),0,1)
 df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
 #summary(df_one_pat$died_ever)
 
