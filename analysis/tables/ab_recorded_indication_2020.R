@@ -66,7 +66,7 @@ datelist= c("2020-01-01","2020-02-01","2020-03-01","2020-04-01","2020-05-01","20
 
 # variables names list
 prevalent_check=paste0("prevalent_AB_date_",rep(1:10))
-ab_count_10=paste0("AB_date_",rep(1:10),"_count")
+ab_count_10=paste0("AB_date_",rep(1:10),"_count") # change to binary flag
 ab_category=paste0("AB_date_",rep(1:10),"_indication")
 indications=c("uti","lrti","urti","sinusits","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat","uncoded")
 ab_date_10=paste0("AB_date_",rep(1:10))
