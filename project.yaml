@@ -235,10 +235,10 @@ actions:
         rds4: output/measures/ab_2020-04-01.rds
         rds5: output/measures/ab_2020-05-01.rds
         rds6: output/measures/ab_2020-06-01.rds
-        rds7: output/measures/ab_2020-07-01.rds
-        rds8: output/measures/ab_2020-08-01.rds
-        rds9: output/measures/ab_2020-09-01.rds
-        rds10: output/measures/ab_2020-10-01.rds
-        rds11: output/measures/ab_2020-11-01.rds
-        rds12: output/measures/ab_2020-12-01.rds
+        # rds7: output/measures/ab_2020-07-01.rds
+        # rds8: output/measures/ab_2020-08-01.rds
+        # rds9: output/measures/ab_2020-09-01.rds
+        # rds10: output/measures/ab_2020-10-01.rds
+        # rds11: output/measures/ab_2020-11-01.rds
+        # rds12: output/measures/ab_2020-12-01.rds
         
