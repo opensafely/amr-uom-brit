@@ -460,7 +460,7 @@ study = StudyDefinition(
     ),
 
     #deregistration for censoring
-    date_deregistered=patients.date_deregistered_from_all_supported_practices(
+    deregistered_date=patients.date_deregistered_from_all_supported_practices(
             date_format="YYYY-MM-DD",
             # between=["index_date", "last_day_of_month(index_date)"],
         #     return_expectations={"date": {"index_date": "last_day_of_month(index_date)"}},
