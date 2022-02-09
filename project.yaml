@@ -198,3 +198,31 @@ actions:
   #      moderately_sensitive:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
+
+  describe_broad_proportion:
+    run: r:latest analysis/plot/broad_proportion.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/broad_proportions_line_age.jpeg
+        plot2: output/broad_proportions_line.jpeg
+        csv1: output/broad_prescriptions_proportion.csv
+
+  describe_same_day_ab_sgss:
+    run: r:latest analysis/plot/same_day_covid_ab_sgss.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/same_day_ab_prop_line_sgss_age.jpeg
+        plot2: output/same_day_ab_prop_line_sgss.jpeg
+        csv1: output/same_day_ab_prop_sgss.csv
+
+  describe_same_day_ab_gp:
+    run: r:latest analysis/plot/same_day_covid_ab_gp.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/same_day_ab_prop_line_gp_age.jpeg
+        plot2: output/same_day_ab_prop_line_gp.jpeg
+        csv1: output/same_day_ab_prop_gp.csv
+

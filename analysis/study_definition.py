@@ -923,9 +923,10 @@ measures = [
             group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
             ),
 
+    ## broad_vs_narrow
     Measure(id="broad_narrow_prescribing",
-            numerator="population",
-            denominator="population",
+            numerator="broad_spectrum_antibiotics_prescriptions",
+            denominator="antibacterial_brit",
             group_by=["practice","broad_prescriptions_check","age_cat"]
             ),    
 
