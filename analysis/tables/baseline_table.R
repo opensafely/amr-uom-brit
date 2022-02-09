@@ -33,8 +33,6 @@ temp <- vector("list", length(csvFiles))
 for (i in seq_along(csvFiles)){
   filename <- csvFiles[i]
   #temp_df <- read_csv(filename)
-  
-
  temp_df <- read_csv((filename),
                       col_types = cols_only(
                         #bmi_date_measured = col_date(format = "")
@@ -84,19 +82,19 @@ for (i in seq_along(csvFiles)){
                         #incdt_ot_externa_pt = col_double(),
                         #incdt_otmedia_pt = col_double(),
                         hx_indications = col_double(),
-                         hx_antibiotics = col_double(),
-                           cancer_comor = col_double(),
-                           cardiovascular_comor = col_double(),
-                           chronic_obstructive_pulmonary_comor = col_double(),
-                           heart_failure_comor = col_double(),
-                           connective_tissue_comor = col_double(),
-                           dementia_comor = col_double(),
-                           diabetes_comor = col_double(),
-                           diabetes_complications_comor = col_double(),
-                           hemiplegia_comor = col_double(),
-                           hiv_comor = col_double(),
-                           metastatic_cancer_comor = col_double(),
-                          mild_liver_comor = col_double(),
+                        hx_antibiotics = col_double(),
+                        cancer_comor = col_double(),
+                        cardiovascular_comor = col_double(),
+                        chronic_obstructive_pulmonary_comor = col_double(),
+                        heart_failure_comor = col_double(),
+                        connective_tissue_comor = col_double(),
+                        dementia_comor = col_double(),
+                        diabetes_comor = col_double(),
+                        diabetes_complications_comor = col_double(),
+                        hemiplegia_comor = col_double(),
+                        hiv_comor = col_double(),
+                        metastatic_cancer_comor = col_double(),
+                        mild_liver_comor = col_double(),
                         mod_severe_liver_comor = col_double(),
                         mod_severe_renal_comor = col_double(),
                         mi_comor = col_double(),
