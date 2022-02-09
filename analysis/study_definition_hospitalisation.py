@@ -2413,7 +2413,7 @@ study = StudyDefinition(
 measures = [
     ## antibiotic rx rate
     Measure(id="antibiotics_overall",
-            numerator="antibacterial_prescriptions",
+            numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice"]
             ),
@@ -2422,7 +2422,7 @@ measures = [
     ## Broad spectrum antibiotics
     Measure(id="broad_spectrum_proportion",
             numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_prescriptions",
+            denominator="antibacterial_brit",
             group_by=["practice"]
             ),
 
@@ -2430,7 +2430,7 @@ measures = [
     
     ## STRPU antibiotics
     Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_prescriptions",
+            numerator="antibacterial_brit",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
             ),
