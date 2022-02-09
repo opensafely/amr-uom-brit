@@ -46,19 +46,24 @@ setwd(here::here("output", "measures"))
 # # df <-plyr::ldply(temp, data.frame) 
 # # rm(temp,csvFiles,i,temp_df,filename)# remove temporary list
 
+# # filter all antibiotics users
+# df=df%>%filter(antibacterial_brit !=0)
 
+# ### remove last month data
+# last.date=max(df$date)
+# df=df%>% filter(date!=last.date)
+# first_mon=min(df$date)
+# last_mon= max(df$date)
+
+# df$date=as.Date(df$date)
 
 # read in one-month data
 df <- read_csv(
   here::here("output", "measures", "input_antibiotics_2_2020-01-01.csv.gz"))
+
 # filter all antibiotics users
 df=df%>%filter(antibacterial_brit !=0)
 
-### remove last month data
-last.date=max(df$date)
-df=df%>% filter(date!=last.date)
-first_mon=min(df$date)
-last_mon= max(df$date)
 
 df$date=as.Date(df$date)
 
