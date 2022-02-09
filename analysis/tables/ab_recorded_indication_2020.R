@@ -6,13 +6,13 @@
 
 ## Import libraries---
 library("tidyverse") 
-library("ggplot2")
-library('plyr')
+#library("ggplot2")
+#library('plyr')
 library('dplyr')#conflict with plyr; load after plyr
 library('lubridate')
-library('stringr')
-library("data.table")
-library("ggpubr")
+#library('stringr')
+#library("data.table")
+#library("ggpubr")
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
@@ -57,19 +57,12 @@ setwd(here::here("output", "measures"))
 
 # df$date=as.Date(df$date)
 
-# read in one-month data
-df <- read_csv(
-  here::here("output", "measures", "input_antibiotics_2_2020-01-01.csv.gz"))
-
-# filter all antibiotics users
-df=df%>%filter(antibacterial_brit !=0)
-
-
-df$date=as.Date("2020-01-01")
-
-
-
-
+# read in files
+csvFiles = c("input_antibiotics_2_2020-01-01.csv.gz","input_antibiotics_2_2020-02-01.csv.gz","input_antibiotics_2_2020-03-01.csv.gz",
+"input_antibiotics_2_2020-04-01.csv.gz","input_antibiotics_2_2020-05-01.csv.gz","input_antibiotics_2_2020-06-01.csv.gz",
+"input_antibiotics_2_2020-07-01.csv.gz","input_antibiotics_2_2020-08-01.csv.gz","input_antibiotics_2_2020-09-01.csv.gz",
+"input_antibiotics_2_2020-10-01.csv.gz","input_antibiotics_2_2020-11-01.csv.gz","input_antibiotics_2_2020-12-01.csv.gz")
+datelist= c("2020-01-01","2020-02-01","2020-03-01","2020-04-01","2020-05-01","2020-06-01","2020-07-01","2020-08-01","2020-09-01","2020-10-01","2020-11-01","2020-12-01")
 
 # variables names list
 prevalent_check=paste0("prevalent_AB_date_",rep(1:10))
@@ -81,6 +74,19 @@ ab_date_10=paste0("AB_date_",rep(1:10))
 # #replace NA with "uncoded" in AB_indication_1-10 columns
 # for (i in 1:10){
 #   df[,ab_category[i]]=ifelse(is.na(df[,ab_category[i]]),"uncoded", df[,ab_category[i]])}
+
+
+for (i in 1:12){
+######### 2020-01-01 ##############
+# read in one-month data
+df <- read_csv(
+  here::here("output", "measures", csvFiles[i]))
+
+# filter all antibiotics users
+df=df%>%filter(antibacterial_brit !=0)
+
+# create date column
+df$date=as.Date(datelist[i])
 
 
 #### patient/row --> prescription/row
@@ -115,7 +121,8 @@ DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
 DF=DF%>%filter(!is.na(date))
 DF$date=as.Date(DF$date,origin="1970-01-01")
 
-write_rds(DF, here::here("output", "ab_2020-01-01.rds"))
+write_rds(DF, here::here("output", "measures",paste0("ab_",datelist[i],".rds")))
 
-
+rm(DF,df1.1,df2.1,df3.1,df4.1)
   
+}
