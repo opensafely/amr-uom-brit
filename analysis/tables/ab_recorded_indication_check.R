@@ -57,8 +57,24 @@ df=df%>%filter(antibacterial_brit !=0)
 
 # sum total ab counts in 10 extractions
 df$ab_counts_10=rowSums(df[ab_count_10])
+df$ab_counts_9=rowSums(df[ab_count_10[1:9]])
+df$ab_counts_8=rowSums(df[ab_count_10[1:8]])
+df$ab_counts_7=rowSums(df[ab_count_10[1:7]])
+df$ab_counts_6=rowSums(df[ab_count_10[1:6]])
+df$ab_counts_5=rowSums(df[ab_count_10[1:5]])
+df$ab_counts_4=rowSums(df[ab_count_10[1:4]])
+df$ab_counts_3=rowSums(df[ab_count_10[1:3]])
+df$ab_counts_2=rowSums(df[ab_count_10[1:2]])
 
 df=df%>%summarise(ab_counts_10=sum(ab_counts_10),
+                  ab_counts_9=sum(ab_counts_9),
+                  ab_counts_8=sum(ab_counts_8),
+                  ab_counts_7=sum(ab_counts_7),
+                  ab_counts_6=sum(ab_counts_6),
+                  ab_counts_5=sum(ab_counts_5),
+                  ab_counts_4=sum(ab_counts_4),
+                  ab_counts_3=sum(ab_counts_3),
+                  ab_counts_2=sum(ab_counts_2),
                   antibacterial_brit=sum(antibacterial_brit))%>%
   mutate(date=as.Date(datelist[i]))
 
@@ -70,7 +86,17 @@ library('plyr')
 # combine list -> data.table/data.frame
 DF <-plyr::ldply(temp, data.frame) 
 
-DF$percent=DF$ab_counts_10/DF$antibacterial_bri
+
+DF$percent_10=DF$ab_counts_10/DF$antibacterial_brit
+DF$percent_9=DF$ab_counts_9/DF$antibacterial_brit
+DF$percent_8=DF$ab_counts_8/DF$antibacterial_brit
+DF$percent_7=DF$ab_counts_7/DF$antibacterial_brit
+DF$percent_6=DF$ab_counts_6/DF$antibacterial_brit
+DF$percent_5=DF$ab_counts_5/DF$antibacterial_brit
+DF$percent_4=DF$ab_counts_4/DF$antibacterial_brit
+DF$percent_3=DF$ab_counts_3/DF$antibacterial_brit
+DF$percent_2=DF$ab_counts_2/DF$antibacterial_brit
+
 
 write_csv(DF, here::here("output", "check_ab_extraction.csv"))
 
