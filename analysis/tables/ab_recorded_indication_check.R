@@ -14,11 +14,10 @@ setwd(here::here("output", "measures"))
 
 
 # file list
-csvFiles = c("input_antibiotics_2_2020-01-01.csv.gz","input_antibiotics_2_2020-02-01.csv.gz","input_antibiotics_2_2020-03-01.csv.gz",
-             "input_antibiotics_2_2020-04-01.csv.gz","input_antibiotics_2_2020-05-01.csv.gz","input_antibiotics_2_2020-06-01.csv.gz",
-             "input_antibiotics_2_2020-07-01.csv.gz","input_antibiotics_2_2020-08-01.csv.gz","input_antibiotics_2_2020-09-01.csv.gz",
-             "input_antibiotics_2_2020-10-01.csv.gz","input_antibiotics_2_2020-11-01.csv.gz","input_antibiotics_2_2020-12-01.csv.gz")
-
+csvFiles = c("input_antibiotics_2020_2020-01-01.csv.gz","input_antibiotics_2020_2020-02-01.csv.gz","input_antibiotics_2020_2020-03-01.csv.gz",
+"input_antibiotics_2020_2020-04-01.csv.gz","input_antibiotics_2020_2020-05-01.csv.gz","input_antibiotics_2020_2020-06-01.csv.gz",
+"input_antibiotics_2020_2020-07-01.csv.gz","input_antibiotics_2020_2020-08-01.csv.gz","input_antibiotics_2020_2020-09-01.csv.gz",
+"input_antibiotics_2020_2020-10-01.csv.gz","input_antibiotics_2020_2020-11-01.csv.gz","input_antibiotics_2020_2020-12-01.csv.gz")
 datelist= c("2020-01-01","2020-02-01","2020-03-01","2020-04-01","2020-05-01","2020-06-01","2020-07-01","2020-08-01","2020-09-01","2020-10-01","2020-11-01","2020-12-01")
 # variables names list
 #prevalent_check=paste0("prevalent_AB_date_",rep(1:10))
