@@ -33,9 +33,7 @@ temp <- vector("list", length(csvFiles))
 for (i in seq_along(csvFiles)){
   filename <- csvFiles[i]
   #temp_df <- read_csv(filename)
-  filename <- basename(filename)
-  filename <-str_remove(filename, "input_")
-  filename <-str_remove(filename, ".csv.gz")
+  
 
  temp_df <- read_csv((filename),
                       col_types = cols_only(
@@ -67,7 +65,7 @@ for (i in seq_along(csvFiles)){
                         #antibacterial_12mb4 = col_double(),
                         #broad_spectrum_antibiotics_prescriptions = col_double(),
                         #broad_prescriptions_check = col_double(),
-                        #Covid_test_result_sgss = col_double(),
+                        Covid_test_result_sgss = col_double(),
                         #covid_positive_count_sgss = col_double(),
                         #sgss_ab_prescribed = col_double(),
                         #gp_covid = col_double(),
@@ -110,7 +108,9 @@ for (i in seq_along(csvFiles)){
   )
 
 
-
+filename <- basename(filename)
+  filename <-str_remove(filename, "input_")
+  filename <-str_remove(filename, ".csv.gz")
 
   
   #add to per-month temp df
