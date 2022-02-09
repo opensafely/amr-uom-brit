@@ -76,7 +76,7 @@ ab_date_10=paste0("AB_date_",rep(1:10))
 #   df[,ab_category[i]]=ifelse(is.na(df[,ab_category[i]]),"uncoded", df[,ab_category[i]])}
 
 
-for (i in 1:12){
+for (i in 1:6){
 ######### 2020-01-01 ##############
 # read in one-month data
 df <- read_csv(
