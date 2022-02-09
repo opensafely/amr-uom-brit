@@ -65,7 +65,7 @@ df <- read_csv(
 df=df%>%filter(antibacterial_brit !=0)
 
 
-df$date=as.Date(df$date)
+df$date=as.Date("2020-01-01")
 
 
 
@@ -113,9 +113,9 @@ DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
 
 # exclude observation without AB prescription date
 DF=DF%>%filter(!is.na(date))
- DF$date=as.Date(DF$date,origin="1970-01-01")
+DF$date=as.Date(DF$date,origin="1970-01-01")
 
-write_rds(DF, here::here("output", "total_ab.rds"))
+write_rds(DF, here::here("output", "ab_2020-01-01.rds"))
 
 
   
