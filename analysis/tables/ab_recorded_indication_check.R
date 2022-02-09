@@ -102,3 +102,13 @@ write_csv(DF, here::here("output", "check_ab_extraction.csv"))
 
 
 
+DF.line=DF[,11:20]
+DF.line=DF.line%>%gather(sum.counts,percent,"percent_10","percent_9","percent_8","percent_7","percent_6","percent_5","percent_4","percent_3","percent_2",-date)
+
+DF.line$sum.counts=factor(DF.line$sum.counts,levels=c("percent_10","percent_9","percent_8","percent_7","percent_6","percent_5","percent_4","percent_3","percent_2"))
+
+line=ggplot(data=DF.line, aes(x=sum.counts, y=percent, group=date)) +
+  geom_line(aes(linetype=as.character(date)))
+
+ggsave(plot= line,
+  filename="check_ab_extraction.jpeg", path=here::here("output"))
