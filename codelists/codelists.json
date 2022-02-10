@@ -299,6 +299,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson17_peripheral_vascular/68751652/",
       "downloaded_at": "2021-11-18 14:37:46.921916Z",
       "sha": "93cdab3534d0c44371d41ab73d861aaafba20270"
+    },
+    "user-yayang-antibiotics_indications.csv": {
+      "id": "user/yayang/antibiotics_indications/69efab76",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/antibiotics_indications/69efab76/",
+      "downloaded_at": "2022-02-10 10:14:25.942930Z",
+      "sha": "fab2ed2b51fdbaf4157cff1e81da6c6f33f04918"
     }
   }
 }
