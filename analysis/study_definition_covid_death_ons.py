@@ -147,7 +147,7 @@ study = StudyDefinition(
 
     ## region
     stp=patients.registered_practice_as_of(
-            f'{index_date_variable}',
+           "patient_index_date",
             returning="stp_code",
             return_expectations={
                 "rate": "universal",
