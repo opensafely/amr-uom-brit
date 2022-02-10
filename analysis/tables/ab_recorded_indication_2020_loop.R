@@ -46,8 +46,8 @@ ab_date_12=paste0("AB_date_",rep(1:12))
 # transform dataset & creat list 2020
 temp <- vector("list", length(csvFiles_20))
 
-#for (i in seq_along(csvFiles_20)){
-i=1
+for (i in seq_along(csvFiles_20)){
+
   # read in one-month data
   df <- read_csv(csvFiles_20[i])
   #  here::here("output", "measures", csvFiles_19[i]))
@@ -91,11 +91,10 @@ i=1
   DF=DF%>%filter(!is.na(date))
   DF$date=as.Date(DF$date,origin="1970-01-01")
   
-
  
   temp[[i]] <- DF
   rm(DF,df1.1,df2.1,df3.1)
-  
+}
 
 #write_rds(temp, "recorded_ab_2020.rds")
-write_rds(DF, here::here("output", "measures","recorded_ab_2020.rds"))
+write_rds(temp, here::here("output", "measures","recorded_ab_2020.rds"))
