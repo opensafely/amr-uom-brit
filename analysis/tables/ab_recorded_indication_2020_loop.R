@@ -23,7 +23,7 @@ setwd(here::here("output", "measures"))
 
 # file list
 #csvFiles_19 = list.files(pattern="input_antibiotics_2019", full.names = FALSE)
-csvFiles_20 = list.files(pattern="input_antibiotics_2020", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_antibiotics_2020_2020", full.names = FALSE)
 # csvFiles_21 = list.files(pattern="input_antibiotics_2021", full.names = FALSE)
 # csvFiles_22 = list.files(pattern="input_antibiotics_2022", full.names = FALSE)
 
@@ -43,11 +43,11 @@ ab_date_12=paste0("AB_date_",rep(1:12))
 
 
 
-# transform dataset & creat list 2019
+# transform dataset & creat list 2020
 temp <- vector("list", length(csvFiles_20))
 
-for (i in seq_along(csvFiles_20)){
-
+#for (i in seq_along(csvFiles_20)){
+i=1
   # read in one-month data
   df <- read_csv(csvFiles_20[i])
   #  here::here("output", "measures", csvFiles_19[i]))
@@ -96,6 +96,6 @@ for (i in seq_along(csvFiles_20)){
   temp[[i]] <- DF
   rm(DF,df1.1,df2.1,df3.1)
   
-}
+
 #write_rds(temp, "recorded_ab_2020.rds")
 write_rds(DF, here::here("output", "measures","recorded_ab_2020.rds"))
