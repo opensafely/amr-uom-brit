@@ -60,7 +60,7 @@ study = StudyDefinition(
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
         AND NOT stp = ""
-        AND has outcome
+        AND has_outcome
         """,
 
         has_died=patients.died_from_any_cause(
