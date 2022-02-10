@@ -22,9 +22,9 @@ end_date = "2021-12-31"
 
 ####### Import variables
 
-## covid history before patient_index_date
-from variables_covid import generate_covid_variables
-covid_variables = generate_covid_variables(index_date_variable="patient_index_date")
+# ## covid history before patient_index_date
+# from variables_covid import generate_covid_variables
+# covid_variables = generate_covid_variables(index_date_variable="patient_index_date")
 
 ## Exposure variables: antibiotics 
 from variables_antibiotics import generate_ab_variables
@@ -76,39 +76,39 @@ study = StudyDefinition(
         },
     ),
 
-    ## Age categories
-    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
-    age_cat=patients.categorised_as(
-        {
-            "0":"DEFAULT",
-            "0-4": """ age >= 0 AND age < 5""",
-            "5-14": """ age >= 5 AND age < 15""",
-            "15-24": """ age >= 15 AND age < 25""",
-            "25-34": """ age >= 25 AND age < 35""",
-            "35-44": """ age >= 35 AND age < 45""",
-            "45-54": """ age >= 45 AND age < 55""",
-            "55-64": """ age >= 55 AND age < 65""",
-            "65-74": """ age >= 65 AND age < 75""",
-            "75+": """ age >= 75 AND age < 120""",
-        },
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0": 0,
-                    "0-4": 0.12, 
-                    "5-14": 0.11,
-                    "15-24": 0.11,
-                    "25-34": 0.11,
-                    "35-44": 0.11,
-                    "45-54": 0.11,
-                    "55-64": 0.11,
-                    "65-74": 0.11,
-                    "75+": 0.11,
-                }
-            },
-        },
-    ),
+    # ## Age categories
+    # ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
+    # age_cat=patients.categorised_as(
+    #     {
+    #         "0":"DEFAULT",
+    #         "0-4": """ age >= 0 AND age < 5""",
+    #         "5-14": """ age >= 5 AND age < 15""",
+    #         "15-24": """ age >= 15 AND age < 25""",
+    #         "25-34": """ age >= 25 AND age < 35""",
+    #         "35-44": """ age >= 35 AND age < 45""",
+    #         "45-54": """ age >= 45 AND age < 55""",
+    #         "55-64": """ age >= 55 AND age < 65""",
+    #         "65-74": """ age >= 65 AND age < 75""",
+    #         "75+": """ age >= 75 AND age < 120""",
+    #     },
+    #     return_expectations={
+    #         "rate": "universal",
+    #         "category": {
+    #             "ratios": {
+    #                 "0": 0,
+    #                 "0-4": 0.12, 
+    #                 "5-14": 0.11,
+    #                 "15-24": 0.11,
+    #                 "25-34": 0.11,
+    #                 "35-44": 0.11,
+    #                 "45-54": 0.11,
+    #                 "55-64": 0.11,
+    #                 "65-74": 0.11,
+    #                 "75+": 0.11,
+    #             }
+    #         },
+    #     },
+    # ),
 
     
     ## Sex
@@ -119,6 +119,28 @@ study = StudyDefinition(
         }
     ),
 
+## region
+    stp=patients.registered_practice_as_of(
+             "patient_index_date",
+            returning="stp_code",
+            return_expectations={
+                "rate": "universal",
+                "category": {
+                    "ratios": {
+                        "STP1": 0.1,
+                        "STP2": 0.1,
+                        "STP3": 0.1,
+                        "STP4": 0.1,
+                        "STP5": 0.1,
+                        "STP6": 0.1,
+                        "STP7": 0.1,
+                        "STP8": 0.1,
+                        "STP9": 0.1,
+                        "STP10": 0.1,
+                    }
+                },
+            },
+    ),
 
     # observation end date
     ## de-register after start date
@@ -141,7 +163,7 @@ study = StudyDefinition(
 
     **ab_variables,
     **confounding_variables,
-    **covid_variables,
+    #**covid_variables,
     #**comobidities_variables,
     **CCI_variables,
 )
