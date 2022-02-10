@@ -63,7 +63,7 @@ study = StudyDefinition(
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
         AND NOT stp = ""
-        AND NOT patient_index_date =""
+        AND has_outcome
         """,
 
         has_died=patients.died_from_any_cause(
@@ -75,6 +75,11 @@ study = StudyDefinition(
             start_date="patient_index_date - 1137 days",
             end_date="patient_index_date",
             return_expectations={"incidence": 0.95},
+        ),
+
+        has_outcome=patients.admitted_to_hospital(
+            with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+            on_or_after="index_date",
         ),
 
     ),
@@ -142,6 +147,7 @@ study = StudyDefinition(
         }
     ),
 
+    ## region
     stp=patients.registered_practice_as_of(
              "patient_index_date",
             returning="stp_code",

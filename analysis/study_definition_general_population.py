@@ -131,6 +131,7 @@ study = StudyDefinition(
         }
     ),
 
+    ## index date
     stp=patients.registered_practice_as_of(
             "index_date",
             returning="stp_code",
