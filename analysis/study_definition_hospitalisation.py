@@ -199,7 +199,7 @@ study = StudyDefinition(
                     "4": 0.19,
                     "5": 0.19,
                 }
-            },
+            }, "incidence": 0.55,
         },
     ),
     
@@ -212,7 +212,7 @@ study = StudyDefinition(
         return_expectations={
             "date": {},
             "float": {"distribution": "normal", "mean": 35, "stddev": 10},
-            "incidence": 0.95,
+            "incidence": 0.75,
         },
     ),
 
@@ -241,7 +241,7 @@ study = StudyDefinition(
             "M": "DEFAULT",
         },
         return_expectations={
-            "category": {"ratios": {"S": 0.6, "E": 0.1, "N": 0.2, "M": 0.1}}
+            "category": {"ratios": {"S": 0.6, "E": 0.1, "N": 0.2, "M": 0.1}}, "incidence": 0.65,
         },
         most_recent_smoking_code=patients.with_these_clinical_events(
             clear_smoking_codes,
