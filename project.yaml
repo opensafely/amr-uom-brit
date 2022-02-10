@@ -226,3 +226,19 @@ actions:
         plot2: output/same_day_ab_prop_line_gp.jpeg
         csv1: output/same_day_ab_prop_gp.csv
 
+  generate_study_population_antibiotics: #  Antibiotics_recorded_01
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_antibiotics_*.csv.gz
+
+  describe_ab_recoded_indication_process: #  Antibiotics_recorded_02: generate prescription-level dataset
+    run: r:latest analysis/process/ab_recorded_indication_transform.R
+    needs: [generate_study_population_antibiotics]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/recorded_ab_2019.rds
+        rds2: output/measures/recorded_ab_2020.rds
+        rds3: output/measures/recorded_ab_2021.rds
+        rds4: output/measures/recorded_ab_2022.rds
+        
