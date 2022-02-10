@@ -226,7 +226,7 @@ actions:
         plot2: output/same_day_ab_prop_line_gp.jpeg
         csv1: output/same_day_ab_prop_gp.csv
 
-generate_study_population_antibiotics_2020: #  Antibiotics -> infections
+  generate_study_population_antibiotics: #  Antibiotics -> infections
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
