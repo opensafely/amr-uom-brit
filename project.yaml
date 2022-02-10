@@ -227,7 +227,7 @@ actions:
         csv1: output/same_day_ab_prop_gp.csv
 
   generate_study_population_antibiotics: #  Antibiotics_recorded_01
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-06-01 to 2020-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
