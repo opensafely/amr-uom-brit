@@ -87,21 +87,21 @@ actions:
 
   extract_variables_outcome_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1
-    needs: [matching]
+    needs: [matching_1]
     outputs:
       highly_sensitive:
         cohort: output/input_outcome1.csv
   
   extract_variables_outcome_2:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2
-    needs: [matching]
+    needs: [matching_2]
     outputs:
       highly_sensitive:
         cohort: output/input_outcome2.csv
 
   extract_variables_outcome_3:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3
-    needs: [matching]
+    needs: [matching_3]
     outputs:
       highly_sensitive:
         cohort: output/input_outcome3.csv
