@@ -17,34 +17,34 @@ def generate_confounding_variables(index_date_variable):
     #     },
     # ),
 
-    # # Age categories(18-29; 30-39; 40-49; 50-59; 60-69; 70-79; 80+)
-    # age_cat=patients.categorised_as(
-    #     {
-    #         "0":"DEFAULT",
-    #         "18-29": """ age >= 18 AND age < 30""",
-    #         "30-39": """ age >= 30 AND age < 40""",
-    #         "40-49": """ age >= 40 AND age < 50""",
-    #         "50-59": """ age >= 50 AND age < 60""",
-    #         "60-69": """ age >= 60 AND age < 70""",
-    #         "70-79": """ age >= 70 AND age < 80""",
-    #         "80+": """ age >= 80 AND age < 110""",
-    #     },
-    #     return_expectations={
-    #         "rate": "universal",
-    #         "category": {
-    #             "ratios": {
-    #                 "0": 0,
-    #                 "18-29": 0.24, 
-    #                 "30-39": 0.21,
-    #                 "40-49": 0.11,
-    #                 "50-59": 0.11,
-    #                 "60-69": 0.11,
-    #                 "70-79": 0.11,
-    #                 "80+": 0.11,
-    #             }
-    #         },
-    #     },
-    # ),
+    # Age categories(18-29; 30-39; 40-49; 50-59; 60-69; 70-79; 80+)
+    age_cat=patients.categorised_as(
+        {
+            "0":"DEFAULT",
+            "18-29": """ age >= 18 AND age < 30""",
+            "30-39": """ age >= 30 AND age < 40""",
+            "40-49": """ age >= 40 AND age < 50""",
+            "50-59": """ age >= 50 AND age < 60""",
+            "60-69": """ age >= 60 AND age < 70""",
+            "70-79": """ age >= 70 AND age < 80""",
+            "80+": """ age >= 80 AND age < 110""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0,
+                    "18-29": 0.24, 
+                    "30-39": 0.21,
+                    "40-49": 0.11,
+                    "50-59": 0.11,
+                    "60-69": 0.11,
+                    "70-79": 0.11,
+                    "80+": 0.11,
+                }
+            },
+        },
+    ),
 
     
     # #Sex
@@ -115,27 +115,27 @@ def generate_confounding_variables(index_date_variable):
                                      "mean": 25, "stddev": 5}, "incidence": 1}
     ), 
     
-    stp=patients.registered_practice_as_of(
-            f'{index_date_variable}',
-            returning="stp_code",
-            return_expectations={
-                "rate": "universal",
-                "category": {
-                    "ratios": {
-                        "STP1": 0.1,
-                        "STP2": 0.1,
-                        "STP3": 0.1,
-                        "STP4": 0.1,
-                        "STP5": 0.1,
-                        "STP6": 0.1,
-                        "STP7": 0.1,
-                        "STP8": 0.1,
-                        "STP9": 0.1,
-                        "STP10": 0.1,
-                    }
-                },
-            },
-    ),
+    # stp=patients.registered_practice_as_of(
+    #         f'{index_date_variable}',
+    #         returning="stp_code",
+    #         return_expectations={
+    #             "rate": "universal",
+    #             "category": {
+    #                 "ratios": {
+    #                     "STP1": 0.1,
+    #                     "STP2": 0.1,
+    #                     "STP3": 0.1,
+    #                     "STP4": 0.1,
+    #                     "STP5": 0.1,
+    #                     "STP6": 0.1,
+    #                     "STP7": 0.1,
+    #                     "STP8": 0.1,
+    #                     "STP9": 0.1,
+    #                     "STP10": 0.1,
+    #                 }
+    #             },
+    #         },
+    # ),
 
     # Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
