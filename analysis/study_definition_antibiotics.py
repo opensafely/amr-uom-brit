@@ -246,6 +246,22 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",    
     ),
 
+     AB_date_11=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning='date',
+        between=["AB_date_10 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",    
+    ),
+
+     AB_date_12=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning='date',
+        between=["AB_date_11 + 1 day", "last_day_of_month(index_date)"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",    
+    ),
+
 ##### antibiotics date check - incidence/prevalence
     prevalent_AB_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
@@ -307,8 +323,20 @@ study = StudyDefinition(
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
+    prevalent_AB_date_11= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_11 - 90 days", "AB_date_11"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
+    prevalent_AB_date_12= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_12 - 90 days", "AB_date_12"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.8},
+    ),
  
-##### antibiotics numbers fit each date
+##### antibiotics numbers fit each date ---for check coverage%
     AB_date_1_count= patients.with_these_medications(
         antibacterials_codes_brit,
         between=['AB_date_1','AB_date_1'],
@@ -375,6 +403,20 @@ study = StudyDefinition(
     AB_date_10_count= patients.with_these_medications(
         antibacterials_codes_brit,
         between=['AB_date_10','AB_date_10'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    AB_date_11_count= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['AB_date_11','AB_date_11'],
+        returning='number_of_matches_in_period',
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+        ),
+    AB_date_12_count= patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['AB_date_12','AB_date_12'],
         returning='number_of_matches_in_period',
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
@@ -492,6 +534,28 @@ study = StudyDefinition(
             "urti":0.1, "uti":0.1,}},
             "incidence": 0.8,},
             ),
+    AB_date_11_indication=patients.with_these_clinical_events(
+        antibiotics_indications,
+        returning='category',
+        between=["AB_date_11", "AB_date_11"], 
+        return_expectations={
+            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+            "urti":0.1, "uti":0.1,}},
+            "incidence": 0.8,},
+            ),
+    AB_date_12_indication=patients.with_these_clinical_events(
+        antibiotics_indications,
+        returning='category',
+        between=["AB_date_12", "AB_date_12"], 
+        return_expectations={
+            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+            "urti":0.1, "uti":0.1,}},
+            "incidence": 0.8,},
+            ),
 
 #### broad sprctrum antibiotics- binary flag
     Ab_date_1_broad_check=patients.with_these_medications(
@@ -560,6 +624,20 @@ study = StudyDefinition(
     Ab_date_10_broad_check=patients.with_these_medications(
         broad_spectrum_antibiotics_codes,
         between=["AB_date_10", "AB_date_10"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_11_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_11", "AB_date_11"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.3,},
+    ),
+    Ab_date_12_broad_check=patients.with_these_medications(
+        broad_spectrum_antibiotics_codes,
+        between=["AB_date_12", "AB_date_12"],
         returning="binary_flag",
         return_expectations={
             "incidence": 0.3,},
