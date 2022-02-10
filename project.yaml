@@ -108,7 +108,7 @@ actions:
 
   variables:
     run: r:latest analysis/variables.R
-    needs: [matching,extract_control]
+    needs: [matching_1,matching_2,matching_3,extract_variables_outcome_1,extract_variables_outcome_2,extract_variables_outcome_3]
     outputs:
       highly_sensitive:
         cohort1: output/matched_outcome1.csv
