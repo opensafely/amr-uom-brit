@@ -90,21 +90,21 @@ actions:
     needs: [matching_1]
     outputs:
       highly_sensitive:
-        cohort: output/input_outcome1.csv
+        cohort: output/input_outcome_1.csv
   
   extract_variables_outcome_2:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2
     needs: [matching_2]
     outputs:
       highly_sensitive:
-        cohort: output/input_outcome2.csv
+        cohort: output/input_outcome_2.csv
 
   extract_variables_outcome_3:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3
     needs: [matching_3]
     outputs:
       highly_sensitive:
-        cohort: output/input_outcome3.csv
+        cohort: output/input_outcome_3.csv
 
   variables:
     run: r:latest analysis/variables.R
