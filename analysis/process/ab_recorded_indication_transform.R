@@ -15,7 +15,7 @@ library('lubridate')
 #library("ggpubr")
 
 rm(list=ls())
-#setwd(here::here("output", "measures"))
+setwd(here::here("output", "measures"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
 
@@ -23,9 +23,10 @@ rm(list=ls())
 
 # file list
 csvFiles_19 = list.files(pattern="input_antibiotics_2019", full.names = FALSE)
-csvFiles_20 = list.files(pattern="input_antibiotics_2020_2020", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_antibiotics_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_antibiotics_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_antibiotics_2022", full.names = FALSE)
+
 
 # date list
 date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
@@ -51,8 +52,7 @@ temp <- vector("list", length(csvFiles_19))
 for (i in seq_along(csvFiles_19)){
 
   # read in one-month data
-  df <- read_csv(
-    here::here("output", "measures", csvFiles_19[i]))
+  df <- read_csv(csvFiles_19[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -103,8 +103,9 @@ for (i in seq_along(csvFiles_19)){
   
 }
 #write_rds(temp, "recorded_ab_2019.rds")
-write_rds(temp, here::here("output","measures", "recorded_ab_2019.rds"))
-rm(df,temp)
+saveRDS(temp, "recorded_ab_2019.rds")
+
+rm(temp)
 
 
 
@@ -119,8 +120,7 @@ temp <- vector("list", length(csvFiles_20))
 for (i in seq_along(csvFiles_20)){
 
   # read in one-month data
-  df <- read_csv(
-    here::here("output", "measures", csvFiles_20[i]))
+  df <- read_csv(csvFiles_20[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -171,8 +171,9 @@ for (i in seq_along(csvFiles_20)){
   
 }
 #write_rds(temp, "recorded_ab_2020.rds")
-write_rds(temp, here::here("output","measures", "recorded_ab_2020.rds"))
-rm(df,temp)
+saveRDS(temp,  "recorded_ab_2020.rds")
+
+rm(temp)
 
 
 
@@ -182,8 +183,7 @@ temp <- vector("list", length(csvFiles_21))
 for (i in seq_along(csvFiles_21)){
 
   # read in one-month data
-  df <- read_csv(
-    here::here("output", "measures", csvFiles_21[i]))
+  df <- read_csv(csvFiles_21[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -234,8 +234,9 @@ for (i in seq_along(csvFiles_21)){
   
 }
 #write_rds(temp, "recorded_ab_2021.rds")
-write_rds(temp, here::here("output","measures", "recorded_ab_2021.rds"))
-rm(df,temp)
+saveRDS(temp, "recorded_ab_2021.rds")
+
+rm(temp)
 
 
 
@@ -246,8 +247,7 @@ temp <- vector("list", length(csvFiles_22))
 for (i in seq_along(csvFiles_22)){
 
   # read in one-month data
-  df <- read_csv(
-    here::here("output", "measures", csvFiles_22[i]))
+  df <- read_csv(csvFiles_22[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -298,8 +298,9 @@ for (i in seq_along(csvFiles_22)){
   
 }
 #write_rds(temp, "recorded_ab_2022.rds")
-write_rds(temp, here::here("output","measures", "recorded_ab_2022.rds"))
-rm(df,temp)
+saveRDS(temp,"recorded_ab_2022.rds"))
+
+rm(temp)
 
 
 
