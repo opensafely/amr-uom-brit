@@ -58,17 +58,31 @@ actions:
         cohort2: output/case_covid_admission.csv
         cohort3: output/case_covid_icu_death.csv
         
-  matching:
-    run: python:latest python analysis/matching_case_control.py
+  matching_1:
+    run: python:latest python analysis/matching_outcome_1.py
     needs: [generate_study_population, process]
     outputs:
       moderately_sensitive: 
         matching_report1: output/matching_report_general_population_infection.txt
-        matching_report2: output/matching_report_infection_hosp.txt
-        matching_report3: output/matching_report_hosp_icu_death.txt 
       highly_sensitive: 
         combined1: output/matched_combined_general_population_infection.csv
+
+  matching_2:
+    run: python:latest python analysis/matching_outcome_2.py
+    needs: [process]
+    outputs:
+      moderately_sensitive: 
+        matching_report2: output/matching_report_infection_hosp.txt
+      highly_sensitive: 
         combined2: output/matched_combined_infection_hosp.csv
+
+  matching_3:
+    run: python:latest python analysis/matching_outcome_3.py
+    needs: [process]
+    outputs:
+      moderately_sensitive: 
+        matching_report3: output/matching_report_hosp_icu_death.txt 
+      highly_sensitive: 
         combined3: output/matched_combined_hosp_icu_death.csv
 
   extract_variables_outcome_1:
