@@ -9,8 +9,8 @@ from cohortextractor import (
     Measure
 )
 
-###### import matched control
-CONTROLS = "output/matched_combined_general_population_infection.csv"
+###### import matched cohort
+COHORT = "output/matched_combined_infection_hosp.csv"
 
 ###### Code lists
 from codelists import *
@@ -56,12 +56,12 @@ study = StudyDefinition(
     index_date=start_date,
    
     # study population
-    population=patients.which_exist_in_file(CONTROLS),
+    population=patients.which_exist_in_file(COHORT),
 
     ### patient index date  
     # case_infection_date
     patient_index_date=patients.with_value_from_file(
-        CONTROLS,
+        COHORT,
         returning="patient_index_date",
         returning_type="date",
     ),
