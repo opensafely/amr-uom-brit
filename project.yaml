@@ -54,7 +54,7 @@ actions:
       highly_sensitive:
         cohort1.1: output/case_covid_infection.csv
         cohort1.2: output/control_covid_infection.csv 
-        cohort1.3: output/case_covid_infection_*.csv # for monthly matching
+        #cohort1.3: output/case_covid_infection_*.csv # for monthly matching
         cohort2: output/case_covid_admission.csv
         cohort3: output/case_covid_icu_death.csv
         
@@ -129,19 +129,19 @@ actions:
 
  
 
-## monthly matching datasets
-  generate_study_population_month:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population --index-date-range "2020-02-01 to 2021-12-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_general_population_*.csv.gz
+# ## monthly matching datasets
+#   generate_study_population_month:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population --index-date-range "2020-02-01 to 2021-12-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/measures/input_general_population_*.csv.gz
   
-  exclusion:
-    run: r:latest analysis/exclusion.R
-    needs: [process, generate_study_population_month]
-    outputs:
-       highly_sensitive:
-        cohort4: output/control_general_population_*.csv
+#   exclusion:
+#     run: r:latest analysis/exclusion.R
+#     needs: [process, generate_study_population_month]
+#     outputs:
+#        highly_sensitive:
+#         cohort4: output/control_general_population_*.csv
   
         
         
