@@ -17,7 +17,7 @@ library('lubridate')
 # impoprt data
 df1 <- read_csv(here::here("output", "matched_combined_general_population_infection.csv"))
 df1 = subset(df1,select=c("patient_id","age","sex","set_id","case", "match_counts"))
-df2 <- read_csv(here::here("output", "input_control.csv"))
+df2 <- read_csv(here::here("output", "input_outcome_1.csv"))
 
 df=merge(df2,df1,by=c("patient_id","age","sex"),all.x=T)
 
@@ -183,7 +183,13 @@ rm(list=ls())
 #### outcome2: infection vs hops admission
 
 # impoprt data
-df <- read_csv(here::here("output", "matched_combined_infection_hosp.csv"))
+
+df1 <- read_csv(here::here("output", "matched_combined_infection_hosp.csv"))
+df1 = subset(df1,select=c("patient_id","age","sex","set_id","case", "match_counts"))
+df2 <- read_csv(here::here("output", "input_outcome_2.csv"))
+
+df=merge(df2,df1,by=c("patient_id","age","sex"),all.x=T)
+#df <- read_csv(here::here("output", "input_outcome_2.csv"))
 
 # df$start_date=as.Date("2020-02-01")
 # df$end_date=as.Date("2021-12-31")
@@ -350,7 +356,11 @@ rm(list=ls())
 #### outcome3: hops admission vs. death
 
 # impoprt data
-df <- read_csv(here::here("output", "matched_combined_hosp_icu_death.csv"))
+#df <- read_csv(here::here("output", "input_outcome_3.csv"))
+df1 <- read_csv(here::here("output", "matched_combined_hosp_icu_death.csv"))
+df1 = subset(df1,select=c("patient_id","age","sex","set_id","case", "match_counts"))
+df2 <- read_csv(here::here("output", "input_outcome_3.csv"))
+df=merge(df2,df1,by=c("patient_id","age","sex"),all.x=T)
 
 # df$start_date=as.Date("2020-02-01")
 # df$end_date=as.Date("2021-12-31")
@@ -366,10 +376,8 @@ df <- read_csv(here::here("output", "matched_combined_hosp_icu_death.csv"))
 ##3.control: study end date
 #df$exit_date[is.na(df$exit_date)]=df$end_date[is.na(df$exit_date)]
 
-
 ## age
 df$age_cat <- factor(df$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
-
 
 ## wave  
 df$wave=ifelse(df$patient_index_date> as.Date("2021-09-30"),"5", # wave5(booster):Oct--Dec2021

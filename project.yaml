@@ -58,13 +58,13 @@ actions:
         cohort2: output/case_covid_admission.csv
         cohort3: output/case_covid_icu_death.csv
 
-  rmd_report_input_check: # check above 
-    run: r:latest -e 'rmarkdown::render("analysis/input_check.Rmd",  knit_root_dir
-      = "/workspace",  output_dir = "/workspace/output/report", output_format = c("html_document")   )'
-    needs: [process]
-    outputs:
-      moderately_sensitive:
-        html: output/input_check_report.html
+  # rmd_report_input_check: # check above 
+  #   run: r:latest -e 'rmarkdown::render("analysis/input_check.Rmd",  knit_root_dir
+  #     = "/workspace",  output_dir = "/workspace/output/report", output_format = c("html_document")   )'
+  #   needs: [process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/input_check_report.html
         
   matching_1:
     run: python:latest python analysis/matching_outcome_1.py
@@ -114,25 +114,25 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_3.csv
 
-  # variables:
-  #   run: r:latest analysis/variables.R
-  #   needs: [matching_1,matching_2,matching_3,extract_variables_outcome_1,extract_variables_outcome_2,extract_variables_outcome_3]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort1: output/matched_outcome1.csv
-  #       cohort2: output/matched_outcome2.csv
-  #       cohort3: output/matched_outcome3.csv
-  #       # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
-  #       # cohort2: output/case_covid_admission.csv
-  #       # cohort3: output/case_covid_icu_death.csv
+  variables:
+    run: r:latest analysis/variables.R
+    needs: [matching_1,matching_2,matching_3,extract_variables_outcome_1,extract_variables_outcome_2,extract_variables_outcome_3]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome1.csv
+        cohort2: output/matched_outcome2.csv
+        cohort3: output/matched_outcome3.csv
+        # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
+        # cohort2: output/case_covid_admission.csv
+        # cohort3: output/case_covid_icu_death.csv
 
-  # rmd_report:
-  #   run: r:latest -e 'rmarkdown::render("analysis/matching_report.Rmd",  knit_root_dir
-  #     = "/workspace",  output_dir = "/workspace/output/report", output_format = c("html_document")   )'
-  #   needs: [variables]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/matching_report.html
+  rmd_report:
+    run: r:latest -e 'rmarkdown::render("analysis/matching_report.Rmd",  knit_root_dir
+      = "/workspace",  output_dir = "/workspace/output/report", output_format = c("html_document")   )'
+    needs: [variables]
+    outputs:
+      moderately_sensitive:
+        html: output/report/matching_report.html
   
 
  
