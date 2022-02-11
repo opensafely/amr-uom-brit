@@ -357,14 +357,14 @@ study = StudyDefinition(
         },
     ),
 
-    ## Broad spectrum antibiotics
-    broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
+    # ## Broad spectrum antibiotics
+    # broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
+    #     broad_spectrum_antibiotics_codes,
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     returning="number_of_matches_in_period",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
+    # ),
 
     ## Covid positive test result
     sgss_positive=patients.with_test_result_in_sgss(
@@ -1805,13 +1805,13 @@ study = StudyDefinition(
     #     """,
     # ),
 
-# incident hospitalisation 
+# hospitalisation 
 ## hospitalisation with incident OR prevalent uti
     admitted_uti_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_1", "uti_date_1 + 30 days"],
+       between=["uti_date_1", "uti_date_1 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1820,7 +1820,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_2", "uti_date_2 + 30 days"],
+       between=["uti_date_2", "uti_date_2 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1829,7 +1829,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_3", "uti_date_3 + 30 days"],
+       between=["uti_date_3", "uti_date_3 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1838,17 +1838,17 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_4", "uti_date_4 + 30 days"],
+       between=["uti_date_4", "uti_date_4 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-## hospitalisation with incident diagnosis of urti
+## hospitalisation with incident OR prevalent urti
     admitted_urti_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_1", "urti_date_1 + 30 days"],
+       between=["urti_date_1", "urti_date_1 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1857,7 +1857,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_2", "urti_date_2 + 30 days"],
+       between=["urti_date_2", "urti_date_2 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1866,7 +1866,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_3", "urti_date_3 + 30 days"],
+       between=["urti_date_3", "urti_date_3 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1875,155 +1875,155 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_4", "urti_date_4 + 30 days"],
+       between=["urti_date_4", "urti_date_4 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-## hospitalisation with incident diagnosis of lrti
-    admitted_incdt_lrti_date_1=patients.admitted_to_hospital(
+## hospitalisation with incident OR prevalent lrti
+    admitted_lrti_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_lrti_date_1", "incdt_lrti_date_1 + 30 days"],
+       between=["lrti_date_1", "lrti_date_1 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_lrti_date_2=patients.admitted_to_hospital(
+    admitted_lrti_date_2=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_lrti_date_2", "incdt_lrti_date_2 + 30 days"],
+       between=["lrti_date_2", "lrti_date_2 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_lrti_date_3=patients.admitted_to_hospital(
+    admitted_lrti_date_3=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_lrti_date_3", "incdt_lrti_date_3 + 30 days"],
+       between=["lrti_date_3", "lrti_date_3 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_lrti_date_4=patients.admitted_to_hospital(
+    admitted_lrti_date_4=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_lrti_date_4", "incdt_lrti_date_4 + 30 days"],
+       between=["lrti_date_4", "lrti_date_4 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-## hospitalisation with incident diagnosis of sinusitis
-    admitted_incdt_sinusitis_date_1=patients.admitted_to_hospital(
+## hospitalisation with incident OR prevalent  sinusitis
+    admitted_sinusitis_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_sinusitis_date_1", "incdt_sinusitis_date_1 + 30 days"],
+       between=["sinusitis_date_1", "sinusitis_date_1 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_sinusitis_date_2=patients.admitted_to_hospital(
+    admitted_sinusitis_date_2=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_sinusitis_date_2", "incdt_sinusitis_date_2 + 30 days"],
+       between=["sinusitis_date_2", "sinusitis_date_2 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_sinusitis_date_3=patients.admitted_to_hospital(
+    admitted_sinusitis_date_3=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_sinusitis_date_3", "incdt_sinusitis_date_3 + 30 days"],
+       between=["sinusitis_date_3", "sinusitis_date_3 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_sinusitis_date_4=patients.admitted_to_hospital(
+    admitted_sinusitis_date_4=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_sinusitis_date_4", "incdt_sinusitis_date_4 + 30 days"],
+       between=["sinusitis_date_4", "sinusitis_date_4 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-## hospitalisation with incident diagnosis of otmedia
-    admitted_incdt_otmedia_date_1=patients.admitted_to_hospital(
+## hospitalisation with incident OR prevalent otmedia
+    admitted_otmedia_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_otmedia_date_1", "incdt_otmedia_date_1 + 30 days"],
+       between=["otmedia_date_1", "otmedia_date_1 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_otmedia_date_2=patients.admitted_to_hospital(
+    admitted_otmedia_date_2=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_otmedia_date_2", "incdt_otmedia_date_2 + 30 days"],
+       between=["otmedia_date_2", "otmedia_date_2 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_otmedia_date_3=patients.admitted_to_hospital(
+    admitted_otmedia_date_3=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_otmedia_date_3", "incdt_otmedia_date_3 + 30 days"],
+       between=["otmedia_date_3", "otmedia_date_3 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_otmedia_date_4=patients.admitted_to_hospital(
+    admitted_otmedia_date_4=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_otmedia_date_4", "incdt_otmedia_date_4 + 30 days"],
+       between=["otmedia_date_4", "otmedia_date_4 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-## hospitalisation with incident diagnosis of ot_externa
-    admitted_incdt_ot_externa_date_1=patients.admitted_to_hospital(
+## hospitalisation with incident incident OR prevalent ot_externa
+    admitted_ot_externa_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_ot_externa_date_1", "incdt_ot_externa_date_1 + 30 days"],
+       between=["ot_externa_date_1", "ot_externa_date_1 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_ot_externa_date_2=patients.admitted_to_hospital(
+    admitted_ot_externa_date_2=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_ot_externa_date_2", "incdt_ot_externa_date_2 + 30 days"],
+       between=["ot_externa_date_2", "ot_externa_date_2 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_ot_externa_date_3=patients.admitted_to_hospital(
+    admitted_ot_externa_date_3=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_ot_externa_date_3", "incdt_ot_externa_date_3 + 30 days"],
+       between=["ot_externa_date_3", "ot_externa_date_3 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
 
-    admitted_incdt_ot_externa_date_4=patients.admitted_to_hospital(
+    admitted_ot_externa_date_4=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["incdt_ot_externa_date_4", "incdt_ot_externa_date_4 + 30 days"],
+       between=["ot_externa_date_4", "ot_externa_date_4 + 42 days"],
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -2033,7 +2033,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_uti_1=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_uti_date_1 - 90 days", "admitted_uti_date_1 + 30 days"],
+        between=["gp_cons_uti_1 - 90 days", "gp_cons_uti_1 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2044,7 +2044,7 @@ study = StudyDefinition(
     gp_covid_date_uti_1=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_uti_date_1 - 90 days", "admitted_uti_date_1 + 30 days"],
+        between=["gp_cons_uti_1 - 90 days", "gp_cons_uti_1 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2062,7 +2062,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_uti_2=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_uti_date_2 - 90 days", "admitted_uti_date_2 + 30 days"],
+        between=["gp_cons_uti_2 - 90 days", "gp_cons_uti_2 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2073,7 +2073,7 @@ study = StudyDefinition(
     gp_covid_date_uti_2=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_uti_date_2 - 90 days", "admitted_uti_date_2 + 30 days"],
+        between=["gp_cons_uti_2 - 90 days", "gp_cons_uti_2 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2091,7 +2091,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_uti_3=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_uti_date_3 - 90 days", "admitted_uti_date_3 + 30 days"],
+        between=["gp_cons_uti_3 - 90 days", "gp_cons_uti_3 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2102,7 +2102,7 @@ study = StudyDefinition(
     gp_covid_date_uti_3=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_uti_date_3 - 90 days", "admitted_uti_date_3 + 30 days"],
+        between=["gp_cons_uti_3 - 90 days", "gp_cons_uti_3 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2120,7 +2120,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_uti_4=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_uti_date_4 - 90 days", "admitted_uti_date_4 + 30 days"],
+        between=["gp_cons_uti_4 - 90 days", "gp_cons_uti_4 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2131,7 +2131,7 @@ study = StudyDefinition(
     gp_covid_date_uti_4=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_uti_date_4 - 90 days", "admitted_uti_date_4 + 30 days"],
+        between=["gp_cons_uti_4 - 90 days", "gp_cons_uti_4 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2149,7 +2149,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_urti_1=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_urti_date_1 - 90 days", "admitted_urti_date_1 + 30 days"],
+        between=["gp_cons_urti_1 - 90 days", "gp_cons_urti_1 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2160,7 +2160,7 @@ study = StudyDefinition(
     gp_covid_date_urti_1=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_urti_date_1 - 90 days", "admitted_urti_date_1 + 30 days"],
+        between=["gp_cons_urti_1 - 90 days", "gp_cons_urti_1 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2178,7 +2178,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_urti_2=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_urti_date_2 - 90 days", "admitted_urti_date_2 + 30 days"],
+        between=["gp_cons_urti_2 - 90 days", "gp_cons_urti_2 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2189,7 +2189,7 @@ study = StudyDefinition(
     gp_covid_date_urti_2=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_urti_date_2 - 90 days", "admitted_urti_date_2 + 30 days"],
+        between=["gp_cons_urti_2 - 90 days", "gp_cons_urti_2 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2207,7 +2207,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_urti_3=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_urti_date_3 - 90 days", "admitted_urti_date_3 + 30 days"],
+        between=["gp_cons_urti_3 - 90 days", "gp_cons_urti_3 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2218,7 +2218,7 @@ study = StudyDefinition(
     gp_covid_date_urti_3=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_urti_date_3 - 90 days", "admitted_urti_date_3 + 30 days"],
+        between=["gp_cons_urti_3 - 90 days", "gp_cons_urti_3 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2236,7 +2236,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_urti_4=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_urti_date_4 - 90 days", "admitted_urti_date_4 + 30 days"],
+        between=["gp_cons_urti_4 - 90 days", "gp_cons_urti_4 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -2247,7 +2247,7 @@ study = StudyDefinition(
     gp_covid_date_urti_4=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["admitted_urti_date_4 - 90 days", "admitted_urti_date_4 + 30 days"],
+        between=["gp_cons_urti_4 - 90 days", "gp_cons_urti_4 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -2410,126 +2410,126 @@ study = StudyDefinition(
 # --- DEFINE MEASURES ---
 
 
-measures = [
-    ## antibiotic rx rate
-    Measure(id="antibiotics_overall",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice"]
-            ),
+# measures = [
+#     ## antibiotic rx rate
+#     Measure(id="antibiotics_overall",
+#             numerator="antibacterial_brit",
+#             denominator="population",
+#             group_by=["practice"]
+#             ),
     
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_brit",
-            group_by=["practice"]
-            ),
+#     ## Broad spectrum antibiotics
+#     Measure(id="broad_spectrum_proportion",
+#             numerator="broad_spectrum_antibiotics_prescriptions",
+#             denominator="antibacterial_brit",
+#             group_by=["practice"]
+#             ),
 
 
     
-    ## STRPU antibiotics
-    Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+#     ## STRPU antibiotics
+#     Measure(id="STARPU_antibiotics",
+#             numerator="antibacterial_brit",
+#             denominator="population",
+#             group_by=["practice", "sex", "age_cat"]
+#             ),
 
-    ## hospitalisation 
-    Measure(id="hosp_admission_any",
-            numerator="admitted",
-            denominator="population",
-            group_by=["practice"]
-            ),
+#     ## hospitalisation 
+#     Measure(id="hosp_admission_any",
+#             numerator="admitted",
+#             denominator="population",
+#             group_by=["practice"]
+#             ),
 
-    ## hospitalisation STARPU
-    Measure(id="hosp_admission_STARPU",
-            numerator="admitted",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+#     ## hospitalisation STARPU
+#     Measure(id="hosp_admission_STARPU",
+#             numerator="admitted",
+#             denominator="population",
+#             group_by=["practice", "sex", "age_cat"]
+#             ),
     
-    ## UTI event rate 
-    Measure(id="UTI_event",
-            numerator="uti_counts",
-            denominator="population",
-            group_by=["practice"]
-    ),
+#     ## UTI event rate 
+#     Measure(id="UTI_event",
+#             numerator="uti_counts",
+#             denominator="population",
+#             group_by=["practice"]
+#     ),
 
-    ## LRTI event rate 
-    #Measure(id="LRTI_event",
-    #        numerator="lrti_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## LRTI event rate 
+#     #Measure(id="LRTI_event",
+#     #        numerator="lrti_counts",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## URTI event rate 
-    #Measure(id="URTI_event",
-    #        numerator="urti_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## URTI event rate 
+#     #Measure(id="URTI_event",
+#     #        numerator="urti_counts",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## sinusitis event rate 
-    #Measure(id="sinusitis_event",
-    #        numerator="sinusitis_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## sinusitis event rate 
+#     #Measure(id="sinusitis_event",
+#     #        numerator="sinusitis_counts",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## otitis externa event rate 
-    #Measure(id="ot_externa_event",
-    #        numerator="ot_externa_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    # ),
+#     ## otitis externa event rate 
+#     #Measure(id="ot_externa_event",
+#     #        numerator="ot_externa_counts",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     # ),
 
-    ## otitis media event rate 
-    #Measure(id="otmedia_event",
-    #        numerator="otmedia_counts",
-    #        denominator="population",
-    #        group_by=["practice"]
-    # ),
+#     ## otitis media event rate 
+#     #Measure(id="otmedia_event",
+#     #        numerator="otmedia_counts",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     # ),
 
-    ## UTI pt propotion 
-    Measure(id="UTI_patient",
-            numerator="uti_pt",
-            denominator="population",
-            group_by=["practice"]
-    ),
+#     ## UTI pt propotion 
+#     Measure(id="UTI_patient",
+#             numerator="uti_pt",
+#             denominator="population",
+#             group_by=["practice"]
+#     ),
 
-    ## LTI pt propotion 
-    #Measure(id="LRTI_patient",
-    #        numerator="lrti_pt",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## LTI pt propotion 
+#     #Measure(id="LRTI_patient",
+#     #        numerator="lrti_pt",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## URTI pt propotion 
-    #Measure(id="URTI_patient",
-    #        numerator="urti_pt",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## URTI pt propotion 
+#     #Measure(id="URTI_patient",
+#     #        numerator="urti_pt",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## sinusitis pt propotion 
-    #Measure(id="sinusitis_patient",
-    #        numerator="sinusitis_pt",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## sinusitis pt propotion 
+#     #Measure(id="sinusitis_patient",
+#     #        numerator="sinusitis_pt",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## ot_externa pt propotion 
-    #Measure(id="ot_externa_patient",
-    #        numerator="ot_externa_pt",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
+#     ## ot_externa pt propotion 
+#     #Measure(id="ot_externa_patient",
+#     #        numerator="ot_externa_pt",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
 
-    ## otmedia pt propotion 
-    #Measure(id="otmedia_patient",
-    #        numerator="otmedia_pt",
-    #        denominator="population",
-    #        group_by=["practice"]
-    #),
-]
+#     ## otmedia pt propotion 
+#     #Measure(id="otmedia_patient",
+#     #        numerator="otmedia_pt",
+#     #        denominator="population",
+#     #        group_by=["practice"]
+#     #),
+# ]
