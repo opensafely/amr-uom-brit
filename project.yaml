@@ -125,12 +125,12 @@ actions:
         # cohort2: output/case_covid_admission.csv
         # cohort3: output/case_covid_icu_death.csv
 
-  rmd_report:
-    run: r:latest -e 'rmarkdown::render("analysis/matching_report.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  check_matching:
+    run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [variables]
     outputs:
       moderately_sensitive:
-        html: output/RMD_matching_report.html
+        html: output/check_matching.html
   
 
  
