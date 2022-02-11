@@ -201,6 +201,12 @@ actions:
         plot11: output/abtype_percent_ot_externa.jpeg
         plot12: output/abtype_percent_otmedia.jpeg
         csv: output/abtype_top10_by_infection.csv
+  
+  describe_top10ABtypes_byInfection_line:
+    run: r:latest analysis/plot/abtypes_top10_line.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive:
         plot13: output/abtype_UTI_line.jpeg
         plot14: output/abtype_URTI_line.jpeg
         plot15: output/abtype_LRTI_line.jpeg
@@ -213,6 +219,7 @@ actions:
         plot22: output/abtype_percent_sinusitis_line.jpeg
         plot23: output/abtype_percent_ot_externa_line.jpeg
         plot24: output/abtype_percent_otmedia_line.jpeg
+        csv: output/abtype_top10_by_infection.csv
   
   # describe_top10ABtypes_total:
   #   run: r:latest analysis/plot/types_ab_prescriptions.R

@@ -98,8 +98,6 @@ df4=df4%>%dplyr::rename(abtype=uti_abtype4,ab_count=uti_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
-# count polulation numbers
-Patients=sum(df$population)
 
 df=df%>%dplyr::group_by(date,abtype)%>%
   dplyr::summarise(value=sum(value),
@@ -203,6 +201,53 @@ ggsave(
 ) 
 
 
+
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - UTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated National lockdown time in grey background. ",
+    y = "Number of prescriptions per 1000 registered patients",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - UTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
+
+
+ggsave(
+  plot= lineplot_1,
+  filename="abtype_URTI_line.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= lineplot_2,
+  filename="abtype_percent_URTI_line.jpeg", path=here::here("output"),
+) 
 
 ## ungroup for table
 df.1 <- ungroup(df)
@@ -403,6 +448,53 @@ ggsave(
 
 
 
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - URTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated National lockdown time in grey background. ",
+    y = "Number of prescriptions per 1000 registered patients",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - URTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
+
+
+ggsave(
+  plot= lineplot_1,
+  filename="abtype_URTI_line.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= lineplot_2,
+  filename="abtype_percent_URTI_line.jpeg", path=here::here("output"),
+) 
+
 
 ## ungroup for table
 df.2 <- ungroup(df)
@@ -599,6 +691,54 @@ ggsave(
   filename="abtype_percent_LRTI.jpeg", path=here::here("output"),
 ) 
 
+
+
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - LRTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated National lockdown time in grey background. ",
+    y = "Number of prescriptions per 1000 registered patients",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - LRTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
+
+
+ggsave(
+  plot= lineplot_1,
+  filename="abtype_LRTI_line.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= lineplot_2,
+  filename="abtype_percent_LRTI_line.jpeg", path=here::here("output"),
+) 
 
 ## ungroup for table
 df.3 <- ungroup(df)
@@ -797,6 +937,52 @@ ggsave(
   filename="abtype_percent_sinusitis.jpeg", path=here::here("output"),
 ) 
 
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated National lockdown time in grey background. ",
+    y = "Number of prescriptions per 1000 registered patients",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
+    subtitle = paste(first_mon,"-",last_mon),
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
+
+
+ggsave(
+  plot= lineplot_1,
+  filename="abtype_sinusitis_line.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= lineplot_2,
+  filename="abtype_percent_sinusitis_line.jpeg", path=here::here("output"),
+) 
 
 
 
@@ -999,6 +1185,54 @@ ggsave(
 
 
 
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated National lockdown time in grey background. ",
+    y = "Number of prescriptions per 1000 registered patients",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
+    subtitle = paste(first_mon,"-",last_mon),
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
+
+
+ggsave(
+  plot= lineplot_1,
+  filename="abtype_ot_externa_line.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= lineplot_2,
+  filename="abtype_percent_ot_externa_line.jpeg", path=here::here("output"),
+) 
+
+
 ## ungroup for table
 df.5 <- ungroup(df)
 df.5$type="ot_externa"
@@ -1196,6 +1430,56 @@ ggsave(
   plot= bar_propotion,
   filename="abtype_percent_otmedia.jpeg", path=here::here("output"),
 ) 
+
+
+
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis media",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Estimated National lockdown time in grey background. ",
+    y = "Number of prescriptions per 1000 registered patients",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(n.breaks = 20)
+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    fill = "Antibiotic type",
+    title = "Top 10 Antibiotic Types Prescribed - Otitis media",
+    subtitle = paste(first_mon,"-",last_mon),
+    y = "percent",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
+
+
+ggsave(
+  plot= lineplot_1,
+  filename="abtype_otmedia_line.jpeg", path=here::here("output"),
+)
+ggsave(
+  plot= lineplot_2,
+  filename="abtype_percent_otmedia_line.jpeg", path=here::here("output"),
+) 
+
 
 ## ungroup for table
 df.6 <- ungroup(df)
