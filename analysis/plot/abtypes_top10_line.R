@@ -185,11 +185,11 @@ lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
 
 ggsave(
   plot= lineplot_1,
-  filename="abtype_URTI_line.jpeg", path=here::here("output"),
+  filename="abtype_UTI_line.jpeg", path=here::here("output"),
 )
 ggsave(
   plot= lineplot_2,
-  filename="abtype_percent_URTI_line.jpeg", path=here::here("output"),
+  filename="abtype_percent_UTI_line.jpeg", path=here::here("output"),
 ) 
 
 ## ungroup for table
