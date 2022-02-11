@@ -5,6 +5,7 @@ library("dplyr")
 library('here')
 library("tidyverse")
 library("lubridate")
+
 #install.packages("pals")
 #library(pals)
 
@@ -90,15 +91,18 @@ df4 <- read_csv(
 )
 
 
-df1=df1%>%rename(abtype=uti_abtype1,ab_count=uti_ab_count_1)
-df2=df2%>%rename(abtype=uti_abtype2,ab_count=uti_ab_count_2)
-df3=df3%>%rename(abtype=uti_abtype3,ab_count=uti_ab_count_3)
-df4=df4%>%rename(abtype=uti_abtype4,ab_count=uti_ab_count_4)
+df1=df1%>%dplyr::rename(abtype=uti_abtype1,ab_count=uti_ab_count_1)
+df2=df2%>%dplyr::rename(abtype=uti_abtype2,ab_count=uti_ab_count_2)
+df3=df3%>%dplyr::rename(abtype=uti_abtype3,ab_count=uti_ab_count_3)
+df4=df4%>%dplyr::rename(abtype=uti_abtype4,ab_count=uti_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
-df=df%>%group_by(date,abtype)%>%
-  summarise(value=sum(value),
+# count polulation numbers
+Patients=sum(df$population)
+
+df=df%>%dplyr::group_by(date,abtype)%>%
+  dplyr::summarise(value=sum(value),
             count=sum(ab_count))
   
 
@@ -111,40 +115,46 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 #df <- mutate_all(df, list(~na_if(.,"")))
 #df <- na.omit(df)
 
-df$date <- as.Date(df$date)
-df$cal_mon <- month(df$date)
-df$cal_year <- year(df$date)
+# df$date <- as.Date(df$date)
+# df$cal_mon <- month(df$date)
+# df$cal_year <- year(df$date)
 
-df2 <- filter(df, abtype != "")
-df2$value2 <- df2$value*1000
-df2$abtype  <- as.character(df2$abtype)
-
-df=df2
+df <- filter(df, abtype != "")
+df$value2 <- df$value*1000
+df$abtype  <- as.character(df$abtype)
 
 
 
 ######barchart1. rate per 1000 pt#####
 ### select most common ab (rate)###
 DF.top10=df%>%
-  group_by(abtype)%>%
-  summarise(value=mean(value))%>% # RX: average per month
-  arrange(desc(value))%>%
+  dplyr::group_by(abtype)%>%
+  dplyr::summarise(value=mean(value))%>% # RX: average per month
+  dplyr::arrange(desc(value))%>%
   slice(1:10)
 
-df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "Others")
+df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others"))# reorder
+
+# summarise data
+df.plot=df%>%dplyr::group_by(type,date)%>%
+  dplyr::summarise(
+    value2=sum(value2)
+  )
+  
 
 #df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(aes(fill=type,group=-value2))+
+  geom_col(color="white",aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -154,23 +164,18 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
 
 
 #####barchart2. total consumption- counts ####
-### select most common ab##
-DF.top10.count=df2%>%
-  group_by(abtype)%>%
-  summarise(count=mean(count))%>% # RX: average per month
-  arrange(desc(count))%>%
-  slice(1:10)
-
-df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
-
-#df2$date=format(df2$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%dplyr::group_by(type,date)%>%
+  dplyr::summarise(
+    count=sum(count)
+  )
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type)) + 
+  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
@@ -197,10 +202,10 @@ ggsave(
 ## ungroup for table
 df.1 <- ungroup(df)
 df.1$type="UTI"
-df.1<- select(df.1, date, abtype, value2,count,type)
+df.1<- dplyr::select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2,df)
+rm(df_plot,DF.top10,df)
 
 
 
@@ -292,6 +297,9 @@ df4=df4%>%rename(abtype=urti_abtype4,ab_count=urti_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
+# count polulation numbers
+Patients=sum(df$population)
+
 df=df%>%group_by(date,abtype)%>%
   summarise(value=sum(value),
             count=sum(ab_count))
@@ -303,18 +311,15 @@ df=df%>% filter(date!=last.date)
 first_mon <- (format(min(df$date), "%m-%Y"))
 last_mon <- (format(max(df$date), "%m-%Y"))
 
+
 #df <- mutate_all(df, list(~na_if(.,"")))
 #df <- na.omit(df)
 
-df$date <- as.Date(df$date)
-df$cal_mon <- month(df$date)
-df$cal_year <- year(df$date)
 
-df2 <- filter(df, abtype != "")
-df2$value2 <- df2$value*1000
-df2$abtype  <- as.character(df2$abtype)
+df <- filter(df, abtype != "")
+df$value2 <- df$value*1000
+df$abtype  <- as.character(df$abtype)
 
-df=df2
 
 
 
@@ -326,20 +331,28 @@ DF.top10=df%>%
   arrange(desc(value))%>%
   slice(1:10)
 
-df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "Others")
+df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others"))# reorder
+
+# summarise data
+df.plot=df%>%group_by(type,date)%>%
+  summarise(
+    value2=sum(value2)
+  )
+  
 
 #df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
- annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+ 
-  geom_col(aes(fill=type,group=-value2))+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_col(color="white",aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -349,23 +362,18 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
 
 
 #####barchart2. total consumption- counts ####
-### select most common ab##
-DF.top10.count=df2%>%
-  group_by(abtype)%>%
-  summarise(count=mean(count))%>% # RX: average per month
-  arrange(desc(count))%>%
-  slice(1:10)
-
-df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
-
-#df2$date=format(df2$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type))+
+  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
@@ -393,7 +401,7 @@ ggsave(
 df.2 <- ungroup(df)
 df.2$type="URTI"
 df.2<- select(df.1, date, abtype, value2,count,type)
-rm(df_plot,DF.top10,df2,df)
+rm(df_plot,DF.top10,df)
 
 
 
@@ -483,6 +491,9 @@ df4=df4%>%rename(abtype=lrti_abtype4,ab_count=lrti_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
+# count polulation numbers
+Patients=sum(df$population)
+
 df=df%>%group_by(date,abtype)%>%
   summarise(value=sum(value),
             count=sum(ab_count))
@@ -494,6 +505,7 @@ df=df%>% filter(date!=last.date)
 first_mon <- (format(min(df$date), "%m-%Y"))
 last_mon <- (format(max(df$date), "%m-%Y"))
 
+
 #df <- mutate_all(df, list(~na_if(.,"")))
 #df <- na.omit(df)
 
@@ -501,12 +513,9 @@ df$date <- as.Date(df$date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
-df2 <- filter(df, abtype != "")
-df2$value2 <- df2$value*1000
-df2$abtype  <- as.character(df2$abtype)
-
-df=df2
-
+df <- filter(df, abtype != "")
+df$value2 <- df$value*1000
+df$abtype  <- as.character(df$abtype)
 
 
 ######barchart1. rate per 1000 pt#####
@@ -517,20 +526,28 @@ DF.top10=df%>%
   arrange(desc(value))%>%
   slice(1:10)
 
-df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "Others")
+df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others"))# reorder
+
+# summarise data
+df.plot=df%>%group_by(type,date)%>%
+  summarise(
+    value2=sum(value2)
+  )
+  
 
 #df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
-annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(aes(fill=type,group=-value2))+
+  geom_col(color="white",aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -540,23 +557,18 @@ annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"
 
 
 #####barchart2. total consumption- counts ####
-### select most common ab##
-DF.top10.count=df2%>%
-  group_by(abtype)%>%
-  summarise(count=mean(count))%>% # RX: average per month
-  arrange(desc(count))%>%
-  slice(1:10)
-
-df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
-
-#df2$date=format(df2$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type))+
+  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
@@ -586,7 +598,7 @@ df.3$type="LRTI"
 df.3<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2,df)
+rm(df_plot,DF.top10,df)
 
 
 
@@ -677,6 +689,9 @@ df4=df4%>%rename(abtype=sinusitis_abtype4,ab_count=sinusitis_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
+# count polulation numbers
+Patients=sum(df$population)
+
 df=df%>%group_by(date,abtype)%>%
   summarise(value=sum(value),
             count=sum(ab_count))
@@ -695,12 +710,9 @@ df$date <- as.Date(df$date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
-df2 <- filter(df, abtype != "")
-df2$value2 <- df2$value*1000
-df2$abtype  <- as.character(df2$abtype)
-
-df=df2
-
+df <- filter(df, abtype != "")
+df$value2 <- df$value*1000
+df$abtype  <- as.character(df$abtype)
 
 
 ######barchart1. rate per 1000 pt#####
@@ -711,20 +723,28 @@ DF.top10=df%>%
   arrange(desc(value))%>%
   slice(1:10)
 
-df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "Others")
+df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others"))# reorder
+
+# summarise data
+df.plot=df%>%group_by(type,date)%>%
+  summarise(
+    value2=sum(value2)
+  )
+  
 
 #df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(aes(fill=type,group=-value2))+
+  geom_col(color="white",aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -734,23 +754,18 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
 
 
 #####barchart2. total consumption- counts ####
-### select most common ab##
-DF.top10.count=df2%>%
-  group_by(abtype)%>%
-  summarise(count=mean(count))%>% # RX: average per month
-  arrange(desc(count))%>%
-  slice(1:10)
-
-df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
-
-#df2$date=format(df2$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type))+
+  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
@@ -779,7 +794,7 @@ df.4 <- ungroup(df)
 df.4$type="sinusitis"
 df.4<- select(df.1, date, abtype, value2,count,type)
 
-rm(df_plot,DF.top10,df2,df)
+rm(df_plot,DF.top10,df)
 
 
 
@@ -870,6 +885,9 @@ df4=df4%>%rename(abtype=ot_externa_abtype4,ab_count=ot_externa_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
+# count polulation numbers
+Patients=sum(df$population)
+
 df=df%>%group_by(date,abtype)%>%
   summarise(value=sum(value),
             count=sum(ab_count))
@@ -881,6 +899,7 @@ df=df%>% filter(date!=last.date)
 first_mon <- (format(min(df$date), "%m-%Y"))
 last_mon <- (format(max(df$date), "%m-%Y"))
 
+
 #df <- mutate_all(df, list(~na_if(.,"")))
 #df <- na.omit(df)
 
@@ -888,11 +907,9 @@ df$date <- as.Date(df$date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
-df2 <- filter(df, abtype != "")
-df2$value2 <- df2$value*1000
-df2$abtype  <- as.character(df2$abtype)
-
-df=df2
+df <- filter(df, abtype != "")
+df$value2 <- df$value*1000
+df$abtype  <- as.character(df$abtype)
 
 
 
@@ -904,20 +921,28 @@ DF.top10=df%>%
   arrange(desc(value))%>%
   slice(1:10)
 
-df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "Others")
+df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others"))# reorder
+
+# summarise data
+df.plot=df%>%group_by(type,date)%>%
+  summarise(
+    value2=sum(value2)
+  )
+  
 
 #df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(aes(fill=type,group=-value2))+
+  geom_col(color="white",aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -925,25 +950,19 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-
 #####barchart2. total consumption- counts ####
-### select most common ab##
-DF.top10.count=df2%>%
-  group_by(abtype)%>%
-  summarise(count=mean(count))%>% # RX: average per month
-  arrange(desc(count))%>%
-  slice(1:10)
-
-df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
-
-#df2$date=format(df2$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type))+
+  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
@@ -973,7 +992,7 @@ df.5$type="ot_externa"
 df.5<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2,df)
+rm(df_plot,DF.top10,df)
 
 
 
@@ -1066,6 +1085,9 @@ df4=df4%>%rename(abtype=otmedia_abtype4,ab_count=otmedia_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
+# count polulation numbers
+Patients=sum(df$population)
+
 df=df%>%group_by(date,abtype)%>%
   summarise(value=sum(value),
             count=sum(ab_count))
@@ -1084,12 +1106,9 @@ df$date <- as.Date(df$date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
-df2 <- filter(df, abtype != "")
-df2$value2 <- df2$value*1000
-df2$abtype  <- as.character(df2$abtype)
-
-df=df2
-
+df <- filter(df, abtype != "")
+df$value2 <- df$value*1000
+df$abtype  <- as.character(df$abtype)
 
 
 ######barchart1. rate per 1000 pt#####
@@ -1100,20 +1119,28 @@ DF.top10=df%>%
   arrange(desc(value))%>%
   slice(1:10)
 
-df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "others")
+df$type=ifelse(df$abtype %in% DF.top10$abtype, df$abtype, "Others")
+df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others"))# reorder
+
+# summarise data
+df.plot=df%>%group_by(type,date)%>%
+  summarise(
+    value2=sum(value2)
+  )
+  
 
 #df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df, aes(y=value2, x=date)) + 
+abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
- geom_col(aes(fill=type,group=-value2))+
+  geom_col(color="white",aes(fill=type,group=-value2))+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -1123,23 +1150,18 @@ abtype_bar <- ggplot(df, aes(y=value2, x=date)) +
 
 
 #####barchart2. total consumption- counts ####
-### select most common ab##
-DF.top10.count=df2%>%
-  group_by(abtype)%>%
-  summarise(count=mean(count))%>% # RX: average per month
-  arrange(desc(count))%>%
-  slice(1:10)
-
-df2$type=ifelse(df2$abtype %in% DF.top10.count$abtype, df2$abtype, "others")
-
-#df2$date=format(df2$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
 bar_propotion <- 
-  ggplot(df2, aes(x=date, y=count, fill=type))+
+  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(position="fill", stat="identity")+
+  geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
@@ -1151,7 +1173,6 @@ bar_propotion <-
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
-
 
 
 ggsave(
@@ -1169,7 +1190,7 @@ df.6$type="otmedia"
 df.6<- select(df.1, date, abtype, value2,count,type)
 
 
-rm(df_plot,DF.top10,df2,df)
+rm(df_plot,DF.top10,df)
 
 
 ## combine table
