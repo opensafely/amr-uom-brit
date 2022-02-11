@@ -219,7 +219,7 @@ actions:
         plot22: output/abtype_percent_sinusitis_line.jpeg
         plot23: output/abtype_percent_ot_externa_line.jpeg
         plot24: output/abtype_percent_otmedia_line.jpeg
-        csv: output/abtype_top10_by_infection.csv
+        csv: output/abtype_top10_by_infection_line.csv
   
   # describe_top10ABtypes_total:
   #   run: r:latest analysis/plot/types_ab_prescriptions.R
