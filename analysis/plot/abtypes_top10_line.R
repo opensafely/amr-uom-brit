@@ -98,8 +98,6 @@ df4=df4%>%dplyr::rename(abtype=uti_abtype4,ab_count=uti_ab_count_4)
 df=rbind(df1,df3,df3,df4)
 rm(df1,df2,df3,df4)
 
-# count polulation numbers
-Patients=sum(df$population)
 
 df=df%>%dplyr::group_by(date,abtype)%>%
   dplyr::summarise(value=sum(value),
@@ -124,8 +122,6 @@ df$value2 <- df$value*1000
 df$abtype  <- as.character(df$abtype)
 
 
-
-######barchart1. rate per 1000 pt#####
 ### select most common ab (rate)###
 DF.top10=df%>%
   dplyr::group_by(abtype)%>%
@@ -142,19 +138,25 @@ df.plot=df%>%dplyr::group_by(type,date)%>%
     value2=sum(value2)
   )
   
+# summarise data
+df.plot2=df%>%dplyr::group_by(type,date)%>%
+  dplyr::summarise(
+    count=sum(count)
+  )
 
-#df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white",aes(fill=type,group=-value2))+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "National lockdown time in grey background. ",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -162,25 +164,17 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-
-#####barchart2. total consumption- counts ####
-# summarise data
-df.plot2=df%>%dplyr::group_by(type,date)%>%
-  dplyr::summarise(
-    count=sum(count)
-  )
-
-bar_propotion <- 
-  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -189,20 +183,14 @@ bar_propotion <-
   scale_y_continuous(labels = scales::percent)
 
 
-
-
-
-
 ggsave(
-  plot= abtype_bar,
-  filename="abtype_UTI.jpeg", path=here::here("output"),
+  plot= lineplot_1,
+  filename="abtype_UTI_line.jpeg", path=here::here("output"),
 )
 ggsave(
-  plot= bar_propotion,
-  filename="abtype_percent_UTI.jpeg", path=here::here("output"),
+  plot= lineplot_2,
+  filename="abtype_percent_UTI_line.jpeg", path=here::here("output"),
 ) 
-
-
 
 ## ungroup for table
 df.1 <- ungroup(df)
@@ -326,9 +314,6 @@ df$value2 <- df$value*1000
 df$abtype  <- as.character(df$abtype)
 
 
-
-
-######barchart1. rate per 1000 pt#####
 ### select most common ab (rate)###
 DF.top10=df%>%
   group_by(abtype)%>%
@@ -345,19 +330,25 @@ df.plot=df%>%group_by(type,date)%>%
     value2=sum(value2)
   )
   
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
-#df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white",aes(fill=type,group=-value2))+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "National lockdown time in grey background. ",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -365,25 +356,17 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-
-#####barchart2. total consumption- counts ####
-# summarise data
-df.plot2=df%>%group_by(type,date)%>%
-  summarise(
-    count=sum(count)
-  )
-
-bar_propotion <- 
-  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -393,15 +376,13 @@ bar_propotion <-
 
 
 ggsave(
-  plot= abtype_bar,
-  filename="abtype_URTI.jpeg", path=here::here("output"),
+  plot= lineplot_1,
+  filename="abtype_URTI_line.jpeg", path=here::here("output"),
 )
 ggsave(
-  plot= bar_propotion,
-  filename="abtype_percent_URTI.jpeg", path=here::here("output"),
+  plot= lineplot_2,
+  filename="abtype_percent_URTI_line.jpeg", path=here::here("output"),
 ) 
-
-
 
 
 ## ungroup for table
@@ -525,7 +506,6 @@ df$value2 <- df$value*1000
 df$abtype  <- as.character(df$abtype)
 
 
-######barchart1. rate per 1000 pt#####
 ### select most common ab (rate)###
 DF.top10=df%>%
   group_by(abtype)%>%
@@ -543,18 +523,26 @@ df.plot=df%>%group_by(type,date)%>%
   )
   
 
-#df$date=format(df$date,"%Y-%m")
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
-abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+
+
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white",aes(fill=type,group=-value2))+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "National lockdown time in grey background. ",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -562,25 +550,17 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-
-#####barchart2. total consumption- counts ####
-# summarise data
-df.plot2=df%>%group_by(type,date)%>%
-  summarise(
-    count=sum(count)
-  )
-
-bar_propotion <- 
-  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -589,16 +569,14 @@ bar_propotion <-
   scale_y_continuous(labels = scales::percent)
 
 
-
 ggsave(
-  plot= abtype_bar,
-  filename="abtype_LRTI.jpeg", path=here::here("output"),
+  plot= lineplot_1,
+  filename="abtype_LRTI_line.jpeg", path=here::here("output"),
 )
 ggsave(
-  plot= bar_propotion,
-  filename="abtype_percent_LRTI.jpeg", path=here::here("output"),
+  plot= lineplot_2,
+  filename="abtype_percent_LRTI_line.jpeg", path=here::here("output"),
 ) 
-
 
 ## ungroup for table
 df.3 <- ungroup(df)
@@ -740,19 +718,25 @@ df.plot=df%>%group_by(type,date)%>%
     value2=sum(value2)
   )
   
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
-#df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white",aes(fill=type,group=-value2))+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "National lockdown time in grey background. ",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -760,25 +744,17 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-
-#####barchart2. total consumption- counts ####
-# summarise data
-df.plot2=df%>%group_by(type,date)%>%
-  summarise(
-    count=sum(count)
-  )
-
-bar_propotion <- 
-  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -787,16 +763,14 @@ bar_propotion <-
   scale_y_continuous(labels = scales::percent)
 
 
-
 ggsave(
-  plot= abtype_bar,
-  filename="abtype_sinusitis.jpeg", path=here::here("output"),
+  plot= lineplot_1,
+  filename="abtype_sinusitis_line.jpeg", path=here::here("output"),
 )
 ggsave(
-  plot= bar_propotion,
-  filename="abtype_percent_sinusitis.jpeg", path=here::here("output"),
+  plot= lineplot_2,
+  filename="abtype_percent_sinusitis_line.jpeg", path=here::here("output"),
 ) 
-
 
 
 
@@ -923,8 +897,6 @@ df$value2 <- df$value*1000
 df$abtype  <- as.character(df$abtype)
 
 
-
-######barchart1. rate per 1000 pt#####
 ### select most common ab (rate)###
 DF.top10=df%>%
   group_by(abtype)%>%
@@ -941,19 +913,26 @@ df.plot=df%>%group_by(type,date)%>%
     value2=sum(value2)
   )
   
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
-#df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white",aes(fill=type,group=-value2))+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "National lockdown time in grey background. ",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -961,24 +940,17 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-#####barchart2. total consumption- counts ####
-# summarise data
-df.plot2=df%>%group_by(type,date)%>%
-  summarise(
-    count=sum(count)
-  )
-
-bar_propotion <- 
-  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -987,16 +959,14 @@ bar_propotion <-
   scale_y_continuous(labels = scales::percent)
 
 
-
 ggsave(
-  plot= abtype_bar,
-  filename="abtype_ot_externa.jpeg", path=here::here("output"),
+  plot= lineplot_1,
+  filename="abtype_ot_externa_line.jpeg", path=here::here("output"),
 )
 ggsave(
-  plot= bar_propotion,
-  filename="abtype_percent_ot_externa.jpeg", path=here::here("output"),
+  plot= lineplot_2,
+  filename="abtype_percent_ot_externa_line.jpeg", path=here::here("output"),
 ) 
-
 
 
 ## ungroup for table
@@ -1124,7 +1094,6 @@ df$value2 <- df$value*1000
 df$abtype  <- as.character(df$abtype)
 
 
-######barchart1. rate per 1000 pt#####
 ### select most common ab (rate)###
 DF.top10=df%>%
   group_by(abtype)%>%
@@ -1141,19 +1110,26 @@ df.plot=df%>%group_by(type,date)%>%
     value2=sum(value2)
   )
   
+# summarise data
+df.plot2=df%>%group_by(type,date)%>%
+  summarise(
+    count=sum(count)
+  )
 
-#df$date=format(df$date,"%Y-%m")
 
-abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) + 
+
+## # line graph-rate
+lineplot_1<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white",aes(fill=type,group=-value2))+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "National lockdown time in grey background. ",
+    caption = "Estimated National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -1161,25 +1137,17 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 20)
 
-
-#####barchart2. total consumption- counts ####
-# summarise data
-df.plot2=df%>%group_by(type,date)%>%
-  summarise(
-    count=sum(count)
-  )
-
-bar_propotion <- 
-  ggplot(df.plot2, aes(x=date, y=count, fill=type))+
+## # line graph-percent
+lineplot_2<- ggplot(df.plot2, aes(x=date, y=count,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_line()+
+  theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -1189,13 +1157,14 @@ bar_propotion <-
 
 
 ggsave(
-  plot= abtype_bar,
-  filename="abtype_otmedia.jpeg", path=here::here("output"),
+  plot= lineplot_1,
+  filename="abtype_otmedia_line.jpeg", path=here::here("output"),
 )
 ggsave(
-  plot= bar_propotion,
-  filename="abtype_percent_otmedia.jpeg", path=here::here("output"),
+  plot= lineplot_2,
+  filename="abtype_percent_otmedia_line.jpeg", path=here::here("output"),
 ) 
+
 
 ## ungroup for table
 df.6 <- ungroup(df)
@@ -1208,4 +1177,4 @@ rm(df_plot,DF.top10,df)
 
 ## combine table
 ugp_df10=rbind(df.1,df.2,df.3,df.4,df.5,df.6)
-write_csv(ugp_df10, here::here("output", "abtype_top10_by_infection.csv"))
+write_csv(ugp_df10, here::here("output", "abtype_top10_by_infection_line.csv"))

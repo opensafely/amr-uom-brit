@@ -49,8 +49,8 @@ last_mon= format(max(df$date),"%m-%Y")
 TPPnumber=length(unique(df$practice))
 
 # select incident pt and count consultations
-# incdt_pt==0 means has no consultation in prior 6 weeks
-df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
+# incdt_pt==1 means has consultation in prior 6 weeks
+df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -110,8 +110,8 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
-df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
+# select incdt=1 , count prevalent patient number
+df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -171,8 +171,8 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
-df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
+# select incdt=1 , count prevalent patient number
+df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -232,8 +232,8 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
-df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
+# select incdt=1, count prevalent patient number
+df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -299,8 +299,8 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
-df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
+# select incdt=1 , count prevalent patient number
+df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -363,8 +363,8 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
-df$incdt_counts=ifelse(df$incdt_pt==0,df$infection_counts,0)
+# select incdt=1 , count prevalent patient number
+df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -403,11 +403,11 @@ df_plot=df%>%
 group_by(date,age_cat,indic)%>%
 summarise(rate=mean(rate))
 
-write.csv(df_plot,here::here("output","consultation_rate.csv"))
+write.csv(df_plot,here::here("output","consultation_rate_prevalent.csv"))
 
 
 # line graph- by age group and divided by year
-df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 df_plot$year=format(df_plot$date,"%Y")
 df_plot$month=format(df_plot$date,"%m")
 
@@ -418,7 +418,7 @@ lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
   scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
   #scale_y_continuous(n.breaks = 20)+
   labs(
-    title = "Consultation rate per 1,000 registered patients",
+    title = "Prevalent consultationrate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
     x = "", 
@@ -435,7 +435,7 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
     legend.position = "bottom",legend.title =element_blank())+
    labs(
-    title = "Consultation rate per 1,000 registered patients",
+    title = "Prevalent consultation rate per 1,000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices; National lockdown in grey background"),
     x = "", 
@@ -443,11 +443,11 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_1,
-  filename="consult_age_1.jpeg", path=here::here("output"))
+  filename="consult_age_1_prevalent.jpeg", path=here::here("output"))
 
   ggsave(
   plot= lineplot_2,
-  filename="consult_age_2.jpeg", path=here::here("output"))
+  filename="consult_age_2_prevalent.jpeg", path=here::here("output"))
 
 
 ## 3.2 consultation rate by percentile 
@@ -457,7 +457,7 @@ df_gprate=df%>%
 group_by(date,practice)%>%
 summarise(ab_rate_1000=mean(rate))
 
-write.csv(df_gprate,here::here("output","consultation_GP_rate.csv"))
+write.csv(df_gprate,here::here("output","consultation_GP_rate_prevalent.csv"))
 
 
 df_gprate$cal_year=format(df_gprate$date,"%Y")
@@ -492,7 +492,7 @@ plot_percentile <- ggplot(df_mean, aes(x=date))+
   scale_y_continuous(n.breaks = 20)+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
-    title = "Consultation rate per 1000 registered patients",
+    title = "Prevalent consultation rate per 1000 registered patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", num_uniq_prac,"TPP Practices; 
     National lockdown in grey background"),
@@ -505,6 +505,6 @@ plot_percentile
 
 ggsave(
   plot= plot_percentile,
-  filename="consult_all.jpeg", path=here::here("output"),
+  filename="consult_all_prevalent.jpeg", path=here::here("output"),
 )
 

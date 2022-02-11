@@ -148,16 +148,27 @@ actions:
         #count_table: output/prior_ab_by_month.csv      
 
 
-  describe_consultation_rate_all:
-    run: r:latest analysis/plot/incident_consultation_by_age_infection.R
+  describe_consultation_rate_all_incident:
+    run: r:latest analysis/plot/consultation_by_age_infection_incident.R
     needs: [generate_measures_infection]
     outputs:
        moderately_sensitive:
-        plot1: output/consult_age_1.jpeg
-        plot2: output/consult_age_2.jpeg
-        plot3: output/consult_all.jpeg
-        csv1: output/consultation_rate.csv
-        csv2: output/consultation_GP_rate.csv
+        plot1: output/consult_age_1_incident.jpeg
+        plot2: output/consult_age_2_incident.jpeg
+        plot3: output/consult_all_incident.jpeg
+        csv1: output/consultation_rate_incident.csv
+        csv2: output/consultation_GP_rate_incident.csv
+  
+  describe_consultation_rate_all_prevalent:
+    run: r:latest analysis/plot/consultation_by_age_infection_prevalent.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive:
+        plot1: output/consult_age_1_prevalent.jpeg
+        plot2: output/consult_age_2_prevalent.jpeg
+        plot3: output/consult_all_prevalent.jpeg
+        csv1: output/consultation_rate_prevalent.csv
+        csv2: output/consultation_GP_rate_prevalent.csv
 
   describe_infection_prescribed_percent:
     run: r:latest analysis/plot/infection_prescibed_percent.R
@@ -190,6 +201,25 @@ actions:
         plot11: output/abtype_percent_ot_externa.jpeg
         plot12: output/abtype_percent_otmedia.jpeg
         csv: output/abtype_top10_by_infection.csv
+  
+  describe_top10ABtypes_byInfection_line:
+    run: r:latest analysis/plot/abtypes_top10_line.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive:
+        plot13: output/abtype_UTI_line.jpeg
+        plot14: output/abtype_URTI_line.jpeg
+        plot15: output/abtype_LRTI_line.jpeg
+        plot16: output/abtype_sinusitis_line.jpeg
+        plot17: output/abtype_ot_externa_line.jpeg
+        plot18: output/abtype_otmedia_line.jpeg
+        plot19: output/abtype_percent_UTI_line.jpeg
+        plot20: output/abtype_percent_URTI_line.jpeg
+        plot21: output/abtype_percent_LRTI_line.jpeg
+        plot22: output/abtype_percent_sinusitis_line.jpeg
+        plot23: output/abtype_percent_ot_externa_line.jpeg
+        plot24: output/abtype_percent_otmedia_line.jpeg
+        csv: output/abtype_top10_by_infection_line.csv
   
   # describe_top10ABtypes_total:
   #   run: r:latest analysis/plot/types_ab_prescriptions.R

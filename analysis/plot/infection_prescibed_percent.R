@@ -285,7 +285,7 @@ df.p=df%>%group_by(date,age_cat,infection)%>%
 write.csv(df.p,here::here("output","prescribed_infection_prevalent.csv"))
 
 
-df.p$age_cat <- factor(df.p$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df.p$age_cat <- factor(df.p$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 df.p$infection<-factor(df.p$infection, levels=c("UTI", "URTI", "LRTI","otitis externa", "otitis media", "sinusitis"))
 
 df.p$month=format(df.p$date,"%m")
@@ -333,7 +333,7 @@ df.i=df%>%group_by(date,age_cat,infection)%>%
 write.csv(df.i,here::here("output","prescribed_infection_incident.csv"))
 
 
-df.i$age_cat <- factor(df.i$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df.i$age_cat <- factor(df.i$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 df.i$infection<-factor(df.i$infection, levels=c("UTI", "URTI", "LRTI","otitis externa", "otitis media", "sinusitis"))
 
 df.i$month=format(df.i$date,"%m")
