@@ -154,7 +154,7 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated National lockdown time in grey background. ",
+    caption = "National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -352,7 +352,7 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated National lockdown time in grey background. ",
+    caption = "National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -547,7 +547,7 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated National lockdown time in grey background. ",
+    caption = "National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -744,7 +744,7 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated National lockdown time in grey background. ",
+    caption = "National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -942,7 +942,7 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated National lockdown time in grey background. ",
+    caption = "National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
@@ -1140,7 +1140,7 @@ abtype_bar <- ggplot(df.plot, aes(y=value2, x=date)) +
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "Estimated National lockdown time in grey background. ",
+    caption = "National lockdown time in grey background. ",
     y = "Number of prescriptions per 1000 registered patients",
     x=""
   )+
