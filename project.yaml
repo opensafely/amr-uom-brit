@@ -148,16 +148,27 @@ actions:
         #count_table: output/prior_ab_by_month.csv      
 
 
-  describe_consultation_rate_all:
-    run: r:latest analysis/plot/incident_consultation_by_age_infection.R
+  describe_consultation_rate_all_incident:
+    run: r:latest analysis/plot/consultation_by_age_infection_incident.R
     needs: [generate_measures_infection]
     outputs:
        moderately_sensitive:
-        plot1: output/consult_age_1.jpeg
-        plot2: output/consult_age_2.jpeg
-        plot3: output/consult_all.jpeg
-        csv1: output/consultation_rate.csv
-        csv2: output/consultation_GP_rate.csv
+        plot1: output/consult_age_1_incident.jpeg
+        plot2: output/consult_age_2_incident.jpeg
+        plot3: output/consult_all_incident.jpeg
+        csv1: output/consultation_rate_incident.csv
+        csv2: output/consultation_GP_rate_incident.csv
+  
+  describe_consultation_rate_all_prevalent:
+    run: r:latest analysis/plot/consultation_by_age_infection_prevalent.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive:
+        plot1: output/consult_age_1_prevalent.jpeg
+        plot2: output/consult_age_2_prevalent.jpeg
+        plot3: output/consult_all_prevalent.jpeg
+        csv1: output/consultation_rate_prevalent.csv
+        csv2: output/consultation_GP_rate_prevalent.csv
 
   describe_infection_prescribed_percent:
     run: r:latest analysis/plot/infection_prescibed_percent.R
