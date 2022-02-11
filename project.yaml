@@ -140,7 +140,7 @@ actions:
   #       count_table: output/prior_ab_by_month.csv      
 
 
-describe_consultation_rate_all_prevalent:
+  describe_consultation_rate_all_prevalent:
     run: r:latest analysis/plot/consultation_by_age_infection_prevalent.R
     needs: [generate_measures_infection]
     outputs:
