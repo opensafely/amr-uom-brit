@@ -407,7 +407,7 @@ write.csv(df_plot,here::here("output","consultation_rate.csv"))
 
 
 # line graph- by age group and divided by year
-df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 df_plot$year=format(df_plot$date,"%Y")
 df_plot$month=format(df_plot$date,"%m")
 
