@@ -149,5 +149,34 @@ actions:
 #        highly_sensitive:
 #         cohort4: output/control_general_population_*.csv
   
+
+  generate_study_population_noCOVID:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_noCOVID
+    outputs:
+      highly_sensitive:
+        cohort: output/input_noCOVID.csv 
+  
+  check_input_noCOVID: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_input_noCOVID.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_study_population_noCOVID]
+    outputs:
+      moderately_sensitive:
+        html: output/check_input_noCOVID.html
+  
+  matching_1.2:
+    run: python:latest python analysis/matching_outcome_1_noCOVID.py
+    needs: [generate_study_population_noCOVID, process]
+    outputs:
+      moderately_sensitive: 
+        matching_report1: output/matching_report_noCOVID_infection.txt
+      highly_sensitive: 
+        combined1: output/matched_combined_noCOVID_infection.csv
+  
+  extract_variables_outcome_1.2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_noCOVID
+    needs: [matching_1.2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_noCOVID.csv
         
         
