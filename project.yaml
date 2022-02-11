@@ -113,24 +113,22 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_3.csv
 
-  variables:
-    run: r:latest analysis/variables.R
-    needs: [matching_1,matching_2,matching_3,extract_variables_outcome_1,extract_variables_outcome_2,extract_variables_outcome_3]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome1.csv
-        cohort2: output/matched_outcome2.csv
-        cohort3: output/matched_outcome3.csv
-        # cohort1.3: output/case_covid_infection_*.csv # for monthly matching
-        # cohort2: output/case_covid_admission.csv
-        # cohort3: output/case_covid_icu_death.csv
+  # variables:
+  #   run: r:latest analysis/variables.R
+  #   needs: [matching_1,matching_2,matching_3,extract_variables_outcome_1,extract_variables_outcome_2,extract_variables_outcome_3]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort1: output/matched_outcome1.csv
+  #       cohort2: output/matched_outcome2.csv
+  #       cohort3: output/matched_outcome3.csv
 
-  check_matching:
-    run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [variables]
-    outputs:
-      moderately_sensitive:
-        html: output/check_matching.html
+
+  # check_matching:
+  #   run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [variables]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_matching.html
   
 
  
