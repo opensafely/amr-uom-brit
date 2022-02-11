@@ -140,6 +140,17 @@ actions:
   #       count_table: output/prior_ab_by_month.csv      
 
 
+  describe_consultation_rate_all_incident:
+    run: r:latest analysis/plot/consultation_by_age_infection_incident.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive:
+        plot1: output/consult_age_1_incident.jpeg
+        plot2: output/consult_age_2_incident.jpeg
+        plot3: output/consult_all_incident.jpeg
+        csv1: output/consultation_rate_incident.csv
+        csv2: output/consultation_GP_rate_incident.csv
+        
   describe_consultation_rate_all_prevalent:
     run: r:latest analysis/plot/consultation_by_age_infection_prevalent.R
     needs: [generate_measures_infection]
