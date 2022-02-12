@@ -13,7 +13,7 @@ setwd(here::here("output", "measures"))
 
 
 # file list
-Files = list.files(pattern="recorded_ab_", full.names = TRUE)
+Files = list.files(pattern="recorded_ab_indication_", full.names = TRUE)
 temp <- vector("list", length(Files))
 
 for (i in seq_along(Files)){
@@ -80,6 +80,7 @@ abtype_bar <- ggplot(dat,aes(x=date, y=count, fill=infection)) +
     fill = "Infections",
     title = "Percent of antibiotic prescriptions with infection records",
     subtitle = paste(first_mon,"-",last_mon),
+    caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
     x=""
   )+
@@ -102,6 +103,7 @@ lineplot<- ggplot(dat, aes(x=date, y=count,group=infection,color=infection))+
     fill = "Infections",
     title = "Percent of antibiotic prescriptions with infection records",
     subtitle = paste(first_mon,"-",last_mon),
+    caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
     x=""
   )+
