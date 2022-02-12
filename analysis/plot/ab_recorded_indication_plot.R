@@ -42,13 +42,14 @@ dat$infection=recode(dat$infection,
                  sinusits = "Sinusitis",
                  otmedia = "Otitis media",
                  ot_externa = "Otitis externa")
-
+ 
 # patient number
-dat$patient=length(unique(as.factor(dat$patient_id))) 
+dat$patient=length(unique(as.factor(dat$patient_id)))
 
 # infection counts               
 dat.sum=dat%>%group_by(date, infection)%>%
-  summarise(count=n())
+  summarise(count=n(),
+            patient=mean(patient)) # equal in each row
 
 rm(dat,DF)
 temp[[i]] = dat.sum
@@ -75,7 +76,6 @@ dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis 
 # calculate rate= prescriptions/ number of infection patients
 dat$value=dat$count/dat$patient
 
-
 # plot
 abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -95,6 +95,8 @@ abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) +
   scale_y_continuous(labels = scales::percent)
 
 
+
+
 ## # line graph-percent
 lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -112,6 +114,8 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
+
+
 
 
 ggsave(
