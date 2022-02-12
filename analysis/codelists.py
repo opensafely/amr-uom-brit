@@ -262,6 +262,10 @@ all_indication_codes = combine_codelists(asthma_copd_codes, asthma_codes, cold_c
       cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, 
       renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes )
 
+## 6 common infection
+## all infections
+six_indication_codes = combine_codelists( lrti_codes, ot_externa_codes, otmedia_codes, sinusitis_codes, urti_codes, uti_codes )
+
 
 ###  vaccination
 vaccination_codes = codelist_from_csv(

@@ -290,4 +290,10 @@ actions:
         plot1: output/ab_recorded_indication_bar.jpeg
         plot2: output/ab_recorded_indication_line.jpeg
         csv: output/ab_recorded_indication.csv
+
+  generate_study_population_infection_abtype: # for ab types plot
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_abtype --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_abtype_*.csv.gz
        
