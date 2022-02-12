@@ -180,7 +180,7 @@ bar_propotion <-
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - UTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    #caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -383,7 +383,7 @@ bar_propotion <-
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - URTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    #caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -580,7 +580,7 @@ bar_propotion <-
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - LRTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    #caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -778,7 +778,7 @@ bar_propotion <-
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+   # caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -978,7 +978,7 @@ bar_propotion <-
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    #caption = "TPP Practices",
     y = "percent",
     x=""
   )+
@@ -1179,7 +1179,7 @@ bar_propotion <-
     fill = "Antibiotic type",
     title = "Top 10 Antibiotic Types Prescribed - Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = "TPP Practices",
+    #caption = "TPP Practices",
     y = "percent",
     x=""
   )+
