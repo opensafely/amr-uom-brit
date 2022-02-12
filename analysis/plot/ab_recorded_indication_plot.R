@@ -42,7 +42,10 @@ dat$infection=recode(dat$infection,
                  sinusits = "Sinusitis",
                  otmedia = "Otitis media",
                  ot_externa = "Otitis externa")
- 
+
+# patient number
+dat$patient=length(unique(as.factor(dat$patient_id))) 
+
 # infection counts               
 dat.sum=dat%>%group_by(date, infection)%>%
   summarise(count=n())
@@ -69,16 +72,19 @@ dat$infection=dat$infection %>% replace_na("Uncoded")
 # reorder
 dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis media","Sinusitis","URTI","UTI","Other infection","Uncoded"))
 
+# calculate rate= prescriptions/ number of infection patients
+dat$value=dat$count/dat$patient
+
 
 # plot
-abtype_bar <- ggplot(dat,aes(x=date, y=count, fill=infection)) + 
+abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Infections",
-    title = "Percent of antibiotic prescriptions with infection records",
+    title = "Antibiotic prescriptions with infection records",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -89,11 +95,8 @@ abtype_bar <- ggplot(dat,aes(x=date, y=count, fill=infection)) +
   scale_y_continuous(labels = scales::percent)
 
 
-
-
-
 ## # line graph-percent
-lineplot<- ggplot(dat, aes(x=date, y=count,group=infection,color=infection))+
+lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -101,16 +104,14 @@ lineplot<- ggplot(dat, aes(x=date, y=count,group=infection,color=infection))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Infections",
-    title = "Percent of antibiotic prescriptions with infection records",
+    title = "Prescriptions with infection records",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
-    y = "Percentage",
+    y = "number of prescriptions per 1000 infection patients",
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
 
 
 ggsave(
