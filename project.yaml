@@ -337,12 +337,12 @@ actions:
         plot3: output/abtype_urti.jpeg
         plot4: output/abtype_sinusitis.jpeg
         plot5: output/abtype_ot_externa.jpeg
-        plot6: output/abtype_ot_media.jpeg
+        plot6: output/abtype_otmedia.jpeg
         csv1: output/abtype_uti.csv
         csv2: output/abtype_lrti.csv
         csv3: output/abtype_urti.csv
         csv4: output/abtype_sinusitis.csv
         csv5: output/abtype_ot_externa.csv
-        csv6: output/abtype_ot_media.csv
+        csv6: output/abtype_otmedia.csv
        
   
