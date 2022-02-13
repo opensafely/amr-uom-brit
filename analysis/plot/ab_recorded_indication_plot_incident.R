@@ -24,7 +24,7 @@ DF=read_rds(Files[i])
 dat=bind_rows(DF)
 
 # filter incident
-dat=dat%>%filter(prevalent=="0")%>%select(patient_id,date,infection)
+dat=dat%>%filter(prevalent==0)%>%select(patient_id,date,infection)
 
 # recorde date into year-month
 dat$date=format(dat$date,"%Y-%m")
