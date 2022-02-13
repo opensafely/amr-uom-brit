@@ -23,8 +23,8 @@ DF=read_rds(Files[i])
 #dat=rbindlist(DF)
 dat=bind_rows(DF)
 
-# filter incident
-dat=dat%>%filter(prevalent==0)%>%select(patient_id,date,infection)
+# filter prevalent
+dat=dat%>%filter(prevalent==1)%>%select(patient_id,date,infection)
 
 # recorde date into year-month
 dat$date=format(dat$date,"%Y-%m")
@@ -122,13 +122,13 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
 
 ggsave(
   plot= abtype_bar,
-  filename="ab_recorded_bar.jpeg", path=here::here("output"),
+  filename="ab_recorded_prevalent_bar.jpeg", path=here::here("output"),
 )
 ggsave(
   plot= lineplot,
-  filename="ab_recorded_line.jpeg", path=here::here("output"),
+  filename="ab_recorded_prevalent_line.jpeg", path=here::here("output"),
 ) 
 
-write_csv(dat, here::here("output", "ab_recorded.csv"))
+write_csv(dat, here::here("output", "ab_recorded_prevalent.csv"))
 
 
