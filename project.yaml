@@ -327,6 +327,6 @@ actions:
     needs: [describe_infection_abtype_process]
     outputs:
        moderately_sensitive:
-        rds1: output/abtype_uti.jpeg
+        plot1: output/abtype_uti.jpeg
         csv1: output/abtype_uti.csv
        

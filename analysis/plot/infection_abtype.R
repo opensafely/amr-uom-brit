@@ -84,7 +84,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
 
 ggsave(
   plot= lineplot,
-  filename="ab_recorded_incident_line.jpeg", path=here::here("output"),
+  filename="abtype_uti.jpeg", path=here::here("output"),
 ) 
 
-write_csv(df, here::here("output", "ab_recorded_incident.csv"))
+write_csv(df, here::here("output", "abtype_uti.csv"))

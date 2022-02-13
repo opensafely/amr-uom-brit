@@ -120,11 +120,13 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
 
 
 
+
+
 ggsave(
   plot= lineplot,
-  filename="abtype_uti.jpeg", path=here::here("output"),
+  filename="ab_recorded_incident_line.jpeg", path=here::here("output"),
 ) 
 
-write_csv(df, here::here("output", "abtype_uti.csv"))
+write_csv(df, here::here("output", "ab_recorded_incident.csv"))
 
 
