@@ -81,7 +81,7 @@ for (i in seq_along(csvFiles_19)){
   # ab_category 
   df2=df%>%select(patient_id,age,sex,ab_category)
   colnames(df2)[4:7]=paste0("time",rep(1:4))
-  df2.1=df2%>%gather(times,infection,paste0("time",rep(1:4)))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
   # merge
@@ -129,7 +129,7 @@ for (i in seq_along(csvFiles_20)){
   # ab_category 
   df2=df%>%select(patient_id,age,sex,ab_category)
   colnames(df2)[4:7]=paste0("time",rep(1:4))
-  df2.1=df2%>%gather(times,infection,paste0("time",rep(1:4)))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
   # merge
@@ -174,7 +174,7 @@ for (i in seq_along(csvFiles_21)){
   # ab_category 
   df2=df%>%select(patient_id,age,sex,ab_category)
   colnames(df2)[4:7]=paste0("time",rep(1:4))
-  df2.1=df2%>%gather(times,infection,paste0("time",rep(1:4)))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
   # merge
@@ -220,7 +220,7 @@ for (i in seq_along(csvFiles_22)){
   # ab_category 
   df2=df%>%select(patient_id,age,sex,ab_category)
   colnames(df2)[4:7]=paste0("time",rep(1:4))
-  df2.1=df2%>%gather(times,infection,paste0("time",rep(1:4)))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
   # merge
