@@ -316,7 +316,7 @@ actions:
         cohort: output/measures/input_infection_abtype_*.csv.gz
 
   describe_infection_abtype_process: #  infection/row
-    run: r:latest analysis/process/infection_abtype_transform.R
+    run: r:latest analysis/process/infection_abtype_transform_copy.R
     needs: [generate_study_population_infection_abtype]
     outputs:
        highly_sensitive:

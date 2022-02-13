@@ -40,6 +40,7 @@ date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 # variables names list
 prevalent_check=paste0("hx_ab_uti_date_",rep(1:4))#prevalent check
 ab_category=paste0("uti_abtype",rep(1:4))#ab type
+infec_date=paste0("uti_date_",rep(1:4)) #infection records
 
 
 # read columns
@@ -54,6 +55,11 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_uti_date_2 ='d',
                       hx_ab_uti_date_3 ='d',
                       hx_ab_uti_date_4 ='d',
+                      
+                      uti_date_1 = 'c',
+                      uti_date_2 = 'c',
+                      uti_date_3 = 'c',
+                      uti_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -73,21 +79,27 @@ for (i in seq_along(csvFiles_19)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_19[i]
@@ -99,7 +111,7 @@ for (i in seq_along(csvFiles_19)){
   
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -121,33 +133,36 @@ for (i in seq_along(csvFiles_20)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_20[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -166,33 +181,36 @@ for (i in seq_along(csvFiles_21)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_21[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -212,33 +230,36 @@ for (i in seq_along(csvFiles_22)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_22[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -274,6 +295,7 @@ date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 # variables names list
 prevalent_check=paste0("hx_ab_lrti_date_",rep(1:4))#prevalent check
 ab_category=paste0("lrti_abtype",rep(1:4))#ab type
+infec_date=paste0("lrti_date_",rep(1:4)) #infection records
 
 
 # read columns
@@ -288,6 +310,11 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_lrti_date_2 ='d',
                       hx_ab_lrti_date_3 ='d',
                       hx_ab_lrti_date_4 ='d',
+                      
+                      lrti_date_1 = 'c',
+                      lrti_date_2 = 'c',
+                      lrti_date_3 = 'c',
+                      lrti_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -307,21 +334,27 @@ for (i in seq_along(csvFiles_19)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_19[i]
@@ -333,7 +366,7 @@ for (i in seq_along(csvFiles_19)){
   
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -355,33 +388,36 @@ for (i in seq_along(csvFiles_20)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_20[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -400,33 +436,36 @@ for (i in seq_along(csvFiles_21)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_21[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -446,33 +485,36 @@ for (i in seq_along(csvFiles_22)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_22[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -485,9 +527,6 @@ DF=c(DF_19,DF_20,DF_21,DF_22)
 saveRDS(DF,"abtype_lrti.rds")
 
 rm(list=ls())
-
-
-
 
 
 
@@ -513,6 +552,7 @@ date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 # variables names list
 prevalent_check=paste0("hx_ab_urti_date_",rep(1:4))#prevalent check
 ab_category=paste0("urti_abtype",rep(1:4))#ab type
+infec_date=paste0("urti_date_",rep(1:4)) #infection records
 
 
 # read columns
@@ -527,6 +567,11 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_urti_date_2 ='d',
                       hx_ab_urti_date_3 ='d',
                       hx_ab_urti_date_4 ='d',
+                      
+                      urti_date_1 = 'c',
+                      urti_date_2 = 'c',
+                      urti_date_3 = 'c',
+                      urti_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -546,21 +591,27 @@ for (i in seq_along(csvFiles_19)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_19[i]
@@ -572,7 +623,7 @@ for (i in seq_along(csvFiles_19)){
   
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -594,33 +645,36 @@ for (i in seq_along(csvFiles_20)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_20[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -639,33 +693,36 @@ for (i in seq_along(csvFiles_21)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_21[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -685,33 +742,36 @@ for (i in seq_along(csvFiles_22)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_22[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -747,6 +807,7 @@ date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 # variables names list
 prevalent_check=paste0("hx_ab_sinusitis_date_",rep(1:4))#prevalent check
 ab_category=paste0("sinusitis_abtype",rep(1:4))#ab type
+infec_date=paste0("sinusitis_date_",rep(1:4)) #infection records
 
 
 # read columns
@@ -761,6 +822,11 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_sinusitis_date_2 ='d',
                       hx_ab_sinusitis_date_3 ='d',
                       hx_ab_sinusitis_date_4 ='d',
+                      
+                      sinusitis_date_1 = 'c',
+                      sinusitis_date_2 = 'c',
+                      sinusitis_date_3 = 'c',
+                      sinusitis_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -780,21 +846,27 @@ for (i in seq_along(csvFiles_19)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_19[i]
@@ -806,7 +878,7 @@ for (i in seq_along(csvFiles_19)){
   
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -828,33 +900,36 @@ for (i in seq_along(csvFiles_20)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_20[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -873,33 +948,36 @@ for (i in seq_along(csvFiles_21)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_21[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -919,33 +997,36 @@ for (i in seq_along(csvFiles_22)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_22[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -958,7 +1039,6 @@ DF=c(DF_19,DF_20,DF_21,DF_22)
 saveRDS(DF,"abtype_sinusitis.rds")
 
 rm(list=ls())
-
 
 
 
@@ -982,6 +1062,7 @@ date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 # variables names list
 prevalent_check=paste0("hx_ab_ot_externa_date_",rep(1:4))#prevalent check
 ab_category=paste0("ot_externa_abtype",rep(1:4))#ab type
+infec_date=paste0("ot_externa_date_",rep(1:4)) #infection records
 
 
 # read columns
@@ -996,6 +1077,11 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_ot_externa_date_2 ='d',
                       hx_ab_ot_externa_date_3 ='d',
                       hx_ab_ot_externa_date_4 ='d',
+                      
+                      ot_externa_date_1 = 'c',
+                      ot_externa_date_2 = 'c',
+                      ot_externa_date_3 = 'c',
+                      ot_externa_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -1015,21 +1101,27 @@ for (i in seq_along(csvFiles_19)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_19[i]
@@ -1041,7 +1133,7 @@ for (i in seq_along(csvFiles_19)){
   
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1063,33 +1155,36 @@ for (i in seq_along(csvFiles_20)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_20[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1108,33 +1203,36 @@ for (i in seq_along(csvFiles_21)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_21[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1154,33 +1252,36 @@ for (i in seq_along(csvFiles_22)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_22[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1216,6 +1317,7 @@ date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 # variables names list
 prevalent_check=paste0("hx_ab_otmedia_date_",rep(1:4))#prevalent check
 ab_category=paste0("otmedia_abtype",rep(1:4))#ab type
+infec_date=paste0("otmedia_date_",rep(1:4)) #infection records
 
 
 # read columns
@@ -1230,6 +1332,11 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_otmedia_date_2 ='d',
                       hx_ab_otmedia_date_3 ='d',
                       hx_ab_otmedia_date_4 ='d',
+                      
+                      otmedia_date_1 = 'c',
+                      otmedia_date_2 = 'c',
+                      otmedia_date_3 = 'c',
+                      otmedia_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -1249,21 +1356,27 @@ for (i in seq_along(csvFiles_19)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_19[i]
@@ -1275,7 +1388,7 @@ for (i in seq_along(csvFiles_19)){
   
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1297,33 +1410,36 @@ for (i in seq_along(csvFiles_20)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_20[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1342,33 +1458,36 @@ for (i in seq_along(csvFiles_21)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_21[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
@@ -1388,33 +1507,36 @@ for (i in seq_along(csvFiles_22)){
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
-  df1=df%>%select(patient_id,age,sex,prevalent_check)
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
   rm(df1)
-
+  
   # ab_category 
-  df2=df%>%select(patient_id,age,sex,ab_category)
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
   colnames(df2)[4:7]=paste0("time",rep(1:4))
   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
   rm(df2)
   
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
   # merge
-  #DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-  #DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
   DF$date=date_22[i]
   
-  # exclude observation without AB prescription date
-  #DF=DF%>%filter(!is.na(date))
-  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
-  
+ 
   
   temp[[i]] <- DF
-  rm(DF,df1.1,df2.1,df)
+  rm(DF,df1.1,df2.1,df3.1,df)
   
 }
 
