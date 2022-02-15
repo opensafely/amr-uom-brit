@@ -170,56 +170,56 @@ actions:
         csv1: output/consultation_rate_prevalent.csv
         csv2: output/consultation_GP_rate_prevalent.csv
 
-  describe_infection_prescribed_percent:
-    run: r:latest analysis/plot/infection_prescibed_percent.R
-    needs: [generate_measures_infection]
-    outputs:
-       moderately_sensitive:
-        plot1: output/infection_ab_precent_p1.jpeg
-        plot2: output/infection_ab_precent_p2.jpeg
-        plot3: output/infection_ab_precent_i1.jpeg
-        plot4: output/infection_ab_precent_i2.jpeg
-        plot5: output/infection_ab_precent_all.jpeg
-        csv1: output/prescribed_infection_prevalent.csv
-        csv2: output/prescribed_infection_incident.csv
+  # # describe_infection_prescribed_percent:
+  # #   run: r:latest analysis/plot/infection_prescibed_percent.R
+  # #   needs: [generate_measures_infection]
+  # #   outputs:
+  # #      moderately_sensitive:
+  # #       plot1: output/infection_ab_precent_p1.jpeg
+  # #       plot2: output/infection_ab_precent_p2.jpeg
+  # #       plot3: output/infection_ab_precent_i1.jpeg
+  # #       plot4: output/infection_ab_precent_i2.jpeg
+  # #       plot5: output/infection_ab_precent_all.jpeg
+  # #       csv1: output/prescribed_infection_prevalent.csv
+  # #       csv2: output/prescribed_infection_incident.csv
 
-  describe_top10ABtypes_byInfection:
-    run: r:latest analysis/plot/abtypes_top10.R
-    needs: [generate_measures_infection]
-    outputs:
-       moderately_sensitive:
-        plot1: output/abtype_UTI.jpeg
-        plot2: output/abtype_URTI.jpeg
-        plot3: output/abtype_LRTI.jpeg
-        plot4: output/abtype_sinusitis.jpeg
-        plot5: output/abtype_ot_externa.jpeg
-        plot6: output/abtype_otmedia.jpeg
-        plot7: output/abtype_percent_UTI.jpeg
-        plot8: output/abtype_percent_URTI.jpeg
-        plot9: output/abtype_percent_LRTI.jpeg
-        plot10: output/abtype_percent_sinusitis.jpeg
-        plot11: output/abtype_percent_ot_externa.jpeg
-        plot12: output/abtype_percent_otmedia.jpeg
-        csv: output/abtype_top10_by_infection.csv
+  # # describe_top10ABtypes_byInfection:
+  # #   run: r:latest analysis/plot/abtypes_top10.R
+  # #   needs: [generate_measures_infection]
+  # #   outputs:
+  # #      moderately_sensitive:
+  # #       plot1: output/abtype_UTI.jpeg
+  # #       plot2: output/abtype_URTI.jpeg
+  # #       plot3: output/abtype_LRTI.jpeg
+  # #       plot4: output/abtype_sinusitis.jpeg
+  # #       plot5: output/abtype_ot_externa.jpeg
+  # #       plot6: output/abtype_otmedia.jpeg
+  # #       plot7: output/abtype_percent_UTI.jpeg
+  # #       plot8: output/abtype_percent_URTI.jpeg
+  # #       plot9: output/abtype_percent_LRTI.jpeg
+  # #       plot10: output/abtype_percent_sinusitis.jpeg
+  # #       plot11: output/abtype_percent_ot_externa.jpeg
+  # #       plot12: output/abtype_percent_otmedia.jpeg
+  # #       csv: output/abtype_top10_by_infection.csv
   
-  describe_top10ABtypes_byInfection_line:
-    run: r:latest analysis/plot/abtypes_top10_line.R
-    needs: [generate_measures_infection]
-    outputs:
-       moderately_sensitive:
-        plot13: output/abtype_UTI_line.jpeg
-        plot14: output/abtype_URTI_line.jpeg
-        plot15: output/abtype_LRTI_line.jpeg
-        plot16: output/abtype_sinusitis_line.jpeg
-        plot17: output/abtype_ot_externa_line.jpeg
-        plot18: output/abtype_otmedia_line.jpeg
-        plot19: output/abtype_percent_UTI_line.jpeg
-        plot20: output/abtype_percent_URTI_line.jpeg
-        plot21: output/abtype_percent_LRTI_line.jpeg
-        plot22: output/abtype_percent_sinusitis_line.jpeg
-        plot23: output/abtype_percent_ot_externa_line.jpeg
-        plot24: output/abtype_percent_otmedia_line.jpeg
-        csv: output/abtype_top10_by_infection_line.csv
+  # # describe_top10ABtypes_byInfection_line:
+  # #   run: r:latest analysis/plot/abtypes_top10_line.R
+  # #   needs: [generate_measures_infection]
+  # #   outputs:
+  # #      moderately_sensitive:
+  # #       plot13: output/abtype_UTI_line.jpeg
+  # #       plot14: output/abtype_URTI_line.jpeg
+  # #       plot15: output/abtype_LRTI_line.jpeg
+  # #       plot16: output/abtype_sinusitis_line.jpeg
+  # #       plot17: output/abtype_ot_externa_line.jpeg
+  # #       plot18: output/abtype_otmedia_line.jpeg
+  # #       plot19: output/abtype_percent_UTI_line.jpeg
+  # #       plot20: output/abtype_percent_URTI_line.jpeg
+  # #       plot21: output/abtype_percent_LRTI_line.jpeg
+  # #       plot22: output/abtype_percent_sinusitis_line.jpeg
+  # #       plot23: output/abtype_percent_ot_externa_line.jpeg
+  # #       plot24: output/abtype_percent_otmedia_line.jpeg
+  # #       csv: output/abtype_top10_by_infection_line.csv
   
   # describe_top10ABtypes_total:
   #   run: r:latest analysis/plot/types_ab_prescriptions.R
