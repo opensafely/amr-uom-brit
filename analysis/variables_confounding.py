@@ -72,6 +72,7 @@ def generate_confounding_variables(index_date_variable):
     care_home=patients.with_these_clinical_events(
         carehome_primis_codes,
         on_or_before=f'{index_date_variable}',
+        include_date_of_match=True,
         returning="binary_flag",
         return_expectations={"incidence": 0.5},
      ),
@@ -157,22 +158,22 @@ def generate_confounding_variables(index_date_variable):
         },
     ),
     
-    # middle layer super output area (msoa) - nhs administrative region 
-    msoa=patients.registered_practice_as_of(
-        f'{index_date_variable}',
-        returning="msoa_code",
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"E02000001": 0.5, "E02000002": 0.5}},
-        },
-    ), 
+    # # middle layer super output area (msoa) - nhs administrative region 
+    # msoa=patients.registered_practice_as_of(
+    #     f'{index_date_variable}',
+    #     returning="msoa_code",
+    #     return_expectations={
+    #         "rate": "universal",
+    #         "category": {"ratios": {"E02000001": 0.5, "E02000002": 0.5}},
+    #     },
+    # ), 
     
     
 
     # LIFESTYLE
     ## BMI, most recent
     bmi=patients.most_recent_bmi(
-        between=["2010-02-01", f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 5 years', f'{index_date_variable}'],
         minimum_age_at_measurement=18,
         include_measurement_date=True,
         date_format="YYYY-MM-DD",
@@ -183,7 +184,7 @@ def generate_confounding_variables(index_date_variable):
         },
     ),
 
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/6
+    #smoking https://github.com/ebmdatalab/tpp-sql-notebook/issues/6
     smoking_status=patients.categorised_as(
         {
             "S": "most_recent_smoking_code = 'S'",
