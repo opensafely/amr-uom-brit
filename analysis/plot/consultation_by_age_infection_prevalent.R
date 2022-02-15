@@ -25,7 +25,7 @@ df <- read_csv(
     # Outcomes
     uti_counts  = col_double(),
     population  = col_double(),
-    incdt_uti_pt = col_double(),
+    hx_uti_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -37,7 +37,7 @@ df <- read_csv(
 )
 df$date <- as.Date(df$date)
 
-df=df%>% rename(infection_counts=uti_counts, incdt_pt=incdt_uti_pt)
+df=df%>% rename(infection_counts=uti_counts, hx_pt=hx_uti_pt)
 
 df[is.na(df)] <- 0 # replace NA ->0
 
@@ -49,8 +49,8 @@ last_mon= format(max(df$date),"%m-%Y")
 TPPnumber=length(unique(df$practice))
 
 # select incident pt and count consultations
-# incdt_pt==1 means has consultation in prior 6 weeks
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+# hx_pt==1 means has consultation in prior 6 weeks
+df$hx_counts=ifelse(df$hx_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -60,7 +60,7 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
@@ -90,7 +90,7 @@ df <- read_csv(
     # Outcomes
     lrti_counts  = col_double(), 
     population  = col_double(),
-    incdt_lrti_pt = col_double(),
+    hx_lrti_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -101,7 +101,7 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-df=df%>% rename(infection_counts=lrti_counts, incdt_pt=incdt_lrti_pt) 
+df=df%>% rename(infection_counts=lrti_counts, hx_pt=hx_lrti_pt) 
 df[is.na(df)] <- 0 # replace NA ->0
 
 # remove last month data
@@ -111,7 +111,7 @@ first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=1 , count prevalent patient number
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+df$hx_counts=ifelse(df$hx_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -121,7 +121,7 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
@@ -151,7 +151,7 @@ df <- read_csv(
     #Outcomes
     urti_counts  = col_double(), 
     population  = col_double(),
-    incdt_urti_pt = col_double(),
+    hx_urti_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -162,7 +162,7 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-df=df%>% rename(infection_counts=urti_counts, incdt_pt=incdt_urti_pt) 
+df=df%>% rename(infection_counts=urti_counts, hx_pt=hx_urti_pt) 
 df[is.na(df)] <- 0 # replace NA ->0
 
 # remove last month data
@@ -172,7 +172,7 @@ first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=1 , count prevalent patient number
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+df$hx_counts=ifelse(df$hx_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -182,7 +182,7 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
@@ -212,7 +212,7 @@ df <- read_csv(
     # Outcomes
     sinusitis_counts  = col_double(), 
     population  = col_double(),
-    incdt_sinusitis_pt = col_double(),
+    hx_sinusitis_pt = col_double(),
     age_cat = col_character(),
     value = col_double(),
     
@@ -223,7 +223,7 @@ df <- read_csv(
   na = character()
 )
 df$date <- as.Date(df$date)
-df=df%>% rename(infection_counts=sinusitis_counts, incdt_pt=incdt_sinusitis_pt) 
+df=df%>% rename(infection_counts=sinusitis_counts, hx_pt=hx_sinusitis_pt) 
 df[is.na(df)] <- 0 # replace NA ->0
 
 # remove last month data
@@ -233,7 +233,7 @@ first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=1, count prevalent patient number
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+df$hx_counts=ifelse(df$hx_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -243,7 +243,7 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
@@ -277,7 +277,7 @@ df <- read_csv(
     # Outcomes
     ot_externa_counts  = col_double(), 
     population  = col_double(),
-    incdt_ot_externa_pt = col_double(), 
+    hx_ot_externa_pt = col_double(), 
     age_cat = col_character(),
     value = col_double(),
     
@@ -289,7 +289,7 @@ df <- read_csv(
 )
 df$date <- as.Date(df$date)
 
-df=df%>% rename(infection_counts=ot_externa_counts, incdt_pt=incdt_ot_externa_pt) 
+df=df%>% rename(infection_counts=ot_externa_counts, hx_pt=hx_ot_externa_pt) 
 
 df[is.na(df)] <- 0 # replace NA ->0
 
@@ -300,7 +300,7 @@ first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=1 , count prevalent patient number
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+df$hx_counts=ifelse(df$hx_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -310,7 +310,7 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
@@ -341,7 +341,7 @@ df <- read_csv(
     #Outcomes
     otmedia_counts  = col_double(), 
     population  = col_double(),
-    incdt_otmedia_pt = col_double(), 
+    hx_otmedia_pt = col_double(), 
     age_cat = col_character(),
     value = col_double(),
     
@@ -353,7 +353,7 @@ df <- read_csv(
 )
 df$date <- as.Date(df$date)
 
-df=df%>% rename(infection_counts=otmedia_counts, incdt_pt=incdt_otmedia_pt) 
+df=df%>% rename(infection_counts=otmedia_counts, hx_pt=hx_otmedia_pt) 
 
 df[is.na(df)] <- 0 # replace NA ->0
 
@@ -364,7 +364,7 @@ first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
 # select incdt=1 , count prevalent patient number
-df$incdt_counts=ifelse(df$incdt_pt==1,df$infection_counts,0)
+df$hx_counts=ifelse(df$hx_pt==1,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
 df=df%>%
@@ -374,7 +374,7 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(incdt_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
             pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
@@ -507,4 +507,5 @@ ggsave(
   plot= plot_percentile,
   filename="consult_all_prevalent.jpeg", path=here::here("output"),
 )
+
 
