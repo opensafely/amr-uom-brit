@@ -276,7 +276,7 @@ actions:
     run: r:latest analysis/plot/ab_recorded_indication_plot_incident.R
     needs: [describe_ab_recoded_indication_process]
     outputs:
-       highly_sensitive:
+       moderately_sensitive:
         plot1: output/ab_recorded_incident_bar.jpeg
         plot2: output/ab_recorded_incident_line.jpeg
         csv: output/ab_recorded_incident.csv
@@ -285,7 +285,7 @@ actions:
     run: r:latest analysis/plot/ab_recorded_indication_plot_prevalent.R
     needs: [describe_ab_recoded_indication_process]
     outputs:
-       highly_sensitive:
+       moderately_sensitive:
         plot1: output/ab_recorded_prevalent_bar.jpeg
         plot2: output/ab_recorded_prevalent_line.jpeg
         csv: output/ab_recorded_prevalent.csv
