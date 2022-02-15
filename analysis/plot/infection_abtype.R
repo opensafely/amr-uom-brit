@@ -45,23 +45,21 @@ DF.top10=df%>%
   slice(1:10)
 
 
-# sort ab type
-
-# recode NA -> no recorded antibiotics
-df$abtype=df$abtype%>%replace_na("No Antibiotics")
-
-# recode other types
-df$type=ifelse(df$abtype %in% DF.top10$abtype | df$abtype=="No Antibiotics", df$abtype, "Others")
-
-
-
-df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
-
-# summarise data
-df.plot=df%>%group_by(type,date,prevalent)%>%
-  summarise(
-    value2=sum(value)
-  )
+ # sort ab type
+         
+        # recode other types
+         df$type=ifelse(df$abtype %in% DF.top10$abtype | is.na(df$abtype), df$abtype, "Others")
+         
+         # recode NA -> no recorded antibiotics
+         df$type=ifelse( is.na(df$type),"No Antibiotics", df$type)
+         
+         df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
+         
+         # summarise data
+         df.plot=df%>%group_by(type,date,prevalent)%>%
+           summarise(
+             value2=sum(value)
+           )
 
 
 ## # line graph-rate
@@ -83,7 +81,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)
+  scale_y_continuous(n.breaks = 10)
 
 ggsave(
   plot= lineplot,
@@ -129,23 +127,21 @@ DF.top10=df%>%
   slice(1:10)
 
 
-# sort ab type
-
-# recode NA -> no recorded antibiotics
-df$abtype=df$abtype%>%replace_na("No Antibiotics")
-
-# recode other types
-df$type=ifelse(df$abtype %in% DF.top10$abtype | df$abtype=="No Antibiotics", df$abtype, "Others")
-
-
-
-df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
-
-# summarise data
-df.plot=df%>%group_by(type,date,prevalent)%>%
-  summarise(
-    value2=sum(value)
-  )
+ # sort ab type
+         
+        # recode other types
+         df$type=ifelse(df$abtype %in% DF.top10$abtype | is.na(df$abtype), df$abtype, "Others")
+         
+         # recode NA -> no recorded antibiotics
+         df$type=ifelse( is.na(df$type),"No Antibiotics", df$type)
+         
+         df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
+         
+         # summarise data
+         df.plot=df%>%group_by(type,date,prevalent)%>%
+           summarise(
+             value2=sum(value)
+           )
 
 
 ## # line graph-rate
@@ -167,7 +163,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)
+  scale_y_continuous(n.breaks = 10)
 
 ggsave(
   plot= lineplot,
@@ -215,23 +211,21 @@ DF.top10=df%>%
   slice(1:10)
 
 
-# sort ab type
-
-# recode NA -> no recorded antibiotics
-df$abtype=df$abtype%>%replace_na("No Antibiotics")
-
-# recode other types
-df$type=ifelse(df$abtype %in% DF.top10$abtype | df$abtype=="No Antibiotics", df$abtype, "Others")
-
-
-
-df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
-
-# summarise data
-df.plot=df%>%group_by(type,date,prevalent)%>%
-  summarise(
-    value2=sum(value)
-  )
+ # sort ab type
+         
+        # recode other types
+         df$type=ifelse(df$abtype %in% DF.top10$abtype | is.na(df$abtype), df$abtype, "Others")
+         
+         # recode NA -> no recorded antibiotics
+         df$type=ifelse( is.na(df$type),"No Antibiotics", df$type)
+         
+         df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
+         
+         # summarise data
+         df.plot=df%>%group_by(type,date,prevalent)%>%
+           summarise(
+             value2=sum(value)
+           )
 
 
 ## # line graph-rate
@@ -253,7 +247,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)
+  scale_y_continuous(n.breaks = 10)
 
 ggsave(
   plot= lineplot,
@@ -300,23 +294,21 @@ DF.top10=df%>%
   slice(1:10)
 
 
-# sort ab type
-
-# recode NA -> no recorded antibiotics
-df$abtype=df$abtype%>%replace_na("No Antibiotics")
-
-# recode other types
-df$type=ifelse(df$abtype %in% DF.top10$abtype | df$abtype=="No Antibiotics", df$abtype, "Others")
-
-
-
-df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
-
-# summarise data
-df.plot=df%>%group_by(type,date,prevalent)%>%
-  summarise(
-    value2=sum(value)
-  )
+ # sort ab type
+         
+        # recode other types
+         df$type=ifelse(df$abtype %in% DF.top10$abtype | is.na(df$abtype), df$abtype, "Others")
+         
+         # recode NA -> no recorded antibiotics
+         df$type=ifelse( is.na(df$type),"No Antibiotics", df$type)
+         
+         df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
+         
+         # summarise data
+         df.plot=df%>%group_by(type,date,prevalent)%>%
+           summarise(
+             value2=sum(value)
+           )
 
 
 ## # line graph-rate
@@ -338,7 +330,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)
+  scale_y_continuous(n.breaks = 10)
 
 ggsave(
   plot= lineplot,
@@ -387,23 +379,21 @@ DF.top10=df%>%
   slice(1:10)
 
 
-# sort ab type
-
-# recode NA -> no recorded antibiotics
-df$abtype=df$abtype%>%replace_na("No Antibiotics")
-
-# recode other types
-df$type=ifelse(df$abtype %in% DF.top10$abtype | df$abtype=="No Antibiotics", df$abtype, "Others")
-
-
-
-df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
-
-# summarise data
-df.plot=df%>%group_by(type,date,prevalent)%>%
-  summarise(
-    value2=sum(value)
-  )
+ # sort ab type
+         
+        # recode other types
+         df$type=ifelse(df$abtype %in% DF.top10$abtype | is.na(df$abtype), df$abtype, "Others")
+         
+         # recode NA -> no recorded antibiotics
+         df$type=ifelse( is.na(df$type),"No Antibiotics", df$type)
+         
+         df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
+         
+         # summarise data
+         df.plot=df%>%group_by(type,date,prevalent)%>%
+           summarise(
+             value2=sum(value)
+           )
 
 
 ## # line graph-rate
@@ -425,7 +415,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)
+  scale_y_continuous(n.breaks = 10)
 
 ggsave(
   plot= lineplot,
@@ -476,23 +466,21 @@ DF.top10=df%>%
   slice(1:10)
 
 
-# sort ab type
-
-# recode NA -> no recorded antibiotics
-df$abtype=df$abtype%>%replace_na("No Antibiotics")
-
-# recode other types
-df$type=ifelse(df$abtype %in% DF.top10$abtype | df$abtype=="No Antibiotics", df$abtype, "Others")
-
-
-
-df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
-
-# summarise data
-df.plot=df%>%group_by(type,date,prevalent)%>%
-  summarise(
-    value2=sum(value)
-  )
+ # sort ab type
+         
+        # recode other types
+         df$type=ifelse(df$abtype %in% DF.top10$abtype | is.na(df$abtype), df$abtype, "Others")
+         
+         # recode NA -> no recorded antibiotics
+         df$type=ifelse( is.na(df$type),"No Antibiotics", df$type)
+         
+         df$type <- factor(df$type, levels=c(DF.top10$abtype,"Others","No Antibiotics"))# reorder
+         
+         # summarise data
+         df.plot=df%>%group_by(type,date,prevalent)%>%
+           summarise(
+             value2=sum(value)
+           )
 
 
 ## # line graph-rate
@@ -514,7 +502,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)
+  scale_y_continuous(n.breaks = 10)
 
 ggsave(
   plot= lineplot,
