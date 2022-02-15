@@ -314,4 +314,36 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_infection_abtype_*.csv.gz
+  
+  describe_infection_abtype_process: #  infection/row
+    run: r:latest analysis/process/infection_abtype_transform.R
+    needs: [generate_study_population_infection_abtype]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/abtype_uti.rds
+        rds2: output/measures/abtype_lrti.rds
+        rds3: output/measures/abtype_urti.rds
+        rds4: output/measures/abtype_sinusitis.rds
+        rds5: output/measures/abtype_ot_externa.rds
+        rds6: output/measures/abtype_otmedia.rds
+
+  describe_infection_abtype_plot: #  incident+prevalent
+    run: r:latest analysis/plot/infection_abtype.R
+    needs: [describe_infection_abtype_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/abtype_uti.jpeg
+        plot2: output/abtype_lrti.jpeg
+        plot3: output/abtype_urti.jpeg
+        plot4: output/abtype_sinusitis.jpeg
+        plot5: output/abtype_ot_externa.jpeg
+        plot6: output/abtype_otmedia.jpeg
+        csv1: output/abtype_uti.csv
+        csv2: output/abtype_lrti.csv
+        csv3: output/abtype_urti.csv
+        csv4: output/abtype_sinusitis.csv
+        csv5: output/abtype_ot_externa.csv
+        csv6: output/abtype_otmedia.csv
+       
+  
        
