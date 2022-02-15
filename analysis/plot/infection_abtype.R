@@ -25,7 +25,8 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id)))
+  mutate(patient=sum(length(unique(df$patient_id))))
+  
 
 # abtype counts
 df=df%>%group_by(date,abtype,prevalent)%>%
@@ -108,7 +109,8 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(unique(patient_id)))
+  mutate(patient=sum(length(unique(df$patient_id))))
+  
 
 # abtype counts
 df=df%>%group_by(date,abtype,prevalent)%>%
@@ -193,7 +195,8 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(unique(patient_id)))
+  mutate(patient=sum(length(unique(df$patient_id))))
+  
 
 # abtype counts
 df=df%>%group_by(date,abtype,prevalent)%>%
@@ -277,7 +280,8 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(unique(patient_id)))
+  mutate(patient=sum(length(unique(df$patient_id))))
+  
 
 # abtype counts
 df=df%>%group_by(date,abtype,prevalent)%>%
@@ -363,7 +367,8 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(unique(patient_id)))
+  mutate(patient=sum(length(unique(df$patient_id))))
+  
 
 # abtype counts
 df=df%>%group_by(date,abtype,prevalent)%>%
@@ -451,7 +456,8 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(unique(patient_id)))
+  mutate(patient=sum(length(unique(df$patient_id))))
+  
 
 # abtype counts
 df=df%>%group_by(date,abtype,prevalent)%>%
