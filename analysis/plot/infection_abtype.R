@@ -72,7 +72,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed for UTI patinets",
+    title = "Top 10 Antibiotic Types Prescribed for UTI patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time.
     0 means incident infection; 1 means prevalent infection.",
@@ -154,7 +154,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed for LRTI patinets",
+    title = "Top 10 Antibiotic Types Prescribed for LRTI patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time.
     0 means incident infection; 1 means prevalent infection.",
@@ -238,7 +238,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed for URTI patinets",
+    title = "Top 10 Antibiotic Types Prescribed for URTI patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time.
     0 means incident infection; 1 means prevalent infection.",
@@ -321,7 +321,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed for Sinusitis patinets",
+    title = "Top 10 Antibiotic Types Prescribed for Sinusitis patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time.
     0 means incident infection; 1 means prevalent infection.",
@@ -406,7 +406,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed for Otitis externa patinets",
+    title = "Top 10 Antibiotic Types Prescribed for Otitis externa patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time.
     0 means incident infection; 1 means prevalent infection.",
@@ -493,7 +493,7 @@ lineplot<- ggplot(df.plot, aes(x=date, y=value2,group=type,color=type))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Antibiotic type",
-    title = "Top 10 Antibiotic Types Prescribed for Otitis media patinets",
+    title = "Top 10 Antibiotic Types Prescribed for Otitis media patients",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time.
     0 means incident infection; 1 means prevalent infection.",
