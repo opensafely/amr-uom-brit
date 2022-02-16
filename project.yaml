@@ -153,9 +153,13 @@ actions:
     needs: [generate_measures_infection]
     outputs:
        moderately_sensitive:
-       # plot1: output/consult_age_1_incident.jpeg
-        plot2: output/consult_age_2_incident.jpeg
-        plot3: output/consult_all_incident.jpeg
+        plot1.1: output/consult_age_incident_UTI.jpeg
+        plot1.2: output/consult_age_incident_URTI.jpeg
+        plot1.3: output/consult_age_incident_LRTI.jpeg
+        plot1.4: output/consult_age_incident_sinusitis.jpeg
+        plot1.5: output/consult_age_incident_otmedia.jpeg"
+        plot1.6: output/consult_age_incident_ot_externa.jpeg
+        plot2: output/consult_all_incident.jpeg
         csv1: output/consultation_rate_incident.csv
         csv2: output/consultation_GP_rate_incident.csv
   
@@ -164,11 +168,16 @@ actions:
     needs: [generate_measures_infection]
     outputs:
        moderately_sensitive:
-        #plot1: output/consult_age_1_prevalent.jpeg
-        plot2: output/consult_age_2_prevalent.jpeg
-        plot3: output/consult_all_prevalent.jpeg
+        plot1.1: output/consult_age_prevalent_UTI.jpeg
+        plot1.2: output/consult_age_prevalent_URTI.jpeg
+        plot1.3: output/consult_age_prevalent_LRTI.jpeg
+        plot1.4: output/consult_age_prevalent_sinusitis.jpeg
+        plot1.5: output/consult_age_prevalent_otmedia.jpeg"
+        plot1.6: output/consult_age_prevalent_ot_externa.jpeg
+        plot2: output/consult_all_prevalent.jpeg
         csv1: output/consultation_rate_prevalent.csv
         csv2: output/consultation_GP_rate_prevalent.csv
+
 
   # # describe_infection_prescribed_percent:
   # #   run: r:latest analysis/plot/infection_prescibed_percent.R
