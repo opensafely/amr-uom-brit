@@ -26,9 +26,9 @@ dat=bind_rows(DF)
 # filter incident
 dat=dat%>%filter(prevalent==0)%>%select(patient_id,date,infection)
 
-# recorde date into year-month
-dat$date=format(dat$date,"%Y-%m")
-dat$date=as.Date(paste0(dat$date,"-01"))
+# # recorde date into year-month
+# dat$date=format(dat$date,"%Y-%m")
+# dat$date=as.Date(paste0(dat$date,"-01"))
 
 # recode
 dat$infection=recode(dat$infection,
@@ -77,7 +77,7 @@ dat$infection=dat$infection %>% replace_na("Uncoded")
 # reorder
 dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis media","Sinusitis","URTI","UTI","Other infection","Uncoded"))
 
-# calculate rate= prescriptions/ number of infection patients
+# calculate rate= prescriptions/ number of patients
 dat$value=dat$count/dat$patient
 
 # plot
@@ -88,7 +88,7 @@ abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) +
   geom_bar(color="white",position="fill", stat="identity")+
   labs(
     fill = "Infections",
-    title = "Antibiotic prescriptions with infection records",
+    title = "Incident antibiotic prescriptions with infection records",
     #subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -109,14 +109,15 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Infections",
-    title = "Prescriptions with infection records",
+    title = "Incident antibiotic prescriptions with infection records",
   #  subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
-    y = "number of prescriptions per 1000 infection patients",
+    y = "Percentage",
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)
 
 
 

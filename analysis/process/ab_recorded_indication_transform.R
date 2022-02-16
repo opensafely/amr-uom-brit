@@ -55,10 +55,7 @@ for (i in seq_along(csvFiles_19)){
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
   
-  # create date column
-  df$date=as.Date(date_19[i])
-  
-  
+ 
   #### patient/row --> prescription/row
   
   # ab_date_1-12
@@ -89,7 +86,10 @@ for (i in seq_along(csvFiles_19)){
   
   # exclude observation without AB prescription date
   DF=DF%>%filter(!is.na(date))
-  DF$date=as.Date(DF$date,origin="1970-01-01")
+
+   # create date column
+   DF$date=date_19[i]
+  
   
  
   temp[[i]] <- DF
@@ -115,10 +115,6 @@ for (i in seq_along(csvFiles_20)){
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
   
-  # create date column
-  df$date=as.Date(date_20[i])
-  
-  
   #### patient/row --> prescription/row
   
   # ab_date_1-12
@@ -149,7 +145,8 @@ for (i in seq_along(csvFiles_20)){
   
   # exclude observation without AB prescription date
   DF=DF%>%filter(!is.na(date))
-  DF$date=as.Date(DF$date,origin="1970-01-01")
+  # create date column
+  DF$date=date_20[i]
   
  
   temp[[i]] <- DF
@@ -171,9 +168,6 @@ for (i in seq_along(csvFiles_21)){
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
   
-  # create date column
-  df$date=as.Date(date_21[i])
-  
   
   #### patient/row --> prescription/row
   
@@ -205,7 +199,9 @@ for (i in seq_along(csvFiles_21)){
   
   # exclude observation without AB prescription date
   DF=DF%>%filter(!is.na(date))
-  DF$date=as.Date(DF$date,origin="1970-01-01")
+  # create date column
+  DF$date=date_21[i]
+  
   
  
   temp[[i]] <- DF
@@ -229,9 +225,6 @@ for (i in seq_along(csvFiles_22)){
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
   
-  # create date column
-  df$date=as.Date(date_22[i])
-  
   
   #### patient/row --> prescription/row
   
@@ -263,7 +256,9 @@ for (i in seq_along(csvFiles_22)){
   
   # exclude observation without AB prescription date
   DF=DF%>%filter(!is.na(date))
-  DF$date=as.Date(DF$date,origin="1970-01-01")
+  
+  # create date column
+  DF$date=date_22[i]
   
  
   temp[[i]] <- DF
