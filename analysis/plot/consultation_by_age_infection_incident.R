@@ -406,104 +406,275 @@ summarise(rate=mean(rate))
 write.csv(df_plot,here::here("output","consultation_rate_incident.csv"))
 
 
-# line graph- by age group and divided by year
-df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
-df_plot$year=format(df_plot$date,"%Y")
-df_plot$month=format(df_plot$date,"%m")
+# # line graph- by age group and divided by year
+# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
-# lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
-#   facet_grid(rows = vars(age_cat), cols = vars(indic))+
-#   geom_line()+
-#   theme(legend.position = "bottom",legend.title =element_blank())+
-#   scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
+# df_plot=df_plot%>%mutate(age_cat_5= case_when(age_cat=="0-4"| age_cat=="5-14" ~ "0-14",
+#                                               age_cat=="15-24"| age_cat=="25-34" ~ "15-34",
+#                                               age_cat=="35-44"| age_cat=="45-54" ~ "35-54",
+#                                               age_cat=="55-64"| age_cat=="65-74" ~ "55-74",
+#                                               age_cat=="75+" ~ "75+"))
+
+# df_plot2=df_plot%>%group_by(date,indic, age_cat_5)%>%summarise(rate=sum(rate))
+
+# lineplot_2<- ggplot(df_plot2, aes(x=date, y=rate,group=age_cat_5))+
+#   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+#   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+#   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+#   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
 #   #scale_y_continuous(n.breaks = 20)+
+#   facet_grid(rows  = vars(indic))+
+#   geom_line(aes(color=age_cat_5))+
+#   theme(axis.text.x = element_text(angle = 60,hjust=1),
+#         legend.position = "bottom",legend.title =element_blank())+
 #   labs(
-#     title = "Incident consultation rate per 1,000 registered patients",
+#     title = "Consultation rate of incident patients for 6 common infections",
 #     subtitle = paste(first_mon,"-",last_mon),
-#     caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
+#     caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
 #     x = "", 
-#     y = "")
+#     y = "Number of consultations per 1000 patients")
 
-lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
+
+df_plot.1=df_plot%>%filter(indic=="UTI")
+lineplot_1<- ggplot(df_plot.1, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
-  facet_grid(rows = vars(indic))+
   geom_line(aes(color=age_cat))+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
-    legend.position = "bottom",legend.title =element_blank())+
-   labs(
-    title = "Consultation rate of incident patients for 6 common infections",
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- UTI",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  # ggsave(
-  # plot= lineplot_1,
-  # filename="consult_age_1_incident.jpeg", path=here::here("output"))
-
   ggsave(
-  plot= lineplot_2,
-  filename="consult_age_2_incident.jpeg", path=here::here("output"))
+  plot= lineplot_1,
+  filename="consult_age_incident_UTI.jpeg", path=here::here("output"))
 
+  rm(df_plot.1,lineplot_1)
 
-## 3.2 consultation rate by percentile 
-
-#summarise table
-df_gprate=df%>%
-group_by(date,practice)%>%
-summarise(ab_rate_1000=mean(rate))
-
-write.csv(df_gprate,here::here("output","consultation_GP_rate_incident.csv"))
-
-
-df_gprate$cal_year=format(df_gprate$date,"%Y")
-df_gprate$cal_mon=format(df_gprate$date,"%m")
-
-
-num_uniq_prac <- as.numeric(dim(table((df_gprate$practice))))
-
-df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
-  mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
-         lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
-         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4],
-         ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
-         five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
-
-  
-plot_percentile <- ggplot(df_mean, aes(x=date))+
+  df_plot.2=df_plot%>%filter(indic=="URTI")
+lineplot_2<- ggplot(df_plot.2, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(y=meanABrate),color="steelblue")+
-  geom_point(aes(y=meanABrate),color="steelblue")+
-  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_line(aes(y=highquart), color="darkred", linetype=3)+
-  geom_point(aes(y=highquart), color="darkred", linetype=3)+
-  geom_line(aes(y=ninefive), color="black", linetype=3)+
-  geom_point(aes(y=ninefive), color="black", linetype=3)+
-  geom_line(aes(y=five), color="black", linetype=3)+
-  geom_point(aes(y=five), color="black", linetype=3)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  #scale_y_continuous(n.breaks = 20)+
+  geom_line(aes(color=age_cat))+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- URTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+  ggsave(
+  plot= lineplot_2,
+  filename="consult_age_incident_URTI.jpeg", path=here::here("output"))
+
+
+  rm(df_plot.2,lineplot_2)
+
+  df_plot.3=df_plot%>%filter(indic=="LRTI")
+lineplot_3<- ggplot(df_plot.3, aes(x=date, y=rate,group=age_cat))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  #scale_y_continuous(n.breaks = 20)+
+  geom_line(aes(color=age_cat))+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- LRTI",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+  ggsave(
+  plot= lineplot_3,
+  filename="consult_age_incident_LRTI.jpeg", path=here::here("output"))
+
+
+  rm(df_plot.3,lineplot_3)
+
+  df_plot.4=df_plot%>%filter(indic=="sinusitis")
+lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  #scale_y_continuous(n.breaks = 20)+
+  geom_line(aes(color=age_cat))+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- Sinusitis",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+  ggsave(
+  plot= lineplot_4,
+  filename="consult_age_incident_sinusitis.jpeg", path=here::here("output"))
+
+
+ rm(df_plot.4,lineplot_4)
+
+
+
+  df_plot.5=df_plot%>%filter(indic=="otmedia")
+lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  #scale_y_continuous(n.breaks = 20)+
+  geom_line(aes(color=age_cat))+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- Otitis media",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+  ggsave(
+  plot= lineplot_5,
+  filename="consult_age_incident_otmedia.jpeg", path=here::here("output"))
+
+   rm(df_plot.5,lineplot_5)
+
+
+
+
+  df_plot.6=df_plot%>%filter(indic=="ot_externa")
+lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  #scale_y_continuous(n.breaks = 20)+
+  geom_line(aes(color=age_cat))+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- Otitis externa",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+  ggsave(
+  plot= lineplot_6,
+  filename="consult_age_incident_ot_externa.jpeg", path=here::here("output"))
+
+
+## 3.2 overall consultation rate percentile including percentiles
+
+# #summarise table
+# df_gprate=df%>%
+# group_by(date,practice)%>%
+# summarise(ab_rate_1000=mean(rate))
+
+
+# # df_gprate$cal_year=format(df_gprate$date,"%Y")
+# # df_gprate$cal_mon=format(df_gprate$date,"%m")
+
+
+# # num_uniq_prac <- as.numeric(dim(table((df_gprate$practice))))
+
+# # df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
+# #   mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
+# #          lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
+# #          highquart= quantile(ab_rate_1000, na.rm=TRUE)[4],
+# #          ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
+# #          five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
+
+  
+# # plot_percentile <- ggplot(df_mean, aes(x=date))+
+# #   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+# #   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+# #   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+# #   geom_line(aes(y=meanABrate),color="steelblue")+
+# #   geom_point(aes(y=meanABrate),color="steelblue")+
+# #   geom_line(aes(y=lowquart), color="darkred", linetype=3)+
+# #   geom_point(aes(y=lowquart), color="darkred", linetype=3)+
+# #   geom_line(aes(y=highquart), color="darkred", linetype=3)+
+# #   geom_point(aes(y=highquart), color="darkred", linetype=3)+
+# #   geom_line(aes(y=ninefive), color="black", linetype=3)+
+# #   geom_point(aes(y=ninefive), color="black", linetype=3)+
+# #   geom_line(aes(y=five), color="black", linetype=3)+
+# #   geom_point(aes(y=five), color="black", linetype=3)+
+# #   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+# #   scale_y_continuous(n.breaks = 20)+
+# #   theme(axis.text.x=element_text(angle=60,hjust=1))+
+# #   labs(
+# #     title = "Consultation rate of incident patients for 6 common infections",
+# #     subtitle = paste(first_mon,"-",last_mon),
+# #     caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+# #     x = "",
+# #     y = "Number of consultations per 1000 patients")+
+# #   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
+# #   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
+
+#summarise table
+df_gprate_infec=df%>%
+  group_by(date,practice,indic)%>%
+  summarise(ab_rate_1000=mean(rate))
+
+
+num_uniq_prac <- as.numeric(dim(table((df_gprate_infec$practice))))
+
+df_mean <- df_gprate_infec %>% group_by(date) %>%
+  mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
+         lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
+         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4])
+       #  ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
+      #   five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
+
+write.csv(df_mean,here::here("output","consultation_GP_rate_incident.csv"))
+
+plot_percentile_by_infection <- ggplot(df_mean, aes(x=date))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line(aes(y=meanABrate),color="black")+
+ # geom_point(aes(y=meanABrate),color="steelblue")+
+  geom_line(aes(y=lowquart), color="darkred", linetype= "dotted")+
+#  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
+  geom_line(aes(y=highquart), color="darkred", linetype= "dotted")+
+ # geom_point(aes(y=highquart), color="darkred", linetype=3)+
+  #geom_line(aes(y=ninefive), color="black", linetype=3)+
+  #geom_point(aes(y=ninefive), color="black", linetype=3)+
+#  geom_line(aes(y=five), color="black", linetype=3)+
+ # geom_point(aes(y=five), color="black", linetype=3)+
+  facet_grid(rows = vars(indic))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 20)+
+ # scale_y_continuous(n.breaks = 20)+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
     title = "Consultation rate of incident patients for 6 common infections",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time. Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
     x = "",
     y = "Number of consultations per 1000 patients")+
-  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
-  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
-
-plot_percentile 
+  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
+  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")),color="grey70")
 
 ggsave(
-  plot= plot_percentile,
+  plot= plot_percentile_by_infection,
   filename="consult_all_incident.jpeg", path=here::here("output"),
 )
 
