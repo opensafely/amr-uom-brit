@@ -1,7 +1,7 @@
 ##############
 ## Consultation rates for 6 common infection over time,
 ## stratified by age categories. 
-## Consultation for common infection will only include those with no prior records in 6 weeks of the same infection.
+## Consultation for common infection will only include those with no prior records in 90 days of the same infection.
 ##############
 
 library("data.table")
@@ -61,10 +61,10 @@ df=df%>%
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
   summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
 
 
 # add variables
@@ -122,10 +122,10 @@ df=df%>%
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
   summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
 
 
 # add variables
@@ -183,10 +183,10 @@ df=df%>%
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
   summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
 
 
 # add variables
@@ -244,10 +244,10 @@ df=df%>%
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
   summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
 
 
 # add variables
@@ -311,10 +311,10 @@ df=df%>%
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
   summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
 
 
 # add variables
@@ -375,10 +375,10 @@ df=df%>%
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
   summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            pupulation=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$pupulation*1000
+df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
 
 # add variables
 df_6=df_sum_gp_age%>%
@@ -411,18 +411,18 @@ df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34
 df_plot$year=format(df_plot$date,"%Y")
 df_plot$month=format(df_plot$date,"%m")
 
-lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
-  facet_grid(rows = vars(age_cat), cols = vars(indic))+
-  geom_line()+
-  theme(legend.position = "bottom",legend.title =element_blank())+
-  scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
-  #scale_y_continuous(n.breaks = 20)+
-  labs(
-    title = "Incident consultation rate per 1,000 registered patients",
-    subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
-    x = "", 
-    y = "")
+# lineplot_1<- ggplot(df_plot, aes(x=month, y=rate,group=year,color=year))+
+#   facet_grid(rows = vars(age_cat), cols = vars(indic))+
+#   geom_line()+
+#   theme(legend.position = "bottom",legend.title =element_blank())+
+#   scale_x_discrete(breaks =c("01","03","05","07","09","11"))+
+#   #scale_y_continuous(n.breaks = 20)+
+#   labs(
+#     title = "Incident consultation rate per 1,000 registered patients",
+#     subtitle = paste(first_mon,"-",last_mon),
+#     caption = paste("Data from approximately", TPPnumber,"TPP Practices"),
+#     x = "", 
+#     y = "")
 
 lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -435,15 +435,15 @@ lineplot_2<- ggplot(df_plot, aes(x=date, y=rate,group=age_cat))+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
     legend.position = "bottom",legend.title =element_blank())+
    labs(
-    title = "Incident consultation rate per 1,000 registered patients",
+    title = "Consultation rate of incident patients for 6 common infections",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; National lockdown in grey background"),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
     x = "", 
-    y = "")
+    y = "Number of consultations per 1000 patients")
 
-  ggsave(
-  plot= lineplot_1,
-  filename="consult_age_1_incident.jpeg", path=here::here("output"))
+  # ggsave(
+  # plot= lineplot_1,
+  # filename="consult_age_1_incident.jpeg", path=here::here("output"))
 
   ggsave(
   plot= lineplot_2,
@@ -492,12 +492,11 @@ plot_percentile <- ggplot(df_mean, aes(x=date))+
   scale_y_continuous(n.breaks = 20)+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
-    title = "Incident consultation rate per 1000 registered patients",
+    title = "Consultation rate of incident patients for 6 common infections",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices; 
-    National lockdown in grey background"),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
     x = "",
-    y = "")+
+    y = "Number of consultations per 1000 patients")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
 
@@ -507,5 +506,6 @@ ggsave(
   plot= plot_percentile,
   filename="consult_all_incident.jpeg", path=here::here("output"),
 )
+
 
 
