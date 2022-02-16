@@ -157,7 +157,7 @@ actions:
         plot1.2: output/consult_age_incident_URTI.jpeg
         plot1.3: output/consult_age_incident_LRTI.jpeg
         plot1.4: output/consult_age_incident_sinusitis.jpeg
-        plot1.5: output/consult_age_incident_otmedia.jpeg"
+        plot1.5: output/consult_age_incident_otmedia.jpeg
         plot1.6: output/consult_age_incident_ot_externa.jpeg
         plot2: output/consult_all_incident.jpeg
         csv1: output/consultation_rate_incident.csv
@@ -172,7 +172,7 @@ actions:
         plot1.2: output/consult_age_prevalent_URTI.jpeg
         plot1.3: output/consult_age_prevalent_LRTI.jpeg
         plot1.4: output/consult_age_prevalent_sinusitis.jpeg
-        plot1.5: output/consult_age_prevalent_otmedia.jpeg"
+        plot1.5: output/consult_age_prevalent_otmedia.jpeg
         plot1.6: output/consult_age_prevalent_ot_externa.jpeg
         plot2: output/consult_all_prevalent.jpeg
         csv1: output/consultation_rate_prevalent.csv
