@@ -92,6 +92,23 @@ actions:
       highly_sensitive: 
         combined3: output/matched_combined_hosp_icu_death.csv
 
+  ## seperate matched by case and contorl
+  pre_extract_variables_outcome_3:
+    run: r:latest analysis/pre_extract_variables_outcome_3.R
+    needs: [matching_3]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_3_case.csv
+        cohort2: output/matched_outcome_3_control.csv
+  
+  extract_variables_outcome_3_case: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3_case
+    needs: [pre_extract_variables_outcome_3]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_3_case.csv
+
+
   extract_variables_outcome_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1
     needs: [matching_1]
@@ -106,12 +123,12 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_2.csv
 
-  extract_variables_outcome_3:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3
-    needs: [matching_3]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_3.csv
+  # extract_variables_outcome_3: 
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3
+  #   needs: [matching_3]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_outcome_3.csv
 
   # variables:
   #   run: r:latest analysis/variables.R
