@@ -99,36 +99,6 @@ actions:
   #       cohort19: output/covid_infection_2_9.csv
   #       cohort20: output/covid_infection_2_10.csv
 
-  process_1.2:
-    run: r:latest analysis/process_1.2.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
-    outputs:
-      highly_sensitive:
-       # cohort1.1: output/case_covid_infection.csv
-        cohort1: output/covid_infection_2002.csv
-        cohort2: output/covid_infection_2003.csv
-        cohort3: output/covid_infection_2004.csv
-        cohort4: output/covid_infection_2005.csv
-        cohort5: output/covid_infection_2006.csv
-        cohort6: output/covid_infection_2007.csv
-        cohort7: output/covid_infection_2008.csv
-        cohort8: output/covid_infection_2009.csv
-        cohort9: output/covid_infection_2010.csv
-        cohort10: output/covid_infection_2011.csv
-        cohort11: output/covid_infection_2012.csv
-        cohort12: output/covid_infection_2101.csv
-        cohort13: output/covid_infection_2102.csv
-        cohort14: output/covid_infection_2103.csv
-        cohort15: output/covid_infection_2104.csv
-        cohort16: output/covid_infection_2105.csv
-        cohort17: output/covid_infection_2106.csv
-        cohort18: output/covid_infection_2107.csv
-        cohort19: output/covid_infection_2108.csv
-        cohort20: output/covid_infection_2109.csv
-        cohort21: output/covid_infection_2110.csv 
-        cohort22: output/covid_infection_2111.csv 
-        cohort23: output/covid_infection_2112.csv 
-
   process_1:
     run: r:latest analysis/process_1.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
@@ -139,7 +109,7 @@ actions:
 
   process_1.2:
     run: r:latest analysis/process_1.2.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
+    needs: [process_1]
     outputs:
       highly_sensitive:
        # cohort1.1: output/case_covid_infection.csv
