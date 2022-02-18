@@ -116,8 +116,8 @@ df3<- read_csv(here::here("output", "input_covid_death_ons.csv"))
 
 # has covid  record
 #df1 =df1%>%filter(patient_index_date>0) # icu
-df2 =df2%>%filter( is.na(patient_index_date)) # cpns
-df3 =df3%>%filter( is.na(patient_index_date)) # ons_covid
+df2 =df2%>%filter( !is.na(patient_index_date)) # cpns
+df3 =df3%>%filter( !is.na(patient_index_date)) # ons_covid
 
 df2=df2%>%
   filter(
