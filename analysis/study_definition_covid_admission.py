@@ -91,7 +91,7 @@ study = StudyDefinition(
         on_or_after="index_date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.25},
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
     ),
 
     ## Age

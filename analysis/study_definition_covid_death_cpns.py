@@ -84,8 +84,7 @@ study = StudyDefinition(
         on_or_after="index_date",
         returning="date_of_death",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest" : "2020-02-01"},
-        "rate" : "exponential_increase"},
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
     ),
 
     ## Age

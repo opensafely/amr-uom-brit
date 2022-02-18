@@ -88,8 +88,7 @@ study = StudyDefinition(
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=True,
-        return_expectations={"date": {"earliest": "2020-02-01"},
-        "incidence" : 0.25},
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
        ),
 
     ## Age
