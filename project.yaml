@@ -99,8 +99,6 @@ actions:
         cohort19: output/covid_infection_2_9.csv
         cohort20: output/covid_infection_2_10.csv
 
- 
-
   process_1:
     run: r:latest analysis/process_1.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
@@ -130,18 +128,18 @@ actions:
       moderately_sensitive:
         html: output/check_input.html
         
-  matching_1:
-    run: python:latest python analysis/matching_outcome_1.py
-    needs: [generate_study_population, process_1]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection.csv
+  # matching_1_1:
+  #   run: python:latest python analysis/matching_outcome_1_1.py
+  #   needs: [generate_study_population, process_1]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_1.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_1.csv
 
   matching_2:
     run: python:latest python analysis/matching_outcome_2.py
-    needs: [process_2]
+    needs: [process_2,process_1]
     outputs:
       moderately_sensitive: 
         matching_report2: output/matching_report_infection_hosp.txt
@@ -150,7 +148,7 @@ actions:
 
   matching_3:
     run: python:latest python analysis/matching_outcome_3.py
-    needs: [process_3]
+    needs: [process_3,process_2]
     outputs:
       moderately_sensitive: 
         matching_report3: output/matching_report_hosp_icu_death.txt 
@@ -174,12 +172,12 @@ actions:
         cohort: output/input_outcome_3_case.csv
 
 
-  extract_variables_outcome_1:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1
-    needs: [matching_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1.csv
+  # extract_variables_outcome_1:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1
+  #   needs: [matching_1]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_outcome_1.csv
   
   extract_variables_outcome_2:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2
@@ -259,4 +257,21 @@ actions:
   #     highly_sensitive:
   #       cohort: output/input_outcome_1_noCOVID.csv
         
-        
+
+  matching_1_1:
+    run: python:latest python analysis/matching_outcome_1_1.py
+    needs: [process_0,process_1_0]
+    outputs:
+      moderately_sensitive: 
+        matching_report1: output/matching_report_general_population_infection_1_1.txt
+      highly_sensitive: 
+        combined1: output/matched_combined_general_population_infection_1_1.csv
+  
+  matching_1_2:
+    run: python:latest python analysis/matching_outcome_1_2.py
+    needs: [process_0,process_1_0]
+    outputs:
+      moderately_sensitive: 
+        matching_report1: output/matching_report_general_population_infection_1_2.txt
+      highly_sensitive: 
+        combined1: output/matched_combined_general_population_infection_1_2.csv

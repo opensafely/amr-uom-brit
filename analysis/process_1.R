@@ -48,7 +48,6 @@ df=df%>%
   arrange(patient_id,patient_index_date)%>%
   distinct(patient_id, .keep_all = TRUE)
 
-# exclude case has previous covid related history (variables before patient_index_date)
 # exclude case has severe outcome within 1 month
 df=df%>%
   filter(

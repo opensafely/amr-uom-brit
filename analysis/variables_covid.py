@@ -13,9 +13,9 @@ def generate_covid_variables(index_date_variable):
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
-        return_expectations={
-        "date": {"earliest" : "2020-03-01"},
-        "rate" : "exponential_increase"
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
     },
 ),
     
@@ -25,10 +25,9 @@ def generate_covid_variables(index_date_variable):
         find_first_match_in_period=True,
         on_or_before=f'{index_date_variable}',
         date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "2020-03-01"},
-            "rate" : "exponential_increase"},
-    ),
+         return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},  ),
 
 
 
@@ -48,8 +47,9 @@ def generate_covid_variables(index_date_variable):
         on_or_before=f'{index_date_variable}',
         find_last_match_in_period=True,  
         date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.25},
-    ),
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},    ),
 
     covid_admission_discharge_date=patients.admitted_to_hospital(
         returning= "date_discharged" , 
@@ -57,8 +57,9 @@ def generate_covid_variables(index_date_variable):
         on_or_after="covid_admission_date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}},
-   ),
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},   ),
 
     icu_days=patients.admitted_to_hospital(
         with_these_primary_diagnoses=covid_codelist,
@@ -95,9 +96,9 @@ def generate_covid_variables(index_date_variable):
         on_or_before=f'{index_date_variable}',
         returning="date_of_death",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest" : "2020-02-01"},
-        "rate" : "exponential_increase"},
-    ),
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},    ),
 
     # died_ons_covid_flag_any=patients.with_these_codes_on_death_certificate(
     #     covid_codelist,
@@ -129,7 +130,8 @@ def generate_covid_variables(index_date_variable):
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=True,
-        return_expectations={"date": {"earliest": "2020-02-01"},
+          return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
         "incidence" : 0.25},
     ),
 
@@ -155,8 +157,9 @@ def generate_covid_variables(index_date_variable):
         between=[f'{index_date_variable}' , f'{index_date_variable} +   1 month'],        
         returning="date_of_death",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest" : "2020-02-01"},
-        "rate" : "exponential_increase"},
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
     ),
 
     died_date_ons_covid_after=patients.with_these_codes_on_death_certificate(
@@ -165,7 +168,8 @@ def generate_covid_variables(index_date_variable):
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=True,
-        return_expectations={"date": {"earliest": "2020-02-01"},
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
         "incidence" : 0.25},
     ),
 
@@ -179,10 +183,9 @@ def generate_covid_variables(index_date_variable):
         on_or_before=f'{index_date_variable} - 1 month',      
         returning="date",
         date_format="YYYY-MM-DD",
-        return_expectations={
-        "date": {"earliest" : "2020-03-01"},
-        "rate" : "exponential_increase"
-    },
+                return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
 ),
     
     primary_care_covid_date_before=patients.with_these_clinical_events(
@@ -190,9 +193,9 @@ def generate_covid_variables(index_date_variable):
         returning="date",
         on_or_before=f'{index_date_variable} - 1 month',      
         date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "2020-03-01"},
-            "rate" : "exponential_increase"},
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
     ),
 
 
@@ -201,7 +204,9 @@ def generate_covid_variables(index_date_variable):
         with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
         on_or_before=f'{index_date_variable} - 1 month',      
         date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.25},
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
     ),
 
     ## died (CPNS: all in-hospital covid-related deaths)
@@ -209,8 +214,9 @@ def generate_covid_variables(index_date_variable):
         on_or_before=f'{index_date_variable} - 1 month',      
         returning="date_of_death",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest" : "2020-02-01"},
-        "rate" : "exponential_increase"},
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
     ),
 
     died_date_ons_covid_before=patients.with_these_codes_on_death_certificate(
@@ -219,7 +225,8 @@ def generate_covid_variables(index_date_variable):
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=True,
-        return_expectations={"date": {"earliest": "2020-02-01"},
+        return_expectations={"date": {"earliest": "2020-03-01"},
+        "rate" : "exponential_increase",
         "incidence" : 0.25},
     ),
 
