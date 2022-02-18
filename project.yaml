@@ -47,27 +47,92 @@ actions:
       highly_sensitive:
         cohort: output/input_covid_death_cpns.csv
   
-  process:
-    run: r:latest analysis/process.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+  process_0:
+    run: r:latest analysis/process_0.R
+    needs: [generate_study_population]
     outputs:
       highly_sensitive:
-        cohort1.1: output/case_covid_infection.csv
+        cohort1: output/general_population_1_1.csv
+        cohort2: output/general_population_1_2.csv
+        cohort3: output/general_population_1_3.csv
+        cohort4: output/general_population_1_4.csv
+        cohort5: output/general_population_1_5.csv
+        cohort6: output/general_population_1_6.csv
+        cohort7: output/general_population_1_7.csv
+        cohort8: output/general_population_1_8.csv
+        cohort9: output/general_population_1_9.csv
+        cohort10: output/general_population_1_10.csv
+        cohort11: output/general_population_2_1.csv
+        cohort12: output/general_population_2_2.csv
+        cohort13: output/general_population_2_3.csv
+        cohort14: output/general_population_2_4.csv
+        cohort15: output/general_population_2_5.csv
+        cohort16: output/general_population_2_6.csv
+        cohort17: output/general_population_2_7.csv
+        cohort18: output/general_population_2_8.csv
+        cohort19: output/general_population_2_9.csv
+        cohort20: output/general_population_2_10.csv
+
+  process_1_0:
+    run: r:latest analysis/process_1_0.R
+    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
+    outputs:
+      highly_sensitive:
+        cohort1: output/covid_infection_1_1.csv
+        cohort2: output/covid_infection_1_2.csv
+        cohort3: output/covid_infection_1_3.csv
+        cohort4: output/covid_infection_1_4.csv
+        cohort5: output/covid_infection_1_5.csv
+        cohort6: output/covid_infection_1_6.csv
+        cohort7: output/covid_infection_1_7.csv
+        cohort8: output/covid_infection_1_8.csv
+        cohort9: output/covid_infection_1_9.csv
+        cohort10: output/covid_infection_1_10.csv
+        cohort11: output/covid_infection_2_1.csv
+        cohort12: output/covid_infection_2_2.csv
+        cohort13: output/covid_infection_2_3.csv
+        cohort14: output/covid_infection_2_4.csv
+        cohort15: output/covid_infection_2_5.csv
+        cohort16: output/covid_infection_2_6.csv
+        cohort17: output/covid_infection_2_7.csv
+        cohort18: output/covid_infection_2_8.csv
+        cohort19: output/covid_infection_2_9.csv
+        cohort20: output/covid_infection_2_10.csv
+
+ 
+
+  process_1:
+    run: r:latest analysis/process_1.R
+    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
+    outputs:
+      highly_sensitive:
+       # cohort1.1: output/case_covid_infection.csv
         cohort1.2: output/control_covid_infection.csv 
-        #cohort1.3: output/case_covid_infection_*.csv # for monthly matching
-        cohort2: output/case_covid_admission.csv
-        cohort3: output/case_covid_icu_death.csv
+
+  process_2:
+    run: r:latest analysis/process_2.R
+    needs: [generate_study_population_covid_admission]
+    outputs:
+      highly_sensitive:
+        cohort: output/case_covid_admission.csv
+
+  process_3:
+    run: r:latest analysis/process_3.R
+    needs: [generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+    outputs:
+      highly_sensitive:
+        cohort: output/case_covid_icu_death.csv
 
   check_input: # check above 
     run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+    needs: [process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
     outputs:
       moderately_sensitive:
         html: output/check_input.html
         
   matching_1:
     run: python:latest python analysis/matching_outcome_1.py
-    needs: [generate_study_population, process]
+    needs: [generate_study_population, process_1]
     outputs:
       moderately_sensitive: 
         matching_report1: output/matching_report_general_population_infection.txt
@@ -76,7 +141,7 @@ actions:
 
   matching_2:
     run: python:latest python analysis/matching_outcome_2.py
-    needs: [process]
+    needs: [process_2]
     outputs:
       moderately_sensitive: 
         matching_report2: output/matching_report_infection_hosp.txt
@@ -85,7 +150,7 @@ actions:
 
   matching_3:
     run: python:latest python analysis/matching_outcome_3.py
-    needs: [process]
+    needs: [process_3]
     outputs:
       moderately_sensitive: 
         matching_report3: output/matching_report_hosp_icu_death.txt 
@@ -165,33 +230,33 @@ actions:
 #         cohort4: output/control_general_population_*.csv
   
 
-  generate_study_population_noCOVID:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_noCOVID
-    outputs:
-      highly_sensitive:
-        cohort: output/input_noCOVID.csv 
+  # generate_study_population_noCOVID:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_noCOVID
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_noCOVID.csv 
   
-  check_input_noCOVID: 
-    run: r:latest -e 'rmarkdown::render("analysis/check_input_noCOVID.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [generate_study_population_noCOVID]
-    outputs:
-      moderately_sensitive:
-        html: output/check_input_noCOVID.html
+  # check_input_noCOVID: 
+  #   run: r:latest -e 'rmarkdown::render("analysis/check_input_noCOVID.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [generate_study_population_noCOVID]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_input_noCOVID.html
   
-  matching_1.2:
-    run: python:latest python analysis/matching_outcome_1_noCOVID.py
-    needs: [generate_study_population_noCOVID, process]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_noCOVID_infection.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_noCOVID_infection.csv
+  # matching_1.2:
+  #   run: python:latest python analysis/matching_outcome_1_noCOVID.py
+  #   needs: [generate_study_population_noCOVID, process]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_noCOVID_infection.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_noCOVID_infection.csv
   
-  extract_variables_outcome_1.2:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_noCOVID
-    needs: [matching_1.2]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_noCOVID.csv
+  # extract_variables_outcome_1.2:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_noCOVID
+  #   needs: [matching_1.2]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_outcome_1_noCOVID.csv
         
         
