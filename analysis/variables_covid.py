@@ -16,7 +16,6 @@ def generate_covid_variables(index_date_variable):
         return_expectations={"date": {"earliest": "2020-03-01"},
         "rate" : "exponential_increase",
         "incidence" : 0.25},
-    },
 ),
     
     primary_care_covid_date=patients.with_these_clinical_events(
