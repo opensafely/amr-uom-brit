@@ -8,7 +8,7 @@ library('dplyr')
 library('lubridate')
 
 
-#### COVID death
+#### COVID outcome2
 
 # impoprt matched dataset
 df <- read_csv(here::here("output", "matched_combined_infection_hosp.csv"))
