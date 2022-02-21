@@ -239,15 +239,6 @@ actions:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
 
-  describe_broad_proportion:
-    run: r:latest analysis/plot/broad_proportion.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot1: output/broad_proportions_line_age.jpeg
-        plot2: output/broad_proportions_line.jpeg
-        csv1: output/broad_prescriptions_proportion.csv
-
   describe_same_day_ab_sgss:
     run: r:latest analysis/plot/same_day_covid_ab_sgss.R
     needs: [generate_measures]
@@ -299,6 +290,26 @@ actions:
         plot1: output/ab_recorded_prevalent_bar.jpeg
         plot2: output/ab_recorded_prevalent_line.jpeg
         csv: output/ab_recorded_prevalent.csv
+    
+  describe_ab_recoded_broad_process:
+    run: r:latest analysis/process/broad_transform.R
+    needs: [generate_study_population_antibiotics]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/recorded_ab_broad_2019.rds
+        rds2: output/measures/recorded_ab_broad_2020.rds
+        rds3: output/measures/recorded_ab_broad_2021.rds
+        rds4: output/measures/recorded_ab_broad_2022.rds
+
+  describe_broad_proportion:
+    run: r:latest analysis/plot/broad_proportion.R
+    needs: [describe_ab_recoded_broad_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/broad_proportions_line_age.jpeg
+
+
+  
 
   # describe_ab_recoded_indication_process_plot: #  Antibiotics_recorded_02: only indication/row
   #   run: r:latest analysis/process/ab_recorded_indication_transform_plot.R
