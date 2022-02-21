@@ -1,8 +1,7 @@
-
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# define covid infection (case) & potiential control group
-# 
+# exclude COVID case in general population
+# for extract patients who have not develope  to COVID
 # 
 # # # # # # # # # # # # # # # # # # # # #
 
@@ -14,109 +13,29 @@ library('dplyr')
 library('lubridate')
 
 
-#### COVID INFECTION
 
-# impoprt data
-df <- read_csv(here::here("output", "input_general_population.csv"))
+rm(list=ls())
+setwd(here::here("output"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
-# filter male, stp1
-df1_1 =df%>%filter( sex=="M" & stp=="STP1")
-write_csv(df1_1, here::here("output", "general_population_1_1.csv"))
-rm(df1_1)
 
-# filter male, stp2
-df1_2 =df%>%filter( sex=="M" & stp=="STP2")
-write_csv(df1_2, here::here("output", "general_population_1_2.csv"))
-rm(df1_2)
+filename=c("2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012",
+           "2101","2102","2103","2104","2105","2106","2107","2108","2109","2110","2111","2112")
 
-# filter male, stp2
-df1_3 =df%>%filter( sex=="M" & stp=="STP3")
-write_csv(df1_3, here::here("output", "general_population_1_3.csv"))
-rm(df1_3)
-
-# filter male, stp4
-df1_4 =df%>%filter( sex=="M" & stp=="STP4")
-write_csv(df1_4, here::here("output", "general_population_1_4.csv"))
-rm(df1_4)
-
-# filter male, stp5
-df1_5 =df%>%filter( sex=="M" & stp=="STP5")
-write_csv(df1_5, here::here("output", "general_population_1_5.csv"))
-rm(df1_5)
-
-# filter male, stp6
-df1_6 =df%>%filter( sex=="M" & stp=="STP6")
-write_csv(df1_6, here::here("output", "general_population_1_6.csv"))
-rm(df1_6)
-
-# filter male, stp7
-df1_7 =df%>%filter( sex=="M" & stp=="STP2")
-write_csv(df1_7, here::here("output", "general_population_1_7.csv"))
-rm(df1_7)
-
-# filter male, stp8
-df1_8=df%>%filter( sex=="M" & stp=="STP8")
-write_csv(df1_8, here::here("output", "general_population_1_8.csv"))
-rm(df1_8)
-
-# filter male, stp9
-df1_9=df%>%filter( sex=="M" & stp=="STP9")
-write_csv(df1_9, here::here("output", "general_population_1_9.csv"))
-rm(df1_9)
-
-# filter male, stp10
-df1_10 =df%>%filter( sex=="M" & stp=="STP10")
-write_csv(df1_10, here::here("output", "general_population_1_10.csv"))
-rm(df1_10)
+for (i in 1:length(filename)){
+  DF=read_csv( paste0("input_general_population_",filename[i],".csv"))
+  
+  DF=DF%>%
+    filter(is.na(primary_care_covid_date),
+           is.na(SGSS_positive_test_date),
+           is.na(covid_admission_date),
+           is.na(died_date_cpns), 
+           is.na(died_date_ons_covid))
+  
+  write_csv(DF, here::here("output", paste0("general_population_",filename[i],".csv")))
+  
+  rm(DF)
+}
 
 
 
-# filter female, stp1
-df1_1 =df%>%filter( sex=="F" & stp=="STP1")
-write_csv(df1_1, here::here("output", "general_population_2_1.csv"))
-rm(df1_1)
-
-# filter female, stp2
-df1_2 =df%>%filter( sex=="F" & stp=="STP2")
-write_csv(df1_2, here::here("output", "general_population_2_2.csv"))
-rm(df1_2)
-
-# filter female, stp2
-df1_3 =df%>%filter( sex=="F" & stp=="STP3")
-write_csv(df1_3, here::here("output", "general_population_2_3.csv"))
-rm(df1_3)
-
-# filter female, stp4
-df1_4 =df%>%filter( sex=="F" & stp=="STP4")
-write_csv(df1_4, here::here("output", "general_population_2_4.csv"))
-rm(df1_4)
-
-# filter female, stp5
-df1_5 =df%>%filter( sex=="F" & stp=="STP5")
-write_csv(df1_5, here::here("output", "general_population_2_5.csv"))
-rm(df1_5)
-
-# filter female, stp6
-df1_6 =df%>%filter( sex=="F" & stp=="STP6")
-write_csv(df1_6, here::here("output", "general_population_2_6.csv"))
-rm(df1_6)
-
-# filter female, stp7
-df1_7 =df%>%filter( sex=="F" & stp=="STP2")
-write_csv(df1_7, here::here("output", "general_population_2_7.csv"))
-rm(df1_7)
-
-# filter female, stp8
-df1_8=df%>%filter( sex=="F" & stp=="STP8")
-write_csv(df1_8, here::here("output", "general_population_2_8.csv"))
-rm(df1_8)
-
-# filter female, stp9
-df1_9=df%>%filter( sex=="F" & stp=="STP9")
-write_csv(df1_9, here::here("output", "general_population_2_9.csv"))
-rm(df1_9)
-
-# filter female, stp10
-df1_10 =df%>%filter( sex=="F" & stp=="STP10")
-write_csv(df1_10, here::here("output", "general_population_2_10.csv"))
-rm(df1_10)
