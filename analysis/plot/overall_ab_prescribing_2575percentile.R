@@ -33,11 +33,21 @@ df <- read_csv(
   na = character()
   )
 
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+first_mon <- (format(min(df$date), "%m-%Y"))
+last_mon <- (format(max(df$date), "%m-%Y"))
+
 df <- df %>% filter(practice >0)
 
 df$date <- as.Date(df$date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
+
+#Get the overall number of prescription
+prescribing_number <- as.data.frame(sum(df$antibacterial_prescriptions,na.rm = TRUE))
+colnames(prescribing_number) <- "Number of prescriptions"
 
 # mean list size per practice 
 dfls <- df %>% group_by(practice) %>%
@@ -45,6 +55,8 @@ dfls <- df %>% group_by(practice) %>%
 
 df_gprate <- dfls %>% group_by(practice, cal_mon, cal_year) %>%
   mutate(ab_rate_1000 = value*1000) 
+
+num_uniq_prac <- as.numeric(dim(table((df_gprate$practice))))
 
 df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
   mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
@@ -57,19 +69,24 @@ df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
 plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_line(aes(y=meanABrate),color="steelblue")+
   geom_point(aes(y=meanABrate),color="steelblue")+
-  geom_line(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_line(aes(y=highquart), color="darkred", linetype=3)+
-  geom_point(aes(y=highquart), color="darkred", linetype=3)+
-  geom_line(aes(y=ninefive), color="black", linetype=3)+
-  geom_point(aes(y=ninefive), color="black", linetype=3)+
-  geom_line(aes(y=five), color="black", linetype=3)+
-  geom_point(aes(y=five), color="black", linetype=3)+
+  geom_line(aes(y=lowquart), color="darkred", linetype=2)+
+  geom_point(aes(y=lowquart), color="darkred", linetype=2)+
+  geom_line(aes(y=highquart), color="darkred", linetype=2)+
+  geom_point(aes(y=highquart), color="darkred", linetype=2)+
+  geom_line(aes(y=ninefive), color="black", linetype=2)+
+  geom_point(aes(y=ninefive), color="black", linetype=2)+
+  geom_line(aes(y=five), color="black", linetype=2)+
+  geom_point(aes(y=five), color="black", linetype=2)+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  labs(x=NULL, y="Antibiotic Prescribing Rate per 1000 registered patients")+
-  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")), linetype=4)+
-  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")), linetype=4)
+  labs(
+    title = "Overall antibiotics prescribing rate by month",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
+    x = "Time",
+    y = "Antibiotic prescribing rate per 1000 registered patients")+
+  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")), color="grey")+
+  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")), color="grey")
 
 plot_percentile 
 
@@ -77,3 +94,6 @@ ggsave(
   plot= plot_percentile,
   filename="overall_25th_75th_percentile.png", path=here::here("output"),
 )
+
+
+write_csv(prescribing_number, here::here("output","total_number_antibacterial_prescriptions.csv"))

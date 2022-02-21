@@ -59,6 +59,7 @@ actions:
     outputs:
       moderately_sensitive:
         percentile: output/overall_25th_75th_percentile.png
+        table_total: output/total_number_antibacterial_prescriptions.csv
 
   # describe_starpu:
   #   run: r:latest analysis/plot/starpu_ab_prescribing.R
