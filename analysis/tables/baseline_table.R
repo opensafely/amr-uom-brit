@@ -29,21 +29,95 @@ setwd(here::here("output", "measures"))
 csvFiles = list.files(pattern="input_2", full.names = TRUE)
 temp <- vector("list", length(csvFiles))
 
-
 for (i in seq_along(csvFiles)){
   filename <- csvFiles[i]
-  temp_df <- read_csv(filename)
+  #temp_df <- read_csv(filename)
+ temp_df <- read_csv((filename),
+                      col_types = cols_only(
+                        #bmi_date_measured = col_date(format = "")
+                       # smoking_status_date = col_logical(),
+                        #most_recent_unclear_smoking_cat_date = col_logical(),
+                        #flu_vaccine_med = col_character(),
+                        #flu_vaccine_clinical = col_character(),
+                        #first_positive_test_date_sgss = col_logical(),
+                        #gp_covid_date = col_logical(),
+                        covrx1_dat = col_date(format = ""),
+                        covrx2_dat = col_date(format = ""),
+                        died_date = col_date(format = ""),
+                        age = col_double(),
+                        age_cat = col_character(),
+                        sex = col_character(),
+                        practice = col_double(),
+                        region = col_character(),
+                        msoa = col_character(),
+                        imd = col_double(),
+                        bmi = col_double(),
+                        ethnicity = col_double(),
+                        smoking_status = col_character(),
+                        gp_count = col_double(),
+                        #flu_vaccine_tpp = col_double(),
+                        flu_vaccine = col_double(),
+                        antibacterial_brit = col_double(),
+                        #antibacterial_brit_abtype = col_character(),
+                        antibacterial_12mb4 = col_double(),
+                        broad_spectrum_antibiotics_prescriptions = col_double(),
+                        #broad_prescriptions_check = col_double(),
+                        Covid_test_result_sgss = col_double(),
+                        #covid_positive_count_sgss = col_double(),
+                        #sgss_ab_prescribed = col_double(),
+                        #gp_covid = col_double(),
+                        #gp_covid_count = col_double(),
+                        #gp_covid_ab_prescribed = col_double(),
+                        #uti_counts = col_double(),
+                        #lrti_counts = col_double(),
+                        #urti_counts = col_double(),
+                        #sinusitis_counts = col_double(),
+                        #ot_externa_counts = col_double(),
+                        #otmedia_counts = col_double(),
+                        #incdt_uti_pt = col_double(),
+                        #incdt_lrti_pt = col_double(),
+                        #incdt_urti_pt = col_double(),
+                        #incdt_sinusitis_pt = col_double(),
+                        #incdt_ot_externa_pt = col_double(),
+                        #incdt_otmedia_pt = col_double(),
+                        hx_indications = col_double(),
+                        hx_antibiotics = col_double(),
+                        cancer_comor = col_double(),
+                        cardiovascular_comor = col_double(),
+                        chronic_obstructive_pulmonary_comor = col_double(),
+                        heart_failure_comor = col_double(),
+                        connective_tissue_comor = col_double(),
+                        dementia_comor = col_double(),
+                        diabetes_comor = col_double(),
+                        diabetes_complications_comor = col_double(),
+                        hemiplegia_comor = col_double(),
+                        hiv_comor = col_double(),
+                        metastatic_cancer_comor = col_double(),
+                        mild_liver_comor = col_double(),
+                        mod_severe_liver_comor = col_double(),
+                        mod_severe_renal_comor = col_double(),
+                        mi_comor = col_double(),
+                        peptic_ulcer_comor = col_double(),
+                        peripheral_vascular_comor = col_double(),
+                        patient_id = col_double()
+                      ),
+                      na = character()
+  )
+
+
   filename <- basename(filename)
   filename <-str_remove(filename, "input_")
   filename <-str_remove(filename, ".csv.gz")
   
+    
   #add to per-month temp df
   temp_df$date <- filename
   mutate(temp_df, date = as.Date(date, "%Y-%m-%d"))
-  
+    
   #add df to list
   temp[[i]] <- temp_df
 }
+
 
 # combine list -> data.table/data.frame
 df_input <- plyr::ldply(temp, data.frame)
@@ -192,12 +266,14 @@ df_one_pat$covid_positive<-as.factor(df_one_pat$covid_positive)
 
 df_one_pat$hx_indications <- as.factor(df_one_pat$hx_indications)
 df_one_pat$hx_antibiotics <- as.factor(df_one_pat$hx_antibiotics)
+df_one_pat$Covid_test_result_sgss<- as.factor(df_one_pat$Covid_test_result_sgss)
 
 
 ## select variables for the baseline table
 bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, bmi, 
-                     bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine,
-                     covid_positive, imd, hx_indications, hx_antibiotics, covrx, died_ever) 
+                     bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine, gp_count, antibacterial_brit,
+                     antibacterial_12mb4, broad_spectrum_antibiotics_prescriptions, covid_positive, 
+                     imd, hx_indications, hx_antibiotics, covrx, died_ever) 
 
 # generate data table 
 
