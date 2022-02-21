@@ -317,186 +317,8 @@ actions:
   #       cohort: output/input_outcome_1_noCOVID.csv
         
 
-  # matching_1_1:
-  #   run: python:latest python analysis/matching_outcome_1_1.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_1.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_1.csv
-  
-  # matching_1_2:
-  #   run: python:latest python analysis/matching_outcome_1_2.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_2.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_2.csv
 
-  # matching_1_3:
-  #   run: python:latest python analysis/matching_outcome_1_3.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_3.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_3.csv
-  
-  # matching_1_4:
-  #   run: python:latest python analysis/matching_outcome_1_4.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_4.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_4.csv
-
-  # matching_1_5:
-  #   run: python:latest python analysis/matching_outcome_1_5.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_5.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_5.csv
-  
-  # matching_1_6:
-  #   run: python:latest python analysis/matching_outcome_1_6.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_6.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_6.csv
-
-  # matching_1_7:
-  #   run: python:latest python analysis/matching_outcome_1_7.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_7.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_7.csv
-  
-  # matching_1_8:
-  #   run: python:latest python analysis/matching_outcome_1_8.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_8.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_8.csv
-
-  # matching_1_9:
-  #   run: python:latest python analysis/matching_outcome_1_9.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_9.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_9.csv
-  
-  # matching_1_10:
-  #   run: python:latest python analysis/matching_outcome_1_10.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_10.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_10.csv
-
-  # matching_2_1:
-  #   run: python:latest python analysis/matching_outcome_2_1.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_1.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_1.csv
-  
-  # matching_2_2:
-  #   run: python:latest python analysis/matching_outcome_2_2.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_2.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_2.csv
-
-  # matching_2_3:
-  #   run: python:latest python analysis/matching_outcome_2_3.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_3.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_3.csv
-  
-  # matching_2_4:
-  #   run: python:latest python analysis/matching_outcome_2_4.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_4.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_4.csv
-
-  # matching_2_5:
-  #   run: python:latest python analysis/matching_outcome_2_5.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_5.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_5.csv
-  
-  # matching_2_6:
-  #   run: python:latest python analysis/matching_outcome_2_6.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_6.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_6.csv
-
-  # matching_2_7:
-  #   run: python:latest python analysis/matching_outcome_2_7.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_7.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_7.csv
-  
-  # matching_2_8:
-  #   run: python:latest python analysis/matching_outcome_2_8.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_8.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_8.csv
-
-  # matching_2_9:
-  #   run: python:latest python analysis/matching_outcome_2_9.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_9.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_9.csv
-  
-  # matching_2_10:
-  #   run: python:latest python analysis/matching_outcome_2_10.py
-  #   needs: [process_0,process_1_0]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_2_10.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_2_10.csv
-
+## general population
 #2020
   generate_study_population_2002:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2002
@@ -636,3 +458,199 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_general_population_2112.csv
+
+  
+  # exclude COVID case
+
+
+
+  # matching by month
+
+  # matching_1_1:
+  #   run: python:latest python analysis/matching_outcome_1_1.py
+  #   needs: [process_1.2, process_1]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_1.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_1.csv
+
+  matching_1_2002:
+    run: python:latest python analysis/matching_outcome_1_2002.py
+    needs: [generate_study_population_2002,process_1.2]
+    outputs:
+      moderately_sensitive: 
+        matching_report1: output/matching_report_general_population_infection_2002.txt
+      highly_sensitive: 
+        combined1: output/matched_combined_general_population_infection_2002.csv
+  
+  matching_1_2003:
+    run: python:latest python analysis/matching_outcome_1_2003.py
+    needs: [generate_study_population_2003,process_1.2]
+    outputs:
+      moderately_sensitive: 
+        matching_report1: output/matching_report_general_population_infection_2003.txt
+      highly_sensitive: 
+        combined1: output/matched_combined_general_population_infection_2003.csv
+
+  matching_1_2004:
+    run: python:latest python analysis/matching_outcome_1_2004.py
+    needs: [generate_study_population_2004,process_1.2]
+    outputs:
+      moderately_sensitive: 
+        matching_report1: output/matching_report_general_population_infection_2004.txt
+      highly_sensitive: 
+        combined1: output/matched_combined_general_population_infection_2004.csv
+  
+  # matching_1_2005:
+  #   run: python:latest python analysis/matching_outcome_1_4.py
+  #   needs: [generate_study_population_2005,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_4.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_4.csv
+
+  # matching_1_2006:
+  #   run: python:latest python analysis/matching_outcome_1_5.py
+  #   needs: [generate_study_population_2006,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_5.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_5.csv
+  
+  # matching_1_2007:
+  #   run: python:latest python analysis/matching_outcome_1_6.py
+  #   needs: [generate_study_population_2007,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_6.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_6.csv
+
+  # matching_1_2008:
+  #   run: python:latest python analysis/matching_outcome_1_7.py
+  #   needs: [generate_study_population_2008,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_7.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_7.csv
+  
+  # matching_1_8:
+  #   run: python:latest python analysis/matching_outcome_1_8.py
+  #   needs: [generate_study_population_2009,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_8.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_8.csv
+
+  # matching_1_9:
+  #   run: python:latest python analysis/matching_outcome_1_9.py
+  #   needs: [generate_study_population_2010,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_9.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_9.csv
+  
+  # matching_1_10:
+  #   run: python:latest python analysis/matching_outcome_1_10.py
+  #   needs: [generate_study_population_2011,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_1_10.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_1_10.csv
+
+  # matching_2_1:
+  #   run: python:latest python analysis/matching_outcome_2_1.py
+  #   needs: [generate_study_population_2012,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_1.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_1.csv
+  
+  # matching_2_2:
+  #   run: python:latest python analysis/matching_outcome_2_2.py
+  #   needs: [generate_study_population_2101,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_2.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_2.csv
+
+  # matching_2_3:
+  #   run: python:latest python analysis/matching_outcome_2_3.py
+  #    needs: [generate_study_population_2102,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_3.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_3.csv
+  
+  # matching_2_4:
+  #   run: python:latest python analysis/matching_outcome_2_4.py
+  #    needs: [generate_study_population_2103,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_4.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_4.csv
+
+  # matching_2_5:
+  #   run: python:latest python analysis/matching_outcome_2_5.py
+  #   needs: [generate_study_population_2104,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_5.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_5.csv
+  
+  # matching_2_6:
+  #   run: python:latest python analysis/matching_outcome_2_6.py
+  #   needs: [generate_study_population_2105,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_6.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_6.csv
+
+  # matching_2_7:
+  #   run: python:latest python analysis/matching_outcome_2_7.py
+  #   needs: [generate_study_population_2106,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_7.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_7.csv
+  
+  # matching_2_8:
+  #   run: python:latest python analysis/matching_outcome_2_8.py
+  #   needs: [generate_study_population_2107,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_8.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_8.csv
+
+  # matching_2_9:
+  #   run: python:latest python analysis/matching_outcome_2_9.py
+  #   needs: [generate_study_population_2108,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_9.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_9.csv
+  
+  # matching_2_10:
+  #   run: python:latest python analysis/matching_outcome_2_10.py
+  #   needs: [generate_study_population_2101,process_1.2]
+  #   outputs:
+  #     moderately_sensitive: 
+  #       matching_report1: output/matching_report_general_population_infection_2_10.txt
+  #     highly_sensitive: 
+  #       combined1: output/matched_combined_general_population_infection_2_10.csv

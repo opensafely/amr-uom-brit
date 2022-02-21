@@ -3,8 +3,8 @@ from osmatching import match
 
 #### general population & covid infection(case) 
 match(
-    case_csv="covid_infection_1_2",
-    match_csv="general_population_1_2",
+    case_csv="covid_infection_2003",
+    match_csv="general_population_2003",
     matches_per_case=6,
     match_variables={
      #   "sex": "category",
@@ -24,7 +24,7 @@ match(
         "died_date_cpns": "before",
         "died_date_ons_covid": "before",
     },
-    output_suffix="_general_population_infection_1_2",
+    output_suffix="_general_population_infection_2003",
     output_path="output",
 )
 

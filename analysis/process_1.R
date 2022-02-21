@@ -33,7 +33,7 @@ df1=df1%>%
 df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
 df2=df2%>%
-  filter(is.na(primary_care_covid_date),
+  filter(is.na(SGSS_positive_test_date),
          is.na(covid_admission_date),
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
