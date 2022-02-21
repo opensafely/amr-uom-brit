@@ -1,107 +1,74 @@
-## Import libraries---
+library("data.table")
+library("dplyr")
+library('here')
+library("tidyverse")
+library("lubridate")
 
-library('tidyverse')
-library("ggplot2")
-library('dplyr')
-library('lubridate')
+rm(list=ls())
+setwd(here::here("output", "measures"))
 
-# impoprt data
+Files = list.files(pattern="recorded_ab_broad_", full.names = TRUE)
+temp <- vector("list", length(Files))
 
-df <- read_csv(
-  here::here("output", "measures", "measure_broad_narrow_prescribing.csv"),
-  col_types = cols_only(
-    broad_prescriptions_check  = col_double(),
-    practice  = col_double(),
-    age_cat = col_character(),
-    broad_spectrum_antibiotics_prescriptions = col_double(),
-    antibacterial_brit = col_double(),
-    value = col_double(),
-    # Date
-    date = col_date(format="%Y-%m-%d")
-  ),
-  na = character()
-)
+for (i in seq_along(Files)){
+  
+  DF=read_rds(Files[i])
+  
+  #dat=rbindlist(DF)
+  dat=bind_rows(DF)
+  
+  # filter incident
+  ##dat=dat%>%filter(prevalent==0)
+  
+  # recode
+  dat$infection=recode(dat$infection,
+                       asthma ="Other infection",
+                       cold="Other infection",
+                       cough="Other infection",
+                       copd="Other infection",
+                       pneumonia="Other infection",
+                       renal="Other infection",
+                       sepsis="Other infection",
+                       throat="Other infection",
+                       uti = "UTI",
+                       lrti = "LRTI",
+                       urti = "URTI",
+                       sinusits = "Sinusitis",
+                       otmedia = "Otitis media",
+                       ot_externa = "Otitis externa")
 
+  rm(DF)
+  temp[[i]] = dat
+}
 
-# remove last month data
-last.date=max(df$date)
-df=df%>% filter(date!=last.date)
-first_mon <- (format(min(df$date), "%m-%Y"))
-last_mon <- (format(max(df$date), "%m-%Y"))
-
-df$date <- as.Date(df$date)
-df$cal_mon <- month(df$date)
-df$cal_year <- year(df$date)
-df$broad_prescriptions_check <- as.factor(df$broad_prescriptions_check)
-
-dfrate <- df%>% group_by(date,age_cat) %>% 
-  mutate(total_broad=sum(broad_spectrum_antibiotics_prescriptions[broad_prescriptions_check==1],na.rm = TRUE))
-
-dfrate <- dfrate%>% group_by(date,age_cat) %>% 
-  mutate(total_anti=sum(antibacterial_brit,na.rm = TRUE))
-
-df_plot <- dfrate%>% group_by(date,age_cat) %>% 
-  summarise(broad_rate=total_broad/total_anti)
-
-df_plot_2 <- dfrate%>% group_by(date) %>% 
-  summarise(broad_rate=total_broad/total_anti)
-
-
-num_uniq_prac <- as.numeric(dim(table((dfrate$practice))))
-
-df_plot <- df_plot %>% distinct(date,age_cat, .keep_all = TRUE) %>%
-  mutate(year=format(date,"%Y"))
-
-df_plot_2 <- df_plot_2 %>% distinct(date, .keep_all = TRUE) %>%
-  mutate(year=format(date,"%Y"))
-
-df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+last.date=max(dat$date)
+dat=dat%>% filter(date!=last.date)
+first_mon <- (format(min(dat$date), "%m-%Y"))
+last_mon <- (format(max(dat$date), "%m-%Y"))
 
 
-plot1 <- ggplot(df_plot, aes(x=date, y=broad_rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-12"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
+dfrate <- dat%>% group_by(date) %>% filter(broad_spectrum==1) %>% dplyr::summarise(count = n())
+dftotal <- dat%>% group_by(date) %>% dplyr::summarise(total = n())
+dfprop <- merge(dfrate,dftotal,by='date')
+dfprop$prop <- dfprop$count/dfprop$total
+
+plot <- ggplot(dfprop, aes(x=date, y=prop))+
+  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
   geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
-  geom_rect(xmin = as.Date("2020-03-23"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
-  geom_line(aes(color=year))+
-  facet_grid(rows = vars(age_cat))+
+  geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
+  geom_line()+
   theme(legend.position = "bottom",legend.title =element_blank())+
   scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
-  scale_y_continuous(labels = scales::percent)+
-  labs(
-    title = "Proportion of broad-spectrum antibiotics prescribed by age group",  
-    subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices",';National lockdown in red area'), 
-    x = "", 
-    y = "broad-spectrum antibiotics prescribing %")
-plot1
-
-
-plot2 <- ggplot(df_plot_2, aes(x=date, y=broad_rate))+
-  geom_rect(xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-12"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
-  geom_rect(xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
-  geom_rect(xmin = as.Date("2020-03-23"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
-  geom_line(aes(color=year))+
-  theme(legend.position = "bottom",legend.title =element_blank())+
-  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.05))+
   labs(
     title = "Proportion of broad-spectrum antibiotics prescribed",  
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", num_uniq_prac,"TPP Practices",';National lockdown in red area'), 
+    caption = paste('National lockdown in red area'), 
     x = "", 
     y = "broad-spectrum antibiotics prescribing %")
-plot2
-
-## table 
-write_csv(df_plot_2, here::here("output", "broad_prescriptions_proportion.csv"))
-
+plot
 ## plot
 ggsave(
-  plot= plot1,
+  plot= plot,
   filename="broad_proportions_line_age.jpeg", path=here::here("output"),
-)  
-
-ggsave(
-  plot= plot2,
-  filename="broad_proportions_line.jpeg", path=here::here("output"),
 )  
