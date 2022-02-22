@@ -731,7 +731,7 @@ actions:
         #cohort22.1: output/matched_outcome_1_case_2112.csv
         cohort22.2: output/matched_outcome_1_control_2112.csv       
 
-
+# 2020
   extract_variables_outcome_1_case: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_case
     needs: [pre_extract_variables_outcome_1]
@@ -739,10 +739,156 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_1_case.csv
   
-  extract_variables_outcome_1_control: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control
+  extract_variables_outcome_1_control_2003: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2003
     needs: [pre_extract_variables_outcome_1]
     outputs:
       highly_sensitive:
-        cohort: output/input_outcome_1_control.csv
-                      
+        cohort: output/input_outcome_1_control_2003.csv
+
+  extract_variables_outcome_1_control_2004: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2004
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2004.
+        
+  extract_variables_outcome_1_control_2005: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2005
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2005.csv
+
+  extract_variables_outcome_1_control_2006: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2006
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2006.csv
+
+  extract_variables_outcome_1_control_2007: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2007
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2007.csv
+
+  extract_variables_outcome_1_control_2008: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2008
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2008.csv
+
+  extract_variables_outcome_1_control_2009: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2009
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2009.csv
+
+  extract_variables_outcome_1_control_2010: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2010
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2010.csv
+  
+  extract_variables_outcome_1_control_2011: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2011
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2011.csv
+  
+  extract_variables_outcome_1_control_2012: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2012
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2012.csv
+ # 2021            
+  extract_variables_outcome_1_control_2101: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2101
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2101.csv
+
+  extract_variables_outcome_1_control_2102: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2102
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2102.csv 
+
+  extract_variables_outcome_1_control_2103: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2103
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2103.csv
+
+  extract_variables_outcome_1_control_2104: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2104
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2104.
+        
+  extract_variables_outcome_1_control_2105: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2105
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2105.csv
+
+  extract_variables_outcome_1_control_2106: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2106
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2106.csv
+
+  extract_variables_outcome_1_control_2107: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2107
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2107.csv
+
+  extract_variables_outcome_1_control_2108: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2108
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2108.csv
+
+  extract_variables_outcome_1_control_2109: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2109
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2109.csv
+
+  extract_variables_outcome_1_control_2110: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2110
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2110.csv
+  
+  extract_variables_outcome_1_control_2111: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2111
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2111.csv
+  
+  extract_variables_outcome_1_control_2112: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2112
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control_2112.csv
