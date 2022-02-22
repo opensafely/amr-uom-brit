@@ -88,6 +88,27 @@ actions:
         baseline_overall: output/overall_counts_blt.csv
         baseline_table: output/blt_one_random_obs_perpat.csv
 
+  describe_baseline_table_split:
+    run: r:latest analysis/tables/baseline_table_split_up.R
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        baseline_overall_split: output/overall_counts_blt_split.csv
+        baseline_chars: output/chars_blt.csv
+        baseline_bmi: output/bmi_blt.csv
+        baseline_age: output/age_blt.csv
+        baseline_region: output/region_blt.csv
+        baseline_smoke: output/smoke_blt.csv
+        baseline_imd: output/imd_blt.csv
+        baseline_eth: output/eth_blt.csv
+        baseline_gpcount: output/gp_count_blt.csv
+        baseline_fluvac: output/flu_vac_blt.csv
+        baseline_covrx: output/covrx_blt.csv
+        baseline_died: output/died_blt.csv
+        baseline_covid: output/covid_blt.csv
+        baseline_hx_indi: output/hx_indi_blt.csv
+        baseline_hx_anti: output/hx_anti_blt.csv
+
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
   #   needs: [generate_measures]
