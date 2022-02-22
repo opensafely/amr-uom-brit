@@ -118,11 +118,12 @@ actions:
     needs: [generate_study_population_covid_admission]
     outputs:
       highly_sensitive:
-        cohort: output/case_covid_admission.csv
+        cohort1: output/case_covid_admission.csv
+        cohort2: output/case_covid_ICU.csv
 
   process_3:
     run: r:latest analysis/process_3.R
-    needs: [generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+    needs: [process_2,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
     outputs:
       highly_sensitive:
         cohort: output/case_covid_icu_death.csv

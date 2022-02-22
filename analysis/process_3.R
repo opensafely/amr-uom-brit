@@ -16,10 +16,10 @@ library('lubridate')
 
 
 
-#### COVID severe outcome ( death)
+#### COVID severe outcome ( ICU + death)
 
 # impoprt data
-#df1 <- read_csv(here::here("output", "input_covid_icu.csv"))
+df1 <- read_csv(here::here("output", "case_covid_icu.csv"))# from hospital admission
 df2<- read_csv(here::here("output", "input_covid_death_cpns.csv"))
 df3<- read_csv(here::here("output", "input_covid_death_ons.csv"))
 
@@ -27,6 +27,13 @@ df3<- read_csv(here::here("output", "input_covid_death_ons.csv"))
 #df1 =df1%>%filter(patient_index_date>0) # icu
 df2 =df2%>%filter( !is.na(patient_index_date)) # cpns
 df3 =df3%>%filter( !is.na(patient_index_date)) # ons_covid
+
+df1=df1%>%
+  filter(
+    is.na(SGSS_positive_test_date_before),
+    is.na(primary_care_covid_date_before),
+    is.na(died_date_cpns_before),
+    is.na(died_date_ons_covid_before))
 
 df2=df2%>%
   filter(
@@ -43,7 +50,7 @@ df3=df3%>%
          is.na(died_date_ons_covid_before))
 
 
-df=rbind(df2,df3)
+df=rbind(df1,df2,df3)
 
 # keep earlist covid severe outcome date
 df=df%>%
