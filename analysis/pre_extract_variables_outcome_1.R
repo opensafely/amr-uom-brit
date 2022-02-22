@@ -24,16 +24,15 @@ for (i in 1:length(filename)){
 
 df=read_csv(paste0("matched_combined_general_population_infection_",filename[i],".csv"))
 
-
 case= df%>% filter(case==1)
 
 control= df%>% filter(case==0)
 control$patient_index_date=as.Date(datelist[i])
 
 
-write_csv(case, here::here("output", paste0("matched_outcome_1_case_",filename[i],".csv"))
+write_csv(case, here::here("output", paste0("matched_outcome_1_case_",filename[i],".csv")))
 
-write_csv(control, here::here("output", paste0("matched_outcome_1_control",filename[i],".csv"))
+write_csv(control, here::here("output", paste0("matched_outcome_1_control_",filename[i],".csv")))
 
 rm(df,case,control)
 }
