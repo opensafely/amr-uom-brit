@@ -1,14 +1,14 @@
 ##############
 ## Consultation rates for 6 common infection over time,
 ## stratified by age categories. 
-## Consultation for common infection will only include those with no prior records in 90 days of the same infection.
+## incident= without same infection in 90 days
 ##############
 
 library("data.table")
 library("dplyr")
 library('here')
 library("tidyverse")
-library("cowplot")
+#library("cowplot")
 
 
 
@@ -49,7 +49,7 @@ last_mon= format(max(df$date),"%m-%Y")
 TPPnumber=length(unique(df$practice))
 
 # select incident pt and count consultations
-# hx_pt==0 means has no consultation in prior 6 weeks
+# hx_pt==0 means without same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -60,20 +60,12 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; hx=0(sum counts), hx=1(count=0)
+            population=mean(population)) # patient number per GP
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
-
-
-# add variables
-df_1=df_sum_gp_age%>%
-  #group_by(date,age_cat)%>%
-  #summarise(rate=mean(rate))%>%
-  mutate(year=format(date,"%Y"),
-        month=format(date,"%m"),
-         indic="UTI")
+df_1=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
+                           indic="UTI")
 rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
@@ -110,7 +102,7 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
+# select incdt=1 , count incident patient number
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -121,19 +113,13 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+  summarise(pt_counts=sum(hx_counts), 
+            population=mean(population)) 
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
-
-
-# add variables
-
-df_2=df_sum_gp_age%>%
-  mutate(year=format(date,"%Y"),
-        month=format(date,"%m"),
-         indic="LRTI")
+# "rate per 1,000 registered patients"
+df_2=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
+                           indic="LRTI")
 rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
@@ -171,7 +157,7 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
+# select incdt=1 , count incident patient number
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -179,21 +165,15 @@ df=df%>%
   group_by(date,practice)%>% 
   mutate(population=sum(population))
          
-# summarize incident number of each age_cat
+# summarize incident consultation number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+  summarise(pt_counts=sum(hx_counts), 
+            population=mean(population)) 
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
-
-
-# add variables
-df_3=df_sum_gp_age%>%
-  mutate(year=format(date,"%Y"),
-        month=format(date,"%m"),
-         indic="URTI")
+df_3=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
+                           indic="URTI")
 rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
@@ -232,7 +212,7 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
+# select incdt=1, count incident patient number
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -243,21 +223,14 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+  summarise(pt_counts=sum(hx_counts), 
+            population=mean(population)) 
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
+df_4=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
+                           indic="sinusitis")
 
 
-# add variables
-
-df_4=df_sum_gp_age%>%
-  group_by(date,age_cat)%>%
-  summarise(rate=mean(rate))%>%
-  mutate(year=format(date,"%Y"),
-        month=format(date,"%m"),
-         indic="sinusitis")
 rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
@@ -299,7 +272,7 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
+# select incdt=1 , count incident patient number
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -310,19 +283,13 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+  summarise(pt_counts=sum(hx_counts), 
+            population=mean(population)) 
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
+df_5=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
+                           indic="otitis externa")
 
-
-# add variables
-
-df_5=df_sum_gp_age%>%
-  mutate(year=format(date,"%Y"),
-        month=format(date,"%m"),
-         indic="otitis externa")
 rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
 
 
@@ -363,7 +330,7 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=0 , count incident patient number, (if incdt=1 then set count=0 )
+# select incdt=1 , count incident patient number
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
 # add col: population per GP in each time point- same number in multiple row within same gp
@@ -374,17 +341,13 @@ df=df%>%
 # summarize incident number of each age_cat
 df_sum_gp_age=df%>%
   group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; incident=1(count=0), incident=0(add count)
-            population=mean(population)) # both incident=1 or 0 has same GP population, so add mean
+  summarise(pt_counts=sum(hx_counts), 
+            population=mean(population)) 
  
 # "rate per 1,000 registered patients"
-df_sum_gp_age$rate=df_sum_gp_age$pt_counts/df_sum_gp_age$population*1000
+df_6=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
+                           indic="otitis media")
 
-# add variables
-df_6=df_sum_gp_age%>%
-  mutate(year=format(date,"%Y"),
-        month=format(date,"%m"),
-         indic="otitis media")
 rm(df,df_sum_gp_age,last.date)
 
 
@@ -407,7 +370,7 @@ write.csv(df_plot,here::here("output","consultation_rate_incident.csv"))
 
 
 # # line graph- by age group and divided by year
-# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 # df_plot=df_plot%>%mutate(age_cat_5= case_when(age_cat=="0-4"| age_cat=="5-14" ~ "0-14",
 #                                               age_cat=="15-24"| age_cat=="25-34" ~ "15-34",
@@ -532,7 +495,7 @@ lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
 
 
 
-  df_plot.5=df_plot%>%filter(indic=="otmedia")
+  df_plot.5=df_plot%>%filter(indic=="otitis media")
 lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -558,7 +521,7 @@ lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
 
 
 
-  df_plot.6=df_plot%>%filter(indic=="ot_externa")
+  df_plot.6=df_plot%>%filter(indic=="otitis externa")
 lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -630,9 +593,8 @@ lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
 
 #summarise table
 df_gprate_infec=df%>%
-  group_by(date,practice,indic)%>%
-  summarise(ab_rate_1000=mean(rate))
-
+  group_by(date,practice,indic)%>% # sum age category 
+  summarise(ab_rate_1000=sum(pt_counts)/mean(population)*1000) #total consultations/ population *1000
 
 num_uniq_prac <- as.numeric(dim(table((df_gprate_infec$practice))))
 
@@ -667,7 +629,8 @@ plot_percentile_by_infection <- ggplot(df_mean, aes(x=date))+
     title = "Consultation rate of incident patients for 6 common infections",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
-                    Grey shading represents national lockdown time. Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
+                    Grey shading represents national lockdown time. 
+                    Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
     x = "",
     y = "Number of consultations per 1000 patients")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
