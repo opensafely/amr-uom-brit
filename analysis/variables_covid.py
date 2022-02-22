@@ -62,7 +62,7 @@ def generate_covid_variables(index_date_variable):
 
     icu_days=patients.admitted_to_hospital(
         with_these_primary_diagnoses=covid_codelist,
-        on_or_after="covid_admission_date",
+        between=["covid_admission_date" , "covid_admission_date + 1 month"],       # admitted to icu in one month 
         returning="days_in_critical_care",
         find_first_match_in_period=True,
         return_expectations={

@@ -19,7 +19,7 @@ library('lubridate')
 #### COVID severe outcome ( ICU + death)
 
 # impoprt data
-df1 <- read_csv(here::here("output", "case_covid_icu.csv"))# from hospital admission
+df1 <- read_csv(here::here("output", "case_covid_ICU.csv"))# from hospital admission
 df2<- read_csv(here::here("output", "input_covid_death_cpns.csv"))
 df3<- read_csv(here::here("output", "input_covid_death_ons.csv"))
 
