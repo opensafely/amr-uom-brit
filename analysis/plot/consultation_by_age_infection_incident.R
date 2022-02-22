@@ -1,14 +1,14 @@
 ##############
 ## Consultation rates for 6 common infection over time,
 ## stratified by age categories. 
-## Consultation for common infection will only include those with no prior records in 90 days of the same infection.
+## incident= without same infection in 90 days
 ##############
 
 library("data.table")
 library("dplyr")
 library('here')
 library("tidyverse")
-library("cowplot")
+#library("cowplot")
 
 
 
@@ -407,6 +407,7 @@ write.csv(df_plot,here::here("output","consultation_rate_incident.csv"))
 
 
 # # line graph- by age group and divided by year
+df_plot=df_plot%>%filter(age_cat != "0")
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 # df_plot=df_plot%>%mutate(age_cat_5= case_when(age_cat=="0-4"| age_cat=="5-14" ~ "0-14",
@@ -666,8 +667,9 @@ plot_percentile_by_infection <- ggplot(df_mean, aes(x=date))+
   labs(
     title = "Consultation rate of incident patients for 6 common infections",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
-                    Grey shading represents national lockdown time. Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices. 
+                    Grey shading represents national lockdown time. 
+                    Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
     x = "",
     y = "Number of consultations per 1000 patients")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+

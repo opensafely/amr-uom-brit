@@ -286,8 +286,9 @@ study = StudyDefinition(
         urti_codes,
         returning="binary_flag",
         between=["index_date - 90 days", "index_date"],
-        find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
+       # find_first_match_in_period=True,
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
 
     #  --sinusitis 
