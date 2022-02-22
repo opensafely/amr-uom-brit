@@ -729,4 +729,20 @@ actions:
         #cohort21.1: output/matched_outcome_1_case_2111.csv
         cohort21.2: output/matched_outcome_1_control_2111.csv   
         #cohort22.1: output/matched_outcome_1_case_2112.csv
-        cohort22.2: output/matched_outcome_1_control_2112.csv                             
+        cohort22.2: output/matched_outcome_1_control_2112.csv       
+
+
+  extract_variables_outcome_1_case: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_case
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_case.csv
+  
+  extract_variables_outcome_1_control: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control
+    needs: [pre_extract_variables_outcome_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_1_control.csv
+                      
