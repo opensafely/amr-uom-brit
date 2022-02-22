@@ -407,7 +407,7 @@ write.csv(df_plot,here::here("output","consultation_rate_incident.csv"))
 
 
 # # line graph- by age group and divided by year
-# df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
 # df_plot=df_plot%>%mutate(age_cat_5= case_when(age_cat=="0-4"| age_cat=="5-14" ~ "0-14",
 #                                               age_cat=="15-24"| age_cat=="25-34" ~ "15-34",
@@ -532,7 +532,7 @@ lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
 
 
 
-  df_plot.5=df_plot%>%filter(indic=="otmedia")
+  df_plot.5=df_plot%>%filter(indic=="otitis media")
 lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -558,7 +558,7 @@ lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
 
 
 
-  df_plot.6=df_plot%>%filter(indic=="ot_externa")
+  df_plot.6=df_plot%>%filter(indic=="otitis externa")
 lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
