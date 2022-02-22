@@ -593,7 +593,7 @@ lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
 
 #summarise table
 df_gprate_infec=df%>%
-  group_by(date,practice,indic)%>%
+  group_by(date,practice,indic)%>% # sum age category 
   summarise(ab_rate_1000=sum(pt_counts)/mean(population)*1000) #total consultations/ population *1000
 
 num_uniq_prac <- as.numeric(dim(table((df_gprate_infec$practice))))
