@@ -37,19 +37,23 @@ for (i in seq_along(csvFiles_19)){
   df1=df%>%select(patient_id,age,sex,ab_date_12)
   colnames(df1)[4:15]=paste0("time",rep(1:12))
   df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
-  
+  rm(df1)
+
   df2=df%>%select(patient_id,age,sex,prevalent_check)
   colnames(df2)[4:15]=paste0("time",rep(1:12))
   df2.1=df2%>%gather(times,prevalent,paste0("time",rep(1:12)))
-
+  rm(df2)
+  
   df3=df%>%select(patient_id,age,sex,ab_category)
   colnames(df3)[4:15]=paste0("time",rep(1:12))
   df3.1=df3%>%gather(times,infection,paste0("time",rep(1:12)))
-  
+  rm(df3)
+
   df4=df%>%select(patient_id,age,sex,broad_check)
   colnames(df4)[4:15]=paste0("time",rep(1:12))
   df4.1=df4%>%gather(times,broad_spectrum,paste0("time",rep(1:12)))
-  
+  rm(df4)
+
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
@@ -76,19 +80,23 @@ for (i in seq_along(csvFiles_20)){
   df1=df%>%select(patient_id,age,sex,ab_date_12)
   colnames(df1)[4:15]=paste0("time",rep(1:12))
   df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
-  
+  rm(df1)
+
   df2=df%>%select(patient_id,age,sex,prevalent_check)
   colnames(df2)[4:15]=paste0("time",rep(1:12))
   df2.1=df2%>%gather(times,prevalent,paste0("time",rep(1:12)))
+  rm(df2)
 
   df3=df%>%select(patient_id,age,sex,ab_category)
   colnames(df3)[4:15]=paste0("time",rep(1:12))
   df3.1=df3%>%gather(times,infection,paste0("time",rep(1:12)))
-  
+  rm(df3)
+
   df4=df%>%select(patient_id,age,sex,broad_check)
   colnames(df4)[4:15]=paste0("time",rep(1:12))
   df4.1=df4%>%gather(times,broad_spectrum,paste0("time",rep(1:12)))
-  
+  rm(df4)
+
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
@@ -115,19 +123,23 @@ for (i in seq_along(csvFiles_21)){
   df1=df%>%select(patient_id,age,sex,ab_date_12)
   colnames(df1)[4:15]=paste0("time",rep(1:12))
   df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
-  
+  rm(df1)
+
   df2=df%>%select(patient_id,age,sex,prevalent_check)
   colnames(df2)[4:15]=paste0("time",rep(1:12))
   df2.1=df2%>%gather(times,prevalent,paste0("time",rep(1:12)))
+  rm(df2)
 
   df3=df%>%select(patient_id,age,sex,ab_category)
   colnames(df3)[4:15]=paste0("time",rep(1:12))
   df3.1=df3%>%gather(times,infection,paste0("time",rep(1:12)))
-  
+  rm(df3)
+
   df4=df%>%select(patient_id,age,sex,broad_check)
   colnames(df4)[4:15]=paste0("time",rep(1:12))
   df4.1=df4%>%gather(times,broad_spectrum,paste0("time",rep(1:12)))
-  
+  rm(df4)
+
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
@@ -154,19 +166,23 @@ for (i in seq_along(csvFiles_22)){
   df1=df%>%select(patient_id,age,sex,ab_date_12)
   colnames(df1)[4:15]=paste0("time",rep(1:12))
   df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
-  
+  rm(df1)
+
   df2=df%>%select(patient_id,age,sex,prevalent_check)
   colnames(df2)[4:15]=paste0("time",rep(1:12))
   df2.1=df2%>%gather(times,prevalent,paste0("time",rep(1:12)))
+  rm(df2)
 
   df3=df%>%select(patient_id,age,sex,ab_category)
   colnames(df3)[4:15]=paste0("time",rep(1:12))
   df3.1=df3%>%gather(times,infection,paste0("time",rep(1:12)))
-  
+  rm(df3)
+
   df4=df%>%select(patient_id,age,sex,broad_check)
   colnames(df4)[4:15]=paste0("time",rep(1:12))
   df4.1=df4%>%gather(times,broad_spectrum,paste0("time",rep(1:12)))
-  
+  rm(df4)
+
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
