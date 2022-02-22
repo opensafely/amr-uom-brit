@@ -189,10 +189,10 @@ df_one_pat$charlsonGrp <- factor(df_one_pat$charlsonGrp,
                                  labels = c("zero", "low", "medium", "high", "very high"))
 
 chars<- df_one_pat %>% dplyr::group_by(charlsonGrp) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentChar= (n/total)*100)
+  dplyr::summarise(count=n())
+chars$tot = dim(df_one_pat)[1]
+chars$per = (chars$count/chars$tot)*100
 write_csv(chars, here::here("output", "chars_blt.csv"))
-
 
 #bmi 
 #remove very low observations
@@ -208,20 +208,23 @@ df_one_pat$bmi_cat<- as.factor(df_one_pat$bmi_cat)
 #summary(df_one_pat$bmi_cat)
 
 bmi_bl <- df_one_pat %>% dplyr::group_by(bmi_cat) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentBMI= (n/total)*100)
+    dplyr::summarise(count=n())
+bmi_bl$tot = dim(df_one_pat)[1]
+bmi_bl$per = (bmi_bl$count/bmi_bl$tot)*100
 write_csv(bmi_bl, here::here("output", "bmi_blt.csv"))
 
 df_one_pat$age_cat<- as.factor(df_one_pat$age_cat)
 age_bl <- df_one_pat %>% dplyr::group_by(age_cat) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentAge= (n/total)*100)
+    dplyr::summarise(count=n())
+age_bl$tot = dim(df_one_pat)[1]
+age_bl$per = (age_bl$count/age_bl$tot)*100
 write_csv(age_bl, here::here("output", "age_blt.csv"))
 
 df_one_pat$region<- as.factor(df_one_pat$region)
 region_bl <- df_one_pat %>% dplyr::group_by(region) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentRegion= (n/total)*100)
+    dplyr::summarise(count=n())
+region_bl$tot = dim(df_one_pat)[1]
+region_bl$per = (region_bl$count/region_bl$tot)*100
 write_csv(region_bl, here::here("output", "region_blt.csv"))
 
 
@@ -235,8 +238,9 @@ df_one_pat <- df_one_pat %>%
 df_one_pat$smoking_cat<- as.factor(df_one_pat$smoking_cat)
 #summary(df_one_pat$smoking_cat)
 smoke_bl <- df_one_pat %>% dplyr::group_by(region) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentSmoke= (n/total)*100)
+    dplyr::summarise(count=n())
+smoke_bl$tot = dim(df_one_pat)[1]
+smoke_bl$per = (smoke_bl$count/smoke_bl$tot)*100
 write_csv(smoke_bl, here::here("output", "smoke_blt.csv"))
 
 
@@ -245,8 +249,9 @@ write_csv(smoke_bl, here::here("output", "smoke_blt.csv"))
 # make it a factor variable and 0 is missing
 df_one_pat$imd<- as.factor(df_one_pat$imd)
 imd_bl <- df_one_pat %>% dplyr::group_by(imd) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentIMD= (n/total)*100)
+    dplyr::summarise(count=n())
+imd_bl$tot = dim(df_one_pat)[1]
+imd_bl$per = (imd_bl$count/imd_bl$tot)*100
 write_csv(imd_bl, here::here("output", "imd_blt.csv"))
 
 ## ethnicity
@@ -261,8 +266,9 @@ df_one_pat <- df_one_pat %>%
 df_one_pat$ethnicity_6 <- as.factor(df_one_pat$ethnicity_6)
 #table(df_one_pat$ethnicity_6)
 enth_bl <- df_one_pat %>% dplyr::group_by(ethnicity_6) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentEth= (n/total)*100)
+    dplyr::summarise(count=n())
+enth_bl$tot = dim(df_one_pat)[1]
+enth_bl$per = (enth_bl$count/enth_bl$tot)*100
 write_csv(enth_bl, here::here("output", "eth_blt.csv"))
 
 
@@ -272,16 +278,18 @@ df_one_pat$gp_count <- ifelse(df_one_pat$gp_count > 0,
                               df_one_pat$gp_count, 0)
 
 gp_count_bl <- df_one_pat %>% dplyr::group_by(gp_count) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentGP_count= (n/total)*100)
+    dplyr::summarise(count=n())
+gp_count_bl$tot = dim(df_one_pat)[1]
+gp_count_bl$per = (gp_count_bl$count/gp_count_bl$tot)*100
 write_csv(gp_count_bl, here::here("output", "gp_count_blt.csv"))
 
 ### flu vac in 12m before random index date
 #summary(df_one_pat$flu_vaccine)
 df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 flu_vaccine_bl <- df_one_pat %>% dplyr::group_by(flu_vaccine) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentFLU= (n/total)*100)
+    dplyr::summarise(count=n())
+flu_vaccine_bl$tot = dim(df_one_pat)[1]
+flu_vaccine_bl$per = (flu_vaccine_bl$count/flu_vaccine_bl$tot)*100
 write_csv(flu_vaccine_bl, here::here("output", "flu_vac_blt.csv"))
 
 
@@ -291,8 +299,9 @@ df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat),0,1)
 df_one_pat$covrx=ifelse(df_one_pat$covrx1 >0 | df_one_pat$covrx2 >0, 1, 0)
 df_one_pat$covrx <- as.factor(df_one_pat$covrx)
 covrx_bl <- df_one_pat %>% dplyr::group_by(covrx) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentCovrx= (n/total)*100)
+    dplyr::summarise(count=n())
+covrx_bl$tot = dim(df_one_pat)[1]
+covrx_bl$per = (covrx_bl$count/covrx_bl$tot)*100
 write_csv(covrx_bl, here::here("output", "covrx_blt.csv"))
 
 
@@ -301,26 +310,30 @@ df_one_pat$died_ever <- ifelse(is.na(df_one_pat$died_date),0,1)
 df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
 #summary(df_one_pat$died_ever)
 died_ever_bl <- df_one_pat %>% dplyr::group_by(died_ever) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentDied= (n/total)*100)
+    dplyr::summarise(count=n())
+died_ever_bl$tot = dim(df_one_pat)[1]
+died_ever_bl$per = (died_ever_bl$count/died_ever_bl$tot)*100
 write_csv(died_ever_bl, here::here("output", "died_blt.csv"))
 
 ## covid positive ever
 df_one_pat$covid_positive<- df_one_pat$Covid_test_result_sgss
 df_one_pat$covid_positive<-as.factor(df_one_pat$covid_positive)
 covid_positive_bl <- df_one_pat %>% dplyr::group_by(covid_positive) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percentCOVID= (n/total)*100)
+    dplyr::summarise(count=n())
+covid_positive_bl$tot = dim(df_one_pat)[1]
+covid_positive_bl$per = (covid_positive_bl$count/covid_positive_bl$tot)*100
 write_csv(covid_positive_bl, here::here("output", "covid_blt.csv"))
 
 df_one_pat$hx_indications <- as.factor(df_one_pat$hx_indications)
 hx_indi_bl <- df_one_pat %>% dplyr::group_by(hx_indications) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percent_hx_indications= (n/total)*100)
+    dplyr::summarise(count=n())
+hx_indi_bl$tot = dim(df_one_pat)[1]
+hx_indi_bl$per = (hx_indi_bl$count/hx_indi_bl$tot)*100
 write_csv(hx_indi_bl, here::here("output", "hx_indi_blt.csv"))
 
 df_one_pat$hx_antibiotics <- as.factor(df_one_pat$hx_antibiotics)
 hx_anti_bl <- df_one_pat %>% dplyr::group_by(hx_antibiotics) %>%
-  dplyr::count(total=n()) %>%
-  dplyr::mutate(percent_hx_antibiotics= (n/total)*100)
+    dplyr::summarise(count=n())
+hx_anti_bl$tot = dim(df_one_pat)[1]
+hx_anti_bl$per = (hx_anti_bl$count/hx_anti_bl$tot)*100
 write_csv(hx_anti_bl, here::here("output", "hx_anti_blt.csv"))
