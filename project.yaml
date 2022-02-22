@@ -685,47 +685,48 @@ actions:
     matching_1_2012,matching_1_2011,matching_1_2010,matching_1_2009,matching_1_2008,matching_1_2007,matching_1_2006,matching_1_2005,matching_1_2004,matching_1_2003]
     outputs:
       highly_sensitive:
-        cohort1.1: output/matched_outcome_1_case_2003.csv
+        cohort1: output/matched_outcome_1_case.csv
+        #cohort1.1: output/matched_outcome_1_case_2003.csv
         cohort1.2: output/matched_outcome_1_control_2003.csv
-        cohort2.1: output/matched_outcome_1_case_2004.csv
+        #cohort2.1: output/matched_outcome_1_case_2004.csv
         cohort2.2: output/matched_outcome_1_control_2004.csv
-        cohort3.1: output/matched_outcome_1_case_2005.csv
+        #cohort3.1: output/matched_outcome_1_case_2005.csv
         cohort3.2: output/matched_outcome_1_control_2005.csv
-        cohort4.1: output/matched_outcome_1_case_2006.csv
+        #cohort4.1: output/matched_outcome_1_case_2006.csv
         cohort4.2: output/matched_outcome_1_control_2006.csv
-        cohort5.1: output/matched_outcome_1_case_2007.csv
+        #cohort5.1: output/matched_outcome_1_case_2007.csv
         cohort5.2: output/matched_outcome_1_control_2007.csv
-        cohort6.1: output/matched_outcome_1_case_2008.csv
+        #cohort6.1: output/matched_outcome_1_case_2008.csv
         cohort6.2: output/matched_outcome_1_control_2008.csv  
-        cohort7.1: output/matched_outcome_1_case_2009.csv
+        #cohort7.1: output/matched_outcome_1_case_2009.csv
         cohort7.2: output/matched_outcome_1_control_2009.csv  
-        cohort8.1: output/matched_outcome_1_case_2010.csv
+        #cohort8.1: output/matched_outcome_1_case_2010.csv
         cohort8.2: output/matched_outcome_1_control_2010.csv 
-        cohort9.1: output/matched_outcome_1_case_2011.csv
+        #cohort9.1: output/matched_outcome_1_case_2011.csv
         cohort9.2: output/matched_outcome_1_control_2011.csv   
-        cohort10.1: output/matched_outcome_1_case_2012.csv
+        #cohort10.1: output/matched_outcome_1_case_2012.csv
         cohort10.2: output/matched_outcome_1_control_2012.csv   
-        cohort11.1: output/matched_outcome_1_case_2101.csv
+        #cohort11.1: output/matched_outcome_1_case_2101.csv
         cohort11.2: output/matched_outcome_1_control_2101.csv
-        cohort12.1: output/matched_outcome_1_case_2102.csv
+        #cohort12.1: output/matched_outcome_1_case_2102.csv
         cohort12.2: output/matched_outcome_1_control_2102.csv  
-        cohort13.1: output/matched_outcome_1_case_2103.csv
+        #cohort13.1: output/matched_outcome_1_case_2103.csv
         cohort13.2: output/matched_outcome_1_control_2103.csv
-        cohort14.1: output/matched_outcome_1_case_2104.csv
+        #cohort14.1: output/matched_outcome_1_case_2104.csv
         cohort14.2: output/matched_outcome_1_control_2104.csv
-        cohort15.1: output/matched_outcome_1_case_2105.csv
+        #cohort15.1: output/matched_outcome_1_case_2105.csv
         cohort15.2: output/matched_outcome_1_control_2105.csv
-        cohort16.1: output/matched_outcome_1_case_2106.csv
+        #cohort16.1: output/matched_outcome_1_case_2106.csv
         cohort16.2: output/matched_outcome_1_control_2106.csv
-        cohort17.1: output/matched_outcome_1_case_2107.csv
+        #cohort17.1: output/matched_outcome_1_case_2107.csv
         cohort17.2: output/matched_outcome_1_control_2107.csv
-        cohort18.1: output/matched_outcome_1_case_2108.csv
+        #cohort18.1: output/matched_outcome_1_case_2108.csv
         cohort18.2: output/matched_outcome_1_control_2108.csv  
-        cohort19.1: output/matched_outcome_1_case_2109.csv
+        #cohort19.1: output/matched_outcome_1_case_2109.csv
         cohort19.2: output/matched_outcome_1_control_2109.csv  
-        cohort20.1: output/matched_outcome_1_case_2110.csv
+        #cohort20.1: output/matched_outcome_1_case_2110.csv
         cohort20.2: output/matched_outcome_1_control_2110.csv 
-        cohort21.1: output/matched_outcome_1_case_2111.csv
+        #cohort21.1: output/matched_outcome_1_case_2111.csv
         cohort21.2: output/matched_outcome_1_control_2111.csv   
-        cohort22.1: output/matched_outcome_1_case_2112.csv
+        #cohort22.1: output/matched_outcome_1_case_2112.csv
         cohort22.2: output/matched_outcome_1_control_2112.csv                             
