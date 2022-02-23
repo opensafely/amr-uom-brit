@@ -31,8 +31,9 @@ plot <- ggplot(dfprop, aes(x=date, y=prop))+
   geom_rect(xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="red3", alpha=0.01)+
   geom_line()+
   theme(legend.position = "bottom",legend.title =element_blank())+
-  scale_x_date(date_breaks = "1 month",date_labels =  "%m")+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.05))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
     title = "Proportion of broad-spectrum antibiotics prescribed",  
     subtitle = paste(first_mon,"-",last_mon),
