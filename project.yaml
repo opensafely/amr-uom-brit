@@ -93,31 +93,31 @@ actions:
     needs: [generate_study_population]
     outputs:
       moderately_sensitive:
-        baseline_overall_2019: output/overall_counts_blt_split_2019.csv
+        baseline_overall_2019: output/overall_counts_blt_2019.csv
         baseline_table_2019: output/blt_one_random_obs_perpat_2019.csv
 
   describe_baseline_table_split_2020:
-    run: r:latest analysis/tables/baseline_table_split_2020.R
+    run: r:latest analysis/tables/baseline_table_2020.R
     needs: [generate_study_population]
     outputs:
       moderately_sensitive:
-        baseline_overall_2020: output/overall_counts_blt_split_2020.csv
+        baseline_overall_2020: output/overall_counts_blt_2020.csv
         baseline_table_2020: output/blt_one_random_obs_perpat_2020.csv
 
   describe_baseline_table_split_2021:
-    run: r:latest analysis/tables/baseline_table_split_2021.R
+    run: r:latest analysis/tables/baseline_table_2021.R
     needs: [generate_study_population]
     outputs:
       moderately_sensitive:
-        baseline_overall_2021: output/overall_counts_blt_split_2021.csv
+        baseline_overall_2021: output/overall_counts_blt_2021.csv
         baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
     
   describe_baseline_table_split_2022:
-    run: r:latest analysis/tables/baseline_table_split_2022.R
+    run: r:latest analysis/tables/baseline_table_2022.R
     needs: [generate_study_population]
     outputs:
       moderately_sensitive:
-        baseline_overall_2022: output/overall_counts_blt_split_2022.csv
+        baseline_overall_2022: output/overall_counts_blt_2022.csv
         baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
 
   # describe_consultation_rate:
