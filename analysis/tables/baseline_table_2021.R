@@ -128,18 +128,19 @@ df_input$cal_mon <- month(df_input$date)
 df_input$cal_year <- year(df_input$date)
  
 # remove last month data
-last.date=max(df_input$date)
-df=df_input%>% filter(date!=last.date)
-first_mon <- (format(min(df$date), "%m-%Y"))
-last_mon <- (format(max(df$date), "%m-%Y"))
-num_pats <- length(unique(df$patient_id))
-num_pracs <- length(unique(df$practice))
+#last.date=max(df_input$date)
+#df=df_input%>% filter(date!=last.date)
+first_mon <- (format(min(df_input$date), "%m-%Y"))
+last_mon <- (format(max(df_input$date), "%m-%Y"))
+num_pats <- length(unique(df_input$patient_id))
+num_pracs <- length(unique(df_input$practice))
 
 overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs))
 write_csv(overall_counts, here::here("output", "overall_counts_blt_2021.csv"))
   
 ## randomly select one observation for each patient 
 ## in the study period to generate baseline table for service evaluation
+df<-df_input
 df_one_pat <- df %>% dplyr::group_by(patient_id) %>%
   dplyr::arrange(date, .group_by=TRUE) %>%
   sample_n(1)

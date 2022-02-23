@@ -111,15 +111,14 @@ actions:
       moderately_sensitive:
         baseline_overall_2021: output/overall_counts_blt_split_2021.csv
         baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
-
-describe_baseline_table_split_2022:
+    
+  describe_baseline_table_split_2022:
     run: r:latest analysis/tables/baseline_table_split_2022.R
     needs: [generate_study_population]
     outputs:
       moderately_sensitive:
         baseline_overall_2022: output/overall_counts_blt_split_2022.csv
         baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
-
 
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
