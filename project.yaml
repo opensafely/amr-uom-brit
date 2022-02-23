@@ -118,6 +118,7 @@ actions:
     outputs:
       moderately_sensitive:
         baseline_overall_2022: output/overall_counts_blt_2022.csv
+      highly_sensitive:
         baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
 
   # describe_consultation_rate:
