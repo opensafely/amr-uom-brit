@@ -327,7 +327,8 @@ actions:
     needs: [describe_ab_recoded_broad_process]
     outputs:
        moderately_sensitive:
-        plot1: output/broad_proportions_line_age.jpeg
+        plot: output/broad_proportions_line.jpeg
+        table: output/broad_proportions.csv
 
 
   

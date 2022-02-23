@@ -7,48 +7,21 @@ library("lubridate")
 rm(list=ls())
 setwd(here::here("output", "measures"))
 
-Files = list.files(pattern="recorded_ab_broad_", full.names = TRUE)
-temp <- vector("list", length(Files))
+rds1 <- read_rds('recorded_ab_broad_2019.rds')
+rds2 <- read_rds('recorded_ab_broad_2020.rds')
+rds3 <- read_rds('recorded_ab_broad_2021.rds')
+rds4 <- read_rds('recorded_ab_broad_2022.rds')
 
-for (i in seq_along(Files)){
-  
-  DF=read_rds(Files[i])
-  
-  #dat=rbindlist(DF)
-  dat=bind_rows(DF)
-  
-  # filter incident
-  ##dat=dat%>%filter(prevalent==0)
-  
-  # recode
-  dat$infection=recode(dat$infection,
-                       asthma ="Other infection",
-                       cold="Other infection",
-                       cough="Other infection",
-                       copd="Other infection",
-                       pneumonia="Other infection",
-                       renal="Other infection",
-                       sepsis="Other infection",
-                       throat="Other infection",
-                       uti = "UTI",
-                       lrti = "LRTI",
-                       urti = "URTI",
-                       sinusits = "Sinusitis",
-                       otmedia = "Otitis media",
-                       ot_externa = "Otitis externa")
-
-  rm(DF)
-  temp[[i]] = dat
-}
+dat=dplyr::bind_rows(rds1,rds2,rds3,rds4)
 
 last.date=max(dat$date)
-dat=dat%>% filter(date!=last.date)
+dat=dat%>% dplyr::filter(date!=last.date)
 first_mon <- (format(min(dat$date), "%m-%Y"))
 last_mon <- (format(max(dat$date), "%m-%Y"))
 
 
-dfrate <- dat%>% group_by(date) %>% filter(broad_spectrum==1) %>% dplyr::summarise(count = n())
-dftotal <- dat%>% group_by(date) %>% dplyr::summarise(total = n())
+dfrate <- dat%>% dplyr::group_by(date) %>% filter(broad_spectrum==1) %>% dplyr::summarise(count = n())
+dftotal <- dat%>% dplyr::group_by(date) %>% dplyr::summarise(total = n())
 dfprop <- merge(dfrate,dftotal,by='date')
 dfprop$prop <- dfprop$count/dfprop$total
 
@@ -70,5 +43,7 @@ plot
 ## plot
 ggsave(
   plot= plot,
-  filename="broad_proportions_line_age.jpeg", path=here::here("output"),
+  filename="broad_proportions_line.jpeg", path=here::here("output"),
 )  
+
+write_csv(dfprop, here::here("output", "broad_proportions.csv"))
