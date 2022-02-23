@@ -131,10 +131,11 @@ lineplot=ggarrange(lineplot.0, lineplot.1,
           nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-                top = text_grob("Top 10 Antibiotic Types Prescribed for UTI patients", face = "bold", size = 14),
+                #top = text_grob("Top 10 Antibiotic Types Prescribed for UTI patients", face = "bold", size = 14),
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
+                fig.lab ="Top 10 Antibiotic Types Prescribed for UTI patients",
                 left = text_grob("Number of prescriptions per 1000 UTI patients", rot = 90),
 )
 
@@ -269,10 +270,11 @@ lineplot=ggarrange(lineplot.0, lineplot.1,
           nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-                top = text_grob("Top 10 Antibiotic Types Prescribed for LRTI patients", face = "bold", size = 14),
+              #  top = text_grob("Top 10 Antibiotic Types Prescribed for LRTI patients", face = "bold", size = 14),
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
+                 fig.lab ="Top 10 Antibiotic Types Prescribed for LRTI patients",                   
                 left = text_grob("Number of prescriptions per 1000 LRTI patients", rot = 90),
 )
 
@@ -408,10 +410,11 @@ lineplot=ggarrange(lineplot.0, lineplot.1,
           nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-                top = text_grob("Top 10 Antibiotic Types Prescribed for URTI patients", face = "bold", size = 14),
+             #   top = text_grob("Top 10 Antibiotic Types Prescribed for URTI patients", face = "bold", size = 14),
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
+                fig.lab ="Top 10 Antibiotic Types Prescribed for URTI patients",                   
                 left = text_grob("Number of prescriptions per 1000 URTI patients", rot = 90),
 )
 ggsave(
@@ -545,10 +548,11 @@ lineplot=ggarrange(lineplot.0, lineplot.1,
           nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-                top = text_grob("Top 10 Antibiotic Types Prescribed for sinusitis patients", face = "bold", size = 14),
+              #  top = text_grob("Top 10 Antibiotic Types Prescribed for sinusitis patients", face = "bold", size = 14),
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
+                 fig.lab ="Top 10 Antibiotic Types Prescribed for sinusitis patients",                   
                 left = text_grob("Number of prescriptions per 1000 sinusitis patients", rot = 90),
 )
 
@@ -686,10 +690,11 @@ lineplot=ggarrange(lineplot.0, lineplot.1,
           nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-                top = text_grob("Top 10 Antibiotic Types Prescribed for otitis externa patients", face = "bold", size = 14),
+               # top = text_grob("Top 10 Antibiotic Types Prescribed for otitis externa patients", face = "bold", size = 14),
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
+                 fig.lab ="Top 10 Antibiotic Types Prescribed for otitis externa patients",                   
                 left = text_grob("Number of prescriptions per 1000 otitis externa patients", rot = 90),
 )
 
@@ -829,10 +834,11 @@ lineplot=ggarrange(lineplot.0, lineplot.1,
           nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-                top = text_grob("Top 10 Antibiotic Types Prescribed for otitis media patients", face = "bold", size = 14),
+             #   top = text_grob("Top 10 Antibiotic Types Prescribed for otitis media patients", face = "bold", size = 14),
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
+                 fig.lab ="Top 10 Antibiotic Types Prescribed for otitis media patients",                   
                 left = text_grob("Number of prescriptions per 1000 otitis media patients", rot = 90),
 )
 
