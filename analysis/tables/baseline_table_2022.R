@@ -280,7 +280,7 @@ bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, 
 
 
 # columns for baseline table
-colsfortab <- colnames(bltab_vars)[-3] # patient ID, practice id
+colsfortab <- colnames(bltab_vars)[-c(2:3)] # patient ID, practice id
 bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
 write_csv(t, here::here("output", "blt_one_random_obs_perpat_2022.csv"))
