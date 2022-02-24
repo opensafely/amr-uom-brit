@@ -30,32 +30,25 @@ dat$infection=as.character(dat$infection)
 
 # recode
 dat$infection=recode(dat$infection,
-                     asthma ="Other infection",
-                     cold="Other infection",
-                     cough="Other infection",
-                     copd="Other infection",
-                     pneumonia="Other infection",
-                     renal="Other infection",
-                     sepsis="Other infection",
-                     throat="Other infection",
-                     uti = "UTI",
-                     lrti = "LRTI",
-                     urti = "URTI",
-                     sinusits = "Sinusitis",
-                     otmedia = "Otitis media",
-                     ot_externa = "Otitis externa")
+                     asthma ="others",
+                     cold="others",
+                     cough="others",
+                     copd="others",
+                     pneumonia="others",
+                     renal="others",
+                     sepsis="others",
+                     throat="others")
+                  
 
 
 # recode empty value
-dat$infection=ifelse(dat$infection=="","Uncoded",dat$infection)
+dat$infection=ifelse(dat$infection=="","uncoded",dat$infection)
 
-# reorder
-dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis media","Sinusitis","URTI","UTI","Other infection","Uncoded"))
 
 # patient number
 #dat=dat%>%dplyr::group_by(date)%>%mutate(patient=length(unique(patient_id)))
 
-# select incident
+# select prevalent
 dat=dat%>%filter(prevalent==0)
 
 # summarise ab counts for infection
@@ -65,26 +58,43 @@ dat=dat%>%group_by(date)%>%mutate(total=sum(count))
 # percentage
 dat$value=dat$count/dat$total
 
-# plot
-abtype_bar <- ggplot(dat,aes(x=date, y=value, color=infection)) + 
-  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col()+
-  labs(
-    fill = "Infections",
-    title = "Prevalent antibiotic prescriptions with infection records",
-    #subtitle = paste(first_mon,"-",last_mon),
-    caption = "Grey shading represents national lockdown time. ",
-    y = "Percentage",
-    x=""
-  )+
-  theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)+
-  scale_color_manual(values = c("red","darkorchid1","goldenrod2","green","forestgreen","darkblue","deepskyblue","azure4"))
 
-abtype_bar
+# recode
+dat$infection=recode(dat$infection,
+                     others = "Other infections",
+                     uti = "UTI",
+                     lrti = "LRTI",
+                     urti = "URTI",
+                     sinusits = "Sinusitis",
+                     otmedia = "Otitis media",
+                     ot_externa = "Otitis externa",
+                     uncoded = "Uncoded")
+# reorder
+dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis media","Sinusitis","URTI","UTI","Other infections","Uncoded"))
+
+
+
+
+# # plot
+# abtype_bar <- ggplot(dat,aes(x=date, y=value, color=infection)) + 
+#   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+#   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+#   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+#   geom_col()+
+#   labs(
+#     fill = "Infections",
+#     title = "Prevalent antibiotic prescriptions with infection records",
+#     #subtitle = paste(first_mon,"-",last_mon),
+#     caption = "Grey shading represents national lockdown time. ",
+#     y = "Percentage",
+#     x=""
+#   )+
+#   theme(axis.text.x=element_text(angle=60,hjust=1))+
+#   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+#   scale_y_continuous(labels = scales::percent)+
+#   scale_color_manual(values = c("red","darkorchid1","goldenrod2","green","forestgreen","darkblue","deepskyblue","azure4"))
+
+# abtype_bar
 
 
 ## # line graph-percent
@@ -97,7 +107,7 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Infections",
-    title = "Prevalent antibiotic prescriptions with infection records",
+    title = "Incident antibiotic prescriptions with an infection code recorded",
     #  subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -109,7 +119,7 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   scale_shape_manual(values = c(rep(1:8))) +
   scale_color_manual(values = c("red","darkorchid1","goldenrod2","green","forestgreen","darkblue","deepskyblue","azure4"))
 
-lineplot
+
 
 # ggsave(
 #   plot= abtype_bar,
