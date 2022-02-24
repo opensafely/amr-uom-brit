@@ -684,75 +684,75 @@ study = StudyDefinition(
 # --UTI
     hx_ab_uti_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_1 - 90 days", " uti_date_1"],
+        between=["uti_date_1 - 91 days", " uti_date_1 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_uti_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_2 - 90 days", " uti_date_2"],
+        between=["uti_date_2 - 91 days", " uti_date_2 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_uti_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_3 - 90 days", " uti_date_3"],
+        between=["uti_date_3 - 91 days", " uti_date_3 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_uti_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["uti_date_4 - 90 days", " uti_date_4"],
+        between=["uti_date_4 - 91 days", " uti_date_4 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 # --URTI
     hx_ab_urti_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_1 - 90 days", " urti_date_1"],
+        between=["urti_date_1 - 91 days", " urti_date_1 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_urti_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_2 - 90 days", " urti_date_2"],
+        between=["urti_date_2 - 91 days", " urti_date_2 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_urti_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_3 - 90 days", " urti_date_3"],
+        between=["urti_date_3 - 91 days", " urti_date_3 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_urti_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["urti_date_4 - 90 days", " urti_date_4"],
+        between=["urti_date_4 - 91 days", " urti_date_4 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 # -- LRTI
     hx_ab_lrti_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_1 - 90 days", " lrti_date_1"],
+        between=["lrti_date_1 - 91 days", " lrti_date_1 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_lrti_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_2 - 90 days", " lrti_date_2"],
+        between=["lrti_date_2 - 91 days", " lrti_date_2 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_lrti_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_3 - 90 days", " lrti_date_3"],
+        between=["lrti_date_3 - 91 days", " lrti_date_3 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_lrti_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["lrti_date_4 - 90 days", " lrti_date_4"],
+        between=["lrti_date_4 - 91 days", " lrti_date_4 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
@@ -760,25 +760,25 @@ study = StudyDefinition(
 # -- sisusitis
     hx_ab_sinusitis_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_1 - 90 days", " sinusitis_date_1"],
+        between=["sinusitis_date_1 - 91 days", " sinusitis_date_1 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_sinusitis_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_2 - 90 days", " sinusitis_date_2"],
+        between=["sinusitis_date_2 - 91 days", " sinusitis_date_2 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_sinusitis_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_3 - 90 days", " sinusitis_date_3"],
+        between=["sinusitis_date_3 - 91 days", " sinusitis_date_3 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_sinusitis_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["sinusitis_date_4 - 90 days", " sinusitis_date_4"],
+        between=["sinusitis_date_4 - 91 days", " sinusitis_date_4 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
@@ -786,53 +786,56 @@ study = StudyDefinition(
 
     hx_ab_otmedia_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_1 - 90 days", " otmedia_date_1"],
+        between=["otmedia_date_1 - 91 days", " otmedia_date_1 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_otmedia_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_2 - 90 days", " otmedia_date_2"],
+        between=["otmedia_date_2 - 91 days", " otmedia_date_2 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_otmedia_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_3 - 90 days", " otmedia_date_3"],
+        between=["otmedia_date_3 - 91 days", " otmedia_date_3 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_otmedia_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["otmedia_date_4 - 90 days", " otmedia_date_4"],
+        between=["otmedia_date_4 - 91 days", " otmedia_date_4 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 # ot_externa
     hx_ab_ot_externa_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_1 - 90 days", " ot_externa_date_1"],
+        between=["ot_externa_date_1 - 91 days", " ot_externa_date_1 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_ot_externa_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_2 - 90 days", " ot_externa_date_2"],
+        between=["ot_externa_date_2 - 91 days", " ot_externa_date_2 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_ot_externa_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_3 - 90 days", " ot_externa_date_3"],
+        between=["ot_externa_date_3 - 91 days", " ot_externa_date_3 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
     hx_ab_ot_externa_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["ot_externa_date_4 - 90 days", " ot_externa_date_4"],
+        between=["ot_externa_date_4 - 91 days", " ot_externa_date_4 - 1 day"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
+
+
+
 
 
 )
