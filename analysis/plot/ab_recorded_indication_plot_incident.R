@@ -111,10 +111,10 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
 
 lineplot
 
-ggsave(
-  plot= abtype_bar,
-  filename="ab_recorded_prevalent_bar.jpeg", path=here::here("output"),
-)
+# ggsave(
+#   plot= abtype_bar,
+#   filename="ab_recorded_prevalent_bar.jpeg", path=here::here("output"),
+# )
 ggsave(
   plot= lineplot,
   filename="ab_recorded_prevalent_line.jpeg", path=here::here("output"),
