@@ -311,7 +311,7 @@ actions:
     needs: [describe_ab_recoded_broad_process] # transfrom & define all variables
     outputs:
        moderately_sensitive:
-        #plot1: output/ab_recorded_incident_bar.jpeg
+        plot1: output/ab_recorded_incident_bar.jpeg
         plot2: output/ab_recorded_incident_line.jpeg
         csv: output/ab_recorded_incident.csv
 
@@ -320,7 +320,7 @@ actions:
     needs: [describe_ab_recoded_broad_process]
     outputs:
        moderately_sensitive:
-        #plot1: output/ab_recorded_prevalent_bar.jpeg
+        plot1: output/ab_recorded_prevalent_bar.jpeg
         plot2: output/ab_recorded_prevalent_line.jpeg
         csv: output/ab_recorded_prevalent.csv
     

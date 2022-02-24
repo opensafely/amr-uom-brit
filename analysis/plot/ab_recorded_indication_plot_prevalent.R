@@ -77,25 +77,23 @@ dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis 
 
 
 # # plot
-# abtype_bar <- ggplot(dat,aes(x=date, y=value, color=infection)) + 
-#   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-#   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-#   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-#   geom_col()+
-#   labs(
-#     fill = "Infections",
-#     title = "Prevalent antibiotic prescriptions with infection records",
-#     #subtitle = paste(first_mon,"-",last_mon),
-#     caption = "Grey shading represents national lockdown time. ",
-#     y = "Percentage",
-#     x=""
-#   )+
-#   theme(axis.text.x=element_text(angle=60,hjust=1))+
-#   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-#   scale_y_continuous(labels = scales::percent)+
-#   scale_color_manual(values = c("red","darkorchid1","goldenrod2","green","forestgreen","darkblue","deepskyblue","azure4"))
-
-# abtype_bar
+abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_col(color="white")+
+  labs(
+    fill = "Infections",
+    title = "Prevalent antibiotic prescriptions with an infection code recorded",
+    #subtitle = paste(first_mon,"-",last_mon),
+    caption = "Grey shading represents national lockdown time. ",
+    y = "Percentage",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_manual(values = c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 
 
 ## # line graph-percent
@@ -118,14 +116,14 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
   scale_shape_manual(values = c(rep(1:8))) +
-  scale_color_manual(values = c("red","darkorchid1","goldenrod2","green","forestgreen","darkblue","deepskyblue","azure4"))
+  scale_color_manual(values =c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 
 
 
-# ggsave(
-#   plot= abtype_bar,
-#   filename="ab_recorded_prevalent_bar.jpeg", path=here::here("output"),
-# )
+ggsave(
+  plot= abtype_bar,
+  filename="ab_recorded_prevalent_bar.jpeg", path=here::here("output"),
+)
 ggsave(
   plot= lineplot,
   filename="ab_recorded_prevalent_line.jpeg", path=here::here("output"),
