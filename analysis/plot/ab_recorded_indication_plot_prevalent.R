@@ -12,57 +12,13 @@ setwd(here::here("output", "measures"))
 
 
 
-# file list
-Files = list.files(pattern="recorded_ab_20", full.names = TRUE)
-temp <- vector("list", length(Files))
-
-for (i in seq_along(Files)){
-  
-DF=read_rds(Files[i])
-
-#dat=rbindlist(DF)
-dat=bind_rows(DF)
-
-# filter prevalent
-dat=dat%>%filter(prevalent==1)%>%select(patient_id,date,infection)
-
-# # recorde date into year-month
-# dat$date=format(dat$date,"%Y-%m")
-# dat$date=as.Date(paste0(dat$date,"-01"))
-
-# recode
-dat$infection=recode(dat$infection,
-                 asthma ="Other infection",
-                 cold="Other infection",
-                 cough="Other infection",
-                 copd="Other infection",
-                 pneumonia="Other infection",
-                 renal="Other infection",
-                 sepsis="Other infection",
-                 throat="Other infection",
-                 uti = "UTI",
-                 lrti = "LRTI",
-                 urti = "URTI",
-                 sinusits = "Sinusitis",
-                 otmedia = "Otitis media",
-                 ot_externa = "Otitis externa")
- 
-# patient number
-dat$patient=length(unique(as.factor(dat$patient_id)))
-
-# infection counts               
-dat.sum=dat%>%group_by(date, infection)%>%
-  summarise(count=n(),
-            patient=mean(patient)) # equal in each row
-
-rm(dat,DF)
-temp[[i]] = dat.sum
-}
-
-# combine list->data.frame
-dat=bind_rows(temp)
-
-rm(temp,dat.sum,i,Files)
+# read in files
+df19=read_rds("recorded_ab_broad_2019.rds")
+df20=read_rds("recorded_ab_broad_2020.rds")
+df21=read_rds("recorded_ab_broad_2021.rds")
+df22=read_rds("recorded_ab_broad_2022.rds")
+dat=bind_rows(df19,df20,df21,df22)
+rm(df19,df20,df21,df22)
 
 # remove last month data
 last.date=max(dat$date)
@@ -70,25 +26,65 @@ dat=dat%>% filter(date != last.date)
 first_mon=format(min(dat$date),"%m-%Y")
 last_mon= format(max(dat$date),"%m-%Y")
 
+# define variables
+dat$prevalent=as.factor(dat$prevalent)
+dat$infection=as.character(dat$infection)
 
-# recode NA
-dat$infection=dat$infection %>% replace_na("Uncoded")
+# recode
+dat$infection=recode(dat$infection,
+                     asthma ="others",
+                     cold="others",
+                     cough="others",
+                     copd="others",
+                     pneumonia="others",
+                     renal="others",
+                     sepsis="others",
+                     throat="others")
+                  
 
+
+# recode empty value
+dat$infection=ifelse(dat$infection=="","uncoded",dat$infection)
+
+
+# patient number
+#dat=dat%>%dplyr::group_by(date)%>%mutate(patient=length(unique(patient_id)))
+
+# select prevalent
+dat=dat%>%filter(prevalent==0)
+
+# summarise ab counts for infection
+dat=dat%>%group_by(date,infection)%>%summarise(count=n())
+# total antibiotics count per month
+dat=dat%>%group_by(date)%>%mutate(total=sum(count))
+# percentage
+dat$value=dat$count/dat$total
+
+
+# recode
+dat$infection=recode(dat$infection,
+                     others = "Other infections",
+                     uti = "UTI",
+                     lrti = "LRTI",
+                     urti = "URTI",
+                     sinusits = "Sinusitis",
+                     otmedia = "Otitis media",
+                     ot_externa = "Otitis externa",
+                     uncoded = "Uncoded")
 # reorder
-dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis media","Sinusitis","URTI","UTI","Other infection","Uncoded"))
+dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis externa","Otitis media","Sinusitis","URTI","UTI","Other infections","Uncoded"))
 
-# calculate rate= prescriptions/ number of patients
-dat$value=dat$count/dat$patient
 
-# plot
+
+# # plot
 abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) + 
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_bar(color="white",position="fill", stat="identity")+
+  geom_col(color="white")+
   labs(
     fill = "Infections",
-    title = "Prevalent antibiotic prescriptions with infection records",
+    title = "Prevalent antibiotic prescriptions with an infection code recorded",
     #subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -96,8 +92,8 @@ abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) +
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_manual(values = c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 
 
 ## # line graph-percent
@@ -106,18 +102,21 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line()+
+  geom_point(aes(shape=infection))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Infections",
-    title = "Prevalent antibiotic prescriptions with infection records",
-  #  subtitle = paste(first_mon,"-",last_mon),
+    title = "Prevalent antibiotic prescriptions with an infection code recorded",
+    #  subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-   scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  scale_shape_manual(values = c(rep(1:8))) +
+  scale_color_manual(values =c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 
 
 
@@ -131,5 +130,3 @@ ggsave(
 ) 
 
 write_csv(dat, here::here("output", "ab_recorded_prevalent.csv"))
-
-
