@@ -341,6 +341,23 @@ actions:
         plot: output/broad_proportions_line.jpeg
         table: output/broad_proportions.csv
 
+  describe_basic_record_process:
+    run: r:latest analysis/process/broad_model_varibales_transform.R
+    needs: [generate_study_population]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/basic_record_2019.rds
+        rds2: output/measures/basic_record_2020.rds
+        rds3: output/measures/basic_record_2021.rds
+        rds4: output/measures/basic_record_2022.rds
+
+  describe_pre_covid_model:
+    run: r:latest analysis/model/broad_spect_model.R
+    needs: [describe_basic_record_process,describe_ab_recoded_broad_process]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/m1.rds
+        doc2: output/measures/m2.rds
 
   
 
