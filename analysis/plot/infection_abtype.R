@@ -50,8 +50,8 @@ DF.top10.1=df.1%>%
 df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No Antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No Antibiotics"))# reorder
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
 df.plot.1=df.1%>%group_by(type,date)%>%
@@ -76,8 +76,8 @@ DF.top10.0=df.0%>%
 df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No Antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No Antibiotics"))# reorder
+df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
+df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
 
 # summarise data
@@ -189,8 +189,8 @@ DF.top10.1=df.1%>%
 df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No Antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No Antibiotics"))# reorder
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
 df.plot.1=df.1%>%group_by(type,date)%>%
@@ -215,8 +215,8 @@ DF.top10.0=df.0%>%
 df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No Antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No Antibiotics"))# reorder
+df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
+df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
 
 # summarise data
@@ -329,8 +329,8 @@ DF.top10.1=df.1%>%
 df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No Antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No Antibiotics"))# reorder
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
 df.plot.1=df.1%>%group_by(type,date)%>%
@@ -355,8 +355,8 @@ DF.top10.0=df.0%>%
 df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No Antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No Antibiotics"))# reorder
+df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
+df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
 
 # summarise data
@@ -467,8 +467,8 @@ DF.top10.1=df.1%>%
 df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No Antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No Antibiotics"))# reorder
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
 df.plot.1=df.1%>%group_by(type,date)%>%
@@ -493,8 +493,8 @@ DF.top10.0=df.0%>%
 df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No Antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No Antibiotics"))# reorder
+df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
+df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
 
 # summarise data
@@ -609,8 +609,8 @@ DF.top10.1=df.1%>%
 df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No Antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No Antibiotics"))# reorder
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
 df.plot.1=df.1%>%group_by(type,date)%>%
@@ -635,8 +635,8 @@ DF.top10.0=df.0%>%
 df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No Antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No Antibiotics"))# reorder
+df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
+df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
 
 # summarise data
@@ -753,8 +753,8 @@ DF.top10.1=df.1%>%
 df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No Antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No Antibiotics"))# reorder
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
 df.plot.1=df.1%>%group_by(type,date)%>%
@@ -779,8 +779,8 @@ DF.top10.0=df.0%>%
 df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
 
 # recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No Antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No Antibiotics"))# reorder
+df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
+df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
 
 # summarise data
@@ -848,6 +848,7 @@ ggsave(
 ) 
 
 write_csv(df, here::here("output", "abtype_otmedia.csv"))
+
 
 
 
