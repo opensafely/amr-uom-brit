@@ -135,7 +135,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                fig.lab ="Top 10 Antibiotic Types Prescribed for UTI patients",
+                 fig.lab =paste0("Top 10 antibiotic types prescribed for UTI patients       ",
+                                         first_mon," - ",last_mon),
                 left = text_grob("Number of prescriptions per 1000 UTI patients", rot = 90),
 )
 
@@ -274,7 +275,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                 fig.lab ="Top 10 Antibiotic Types Prescribed for LRTI patients",                   
+                fig.lab =paste0("Top 10 antibiotic types prescribed for LRTI patients       ",
+                                         first_mon," - ",last_mon),                  
                 left = text_grob("Number of prescriptions per 1000 LRTI patients", rot = 90),
 )
 
@@ -414,7 +416,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                fig.lab ="Top 10 Antibiotic Types Prescribed for URTI patients",                   
+               fig.lab =paste0("Top 10 antibiotic types prescribed for URTI patients       ",
+                                         first_mon," - ",last_mon),    
                 left = text_grob("Number of prescriptions per 1000 URTI patients", rot = 90),
 )
 ggsave(
@@ -552,7 +555,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                 fig.lab ="Top 10 Antibiotic Types Prescribed for sinusitis patients",                   
+                fig.lab =paste0("Top 10 antibiotic types prescribed for sinusitis patients       ",
+                                         first_mon," - ",last_mon),                      
                 left = text_grob("Number of prescriptions per 1000 sinusitis patients", rot = 90),
 )
 
@@ -694,7 +698,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                 fig.lab ="Top 10 Antibiotic Types Prescribed for otitis externa patients",                   
+                fig.lab =paste0("Top 10 antibiotic types prescribed for otitis externa patients       ",
+                                         first_mon," - ",last_mon),                        
                 left = text_grob("Number of prescriptions per 1000 otitis externa patients", rot = 90),
 )
 
@@ -838,7 +843,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                 fig.lab ="Top 10 Antibiotic Types Prescribed for otitis media patients",                   
+                fig.lab =paste0("Top 10 antibiotic types prescribed for otitis media patients       ",
+                                         first_mon," - ",last_mon),                      
                 left = text_grob("Number of prescriptions per 1000 otitis media patients", rot = 90),
 )
 
@@ -848,6 +854,7 @@ ggsave(
 ) 
 
 write_csv(df, here::here("output", "abtype_otmedia.csv"))
+
 
 
 
