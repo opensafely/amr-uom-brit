@@ -135,7 +135,8 @@ lineplot=annotate_figure(lineplot,
                 bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                    hjust = 1, x = 1, size = 10),
-                fig.lab ="Top 10 Antibiotic Types Prescribed for UTI patients",
+                fig.lab =paste0("Top 10 Antibiotic Types Prescribed for UTI patients",
+                first_mon,"-",last_mon)
                 left = text_grob("Number of prescriptions per 1000 UTI patients", rot = 90),
 )
 
