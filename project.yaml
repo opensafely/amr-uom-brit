@@ -85,7 +85,7 @@ actions:
     needs: [generate_study_population_hospitalisation]
     outputs:
       moderately_sensitive:
-        notebook: output/hospitalisation_prediction/hospitalisation_prediction_uti.html 
+        notebook: output/hospitalisation_prediction_uti/hospitalisation_prediction_uti.html 
         figures: output/hospitalisation_prediction_uti/*
   
   generate_notebook_hospitalisation_prediction:
