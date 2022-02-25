@@ -211,6 +211,12 @@ actions:
         csv1: output/consultation_rate_prevalent.csv
         csv2: output/consultation_GP_rate_prevalent.csv
 
+  check_consultation_model: #  
+    run: r:latest -e 'rmarkdown::render("analysis/process/check_consultation_model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_measures_infection,describe_ab_recoded_broad_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_consultation_model.html
 
   # # describe_infection_prescribed_percent:
   # #   run: r:latest analysis/plot/infection_prescibed_percent.R
