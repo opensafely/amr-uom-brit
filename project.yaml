@@ -212,8 +212,8 @@ actions:
         csv2: output/consultation_GP_rate_prevalent.csv
 
   check_consultation_model: #  
-    run: r:latest -e 'rmarkdown::render("analysis/process/check_consultation_model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [generate_measures_infection,describe_ab_recoded_broad_process]
+    run: r:latest -e 'rmarkdown::render("analysis/process/check_consultation_model.Rmd", output_dir = "output")'
+    needs: [generate_measures_infection, describe_basic_record_process]
     outputs:
       moderately_sensitive:
         html: output/check_consultation_model.html

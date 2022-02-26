@@ -10,6 +10,7 @@ tutorial. https://stats.oarc.ucla.edu/r/dae/negative-binomial-regression/
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 ## Methods 
@@ -22,7 +23,7 @@ library("data.table")
 library("dplyr")
 library("tidyverse")
 library("MASS")
-library("gtsummary")
+#library("gtsummary")
 ```
 
 
@@ -31,16 +32,18 @@ library("gtsummary")
 #### 01.  extracted variables from "basic_record_20_"
 
 ```{r }
-#setwd(here::here("output", "measures"))
-#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
-df19 = readRDS(here::here("output","measures","basic_record_2019.rds"))
+#df19 = read_rds(here("output","measures","basic_record_2019.rds"))
+#df19 = read_rds("basic_record_2019.rds")
+#df19=df19%>% dplyr::select(practice,region)
+
+df19 = read_rds(here::here("output","measures","basic_record_2019.rds"))
 df19=df19%>% dplyr::select(practice,region)
 
-df20 = readRDS(here::here("output","measures","basic_record_2020.rds"))
+df20 = read_rds(here::here("output","measures","basic_record_2020.rds"))
 df20=df20%>% dplyr::select(practice,region)
 
-df21 = readRDS(here::here("output","measures","basic_record_2021.rds"))
+df21 = read_rds(here::here("output","measures","basic_record_2021.rds"))
 df21=df21%>% dplyr::select(practice,region)
 
 region=rbind(df19,df20,df21)
@@ -110,7 +113,7 @@ df$age_cat <- factor(df$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44",
 # Description of data
 ```{r}
 
-df=df%>%select(covid, region, age_cat, month, hx_pt, infection_counts,population)
+df=df%>%dplyr::select(covid, region, age_cat, month, hx_pt, infection_counts,population)
 df$rate=df$infection_counts/df$population*1000
 
  # tbl_summary(
