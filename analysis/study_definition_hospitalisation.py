@@ -2218,6 +2218,123 @@ study = StudyDefinition(
         """,
     ),
 
+    #lrti
+    ## Covid positive test result during hospital admission related to lrti
+    sgss_pos_covid_date_lrti_1=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["gp_cons_lrti_1 - 90 days", "gp_cons_lrti_1 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis during hospital admission related to lrti
+    gp_covid_date_lrti_1=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["gp_cons_lrti_1 - 90 days", "gp_cons_lrti_1 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
+    sgss_gp_cov_lrti_date_1=patients.satisfying(
+        """
+        sgss_pos_covid_date_lrti_1 OR
+        gp_covid_date_lrti_1
+        """,
+    ),
+
+    ## Covid positive test result
+    sgss_pos_covid_date_lrti_2=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["gp_cons_lrti_2 - 90 days", "gp_cons_lrti_2 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_lrti_2=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["gp_cons_lrti_2 - 90 days", "gp_cons_lrti_2 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
+    sgss_gp_cov_lrti_date_2=patients.satisfying(
+        """
+        sgss_pos_covid_date_lrti_2 OR
+        gp_covid_date_lrti_2
+        """,
+    ),
+
+    ## Covid positive test result
+    sgss_pos_covid_date_lrti_3=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["gp_cons_lrti_3 - 90 days", "gp_cons_lrti_3 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_lrti_3=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["gp_cons_lrti_3 - 90 days", "gp_cons_lrti_3 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
+    sgss_gp_cov_lrti_date_3=patients.satisfying(
+        """
+        sgss_pos_covid_date_lrti_3 OR
+        gp_covid_date_lrti_3
+        """,
+    ),
+
+    ## Covid positive test result
+    sgss_pos_covid_date_lrti_4=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["gp_cons_lrti_4 - 90 days", "gp_cons_lrti_4 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_lrti_4=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["gp_cons_lrti_4 - 90 days", "gp_cons_lrti_4 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
+    sgss_gp_cov_lrti_date_4=patients.satisfying(
+        """
+        sgss_pos_covid_date_lrti_4 OR
+        gp_covid_date_lrti_4
+        """,
+    ),
+
     ######### comorbidities
 
     cancer_comor=patients.with_these_clinical_events(
