@@ -231,7 +231,7 @@ summary(m1 <- glm.nb(infection_counts~ covid + region + age_cat + month+ hx_pt, 
 ##### 02. y= rate (infection counts/population*1000)
 ```{r}
 
-summary(m1.2 <- glm.nb(rate~ covid + region + age_cat + month+ hx_pt, data = df))
+#summary(m1.2 <- glm.nb(rate~ covid + region + age_cat + month+ hx_pt, data = df))
 
 ```
 
@@ -239,7 +239,7 @@ summary(m1.2 <- glm.nb(rate~ covid + region + age_cat + month+ hx_pt, data = df)
 ##### 03. offset
 
 ```{r}
-summary(m1.3 <- glm.nb(infection_counts~ offset(log(population))+ covid + region + age_cat + month+ hx_pt, data = df))
+#summary(m1.3 <- glm.nb(infection_counts~ offset(log(population))+ covid + region + age_cat + month+ hx_pt, data = df))
 
 #summary(m1.3 <- glm(infection_counts~offset(log(population)) + covid + region + age_cat + month+ hx_pt, family=negative.binomial(m1$theta), data = df))
 
