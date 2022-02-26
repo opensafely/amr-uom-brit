@@ -15,7 +15,7 @@ knitr::opts_knit$set(root.dir = '/workspace')
 
 ## Methods 
 
-Interrupted time-series analyses are conducted to compare the difference of consultation rate before and during pandemic. Pre-pandemic period for Covid-19 is defined as 1st January 2019 to 31st December 2019, and the post-pandemic period for Covid-19 is defined as 1st April 2020 to 31st December 2021. Assessment period is defined as every month to acquire the counts of infection consultations and the number of populations. Negative binomial regression model is used to adjust for regions, age categories, month(seasonality), and indecent_label for 6 types of infections. 
+Interrupted time-series analyses are conducted to compare the difference of consultation rate before and during pandemic. Pre-pandemic period for Covid-19 is defined as 1st January 2019 to 31st December 2019, and the pandemic period is defined as 1st April 2020 to 31st December 2021. Assessment period is defined as every month to acquire the counts of infection consultations and the number of populations. Negative binomial regression model is used to adjust for regions, age categories, month(seasonality), and indecent or prevalent infections for 6 types of infections. 
 
 ```{r message=FALSE}
 library("ggplot2")
@@ -131,7 +131,7 @@ df$rate=df$infection_counts/df$population*1000
 
 
 ## Distribution of infection counts
-This plot showed the distribution of infection consultation counts among independent variables.
+This plot showed the distribution of infection consultation counts by each independent variable.
 If discrepancies of distribution are observed, those may be predictors to infection consultation change.
 
 #### covid time
@@ -162,7 +162,7 @@ ggplot(df, aes(infection_counts, fill =age_cat )) +
 
 ```
 
-#### month (seasonality)
+#### seasonality: month 
 
 ```{r}
 ggplot(df, aes(infection_counts, fill =month )) + 
@@ -172,7 +172,7 @@ ggplot(df, aes(infection_counts, fill =month )) +
 ```
 
 
-#### prevalent:same infection in recent 90 days before index
+#### prevalent: with same infection before recent 90 days of index date
 
 ```{r}
 ggplot(df, aes(infection_counts, fill =hx_pt )) + 
@@ -187,6 +187,8 @@ ggplot(df, aes(infection_counts, fill =hx_pt )) +
 
 ### check over-dispersion
 If the variances within each level of independent variables are higher than the means, which suggest data presented over-dispersion, then need to use Negative Binomial model.
+
+output returning mean(SD):
 
 ```{r}
 # covid time
@@ -225,8 +227,8 @@ summary(m1 <- glm.nb(infection_counts ~ covid + region + age_cat + month+ hx_pt,
 
 ```
 
-### compare models without covid time
-Since covid time is considered as the most important variables of interest, so can compare two models with and without covid time.
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
 If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
 ```{r}
 m2 <- update(m1, . ~ . - covid)
