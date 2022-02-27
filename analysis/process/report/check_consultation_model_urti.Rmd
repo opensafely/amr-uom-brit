@@ -1,0 +1,260 @@
+---
+title: "COVID impact on onsultation rate"
+author: "YT Y"
+date: "25/02/2022"
+output: html_document
+---
+
+## Negative binomial regression
+tutorial. https://stats.oarc.ucla.edu/r/dae/negative-binomial-regression/ 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+## Methods 
+
+Interrupted time-series analyses are conducted to compare the difference of consultation rate before and during pandemic. Pre-pandemic period for Covid-19 is defined as 1st January 2019 to 31st December 2019, and the pandemic period is defined as 1st April 2020 to 31st December 2021. Assessment period is defined as every month to acquire the counts of infection consultations and the number of populations. Negative binomial regression model is used to adjust for regions, age categories, month(seasonality), and indecent or prevalent infections for 6 types of infections. 
+
+```{r message=FALSE}
+library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+library("MASS")
+#library("gtsummary")
+```
+
+
+### Import data
+
+#### 01.  extracted variables from "basic_record_20_"
+
+```{r }
+
+#df19 = read_rds(here("output","measures","basic_record_2019.rds"))
+#df19 = read_rds("basic_record_2019.rds")
+#df19=df19%>% dplyr::select(practice,region)
+
+df19 = read_rds(here::here("output","measures","basic_record_2019.rds"))
+df19=df19%>% dplyr::select(practice,region)
+
+df20 = read_rds(here::here("output","measures","basic_record_2020.rds"))
+df20=df20%>% dplyr::select(practice,region)
+
+df21 = read_rds(here::here("output","measures","basic_record_2021.rds"))
+df21=df21%>% dplyr::select(practice,region)
+
+region=rbind(df19,df20,df21)
+region=region%>%distinct(practice, .keep_all = TRUE)
+
+rm(df19,df20,df21) 
+```
+
+
+#### 02. read measures_urti
+```{r}
+
+### 1.3 URTI
+#import data 
+
+df <- read_csv(
+  here::here("output", "measures", "measure_infection_consult_URTI.csv"), 
+  col_types = cols_only(
+    
+   # Identifier
+    practice = col_integer(),
+    
+    #Outcomes
+    urti_counts  = col_double(), 
+    population  = col_double(),
+    hx_urti_pt = col_double(),
+    age_cat = col_character(),
+    value = col_double(),
+    
+   # Date
+    date = col_date(format="%Y-%m-%d")
+    
+  ),
+  na = character()
+)
+df$date <- as.Date(df$date)
+
+df=df%>% rename(infection_counts=urti_counts, hx_pt=hx_urti_pt)
+
+df[is.na(df)] <- 0 # replace NA ->0
+
+```
+
+#### 03. add variables
+```{r}
+# add region variables
+df=merge(df,region, by= "practice")
+rm(region)
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+# month for adjust seasonality
+df$month=format(df$date,"%m")
+
+
+# sort age
+df$age_cat <- factor(df$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+```
+
+
+# Description of data
+```{r}
+
+df=df%>%dplyr::select(covid, region, age_cat, month, hx_pt, infection_counts,population)
+df$rate=df$infection_counts/df$population*1000
+
+ # tbl_summary(
+  #  df,
+   # by = covid, # split table by group
+ #   missing = "no" # don't list missing data separately
+  #) %>%
+  #add_n() %>% # add column with total number of non-missing observations
+  #modify_header(label = "**Variable**") %>% # update the column header
+  #bold_labels() 
+
+```
+
+
+
+
+## Distribution of infection counts
+This plot showed the distribution of infection consultation counts by each independent variable.
+If discrepancies of distribution are observed, those may be predictors to infection consultation change.
+
+#### covid time
+
+```{r}
+ggplot(df, aes(infection_counts, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. , margins = TRUE, scales = "free")
+
+```
+
+#### region
+
+```{r}
+ggplot(df, aes(infection_counts, fill =region )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(region~. , margins = TRUE, scales = "free")
+
+```
+
+
+#### age_cat
+
+```{r}
+ggplot(df, aes(infection_counts, fill =age_cat )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(age_cat~. , margins = TRUE, scales = "free")
+
+```
+
+#### seasonality: month 
+
+```{r}
+ggplot(df, aes(infection_counts, fill =month )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(month~. , margins = TRUE, scales = "free")
+
+```
+
+
+#### prevalent: with same infection before recent 90 days of index date
+
+```{r}
+ggplot(df, aes(infection_counts, fill =hx_pt )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(hx_pt~. , margins = TRUE, scales = "free")
+
+```
+
+
+
+
+
+### check over-dispersion
+If the variances within each level of independent variables are higher than the means, which suggest data presented over-dispersion, then need to use Negative Binomial model.
+
+output returning mean(SD):
+
+```{r}
+# covid time
+with(df, tapply(infection_counts, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# region
+with(df, tapply(infection_counts, region, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# age_cat
+with(df, tapply(infection_counts, age_cat, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# month
+with(df, tapply(infection_counts, month, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# prevalent
+with(df, tapply(infection_counts, hx_pt, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+```
+
+
+### Negative binomial regression analysis
+
+##### 01. y=infection counts
+```{r}
+
+summary(m1 <- glm.nb(infection_counts~ covid + region + age_cat + month+ hx_pt, data = df))
+
+```
+
+##### 02. y= rate (infection counts/population*1000)
+```{r}
+
+#summary(m1.2 <- glm.nb(rate~ covid + region + age_cat + month+ hx_pt, data = df))
+
+```
+
+
+##### 03. offset
+
+```{r}
+#summary(m1.3 <- glm.nb(infection_counts~ offset(log(population))+ covid + region + age_cat + month+ hx_pt, data = df))
+
+#summary(m1.3 <- glm(infection_counts~offset(log(population)) + covid + region + age_cat + month+ hx_pt, family=negative.binomial(m1$theta), data = df))
+
+```
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1, . ~ . - covid)
+anova(m1, m2)
+```
+
+
