@@ -232,12 +232,12 @@ actions:
       moderately_sensitive:
         html: output/report/check_consultation_model_lrti.html
 
-  check_consultation_model_sisusitis: #  
-    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_sisusitis.Rmd", output_dir = "output/report")'
+  check_consultation_model_sinusitis: #  
+    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_sinusitis.Rmd", output_dir = "output/report")'
     needs: [generate_measures_infection, describe_basic_record_process]
     outputs:
       moderately_sensitive:
-        html: output/report/check_consultation_model_sisusitis.html
+        html: output/report/check_consultation_model_sinusitis.html
 
   check_consultation_model_ot_externa: #  
     run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_ot_externa.Rmd", output_dir = "output/report")'
@@ -246,12 +246,12 @@ actions:
       moderately_sensitive:
         html: output/report/check_consultation_model_ot_externa.html
 
-  check_consultation_model_ot_media: #  
-    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_ot_media.Rmd", output_dir = "output/report")'
+  check_consultation_model_otmedia: #  
+    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_otmedia.Rmd", output_dir = "output/report")'
     needs: [generate_measures_infection, describe_basic_record_process]
     outputs:
       moderately_sensitive:
-        html: output/report/check_consultation_model_ot_media.html
+        html: output/report/check_consultation_model_otmedia.html
 
 
   # # describe_infection_prescribed_percent:
