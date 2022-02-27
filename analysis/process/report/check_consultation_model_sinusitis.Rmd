@@ -81,7 +81,7 @@ df <- read_csv(
 )
 df$date <- as.Date(df$date)
 
-df=df%>% rename(infection_counts=uti_counts, hx_pt=hx_uti_pt)
+df=df%>% rename(infection_counts=sinusitis_counts, hx_pt=hx_sinusitis_pt)
 
 df[is.na(df)] <- 0 # replace NA ->0
 

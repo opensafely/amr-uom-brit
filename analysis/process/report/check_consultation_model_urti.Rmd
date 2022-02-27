@@ -53,7 +53,7 @@ rm(df19,df20,df21)
 ```
 
 
-#### 02. read measures_uti
+#### 02. read measures_urti
 ```{r}
 
 ### 1.3 URTI
@@ -81,7 +81,7 @@ df <- read_csv(
 )
 df$date <- as.Date(df$date)
 
-df=df%>% rename(infection_counts=uti_counts, hx_pt=hx_uti_pt)
+df=df%>% rename(infection_counts=urti_counts, hx_pt=hx_urti_pt)
 
 df[is.na(df)] <- 0 # replace NA ->0
 
