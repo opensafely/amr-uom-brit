@@ -394,13 +394,20 @@ actions:
         rds3: output/measures/basic_record_2021.rds
         rds4: output/measures/basic_record_2022.rds
 
-  describe_pre_covid_model:
-    run: r:latest analysis/model/broad_spect_model.R
+  describe_check_broad_model_variable:
+    run: r:latest analysis/model/broad_variable_transform.R
     needs: [describe_basic_record_process]
     outputs:
        highly_sensitive:
         table1: output/model_varibale_overall_count_2019.csv
         talbe2: output/model_varibale_table_2019.csv
+
+  describe_check_broad_model_variable_2:
+    run: r:latest analysis/model/charlson_transform.R
+    needs: [describe_basic_record_process]
+    outputs:
+       highly_sensitive:
+        talbe2: output/model_varibale_table_charlson_2019.csv
 
   
 
