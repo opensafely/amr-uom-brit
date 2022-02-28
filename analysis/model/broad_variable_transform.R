@@ -1,4 +1,4 @@
-###This script use the cci records in Jan 2019 to calculate the cci score
+###This script keep all the variables apart from charlson score
 
 library("data.table")
 library("dplyr")
