@@ -124,6 +124,7 @@ df <- select(df_input, date, patient_id, practice, age_cat, bmi,
              flu_vaccine, imd, antibacterial_12mb4, gp_count) 
 rm(df_input)
 
+saveRDS(df, "model_variable_broad_2019_1.rds")
 ##outcome check
 first_mon <- (format(min(df$date), "%m-%Y"))
 last_mon <- (format(max(df$date), "%m-%Y"))

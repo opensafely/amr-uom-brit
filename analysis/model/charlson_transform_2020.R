@@ -13,7 +13,7 @@ library("finalfit")
 rm(list=ls())
 setwd(here::here("output", "measures"))
 
-df_input <- read_rds('basic_record_2019.rds')
+df_input <- read_rds('basic_record_2020.rds')
 
 df_input <- df_input %>% select(practice,cancer_comor,cardiovascular_comor,
                                 chronic_obstructive_pulmonary_comor,heart_failure_comor,
@@ -80,7 +80,9 @@ df_input$charlsonGrp <- as.factor(df_input$charlsonGrp)
 df_input$charlsonGrp <- factor(df_input$charlsonGrp, 
                                labels = c("zero", "low", "medium", "high", "very high"))
 
+saveRDS(df_input, "model_variable_broad_2020_2.rds")
+
 colsfortab <- colnames(df_input)[-c(2:3)] # patient ID, practice id
 df_input %>% summary_factorlist(explanatory = colsfortab) -> t
 
-write_csv(t, here::here("output", "model_varibale_table_charlson_2019.csv"))
+write_csv(t, here::here("output", "model_varibale_table_charlson_2020.csv"))
