@@ -22,7 +22,7 @@ df <- read_csv(
     practice = col_integer(),
     
     # Outcomes
-    antibacterial_prescriptions  = col_double(),
+    antibacterial_brit  = col_double(),
     population  = col_double(),
     value = col_double(),
     
@@ -46,7 +46,7 @@ df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
 #Get the overall number of prescription
-prescribing_number <- as.data.frame(sum(df$antibacterial_prescriptions,na.rm = TRUE))
+prescribing_number <- as.data.frame(sum(df$antibacterial_brit,na.rm = TRUE))
 colnames(prescribing_number) <- "Number of prescriptions"
 
 # mean list size per practice 
