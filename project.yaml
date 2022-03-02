@@ -88,13 +88,13 @@ actions:
         notebook: output/hospitalisation_prediction_uti/hospitalisation_prediction_uti.html 
         figures: output/hospitalisation_prediction_uti/*
   
-  generate_notebook_hospitalisation_prediction:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population_hospitalisation]
-    outputs:
-      moderately_sensitive:
-        notebook: output/hospitalisation_prediction/hospitalisation_prediction.html 
-        figures: output/hospitalisation_prediction/*
+  # generate_notebook_hospitalisation_prediction:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_study_population_hospitalisation]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_prediction/hospitalisation_prediction.html 
+  #       figures: output/hospitalisation_prediction/*
 
   # describe_infection_ab_UTI:
   #   run: r:latest analysis/plot/infection_ab_UTI.R
