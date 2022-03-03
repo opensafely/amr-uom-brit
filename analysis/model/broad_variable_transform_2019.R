@@ -15,7 +15,7 @@ setwd(here::here("output", "measures"))
 
 df_input <- read_rds('basic_record_2019.rds')
 
-df_input <- df_input %>% select(died_date,age,age_cat,sex,practice,msoa,bmi,region,
+df_input <- df_input %>% select(died_date,age,age_cat,sex,practice,bmi,region,
                                 ethnicity,gp_count,flu_vaccine,antibacterial_12mb4,             
                                 patient_id,date,imd)
 
