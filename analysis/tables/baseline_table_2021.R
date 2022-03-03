@@ -32,10 +32,10 @@ temp <- vector("list", length(csvFiles))
 for (i in seq_along(csvFiles)){
   filename <- csvFiles[i]
   #temp_df <- read_csv(filename)
- temp_df <- read_csv((filename),
+  temp_df <- read_csv((filename),
                       col_types = cols_only(
                         #bmi_date_measured = col_date(format = "")
-                       # smoking_status_date = col_logical(),
+                        # smoking_status_date = col_logical(),
                         #most_recent_unclear_smoking_cat_date = col_logical(),
                         #flu_vaccine_med = col_character(),
                         #flu_vaccine_clinical = col_character(),
@@ -44,25 +44,25 @@ for (i in seq_along(csvFiles)){
                         covrx1_dat = col_date(format = ""),
                         covrx2_dat = col_date(format = ""),
                         died_date = col_date(format = ""),
-                        age = col_double(),
+                        age = col_integer(),
                         age_cat = col_character(),
                         sex = col_character(),
                         practice = col_double(),
-                        region = col_character(),
-                        msoa = col_character(),
-                        imd = col_double(),
-                        bmi = col_double(),
-                        ethnicity = col_double(),
+                        region = col_factor(),
+                        #msoa = col_character(),
+                        imd = col_integer(),
+                        bmi = col_number(),
+                        ethnicity = col_factor(),
                         smoking_status = col_character(),
-                        gp_count = col_double(),
+                        gp_count = col_integer(),
                         #flu_vaccine_tpp = col_double(),
-                        flu_vaccine = col_double(),
-                        antibacterial_brit = col_double(),
+                        flu_vaccine = col_integer(),
+                        antibacterial_brit = col_integer(),
                         #antibacterial_brit_abtype = col_character(),
-                        antibacterial_12mb4 = col_double(),
-                        broad_spectrum_antibiotics_prescriptions = col_double(),
+                        antibacterial_12mb4 = col_integer(),
+                        broad_spectrum_antibiotics_prescriptions = col_integer(),
                         #broad_prescriptions_check = col_double(),
-                        Covid_test_result_sgss = col_double(),
+                        Covid_test_result_sgss = col_integer(),
                         #covid_positive_count_sgss = col_double(),
                         #sgss_ab_prescribed = col_double(),
                         #gp_covid = col_double(),
@@ -80,30 +80,30 @@ for (i in seq_along(csvFiles)){
                         #incdt_sinusitis_pt = col_double(),
                         #incdt_ot_externa_pt = col_double(),
                         #incdt_otmedia_pt = col_double(),
-                        hx_indications = col_double(),
-                        hx_antibiotics = col_double(),
-                        cancer_comor = col_double(),
-                        cardiovascular_comor = col_double(),
-                        chronic_obstructive_pulmonary_comor = col_double(),
-                        heart_failure_comor = col_double(),
-                        connective_tissue_comor = col_double(),
-                        dementia_comor = col_double(),
-                        diabetes_comor = col_double(),
-                        diabetes_complications_comor = col_double(),
-                        hemiplegia_comor = col_double(),
-                        hiv_comor = col_double(),
-                        metastatic_cancer_comor = col_double(),
-                        mild_liver_comor = col_double(),
-                        mod_severe_liver_comor = col_double(),
-                        mod_severe_renal_comor = col_double(),
-                        mi_comor = col_double(),
-                        peptic_ulcer_comor = col_double(),
-                        peripheral_vascular_comor = col_double(),
-                        patient_id = col_double()
+                        hx_indications = col_integer(),
+                        hx_antibiotics = col_integer(),
+                        cancer_comor = col_integer(),
+                        cardiovascular_comor = col_integer(),
+                        chronic_obstructive_pulmonary_comor = col_integer(),
+                        heart_failure_comor = col_integer(),
+                        connective_tissue_comor = col_integer(),
+                        dementia_comor = col_integer(),
+                        diabetes_comor = col_integer(),
+                        diabetes_complications_comor = col_integer(),
+                        hemiplegia_comor = col_integer(),
+                        hiv_comor = col_integer(),
+                        metastatic_cancer_comor = col_integer(),
+                        mild_liver_comor = col_integer(),
+                        mod_severe_liver_comor = col_integer(),
+                        mod_severe_renal_comor = col_integer(),
+                        mi_comor = col_integer(),
+                        peptic_ulcer_comor = col_integer(),
+                        peripheral_vascular_comor = col_integer(),
+                        patient_id = col_integer()
                       ),
                       na = character()
   )
-
+  
 
   filename <- basename(filename)
   filename <-str_remove(filename, "input_")
@@ -124,8 +124,8 @@ df_input <- plyr::ldply(temp, data.frame)
 rm(temp,csvFiles,i)# remove temporary list
 
 df_input$date <- as.Date(df_input$date)
-df_input$cal_mon <- month(df_input$date)
-df_input$cal_year <- year(df_input$date)
+#df_input$cal_mon <- month(df_input$date)
+#df_input$cal_year <- year(df_input$date)
  
 # remove last month data
 #last.date=max(df_input$date)
@@ -137,7 +137,8 @@ num_pracs <- length(unique(df_input$practice))
 
 overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs))
 write_csv(overall_counts, here::here("output", "overall_counts_blt_2021.csv"))
-  
+rm(overall_counts) 
+
 ## randomly select one observation for each patient 
 ## in the study period to generate baseline table for service evaluation
 df<-df_input
@@ -149,29 +150,32 @@ df_one_pat <- df %>% dplyr::group_by(patient_id) %>%
 rm(df_input, df)  
 
 ## create charlson index
-df_one_pat$cancer<- ifelse(df_one_pat$cancer_comor == 1, 2, 0)
-df_one_pat$cvd <- ifelse(df_one_pat$cardiovascular_comor == 1, 1, 0)
-df_one_pat$copd <- ifelse(df_one_pat$chronic_obstructive_pulmonary_comor == 1, 1, 0)
-df_one_pat$heart_failure <- ifelse(df_one_pat$heart_failure_comor == 1, 1, 0)
-df_one_pat$connective_tissue <- ifelse(df_one_pat$connective_tissue_comor == 1, 1, 0)
-df_one_pat$dementia <- ifelse(df_one_pat$dementia_comor == 1, 1, 0)
-df_one_pat$diabetes <- ifelse(df_one_pat$diabetes_comor == 1, 1, 0)
-df_one_pat$diabetes_complications <- ifelse(df_one_pat$diabetes_complications_comor == 1, 2, 0)
-df_one_pat$hemiplegia <- ifelse(df_one_pat$hemiplegia_comor == 1, 2, 0)
-df_one_pat$hiv <- ifelse(df_one_pat$hiv_comor == 1, 6, 0)
-df_one_pat$metastatic_cancer <- ifelse(df_one_pat$metastatic_cancer_comor == 1, 6, 0)
-df_one_pat$mild_liver <- ifelse(df_one_pat$mild_liver_comor == 1, 1, 0)
-df_one_pat$mod_severe_liver <- ifelse(df_one_pat$mod_severe_liver_comor == 1, 3, 0)
-df_one_pat$mod_severe_renal <- ifelse(df_one_pat$mod_severe_renal_comor == 1, 2, 0)
-df_one_pat$mi <- ifelse(df_one_pat$mi_comor == 1, 1, 0)
-df_one_pat$peptic_ulcer <- ifelse(df_one_pat$peptic_ulcer_comor == 1, 1, 0)
-df_one_pat$peripheral_vascular <- ifelse(df_one_pat$peripheral_vascular_comor == 1, 1, 0)
+df_one_pat$cancer_comor<- ifelse(df_one_pat$cancer_comor == 1L, 2L, 0L)
+df_one_pat$cardiovascular_comor <- ifelse(df_one_pat$cardiovascular_comor == 1L, 1L, 0L)
+df_one_pat$chronic_obstructive_pulmonary_comor <- ifelse(df_one_pat$chronic_obstructive_pulmonary_comor == 1L, 1L, 0)
+df_one_pat$heart_failure_comor <- ifelse(df_one_pat$heart_failure_comor == 1L, 1L, 0L)
+df_one_pat$connective_tissue_comor <- ifelse(df_one_pat$connective_tissue_comor == 1L, 1L, 0L)
+df_one_pat$dementia_comor <- ifelse(df_one_pat$dementia_comor == 1L, 1L, 0L)
+df_one_pat$diabetes_comor <- ifelse(df_one_pat$diabetes_comor == 1L, 1L, 0L)
+df_one_pat$diabetes_complications_comor <- ifelse(df_one_pat$diabetes_complications_comor == 1L, 2L, 0L)
+df_one_pat$hemiplegia_comor <- ifelse(df_one_pat$hemiplegia_comor == 1L, 2L, 0L)
+df_one_pat$hiv_comor <- ifelse(df_one_pat$hiv_comor == 1L, 6L, 0L)
+df_one_pat$metastatic_cancer_comor <- ifelse(df_one_pat$metastatic_cancer_comor == 1L, 6L, 0L)
+df_one_pat$mild_liver_comor <- ifelse(df_one_pat$mild_liver_comor == 1L, 1L, 0L)
+df_one_pat$mod_severe_liver_comor <- ifelse(df_one_pat$mod_severe_liver_comor == 1L, 3L, 0L)
+df_one_pat$mod_severe_renal_comor <- ifelse(df_one_pat$mod_severe_renal_comor == 1L, 2L, 0L)
+df_one_pat$mi_comor <- ifelse(df_one_pat$mi_comor == 1L, 1L, 0L)
+df_one_pat$peptic_ulcer_comor <- ifelse(df_one_pat$peptic_ulcer_comor == 1L, 1L, 0L)
+df_one_pat$peripheral_vascular_comor <- ifelse(df_one_pat$peripheral_vascular_comor == 1L, 1L, 0L)
 
 ## total charlson for each patient 
-charlson=c("cancer","cvd", "copd", "heart_failure", "connective_tissue",
-        "dementia", "diabetes", "diabetes_complications", "hemiplegia",
-        "hiv", "metastatic_cancer", "mild_liver", "mod_severe_liver", 
-        "mod_severe_renal", "mi", "peptic_ulcer", "peripheral_vascular")
+charlson=c("cancer_comor","cardiovascular_comor","chronic_obstructive_pulmonary_comor",
+           "heart_failure_comor","connective_tissue_comor", "dementia_comor",
+           "diabetes_comor","diabetes_complications_comor","hemiplegia_comor",
+           "hiv_comor","metastatic_cancer_comor" ,"mild_liver_comor",
+           "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor",
+           "peptic_ulcer_comor" , "peripheral_vascular_comor" )
+
 df_one_pat$charlson_score=rowSums(df_one_pat[charlson])
 
 ## Charlson - as a catergorical group variable
@@ -242,19 +246,15 @@ df_one_pat$flu_vaccine <- as.factor(df_one_pat$flu_vaccine)
 
 
 # ## Any covid vaccine
-# df_one_pat$covrx1=ifelse(df_one_pat$covrx1_dat != "", 1,0)
-# df_one_pat$covrx2=ifelse(df_one_pat$covrx2_dat != "", 1,0)
-# df_one_pat$covrx=ifelse(df_one_pat$covrx1 == 1 | df_one_pat$covrx2 ==1, 1, 0)
-# #df_one_pat$covrx<-as.factor(df_one_pat$covrx)
-# df_one_pat$covrx <- as.numeric(df_one_pat$covrx)
-# df_one_pat$covrx[is.na(df_one_pat$covrx)] <- 0
-# df_one_pat$covrx <- as.factor(df_one_pat$covrx)
-# #str(df_one_pat$covrx)
-# #summary(df_one_pat$covrx)
+# str(df_one_pat$covrx1_dat)
+# summary(df_one_pat$covrx1_dat)
+# summary(df_one_pat$covrx2_dat)
 df_one_pat$covrx1=ifelse(is.na(df_one_pat$covrx1_dat),0,1)
 df_one_pat$covrx2=ifelse(is.na(df_one_pat$covrx2_dat),0,1)
 df_one_pat$covrx=ifelse(df_one_pat$covrx1 >0 | df_one_pat$covrx2 >0, 1, 0)
 df_one_pat$covrx <- as.factor(df_one_pat$covrx)
+# #summary(df_one_pat$covrx)
+
 
 # ever died
 df_one_pat$died_ever <- ifelse(is.na(df_one_pat$died_date),0,1)
@@ -262,36 +262,26 @@ df_one_pat$died_ever <- as.factor(df_one_pat$died_ever)
 #summary(df_one_pat$died_ever)
 
 ## covid positive ever
-df_one_pat$covid_positive<- df_one_pat$Covid_test_result_sgss
-df_one_pat$covid_positive<-as.factor(df_one_pat$covid_positive)
+#df_one_pat$covid_positive<- df_one_pat$Covid_test_result_sgss
+#df_one_pat$covid_positive<-as.factor(df_one_pat$covid_positive)
+df_one_pat$Covid_test_result_sgss<- as.factor(df_one_pat$Covid_test_result_sgss)
 
 df_one_pat$hx_indications <- as.factor(df_one_pat$hx_indications)
 df_one_pat$hx_antibiotics <- as.factor(df_one_pat$hx_antibiotics)
-df_one_pat$Covid_test_result_sgss<- as.factor(df_one_pat$Covid_test_result_sgss)
 
 
 ## select variables for the baseline table
-bltab_vars <- select(df_one_pat, date, patient_id, practice, age, age_cat, sex, bmi, 
-                     bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, flu_vaccine, gp_count, antibacterial_brit,
-                     antibacterial_12mb4, broad_spectrum_antibiotics_prescriptions, covid_positive, 
-                     imd, hx_indications, hx_antibiotics, covrx, died_ever) 
-
+bltab_vars <- select(df_one_pat, date, age, age_cat, sex, bmi, 
+                     bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, 
+                     flu_vaccine, gp_count, antibacterial_brit,
+                     antibacterial_12mb4, broad_spectrum_antibiotics_prescriptions, 
+                     Covid_test_result_sgss, imd, hx_indications, hx_antibiotics, 
+                     covrx, died_ever) 
 # generate data table 
 
 
 # columns for baseline table
-colsfortab <- colnames(bltab_vars)[-c(2:3)]# patient ID, practice id
+colsfortab <- colnames(bltab_vars)
 bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
 write_csv(t, here::here("output", "blt_one_random_obs_perpat_2021.csv"))
-
-####### code for tableone package - not in OS platform yet
-#blt <- CreateTableOne(data=bltab_vars)
-#blt_all_levs <- print(blt, showAllLevels=T, quote=F)
-#View(blt_all_levs)
-#write.csv(blt_all_levs, "blt_one_random_obs_perpat.csv")
-
-####### code for tbl_summary() in gtsummary package
-#test <- bltab_vars %>% rownames_to_column()
-
-
