@@ -1,0 +1,55 @@
+---
+title: "COVID impact on onsultation rate"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+## Interrupted time-series analysis
+
+```{r message=FALSE}
+library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+library("MASS")
+#library("gtsummary")
+```
+
+
+### Import data
+
+```{r }
+df = read_rds(here::here("output","measures","consult_otmedia.rds"))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% summarise(counts=sum(infection_counts), population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+```
+
+
+### Negative binomial model
+```{r}
+summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + month, data = df))
+```
+
+## model check for autocorrelation
+```{r}
+# Check the residuals by plotting against time
+res <- residuals(m1,type="deviance")
+plot(df$times,res,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="times")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res)
+pacf(res)
+```
+
