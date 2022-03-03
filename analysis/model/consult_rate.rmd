@@ -23,21 +23,67 @@ library("MASS")
 ### Import data
 
 ```{r }
-df = read_rds(here::here("output","measures","consult_otmedia.rds"))
+
+setwd("/Users/user/Documents/GitHub/amr-uom-brit/output/measures")
+
+filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds")
+
+temp <- vector("list", length(filelist))
+
+for (i in seq_along(filelist)){
+
+df = read_rds(filelist[i])
 # infection counts, population size, covid period
-df = df%>% group_by(date, covid)%>% summarise(counts=sum(infection_counts), population=sum(population))
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
 # month for seasonality
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
+temp[[i]]=df
+
+rm(df)
+}
+
+```
+
+```{r}
+df1=temp[[1]]#uti
+df2=temp[[2]]#urti
+df3=temp[[3]]#lrti
+df4=temp[[4]]#sinusitis
+df5=temp[[5]]#otitis externa
+df6=temp[[6]]#otitis media
+rm(temp)
 ```
 
 
 ### Negative binomial model
+
+#save residule
 ```{r}
-summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + month, data = df))
+summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + month +times +covid*times, data = df1))
+summary(m2 <- glm.nb(counts~ offset(log(population))+ covid + month +times +covid*times, data = df2))
+summary(m3 <- glm.nb(counts~ offset(log(population))+ covid + month +times +covid*times, data = df3))
+summary(m4 <- glm.nb(counts~ offset(log(population))+ covid + month +times +covid*times, data = df4))
+summary(m5 <- glm.nb(counts~ offset(log(population))+ covid + month +times +covid*times, data = df5))
+summary(m6 <- glm.nb(counts~ offset(log(population))+ covid + month +times +covid*times, data = df6))
 ```
+
+
+# confidence intervals for the coefficients
+https://www.mihiretukebede.com/posts/2020-09-30-2020-09-30-plotting-model-coefficients-in-a-forest-plot/ 
+```{r}
+(est <- cbind(Estimate = coef(m1), confint(m1)))
+#exp(est)
+library(broom.mixed)
+
+plot_summs(m1, scale = TRUE, size=3) 
+```
+
+
 
 ## model check for autocorrelation
 ```{r}
