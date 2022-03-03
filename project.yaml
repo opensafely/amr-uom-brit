@@ -397,7 +397,7 @@ actions:
         table: output/broad_proportions.csv
 
   describe_basic_record_process:
-    run: r:latest analysis/process/broad_model_varibales_transform.R
+    run: r:latest analysis/process/baseline_variables_transform.R
     needs: [generate_study_population]
     outputs:
        highly_sensitive:
