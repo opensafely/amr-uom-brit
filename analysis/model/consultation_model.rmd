@@ -345,7 +345,7 @@ df4$residuals=m4.1$residuals
 df5$residuals=m5.1$residuals
 df6$residuals=m6.1$residuals
 
-rm(m2.1,m3.1,m4.1,m1.1,m5.1,m6.1)
+
 
 m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
 m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
