@@ -360,8 +360,15 @@ p3
 ```
 
 ## comparing models
+
+### model 1 vs. model2 (with or without interaction)
 ```{r}
 anova(m1,m1.1)
+
+```
+
+### model2 vs. model3 (with or without residuals)
+```{r}
 anova(m1.1,m1.2)
 ```
 
