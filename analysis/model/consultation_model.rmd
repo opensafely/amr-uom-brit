@@ -138,13 +138,13 @@ labs(
 # Negative binomial model (adding interaction)_model2
 
 ```{r message=FALSE}
+m1.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df1)
+m2.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df2)
+m3.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df3)
+m4.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df4)
+m5.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df5)
+m6.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df6)
 
-m1.1=update(m1, .~. +times*covid)
-m2.1=update(m2, .~. +times*covid)
-m3.1=update(m3, .~. +times*covid)
-m4.1=update(m4, .~. +times*covid)
-m5.1=update(m5, .~. +times*covid)
-m6.1=update(m6, .~. +times*covid)
 ```
 
 ### confidence intervals for the coefficients
@@ -204,6 +204,7 @@ theme(text=element_text(family="Times",size=18, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
 labs(
+      title = "Consultation Reduction",
     x="IRR (95%)"
   )
 ```
@@ -213,12 +214,25 @@ labs(
 # Negative binomial model (adding interaction)_model3
 
 ```{r}
-m1.2=update(m1, .~.  +times*covid +m1.1$residuals)
-m2.2=update(m2, .~.  +times*covid +m2.1$residuals)
-m3.2=update(m3, .~.  +times*covid +m3.1$residuals)
-m4.2=update(m4, .~.  +times*covid +m4.1$residuals)
-m5.2=update(m5, .~.  +times*covid +m5.1$residuals)
-m6.2=update(m6, .~.  +times*covid +m6.1$residuals)
+
+df1$residuals=m1.1$residuals
+df2$residuals=m2.1$residuals
+df3$residuals=m3.1$residuals
+df4$residuals=m4.1$residuals
+df5$residuals=m5.1$residuals
+df6$residuals=m6.1$residuals
+
+m1.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
+m2.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
+m3.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df3)
+m4.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df4)
+m5.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df5)
+m6.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df6)
+#m2.2=update(m2, .~.  +times*covid +m2.1$residuals)
+#m3.2=update(m3, .~.  +times*covid +m3.1$residuals)
+#m4.2=update(m4, .~.  +times*covid +m4.1$residuals)
+#m5.2=update(m5, .~.  +times*covid +m5.1$residuals)
+#m6.2=update(m6, .~.  +times*covid +m6.1$residuals)
 ```
 
 ### confidence intervals for the coefficients
