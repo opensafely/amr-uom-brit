@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
@@ -19,11 +19,8 @@ library("MASS")
 #library("gtsummary")
 ```
 
-
-### Import data
-
 ```{r message=FALSE}
-
+### Import data
 filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds")
 
 temp <- vector("list", length(filelist))
@@ -60,17 +57,40 @@ rm(temp)
 
 # Negative binomial model (without interaction)_model1
 
-```{r message=FALSE}
+##UTI
+```{r}
 summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df1))
+```
+
+## URTI
+```{r}
 summary(m2 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df2))
+```
+
+## LRTI
+```{r}
 summary(m3 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df3))
+```
+
+## Sinusitis
+```{r}
 summary(m4 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df4))
+```
+
+## otitis externa
+```{r}
 summary(m5 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df5))
+
+```
+
+## otitis media
+```{r}
 summary(m6 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df6))
 ```
 
-### confidence intervals for the coefficients
+
 ```{r include=FALSE}
+### confidence intervals for the coefficients
 (est1 <- cbind(Estimate = coef(m1), confint(m1)))
 (est2 <- cbind(Estimate = coef(m2), confint(m2)))
 (est3 <- cbind(Estimate = coef(m3), confint(m3)))
@@ -90,9 +110,9 @@ est1=exp(est5)
 est1=exp(est6)
 ```
 
-##### combine results
-```{r}
 
+```{r}
+#### combined results
 DF=bind_rows(est1[2,],est2[2,],est3[2,],est4[2,],est5[2,],est6[2,])
 
 DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
@@ -106,9 +126,9 @@ DF
 ```
 
 
-### result_model1
-```{r}
 
+```{r}
+### result_model1
 #setting up the basic plot
 p1 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+ 
 
@@ -137,18 +157,39 @@ labs(
 
 # Negative binomial model (adding interaction)_model2
 
-```{r message=FALSE}
-m1.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df1)
-m2.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df2)
-m3.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df3)
-m4.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df4)
-m5.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df5)
-m6.1=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df6)
-
+## UTI
+```{r}
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df1))
 ```
 
-### confidence intervals for the coefficients
+## URTI
+```{r}
+summary(m2.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df2))
+```
+
+## LRTI
+```{r}
+summary(m3.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df3))
+```
+
+## sinusitis
+```{r}
+summary(m4.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df4))
+```
+
+## otitis externa
+```{r}
+summary(m5.1 <-glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df5))
+```
+
+## otitis media
+```{r }
+summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df6))
+```
+
+
 ```{r message=FALSE}
+### confidence intervals for the coefficients
 (est1.1 <- cbind(Estimate = coef(m1.1), confint(m1.1)))
 (est2.1 <- cbind(Estimate = coef(m2.1), confint(m2.1)))
 (est3.1 <- cbind(Estimate = coef(m3.1), confint(m3.1)))
@@ -168,9 +209,9 @@ est1.1=exp(est5.1)
 est1.1=exp(est6.1)
 ```
 
-## combine results
-```{r}
 
+```{r}
+## combine results
 DF=bind_rows(est1.1[2,],est2.1[2,],est3.1[2,],est4.1[2,],est5.1[2,],est6.1[2,])
 DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
 #reorder
@@ -183,9 +224,9 @@ DF
 ```
 
 
-### Model2_result
-```{r}
 
+```{r}
+### Model2_result
 #setting up the basic plot
 p2 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+ 
 
@@ -222,12 +263,12 @@ df4$residuals=m4.1$residuals
 df5$residuals=m5.1$residuals
 df6$residuals=m6.1$residuals
 
-m1.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
-m2.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
-m3.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df3)
-m4.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df4)
-m5.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df5)
-m6.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df6)
+m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
+m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
+m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df3)
+m4.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df4)
+m5.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df5)
+m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df6)
 #m2.2=update(m2, .~.  +times*covid +m2.1$residuals)
 #m3.2=update(m3, .~.  +times*covid +m3.1$residuals)
 #m4.2=update(m4, .~.  +times*covid +m4.1$residuals)
@@ -235,8 +276,40 @@ m6.2=glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid
 #m6.2=update(m6, .~.  +times*covid +m6.1$residuals)
 ```
 
-### confidence intervals for the coefficients
+## UTI
+```{r}
+summary(m1.2)
+```
+
+## URTI
+```{r}
+summary(m2.2)
+```
+
+## LRTI
+```{r}
+summary(m3.2)
+```
+
+## sinusitis
+```{r}
+summary(m4.2)
+```
+
+## otitis externa
+```{r}
+summary(m5.2)
+```
+
+## otitis media
+```{r}
+summary(m6.2)
+```
+
+
+
 ```{r message=FALSE}
+### confidence intervals for the coefficients
 (est1.2 <- cbind(Estimate = coef(m1.2), confint(m1.2)))
 (est2.2 <- cbind(Estimate = coef(m2.2), confint(m2.2)))
 (est3.2 <- cbind(Estimate = coef(m3.2), confint(m3.2)))
@@ -256,9 +329,9 @@ est1.2=exp(est5.2)
 est1.2=exp(est6.2)
 ```
 
-## combine results
-```{r}
 
+```{r}
+## combine results
 DF=bind_rows(est1.2[2,],est2.2[2,],est3.2[2,],est4.2[2,],est5.2[2,],est6.2[2,])
 
 DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
