@@ -23,11 +23,11 @@ library("MASS")
 ### Import data
 filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds")
 
-temp <- vector("list", length(filelist))
+#temp <- vector("list", length(filelist))
 
-for (i in seq_along(filelist)){
+#for (i in seq_along(filelist)){
 
-df = read_rds(here::here("output","measures",filelist[i]))
+df = read_rds(here::here("output","measures",filelist[1]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -37,21 +37,99 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-temp[[i]]=df
+#temp[[i]]=df
 
+df1=df
 rm(df)
-}
+#}
+
+df = read_rds(here::here("output","measures",filelist[2]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+#temp[[i]]=df
+
+df2=df
+rm(df)
+
+df = read_rds(here::here("output","measures",filelist[3]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+#temp[[i]]=df
+
+df3=df
+rm(df)
+
+df = read_rds(here::here("output","measures",filelist[4]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+#temp[[i]]=df
+
+df4=df
+rm(df)
+
+
+df = read_rds(here::here("output","measures",filelist[5]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+#temp[[i]]=df
+
+df5=df
+rm(df)
+
+
+df = read_rds(here::here("output","measures",filelist[6]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+#temp[[i]]=df
+
+df6=df
+rm(df)
 
 ```
 
 ```{r message=FALSE}
-df1=temp[[1]]#uti
-df2=temp[[2]]#urti
-df3=temp[[3]]#lrti
-df4=temp[[4]]#sinusitis
-df5=temp[[5]]#otitis externa
-df6=temp[[6]]#otitis media
-rm(temp)
+#df1=temp[[1]]#uti
+#df2=temp[[2]]#urti
+#df3=temp[[3]]#lrti
+#df4=temp[[4]]#sinusitis
+#df5=temp[[5]]#otitis externa
+#df6=temp[[6]]#otitis media
+#rm(temp)
 ```
 
 
