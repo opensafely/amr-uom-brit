@@ -188,7 +188,7 @@ summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + 
 ```
 
 
-```{r message=FALSE}
+```{r include=FALSE}
 ### confidence intervals for the coefficients
 (est1.1 <- cbind(Estimate = coef(m1.1), confint(m1.1)))
 (est2.1 <- cbind(Estimate = coef(m2.1), confint(m2.1)))
@@ -254,7 +254,7 @@ labs(
 
 # Negative binomial model (adding interaction)_model3
 
-```{r}
+```{r include=FALSE}
 
 df1$residuals=m1.1$residuals
 df2$residuals=m2.1$residuals
@@ -316,9 +316,9 @@ DF
 ```
 
 
-### result_model3
-```{r}
 
+```{r}
+### result_model3
 #setting up the basic plot
 p3 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+ 
 
