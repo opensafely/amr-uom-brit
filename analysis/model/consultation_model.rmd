@@ -181,11 +181,11 @@ summary(m6 <- glm.nb(counts~ offset(log(population))+ covid + month +times , dat
 ### calculate IRR & 95%CI
 ```{r}
 est1=exp(est1)
-est1=exp(est2)
-est1=exp(est3)
-est1=exp(est4)
-est1=exp(est5)
-est1=exp(est6)
+est2=exp(est2)
+est3=exp(est3)
+est4=exp(est4)
+est5=exp(est5)
+est6=exp(est6)
 ```
 
 
@@ -281,11 +281,11 @@ summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + 
 ### calculate IRR & 95%CI
 ```{r}
 est1.1=exp(est1.1)
-est1.1=exp(est2.1)
-est1.1=exp(est3.1)
-est1.1=exp(est4.1)
-est1.1=exp(est5.1)
-est1.1=exp(est6.1)
+est2.1=exp(est2.1)
+est3.1=exp(est3.1)
+est4.1=exp(est4.1)
+est5.1=exp(est5.1)
+est6.1=exp(est6.1)
 ```
 
 
@@ -377,11 +377,11 @@ m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*co
 ### calculate IRR & 95%CI
 ```{r}
 est1.2=exp(est1.2)
-est1.2=exp(est2.2)
-est1.2=exp(est3.2)
-est1.2=exp(est4.2)
-est1.2=exp(est5.2)
-est1.2=exp(est6.2)
+est2.2=exp(est2.2)
+est3.2=exp(est3.2)
+est4.2=exp(est4.2)
+est5.2=exp(est5.2)
+est6.2=exp(est6.2)
 ```
 
 
