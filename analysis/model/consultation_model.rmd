@@ -231,6 +231,10 @@ labs(
 
 ```
 
+```{r}
+rm(est1,est2,est3,est4,est5,est6,m1,m2,m3,m4,m5,m6)
+```
+
 
 
 # Negative binomial model (adding interaction)_model2
@@ -328,6 +332,9 @@ labs(
   )
 ```
 
+```{r}
+
+```
 
 
 # Negative binomial model (adding interaction)_model3
@@ -340,6 +347,8 @@ df3$residuals=m3.1$residuals
 df4$residuals=m4.1$residuals
 df5$residuals=m5.1$residuals
 df6$residuals=m6.1$residuals
+
+rm(est2.1,est3.1,est1.1,est4.1,est5.1,est6.1,m2.1,m3.1,m4.1,m1.1,m5.1,m6.1)
 
 m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
 m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
