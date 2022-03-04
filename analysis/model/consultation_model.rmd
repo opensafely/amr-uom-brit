@@ -148,7 +148,7 @@ theme(panel.spacing = unit(1, "lines"))+
 
 labs(
     title = "Consultation Reduction",
-    x="IRR (95%)"
+    x="IRR (95% CI)"
   )
 
 ```
@@ -246,7 +246,7 @@ theme(panel.spacing = unit(1, "lines"))+
 
 labs(
       title = "Consultation Reduction",
-    x="IRR (95%)"
+    x="IRR (95% CI)"
   )
 ```
 
@@ -337,7 +337,7 @@ theme(text=element_text(family="Times",size=18, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
 labs( title = "Consultation Reduction",
-    x="IRR (95%)"
+    x="IRR (95% CI)"
   )
 
 ```
