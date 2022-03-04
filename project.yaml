@@ -224,11 +224,11 @@ actions:
         rds6: output/measures/consult_ot_externa.rds
 
   consultation_model: 
-    run: r:latest -e 'rmarkdown::render("analysis/model/consult_rate.rmd", output_dir = "output/report")'
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
     needs: [describe_consultation_model_process_1]
     outputs:
       moderately_sensitive:
-        html: output/report/consultation_model_uti.html
+        html: output/report/consultation_model.html
 
 
   # check_consultation_model_uti: #  
