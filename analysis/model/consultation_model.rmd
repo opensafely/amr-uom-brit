@@ -232,7 +232,7 @@ labs(
 ```
 
 ```{r}
-rm(est1,est2,est3,est4,est5,est6,m1,m2,m3,m4,m5,m6)
+rm(m1,m2,m3,m4,m5,m6)
 ```
 
 
@@ -348,7 +348,7 @@ df4$residuals=m4.1$residuals
 df5$residuals=m5.1$residuals
 df6$residuals=m6.1$residuals
 
-rm(est2.1,est3.1,est1.1,est4.1,est5.1,est6.1,m2.1,m3.1,m4.1,m1.1,m5.1,m6.1)
+rm(m2.1,m3.1,m4.1,m1.1,m5.1,m6.1)
 
 m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
 m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
@@ -448,6 +448,7 @@ p3
 
 ## comparing models
 
+##UTI
 ### model 1 vs. model2 (with or without interaction)
 ```{r}
 anova(m1,m1.1)
@@ -459,3 +460,65 @@ anova(m1,m1.1)
 anova(m1.1,m1.2)
 ```
 
+## URTI
+### model 1 vs. model2 (with or without interaction)
+```{r}
+anova(m2,m2.1)
+
+```
+
+### model2 vs. model3 (with or without residuals)
+```{r}
+anova(m2.1,m2.2)
+```
+
+## LRTI
+### model 1 vs. model2 (with or without interaction)
+```{r}
+anova(m3,m3.1)
+
+```
+
+### model2 vs. model3 (with or without residuals)
+```{r}
+anova(m3.1,m3.2)
+```
+
+
+## sinusitis
+### model 1 vs. model2 (with or without interaction)
+```{r}
+anova(m4,m4.1)
+
+```
+
+### model2 vs. model3 (with or without residuals)
+```{r}
+anova(m4.1,m4.2)
+```
+
+
+## otitis externa
+### model 1 vs. model2 (with or without interaction)
+```{r}
+anova(m5,m5.1)
+
+```
+
+### model2 vs. model3 (with or without residuals)
+```{r}
+anova(m5.1,m5.2)
+```
+
+
+## otitis media
+### model 1 vs. model2 (with or without interaction)
+```{r}
+anova(m6,m6.1)
+
+```
+
+### model2 vs. model3 (with or without residuals)
+```{r}
+anova(m6.1,m6.2)
+```
