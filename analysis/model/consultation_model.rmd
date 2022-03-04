@@ -5,7 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
-#knitr::opts_knit$set(root.dir = '/workspace')
+knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 ## Interrupted time-series analysis
@@ -263,41 +263,18 @@ df4$residuals=m4.1$residuals
 df5$residuals=m5.1$residuals
 df6$residuals=m6.1$residuals
 
+m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
+m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
+m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df3)
+m4.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df4)
+m5.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df5)
+m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df6)
+
 #m2.2=update(m2, .~.  +times*covid +m2.1$residuals)
 #m3.2=update(m3, .~.  +times*covid +m3.1$residuals)
 #m4.2=update(m4, .~.  +times*covid +m4.1$residuals)
 #m5.2=update(m5, .~.  +times*covid +m5.1$residuals)
 #m6.2=update(m6, .~.  +times*covid +m6.1$residuals)
-```
-
-## UTI
-```{r}
-summary(m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1))
-```
-
-## URTI
-```{r}
-summary(m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2))
-```
-
-## LRTI
-```{r}
-summary(m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df3))
-```
-
-## sinusitis
-```{r}
-summary(m4.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df4))
-```
-
-## otitis externa
-```{r}
-summary(m5.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df5))
-```
-
-## otitis media
-```{r}
-summary(m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df6))
 ```
 
 
