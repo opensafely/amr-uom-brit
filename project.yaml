@@ -474,7 +474,12 @@ actions:
         talbe1: output/model_varibale_table_charlson_2022.csv
         rds1: output/measures/model_variable_broad_2022_2.rds
 
-
+  describe_broad_model_2019:   
+    run: r:latest -e 'rmarkdown::render("analysis/model/broad_model_2019.Rmd", output_dir = "output/report")'
+    needs: [describe_check_broad_model_variable_2019, describe_check_broad_model_variable_2019_2, describe_ab_recoded_broad_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/broad_model_2019.html
 
   
 
