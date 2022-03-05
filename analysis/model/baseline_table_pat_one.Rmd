@@ -44,6 +44,9 @@ df20_2=df20_2%>% dplyr::select(charlsonGrp,patient_id,date)
 df20 <- merge(df20_1,df20_2,by=c('patient_id','date'))
 rm(df20_1,df20_2)
 
+dat=bind_rows(df19,df20)
+rm(df19,df20)
+
 df21_1 = read_rds(here::here("output","measures","model_variable_broad_2021_1.rds"))
 
 df21_2 = read_rds(here::here("output","measures","model_variable_broad_2021_2.rds"))
@@ -51,6 +54,9 @@ df21_2=df21_2%>% dplyr::select(charlsonGrp,patient_id,date)
 
 df21 <- merge(df21_1,df21_2,by=c('patient_id','date'))
 rm(df21_1,df21_2)
+
+dat=bind_rows(dat,df21)
+rm(df21)
 
 df22_1 = read_rds(here::here("output","measures","model_variable_broad_2022_1.rds"))
 
@@ -63,8 +69,8 @@ rm(df22_1,df22_2)
 last.date=max(df22$date)
 df22=df22%>% filter(date!=last.date)
 
-dat=bind_rows(df19,df20,df21,df22)
-rm(df19,df20,df21,df22)
+dat=bind_rows(dat,df22)
+rm(df22)
 
 ```
 
