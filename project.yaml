@@ -470,8 +470,6 @@ actions:
     needs: [describe_basic_record_process]
     outputs:
        highly_sensitive:
-        table1: output/model_varibale_overall_count_2020.csv
-        talbe2: output/model_varibale_table_2020.csv
         rds1: output/measures/model_variable_broad_2020_1.rds
 
   describe_check_broad_model_variable_2020_2:
@@ -487,8 +485,6 @@ actions:
     needs: [describe_basic_record_process]
     outputs:
        highly_sensitive:
-        table1: output/model_varibale_overall_count_2021.csv
-        talbe2: output/model_varibale_table_2021.csv
         rds1: output/measures/model_variable_broad_2021_1.rds
 
   describe_check_broad_model_variable_2021_2:
@@ -504,8 +500,6 @@ actions:
     needs: [describe_basic_record_process]
     outputs:
        highly_sensitive:
-        table1: output/model_varibale_overall_count_2022.csv
-        talbe2: output/model_varibale_table_2022.csv
         rds1: output/measures/model_variable_broad_2022_1.rds
 
   describe_check_broad_model_variable_2022_2:
