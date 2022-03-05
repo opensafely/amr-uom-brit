@@ -526,6 +526,16 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/broad_model_covid.html
+
+  describe_baseline_tb:   
+    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one.Rmd", output_dir = "output/report")'
+    needs: [describe_check_broad_model_variable_2019, describe_check_broad_model_variable_2019_2,
+    describe_check_broad_model_variable_2020, describe_check_broad_model_variable_2020_2,
+    describe_check_broad_model_variable_2021, describe_check_broad_model_variable_2021_2,
+    describe_check_broad_model_variable_2022, describe_check_broad_model_variable_2022_2]
+    outputs:
+      moderately_sensitive:
+        html: output/report/baseline_table_pat_one.html
   
 
   # describe_ab_recoded_indication_process_plot: #  Antibiotics_recorded_02: only indication/row
