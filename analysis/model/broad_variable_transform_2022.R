@@ -16,12 +16,14 @@ setwd(here::here("output", "measures"))
 df_input <- read_rds('basic_record_2022.rds')
 
 df_input <- df_input %>% select(died_date,age,age_cat,sex,practice,bmi,region,
-                                ethnicity,gp_count,flu_vaccine,antibacterial_12mb4,             
+                                ethnicity,gp_count,flu_vaccine,antibacterial_12mb4,
+                                smoking_status,covrx1_dat,covrx2_dat,died_date,
+                                Covid_test_result_sgss,hx_indications,hx_antibiotics,             
                                 patient_id,date,imd)
 
 
 last.date=max(df_input$date)
-df=df_input%>% filter(date!=last.date)
+df_input=df_input%>% filter(date!=last.date)
 
 #bmi 
 #remove very low observations
@@ -62,27 +64,37 @@ df_input$gp_count <- ifelse(df_input$gp_count > 0,
 #summary(df_one_pat$flu_vaccine)
 df_input$flu_vaccine <- as.factor(df_input$flu_vaccine)
 
+### smoking status
+df_input <- df_input %>% 
+  mutate(smoking_cat = case_when(smoking_status=="S" ~ "current",
+                                 smoking_status=="E" ~ "former",
+                                 smoking_status=="N" ~ "never",
+                                 smoking_status=="M"| smoking_status=="" ~ "unknown"))
+df_input$smoking_cat<- as.factor(df_input$smoking_cat)
 
+## any covid vaccine
+
+df_input$covrx1=ifelse(is.na(df_input$covrx1_dat),0,1)
+df_input$covrx2=ifelse(is.na(df_input$covrx2_dat),0,1)
+df_input$covrx=ifelse(df_input$covrx1 >0 | df_input$covrx2 >0, 1, 0)
+df_input$covrx <- as.factor(df_input$covrx)
+
+# ever died
+df_input$died_ever <- ifelse(is.na(df_input$died_date),0,1)
+df_input$died_ever <- as.factor(df_input$died_ever)
+
+## covid positive ever
+df_input$Covid_test_result_sgss<- as.factor(df_input$Covid_test_result_sgss)
+
+## 
+df_input$hx_indications <- as.factor(df_input$hx_indications)
+df_input$hx_antibiotics <- as.factor(df_input$hx_antibiotics)
 
 df <- select(df_input, date, patient_id, practice, age_cat, bmi, 
              bmi_cat, ethnicity_6, #charlson_score, charlsonGrp,
+             smoking_cat,Covid_test_result_sgss,hx_indications,
+             hx_antibiotics,covrx,died_ever,
              flu_vaccine, imd, antibacterial_12mb4, gp_count) 
 rm(df_input)
 
 saveRDS(df, "model_variable_broad_2022_1.rds")
-
-##outcome check
-first_mon <- (format(min(df$date), "%m-%Y"))
-last_mon <- (format(max(df$date), "%m-%Y"))
-num_pats <- length(unique(df$patient_id))
-num_pracs <- length(unique(df$practice))
-
-overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs))
-write_csv(overall_counts, here::here("output", "model_varibale_overall_count_2022.csv"))
-
-rm(first_mon,last_mon,num_pats,num_pracs,overall_counts)
-
-colsfortab <- colnames(df)[-c(2:3)] # patient ID, practice id
-df %>% summary_factorlist(explanatory = colsfortab) -> t
-#str(t)
-write_csv(t, here::here("output", "model_varibale_table_2022.csv"))
