@@ -455,8 +455,6 @@ actions:
     needs: [describe_basic_record_process]
     outputs:
        highly_sensitive:
-        table1: output/model_varibale_overall_count_2019.csv
-        talbe2: output/model_varibale_table_2019.csv
         rds1: output/measures/model_variable_broad_2019_1.rds
 
   describe_check_broad_model_variable_2019_2:
