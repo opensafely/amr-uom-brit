@@ -1,0 +1,74 @@
+---
+title: "Baseline_table_split_2019"
+author: "Billy Z"
+date: "05/03/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+
+
+```{r include=FALSE}
+library("tidyverse") 
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+### Import data
+
+#### 01.  extracted variables from "model_variable_broad_2020"
+
+```{r include=FALSE}
+
+df19_1 = read_rds(here::here("output","measures","model_variable_broad_2019_1.rds"))
+
+df19_2 = read_rds(here::here("output","measures","model_variable_broad_2019_2.rds"))
+df19_2=df19_2%>% dplyr::select(charlsonGrp,patient_id,date)
+
+dat <- merge(df19_1,df19_2,by=c('patient_id','date'))
+rm(df19_1,df19_2)
+
+
+```
+
+##Overall count
+
+```{r echo=FALSE}
+
+first_mon <- (format(min(dat$date), "%m-%Y"))
+last_mon <- (format(max(dat$date), "%m-%Y"))
+num_pats <- length(unique(dat$patient_id))
+num_pracs <- length(unique(dat$practice))
+
+overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs))
+overall_counts
+rm(overall_counts) 
+
+```
+
+##Baseline table after randomly select one observation for each patient 
+
+```{r echo=FALSE}
+
+df_one_pat <- dat %>% dplyr::group_by(patient_id) %>%
+  dplyr::arrange(date, .group_by=TRUE) %>%
+  sample_n(1)
+
+rm(dat)  
+
+# columns for baseline table
+colsfortab <- colnames(df_one_pat)
+df_one_pat %>% summary_factorlist(explanatory = colsfortab) -> t
+t
+
+```
+
+
