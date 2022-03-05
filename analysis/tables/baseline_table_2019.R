@@ -9,7 +9,6 @@
 
 ## Import libraries---
 library("tidyverse") 
-#library("ggplot2")
 library('plyr')
 library('dplyr')
 library('lubridate')
@@ -17,111 +16,13 @@ library('stringr')
 library("data.table")
 library("ggpubr")
 library("finalfit")
-#library("tableone")
-#library("gtsummary")
 
 setwd(here::here("output", "measures"))
 
 ### read data  ###
-### 1.1 import patient-level data(study definition input.csv) to summarize antibiotics counts
-############ loop reading multiple CSV files ################
-# read file list from input.csv
-csvFiles = list.files(pattern="input_2019", full.names = TRUE)
-temp <- vector("list", length(csvFiles))
+### use new synthesised .rds files for faster loading
 
-for (i in seq_along(csvFiles)){
-  filename <- csvFiles[i]
-  #temp_df <- read_csv(filename)
-  temp_df <- read_csv((filename),
-                      col_types = cols_only(
-                        #bmi_date_measured = col_date(format = "")
-                        # smoking_status_date = col_logical(),
-                        #most_recent_unclear_smoking_cat_date = col_logical(),
-                        #flu_vaccine_med = col_character(),
-                        #flu_vaccine_clinical = col_character(),
-                        #first_positive_test_date_sgss = col_logical(),
-                        #gp_covid_date = col_logical(),
-                        covrx1_dat = col_date(format = ""),
-                        covrx2_dat = col_date(format = ""),
-                        died_date = col_date(format = ""),
-                        age = col_integer(),
-                        age_cat = col_character(),
-                        sex = col_character(),
-                        practice = col_double(),
-                        region = col_factor(),
-                        #msoa = col_character(),
-                        imd = col_integer(),
-                        bmi = col_number(),
-                        ethnicity = col_factor(),
-                        smoking_status = col_character(),
-                        gp_count = col_integer(),
-                        #flu_vaccine_tpp = col_double(),
-                        flu_vaccine = col_integer(),
-                        antibacterial_brit = col_integer(),
-                        #antibacterial_brit_abtype = col_character(),
-                        antibacterial_12mb4 = col_integer(),
-                        broad_spectrum_antibiotics_prescriptions = col_integer(),
-                        #broad_prescriptions_check = col_double(),
-                        Covid_test_result_sgss = col_integer(),
-                        #covid_positive_count_sgss = col_double(),
-                        #sgss_ab_prescribed = col_double(),
-                        #gp_covid = col_double(),
-                        #gp_covid_count = col_double(),
-                        #gp_covid_ab_prescribed = col_double(),
-                        #uti_counts = col_double(),
-                        #lrti_counts = col_double(),
-                        #urti_counts = col_double(),
-                        #sinusitis_counts = col_double(),
-                        #ot_externa_counts = col_double(),
-                        #otmedia_counts = col_double(),
-                        #incdt_uti_pt = col_double(),
-                        #incdt_lrti_pt = col_double(),
-                        #incdt_urti_pt = col_double(),
-                        #incdt_sinusitis_pt = col_double(),
-                        #incdt_ot_externa_pt = col_double(),
-                        #incdt_otmedia_pt = col_double(),
-                        hx_indications = col_integer(),
-                        hx_antibiotics = col_integer(),
-                        cancer_comor = col_integer(),
-                        cardiovascular_comor = col_integer(),
-                        chronic_obstructive_pulmonary_comor = col_integer(),
-                        heart_failure_comor = col_integer(),
-                        connective_tissue_comor = col_integer(),
-                        dementia_comor = col_integer(),
-                        diabetes_comor = col_integer(),
-                        diabetes_complications_comor = col_integer(),
-                        hemiplegia_comor = col_integer(),
-                        hiv_comor = col_integer(),
-                        metastatic_cancer_comor = col_integer(),
-                        mild_liver_comor = col_integer(),
-                        mod_severe_liver_comor = col_integer(),
-                        mod_severe_renal_comor = col_integer(),
-                        mi_comor = col_integer(),
-                        peptic_ulcer_comor = col_integer(),
-                        peripheral_vascular_comor = col_integer(),
-                        patient_id = col_integer()
-                      ),
-                      na = character()
-  )
-  
-
-  filename <- basename(filename)
-  filename <-str_remove(filename, "input_")
-  filename <-str_remove(filename, ".csv.gz")
-  
-    
-  #add to per-month temp df
-  temp_df$date <- filename
-  mutate(temp_df, date = as.Date(date, "%Y-%m-%d"))
-    
-  #add df to list
-  temp[[i]] <- temp_df
-}
-
-
-# combine list -> data.table/data.frame
-df_input <- plyr::ldply(temp, data.frame)
-rm(temp,csvFiles,i)# remove temporary list
+df_input <- read_rds('basic_record_2019.rds')
 
 df_input$date <- as.Date(df_input$date)
 #df_input$cal_mon <- month(df_input$date)
