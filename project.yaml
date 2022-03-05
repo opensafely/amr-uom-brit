@@ -234,6 +234,30 @@ actions:
         rds4: output/measures/monthly_consult_sinusitis.rds
         rds5: output/measures/monthly_consult_otmedia.rds
         rds6: output/measures/monthly_consult_ot_externa.rds
+  
+  describe_consultation_model_1:
+    run: r:latest analysis/model/consult_model_1.R
+    needs: [describe_consultation_model_process_2]
+    outputs:
+       moderately_sensitive:
+        jpeg: output/consult_model1.jpeg
+        rds: output/consult_model1.rds
+
+  describe_consultation_model_2:
+    run: r:latest analysis/model/consult_model_2.R
+    needs: [describe_consultation_model_process_2]
+    outputs:
+       moderately_sensitive:
+        jpeg: output/consult_model2.jpeg
+        rds: output/consult_model2.rds
+  
+  # describe_consultation_model_3:
+  #   run: r:latest analysis/model/consult_model_3.R
+  #   needs: [describe_consultation_model_process_2]
+  #   outputs:
+  #      moderately_sensitive:
+  #       jpeg: output/consult_model3.jpeg
+  #       rds: output/consult_model3.rds
 
   # consultation_model: 
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
