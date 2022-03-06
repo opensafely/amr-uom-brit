@@ -53,13 +53,13 @@ actions:
   #       cohort: output/overall.png
   #       boxplot: output/overallbox.png
 
-  describe_percentile:
-    run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        percentile: output/overall_25th_75th_percentile.png
-        table_total: output/total_number_antibacterial_prescriptions.csv
+  # describe_percentile:
+  #   run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       percentile: output/overall_25th_75th_percentile.png
+  #       table_total: output/total_number_antibacterial_prescriptions.csv
 
   # describe_starpu:
   #   run: r:latest analysis/plot/starpu_ab_prescribing.R
@@ -369,23 +369,23 @@ actions:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
 
-  describe_same_day_ab_sgss:
-    run: r:latest analysis/plot/same_day_covid_ab_sgss.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot1: output/same_day_ab_prop_line_sgss_age.jpeg
-        plot2: output/same_day_ab_prop_line_sgss.jpeg
-        csv1: output/same_day_ab_prop_sgss.csv
+  # describe_same_day_ab_sgss:
+  #   run: r:latest analysis/plot/same_day_covid_ab_sgss.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/same_day_ab_prop_line_sgss_age.jpeg
+  #       plot2: output/same_day_ab_prop_line_sgss.jpeg
+  #       csv1: output/same_day_ab_prop_sgss.csv
 
-  describe_same_day_ab_gp:
-    run: r:latest analysis/plot/same_day_covid_ab_gp.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot1: output/same_day_ab_prop_line_gp_age.jpeg
-        plot2: output/same_day_ab_prop_line_gp.jpeg
-        csv1: output/same_day_ab_prop_gp.csv
+  # describe_same_day_ab_gp:
+  #   run: r:latest analysis/plot/same_day_covid_ab_gp.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/same_day_ab_prop_line_gp_age.jpeg
+  #       plot2: output/same_day_ab_prop_line_gp.jpeg
+  #       csv1: output/same_day_ab_prop_gp.csv
 
   generate_study_population_antibiotics: #  Antibiotics_recorded_01
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
