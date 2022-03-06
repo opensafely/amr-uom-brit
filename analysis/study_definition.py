@@ -854,25 +854,25 @@ study = StudyDefinition(
 measures = [
 
     ## antibiotic rx rate
-    Measure(id="antibiotics_overall",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice"]
-            ),
+    # Measure(id="antibiotics_overall",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["practice"]
+    #         ),
     
-    ## Antibiotic Rx rate by TyPE
-    Measure(id="antibiotics_overall_brit_abtype",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["antibacterial_brit_abtype"]
-            ),
+    # ## Antibiotic Rx rate by TyPE
+    # Measure(id="antibiotics_overall_brit_abtype",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["antibacterial_brit_abtype"]
+    #         ),
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_brit",
-            group_by=["practice"]
-            ),
+    # ## Broad spectrum antibiotics
+    # Measure(id="broad_spectrum_proportion",
+    #         numerator="broad_spectrum_antibiotics_prescriptions",
+    #         denominator="antibacterial_brit",
+    #         group_by=["practice"]
+    #         ),
 
     # ## antibiotic count rolling 12m before
     # Measure(id="ABs_12mb4",
@@ -885,6 +885,13 @@ measures = [
     ## STRPU antibiotics
     Measure(id="STARPU_antibiotics",
             numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "sex", "age_cat"]
+            ),
+
+    ## STRPU broad_spectrum
+    Measure(id="STARPU_broad_spectrum",
+            numerator="broad_spectrum_antibiotics_prescriptions",
             denominator="population",
             group_by=["practice", "sex", "age_cat"]
             ),
@@ -903,32 +910,32 @@ measures = [
     # #         group_by=["practice", "sex", "age_cat"]
     # #         ),
     
-    ## repeat prescribing
-    Measure(id="repeat_antibiotics",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice", "hx_antibiotics", "sex", "age_cat"]
-            ),
+    # ## repeat prescribing
+    # Measure(id="repeat_antibiotics",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["practice", "hx_antibiotics", "sex", "age_cat"]
+    #         ),
     
-    ## covid diagnosis same day prescribing
-    Measure(id="gp_same_day_pos_ab",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","gp_covid","gp_covid_ab_prescribed","age_cat"]
-            ),
+    # ## covid diagnosis same day prescribing
+    # Measure(id="gp_same_day_pos_ab",
+    #         numerator="population",
+    #         denominator="population",
+    #         group_by=["practice","gp_covid","gp_covid_ab_prescribed","age_cat"]
+    #         ),
 
-    Measure(id="Same_day_pos_ab_sgss",
-            numerator="population",
-            denominator="population",
-            group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
-            ),
+    # Measure(id="Same_day_pos_ab_sgss",
+    #         numerator="population",
+    #         denominator="population",
+    #         group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
+    #         ),
 
-    ## broad_vs_narrow
-    Measure(id="broad_narrow_prescribing",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_brit",
-            group_by=["practice","broad_prescriptions_check","age_cat"]
-            ),    
+    # ## broad_vs_narrow
+    # Measure(id="broad_narrow_prescribing",
+    #         numerator="broad_spectrum_antibiotics_prescriptions",
+    #         denominator="antibacterial_brit",
+    #         group_by=["practice","broad_prescriptions_check","age_cat"]
+    #         ),    
 
 
 ]
