@@ -32,8 +32,8 @@ df1 <- read_csv(
     practice = col_integer(),
     
     # Outcomes
-    antibacterial_brit  = col_integer(),
-    population  = col_integer(),
+    antibacterial_brit  = col_double(),
+    population  = col_double(),
     value = col_double(),
     sex = col_character(),
     age_cat = col_character(),
@@ -54,8 +54,8 @@ df2 <- read_csv(
     practice = col_integer(),
     
     # Outcomes
-    broad_spectrum_antibiotics_prescriptions  = col_integer(),
-    population  = col_integer(),
+    broad_spectrum_antibiotics_prescriptions  = col_double(),
+    population  = col_double(),
     value = col_double(),
     sex = col_character(),
     age_cat = col_character(),
