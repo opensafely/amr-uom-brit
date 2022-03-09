@@ -1,7 +1,7 @@
 ##############
 ## Consultation rates for 6 common infection over time,
 ## stratified by age categories. 
-## incident= without same infection in 90 days
+## incident= with same infection in 90 days
 ##############
 
 library("data.table")
@@ -49,24 +49,17 @@ last_mon= format(max(df$date),"%m-%Y")
 TPPnumber=length(unique(df$practice))
 
 # select incident pt and count consultations
-# hx_pt==0 means without same infection consultation in 90 days
+# hx_pt==0 means no same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
-         
-# summarize incident number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), # count consultation number in each age_cat; hx=0(sum counts), hx=1(count=0)
-            population=mean(population)) # patient number per GP
+# summarize incident counts & total population
+df_1=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="UTI")
  
-# "rate per 1,000 registered patients"
-df_1=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
-                           indic="UTI")
-rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
+rm(df,first_mon,last_mon,last.date)
 
 
 ###1.2 LRTI
@@ -102,25 +95,18 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=1 , count incident patient number
+# select incident pt and count consultations
+# hx_pt==0 means no same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
-         
-# summarize incident number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), 
-            population=mean(population)) 
- 
-# "rate per 1,000 registered patients"
-# "rate per 1,000 registered patients"
-df_2=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
-                           indic="LRTI")
-rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
+# summarize incident counts & total population
+df_2=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="LRTI")
+
+rm(df,first_mon,last_mon,last.date)
 
 
 
@@ -157,25 +143,18 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=1 , count incident patient number
+# select incident pt and count consultations
+# hx_pt==0 means no same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
-         
-# summarize incident consultation number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), 
-            population=mean(population)) 
- 
-# "rate per 1,000 registered patients"
-df_3=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
-                           indic="URTI")
-rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
+# summarize incident counts & total population
+df_3=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="URTI")
 
+rm(df,first_mon,last_mon,last.date)
 
 
 
@@ -212,26 +191,18 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=1, count incident patient number
+# select incident pt and count consultations
+# hx_pt==0 means no same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
-         
-# summarize incident number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), 
-            population=mean(population)) 
- 
-# "rate per 1,000 registered patients"
-df_4=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
-                           indic="sinusitis")
+# summarize incident counts & total population
+df_4=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="sinusitis")
 
-
-rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
+rm(df,first_mon,last_mon,last.date)
 
 
 
@@ -272,25 +243,18 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=1 , count incident patient number
+# select incident pt and count consultations
+# hx_pt==0 means no same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
-         
-# summarize incident number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), 
-            population=mean(population)) 
- 
-# "rate per 1,000 registered patients"
-df_5=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
-                           indic="otitis externa")
+# summarize incident counts & total population
+df_5=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="otitis externa")
 
-rm(df,df_sum_gp_age,first_mon,last_mon,last.date)
+rm(df,first_mon,last_mon,last.date)
 
 
 
@@ -330,73 +294,71 @@ df=df%>% filter(date!=last.date)
 first_mon=format(min(df$date),"%m-%Y")
 last_mon= format(max(df$date),"%m-%Y")
 
-# select incdt=1 , count incident patient number
+# select incident pt and count consultations
+# hx_pt==0 means no same infection consultation in 90 days
 df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
 
-# add col: population per GP in each time point- same number in multiple row within same gp
-df=df%>%
-  group_by(date,practice)%>% 
-  mutate(population=sum(population))
-         
-# summarize incident number of each age_cat
-df_sum_gp_age=df%>%
-  group_by(date,practice,age_cat)%>% 
-  summarise(pt_counts=sum(hx_counts), 
-            population=mean(population)) 
- 
-# "rate per 1,000 registered patients"
-df_6=df_sum_gp_age%>%mutate(rate=pt_counts/population*1000,
-                           indic="otitis media")
+# summarize incident counts & total population
+df_6=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="otitis media")
 
-rm(df,df_sum_gp_age,last.date)
+rm(df,last.date)
+
+
+
 
 
 
 ### 2. combined dataframe
 
 df=rbind(df_1,df_2,df_3,df_4,df_5,df_6)
+rm(df_1,df_2,df_3,df_4,df_5,df_6)
+df=df%>%filter(age_cat != "0") # remove 0 group
+
+df=df%>%group_by(date,indic)%>%mutate(total.pop=sum(population))
+
+#remove counts<5
+df$counts2=ifelse(df$counts<5,5 , df$counts)
+df$rate=df$counts2/df$total.pop*1000
+df_plot=df
+write.csv(df,here::here("output","redacted","consultation_rate_incident_check.csv"))
 
 
-### 3. plots
-
-## 3.1 consultation rate by age group
-
-#summarise table
-df_plot=df%>%
-group_by(date,age_cat,indic)%>%
-summarise(rate=mean(rate))
-
-write.csv(df_plot,here::here("output","consultation_rate_incident.csv"))
 
 
-# # line graph- by age group an d divided by year
+
+
+
+### 3.table
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+# month for adjust seasonality
+df$month=format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+
+df=df%>%group_by(covid,season)%>%summarise(rate=mean(counts)/mean(total.pop)*1000)
+write.csv(df,here::here("output","redacted","consultation_rate_incident.csv"))
+
+
+### 4. plots
+
+# # line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
-
-# df_plot=df_plot%>%mutate(age_cat_5= case_when(age_cat=="0-4"| age_cat=="5-14" ~ "0-14",
-#                                               age_cat=="15-24"| age_cat=="25-34" ~ "15-34",
-#                                               age_cat=="35-44"| age_cat=="45-54" ~ "35-54",
-#                                               age_cat=="55-64"| age_cat=="65-74" ~ "55-74",
-#                                               age_cat=="75+" ~ "75+"))
-
-# df_plot2=df_plot%>%group_by(date,indic, age_cat_5)%>%summarise(rate=sum(rate))
-
-# lineplot_2<- ggplot(df_plot2, aes(x=date, y=rate,group=age_cat_5))+
-#   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-#   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-#   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-#   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
-#   #scale_y_continuous(n.breaks = 20)+
-#   facet_grid(rows  = vars(indic))+
-#   geom_line(aes(color=age_cat_5))+
-#   theme(axis.text.x = element_text(angle = 60,hjust=1),
-#         legend.position = "bottom",legend.title =element_blank())+
-#   labs(
-#     title = "Consultation rate of incident patients for 6 common infections",
-#     subtitle = paste(first_mon,"-",last_mon),
-#     caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
-#     x = "", 
-#     y = "Number of consultations per 1000 patients")
-
 
 df_plot.1=df_plot%>%filter(indic=="UTI")
 lineplot_1<- ggplot(df_plot.1, aes(x=date, y=rate,group=age_cat))+
@@ -417,7 +379,7 @@ lineplot_1<- ggplot(df_plot.1, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_1,
-  filename="consult_age_incident_UTI.jpeg", path=here::here("output"))
+  filename="consult_age_incident_UTI.jpeg", path=here::here("output","redacted"))
 
   rm(df_plot.1,lineplot_1)
 
@@ -440,7 +402,7 @@ lineplot_2<- ggplot(df_plot.2, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_2,
-  filename="consult_age_incident_URTI.jpeg", path=here::here("output"))
+  filename="consult_age_incident_URTI.jpeg", path=here::here("output","redacted"))
 
 
   rm(df_plot.2,lineplot_2)
@@ -464,7 +426,7 @@ lineplot_3<- ggplot(df_plot.3, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_3,
-  filename="consult_age_incident_LRTI.jpeg", path=here::here("output"))
+  filename="consult_age_incident_LRTI.jpeg", path=here::here("output","redacted"))
 
 
   rm(df_plot.3,lineplot_3)
@@ -488,7 +450,7 @@ lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_4,
-  filename="consult_age_incident_sinusitis.jpeg", path=here::here("output"))
+  filename="consult_age_incident_sinusitis.jpeg", path=here::here("output","redacted"))
 
 
  rm(df_plot.4,lineplot_4)
@@ -514,7 +476,7 @@ lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_5,
-  filename="consult_age_incident_otmedia.jpeg", path=here::here("output"))
+  filename="consult_age_incident_otmedia.jpeg", path=here::here("output","redacted"))
 
    rm(df_plot.5,lineplot_5)
 
@@ -540,106 +502,6 @@ lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
 
   ggsave(
   plot= lineplot_6,
-  filename="consult_age_incident_ot_externa.jpeg", path=here::here("output"))
-
-
-## 3.2 overall consultation rate percentile including percentiles
-
-# #summarise table
-# df_gprate=df%>%
-# group_by(date,practice)%>%
-# summarise(ab_rate_1000=mean(rate))
-
-
-# # df_gprate$cal_year=format(df_gprate$date,"%Y")
-# # df_gprate$cal_mon=format(df_gprate$date,"%m")
-
-
-# # num_uniq_prac <- as.numeric(dim(table((df_gprate$practice))))
-
-# # df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
-# #   mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
-# #          lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
-# #          highquart= quantile(ab_rate_1000, na.rm=TRUE)[4],
-# #          ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
-# #          five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
-
-  
-# # plot_percentile <- ggplot(df_mean, aes(x=date))+
-# #   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-# #   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-# #   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-# #   geom_line(aes(y=meanABrate),color="steelblue")+
-# #   geom_point(aes(y=meanABrate),color="steelblue")+
-# #   geom_line(aes(y=lowquart), color="darkred", linetype=3)+
-# #   geom_point(aes(y=lowquart), color="darkred", linetype=3)+
-# #   geom_line(aes(y=highquart), color="darkred", linetype=3)+
-# #   geom_point(aes(y=highquart), color="darkred", linetype=3)+
-# #   geom_line(aes(y=ninefive), color="black", linetype=3)+
-# #   geom_point(aes(y=ninefive), color="black", linetype=3)+
-# #   geom_line(aes(y=five), color="black", linetype=3)+
-# #   geom_point(aes(y=five), color="black", linetype=3)+
-# #   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-# #   scale_y_continuous(n.breaks = 20)+
-# #   theme(axis.text.x=element_text(angle=60,hjust=1))+
-# #   labs(
-# #     title = "Consultation rate of incident patients for 6 common infections",
-# #     subtitle = paste(first_mon,"-",last_mon),
-# #     caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
-# #     x = "",
-# #     y = "Number of consultations per 1000 patients")+
-# #   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")))+
-# #   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")))
-
-#summarise table
-df_gprate_infec=df%>%
-  group_by(date,practice,indic)%>% # sum age category 
-  summarise(ab_rate_1000=sum(pt_counts)/mean(population)*1000) #total consultations/ population *1000
-
-num_uniq_prac <- as.numeric(dim(table((df_gprate_infec$practice))))
-
-df_mean <- df_gprate_infec %>% group_by(date) %>%
-  mutate(meanABrate = mean(ab_rate_1000,na.rm=TRUE),
-         lowquart= quantile(ab_rate_1000, na.rm=TRUE)[2],
-         highquart= quantile(ab_rate_1000, na.rm=TRUE)[4])
-       #  ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
-      #   five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
-
-write.csv(df_mean,here::here("output","consultation_GP_rate_incident.csv"))
-
-plot_percentile_by_infection <- ggplot(df_mean, aes(x=date))+
-  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(y=meanABrate),color="black")+
- # geom_point(aes(y=meanABrate),color="steelblue")+
-  geom_line(aes(y=lowquart), color="darkred", linetype= "dotted")+
-#  geom_point(aes(y=lowquart), color="darkred", linetype=3)+
-  geom_line(aes(y=highquart), color="darkred", linetype= "dotted")+
- # geom_point(aes(y=highquart), color="darkred", linetype=3)+
-  #geom_line(aes(y=ninefive), color="black", linetype=3)+
-  #geom_point(aes(y=ninefive), color="black", linetype=3)+
-#  geom_line(aes(y=five), color="black", linetype=3)+
- # geom_point(aes(y=five), color="black", linetype=3)+
-  facet_grid(rows = vars(indic))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
- # scale_y_continuous(n.breaks = 20)+
-  theme(axis.text.x=element_text(angle=60,hjust=1))+
-  labs(
-    title = "Consultation rate of incident patients for 6 common infections",
-    subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
-                    Grey shading represents national lockdown time. 
-                    Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
-    x = "",
-    y = "Number of consultations per 1000 patients")+
-  geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
-  geom_vline(xintercept = as.numeric(as.Date("2020-12-31")),color="grey70")
-
-ggsave(
-  plot= plot_percentile_by_infection,
-  filename="consult_all_incident.jpeg", path=here::here("output"),
-)
-
+  filename="consult_age_incident_ot_externa.jpeg", path=here::here("output","redacted"))
 
 
