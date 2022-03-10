@@ -210,6 +210,34 @@ actions:
         plot2: output/consult_all_prevalent.jpeg
         csv1: output/consultation_rate_prevalent.csv
         csv2: output/consultation_GP_rate_prevalent.csv
+  
+  describe_consultation_rate_all_incident_redacted:
+    run: r:latest analysis/redaction/consultation_by_age_infection_incident.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive:
+        plot1.1: output/redacted/consult_age_incident_UTI.jpeg
+        plot1.2: output/redacted/consult_age_incident_URTI.jpeg
+        plot1.3: output/redacted/consult_age_incident_LRTI.jpeg
+        plot1.4: output/redacted/consult_age_incident_sinusitis.jpeg
+        plot1.5: output/redacted/consult_age_incident_otmedia.jpeg
+        plot1.6: output/redacted/consult_age_incident_ot_externa.jpeg
+        csv1: output/redacted/consultation_rate_incident_check.csv
+        csv2: output/redacted/consultation_rate_incident.csv
+
+  describe_consultation_rate_all_prevalent_redacted:
+    run: r:latest analysis/redaction/consultation_by_age_infection_prevalent.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive: 
+        plot1.1: output/redacted/consult_age_prevalent_UTI.jpeg
+        plot1.2: output/redacted/consult_age_prevalent_URTI.jpeg
+        plot1.3: output/redacted/consult_age_prevalent_LRTI.jpeg
+        plot1.4: output/redacted/consult_age_prevalent_sinusitis.jpeg
+        plot1.5: output/redacted/consult_age_prevalent_otmedia.jpeg
+        plot1.6: output/redacted/consult_age_prevalent_ot_externa.jpeg
+        csv1: output/redacted/consultation_rate_prevalent_check.csv
+        csv2: output/redacted/consultation_rate_prevalent.csv
 
   describe_consultation_model_process_1:
     run: r:latest analysis/process/consultation_variables_1.R
