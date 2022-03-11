@@ -239,6 +239,16 @@ actions:
         csv1: output/redacted/consultation_rate_prevalent_check.csv
         csv2: output/redacted/consultation_rate_prevalent.csv
 
+  describe_consultation_rate_all_GP_redacted:
+    run: r:latest analysis/redaction/consultation_by_age_infection_GP.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive: 
+        plot1: output/redacted/consult_age_prevalent_UTI.jpeg
+        plot2: output/redacted/consult_age_prevalent_URTI.jpeg
+        csv1: output/redacted/consult_age_prevalent_LRTI.jpeg
+        csv2: output/redacted/consult_age_prevalent_sinusitis.jpeg
+
   describe_consultation_model_process_1:
     run: r:latest analysis/process/consultation_variables_1.R
     needs: [generate_measures_infection, describe_basic_record_process]

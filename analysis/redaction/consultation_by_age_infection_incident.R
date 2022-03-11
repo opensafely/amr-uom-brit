@@ -351,7 +351,7 @@ df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 
-df=df%>%group_by(covid,season)%>%summarise(rate=mean(counts)/mean(total.pop)*1000)
+df=df%>%group_by(covid,season,indic)%>%summarise(rate=mean(counts)/mean(total.pop)*1000)
 write.csv(df,here::here("output","redacted","consultation_rate_incident.csv"))
 
 
