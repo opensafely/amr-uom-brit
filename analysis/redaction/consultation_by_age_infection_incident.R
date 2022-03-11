@@ -58,7 +58,7 @@ df_1=df%>%
   summarise(counts=sum(hx_counts), 
             population=sum(population))%>%
   mutate(indic="UTI")
- 
+
 rm(df,first_mon,last_mon,last.date)
 
 
@@ -117,7 +117,7 @@ df <- read_csv(
   here::here("output", "measures", "measure_infection_consult_URTI.csv"), 
   col_types = cols_only(
     
-   # Identifier
+    # Identifier
     practice = col_integer(),
     
     #Outcomes
@@ -127,7 +127,7 @@ df <- read_csv(
     age_cat = col_character(),
     value = col_double(),
     
-   # Date
+    # Date
     date = col_date(format="%Y-%m-%d")
     
   ),
@@ -321,7 +321,7 @@ df=df%>%filter(age_cat != "0") # remove 0 group
 df=df%>%group_by(date,indic)%>%mutate(total.pop=sum(population))
 
 #remove counts<5
-df$counts2=ifelse(df$counts<5,5 , df$counts)
+df$counts2=ifelse(df$counts<=5, NA , df$counts)
 df$rate=df$counts2/df$total.pop*1000
 df_plot=df
 write.csv(df,here::here("output","redacted","consultation_rate_incident_check.csv"))
@@ -360,7 +360,12 @@ write.csv(df,here::here("output","redacted","consultation_rate_incident.csv"))
 # # line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
 
+# UTI
 df_plot.1=df_plot%>%filter(indic=="UTI")
+
+# plot missing value line
+gaps=df_plot.1 %>% filter(!is.na(rate))
+
 lineplot_1<- ggplot(df_plot.1, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -368,22 +373,33 @@ lineplot_1<- ggplot(df_plot.1, aes(x=date, y=rate,group=age_cat))+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
   geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Consultation rate of incident patients- UTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  ggsave(
+
+ggsave(
   plot= lineplot_1,
   filename="consult_age_incident_UTI.jpeg", path=here::here("output","redacted"))
 
-  rm(df_plot.1,lineplot_1)
+rm(df_plot.1,lineplot_1,gaps)
 
-  df_plot.2=df_plot%>%filter(indic=="URTI")
+
+
+# URTI
+df_plot.2=df_plot%>%filter(indic=="URTI")
+# plot missing value line
+gaps=df_plot.2%>% filter(!is.na(rate))
+
 lineplot_2<- ggplot(df_plot.2, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -391,23 +407,34 @@ lineplot_2<- ggplot(df_plot.2, aes(x=date, y=rate,group=age_cat))+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
   geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Consultation rate of incident patients- URTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  ggsave(
+
+ggsave(
   plot= lineplot_2,
   filename="consult_age_incident_URTI.jpeg", path=here::here("output","redacted"))
 
 
-  rm(df_plot.2,lineplot_2)
+rm(df_plot.2,lineplot_2,gaps)
 
-  df_plot.3=df_plot%>%filter(indic=="LRTI")
+
+#LRTI
+df_plot.3=df_plot%>%filter(indic=="LRTI")
+
+# plot missing value line
+gaps=df_plot.3 %>% filter(!is.na(rate))
+
 lineplot_3<- ggplot(df_plot.3, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -415,23 +442,34 @@ lineplot_3<- ggplot(df_plot.3, aes(x=date, y=rate,group=age_cat))+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
   geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Consultation rate of incident patients- LRTI",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  ggsave(
+
+ggsave(
   plot= lineplot_3,
   filename="consult_age_incident_LRTI.jpeg", path=here::here("output","redacted"))
 
 
-  rm(df_plot.3,lineplot_3)
+rm(df_plot.3,lineplot_3,gaps)
 
-  df_plot.4=df_plot%>%filter(indic=="sinusitis")
+
+# sinusitis
+df_plot.4=df_plot%>%filter(indic=="sinusitis")
+
+# plot missing value line
+gaps=df_plot.4 %>% filter(!is.na(rate))
+
 lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -439,25 +477,34 @@ lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
   geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
-    title = "Consultation rate of incident patients- Sinusitis",
+    title = "Consultation rate of incident patients- Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  ggsave(
+
+ggsave(
   plot= lineplot_4,
   filename="consult_age_incident_sinusitis.jpeg", path=here::here("output","redacted"))
 
 
- rm(df_plot.4,lineplot_4)
+rm(df_plot.4,lineplot_4,gaps)
 
 
+# otmedia
+df_plot.5=df_plot%>%filter(indic=="otitis media")
 
-  df_plot.5=df_plot%>%filter(indic=="otitis media")
+# plot missing value line
+gaps=df_plot.5 %>% filter(!is.na(rate))
+
 lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -465,25 +512,34 @@ lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
   geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Consultation rate of incident patients- Otitis media",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  ggsave(
+ggsave(
   plot= lineplot_5,
   filename="consult_age_incident_otmedia.jpeg", path=here::here("output","redacted"))
 
-   rm(df_plot.5,lineplot_5)
+rm(df_plot.5,lineplot_5,gaps)
 
 
 
 
-  df_plot.6=df_plot%>%filter(indic=="otitis externa")
+# ot externa
+df_plot.6=df_plot%>%filter(indic=="otitis externa")
+
+# plot missing value line
+gaps=df_plot.6 %>% filter(!is.na(rate))
+
 lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -491,17 +547,19 @@ lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   #scale_y_continuous(n.breaks = 20)+
   geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
     title = "Consultation rate of incident patients- Otitis externa",
     subtitle = paste(first_mon,"-",last_mon),
-    caption = paste("Data from approximately", TPPnumber,"TPP Practices; Grey shading represents national lockdown time."),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
     x = "", 
     y = "Number of consultations per 1000 patients")
 
-  ggsave(
+ggsave(
   plot= lineplot_6,
   filename="consult_age_incident_ot_externa.jpeg", path=here::here("output","redacted"))
-
-
