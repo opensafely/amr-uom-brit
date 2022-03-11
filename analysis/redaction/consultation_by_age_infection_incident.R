@@ -58,7 +58,7 @@ df_1=df%>%
   summarise(counts=sum(hx_counts), 
             population=sum(population))%>%
   mutate(indic="UTI")
- 
+
 rm(df,first_mon,last_mon,last.date)
 
 
@@ -117,7 +117,7 @@ df <- read_csv(
   here::here("output", "measures", "measure_infection_consult_URTI.csv"), 
   col_types = cols_only(
     
-   # Identifier
+    # Identifier
     practice = col_integer(),
     
     #Outcomes
@@ -127,7 +127,7 @@ df <- read_csv(
     age_cat = col_character(),
     value = col_double(),
     
-   # Date
+    # Date
     date = col_date(format="%Y-%m-%d")
     
   ),
@@ -381,7 +381,7 @@ lineplot_1<- ggplot(df_plot.1, aes(x=date, y=rate,group=age_cat))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
-                    Dashed lines represent missing value due to low counts.
+                    
                     "),
     x = "", 
     y = "Number of consultations per 1000 patients")
@@ -415,7 +415,7 @@ lineplot_2<- ggplot(df_plot.2, aes(x=date, y=rate,group=age_cat))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
-                    Dashed lines represent missing value due to low counts.
+                    
                     "),
     x = "", 
     y = "Number of consultations per 1000 patients")
@@ -450,7 +450,7 @@ lineplot_3<- ggplot(df_plot.3, aes(x=date, y=rate,group=age_cat))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
-                    Dashed lines represent missing value due to low counts.
+                    
                     "),
     x = "", 
     y = "Number of consultations per 1000 patients")
@@ -485,7 +485,7 @@ lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
-                    Dashed lines represent missing value due to low counts.
+                    
                     "),
     x = "", 
     y = "Number of consultations per 1000 patients")
@@ -520,7 +520,7 @@ lineplot_5<- ggplot(df_plot.5, aes(x=date, y=rate,group=age_cat))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
-                    Dashed lines represent missing value due to low counts.
+                    
                     "),
     x = "", 
     y = "Number of consultations per 1000 patients")
@@ -555,7 +555,7 @@ lineplot_6<- ggplot(df_plot.6, aes(x=date, y=rate,group=age_cat))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
-                    Dashed lines represent missing value due to low counts.
+                    
                     "),
     x = "", 
     y = "Number of consultations per 1000 patients")
