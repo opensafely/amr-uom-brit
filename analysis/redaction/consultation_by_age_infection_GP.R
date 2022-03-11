@@ -557,6 +557,7 @@ ggsave(
   plot= plot_0,
   filename="consult_all_incident.jpeg", path=here::here("output","redacted"))
 
+
 # prevalent
 plot_1 <- ggplot(df1.sum, aes(x=date))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
