@@ -321,7 +321,7 @@ df=df%>%filter(age_cat != "0") # remove 0 group
 df=df%>%group_by(date,indic)%>%mutate(total.pop=sum(population))
 
 #remove counts<5
-df$counts2=ifelse(df$counts<5, NA , df$counts)
+df$counts2=ifelse(df$counts<=5, NA , df$counts)
 df$rate=df$counts2/df$total.pop*1000
 df_plot=df
 write.csv(df,here::here("output","redacted","consultation_rate_prevalent_check.csv"))
