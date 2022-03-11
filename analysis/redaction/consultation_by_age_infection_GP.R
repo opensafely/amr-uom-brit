@@ -555,7 +555,7 @@ plot_0 <- ggplot(df0.sum, aes(x=date))+
 
 ggsave(
   plot= plot_0,
-  filename="consult_all_prevalent.jpeg", path=here::here("output","redacted"),
+  filename="consult_all_incident.jpeg", path=here::here("output","redacted"),
 )
 
 # prevalent
@@ -582,5 +582,5 @@ plot_1 <- ggplot(df1.sum, aes(x=date))+
 
 ggsave(
   plot= plot_1,
-  filename="consult_all_incident.jpeg", path=here::here("output","redacted"),
+  filename="consult_all_prevalent.jpeg", path=here::here("output","redacted"),
 )
