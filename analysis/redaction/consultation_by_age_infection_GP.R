@@ -488,7 +488,7 @@ df0.sum <- df0 %>% group_by(date,indic) %>%
   summarise(
             total.counts=sum(counts),
             meanABrate = mean(rate,na.rm=TRUE),
-            mean.counts=mean(counts),
+            mean.counts=mean(counts,na.rm=TRUE),
             lowquart= quantile(rate, na.rm=TRUE)[2],
             highquart= quantile(rate, na.rm=TRUE)[4],
             lowquart.counts= quantile(counts, na.rm=TRUE)[2],
@@ -498,7 +498,7 @@ df1.sum <- df1 %>% group_by(date,indic) %>%
   summarise(
             total.counts=sum(counts),
             meanABrate = mean(rate,na.rm=TRUE),
-            mean.counts=mean(counts),
+            mean.counts=mean(counts,na.rm=TRUE),
             lowquart= quantile(rate, na.rm=TRUE)[2],
             highquart= quantile(rate, na.rm=TRUE)[4],
             lowquart.counts= quantile(counts, na.rm=TRUE)[2],
@@ -557,6 +557,8 @@ ggsave(
   plot= plot_0,
   filename="consult_all_incident.jpeg", path=here::here("output","redacted"))
 
+
+df1.sum$redacted_rate_25th=as.numeric(df1.sum$redacted_rate_25th)
 
 # prevalent
 plot_1 <- ggplot(df1.sum, aes(x=date))+
