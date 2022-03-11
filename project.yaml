@@ -239,6 +239,17 @@ actions:
         csv1: output/redacted/consultation_rate_prevalent_check.csv
         csv2: output/redacted/consultation_rate_prevalent.csv
 
+  describe_consultation_rate_all_GP_redacted:
+    run: r:latest analysis/redaction/consultation_by_age_infection_GP.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive: 
+        plot1: output/redacted/consult_all_prevalent.jpeg
+        plot2: output/redacted/consult_all_incident.jpeg
+        csv1: output/redacted/consultation_rate_GP_check.csv
+        csv2: output/redacted/consultation_GP_rate_prevalent.csv
+        csv3: output/redacted/consultation_GP_rate_incident.csv
+
   describe_consultation_model_process_1:
     run: r:latest analysis/process/consultation_variables_1.R
     needs: [generate_measures_infection, describe_basic_record_process]
