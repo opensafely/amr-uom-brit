@@ -11,7 +11,7 @@ library("tidyverse")
 #library("cowplot")
 
 
-
+dir.create(here::here("output", "redacted"))
 
 ### 1. import data 
 ##1.1 UTI
