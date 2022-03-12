@@ -135,7 +135,7 @@ write_csv(df, here::here("output","redacted", "abtype_uti.csv"))
 
 
 ### plots
-df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
+df.plot.1$redacted_rate=as.numeric(df.plot.1$redacted_rate)
 ## # line graph-rate
 # prevalent
 lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
@@ -155,7 +155,7 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
-df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
+df.plot.0$redacted_rate=as.numeric(df.plot.0$redacted_rate)
 # incident
 lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -321,7 +321,7 @@ write_csv(df, here::here("output","redacted", "abtype_lrti.csv"))
 
 
 ### plots
-df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
+df.plot.1$redacted_rate=as.numeric(df.plot.1$redacted_rate)
 ## # line graph-rate
 # prevalent
 lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
@@ -341,7 +341,7 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
-df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
+df.plot.0$redacted_rate=as.numeric(df.plot.0$redacted_rate)
 # incident
 lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -507,7 +507,7 @@ write_csv(df, here::here("output","redacted", "abtype_urti.csv"))
 
 
 ### plots
-df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
+df.plot.1$redacted_rate=as.numeric(df.plot.1$redacted_rate)
 ## # line graph-rate
 # prevalent
 lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
@@ -527,7 +527,7 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
-df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
+df.plot.0$redacted_rate=as.numeric(df.plot.0$redacted_rate)
 # incident
 lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -690,7 +690,7 @@ write_csv(df, here::here("output","redacted", "abtype_sinusitis.csv"))
 
 
 ### plots
-df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
+df.plot.1$redacted_rate=as.numeric(df.plot.1$redacted_rate)
 ## # line graph-rate
 # prevalent
 lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
@@ -710,7 +710,7 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
-df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
+df.plot.0$redacted_rate=as.numeric(df.plot.0$redacted_rate)
 # incident
 lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -874,7 +874,7 @@ write_csv(df, here::here("output","redacted", "abtype_ot_externa.csv"))
 
 
 ### plots
-df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
+df.plot.1$redacted_rate=as.numeric(df.plot.1$redacted_rate)
 ## # line graph-rate
 # prevalent
 lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
@@ -894,7 +894,7 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
-df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
+df.plot.0$redacted_rate=as.numeric(df.plot.0$redacted_rate)
 # incident
 lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -1058,7 +1058,7 @@ write_csv(df, here::here("output","redacted", "abtype_otmedia.csv"))
 
 
 ### plots
-df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
+df.plot.1$redacted_rate=as.numeric(df.plot.1$redacted_rate)
 ## # line graph-rate
 # prevalent
 lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
@@ -1078,7 +1078,7 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
-df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
+df.plot.0$redacted_rate=as.numeric(df.plot.0$redacted_rate)
 # incident
 lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
