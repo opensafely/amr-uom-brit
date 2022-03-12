@@ -54,10 +54,18 @@ df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
-df.plot.1=df.1%>%group_by(type,date)%>%
+df.plot.1=df.1%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
+
+#remove counts<5
+df.plot.1$redacted_counts=ifelse(df.plot.1$counts<=5, NA , df.plot.1$counts)
+df.plot.1$redacted_rate=df.plot.1$redacted_counts/df.plot.1$patient*1000
+rm(DF.top10.1)
 
 
 # select incident cases
@@ -81,18 +89,54 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # summarise data
-df.plot.0=df.0%>%group_by(type,date)%>%
+df.plot.0=df.0%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
 
-df.1$prevalent=as.factor(1)
-df.0$prevalent=as.factor(0)
-df=rbind(df.0,df.1)
+#remove counts<5
+df.plot.0$redacted_counts=ifelse(df.plot.0$counts<=5, NA , df.plot.0$counts)
+df.plot.0$redacted_rate=df.plot.0$redacted_counts/df.plot.0$patient*1000
+rm(DF.top10.0)
 
+rm(df.0,df.1,df)
+df.plot.1$prevalent=as.factor(1)
+df.plot.0$prevalent=as.factor(0)
+df=rbind(df.plot.1,df.plot.0)
+write_csv(df, here::here("output","redacted", "abtype_uti_check.csv"))
+
+
+### tables
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+df.table=df%>%
+  group_by(covid,type)%>%
+  summarise(ave.rate=mean(value2))%>%
+  arrange(desc(ave.rate))%>%
+  slice(1:10)%>%
+  mutate(indic="uti")
+
+write_csv(df, here::here("output","redacted", "abtype_uti.csv"))
+
+
+### plots
+df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
 ## # line graph-rate
 # prevalent
-lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
+lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -109,8 +153,9 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
+df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
 # incident
-lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
+lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -143,10 +188,12 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_uti.jpeg", path=here::here("output"),
-) 
+  filename="abtype_uti.jpeg", path=here::here("output","redacted")) 
 
-write_csv(df, here::here("output", "abtype_uti.csv"))
+rm(list=ls())
+
+
+
 
 
 
@@ -166,7 +213,6 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 # list size per month
 df=df%>%group_by(date)%>%
   mutate(patient=sum(length(unique(df$patient_id))))
-  
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -194,10 +240,18 @@ df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
-df.plot.1=df.1%>%group_by(type,date)%>%
+df.plot.1=df.1%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
+
+#remove counts<5
+df.plot.1$redacted_counts=ifelse(df.plot.1$counts<=5, NA , df.plot.1$counts)
+df.plot.1$redacted_rate=df.plot.1$redacted_counts/df.plot.1$patient*1000
+rm(DF.top10.1)
 
 
 # select incident cases
@@ -221,18 +275,54 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # summarise data
-df.plot.0=df.0%>%group_by(type,date)%>%
+df.plot.0=df.0%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
 
-df.1$prevalent=as.factor(1)
-df.0$prevalent=as.factor(0)
-df=rbind(df.0,df.1)
+#remove counts<5
+df.plot.0$redacted_counts=ifelse(df.plot.0$counts<=5, NA , df.plot.0$counts)
+df.plot.0$redacted_rate=df.plot.0$redacted_counts/df.plot.0$patient*1000
+rm(DF.top10.0)
 
+rm(df.0,df.1,df)
+df.plot.1$prevalent=as.factor(1)
+df.plot.0$prevalent=as.factor(0)
+df=rbind(df.plot.1,df.plot.0)
+write_csv(df, here::here("output","redacted", "abtype_lrti_check.csv"))
+
+
+### tables
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+df.table=df%>%
+  group_by(covid,type)%>%
+  summarise(ave.rate=mean(value2))%>%
+  arrange(desc(ave.rate))%>%
+  slice(1:10)%>%
+  mutate(indic="lrti")
+
+write_csv(df, here::here("output","redacted", "abtype_lrti.csv"))
+
+
+### plots
+df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
 ## # line graph-rate
 # prevalent
-lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
+lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -249,8 +339,9 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
+df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
 # incident
-lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
+lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -267,25 +358,26 @@ lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
   scale_y_continuous(n.breaks = 10)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
-          labels = c("A", "B"),
-          nrow = 2)
+                   labels = c("A", "B"),
+                   nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-               top = text_grob(" ", face = "bold", size = 14),
-                bottom = text_grob("A= incident cases; B= prevalent cases.
+                         top = text_grob(" ", face = "bold", size = 14),
+                         bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
-                                   hjust = 1, x = 1, size = 10),
-                fig.lab =paste0("Top 10 antibiotic types prescribed for LRTI patients       ",
-                                         first_mon," - ",last_mon),                  
-                left = text_grob("Number of prescriptions per 1000 LRTI patients", rot = 90),
+                                            hjust = 1, x = 1, size = 10),
+                         fig.lab =paste0("Top 10 antibiotic types prescribed for LRTI patients       ",
+                                         first_mon," - ",last_mon),
+                         left = text_grob("Number of prescriptions per 1000 LRTI patients", rot = 90),
 )
+
 
 ggsave(
   plot= lineplot,
-  filename="abtype_lrti.jpeg", path=here::here("output"),
-) 
+  filename="abtype_lrti.jpeg", path=here::here("output","redacted")) 
 
-write_csv(df, here::here("output", "abtype_lrti.csv"))
+rm(list=ls())
+
 
 
 
@@ -307,7 +399,6 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 # list size per month
 df=df%>%group_by(date)%>%
   mutate(patient=sum(length(unique(df$patient_id))))
-  
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -335,10 +426,18 @@ df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
-df.plot.1=df.1%>%group_by(type,date)%>%
+df.plot.1=df.1%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
+
+#remove counts<5
+df.plot.1$redacted_counts=ifelse(df.plot.1$counts<=5, NA , df.plot.1$counts)
+df.plot.1$redacted_rate=df.plot.1$redacted_counts/df.plot.1$patient*1000
+rm(DF.top10.1)
 
 
 # select incident cases
@@ -362,18 +461,54 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # summarise data
-df.plot.0=df.0%>%group_by(type,date)%>%
+df.plot.0=df.0%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
 
-df.1$prevalent=as.factor(1)
-df.0$prevalent=as.factor(0)
-df=rbind(df.0,df.1)
+#remove counts<5
+df.plot.0$redacted_counts=ifelse(df.plot.0$counts<=5, NA , df.plot.0$counts)
+df.plot.0$redacted_rate=df.plot.0$redacted_counts/df.plot.0$patient*1000
+rm(DF.top10.0)
 
+rm(df.0,df.1,df)
+df.plot.1$prevalent=as.factor(1)
+df.plot.0$prevalent=as.factor(0)
+df=rbind(df.plot.1,df.plot.0)
+write_csv(df, here::here("output","redacted", "abtype_urti_check.csv"))
+
+
+### tables
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+df.table=df%>%
+  group_by(covid,type)%>%
+  summarise(ave.rate=mean(value2))%>%
+  arrange(desc(ave.rate))%>%
+  slice(1:10)%>%
+  mutate(indic="urti")
+
+write_csv(df, here::here("output","redacted", "abtype_urti.csv"))
+
+
+### plots
+df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
 ## # line graph-rate
 # prevalent
-lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
+lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -390,8 +525,9 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
+df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
 # incident
-lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
+lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -408,25 +544,25 @@ lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
   scale_y_continuous(n.breaks = 10)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
-          labels = c("A", "B"),
-          nrow = 2)
+                   labels = c("A", "B"),
+                   nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-               top = text_grob(" ", face = "bold", size = 14),
-                bottom = text_grob("A= incident cases; B= prevalent cases.
+                         top = text_grob(" ", face = "bold", size = 14),
+                         bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
-                                   hjust = 1, x = 1, size = 10),
-               fig.lab =paste0("Top 10 antibiotic types prescribed for URTI patients       ",
-                                         first_mon," - ",last_mon),    
-                left = text_grob("Number of prescriptions per 1000 URTI patients", rot = 90),
+                                            hjust = 1, x = 1, size = 10),
+                         fig.lab =paste0("Top 10 antibiotic types prescribed for URTI patients       ",
+                                         first_mon," - ",last_mon),
+                         left = text_grob("Number of prescriptions per 1000 URTI patients", rot = 90),
 )
+
+
 ggsave(
   plot= lineplot,
-  filename="abtype_urti.jpeg", path=here::here("output"),
-) 
+  filename="abtype_urti.jpeg", path=here::here("output","redacted")) 
 
-write_csv(df, here::here("output", "abtype_urti.csv"))
-
+rm(list=ls())
 
 
 ########### sinusitis
@@ -446,7 +582,6 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 # list size per month
 df=df%>%group_by(date)%>%
   mutate(patient=sum(length(unique(df$patient_id))))
-  
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -474,10 +609,18 @@ df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
-df.plot.1=df.1%>%group_by(type,date)%>%
+df.plot.1=df.1%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
+
+#remove counts<5
+df.plot.1$redacted_counts=ifelse(df.plot.1$counts<=5, NA , df.plot.1$counts)
+df.plot.1$redacted_rate=df.plot.1$redacted_counts/df.plot.1$patient*1000
+rm(DF.top10.1)
 
 
 # select incident cases
@@ -501,18 +644,54 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # summarise data
-df.plot.0=df.0%>%group_by(type,date)%>%
+df.plot.0=df.0%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
 
-df.1$prevalent=as.factor(1)
-df.0$prevalent=as.factor(0)
-df=rbind(df.0,df.1)
+#remove counts<5
+df.plot.0$redacted_counts=ifelse(df.plot.0$counts<=5, NA , df.plot.0$counts)
+df.plot.0$redacted_rate=df.plot.0$redacted_counts/df.plot.0$patient*1000
+rm(DF.top10.0)
 
+rm(df.0,df.1,df)
+df.plot.1$prevalent=as.factor(1)
+df.plot.0$prevalent=as.factor(0)
+df=rbind(df.plot.1,df.plot.0)
+write_csv(df, here::here("output","redacted", "abtype_sinusitis_check.csv"))
+
+
+### tables
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+df.table=df%>%
+  group_by(covid,type)%>%
+  summarise(ave.rate=mean(value2))%>%
+  arrange(desc(ave.rate))%>%
+  slice(1:10)%>%
+  mutate(indic="sinusitis")
+
+write_csv(df, here::here("output","redacted", "abtype_sinusitis.csv"))
+
+
+### plots
+df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
 ## # line graph-rate
 # prevalent
-lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
+lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -529,8 +708,9 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
+df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
 # incident
-lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
+lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -547,27 +727,25 @@ lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
   scale_y_continuous(n.breaks = 10)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
-          labels = c("A", "B"),
-          nrow = 2)
+                   labels = c("A", "B"),
+                   nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-               top = text_grob(" ", face = "bold", size = 14),
-                bottom = text_grob("A= incident cases; B= prevalent cases.
+                         top = text_grob(" ", face = "bold", size = 14),
+                         bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
-                                   hjust = 1, x = 1, size = 10),
-                fig.lab =paste0("Top 10 antibiotic types prescribed for sinusitis patients       ",
-                                         first_mon," - ",last_mon),                      
-                left = text_grob("Number of prescriptions per 1000 sinusitis patients", rot = 90),
+                                            hjust = 1, x = 1, size = 10),
+                         fig.lab =paste0("Top 10 antibiotic types prescribed for sinusitis patients       ",
+                                         first_mon," - ",last_mon),
+                         left = text_grob("Number of prescriptions per 1000 sinusitis patients", rot = 90),
 )
+
 
 ggsave(
   plot= lineplot,
-  filename="abtype_sinusitis.jpeg", path=here::here("output"),
-) 
+  filename="abtype_sinusitis.jpeg", path=here::here("output","redacted")) 
 
-write_csv(df, here::here("output", "abtype_sinusitis.csv"))
-
-
+rm(list=ls())
 
 
 
@@ -588,8 +766,6 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 # list size per month
 df=df%>%group_by(date)%>%
   mutate(patient=sum(length(unique(df$patient_id))))
-  
-  
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -617,10 +793,18 @@ df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
-df.plot.1=df.1%>%group_by(type,date)%>%
+df.plot.1=df.1%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
+
+#remove counts<5
+df.plot.1$redacted_counts=ifelse(df.plot.1$counts<=5, NA , df.plot.1$counts)
+df.plot.1$redacted_rate=df.plot.1$redacted_counts/df.plot.1$patient*1000
+rm(DF.top10.1)
 
 
 # select incident cases
@@ -644,18 +828,54 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # summarise data
-df.plot.0=df.0%>%group_by(type,date)%>%
+df.plot.0=df.0%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
 
-df.1$prevalent=as.factor(1)
-df.0$prevalent=as.factor(0)
-df=rbind(df.0,df.1)
+#remove counts<5
+df.plot.0$redacted_counts=ifelse(df.plot.0$counts<=5, NA , df.plot.0$counts)
+df.plot.0$redacted_rate=df.plot.0$redacted_counts/df.plot.0$patient*1000
+rm(DF.top10.0)
 
+rm(df.0,df.1,df)
+df.plot.1$prevalent=as.factor(1)
+df.plot.0$prevalent=as.factor(0)
+df=rbind(df.plot.1,df.plot.0)
+write_csv(df, here::here("output","redacted", "abtype_ot_externa_check.csv"))
+
+
+### tables
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+df.table=df%>%
+  group_by(covid,type)%>%
+  summarise(ave.rate=mean(value2))%>%
+  arrange(desc(ave.rate))%>%
+  slice(1:10)%>%
+  mutate(indic="ot_externa")
+
+write_csv(df, here::here("output","redacted", "abtype_ot_externa.csv"))
+
+
+### plots
+df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
 ## # line graph-rate
 # prevalent
-lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
+lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -672,8 +892,9 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
+df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
 # incident
-lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
+lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -690,29 +911,25 @@ lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
   scale_y_continuous(n.breaks = 10)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
-          labels = c("A", "B"),
-          nrow = 2)
+                   labels = c("A", "B"),
+                   nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-               top = text_grob(" ", face = "bold", size = 14),
-                bottom = text_grob("A= incident cases; B= prevalent cases.
+                         top = text_grob(" ", face = "bold", size = 14),
+                         bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
-                                   hjust = 1, x = 1, size = 10),
-                fig.lab =paste0("Top 10 antibiotic types prescribed for otitis externa patients       ",
-                                         first_mon," - ",last_mon),                        
-                left = text_grob("Number of prescriptions per 1000 otitis externa patients", rot = 90),
+                                            hjust = 1, x = 1, size = 10),
+                         fig.lab =paste0("Top 10 antibiotic types prescribed for otitis externa patients       ",
+                                         first_mon," - ",last_mon),
+                         left = text_grob("Number of prescriptions per 1000 otitis externa patients", rot = 90),
 )
+
 
 ggsave(
   plot= lineplot,
-  filename="abtype_ot_externa.jpeg", path=here::here("output"),
-) 
+  filename="abtype_ot_externa.jpeg", path=here::here("output","redacted")) 
 
-write_csv(df, here::here("output", "abtype_ot_externa.csv"))
-
-
-
-
+rm(list=ls())
 
 
 
@@ -733,8 +950,6 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 # list size per month
 df=df%>%group_by(date)%>%
   mutate(patient=sum(length(unique(df$patient_id))))
-  
-
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -762,10 +977,18 @@ df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
 # summarise data
-df.plot.1=df.1%>%group_by(type,date)%>%
+df.plot.1=df.1%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
+
+#remove counts<5
+df.plot.1$redacted_counts=ifelse(df.plot.1$counts<=5, NA , df.plot.1$counts)
+df.plot.1$redacted_rate=df.plot.1$redacted_counts/df.plot.1$patient*1000
+rm(DF.top10.1)
 
 
 # select incident cases
@@ -789,18 +1012,54 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # summarise data
-df.plot.0=df.0%>%group_by(type,date)%>%
+df.plot.0=df.0%>%group_by(date,type)%>%
   summarise(
-    value2=sum(value)
+    value2=sum(value),
+    counts=sum(count),
+    patient=mean(patient)
+    
   )
 
-df.1$prevalent=as.factor(1)
-df.0$prevalent=as.factor(0)
-df=rbind(df.0,df.1)
+#remove counts<5
+df.plot.0$redacted_counts=ifelse(df.plot.0$counts<=5, NA , df.plot.0$counts)
+df.plot.0$redacted_rate=df.plot.0$redacted_counts/df.plot.0$patient*1000
+rm(DF.top10.0)
 
+rm(df.0,df.1,df)
+df.plot.1$prevalent=as.factor(1)
+df.plot.0$prevalent=as.factor(0)
+df=rbind(df.plot.1,df.plot.0)
+write_csv(df, here::here("output","redacted", "abtype_otmedia_check.csv"))
+
+
+### tables
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+df.table=df%>%
+  group_by(covid,type)%>%
+  summarise(ave.rate=mean(value2))%>%
+  arrange(desc(ave.rate))%>%
+  slice(1:10)%>%
+  mutate(indic="otmedia")
+
+write_csv(df, here::here("output","redacted", "abtype_otmedia.csv"))
+
+
+### plots
+df.plot.1$redacted_rate=as.numeric(df.plot.1$rate)
 ## # line graph-rate
 # prevalent
-lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
+lineplot.1<- ggplot(df.plot.1, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -817,8 +1076,9 @@ lineplot.1<- ggplot(df.plot.1, aes(x=date, y=value2,group=type,color=type))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(n.breaks = 10)
 
+df.plot.0$redacted_rate=as.numeric(df.plot.0$rate)
 # incident
-lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
+lineplot.0<- ggplot(df.plot.0, aes(x=date, y=redacted_rate,group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -835,28 +1095,25 @@ lineplot.0<- ggplot(df.plot.0, aes(x=date, y=value2,group=type,color=type))+
   scale_y_continuous(n.breaks = 10)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
-          labels = c("A", "B"),
-          nrow = 2)
+                   labels = c("A", "B"),
+                   nrow = 2)
 
 lineplot=annotate_figure(lineplot,
-               top = text_grob(" ", face = "bold", size = 14),
-                bottom = text_grob("A= incident cases; B= prevalent cases.
+                         top = text_grob(" ", face = "bold", size = 14),
+                         bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
-                                   hjust = 1, x = 1, size = 10),
-                fig.lab =paste0("Top 10 antibiotic types prescribed for otitis media patients       ",
-                                         first_mon," - ",last_mon),                      
-                left = text_grob("Number of prescriptions per 1000 otitis media patients", rot = 90),
+                                            hjust = 1, x = 1, size = 10),
+                         fig.lab =paste0("Top 10 antibiotic types prescribed for otitis media patients       ",
+                                         first_mon," - ",last_mon),
+                         left = text_grob("Number of prescriptions per 1000 otitis media patients", rot = 90),
 )
+
 
 ggsave(
   plot= lineplot,
-  filename="abtype_otmedia.jpeg", path=here::here("output"),
-) 
+  filename="abtype_otmedia.jpeg", path=here::here("output","redacted")) 
 
-write_csv(df, here::here("output", "abtype_otmedia.csv"))
-
-
-
+rm(list=ls())
 
 
 
