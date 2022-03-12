@@ -667,5 +667,27 @@ actions:
         csv5: output/abtype_ot_externa.csv
         csv6: output/abtype_otmedia.csv
        
-  
+  describe_infection_abtype_plot_redacted: #  incident+prevalent
+    run: r:latest analysis/redaction/infection_abtype.R
+    needs: [describe_infection_abtype_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/redacted/abtype_uti.jpeg
+        plot2: output/redacted/abtype_lrti.jpeg
+        plot3: output/redacted/abtype_urti.jpeg
+        plot4: output/redacted/abtype_sinusitis.jpeg
+        plot5: output/redacted/abtype_ot_externa.jpeg
+        plot6: output/redacted/abtype_otmedia.jpeg
+        csv1: output/redacted/abtype_uti_check.csv
+        csv2: output/redacted/abtype_lrti_check.csv
+        csv3: output/redacted/abtype_urti_check.csv
+        csv4: output/redacted/abtype_sinusitis_check.csv
+        csv5: output/redacted/abtype_ot_externa_check.csv
+        csv6: output/redacted/abtype_otmedia_check.csv
+        csv7: output/redacted/abtype_uti.csv
+        csv8: output/redacted/abtype_lrti.csv
+        csv9: output/redacted/abtype_urti.csv
+        csv10: output/redacted/abtype_sinusitis.csv
+        csv11: output/redacted/abtype_ot_externa.csv
+        csv12: output/redacted/abtype_otmedia.csv
        
