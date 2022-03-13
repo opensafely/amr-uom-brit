@@ -290,13 +290,13 @@ actions:
         jpeg: output/consult_model2.jpeg
         rds: output/consult_model2.rds
   
-  # describe_consultation_model_3:
-  #   run: r:latest analysis/model/consult_model_3.R
-  #   needs: [describe_consultation_model_process_2]
-  #   outputs:
-  #      moderately_sensitive:
-  #       jpeg: output/consult_model3.jpeg
-  #       rds: output/consult_model3.rds
+  describe_consultation_model_3:
+    run: r:latest analysis/model/consult_model_3.R
+    needs: [describe_consultation_model_process_2]
+    outputs:
+       moderately_sensitive:
+        jpeg: output/consult_model3.jpeg
+        rds: output/consult_model3.rds
 
   # consultation_model: 
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
