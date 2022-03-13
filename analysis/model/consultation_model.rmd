@@ -1,5 +1,5 @@
 ---
-title: "COVID impact on onsultation rate"
+title: "COVID impact on onsultation rate_model1 vs. model2"
 output: html_document
 ---
 
@@ -329,103 +329,6 @@ labs(
   )
 ```
 
-```{r}
-
-```
-
-
-# Negative binomial model (adding interaction)_model3
-
-```{r include=FALSE}
-
-df1$residuals=m1.1$residuals
-df2$residuals=m2.1$residuals
-df3$residuals=m3.1$residuals
-df4$residuals=m4.1$residuals
-df5$residuals=m5.1$residuals
-df6$residuals=m6.1$residuals
-
-
-
-m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df1)
-m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df2)
-m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df3)
-m4.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df4)
-m5.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df5)
-m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + residuals , data = df6)
-
-#m2.2=update(m2, .~.  +times*covid +m2.1$residuals)
-#m3.2=update(m3, .~.  +times*covid +m3.1$residuals)
-#m4.2=update(m4, .~.  +times*covid +m4.1$residuals)
-#m5.2=update(m5, .~.  +times*covid +m5.1$residuals)
-#m6.2=update(m6, .~.  +times*covid +m6.1$residuals)
-```
-
-
-
-```{r message=FALSE}
-### confidence intervals for the coefficients
-(est1.2 <- cbind(Estimate = coef(m1.2), confint(m1.2)))
-(est2.2 <- cbind(Estimate = coef(m2.2), confint(m2.2)))
-(est3.2 <- cbind(Estimate = coef(m3.2), confint(m3.2)))
-(est4.2 <- cbind(Estimate = coef(m4.2), confint(m4.2)))
-(est5.2 <- cbind(Estimate = coef(m5.2), confint(m5.2)))
-(est6.2 <- cbind(Estimate = coef(m6.2), confint(m6.2)))
-
-```
-
-### calculate IRR & 95%CI
-```{r}
-est1.2=exp(est1.2)
-est2.2=exp(est2.2)
-est3.2=exp(est3.2)
-est4.2=exp(est4.2)
-est5.2=exp(est5.2)
-est6.2=exp(est6.2)
-```
-
-
-```{r}
-## combine results
-DF=bind_rows(est1.2[2,],est2.2[2,],est3.2[2,],est4.2[2,],est5.2[2,],est6.2[2,])
-
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
-#reorder
-DF=DF%>%arrange(Infection)
-
-names(DF)[1]="IRR"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-DF
-```
-
-
-
-```{r}
-### result_model3
-#setting up the basic plot
-p3 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+ 
-
-#this adds the effect sizes to the plot
-geom_point()+ 
-
-#adds the CIs
-geom_errorbarh(height=.1)+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
-  
-#thematic stuff
-theme_minimal()+
-theme(text=element_text(family="Times",size=18, color="black"))+
-theme(panel.spacing = unit(1, "lines"))+
-
-labs( title = "Consultation Reduction",
-    x="IRR (95% CI)"
-  )
-
-```
-
 
 # comparing results
 ## model_1 without interaction
@@ -438,11 +341,6 @@ p1
 p2
 ```
 
-## model_3
-```{r}
-p3
-```
-
 ## comparing models
 
 ##UTI
@@ -452,10 +350,6 @@ anova(m1,m1.1)
 
 ```
 
-### model2 vs. model3 (with or without residuals)
-```{r}
-anova(m1.1,m1.2)
-```
 
 ## URTI
 ### model 1 vs. model2 (with or without interaction)
@@ -464,21 +358,12 @@ anova(m2,m2.1)
 
 ```
 
-### model2 vs. model3 (with or without residuals)
-```{r}
-anova(m2.1,m2.2)
-```
 
 ## LRTI
 ### model 1 vs. model2 (with or without interaction)
 ```{r}
 anova(m3,m3.1)
 
-```
-
-### model2 vs. model3 (with or without residuals)
-```{r}
-anova(m3.1,m3.2)
 ```
 
 
@@ -489,22 +374,12 @@ anova(m4,m4.1)
 
 ```
 
-### model2 vs. model3 (with or without residuals)
-```{r}
-anova(m4.1,m4.2)
-```
-
 
 ## otitis externa
 ### model 1 vs. model2 (with or without interaction)
 ```{r}
 anova(m5,m5.1)
 
-```
-
-### model2 vs. model3 (with or without residuals)
-```{r}
-anova(m5.1,m5.2)
 ```
 
 
@@ -515,7 +390,203 @@ anova(m6,m6.1)
 
 ```
 
-### model2 vs. model3 (with or without residuals)
+
+# Model checking and autocorrelation
+## model 1
+### UTI
 ```{r}
-anova(m6.1,m6.2)
+#b) 
+# Check the residuals by plotting against time
+res1 <- residuals(m1,type="deviance")
+plot(df1$date,res1,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res1)
+pacf(res1)
+rm(res1)
+```
+
+### LRTI
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res2 <- residuals(m2,type="deviance")
+plot(df2$date,res2,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res2)
+pacf(res2)
+rm(res2)
+```
+
+### URTI
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res3 <- residuals(m3,type="deviance")
+plot(df3$date,res3,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res3)
+pacf(res3)
+rm(res3)
+```
+
+### Sinusitis
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res4 <- residuals(m4,type="deviance")
+plot(df4$date,res4,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res4)
+pacf(res4)
+rm(res4)
+```
+
+
+### Otitis externa
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res5 <- residuals(m5,type="deviance")
+plot(df5$date,res5,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res5)
+pacf(res5)
+rm(res5)
+```
+
+### Otitis media
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res6 <- residuals(m6,type="deviance")
+plot(df6$date,res6,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res6)
+pacf(res6)
+rm(res6)
+```
+
+
+
+# Model checking and autocorrelation
+## model 2
+### UTI
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res1 <- residuals(m1.1,type="deviance")
+plot(df1$date,res1,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res1)
+pacf(res1)
+rm(res1)
+```
+
+### LRTI
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res2 <- residuals(m2.1,type="deviance")
+plot(df2$date,res2,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res2)
+pacf(res2)
+rm(res2)
+```
+
+### URTI
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res3 <- residuals(m3.1,type="deviance")
+plot(df3$date,res3,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res3)
+pacf(res3)
+rm(res3)
+```
+
+### Sinusitis
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res4 <- residuals(m4.1,type="deviance")
+plot(df4$date,res4,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res4)
+pacf(res4)
+rm(res4)
+```
+
+
+### Otitis externa
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res5 <- residuals(m5.1,type="deviance")
+plot(df5$date,res5,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res5)
+pacf(res5)
+rm(res5)
+```
+
+### Otitis media
+```{r}
+#b) 
+# Check the residuals by plotting against time
+res6 <- residuals(m6.1,type="deviance")
+plot(df6$date,res6,ylim=c(-5,10),pch=19,cex=0.7,col=grey(0.6),
+     main="Residuals over time",ylab="Deviance residuals",xlab="Date")
+abline(h=0,lty=2,lwd=2)
+
+# Further check for autocorrelation by examining the autocorrelation and
+#   partial autocorrelation functions
+acf(res6)
+pacf(res6)
+rm(res6)
 ```
