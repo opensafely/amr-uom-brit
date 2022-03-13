@@ -71,7 +71,7 @@ p1 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+
   geom_errorbarh(height=.1)+
   
   #adding a vertical line at the effect = 0 mark
-  geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
+  geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
   
   #thematic stuff
   theme_minimal()+

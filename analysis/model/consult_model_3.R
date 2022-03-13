@@ -17,18 +17,32 @@ df6=read_rds("monthly_consult_ot_externa.rds")
 
 # Negative binomial model (without interaction)_model1
 ##UTI
-m1 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df1)
+m01 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df1)
 ## URTI
-m2 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df2)
+m02 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df2)
 ## LRTI
-m3 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df3)
+m03 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df3)
 ## Sinusitis
-m4 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df4)
+m04 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df4)
 ## otitis externa
-m5 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df5)
+m05 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df5)
 ## otitis media
-m6 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df6)
+m06 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df6)
 
+
+# updated models plus residuals
+
+m1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m01$residuals, data = df1)
+## URTI
+m2 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m02$residuals, data = df2)
+## LRTI
+m3 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m03$residuals, data = df3)
+## Sinusitis
+m4 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m04$residuals, data = df4)
+## otitis externa
+m5 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m05$residuals, data = df5)
+## otitis media
+m6 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m06$residuals, data = df6)
 
 ### confidence intervals for the coefficients
 (est1 <- cbind(Estimate = coef(m1), confint(m1)))
@@ -48,10 +62,45 @@ est5=exp(est5)
 est6=exp(est6)
 
 
-#### combined results
-DF=bind_rows(est1[2,],est2[2,],est3[2,],est4[2,],est5[2,],est6[2,])
+### select covid predictor(IRR, 95%CI)
+est1=as.data.frame(est1)
+est1=est1[2,]
+est1$Infection="UTI"
 
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+est2=as.data.frame(est2)
+est2=est2[2,]
+est2$Infection="LRTI"
+
+est3=as.data.frame(est3)
+est3=est3[2,]
+est3$Infection="URTI"
+
+est4=as.data.frame(est4)
+est4=est4[2,]
+est4$Infection="Sinusitis"
+
+est5=as.data.frame(est5)
+est5=est5[2,]
+est5$Infection="Otitis externa"
+
+est6=as.data.frame(est6)
+est6=est6[2,]
+est6$Infection="Otitis media"
+
+# combine results and remove null 
+DF <- vector("list", 6)
+DF[[1]]= est1
+DF[[2]]= est2
+DF[[3]]= est3
+DF[[4]]= est4
+DF[[5]]= est5
+DF[[6]]= est6
+DF <- DF[!sapply(DF,is.null)]
+
+#### combined results
+DF=bind_rows(DF)
+
+
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -62,7 +111,7 @@ names(DF)[3]="ci_u"
 
 ### result_model1
 #setting up the basic plot
-p1 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+ 
+p3 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+ 
   
   #this adds the effect sizes to the plot
   geom_point()+ 
@@ -71,7 +120,7 @@ p1 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+
   geom_errorbarh(height=.1)+
   
   #adding a vertical line at the effect = 0 mark
-  geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
+  geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
   
   #thematic stuff
   theme_minimal()+
@@ -83,9 +132,9 @@ p1 <- ggplot(data=DF, aes(y=Infection, x=IRR, xmin=ci_l, xmax=ci_u))+
     x="IRR (95% CI)"
   )
 
-saveRDS(p1,here::here("output","consult_model1.jpeg"))
+saveRDS(p1,here::here("output","consult_model3.jpeg"))
 
 # each32 list
 model=c(m1,m2,m3,m4,m5,m6)
-saveRDS(model,here::here("output","consult_model1.rds"))
+saveRDS(model,here::here("output","consult_model3.rds"))
 
