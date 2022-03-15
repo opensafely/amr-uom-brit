@@ -216,12 +216,19 @@ actions:
         cohort2: output/matched_outcome2.csv
         cohort3: output/matched_outcome3.csv
 
-  # check_matching_2:
-  #   run: r:latest -e 'rmarkdown::render("analysis/check_matching2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-  #   needs: [merge_outcome2_3]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/check_matching_2.html
+  check_matching_2:
+    run: r:latest -e 'rmarkdown::render("analysis/check_matching_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [merge_outcome2_3]
+    outputs:
+      moderately_sensitive:
+        html: output/check_matching_2.html
+
+  check_matching_3:
+    run: r:latest -e 'rmarkdown::render("analysis/check_matching_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [merge_outcome2_3]
+    outputs:
+      moderately_sensitive:
+        html: output/check_matching_3.html
   
 
  
