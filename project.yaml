@@ -207,44 +207,21 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_3_control.csv
 
+  merge_outcome2_3: # create variables and merge subsets
+    run: r:latest analysis/merge_outcome2_3.R
+    needs: [matching_3,matching_2,extract_variables_outcome_3_control,extract_variables_outcome_3_case,extract_variables_outcome_2_control,extract_variables_outcome_2_case]
+    outputs:
+      highly_sensitive:
+       # cohort1: output/matched_outcome1.csv
+        cohort2: output/matched_outcome2.csv
+        cohort3: output/matched_outcome3.csv
 
-  # extract_variables_outcome_1:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1
-  #   needs: [matching_1]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/input_outcome_1.csv
-  
-  # extract_variables_outcome_2:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2
-  #   needs: [matching_2]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/input_outcome_2.csv
-
-  # extract_variables_outcome_3: 
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3
-  #   needs: [matching_3]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/input_outcome_3.csv
-
-  # variables:
-  #   run: r:latest analysis/variables.R
-  #   needs: [matching_1,matching_2,matching_3,extract_variables_outcome_1,extract_variables_outcome_2,extract_variables_outcome_3]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort1: output/matched_outcome1.csv
-  #       cohort2: output/matched_outcome2.csv
-  #       cohort3: output/matched_outcome3.csv
-
-
-  # check_matching:
-  #   run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  # check_matching_2_3:
+  #   run: r:latest -e 'rmarkdown::render("analysis/check_matching2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
   #   needs: [variables]
   #   outputs:
   #     moderately_sensitive:
-  #       html: output/check_matching.html
+  #       html: output/check_matching_2_3.html
   
 
  

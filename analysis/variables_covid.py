@@ -9,8 +9,8 @@ def generate_covid_variables(index_date_variable):
     SGSS_positive_test_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_before=f'{index_date_variable}',
-        find_first_match_in_period=True,
+        on_or_before=f'{index_date_variable} - 1 day',
+        find_last_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"},
@@ -22,7 +22,7 @@ def generate_covid_variables(index_date_variable):
         any_primary_care_code,        
         returning="date",
         find_first_match_in_period=True,
-        on_or_before=f'{index_date_variable}',
+        on_or_before=f'{index_date_variable} - 1 day',
         date_format="YYYY-MM-DD",
          return_expectations={"date": {"earliest": "2020-03-01"},
         "rate" : "exponential_increase",
@@ -43,7 +43,7 @@ def generate_covid_variables(index_date_variable):
     covid_admission_date=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
         with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
-        on_or_before=f'{index_date_variable}',
+        on_or_before=f'{index_date_variable} - 1 day',
         find_last_match_in_period=True,  
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-03-01"},
@@ -92,7 +92,7 @@ def generate_covid_variables(index_date_variable):
 
     ## died (CPNS: all in-hospital covid-related deaths)
     died_date_cpns=patients.with_death_recorded_in_cpns(
-        on_or_before=f'{index_date_variable}',
+        on_or_before=f'{index_date_variable} - 1 day',
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"},
@@ -125,7 +125,7 @@ def generate_covid_variables(index_date_variable):
 
     died_date_ons_covid=patients.with_these_codes_on_death_certificate(
         covid_codelist,
-        on_or_before=f'{index_date_variable}',
+        on_or_before=f'{index_date_variable} - 1 day',
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=True,
