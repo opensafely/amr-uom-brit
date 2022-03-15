@@ -1,5 +1,5 @@
 ---
-title: "Matching Report : outcome 3"
+title: "Matching Report 3"
 output: html_document
 ---
 
@@ -18,7 +18,8 @@ require("ggplot2")
 ```{r include=FALSE}
 # import data
 rm(list=ls())
-df <- read_csv("../output/matched_outcome3.csv")
+
+df <- read_csv(here::here("output","matched_outcome3.csv"))
 df$wave=as.factor(df$wave)
 df$patient_id=as.factor(df$patient_id)
 df$set_id=as.factor(df$set_id)
@@ -53,14 +54,14 @@ df$br_ab_qn=as.integer(df$ab_qn)
 num.case=length(unique(df[df$case=="1",]$patient_id))
 ```
 
-#### Cases: COVID hospital admission / **count:`r num.case`**
+#### Cases: COVID ICU or Death / **count:`r num.case`**
 
 ```{r include=FALSE}
 # number of patients in control group
 num.contr=length(unique(df[df$case=="0",]$patient_id))
 ```
 
-#### Controls: COVID infection /  **count:`r num.contr`**
+#### Controls: COVID hospital admission /  **count:`r num.contr`**
 
 ***
 
@@ -187,7 +188,10 @@ df.con %>%
 ##### **3. Antibiotics exposure variables**
 ```{r  echo=FALSE }
 df.ab <- df %>% select(case,ab_types,ab_prescriptions,ab_qn,broad_ab_prescriptions,br_ab_qn,lastABtime,interval,ab_freq,ab_freq.type)
-
+df$ab_freq=as.numeric(df$ab_freq)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+df$ab_freq.type=as.numeric(df$ab_freq.type)
+df$lastABtime=as.integer(df$lastABtime)
 #df.ab$ab_freq=as.numeric(df.ab$ab_freq)
 #df.ab$ab_prescriptions=as.numeric(as.character( df.ab$ab_prescriptions))
 

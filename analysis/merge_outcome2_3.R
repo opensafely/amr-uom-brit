@@ -49,7 +49,8 @@ df=df%>%filter(died_ever != 1) # exclude de-register before index
 
 ####### matching variables ########
 ## age
-df$age_cat <- factor(df$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df=df%>%filter(df$age_cat != "0")
+df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 
@@ -212,7 +213,8 @@ df=df%>%filter(died_ever != 1) # exclude de-register before index
 
 ####### matching variables ########
 ## age
-df$age_cat <- factor(df$age_cat, levels=c("0", "0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+df=df%>%filter(df$age_cat != "0")
+df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 
