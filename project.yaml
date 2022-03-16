@@ -298,7 +298,7 @@ actions:
   #       jpeg: output/consult_model3.jpeg
   #       rds: output/consult_model3.rds
 
-  consultation_model: # after modeling
+  consultation_model: # compare modeling
     run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
     needs: [describe_consultation_model_process_1]
     outputs:
@@ -306,12 +306,12 @@ actions:
         html: output/report/consultation_model.html
 
 
-  check_consultation_model_1: #Poisson vs. NBR  
-    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_1.Rmd", output_dir = "output/report")'
+  check_consultation_model: #Poisson vs. NBR  
+    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model.Rmd", output_dir = "output/report")'
     needs: [describe_consultation_model_process_2]
     outputs:
       moderately_sensitive:
-        html: output/report/check_consultation_model_1.html
+        html: output/report/check_consultation_model.html
 
   # check_consultation_model_urti: #  
   #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_urti.Rmd", output_dir = "output/report")'
