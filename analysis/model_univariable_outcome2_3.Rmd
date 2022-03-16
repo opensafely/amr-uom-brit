@@ -1,5 +1,5 @@
 ---
-title: "exposure check"
+title: "univariable analysis"
 output: html_document
 ---
 
@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 require('tidyverse')
 require("gtsummary")
 require("ggplot2")
+library("survival")
 ```
 
 
@@ -119,7 +120,7 @@ summary( clogit(case ~ flu_vaccine+ strata(set_id), df))
 
 
 
-# <font color=blue>**Outcome 2**</font>
+# <font color=blue>**Outcome 3**</font>
 ```{r include=FALSE}
 # import data
 rm(list=ls())
