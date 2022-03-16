@@ -236,6 +236,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_exposures_outcome2_3.html 
+
+  model_univariable_outcome2_3:
+    run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [merge_outcome2_3]
+    outputs:
+      moderately_sensitive:
+        html: output/model_univariable_outcome2_3.html 
   
 
  
