@@ -1,0 +1,389 @@
+---
+title: "check consultation models"
+---
+
+## Negative binomial regression
+tutorial. https://stats.oarc.ucla.edu/r/dae/negative-binomial-regression/ 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+## Methods 
+
+Interrupted time-series analyses are conducted to compare the difference of consultation rate before and during pandemic. Pre-pandemic period for Covid-19 is defined as 1st January 2019 to 31st December 2019, and the pandemic period is defined as 1st April 2020 to 31st December 2021. Assessment period is defined as every month to acquire the counts of infection consultations and the number of populations. Negative binomial regression model is used to adjust for regions, age categories, month(seasonality), and indecent or prevalent infections for 6 types of infections. 
+
+```{r message=FALSE}
+library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+library("MASS")
+#library("gtsummary")
+```
+
+
+### Import data
+
+```{r }
+
+#df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/monthly_consult_UTI.rds")
+df1=read_rds(here::here("output","measures","monthly_consult_UTI.rds"))
+df2=read_rds(here::here("output","measures","monthly_consult_LRTI.rds"))
+df3=read_rds(here::here("output","measures","monthly_consult_URTI.rds"))
+df4=read_rds(here::here("output","measures","monthly_consult_sinusitis.rds"))
+df5=read_rds(here::here("output","measures","monthly_consult_otmedia.rds"))
+df6=read_rds(here::here("output","measures","monthly_consult_ot_externa.rds"))
+
+df1$rate=df1$counts/df1$population*1000
+df2$rate=df2$counts/df2$population*1000
+df3$rate=df3$counts/df3$population*1000
+df4$rate=df4$counts/df4$population*1000
+df5$rate=df5$counts/df5$population*1000
+df6$rate=df6$counts/df6$population*1000
+
+```
+
+
+
+
+## Distribution of infection counts
+This plot showed the distribution of infection consultation counts by each independent variable.
+If discrepancies of distribution are observed, those may be predictors to infection consultation change.
+
+#### covid time
+#### UTI
+```{r}
+ggplot(df1, aes(rate, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. ,scales = "free")
+
+```
+
+#### LRTI
+```{r}
+ggplot(df2, aes(rate, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. ,scales = "free")
+
+```
+#### URTI
+```{r}
+ggplot(df3, aes(rate, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. ,scales = "free")
+
+```
+#### Sinusitis
+```{r}
+ggplot(df4, aes(rate, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. ,scales = "free")
+
+```
+#### Otitis media
+```{r}
+ggplot(df5, aes(rate, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. ,scales = "free")
+
+```
+####  Otitis externa
+```{r}
+ggplot(df6, aes(rate, fill =covid )) + 
+  geom_histogram(binwidth = 1) + 
+  facet_grid(covid~. ,scales = "free")
+
+```
+
+
+### check over-dispersion
+If the variance is higher than mean, which suggest data presented over-dispersion, then need to use Negative Binomial model.
+
+output returning mean(SD):
+
+```{r}
+# UTI
+with(df1, tapply(rate, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# LRTI
+with(df2, tapply(rate, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# URTI
+with(df3, tapply(rate, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# Sinusitis
+with(df4, tapply(rate, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# otitis media
+with(df5, tapply(rate, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+
+# otitis externa
+with(df6, tapply(rate, covid, function(x) {
+  sprintf("M (SD) = %1.2f (%1.2f)", mean(x), sd(x))
+}))
+```
+
+
+# UTI
+### Negative binomial regression 
+#### glm.nb
+```{r}
+df=df1
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
+
+
+
+# LRTI
+### Negative binomial regression 
+#### glm.nb
+```{r}
+rm(m1.1,m1.2,m1.3,m2)
+df=df2
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
+
+
+
+# URTI
+### Negative binomial regression 
+#### glm.nb
+```{r}
+rm(m1.1,m1.2,m1.3,m2)
+df=df3
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
+
+
+
+# Sinusitis
+### Negative binomial regression 
+#### glm.nb
+```{r}
+rm(m1.1,m1.2,m1.3,m2)
+df=df4
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
+
+
+
+# Sinusitis
+### Negative binomial regression 
+#### glm.nb
+```{r}
+rm(m1.1,m1.2,m1.3,m2)
+df=df5
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
+
+
+
+
+
+# Otitis media
+### Negative binomial regression 
+#### glm.nb
+```{r}
+rm(m1.1,m1.2,m1.3,m2)
+df=df5
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
+
+
+
+
+# Otitis externa
+### Negative binomial regression 
+#### glm.nb
+```{r}
+rm(m1.1,m1.2,m1.3,m2)
+df=df6
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + covid*times  , data = df))
+
+```
+
+
+### Poisson Regression
+Poisson is a special case with theta = infinity.
+
+```{r}
+summary(m1.2<- glm(counts~ offset(log(population))+ covid + month +times + covid*times, family="poisson", data = df))
+```
+
+
+### Negetive bimomial  vs. Poisson
+```{r}
+pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
+2 * (logLik(m1.1) - logLik(m1.2))
+```
+
+
+### compare models without covid time variable
+Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
+If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
+```{r}
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
+```
