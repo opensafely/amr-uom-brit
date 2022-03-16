@@ -31,7 +31,6 @@ m06 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df6
 
 
 # updated models plus residuals
-
 m1 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m01$residuals, data = df1)
 ## URTI
 m2 <- glm.nb(counts~ offset(log(population))+ covid + month +times + m02$residuals, data = df2)
