@@ -231,7 +231,7 @@ actions:
         html: output/check_matching_3.html
 
   check_exposures_outcome2_3:
-    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2_3", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [merge_outcome2_3]
     outputs:
       moderately_sensitive:
