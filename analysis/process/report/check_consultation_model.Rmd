@@ -165,8 +165,8 @@ pchisq(2 * (logLik(m1.1) - logLik(m1.2)), df = 1, lower.tail = FALSE)
 Since covid time is considered as the most important variables of interest, so we can compare two models with and without covid time to determine if itself significant.
 If the chi-square test is significant, this indicates that covid time is a statistically significant predictor of infection counts.
 ```{r}
-m2 <- update(m1, . ~ . - covid)
-anova(m1, m2)
+m2 <- update(m1.1, . ~ . - covid)
+anova(m1.1, m2)
 ```
 
 
