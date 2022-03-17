@@ -695,7 +695,7 @@ study = StudyDefinition(
     urti_counts=patients.with_these_clinical_events(
         urti_codes,
         returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=["urti_date_1", "last_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
@@ -704,7 +704,7 @@ study = StudyDefinition(
     sinusitis_counts=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=["sinusitis_date_1", "last_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
@@ -713,7 +713,7 @@ study = StudyDefinition(
     ot_externa_counts=patients.with_these_clinical_events(
         ot_externa_codes,
         returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=["ot_externa_date_1", "last_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),    
@@ -722,7 +722,7 @@ study = StudyDefinition(
     otmedia_counts=patients.with_these_clinical_events(
         otmedia_codes,
         returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=["otmedia_date_1", "last_day_of_month(index_date)"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),    
@@ -734,7 +734,7 @@ study = StudyDefinition(
     hx_uti_pt=patients.with_these_clinical_events(
         uti_codes,
         returning="binary_flag",
-        between=["index_date - 90 days", "index_date"],
+        between=["uti_date_1 - 91 days", "uti_date_1 - 1 day"],
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -742,7 +742,7 @@ study = StudyDefinition(
     hx_lrti_pt=patients.with_these_clinical_events(
         lrti_codes,
         returning="binary_flag",
-        between=["index_date - 90 days", "index_date"],
+        between=["lrti_date_1 - 91 days", "lrti_date_1 - 1 day"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
@@ -751,7 +751,7 @@ study = StudyDefinition(
     hx_urti_pt=patients.with_these_clinical_events(
         urti_codes,
         returning="binary_flag",
-        between=["index_date - 90 days", "index_date"],
+        between=["urti_date_1 - 91 days", "urti_date_1 - 1 day"],
        # find_first_match_in_period=True,
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
@@ -761,7 +761,7 @@ study = StudyDefinition(
     hx_sinusitis_pt=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        between=["index_date - 90 days", "index_date"],
+        between=["sinusitis_date_1 - 91 days", "sinusitis_date_1 - 1 day"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
@@ -770,7 +770,7 @@ study = StudyDefinition(
     hx_ot_externa_pt=patients.with_these_clinical_events(
         ot_externa_codes,
         returning="binary_flag",
-        between=["index_date - 90 days", "index_date"],
+        between=["ot_externa_date_1 - 91 days", "ot_externa_date_1 - 1 day"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),    
@@ -779,7 +779,7 @@ study = StudyDefinition(
     hx_otmedia_pt=patients.with_these_clinical_events(
         otmedia_codes,
         returning="binary_flag",
-        between=["index_date - 90 days", "index_date"],
+        between=["otmedia_date_1 - 91 days", "otmedia_date_1 - 1 day"],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
