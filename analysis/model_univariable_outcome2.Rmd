@@ -1,0 +1,120 @@
+---
+title: "univariable analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_csv("/Users/user/Documents/GitHub/amr-uom-brit/output/matched_outcome2.csv")
+df <- read_csv(here::here("output","matched_outcome2.csv"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$wave=as.factor(df$wave)
+df$match_counts=as.integer(df$match_counts)
+
+df$set_id=as.factor(df$set_id)#pair id
+
+# matched variables
+df$sex=as.character(df$sex)
+df$age=as.numeric(df$age)
+df$age_cat=as.character(df$age_cat)
+df$stp=as.character(df$stp)
+df$region=as.character(df$region)
+
+
+# covariates, confounding variables
+df$ethnicity_6=as.character(df$ethnicity_6)
+df$bmi=as.numeric(df$bmi)
+df$bmi_cat=as.character(df$bmi_cat)
+df$CCI=as.character(df$CCI)
+df$Charlson=as.integer(df$Charlson)
+df$smoking_cat_3=as.character(df$smoking_cat_3)
+df$imd=as.integer(df$imd)
+df$care_home=as.integer(df$care_home)
+df$covrx_ever=as.integer(df$covrx_ever)
+df$flu_vaccine=as.integer(df$flu_vaccine)
+
+# exposures
+df$ab_types=as.integer(df$ab_types)
+df$ab_freq=as.factor(df$ab_freq)
+df$ab_freq.type=as.factor(df$ab_freq.type)
+df$lastABtime=as.integer(df$lastABtime)
+df$ab_qn=as.character(df$ab_qn) #category
+df$br_ab_qn=as.character(df$ab_qn)#category
+df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+
+```
+
+
+# exposures
+```{r}
+# total AB
+summary( clogit(case ~ ab_prescriptions + strata(set_id), df))
+summary( clogit(case ~ ab_qn + strata(set_id), df))
+
+# broad-spectrum AB
+summary( clogit(case ~ broad_ab_prescriptions + strata(set_id), df))
+summary( clogit(case ~ br_ab_qn + strata(set_id), df))
+
+# total types
+summary( clogit(case ~ ab_types + strata(set_id), df))
+
+# last time ab
+summary( clogit(case ~ lastABtime + strata(set_id), df))
+
+# intese ab use
+summary(clogit(case ~ ab_freq + strata(set_id), df))
+summary(clogit(case ~ ab_freq.type + strata(set_id), df))
+
+```
+
+# confouding
+```{r}
+#  ethnicity
+summary( clogit(case ~ ethnicity_6+ strata(set_id), df))
+
+# IMD
+summary( clogit(case ~ imd + strata(set_id), df))
+
+# care home
+summary( clogit(case ~ care_home + strata(set_id), df))
+
+# bmi
+summary( clogit(case ~ bmi+ strata(set_id), df))
+summary( clogit(case ~ bmi_cat+ strata(set_id), df))
+
+# smoking
+summary( clogit(case ~ smoking_cat_3+ strata(set_id), df))
+
+# CCI
+summary( clogit(case ~ Charlson+ strata(set_id), df))
+summary( clogit(case ~ CCI+ strata(set_id), df))
+
+# vaccination
+summary( clogit(case ~ covrx_ever+ strata(set_id), df))
+summary( clogit(case ~ flu_vaccine+ strata(set_id), df))
+
+```
+
