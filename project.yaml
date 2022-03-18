@@ -246,7 +246,9 @@ actions:
        moderately_sensitive: 
         plot1: output/redacted/consult_all_prevalent.jpeg
         plot2: output/redacted/consult_all_incident.jpeg
+        plot3: output/redacted/consult_all.jpeg
         csv1: output/redacted/consultation_rate_GP_check.csv
+        csv1.2: output/redacted/consultation_all_GP_check.csv
         csv2: output/redacted/consultation_GP_rate_prevalent.csv
         csv3: output/redacted/consultation_GP_rate_incident.csv
 
