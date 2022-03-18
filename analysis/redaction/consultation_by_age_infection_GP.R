@@ -1,6 +1,6 @@
 ##############
 ## Consultation rates for 6 common infection over time,
-## stratified by infections. 
+## stratified by infections.  
 ## prevalent= with same infection in 90 days
 ##############
 
