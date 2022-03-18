@@ -548,9 +548,9 @@ plot_0 <- ggplot(df0.sum, aes(x=date))+
   # geom_line(data =gap50, aes(y=redacted_rate_50th), color="black",linetype="dashed") +
   # geom_line(data =gap25, aes(y=redacted_rate_25th), color="darkred",linetype="dashed") +
   # geom_line(data =gap75, aes(y=redacted_rate_75th), color="darkred",linetype="dashed") +
-  geom_line(aes(y=lowquart),color="black",linetype="dashed")+
+  geom_line(aes(y=lowquart),color="grey",linetype="dotted")+
   geom_line(aes(y=median), color="black")+
-  geom_line(aes(y=highquart), color="black",linetype="dashed")+
+  geom_line(aes(y=highquart), color="grey",linetype="dotted")+
   facet_grid(rows = vars(indic))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
@@ -559,7 +559,7 @@ plot_0 <- ggplot(df0.sum, aes(x=date))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time. 
-                    Black lines represent median and dashed lines represent 25th and 75th percentile. "),
+                    Black lines represent median and dotted lines represent 25th and 75th percentile. "),
     x = "",
     y = "consultation rate per practice")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
@@ -584,9 +584,9 @@ plot_1 <- ggplot(df1.sum, aes(x=date))+
   # geom_line(data =gap50, aes(y=redacted_rate_50th), color="black",linetype="dashed") +
   # geom_line(data =gap25, aes(y=redacted_rate_25th), color="darkred",linetype="dashed") +
   # geom_line(data =gap75, aes(y=redacted_rate_75th), color="darkred",linetype="dashed") +
-  geom_line(aes(y=lowquart),color="black",linetype="dashed")+
+  geom_line(aes(y=lowquart),color="grey",linetype="dotted")+
   geom_line(aes(y=median), color="black")+
-  geom_line(aes(y=highquart), color="black",linetype="dashed")+
+  geom_line(aes(y=highquart), color="grey",linetype="dotted")+
   facet_grid(rows = vars(indic))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
@@ -595,7 +595,7 @@ plot_1 <- ggplot(df1.sum, aes(x=date))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time. 
-                    Black lines represent median and dashed lines represent 25th and 75th percentile.  "),
+                    Black lines represent median and dotted lines represent 25th and 75th percentile.  "),
     x = "",
     y = "consultation rate per practice")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
