@@ -12,7 +12,7 @@ actions:
   #       cohort: output/measures/input_*.csv.gz
 
   generate_study_population_hospitalisation:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2020-01-01 to 2020-03-01 by month" --skip-existing --output-dir=output/hospitalisation_data --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/hospitalisation_data --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/hospitalisation_data/input_hospitalisation_*.csv.gz
