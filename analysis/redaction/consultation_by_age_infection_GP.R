@@ -595,7 +595,7 @@ plot_1 <- ggplot(df1.sum, aes(x=date))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time. 
-                    Black lines represent median and dotted lines represent 25th and 75th percentile.  "),
+                    Black lines represent median and dotted lines represent 25th and 75th percentile."),
     x = "",
     y = "consultation rate per practice")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
