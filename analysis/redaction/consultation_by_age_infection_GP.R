@@ -1,6 +1,6 @@
 ##############
 ## Consultation rates for 6 common infection over time,
-## stratified by age categories. 
+## stratified by infections. 
 ## prevalent= with same infection in 90 days
 ##############
 
@@ -487,30 +487,30 @@ rm(df1.table,df0.table,df1.sum,df0.sum,df)
 df0.sum <- df0 %>% group_by(date,indic) %>%
   summarise(
             total.counts=sum(counts),
-            meanABrate = mean(rate,na.rm=TRUE),
-            mean.counts=mean(counts,na.rm=TRUE),
             lowquart= quantile(rate, na.rm=TRUE)[2],
+            median= quantile(rate, na.rm=TRUE)[3],
             highquart= quantile(rate, na.rm=TRUE)[4],
             lowquart.counts= quantile(counts, na.rm=TRUE)[2],
+            median.counts= quantile(counts, na.rm=TRUE)[3],
             highquart.counts= quantile(counts, na.rm=TRUE)[4])
 
 df1.sum <- df1 %>% group_by(date,indic) %>%
   summarise(
             total.counts=sum(counts),
-            meanABrate = mean(rate,na.rm=TRUE),
-            mean.counts=mean(counts,na.rm=TRUE),
             lowquart= quantile(rate, na.rm=TRUE)[2],
+            median= quantile(rate, na.rm=TRUE)[3],
             highquart= quantile(rate, na.rm=TRUE)[4],
             lowquart.counts= quantile(counts, na.rm=TRUE)[2],
+            median.counts= quantile(counts, na.rm=TRUE)[3],
             highquart.counts= quantile(counts, na.rm=TRUE)[4])
 
 
 
 #remove counts<=5
-df0.sum$redacted_counts=ifelse(df0.sum$mean.counts<=5,NA,df0.sum$mean.counts)
-df1.sum$redacted_counts=ifelse(df1.sum$mean.counts<=5,NA,df1.sum$mean.counts)
-df0.sum$redacted_rate_mean=ifelse(df0.sum$mean.counts<=5,NA,df0.sum$meanABrate)
-df1.sum$redacted_rate_mean=ifelse(df1.sum$mean.counts<=5,NA,df1.sum$meanABrate)
+df0.sum$redacted_50th.counts=ifelse(df0.sum$median.counts<=5,NA,df0.sum$median.counts)
+df1.sum$redacted_50th.counts=ifelse(df1.sum$median.counts<=5,NA,df1.sum$median.counts)
+df0.sum$redacted_rate_50th=ifelse(df0.sum$median.counts<=5,NA,df0.sum$median)
+df1.sum$redacted_rate_50th=ifelse(df1.sum$median.counts<=5,NA,df1.sum$median)
 
 df0.sum$redacted_25th.counts=ifelse(df0.sum$lowquart.counts<=5,NA,df0.sum$lowquart.counts)
 df1.sum$redacted_25th.counts=ifelse(df1.sum$lowquart.counts<=5,NA,df1.sum$lowquart.counts)
@@ -531,14 +531,22 @@ rm(df,df0,df1)
 
 
 
+# plot missing value line
+gap50=df0.sum %>% filter(!is.na(redacted_rate_50th))
+gap25=df0.sum %>% filter(!is.na(redacted_rate_25th))
+gap75=df0.sum %>% filter(!is.na(redacted_rate_75th))
+
 # incident
 plot_0 <- ggplot(df0.sum, aes(x=date))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(y=redacted_rate_mean),color="black")+
-  geom_line(aes(y=redacted_rate_25th), color="darkred", linetype= "dotted")+
-  geom_line(aes(y=redacted_rate_75th), color="darkred", linetype= "dotted")+
+  geom_line(data =gap50, aes(y=redacted_rate_50th), color="black",linetype="dashed") +
+  geom_line(data =gap25, aes(y=redacted_rate_25th), color="darkred",linetype="dashed") +
+  geom_line(data =gap75, aes(y=redacted_rate_75th), color="darkred",linetype="dashed") +
+  geom_line(aes(y=redacted_rate_50th),color="black")+
+  geom_line(aes(y=redacted_rate_25th), color="darkred")+
+  geom_line(aes(y=redacted_rate_75th), color="darkred")+
   facet_grid(rows = vars(indic))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
@@ -547,9 +555,10 @@ plot_0 <- ggplot(df0.sum, aes(x=date))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time. 
-                    Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
+                    Black lines represent median and red lines represent 25th and 75th percentile.
+                    Missing value were shown as dotted line. "),
     x = "",
-    y = "Number of consultations per 1000 patients")+
+    y = "Number of consultations per 1000 patients per practice")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")),color="grey70")
 
@@ -557,17 +566,24 @@ ggsave(
   plot= plot_0,
   filename="consult_all_incident.jpeg", path=here::here("output","redacted"))
 
+rm(gap50,gap25,gap75)
 
-df1.sum$redacted_rate_25th=as.numeric(df1.sum$redacted_rate_25th)
+df1.sum$redacted_rate_25th=as.numeric(df1.sum$redacted_rate_25th)#for dummy data
+gap50=df1.sum %>% filter(!is.na(redacted_rate_50th))
+gap25=df1.sum %>% filter(!is.na(redacted_rate_25th))
+gap75=df1.sum %>% filter(!is.na(redacted_rate_75th))
 
 # prevalent
 plot_1 <- ggplot(df1.sum, aes(x=date))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(y=redacted_rate_mean),color="black")+
-  geom_line(aes(y=redacted_rate_25th), color="darkred", linetype= "dotted")+
-  geom_line(aes(y=redacted_rate_75th), color="darkred", linetype= "dotted")+
+  geom_line(data =gap50, aes(y=redacted_rate_50th), color="black",linetype="dashed") +
+  geom_line(data =gap25, aes(y=redacted_rate_25th), color="darkred",linetype="dashed") +
+  geom_line(data =gap75, aes(y=redacted_rate_75th), color="darkred",linetype="dashed") +
+  geom_line(aes(y=redacted_rate_50th),color="black")+
+  geom_line(aes(y=redacted_rate_25th), color="darkred")+
+  geom_line(aes(y=redacted_rate_75th), color="darkred")+
   facet_grid(rows = vars(indic))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
@@ -576,9 +592,9 @@ plot_1 <- ggplot(df1.sum, aes(x=date))+
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time. 
-                    Black lines represent mean rate and dotted lines represent 25th and 75th percentile rate. "),
+                    Solid lines represent median rate and dotted lines represent 25th and 75th percentile rate. "),
     x = "",
-    y = "Number of consultations per 1000 patients")+
+    y = "Number of consultations per 1000 patients per practice")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")),color="grey70")+
   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")),color="grey70")
 
