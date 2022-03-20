@@ -917,18 +917,18 @@ measures = [
     #         group_by=["practice", "hx_antibiotics", "sex", "age_cat"]
     #         ),
     
-    # ## covid diagnosis same day prescribing
-    # Measure(id="gp_same_day_pos_ab",
-    #         numerator="population",
-    #         denominator="population",
-    #         group_by=["practice","gp_covid","gp_covid_ab_prescribed","age_cat"]
-    #         ),
+    ## covid diagnosis same day prescribing
+    Measure(id="gp_same_day_pos_ab",
+            numerator="gp_covid_ab_prescribed",
+            denominator="population",
+            group_by=["gp_covid"]
+            ),
 
-    # Measure(id="Same_day_pos_ab_sgss",
-    #         numerator="population",
-    #         denominator="population",
-    #         group_by=["practice","Covid_test_result_sgss","sgss_ab_prescribed","age_cat"]
-    #         ),
+    Measure(id="Same_day_pos_ab_sgss",
+            numerator="sgss_ab_prescribed",
+            denominator="population",
+            group_by=["Covid_test_result_sgss"]
+            ),
 
     # ## broad_vs_narrow
     # Measure(id="broad_narrow_prescribing",
