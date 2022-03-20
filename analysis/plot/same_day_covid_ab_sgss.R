@@ -9,10 +9,6 @@ library('lubridate')
 df <- read_csv(
   here::here("output", "measures", "measure_Same_day_pos_ab_sgss.csv"),  
   col_types = cols_only(
-    
-    # Identifier
-    practice = col_integer(),
-    
     # Outcomes
     Covid_test_result_sgss  = col_double(),
     population  = col_double(),
