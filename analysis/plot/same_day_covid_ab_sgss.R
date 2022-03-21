@@ -32,13 +32,14 @@ last.date=max(df$date)
 df=df%>% filter(date!=last.date)
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
-first_mon=format(min(df$date),"%m-%Y")
-last_mon= format(max(df$date),"%m-%Y")
 
 
 
 ## remove negative Covid cohorts
 df <- df%>% filter(Covid_test_result_sgss==1)
+df <- df %>% filter (cal_year>2019,.keep_all = TRUE)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
 df$year <- as.factor(df$cal_year)
 df$mon <- as.factor(df$cal_mon)
 
@@ -47,7 +48,7 @@ plot <- ggplot(df, aes(x=mon, y=value, group=year)) +
   geom_point(aes(color=year))+
   scale_color_brewer(palette="Paired")+
   theme_minimal()+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.05))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.05, by = 0.005))+
   labs(
     title = "Same day Covid diagnosis and antibiotics prescription-sgss",
     subtitle = paste(first_mon,"-",last_mon),
