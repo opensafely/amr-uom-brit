@@ -757,7 +757,7 @@ actions:
     needs: [pre_extract_variables_outcome_1]
     outputs:
       highly_sensitive:
-        cohort: output/input_outcome_1_control_2004.
+        cohort: output/input_outcome_1_control_2004.csv
         
   extract_variables_outcome_1_control_2005: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2005
