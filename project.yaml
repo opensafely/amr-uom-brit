@@ -410,19 +410,19 @@ actions:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
 
-  describe_same_day_ab_sgss:
-    run: r:latest analysis/plot/same_day_covid_ab_sgss.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot: output/same_day_ab_prop_line_sgss.jpeg
+  # describe_same_day_ab_sgss:
+  #   run: r:latest analysis/plot/same_day_covid_ab_sgss.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot: output/same_day_ab_prop_line_sgss.jpeg
 
-  describe_same_day_ab_gp:
-    run: r:latest analysis/plot/same_day_covid_ab_gp.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot: output/same_day_ab_prop_line_gp.jpeg
+  # describe_same_day_ab_gp:
+  #   run: r:latest analysis/plot/same_day_covid_ab_gp.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot: output/same_day_ab_prop_line_gp.jpeg
 
   generate_study_population_antibiotics: #  Antibiotics_recorded_01
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
