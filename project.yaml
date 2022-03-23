@@ -581,33 +581,33 @@ actions:
   #     moderately_sensitive:
   #       html: output/report/baseline_table_pat_one.html
   
-  describe_baseline_tb_2019:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2019.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2019, describe_check_broad_model_variable_2019_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2019.html
+  # describe_baseline_tb_2019:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2019.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2019, describe_check_broad_model_variable_2019_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2019.html
 
-  describe_baseline_tb_2020:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2020.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2020, describe_check_broad_model_variable_2020_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2020.html
+  # describe_baseline_tb_2020:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2020.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2020, describe_check_broad_model_variable_2020_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2020.html
 
-  describe_baseline_tb_2021:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2021.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2021, describe_check_broad_model_variable_2021_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2021.html
+  # describe_baseline_tb_2021:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2021.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2021, describe_check_broad_model_variable_2021_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2021.html
 
-  describe_baseline_tb_2022:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2022.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2022, describe_check_broad_model_variable_2022_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2022.html
+  # describe_baseline_tb_2022:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2022.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2022, describe_check_broad_model_variable_2022_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2022.html
 
 
   # describe_ab_recoded_indication_process_plot: #  Antibiotics_recorded_02: only indication/row
