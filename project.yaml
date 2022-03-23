@@ -11,6 +11,13 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_*.csv.gz
   
+  generate_study_population_covidcheck:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_covidcheck_2 
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidcheck_2.csv.gz
+
   generate_study_population_infection:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_infection --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
@@ -53,13 +60,13 @@ actions:
   #       cohort: output/overall.png
   #       boxplot: output/overallbox.png
 
-  # describe_percentile:
-  #   run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
-  #   needs: [generate_measures]
-  #   outputs:
-  #     moderately_sensitive:
-  #       percentile: output/overall_25th_75th_percentile.png
-  #       table_total: output/total_number_antibacterial_prescriptions.csv
+  describe_percentile:
+    run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        percentile: output/overall_25th_75th_percentile.png
+        table_total: output/total_number_antibacterial_prescriptions.csv
 
   # describe_starpu:
   #   run: r:latest analysis/plot/starpu_ab_prescribing.R

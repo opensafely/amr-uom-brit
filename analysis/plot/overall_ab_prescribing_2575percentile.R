@@ -65,25 +65,28 @@ df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
          ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
          five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
 
-  
+y_max <- max(df_mean$meanABrate) 
+y_min <- min(df_mean$meanABrate) 
+
 plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_line(aes(y=meanABrate),color="steelblue")+
   geom_point(aes(y=meanABrate),color="steelblue")+
-  geom_line(aes(y=lowquart), color="darkred", linetype=2)+
-  geom_point(aes(y=lowquart), color="darkred", linetype=2)+
-  geom_line(aes(y=highquart), color="darkred", linetype=2)+
-  geom_point(aes(y=highquart), color="darkred", linetype=2)+
+  geom_line(aes(y=lowquart), color="darkred")+
+  geom_point(aes(y=lowquart), color="darkred")+
+  geom_line(aes(y=highquart), color="darkred")+
+  geom_point(aes(y=highquart), color="darkred")+
   geom_line(aes(y=ninefive), color="black", linetype=2)+
   geom_point(aes(y=ninefive), color="black", linetype=2)+
   geom_line(aes(y=five), color="black", linetype=2)+
   geom_point(aes(y=five), color="black", linetype=2)+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  #scale_y_continuous(breaks = seq(0, max(df_mean$meanABrate),5))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
-    title = "Overall antibiotics prescribing rate by month",
+    title = "Antibiotics prescribing rate by month",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
-    x = "Time",
+    x = "",
     y = "Antibiotic prescribing rate per 1000 registered patients")+
   geom_vline(xintercept = as.numeric(as.Date("2019-12-31")), color="grey")+
   geom_vline(xintercept = as.numeric(as.Date("2020-12-31")), color="grey")
