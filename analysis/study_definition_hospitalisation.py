@@ -357,6 +357,17 @@ study = StudyDefinition(
         },
     ),
 
+    ## all meds except antibiotics (dmd codes)
+    meds_nonabs=patients.with_these_medications(
+        meds_nonabs_codes,
+        between=["index_date - 12 months", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
     # ## Broad spectrum antibiotics
     # broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
     #     broad_spectrum_antibiotics_codes,

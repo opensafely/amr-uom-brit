@@ -31,6 +31,13 @@ broad_spectrum_antibiotics_codes = codelist_from_csv(
     "codelists/user-rriefu-broad-spectrum-antibiotics.csv", system="snomed", column="dmd_id"
 )
 
+### all meds
+meds_nonabs_codes = codelist_from_csv(
+    "codelists/user-yayang-nonab.csv", 
+    system="snomed", 
+    column="dmd"
+)
+
 
 ### asthma & COPD
 asthma_copd_codes = codelist_from_csv(
