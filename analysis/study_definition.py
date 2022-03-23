@@ -853,12 +853,12 @@ study = StudyDefinition(
 
 measures = [
 
-    ## antibiotic rx rate
-    # Measure(id="antibiotics_overall",
-    #         numerator="antibacterial_brit",
-    #         denominator="population",
-    #         group_by=["practice"]
-    #         ),
+    # antibiotic rx rate
+    Measure(id="antibiotics_overall",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice"]
+            ),
     
     # ## Antibiotic Rx rate by TyPE
     # Measure(id="antibiotics_overall_brit_abtype",
