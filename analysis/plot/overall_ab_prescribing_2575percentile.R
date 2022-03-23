@@ -22,9 +22,9 @@ df <- read_csv(
     practice = col_integer(),
     
     # Outcomes
-    antibacterial_brit  = col_double(),
-    population  = col_double(),
-    value = col_double(),
+    antibacterial_brit  = col_integer(),
+    population  = col_integer(),
+    value = col_integer(),
     
     # Date
     date = col_date(format="%Y-%m-%d")
@@ -65,8 +65,8 @@ df_mean <- df_gprate %>% group_by(cal_mon, cal_year) %>%
          ninefive= quantile(ab_rate_1000, na.rm=TRUE, c(0.95)),
          five=quantile(ab_rate_1000, na.rm=TRUE, c(0.05)))
 
-y_max <- max(df_mean$meanABrate) 
-y_min <- min(df_mean$meanABrate) 
+#y_max <- max(df_mean$meanABrate) 
+#y_min <- min(df_mean$meanABrate) 
 
 plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_line(aes(y=meanABrate),color="steelblue")+
