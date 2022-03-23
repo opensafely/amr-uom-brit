@@ -292,49 +292,49 @@ study = StudyDefinition(
     
 
 
-    # ## our vaccination covid script
-    # ### First COVID vaccination medication code (any)
-    # covrx1_dat=patients.with_vaccination_record(
-    #     returning="date",
-    #     tpp={
-    #         "product_name_matches": [
-    #             "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-    #             "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-    #             "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
-    #         ],
-    #     },
-    #     emis={
-    #         "product_codes": covrx_code,
-    #     },
-    #     find_first_match_in_period=True,
-    #     on_or_after="index_date",
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={
-    #         "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
-    #         "incidence": 0.5,
-    #     }
-    # ),
-    # # Second COVID vaccination medication code (any)
-    # covrx2_dat=patients.with_vaccination_record(
-    #     returning="date",
-    #     tpp={
-    #         "product_name_matches": [
-    #             "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-    #             "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-    #             "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
-    #         ],
-    #     },
-    #     emis={
-    #         "product_codes": covrx_code,
-    #     },
-    #     find_last_match_in_period=True,
-    #     on_or_after="covrx1_dat + 19 days",
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={
-    #         "rate": "exponential_increase", 
-    #         "incidence": 0.5,
-    #     }
-    # ),
+    ## our vaccination covid script
+    ### First COVID vaccination medication code (any)
+    covrx1_dat=patients.with_vaccination_record(
+        returning="date",
+        tpp={
+            "product_name_matches": [
+                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+            ],
+        },
+        emis={
+            "product_codes": covrx_code,
+        },
+        find_first_match_in_period=True,
+        on_or_after="index_date",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
+            "incidence": 0.5,
+        }
+    ),
+    # Second COVID vaccination medication code (any)
+    covrx2_dat=patients.with_vaccination_record(
+        returning="date",
+        tpp={
+            "product_name_matches": [
+                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+            ],
+        },
+        emis={
+            "product_codes": covrx_code,
+        },
+        find_last_match_in_period=True,
+        on_or_after="covrx1_dat + 19 days",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "rate": "exponential_increase", 
+            "incidence": 0.5,
+        }
+    ),
 
     # #Death
     died_date=patients.died_from_any_cause(
