@@ -60,7 +60,6 @@ def generate_confounding_variables(index_date_variable):
     ethnicity=patients.with_these_clinical_events(
         ethnicity_codes,
         returning="category",
-        on_or_before=f'{index_date_variable}', # add for outcome1_control
         find_last_match_in_period=True,
         include_date_of_match=False,
         return_expectations={
