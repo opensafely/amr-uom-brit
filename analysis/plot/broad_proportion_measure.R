@@ -1,0 +1,94 @@
+library('tidyverse')
+library("ggplot2")
+library('dplyr')
+library('lubridate')
+
+
+
+df <- read_csv(
+  here::here("output", "measures", "measure_broad_spectrum_proportion.csv"),  
+  col_types = cols_only(
+    practice = col_integer(),
+    # Outcomes
+    broad_spectrum_antibiotics_prescriptions  = col_double(),
+    antibacterial_brit = col_double(),
+    value = col_double(),
+    
+    # Date
+    date = col_date(format="%Y-%m-%d")
+    
+  ),
+  na = character()
+  )
+
+
+df$date <- as.Date(df$date,format="%Y-%m-%d")
+df[is.na(df)] <- 0 
+
+
+# remove last month data
+last.date=max(df$date)
+df=df%>% filter(date!=last.date)
+df$cal_mon <- month(df$date)
+df$cal_year <- year(df$date)
+
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
+df$year <- as.factor(df$cal_year)
+df$mon <- as.factor(df$cal_mon)
+
+#plot1 overall percentage
+
+plot1 <- df %>% group_by(date) %>% summarise(
+  total_broad = sum(broad_spectrum_antibiotics_prescriptions, na.rm = TRUE),
+  total_ab = sum(antibacterial_brit, na.rm = TRUE))
+
+plot1 <- plot1 %>% mutate(prop = total_broad/total_ab)
+
+plot1$mon <- as.factor(month(plot1$date))
+plot1$year <-as.factor(year(plot1$date))
+
+
+
+p1 <- ggplot(plot1, aes(x=mon, y=prop, group=year)) +
+  geom_line(aes(color=year))+
+  geom_point(aes(color=year))+
+  scale_color_brewer(palette="Paired")+
+  theme_minimal()+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  labs(
+    title = "Same day Covid diagnosis and antibiotics prescription",
+    subtitle = paste(first_mon,"-",last_mon),
+    x = "Month",
+    y = "Same day antibiotics prescribing %")
+
+p1
+
+#plot2 practice-level percentage
+
+
+
+# grouped boxplot
+p2 <- ggplot(df, aes(x=mon, y=value, fill=year)) + 
+  geom_boxplot()+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  labs(
+    title = "Same day Covid diagnosis and antibiotics prescription",
+    subtitle = paste(first_mon,"-",last_mon),
+    x = "Month",
+    y = "Same day antibiotics prescribing %")
+
+p2
+
+
+ggsave(
+  plot1= p1,
+  filename="broad_proportions_overall.jpeg", path=here::here("output"),
+)  
+
+ggsave(
+  plot2= p2,
+  filename="broad_proportions_practice.jpeg", path=here::here("output"),
+)  
+
+

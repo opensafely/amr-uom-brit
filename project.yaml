@@ -688,4 +688,20 @@ actions:
         csv10: output/redacted/abtype_sinusitis.csv
         csv11: output/redacted/abtype_ot_externa.csv
         csv12: output/redacted/abtype_otmedia.csv
-       
+
+  describe_broad_proportion_measure:   
+    run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        html: output/report/descriptive_ab_broad_2.html
+
+
+
+  # describe_broad_proportion_measure:
+  #   run: r:latest analysis/plot/broad_proportion_measure.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/broad_proportions_overall.jpeg
+  #       plot2: output/broad_proportions_practice.jpeg
