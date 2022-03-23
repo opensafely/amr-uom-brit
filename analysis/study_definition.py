@@ -867,12 +867,12 @@ measures = [
     #         group_by=["antibacterial_brit_abtype"]
     #         ),
 
-    # ## Broad spectrum antibiotics
-    # Measure(id="broad_spectrum_proportion",
-    #         numerator="broad_spectrum_antibiotics_prescriptions",
-    #         denominator="antibacterial_brit",
-    #         group_by=["practice"]
-    #         ),
+    ## Broad spectrum antibiotics
+    Measure(id="broad_spectrum_proportion",
+            numerator="broad_spectrum_antibiotics_prescriptions",
+            denominator="antibacterial_brit",
+            group_by=["practice"]
+            ),
 
     # ## antibiotic count rolling 12m before
     # Measure(id="ABs_12mb4",
@@ -883,18 +883,18 @@ measures = [
 
     
     ## STRPU antibiotics
-    Measure(id="STARPU_antibiotics",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+    # Measure(id="STARPU_antibiotics",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["practice", "sex", "age_cat"]
+    #         ),
 
-    ## STRPU broad_spectrum
-    Measure(id="STARPU_broad_spectrum",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="population",
-            group_by=["practice", "sex", "age_cat"]
-            ),
+    # ## STRPU broad_spectrum
+    # Measure(id="STARPU_broad_spectrum",
+    #         numerator="broad_spectrum_antibiotics_prescriptions",
+    #         denominator="population",
+    #         group_by=["practice", "sex", "age_cat"]
+    #         ),
 
     # ## hospitalisation 
     # Measure(id="hosp_admission_infection",
@@ -918,17 +918,17 @@ measures = [
     #         ),
     
     ## covid diagnosis same day prescribing
-    Measure(id="gp_same_day_pos_ab",
-            numerator="gp_covid_ab_prescribed",
-            denominator="population",
-            group_by=["gp_covid"]
-            ),
+    # Measure(id="gp_same_day_pos_ab",
+    #         numerator="gp_covid_ab_prescribed",
+    #         denominator="population",
+    #         group_by=["gp_covid"]
+    #         ),
 
-    Measure(id="Same_day_pos_ab_sgss",
-            numerator="sgss_ab_prescribed",
-            denominator="population",
-            group_by=["Covid_test_result_sgss"]
-            ),
+    # Measure(id="Same_day_pos_ab_sgss",
+    #         numerator="sgss_ab_prescribed",
+    #         denominator="population",
+    #         group_by=["Covid_test_result_sgss"]
+    #         ),
 
     # ## broad_vs_narrow
     # Measure(id="broad_narrow_prescribing",

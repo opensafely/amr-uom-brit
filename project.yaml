@@ -410,19 +410,19 @@ actions:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
 
-  describe_same_day_ab_sgss:
-    run: r:latest analysis/plot/same_day_covid_ab_sgss.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot: output/same_day_ab_prop_line_sgss.jpeg
+  # describe_same_day_ab_sgss:
+  #   run: r:latest analysis/plot/same_day_covid_ab_sgss.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot: output/same_day_ab_prop_line_sgss.jpeg
 
-  describe_same_day_ab_gp:
-    run: r:latest analysis/plot/same_day_covid_ab_gp.R
-    needs: [generate_measures]
-    outputs:
-       moderately_sensitive:
-        plot: output/same_day_ab_prop_line_gp.jpeg
+  # describe_same_day_ab_gp:
+  #   run: r:latest analysis/plot/same_day_covid_ab_gp.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot: output/same_day_ab_prop_line_gp.jpeg
 
   generate_study_population_antibiotics: #  Antibiotics_recorded_01
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -564,12 +564,12 @@ actions:
       moderately_sensitive:
         html: output/report/broad_model_covid.html
 
-  describe_descriptive_ab_broad:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad.Rmd", output_dir = "output/report")'
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        html: output/report/descriptive_ab_broad.html
+  # describe_descriptive_ab_broad:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/descriptive_ab_broad.html
 
   # describe_baseline_tb:   
   #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one.Rmd", output_dir = "output/report")'
@@ -581,33 +581,33 @@ actions:
   #     moderately_sensitive:
   #       html: output/report/baseline_table_pat_one.html
   
-  describe_baseline_tb_2019:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2019.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2019, describe_check_broad_model_variable_2019_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2019.html
+  # describe_baseline_tb_2019:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2019.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2019, describe_check_broad_model_variable_2019_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2019.html
 
-  describe_baseline_tb_2020:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2020.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2020, describe_check_broad_model_variable_2020_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2020.html
+  # describe_baseline_tb_2020:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2020.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2020, describe_check_broad_model_variable_2020_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2020.html
 
-  describe_baseline_tb_2021:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2021.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2021, describe_check_broad_model_variable_2021_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2021.html
+  # describe_baseline_tb_2021:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2021.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2021, describe_check_broad_model_variable_2021_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2021.html
 
-  describe_baseline_tb_2022:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2022.Rmd", output_dir = "output/report")'
-    needs: [describe_check_broad_model_variable_2022, describe_check_broad_model_variable_2022_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/baseline_table_pat_one_2022.html
+  # describe_baseline_tb_2022:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one_2022.Rmd", output_dir = "output/report")'
+  #   needs: [describe_check_broad_model_variable_2022, describe_check_broad_model_variable_2022_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/baseline_table_pat_one_2022.html
 
 
   # describe_ab_recoded_indication_process_plot: #  Antibiotics_recorded_02: only indication/row
@@ -688,4 +688,20 @@ actions:
         csv10: output/redacted/abtype_sinusitis.csv
         csv11: output/redacted/abtype_ot_externa.csv
         csv12: output/redacted/abtype_otmedia.csv
-       
+
+  describe_broad_proportion_measure:   
+    run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        html: output/report/descriptive_ab_broad_2.html
+
+
+
+  # describe_broad_proportion_measure:
+  #   run: r:latest analysis/plot/broad_proportion_measure.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/broad_proportions_overall.jpeg
+  #       plot2: output/broad_proportions_practice.jpeg
