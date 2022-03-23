@@ -564,12 +564,12 @@ actions:
       moderately_sensitive:
         html: output/report/broad_model_covid.html
 
-  describe_descriptive_ab_broad:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad.Rmd", output_dir = "output/report")'
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        html: output/report/descriptive_ab_broad.html
+  # describe_descriptive_ab_broad:   
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/descriptive_ab_broad.html
 
   # describe_baseline_tb:   
   #   run: r:latest -e 'rmarkdown::render("analysis/model/baseline_table_pat_one.Rmd", output_dir = "output/report")'
