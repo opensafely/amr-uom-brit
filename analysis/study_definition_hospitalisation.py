@@ -539,32 +539,32 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
 
-    #  --sinusitis 
-    sinusitis_counts=patients.with_these_clinical_events(
-        sinusitis_codes,
-        returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
+    # #  --sinusitis 
+    # sinusitis_counts=patients.with_these_clinical_events(
+    #     sinusitis_codes,
+    #     returning="number_of_matches_in_period",
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #         "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    # ), 
 
-    #  --otitis externa
-    ot_externa_counts=patients.with_these_clinical_events(
-        ot_externa_codes,
-        returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),    
+    # #  --otitis externa
+    # ot_externa_counts=patients.with_these_clinical_events(
+    #     ot_externa_codes,
+    #     returning="number_of_matches_in_period",
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #         "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    # ),    
 
-    #  --otitis media
-    otmedia_counts=patients.with_these_clinical_events(
-        otmedia_codes,
-        returning="number_of_matches_in_period",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),    
+    # #  --otitis media
+    # otmedia_counts=patients.with_these_clinical_events(
+    #     otmedia_codes,
+    #     returning="number_of_matches_in_period",
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #         "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    # ),    
 
    ########## infection P't numbers to group_by for measures #############
     
@@ -595,32 +595,32 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),
 
-    #  --sinusitis 
-    sinusitis_pt=patients.with_these_clinical_events(
-        sinusitis_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
+    # #  --sinusitis 
+    # sinusitis_pt=patients.with_these_clinical_events(
+    #     sinusitis_codes,
+    #     returning="binary_flag",
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #         "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    # ), 
 
-    #  --otitis externa
-    ot_externa_pt=patients.with_these_clinical_events(
-        ot_externa_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ),    
+    # #  --otitis externa
+    # ot_externa_pt=patients.with_these_clinical_events(
+    #     ot_externa_codes,
+    #     returning="binary_flag",
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #         "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    # ),    
 
-    #  --otitis media
-    otmedia_pt=patients.with_these_clinical_events(
-        otmedia_codes,
-        returning="binary_flag",
-        between=["index_date", "last_day_of_month(index_date)"],
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-    ), 
+    # #  --otitis media
+    # otmedia_pt=patients.with_these_clinical_events(
+    #     otmedia_codes,
+    #     returning="binary_flag",
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #         "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    # ), 
 
     #### prescribing rate by 6 common infection type #####
     #### each infection has 4 columns for antibiotics 
