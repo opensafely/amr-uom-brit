@@ -19,12 +19,12 @@ df <- read_csv(
   col_types = cols_only(
     
     # Identifier
-    practice = col_integer(),
+    practice = col_number(),
     
     # Outcomes
-    antibacterial_brit  = col_integer(),
-    population  = col_integer(),
-    value = col_integer(),
+    antibacterial_brit  = col_number(),
+    population  = col_number(),
+    value = col_number(),
     
     # Date
     date = col_date(format="%Y-%m-%d")
