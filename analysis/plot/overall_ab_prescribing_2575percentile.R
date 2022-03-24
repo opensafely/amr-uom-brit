@@ -34,6 +34,7 @@ df <- read_csv(
   )
 
 # remove last month data
+df$date <- as.Date(df$date)
 last.date=max(df$date)
 df=df%>% filter(date!=last.date)
 first_mon <- (format(min(df$date), "%m-%Y"))
@@ -41,7 +42,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 df <- df %>% filter(practice >0)
 
-df$date <- as.Date(df$date)
+
 df$cal_mon <- month(df$date)
 df$cal_year <- year(df$date)
 
@@ -50,10 +51,10 @@ prescribing_number <- as.data.frame(sum(df$antibacterial_brit,na.rm = TRUE))
 colnames(prescribing_number) <- "Number of prescriptions"
 
 # mean list size per practice 
-dfls <- df %>% group_by(practice) %>%
-  mutate(listsize_ave = round(mean(population),digits = 0))
+#dfls <- df %>% group_by(practice) %>%
+#  mutate(listsize_ave = round(mean(population),digits = 0))
 
-df_gprate <- dfls %>% group_by(practice, cal_mon, cal_year) %>%
+df_gprate <- df %>% group_by(practice, cal_mon, cal_year) %>%
   mutate(ab_rate_1000 = value*1000) 
 
 num_uniq_prac <- as.numeric(dim(table((df_gprate$practice))))
@@ -75,12 +76,11 @@ plot_percentile <- ggplot(df_mean, aes(x=date))+
   geom_point(aes(y=lowquart), color="darkred")+
   geom_line(aes(y=highquart), color="darkred")+
   geom_point(aes(y=highquart), color="darkred")+
-  geom_line(aes(y=ninefive), color="black", linetype=2)+
-  geom_point(aes(y=ninefive), color="black", linetype=2)+
-  geom_line(aes(y=five), color="black", linetype=2)+
-  geom_point(aes(y=five), color="black", linetype=2)+
+  geom_line(aes(y=ninefive), color="black", linetype="dotted")+
+  geom_point(aes(y=ninefive), color="black")+
+  geom_line(aes(y=five), color="black", linetype="dotted")+
+  geom_point(aes(y=five), color="black")+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  #scale_y_continuous(breaks = seq(0, max(df_mean$meanABrate),5))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
     title = "Antibiotics prescribing rate by month",
