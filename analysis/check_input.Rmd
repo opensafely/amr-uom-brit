@@ -14,24 +14,8 @@ require("ggplot2")
 ```
 
 ## cohort extractor
-#### 1. study_population 
 
-```{r }
-
-dat=read_csv(here::here("output","input_general_population.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character()
-             ))
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
-rm(dat)
-```
-
-#### 2.1 study_population_covid_primary_care 
+#### 1.1 study_population_covid_primary_care 
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_covid_primarycare.csv"),
@@ -53,7 +37,7 @@ dat %>%
 rm(dat)
 ```
 
-#### 2.2 study_population_covid_SGSS
+#### 1.2 study_population_covid_SGSS
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_covid_SGSS.csv"),
@@ -76,77 +60,10 @@ rm(list=ls())
 
 ```
 
-#### 3. study_population_covid_admission
-###### patient_index_date range
-```{r}
-dat=read_csv(here::here("output","input_covid_admission.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character(),
-               patient_index_date=col_date()
-             ))
-
-range(dat$patient_index_date, na.rm=T)
-
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
-
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
-rm(list=ls())
-```
-
-#### 4.1 study_population_covid_death_ons
-###### patient_index_date range
-```{r}
-dat=read_csv(here::here("output","input_covid_death_ons.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character(),
-               patient_index_date=col_date()
-             ))
-
-range(dat$patient_index_date, na.rm=T)
-
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
-
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
-rm(list=ls())
-```
-
-#### 4.2 study_population_covid_death_cpns
-###### patient_index_date range
-```{r}
-dat=read_csv(here::here("output","input_covid_death_cpns.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character(),
-               patient_index_date=col_date()
-             ))
-
-range(dat$patient_index_date, na.rm=T)
-
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
-
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
-rm(list=ls())
-```
 
 
-
-
-##  process: data merging, select incident case
-#### 1. covid infection: SGSS + primary care
+##  define case and control
+#### 1. covid infection without any covid record later
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","control_covid_infection.csv"),
@@ -169,32 +86,10 @@ rm(list=ls())
 ```
 
 
-#### 2. covid hospital admission
+#### 2. covid infection with hospital admission
 ###### patient_index_date range
 ```{r}
-dat=read_csv(here::here("output","case_covid_admission.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character(),
-               patient_index_date=col_date()
-             ))
-
-range(dat$patient_index_date, na.rm=T)
-
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
-
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
-rm(list=ls())
-```
-
-#### 3. covid death: ONS +CPNS
-###### patient_index_date range
-```{r}
-dat=read_csv(here::here("output","case_covid_icu_death.csv"),
+dat=read_csv(here::here("output","case_covid_hosp.csv"),
              col_types=cols_only(
                age=col_double(),
                sex=col_character(),

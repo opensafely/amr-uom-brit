@@ -128,12 +128,12 @@ actions:
 #       highly_sensitive:
 #         cohort: output/case_covid_icu_death.csv
 
-#   check_input: # check above 
-#     run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/check_input.html
+  check_input: # 
+    run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_1,generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
+    outputs:
+      moderately_sensitive:
+        html: output/check_input.html
         
 #   matching_1_1:
 #     run: python:latest python analysis/matching_outcome_1_1.py
@@ -184,12 +184,12 @@ actions:
 #         cohort1: output/matched_outcome_3_case.csv
 #         cohort2: output/matched_outcome_3_control.csv
 
-#   extract_variables_outcome_2_case: 
-#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_case
-#     needs: [pre_extract_variables_outcome_2]
-#     outputs:
-#       highly_sensitive:
-#         cohort: output/input_outcome_2_case.csv
+  # extract_variables_outcome_2_case: 
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_case
+  #   needs: [pre_extract_variables_outcome_2]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_outcome_2_case.csv
   
 #   extract_variables_outcome_2_control: 
 #     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_control
@@ -221,12 +221,12 @@ actions:
 #         cohort2: output/matched_outcome2.csv
 #         cohort3: output/matched_outcome3.csv
 
-#   check_matching_2:
-#     run: r:latest -e 'rmarkdown::render("analysis/check_matching_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [merge_outcome2_3]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/check_matching_2.html
+  check_matching_2:
+    run: r:latest -e 'rmarkdown::render("analysis/check_matching_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching_2]
+    outputs:
+      moderately_sensitive:
+        html: output/check_matching_2.html
 
 #   check_matching_3:
 #     run: r:latest -e 'rmarkdown::render("analysis/check_matching_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
