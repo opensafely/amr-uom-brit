@@ -21,7 +21,6 @@ library('lubridate')
 
 
 ```{r echo=TRUE}
-
 df <- read_csv(
   here::here("output", "measures", "measure_antibiotics_overall_brit_abtype.csv"),  
   col_types = cols_only(
@@ -184,6 +183,77 @@ p3
 ```
 
 
+```{r}
+ablist <- c("Benzylpenicillin","Phenoxymethylpenicillin","Flucloxacillin",
+            "Temocillin","Amoxicillin","Ampicillin","Co-fluampicil","Co-amoxiclav","Flucloxacillin",
+            "Piperacillin","Ticarcillin","Pivmecillinam","Cefamandole","Cefazolin","Cefepime","Cefpirome",
+            "Cefprozil","Cefaclor","Cefadroxil","Cefalexin","Cefixime","Cefotaxime","Cefoxitin","Cefpodoxime",
+            "Cefradine","Ceftazidime","Ceftriaxone","Cefuroxime","Cilastatin","Doripenem","Ertapenem","Meropenem",
+            "Aztreonam","Ampicillin",
+"Demeclocycline" ,"Doxycycline",
+ "Lymecycline", "Minocycline",
+"Oxytetracycline", "Tetracycline",
+"Tigecycline", "Amikacin",
+"Gentamicin", "Neomycin",
+"Netilmicin", "Tobramycin",
+"Azithromycin", "Clarithromycin",
+"Erythromycin", "Telithromycin",
+ "Clindamycin" ,"Chloramphenicol",
+"Colistimethate", "Dalbavancin",
+"Dalfopristin", "Daptomycin",
+"Fidaxomicin", "Fosfomycin",
+"Fusidate", "Linezolid",
+"Nitazoxanid", "Pristinamycin",
+"Rifaximin", "Taurolidin",
+"Tedizolid", "Teicoplanin",
+"Vancomycin", "Sulfadiazine",
+"Sulfamethoxazole", "Sulfapyridine",
+"Trimethoprim", "Metronidazole",
+"Tinidazole", "Amoxicillin",
+"Ciprofloxacin", "Levofloxacin",
+"Moxifloxacin", "Nalidixic acid",
+"Norfloxacin", "Ofloxacin",
+"Fosfomycin", "Methenamine",
+ "Nitrofurantoin")
+
+df_total2 <- df %>% filter(antibacterial_brit_abtype %in% ablist )
+df_total2 <-  df_total2 %>% group_by(date) %>% summarise(
+  ab_total = sum(antibacterial_brit, na.rm = TRUE)
+)
+
+broadtype2 <- c("Ampicillin","Co-amoxiclav","Moxifloxacin","Cefaclor","Cefadroxil","Cefuroxime",     "Cefalexin","Cefazolin","Cefixime","Cefotaxime","Cefoxitin","Cefradine","Cefpirome","Ceftazidime","Ceftriaxone",    "Cefprozil","Ciprofloxacin","Co-fluampicil","Doripenem","Ertapenem", "Cilastatin","Cefamandole","Levofloxacin" , 
+"Meropenem" ,"Nalidixic acid","Norfloxacin", "Ofloxacin","Cefpodoxime","Cefepime")
+
+
+dfb2 <- df %>% filter(antibacterial_brit_abtype %in% broadtype2 )
+
+df_b2 <- dfb2 %>% group_by(date) %>% summarise(
+  b_total = sum(antibacterial_brit, na.rm = TRUE)
+)
+
+plot4 <- merge(df_b2,df_total2, by = 'date')
+plot4$cal_mon <- month(plot4$date)
+plot4$cal_year <- year(plot4$date)
+plot4$year <- as.factor(plot4$cal_year)
+plot4$mon <- as.factor(plot4$cal_mon)
+plot4 <- plot4 %>% mutate(prop = b_total/ab_total)
+
+
+p4 <- ggplot(plot4, aes(x=mon, y=prop, group=year)) +
+  geom_line(aes(color=year))+
+  geom_point(aes(color=year))+
+  scale_color_brewer(palette="Paired")+
+  theme_minimal()+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  labs(
+    title = "Proportion of broad-spectrum antibiotics prescribed",
+    subtitle = paste(first_mon,"-",last_mon),
+    x = "Month",
+    y = "broad-spectrum antibiotics prescribing %")
+
+p4
+
+```
 
 
 
