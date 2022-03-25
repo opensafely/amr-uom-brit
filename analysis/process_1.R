@@ -48,16 +48,24 @@ df=df%>%
   arrange(patient_id,patient_index_date)%>%
   distinct(patient_id, .keep_all = TRUE)
 
-# exclude case has severe outcome within 1 month
-df=df%>%
+# calendar month for matching
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+
+## CASE - covid infection with hospital admission
+df.1=df%>%
+  filter(! is.na(covid_admission_date_after))
+
+
+## Control - covid infection without any covid severe outcome within 1 month
+df.0=df%>%
   filter(
-         ! is.na(covid_admission_date_after),
-         ! is.na(died_date_cpns_after),
-         ! is.na(died_date_ons_covid_after))
+          is.na(covid_admission_date_after),
+          is.na(died_date_cpns_after),
+          is.na(died_date_ons_covid_after))
 
 #write_csv(df, here::here("output", "case_covid_infection.csv"))
 
-df$cal_YM=format(df$patient_index_date,"%Y-%m")
-write_csv(df, here::here("output", "control_covid_infection.csv"))
+write_csv(df.1, here::here("output", "case_covid_hosp.csv"))
+write_csv(df.0, here::here("output", "control_covid_infection.csv"))
 
 

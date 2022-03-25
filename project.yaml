@@ -5,11 +5,11 @@ expectations:
 
 actions:
   
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population.csv
+  # generate_study_population:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_general_population.csv
 
   generate_study_population_covid_primarycare:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_primarycare
@@ -23,29 +23,29 @@ actions:
       highly_sensitive:
         cohort: output/input_covid_SGSS.csv
   
-  generate_study_population_covid_admission:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_admission
-    outputs:
-      highly_sensitive:
-        cohort: output/input_covid_admission.csv
-  
-  # generate_study_population_covid_icu:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_icu
+  # generate_study_population_covid_admission:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_admission
   #   outputs:
   #     highly_sensitive:
-  #       cohort: output/input_covid_icu.csv
-
-  generate_study_population_covid_death_ons:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_death_ons
-    outputs:
-      highly_sensitive:
-        cohort: output/input_covid_death_ons.csv
+  #       cohort: output/input_covid_admission.csv
   
-  generate_study_population_covid_death_cpns:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_death_cpns
-    outputs:
-      highly_sensitive:
-        cohort: output/input_covid_death_cpns.csv
+  # # generate_study_population_covid_icu:
+  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_icu
+  # #   outputs:
+  # #     highly_sensitive:
+  # #       cohort: output/input_covid_icu.csv
+
+  # generate_study_population_covid_death_ons:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_death_ons
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_covid_death_ons.csv
+  
+  # generate_study_population_covid_death_cpns:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_death_cpns
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_covid_death_cpns.csv
   
 
 
@@ -80,176 +80,181 @@ actions:
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
     outputs:
       highly_sensitive:
-       # cohort1.1: output/case_covid_infection.csv
-        cohort1.2: output/control_covid_infection.csv 
+        case: output/case_covid_hosp.csv 
+        control: output/control_covid_infection.csv 
 
-  process_1.2:
-    run: r:latest analysis/process_1.2.R
-    needs: [process_1]
-    outputs:
-      highly_sensitive:
-       # cohort1.1: output/case_covid_infection.csv
-        cohort1: output/covid_infection_2002.csv
-        cohort2: output/covid_infection_2003.csv
-        cohort3: output/covid_infection_2004.csv
-        cohort4: output/covid_infection_2005.csv
-        cohort5: output/covid_infection_2006.csv
-        cohort6: output/covid_infection_2007.csv
-        cohort7: output/covid_infection_2008.csv
-        cohort8: output/covid_infection_2009.csv
-        cohort9: output/covid_infection_2010.csv
-        cohort10: output/covid_infection_2011.csv
-        cohort11: output/covid_infection_2012.csv
-        cohort12: output/covid_infection_2101.csv
-        cohort13: output/covid_infection_2102.csv
-        cohort14: output/covid_infection_2103.csv
-        cohort15: output/covid_infection_2104.csv
-        cohort16: output/covid_infection_2105.csv
-        cohort17: output/covid_infection_2106.csv
-        cohort18: output/covid_infection_2107.csv
-        cohort19: output/covid_infection_2108.csv
-        cohort20: output/covid_infection_2109.csv
-        cohort21: output/covid_infection_2110.csv 
-        cohort22: output/covid_infection_2111.csv 
-        cohort23: output/covid_infection_2112.csv 
+#   process_1.2:
+#     run: r:latest analysis/process_1.2.R
+#     needs: [process_1]
+#     outputs:
+#       highly_sensitive:
+#        # cohort1.1: output/case_covid_infection.csv
+#         cohort1: output/covid_infection_2002.csv
+#         cohort2: output/covid_infection_2003.csv
+#         cohort3: output/covid_infection_2004.csv
+#         cohort4: output/covid_infection_2005.csv
+#         cohort5: output/covid_infection_2006.csv
+#         cohort6: output/covid_infection_2007.csv
+#         cohort7: output/covid_infection_2008.csv
+#         cohort8: output/covid_infection_2009.csv
+#         cohort9: output/covid_infection_2010.csv
+#         cohort10: output/covid_infection_2011.csv
+#         cohort11: output/covid_infection_2012.csv
+#         cohort12: output/covid_infection_2101.csv
+#         cohort13: output/covid_infection_2102.csv
+#         cohort14: output/covid_infection_2103.csv
+#         cohort15: output/covid_infection_2104.csv
+#         cohort16: output/covid_infection_2105.csv
+#         cohort17: output/covid_infection_2106.csv
+#         cohort18: output/covid_infection_2107.csv
+#         cohort19: output/covid_infection_2108.csv
+#         cohort20: output/covid_infection_2109.csv
+#         cohort21: output/covid_infection_2110.csv 
+#         cohort22: output/covid_infection_2111.csv 
+#         cohort23: output/covid_infection_2112.csv 
 
-  process_2:
-    run: r:latest analysis/process_2.R
-    needs: [generate_study_population_covid_admission]
-    outputs:
-      highly_sensitive:
-        cohort1: output/case_covid_admission.csv
-        cohort2: output/case_covid_ICU.csv
+#   process_2:
+#     run: r:latest analysis/process_2.R
+#     needs: [generate_study_population_covid_admission]
+#     outputs:
+#       highly_sensitive:
+#         cohort1: output/case_covid_admission.csv
+#         cohort2: output/case_covid_ICU.csv
 
-  process_3:
-    run: r:latest analysis/process_3.R
-    needs: [process_2,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
-    outputs:
-      highly_sensitive:
-        cohort: output/case_covid_icu_death.csv
+#   process_3:
+#     run: r:latest analysis/process_3.R
+#     needs: [process_2,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/case_covid_icu_death.csv
 
-  check_input: # check above 
-    run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
-    outputs:
-      moderately_sensitive:
-        html: output/check_input.html
+#   check_input: # check above 
+#     run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_input.html
         
-  # matching_1_1:
-  #   run: python:latest python analysis/matching_outcome_1_1.py
-  #   needs: [generate_study_population, process_1]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_general_population_infection_1_1.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_general_population_infection_1_1.csv
+#   matching_1_1:
+#     run: python:latest python analysis/matching_outcome_1_1.py
+#     needs: [generate_study_population, process_1]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_1_1.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_1_1.csv
 
   matching_2:
     run: python:latest python analysis/matching_outcome_2.py
-    needs: [process_2,process_1]
+    needs: [process_1]
     outputs:
       moderately_sensitive: 
-        matching_report2: output/matching_report_infection_hosp.txt
+        matching_report2: output/matching_report_infection_hosp_2.txt
+        matching_report4: output/matching_report_infection_hosp_4.txt
+        matching_report6: output/matching_report_infection_hosp_6.txt
       highly_sensitive: 
-        combined2: output/matched_combined_infection_hosp.csv
+        combined2: output/matched_combined_infection_hosp_2.csv
+        combined4: output/matched_combined_infection_hosp_4.csv
+        combined6: output/matched_combined_infection_hosp_6.csv
 
-  matching_3:
-    run: python:latest python analysis/matching_outcome_3.py
-    needs: [process_3,process_2]
-    outputs:
-      moderately_sensitive: 
-        matching_report3: output/matching_report_hosp_icu_death.txt 
-      highly_sensitive: 
-        combined3: output/matched_combined_hosp_icu_death.csv
 
-  ## seperate matched by case and contorl
-  pre_extract_variables_outcome_2:
-    run: r:latest analysis/pre_extract_variables_outcome_2.R
-    needs: [matching_2]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_2_case.csv
-        cohort2: output/matched_outcome_2_control.csv
+#   matching_3:
+#     run: python:latest python analysis/matching_outcome_3.py
+#     needs: [process_3,process_2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report3: output/matching_report_hosp_icu_death.txt 
+#       highly_sensitive: 
+#         combined3: output/matched_combined_hosp_icu_death.csv
 
-  pre_extract_variables_outcome_3:
-    run: r:latest analysis/pre_extract_variables_outcome_3.R
-    needs: [matching_3]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_3_case.csv
-        cohort2: output/matched_outcome_3_control.csv
+#   # seperate matched by case and contorl
+#   pre_extract_variables_outcome_2:
+#     run: r:latest analysis/pre_extract_variables_outcome_2.R
+#     needs: [matching_2]
+#     outputs:
+#       highly_sensitive:
+#         cohort1: output/matched_outcome_2_case.csv
+#         cohort2: output/matched_outcome_2_control.csv
 
-  extract_variables_outcome_2_case: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_case
-    needs: [pre_extract_variables_outcome_2]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_2_case.csv
+#   pre_extract_variables_outcome_3:
+#     run: r:latest analysis/pre_extract_variables_outcome_3.R
+#     needs: [matching_3]
+#     outputs:
+#       highly_sensitive:
+#         cohort1: output/matched_outcome_3_case.csv
+#         cohort2: output/matched_outcome_3_control.csv
+
+#   extract_variables_outcome_2_case: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_case
+#     needs: [pre_extract_variables_outcome_2]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_2_case.csv
   
-  extract_variables_outcome_2_control: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_control
-    needs: [pre_extract_variables_outcome_2]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_2_control.csv
+#   extract_variables_outcome_2_control: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_control
+#     needs: [pre_extract_variables_outcome_2]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_2_control.csv
 
-  extract_variables_outcome_3_case: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3_case
-    needs: [pre_extract_variables_outcome_3]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_3_case.csv
+#   extract_variables_outcome_3_case: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3_case
+#     needs: [pre_extract_variables_outcome_3]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_3_case.csv
   
-  extract_variables_outcome_3_control: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3_control
-    needs: [pre_extract_variables_outcome_3]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_3_control.csv
+#   extract_variables_outcome_3_control: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_3_control
+#     needs: [pre_extract_variables_outcome_3]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_3_control.csv
 
-  merge_outcome2_3: # create variables and merge subsets
-    run: r:latest analysis/merge_outcome2_3.R
-    needs: [matching_3,matching_2,extract_variables_outcome_3_control,extract_variables_outcome_3_case,extract_variables_outcome_2_control,extract_variables_outcome_2_case]
-    outputs:
-      highly_sensitive:
-       # cohort1: output/matched_outcome1.csv
-        cohort2: output/matched_outcome2.csv
-        cohort3: output/matched_outcome3.csv
+#   merge_outcome2_3: # create variables and merge subsets
+#     run: r:latest analysis/merge_outcome2_3.R
+#     needs: [matching_3,matching_2,extract_variables_outcome_3_control,extract_variables_outcome_3_case,extract_variables_outcome_2_control,extract_variables_outcome_2_case]
+#     outputs:
+#       highly_sensitive:
+#        cohort1: output/matched_outcome1.csv
+#         cohort2: output/matched_outcome2.csv
+#         cohort3: output/matched_outcome3.csv
 
-  check_matching_2:
-    run: r:latest -e 'rmarkdown::render("analysis/check_matching_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [merge_outcome2_3]
-    outputs:
-      moderately_sensitive:
-        html: output/check_matching_2.html
+#   check_matching_2:
+#     run: r:latest -e 'rmarkdown::render("analysis/check_matching_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [merge_outcome2_3]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_matching_2.html
 
-  check_matching_3:
-    run: r:latest -e 'rmarkdown::render("analysis/check_matching_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [merge_outcome2_3]
-    outputs:
-      moderately_sensitive:
-        html: output/check_matching_3.html
+#   check_matching_3:
+#     run: r:latest -e 'rmarkdown::render("analysis/check_matching_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [merge_outcome2_3]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_matching_3.html
 
-  check_exposures_outcome2_3:
-    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [merge_outcome2_3]
-    outputs:
-      moderately_sensitive:
-        html: output/check_exposures_outcome2_3.html 
+#   check_exposures_outcome2_3:
+#     run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [merge_outcome2_3]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_exposures_outcome2_3.html 
 
-  model_univariable_outcome2:
-    run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [merge_outcome2_3]
-    outputs:
-      moderately_sensitive:
-        html: output/model_univariable_outcome2.html 
+#   model_univariable_outcome2:
+#     run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [merge_outcome2_3]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_univariable_outcome2.html 
   
-  model_univariable_outcome3:
-    run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [merge_outcome2_3]
-    outputs:
-      moderately_sensitive:
-        html: output/model_univariable_outcome3.html 
+#   model_univariable_outcome3:
+#     run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [merge_outcome2_3]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_univariable_outcome3.html 
   
 
  
@@ -269,632 +274,632 @@ actions:
 #         cohort4: output/control_general_population_*.csv
   
 
-  # generate_study_population_noCOVID:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_noCOVID
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/input_noCOVID.csv 
+#   generate_study_population_noCOVID:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_noCOVID
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_noCOVID.csv 
   
-  # check_input_noCOVID: 
-  #   run: r:latest -e 'rmarkdown::render("analysis/check_input_noCOVID.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [generate_study_population_noCOVID]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/check_input_noCOVID.html
+#   check_input_noCOVID: 
+#     run: r:latest -e 'rmarkdown::render("analysis/check_input_noCOVID.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [generate_study_population_noCOVID]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_input_noCOVID.html
   
-  # matching_1.2:
-  #   run: python:latest python analysis/matching_outcome_1_noCOVID.py
-  #   needs: [generate_study_population_noCOVID, process]
-  #   outputs:
-  #     moderately_sensitive: 
-  #       matching_report1: output/matching_report_noCOVID_infection.txt
-  #     highly_sensitive: 
-  #       combined1: output/matched_combined_noCOVID_infection.csv
+#   matching_1.2:
+#     run: python:latest python analysis/matching_outcome_1_noCOVID.py
+#     needs: [generate_study_population_noCOVID, process]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_noCOVID_infection.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_noCOVID_infection.csv
   
-  # extract_variables_outcome_1.2:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_noCOVID
-  #   needs: [matching_1.2]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/input_outcome_1_noCOVID.csv
+#   extract_variables_outcome_1.2:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_noCOVID
+#     needs: [matching_1.2]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_noCOVID.csv
         
 
 
-## general population
-#2020
-  generate_study_population_2002:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2002
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2002.csv
+# # general population
+# 2020
+#   generate_study_population_2002:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2002
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2002.csv
 
-  generate_study_population_2003:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2003
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2003.csv
+#   generate_study_population_2003:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2003
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2003.csv
   
-  generate_study_population_2004:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2004
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2004.csv
+#   generate_study_population_2004:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2004
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2004.csv
   
-  generate_study_population_2005:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2005
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2005.csv
+#   generate_study_population_2005:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2005
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2005.csv
 
-  generate_study_population_2006:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2006
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2006.csv
+#   generate_study_population_2006:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2006
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2006.csv
   
-  generate_study_population_2007:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2007
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2007.csv
+#   generate_study_population_2007:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2007
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2007.csv
   
-  generate_study_population_2008:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2008
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2008.csv
+#   generate_study_population_2008:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2008
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2008.csv
 
-  generate_study_population_2009:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2009
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2009.csv
+#   generate_study_population_2009:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2009
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2009.csv
   
-  generate_study_population_2010:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2010
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2010.csv
+#   generate_study_population_2010:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2010
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2010.csv
   
-  generate_study_population_2011:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2011
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2011.csv
+#   generate_study_population_2011:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2011
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2011.csv
 
-  generate_study_population_2012:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2012
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2012.csv
+#   generate_study_population_2012:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2012
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2012.csv
   
-  #2021
-  generate_study_population_2101:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2101
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2101.csv 
+#   2021
+#   generate_study_population_2101:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2101
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2101.csv 
 
-  generate_study_population_2102:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2102
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2102.csv
+#   generate_study_population_2102:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2102
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2102.csv
 
-  generate_study_population_2103:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2103
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2103.csv
+#   generate_study_population_2103:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2103
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2103.csv
   
-  generate_study_population_2104:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2104
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2104.csv
+#   generate_study_population_2104:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2104
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2104.csv
   
-  generate_study_population_2105:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2105
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2105.csv
+#   generate_study_population_2105:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2105
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2105.csv
 
-  generate_study_population_2106:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2106
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2106.csv
+#   generate_study_population_2106:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2106
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2106.csv
   
-  generate_study_population_2107:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2107
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2107.csv
+#   generate_study_population_2107:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2107
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2107.csv
   
-  generate_study_population_2108:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2108
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2108.csv
+#   generate_study_population_2108:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2108
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2108.csv
 
-  generate_study_population_2109:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2109
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2109.csv
+#   generate_study_population_2109:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2109
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2109.csv
   
-  generate_study_population_2110:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2110
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2110.csv
+#   generate_study_population_2110:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2110
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2110.csv
   
-  generate_study_population_2111:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2111.csv
+#   generate_study_population_2111:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2111.csv
 
-  generate_study_population_2112:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2112
-    outputs:
-      highly_sensitive:
-        cohort: output/input_general_population_2112.csv
+#   generate_study_population_2112:
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2112
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_general_population_2112.csv
 
   
-  # exclude COVID case
-  process_0:
-    run: r:latest analysis/process_0.R
-    needs: [generate_study_population_2002,generate_study_population_2003,generate_study_population_2004,generate_study_population_2005,generate_study_population_2006,generate_study_population_2007,generate_study_population_2008,generate_study_population_2009,generate_study_population_2010,generate_study_population_2011,generate_study_population_2012,
-    generate_study_population_2101,generate_study_population_2102,generate_study_population_2103,generate_study_population_2104,generate_study_population_2105,generate_study_population_2106,generate_study_population_2107,generate_study_population_2108,generate_study_population_2109,generate_study_population_2110,generate_study_population_2111,generate_study_population_2112]
-    outputs:
-      highly_sensitive:
-        cohort1: output/general_population_2002.csv
-        cohort2: output/general_population_2003.csv
-        cohort3: output/general_population_2004.csv
-        cohort4: output/general_population_2005.csv
-        cohort5: output/general_population_2006.csv
-        cohort6: output/general_population_2007.csv
-        cohort7: output/general_population_2008.csv
-        cohort8: output/general_population_2009.csv
-        cohort9: output/general_population_2010.csv
-        cohort10: output/general_population_2011.csv
-        cohort11: output/general_population_2012.csv
-        cohort12: output/general_population_2101.csv
-        cohort13: output/general_population_2102.csv
-        cohort14: output/general_population_2103.csv
-        cohort15: output/general_population_2104.csv
-        cohort16: output/general_population_2105.csv
-        cohort17: output/general_population_2106.csv
-        cohort18: output/general_population_2107.csv
-        cohort19: output/general_population_2108.csv
-        cohort20: output/general_population_2109.csv
-        cohort21: output/general_population_2110.csv
-        cohort22: output/general_population_2111.csv
-        cohort23: output/general_population_2112.csv
-
-
-  # matching by month
-
-  matching_1_2002:
-    run: python:latest python analysis/matching_outcome_1_2002.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2002.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2002.csv
-  
-  matching_1_2003:
-    run: python:latest python analysis/matching_outcome_1_2003.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2003.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2003.csv
-
-  matching_1_2004:
-    run: python:latest python analysis/matching_outcome_1_2004.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2004.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2004.csv
-  
-  matching_1_2005:
-    run: python:latest python analysis/matching_outcome_1_2005.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2005.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2005.csv
-
-  matching_1_2006:
-    run: python:latest python analysis/matching_outcome_1_2006.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2006.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2006.csv
-  
-  matching_1_2007:
-    run: python:latest python analysis/matching_outcome_1_2007.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2007.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2007.csv
-
-  matching_1_2008:
-    run: python:latest python analysis/matching_outcome_1_2008.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2008.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2008.csv
-  
-  matching_1_2009:
-    run: python:latest python analysis/matching_outcome_1_2009.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2009.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2009.csv
-
-  matching_1_2010:
-    run: python:latest python analysis/matching_outcome_1_2010.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2010.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2010.csv
-  
-  matching_1_2011:
-    run: python:latest python analysis/matching_outcome_1_2011.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2011.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2011.csv
-
-  matching_1_2012:
-    run: python:latest python analysis/matching_outcome_1_2012.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2012.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2012.csv
-  
-  matching_1_2101:
-    run: python:latest python analysis/matching_outcome_1_2101.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2101.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2101.csv
-
-  matching_1_2102:
-    run: python:latest python analysis/matching_outcome_1_2102.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2102.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2102.csv
-  
-  matching_1_2103:
-    run: python:latest python analysis/matching_outcome_1_2103.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2103.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2103.csv
-
-  matching_1_2104:
-    run: python:latest python analysis/matching_outcome_1_2104.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2104.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2104.csv
-  
-  matching_1_2105:
-    run: python:latest python analysis/matching_outcome_1_2105.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2105.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2105.csv
-
-  matching_1_2106:
-    run: python:latest python analysis/matching_outcome_1_2106.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2106.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2106.csv
-  
-  matching_1_2107:
-    run: python:latest python analysis/matching_outcome_1_2107.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2107.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2107.csv
-
-  matching_1_2108:
-    run: python:latest python analysis/matching_outcome_1_2108.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2108.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2108.csv
-  
-  matching_1_2109:
-    run: python:latest python analysis/matching_outcome_1_2109.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2109.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2109.csv
-  
-  matching_1_2110:
-    run: python:latest python analysis/matching_outcome_1_2110.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2110.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2110.csv
-  
-  matching_1_2111:
-    run: python:latest python analysis/matching_outcome_1_2111.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2111.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2111.csv
-  
-  matching_1_2112:
-    run: python:latest python analysis/matching_outcome_1_2112.py
-    needs: [process_0,process_1.2]
-    outputs:
-      moderately_sensitive: 
-        matching_report1: output/matching_report_general_population_infection_2112.txt
-      highly_sensitive: 
-        combined1: output/matched_combined_general_population_infection_2112.csv
+#   exclude COVID case
+#   process_0:
+#     run: r:latest analysis/process_0.R
+#     needs: [generate_study_population_2002,generate_study_population_2003,generate_study_population_2004,generate_study_population_2005,generate_study_population_2006,generate_study_population_2007,generate_study_population_2008,generate_study_population_2009,generate_study_population_2010,generate_study_population_2011,generate_study_population_2012,
+#     generate_study_population_2101,generate_study_population_2102,generate_study_population_2103,generate_study_population_2104,generate_study_population_2105,generate_study_population_2106,generate_study_population_2107,generate_study_population_2108,generate_study_population_2109,generate_study_population_2110,generate_study_population_2111,generate_study_population_2112]
+#     outputs:
+#       highly_sensitive:
+#         cohort1: output/general_population_2002.csv
+#         cohort2: output/general_population_2003.csv
+#         cohort3: output/general_population_2004.csv
+#         cohort4: output/general_population_2005.csv
+#         cohort5: output/general_population_2006.csv
+#         cohort6: output/general_population_2007.csv
+#         cohort7: output/general_population_2008.csv
+#         cohort8: output/general_population_2009.csv
+#         cohort9: output/general_population_2010.csv
+#         cohort10: output/general_population_2011.csv
+#         cohort11: output/general_population_2012.csv
+#         cohort12: output/general_population_2101.csv
+#         cohort13: output/general_population_2102.csv
+#         cohort14: output/general_population_2103.csv
+#         cohort15: output/general_population_2104.csv
+#         cohort16: output/general_population_2105.csv
+#         cohort17: output/general_population_2106.csv
+#         cohort18: output/general_population_2107.csv
+#         cohort19: output/general_population_2108.csv
+#         cohort20: output/general_population_2109.csv
+#         cohort21: output/general_population_2110.csv
+#         cohort22: output/general_population_2111.csv
+#         cohort23: output/general_population_2112.csv
 
 
-    ## seperate matched by case and contorl
-  pre_extract_variables_outcome_1:
-    run: r:latest analysis/pre_extract_variables_outcome_1.R
-    needs: [matching_1_2112,matching_1_2111,matching_1_2110,matching_1_2109,matching_1_2108,matching_1_2107,matching_1_2106,matching_1_2105,matching_1_2104,matching_1_2103,matching_1_2102,matching_1_2101,
-    matching_1_2012,matching_1_2011,matching_1_2010,matching_1_2009,matching_1_2008,matching_1_2007,matching_1_2006,matching_1_2005,matching_1_2004,matching_1_2003]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_1_case.csv
-        #cohort1.1: output/matched_outcome_1_case_2003.csv
-        cohort1.2: output/matched_outcome_1_control_2003.csv
-        #cohort2.1: output/matched_outcome_1_case_2004.csv
-        cohort2.2: output/matched_outcome_1_control_2004.csv
-        #cohort3.1: output/matched_outcome_1_case_2005.csv
-        cohort3.2: output/matched_outcome_1_control_2005.csv
-        #cohort4.1: output/matched_outcome_1_case_2006.csv
-        cohort4.2: output/matched_outcome_1_control_2006.csv
-        #cohort5.1: output/matched_outcome_1_case_2007.csv
-        cohort5.2: output/matched_outcome_1_control_2007.csv
-        #cohort6.1: output/matched_outcome_1_case_2008.csv
-        cohort6.2: output/matched_outcome_1_control_2008.csv  
-        #cohort7.1: output/matched_outcome_1_case_2009.csv
-        cohort7.2: output/matched_outcome_1_control_2009.csv  
-        #cohort8.1: output/matched_outcome_1_case_2010.csv
-        cohort8.2: output/matched_outcome_1_control_2010.csv 
-        #cohort9.1: output/matched_outcome_1_case_2011.csv
-        cohort9.2: output/matched_outcome_1_control_2011.csv   
-        #cohort10.1: output/matched_outcome_1_case_2012.csv
-        cohort10.2: output/matched_outcome_1_control_2012.csv   
-        #cohort11.1: output/matched_outcome_1_case_2101.csv
-        cohort11.2: output/matched_outcome_1_control_2101.csv
-        #cohort12.1: output/matched_outcome_1_case_2102.csv
-        cohort12.2: output/matched_outcome_1_control_2102.csv  
-        #cohort13.1: output/matched_outcome_1_case_2103.csv
-        cohort13.2: output/matched_outcome_1_control_2103.csv
-        #cohort14.1: output/matched_outcome_1_case_2104.csv
-        cohort14.2: output/matched_outcome_1_control_2104.csv
-        #cohort15.1: output/matched_outcome_1_case_2105.csv
-        cohort15.2: output/matched_outcome_1_control_2105.csv
-        #cohort16.1: output/matched_outcome_1_case_2106.csv
-        cohort16.2: output/matched_outcome_1_control_2106.csv
-        #cohort17.1: output/matched_outcome_1_case_2107.csv
-        cohort17.2: output/matched_outcome_1_control_2107.csv
-        #cohort18.1: output/matched_outcome_1_case_2108.csv
-        cohort18.2: output/matched_outcome_1_control_2108.csv  
-        #cohort19.1: output/matched_outcome_1_case_2109.csv
-        cohort19.2: output/matched_outcome_1_control_2109.csv  
-        #cohort20.1: output/matched_outcome_1_case_2110.csv
-        cohort20.2: output/matched_outcome_1_control_2110.csv 
-        #cohort21.1: output/matched_outcome_1_case_2111.csv
-        cohort21.2: output/matched_outcome_1_control_2111.csv   
-        #cohort22.1: output/matched_outcome_1_case_2112.csv
-        cohort22.2: output/matched_outcome_1_control_2112.csv       
+#   matching by month
+
+#   matching_1_2002:
+#     run: python:latest python analysis/matching_outcome_1_2002.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2002.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2002.csv
+  
+#   matching_1_2003:
+#     run: python:latest python analysis/matching_outcome_1_2003.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2003.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2003.csv
+
+#   matching_1_2004:
+#     run: python:latest python analysis/matching_outcome_1_2004.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2004.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2004.csv
+  
+#   matching_1_2005:
+#     run: python:latest python analysis/matching_outcome_1_2005.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2005.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2005.csv
+
+#   matching_1_2006:
+#     run: python:latest python analysis/matching_outcome_1_2006.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2006.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2006.csv
+  
+#   matching_1_2007:
+#     run: python:latest python analysis/matching_outcome_1_2007.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2007.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2007.csv
+
+#   matching_1_2008:
+#     run: python:latest python analysis/matching_outcome_1_2008.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2008.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2008.csv
+  
+#   matching_1_2009:
+#     run: python:latest python analysis/matching_outcome_1_2009.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2009.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2009.csv
+
+#   matching_1_2010:
+#     run: python:latest python analysis/matching_outcome_1_2010.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2010.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2010.csv
+  
+#   matching_1_2011:
+#     run: python:latest python analysis/matching_outcome_1_2011.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2011.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2011.csv
+
+#   matching_1_2012:
+#     run: python:latest python analysis/matching_outcome_1_2012.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2012.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2012.csv
+  
+#   matching_1_2101:
+#     run: python:latest python analysis/matching_outcome_1_2101.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2101.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2101.csv
+
+#   matching_1_2102:
+#     run: python:latest python analysis/matching_outcome_1_2102.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2102.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2102.csv
+  
+#   matching_1_2103:
+#     run: python:latest python analysis/matching_outcome_1_2103.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2103.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2103.csv
+
+#   matching_1_2104:
+#     run: python:latest python analysis/matching_outcome_1_2104.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2104.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2104.csv
+  
+#   matching_1_2105:
+#     run: python:latest python analysis/matching_outcome_1_2105.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2105.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2105.csv
+
+#   matching_1_2106:
+#     run: python:latest python analysis/matching_outcome_1_2106.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2106.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2106.csv
+  
+#   matching_1_2107:
+#     run: python:latest python analysis/matching_outcome_1_2107.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2107.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2107.csv
+
+#   matching_1_2108:
+#     run: python:latest python analysis/matching_outcome_1_2108.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2108.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2108.csv
+  
+#   matching_1_2109:
+#     run: python:latest python analysis/matching_outcome_1_2109.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2109.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2109.csv
+  
+#   matching_1_2110:
+#     run: python:latest python analysis/matching_outcome_1_2110.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2110.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2110.csv
+  
+#   matching_1_2111:
+#     run: python:latest python analysis/matching_outcome_1_2111.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2111.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2111.csv
+  
+#   matching_1_2112:
+#     run: python:latest python analysis/matching_outcome_1_2112.py
+#     needs: [process_0,process_1.2]
+#     outputs:
+#       moderately_sensitive: 
+#         matching_report1: output/matching_report_general_population_infection_2112.txt
+#       highly_sensitive: 
+#         combined1: output/matched_combined_general_population_infection_2112.csv
+
+
+#     # seperate matched by case and contorl
+#   pre_extract_variables_outcome_1:
+#     run: r:latest analysis/pre_extract_variables_outcome_1.R
+#     needs: [matching_1_2112,matching_1_2111,matching_1_2110,matching_1_2109,matching_1_2108,matching_1_2107,matching_1_2106,matching_1_2105,matching_1_2104,matching_1_2103,matching_1_2102,matching_1_2101,
+#     matching_1_2012,matching_1_2011,matching_1_2010,matching_1_2009,matching_1_2008,matching_1_2007,matching_1_2006,matching_1_2005,matching_1_2004,matching_1_2003]
+#     outputs:
+#       highly_sensitive:
+#         cohort1: output/matched_outcome_1_case.csv
+#         cohort1.1: output/matched_outcome_1_case_2003.csv
+#         cohort1.2: output/matched_outcome_1_control_2003.csv
+#         cohort2.1: output/matched_outcome_1_case_2004.csv
+#         cohort2.2: output/matched_outcome_1_control_2004.csv
+#         cohort3.1: output/matched_outcome_1_case_2005.csv
+#         cohort3.2: output/matched_outcome_1_control_2005.csv
+#         cohort4.1: output/matched_outcome_1_case_2006.csv
+#         cohort4.2: output/matched_outcome_1_control_2006.csv
+#         cohort5.1: output/matched_outcome_1_case_2007.csv
+#         cohort5.2: output/matched_outcome_1_control_2007.csv
+#         cohort6.1: output/matched_outcome_1_case_2008.csv
+#         cohort6.2: output/matched_outcome_1_control_2008.csv  
+#         cohort7.1: output/matched_outcome_1_case_2009.csv
+#         cohort7.2: output/matched_outcome_1_control_2009.csv  
+#         cohort8.1: output/matched_outcome_1_case_2010.csv
+#         cohort8.2: output/matched_outcome_1_control_2010.csv 
+#         cohort9.1: output/matched_outcome_1_case_2011.csv
+#         cohort9.2: output/matched_outcome_1_control_2011.csv   
+#         cohort10.1: output/matched_outcome_1_case_2012.csv
+#         cohort10.2: output/matched_outcome_1_control_2012.csv   
+#         cohort11.1: output/matched_outcome_1_case_2101.csv
+#         cohort11.2: output/matched_outcome_1_control_2101.csv
+#         cohort12.1: output/matched_outcome_1_case_2102.csv
+#         cohort12.2: output/matched_outcome_1_control_2102.csv  
+#         cohort13.1: output/matched_outcome_1_case_2103.csv
+#         cohort13.2: output/matched_outcome_1_control_2103.csv
+#         cohort14.1: output/matched_outcome_1_case_2104.csv
+#         cohort14.2: output/matched_outcome_1_control_2104.csv
+#         cohort15.1: output/matched_outcome_1_case_2105.csv
+#         cohort15.2: output/matched_outcome_1_control_2105.csv
+#         cohort16.1: output/matched_outcome_1_case_2106.csv
+#         cohort16.2: output/matched_outcome_1_control_2106.csv
+#         cohort17.1: output/matched_outcome_1_case_2107.csv
+#         cohort17.2: output/matched_outcome_1_control_2107.csv
+#         cohort18.1: output/matched_outcome_1_case_2108.csv
+#         cohort18.2: output/matched_outcome_1_control_2108.csv  
+#         cohort19.1: output/matched_outcome_1_case_2109.csv
+#         cohort19.2: output/matched_outcome_1_control_2109.csv  
+#         cohort20.1: output/matched_outcome_1_case_2110.csv
+#         cohort20.2: output/matched_outcome_1_control_2110.csv 
+#         cohort21.1: output/matched_outcome_1_case_2111.csv
+#         cohort21.2: output/matched_outcome_1_control_2111.csv   
+#         cohort22.1: output/matched_outcome_1_case_2112.csv
+#         cohort22.2: output/matched_outcome_1_control_2112.csv       
 
 # 2020
-  extract_variables_outcome_1_case: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_case
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_case.csv
+#   extract_variables_outcome_1_case: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_case
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_case.csv
   
-  extract_variables_outcome_1_control_2003: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2003
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2003.csv
+#   extract_variables_outcome_1_control_2003: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2003
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2003.csv
 
-  extract_variables_outcome_1_control_2004: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2004
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2004.csv
+#   extract_variables_outcome_1_control_2004: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2004
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2004.csv
         
-  extract_variables_outcome_1_control_2005: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2005
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2005.csv
+#   extract_variables_outcome_1_control_2005: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2005
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2005.csv
 
-  extract_variables_outcome_1_control_2006: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2006
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2006.csv
+#   extract_variables_outcome_1_control_2006: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2006
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2006.csv
 
-  extract_variables_outcome_1_control_2007: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2007
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2007.csv
+#   extract_variables_outcome_1_control_2007: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2007
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2007.csv
 
-  extract_variables_outcome_1_control_2008: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2008
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2008.csv
+#   extract_variables_outcome_1_control_2008: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2008
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2008.csv
 
-  extract_variables_outcome_1_control_2009: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2009
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2009.csv
+#   extract_variables_outcome_1_control_2009: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2009
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2009.csv
 
-  extract_variables_outcome_1_control_2010: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2010
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2010.csv
+#   extract_variables_outcome_1_control_2010: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2010
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2010.csv
   
-  extract_variables_outcome_1_control_2011: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2011
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2011.csv
+#   extract_variables_outcome_1_control_2011: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2011
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2011.csv
   
-  extract_variables_outcome_1_control_2012: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2012
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2012.csv
- # 2021            
-  extract_variables_outcome_1_control_2101: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2101
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2101.csv
+#   extract_variables_outcome_1_control_2012: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2012
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2012.csv
+#  2021            
+#   extract_variables_outcome_1_control_2101: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2101
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2101.csv
 
-  extract_variables_outcome_1_control_2102: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2102
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2102.csv 
+#   extract_variables_outcome_1_control_2102: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2102
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2102.csv 
 
-  extract_variables_outcome_1_control_2103: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2103
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2103.csv
+#   extract_variables_outcome_1_control_2103: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2103
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2103.csv
 
-  extract_variables_outcome_1_control_2104: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2104
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2104.
+#   extract_variables_outcome_1_control_2104: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2104
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2104.
         
-  extract_variables_outcome_1_control_2105: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2105
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2105.csv
+#   extract_variables_outcome_1_control_2105: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2105
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2105.csv
 
-  extract_variables_outcome_1_control_2106: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2106
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2106.csv
+#   extract_variables_outcome_1_control_2106: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2106
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2106.csv
 
-  extract_variables_outcome_1_control_2107: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2107
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2107.csv
+#   extract_variables_outcome_1_control_2107: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2107
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2107.csv
 
-  extract_variables_outcome_1_control_2108: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2108
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2108.csv
+#   extract_variables_outcome_1_control_2108: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2108
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2108.csv
 
-  extract_variables_outcome_1_control_2109: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2109
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2109.csv
+#   extract_variables_outcome_1_control_2109: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2109
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2109.csv
 
-  extract_variables_outcome_1_control_2110: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2110
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2110.csv
+#   extract_variables_outcome_1_control_2110: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2110
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2110.csv
   
-  extract_variables_outcome_1_control_2111: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2111
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2111.csv
+#   extract_variables_outcome_1_control_2111: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2111
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2111.csv
   
-  extract_variables_outcome_1_control_2112: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2112
-    needs: [pre_extract_variables_outcome_1]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_1_control_2112.csv
+#   extract_variables_outcome_1_control_2112: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_1_control_2112
+#     needs: [pre_extract_variables_outcome_1]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_1_control_2112.csv

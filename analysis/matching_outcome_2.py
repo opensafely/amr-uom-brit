@@ -29,10 +29,11 @@ from osmatching import match
 # )
 
 #### covid infection(control) & hospital admission(case)
+# 1:6
 match(
-    case_csv="case_covid_admission",
+    case_csv="case_covid_hosp.csv",
     match_csv="control_covid_infection",
-    matches_per_case=6,
+    matches_per_case=4,
     match_variables={
         "sex": "category",
         "age": 5, #+- 5 years old
@@ -45,10 +46,51 @@ match(
         "dereg_date": "before",
         "ons_died_date": "before",
     },
-    output_suffix="_infection_hosp",
+    output_suffix="_infection_hosp_6",
     output_path="output",
 )
 
+# 1:4
+match(
+    case_csv="case_covid_hosp.csv",
+    match_csv="control_covid_infection",
+    matches_per_case=4,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_infection_hosp_4",
+    output_path="output",
+)
+
+# 1:2
+match(
+    case_csv="case_covid_hosp.csv",
+    match_csv="control_covid_infection",
+    matches_per_case=2,
+    match_variables={
+        "sex": "category",
+        "age": 5, #+- 5 years old
+        "stp": "category",
+        "cal_YM": "category"
+    },
+    closest_match_variables=["age"],
+    index_date_variable="patient_index_date",
+    date_exclusion_variables={
+        "dereg_date": "before",
+        "ons_died_date": "before",
+    },
+    output_suffix="_infection_hosp_2",
+    output_path="output",
+)
 
 # ### covid hospital admission(control) & covid death(case)
 
