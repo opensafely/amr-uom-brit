@@ -21,6 +21,7 @@ library('lubridate')
 
 
 ```{r echo=TRUE}
+
 df <- read_csv(
   here::here("output", "measures", "measure_antibiotics_overall_brit_abtype.csv"),  
   col_types = cols_only(
@@ -71,7 +72,6 @@ dfb_total <- dfb %>% group_by(antibacterial_brit_abtype) %>% summarise(
 
 dfb_total %>% arrange(desc(total_count))
 
-
 ```
 
 ## broad_type
@@ -92,8 +92,7 @@ plot2<- ggplot(dfb, aes(x=date, y=antibacterial_brit ,group=antibacterial_brit_a
     x=""
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
 plot2
 
 
@@ -111,7 +110,6 @@ plot2
 
 
 ```{r echo=TRUE}
-
 
 df_total <-  df %>% group_by(date) %>% summarise(
   ab_total = sum(antibacterial_brit, na.rm = TRUE)
@@ -145,6 +143,45 @@ p1
 
 ```
 
+
+## excluded Amoxicillin
+
+```{r}
+
+broadtype2 <- c("Ampicillin","Co-amoxiclav","Moxifloxacin","Cefaclor","Cefadroxil","Cefuroxime",     "Cefalexin","Cefazolin","Cefixime","Cefotaxime","Cefoxitin","Cefradine","Cefpirome","Ceftazidime","Ceftriaxone",    "Cefprozil","Ciprofloxacin","Co-fluampicil","Doripenem","Ertapenem", "Cilastatin","Cefamandole","Levofloxacin" , 
+"Meropenem" ,"Nalidixic acid","Norfloxacin", "Ofloxacin","Cefpodoxime","Cefepime")
+
+
+dfb2 <- df %>% filter(antibacterial_brit_abtype %in% broadtype2 )
+
+df_b2 <- dfb2 %>% group_by(date) %>% summarise(
+  b_total = sum(antibacterial_brit, na.rm = TRUE)
+)
+
+plot3 <- merge(df_b2,df_total, by = 'date')
+plot3$cal_mon <- month(plot3$date)
+plot3$cal_year <- year(plot3$date)
+plot3$year <- as.factor(plot3$cal_year)
+plot3$mon <- as.factor(plot3$cal_mon)
+plot3 <- plot3 %>% mutate(prop = b_total/ab_total)
+
+
+p3 <- ggplot(plot3, aes(x=mon, y=prop, group=year)) +
+  geom_line(aes(color=year))+
+  geom_point(aes(color=year))+
+  scale_color_brewer(palette="Paired")+
+  theme_minimal()+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  labs(
+    title = "Proportion of broad-spectrum antibiotics prescribed",
+    subtitle = paste(first_mon,"-",last_mon),
+    x = "Month",
+    y = "broad-spectrum antibiotics prescribing %")
+
+p3
+
+
+```
 
 
 
