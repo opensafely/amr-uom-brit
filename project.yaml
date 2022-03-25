@@ -184,12 +184,28 @@ actions:
 #         cohort1: output/matched_outcome_3_case.csv
 #         cohort2: output/matched_outcome_3_control.csv
 
-  # extract_variables_outcome_2_case: 
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_case
-  #   needs: [pre_extract_variables_outcome_2]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/input_outcome_2_case.csv
+  extract_variables_outcome_2_2: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_2_2.csv
+    
+  extract_variables_outcome_2_4: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_4
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_2_4.csv
+  
+  extract_variables_outcome_2_6: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_6
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_2_6.csv
+
+
   
 #   extract_variables_outcome_2_control: 
 #     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2_control
