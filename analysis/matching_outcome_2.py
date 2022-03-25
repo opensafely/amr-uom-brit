@@ -31,7 +31,7 @@ from osmatching import match
 #### covid infection(control) & hospital admission(case)
 # 1:6
 match(
-    case_csv="case_covid_hosp.csv",
+    case_csv="case_covid_hosp",
     match_csv="control_covid_infection",
     matches_per_case=4,
     match_variables={
@@ -52,7 +52,7 @@ match(
 
 # 1:4
 match(
-    case_csv="case_covid_hosp.csv",
+    case_csv="case_covid_hosp",
     match_csv="control_covid_infection",
     matches_per_case=4,
     match_variables={
@@ -73,7 +73,7 @@ match(
 
 # 1:2
 match(
-    case_csv="case_covid_hosp.csv",
+    case_csv="case_covid_hosp",
     match_csv="control_covid_infection",
     matches_per_case=2,
     match_variables={
