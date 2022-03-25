@@ -51,9 +51,9 @@ df=df%>%
 # exclude case has severe outcome within 1 month
 df=df%>%
   filter(
-         ! is.na(covid_admission_date_after),
-         ! is.na(died_date_cpns_after),
-         ! is.na(died_date_ons_covid_after))
+          is.na(covid_admission_date_after),
+          is.na(died_date_cpns_after),
+          is.na(died_date_ons_covid_after))
 
 #write_csv(df, here::here("output", "case_covid_infection.csv"))
 

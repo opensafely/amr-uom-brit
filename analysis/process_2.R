@@ -39,8 +39,8 @@ df=df%>%
          is.na(primary_care_covid_date_before),
          is.na(died_date_cpns_before),
          is.na(died_date_ons_covid_before),
-         ! is.na(died_date_cpns_after),
-         ! is.na(died_date_ons_covid_after))
+          is.na(died_date_cpns_after),
+          is.na(died_date_ons_covid_after))
 
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
