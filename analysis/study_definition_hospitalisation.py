@@ -149,6 +149,7 @@ study = StudyDefinition(
         },
     ),
     ## middle layer super output area (msoa) - nhs administrative region
+    # Do you need msoa as well as region and practice?
     msoa=patients.registered_practice_as_of(
         "index_date",
         returning="msoa_code",
