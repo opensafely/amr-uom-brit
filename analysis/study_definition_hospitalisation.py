@@ -2227,6 +2227,7 @@ study = StudyDefinition(
         """,
     ),
     ######### comorbidities
+    # Do you need these each month?
     cancer_comor=patients.with_these_clinical_events(
         charlson01_cancer,
         between=["index_date - 5 years", "index_date"],
