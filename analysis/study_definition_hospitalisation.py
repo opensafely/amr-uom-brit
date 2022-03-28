@@ -351,6 +351,11 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     ),
     ## Covid diagnosis
+
+    ###
+    # Here you are finding the first match in period across the entire period each month, so would expect this to be the same
+    # each month. If you only want it once I would put it in a separate study def.
+    ###
     primary_care_covid=patients.with_these_clinical_events(
         any_primary_care_code,
         # between=[start_date, "index_date"],
