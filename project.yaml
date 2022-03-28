@@ -11,6 +11,12 @@ actions:
   #     highly_sensitive:
   #       cohort: output/measures/input_*.csv.gz
 
+  generate_study_population_ethnicity:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ethnicity --output-dir=output/hospitalisation_data --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/hospitalisation_data/input_ethnicity.csv.gz
+
   generate_study_population_hospitalisation_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-01-01 to 2019-03-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
     outputs:
