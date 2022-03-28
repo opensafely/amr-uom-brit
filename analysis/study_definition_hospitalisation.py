@@ -60,10 +60,8 @@ study = StudyDefinition(
             on_or_before="index_date",
             returning="binary_flag",
         ),
-        registered=patients.satisfying(
-            "registered_at_start",
-            registered_at_start=patients.registered_as_of("index_date"),
-        ),
+        registered=patients.registered_as_of("index_date"),
+        
         has_follow_up_previous_year=patients.registered_with_one_practice_between(
             start_date="index_date - 1 year",
             end_date="index_date",
