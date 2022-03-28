@@ -430,19 +430,19 @@ actions:
         cohort: output/input_general_population_2110.csv
   
   generate_study_population_2111_ab:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111_ab
     outputs:
       highly_sensitive:
         cohort: output/input_general_population_2111_ab.csv
   
   generate_study_population_2111_confounding:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111_confounding
     outputs:
       highly_sensitive:
         cohort: output/input_general_population_2111_confounding.csv
   
   generate_study_population_2111_CCI:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population_2111_CCI
     outputs:
       highly_sensitive:
         cohort: output/input_general_population_2111_CCI.csv
