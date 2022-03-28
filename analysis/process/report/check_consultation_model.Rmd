@@ -62,52 +62,72 @@ df6$rate=df6$counts/df6$population*1000
 
 ## infection consultations rate 
 
-#### UTI
+
 ```{r echo=FALSE}
-ggplot(df1, aes(x=date, color=covid))+
-  geom_line(aes(y=rate))+
-  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")
+#### UTI
+ggplot(df1, aes(x=date, y=rate))+
+  geom_line()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(title = "UTI")
 
 ```
+
+
+```{r echo=FALSE}
 
 #### LRTI
-```{r echo=FALSE}
-ggplot(df2, aes(x=date,color=covid))+
-  geom_line(aes(y=rate))+
-  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")
-
+ggplot(df2, aes(x=date, y=rate))+
+  geom_line()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(title = "LRTI")
 ```
 
+
+```{r echo=FALSE}
 #### URTI
-```{r echo=FALSE}
-ggplot(df3, aes(x=date,color=covid))+
-  geom_line(aes(y=rate))+
-  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")
-
+ggplot(df3, aes(x=date, y=rate))+
+  geom_line()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(title = "URTI")
 ```
 
+
+```{r echo=FALSE}
 #### Sinusitis
-```{r echo=FALSE}
-ggplot(df4, aes(x=date,color=covid))+
-  geom_line(aes(y=rate))+
-  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")
-
+ggplot(df4, aes(x=date, y=rate))+
+  geom_line()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(title = "Sinusitis")
 ```
 
+
+```{r echo=FALSE}
 #### Otitis media
-```{r echo=FALSE}
-ggplot(df5, aes(x=date,color=covid))+
-  geom_line(aes(y=rate))+
-  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")
-
+ggplot(df5, aes(x=date, y=rate))+
+  geom_line()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(title = "Otitis media")
 ```
 
-####  Otitis externa
-```{r echo=FALSE}
-ggplot(df6,aes(x=date,color=covid))+
-  geom_line(aes(y=rate))+
-  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")
 
+```{r echo=FALSE}
+####  Otitis externa
+ggplot(df6, aes(x=date, y=rate))+
+  geom_line()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey90")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(title = "Otitis externa")
 ```
 
 
@@ -132,11 +152,19 @@ df
 ggplot(df1, aes(x=counts)) + 
   geom_histogram(aes(y=..density..)) +
    geom_density(alpha=.2, fill="#FF6666") 
+
+ggplot(df1, aes(x=rate)) + 
+  geom_histogram(aes(y=..density..)) +
+   geom_density(alpha=.2, fill="#FF6666") 
 ```
 
 ### LRTI
 ```{r}
 ggplot(df2, aes(x=counts)) + 
+  geom_histogram(aes(y=..density..)) +
+   geom_density(alpha=.2, fill="#FF6666") 
+
+ggplot(df2, aes(x=rate)) + 
   geom_histogram(aes(y=..density..)) +
    geom_density(alpha=.2, fill="#FF6666") 
 ```
@@ -146,11 +174,19 @@ ggplot(df2, aes(x=counts)) +
 ggplot(df3, aes(x=counts)) + 
   geom_histogram(aes(y=..density..)) +
    geom_density(alpha=.2, fill="#FF6666") 
+
+ggplot(df3, aes(x=rate)) + 
+  geom_histogram(aes(y=..density..)) +
+   geom_density(alpha=.2, fill="#FF6666") 
 ```
 
 ### Sinusitis
 ```{r}
 ggplot(df4, aes(x=counts)) + 
+  geom_histogram(aes(y=..density..)) +
+   geom_density(alpha=.2, fill="#FF6666") 
+
+ggplot(df4, aes(x=rate)) + 
   geom_histogram(aes(y=..density..)) +
    geom_density(alpha=.2, fill="#FF6666") 
 ```
@@ -160,11 +196,17 @@ ggplot(df4, aes(x=counts)) +
 ggplot(df5, aes(x=counts)) + 
   geom_histogram(aes(y=..density..)) +
    geom_density(alpha=.2, fill="#FF6666") 
+ggplot(df5, aes(x=rate)) + 
+  geom_histogram(aes(y=..density..)) +
+   geom_density(alpha=.2, fill="#FF6666") 
 ```
 
 ### Otitis externa
 ```{r}
 ggplot(df6, aes(x=counts)) + 
+  geom_histogram(aes(y=..density..)) +
+   geom_density(alpha=.2, fill="#FF6666") 
+ggplot(df6, aes(x=rate)) + 
   geom_histogram(aes(y=..density..)) +
    geom_density(alpha=.2, fill="#FF6666") 
 ```
