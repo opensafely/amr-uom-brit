@@ -340,6 +340,8 @@ study = StudyDefinition(
     #         "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
     # ),
     ## Covid positive test result
+
+    # I think this is the same each month. Do you still need it?
     sgss_positive=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
