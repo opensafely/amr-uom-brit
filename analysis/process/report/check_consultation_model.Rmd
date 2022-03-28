@@ -2,11 +2,6 @@
 title: "Consultation counuts check"
 ---
 
-#### materials:
-##### Negative binomial regression
-###### tutorial. https://stats.oarc.ucla.edu/r/dae/negative-binomial-regression/ 
-#### Poisson vs. Negative Binomial
-###### https://stats.oarc.ucla.edu/r/dae/negative-binomial-regression/  
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -132,7 +127,8 @@ ggplot(df6, aes(x=date, y=rate))+
 
 
 ## Mean & variance
-```{r}
+consultations counts
+```{r message=FALSE}
 means=c(mean(df1$counts),mean(df2$counts),mean(df3$counts),mean(df4$counts),mean(df5$counts),mean(df6$counts))
 vars=c(var(df1$counts),var(df2$counts),var(df3$counts),var(df4$counts),var(df5$counts),var(df6$counts))
 df=data.frame(rbind(means,vars))
@@ -145,69 +141,111 @@ names(df)[6]<-"Otitis externa"
 df
 ```
 
+consultation rate
+```{r}
+means=c(mean(df1$rate),mean(df2$rate),mean(df3$rate),mean(df4$rate),mean(df5$rate),mean(df6$rate))
+vars=c(var(df1$rate),var(df2$rate),var(df3$rate),var(df4$rate),var(df5$rate),var(df6$rate))
+df=data.frame(rbind(means,vars))
+names(df)[1]<-"UTI"
+names(df)[2]<-"LRTI"
+names(df)[3]<-"URTI"
+names(df)[4]<-"Sinusitis"
+names(df)[5]<-"Otitis media"
+names(df)[6]<-"Otitis externa"
+df
+```
+
 ## Distribution of infection consultations
 
-### UTI
 ```{r}
 ggplot(df1, aes(x=counts)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
-
+   geom_bar() +
+ labs(
+    title = "UTI",
+    x = "infection counts", 
+    y = "frequency")
 ggplot(df1, aes(x=rate)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "UTI",
+    x = "consultation rate", 
+    y = "frequency")
 ```
 
-### LRTI
 ```{r}
 ggplot(df2, aes(x=counts)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
-
+   geom_bar() +
+ labs(
+    title = "LRTI",
+    x = "infection counts", 
+    y = "frequency")
 ggplot(df2, aes(x=rate)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "LRTI",
+    x = "consultation rate", 
+    y = "frequency")
 ```
 
-### URTI
 ```{r}
 ggplot(df3, aes(x=counts)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
-
+   geom_bar() +
+ labs(
+    title = "URTI",
+    x = "infection counts", 
+    y = "frequency")
 ggplot(df3, aes(x=rate)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "URTI",
+    x = "consultation rate", 
+    y = "frequency")
 ```
 
-### Sinusitis
+
 ```{r}
 ggplot(df4, aes(x=counts)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
-
+   geom_bar() +
+ labs(
+    title = "Sinusitis",
+    x = "infection counts", 
+    y = "frequency")
 ggplot(df4, aes(x=rate)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "Sinusitis",
+    x = "consultation rate", 
+    y = "frequency")
 ```
 
-### Otitis media
+
 ```{r}
 ggplot(df5, aes(x=counts)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "Otitis media",
+    x = "infection counts", 
+    y = "frequency")
 ggplot(df5, aes(x=rate)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "Otitis media",
+    x = "consultation rate", 
+    y = "frequency")
 ```
 
-### Otitis externa
 ```{r}
 ggplot(df6, aes(x=counts)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "Otitis externa",
+    x = "infection counts", 
+    y = "frequency")
 ggplot(df6, aes(x=rate)) + 
-  geom_histogram(aes(y=..density..)) +
-   geom_density(alpha=.2, fill="#FF6666") 
+   geom_bar() +
+ labs(
+    title = "Otitis externa",
+    x = "consultation rate", 
+    y = "frequency") 
 ```
 
