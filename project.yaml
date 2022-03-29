@@ -437,6 +437,12 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
 
+  generate_study_population_antibiotics_tpye: #  Antibiotics_recorded_01
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_antibiotics_type_*.csv.gz
+
 # used describe_ab_recoded_broad_process instead
   # describe_ab_recoded_indication_process: #  Antibiotics_recorded_02: generate prescription-level dataset 
   #   run: r:latest analysis/process/ab_recorded_indication_transform.R
