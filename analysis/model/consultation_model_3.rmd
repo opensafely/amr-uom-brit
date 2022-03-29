@@ -195,7 +195,7 @@ summary(m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + 
 
 ## LRTI
 ```{r}
-summary(m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + res3  , data = df3))
+summary(m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + res3  , data = df3,control = glm.control(maxit = 500)))
 ```
 
 ## sinusitis
