@@ -170,7 +170,7 @@ p3 <- ggplot(plot3, aes(x=mon, y=prop, group=year)) +
   geom_point(aes(color=year))+
   scale_color_brewer(palette="Paired")+
   theme_minimal()+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.001))+
   labs(
     title = "Proportion of broad-spectrum antibiotics prescribed",
     subtitle = paste(first_mon,"-",last_mon),
@@ -244,7 +244,7 @@ p4 <- ggplot(plot4, aes(x=mon, y=prop, group=year)) +
   geom_point(aes(color=year))+
   scale_color_brewer(palette="Paired")+
   theme_minimal()+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.0001))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.001))+
   labs(
     title = "Proportion of broad-spectrum antibiotics prescribed",
     subtitle = paste(first_mon,"-",last_mon),
