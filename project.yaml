@@ -437,7 +437,7 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
 
-  generate_study_population_antibiotics_tpye: #  Antibiotics_recorded_01
+  generate_study_population_antibiotics_tpye: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:

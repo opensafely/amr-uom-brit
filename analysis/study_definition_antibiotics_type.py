@@ -657,6 +657,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_2_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_2", "AB_date_2"],
@@ -669,6 +670,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_3_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_3", "AB_date_3"],
@@ -681,6 +683,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_4_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_4", "AB_date_4"],
@@ -693,6 +696,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_5_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_5", "AB_date_5"],
@@ -705,6 +709,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_6_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_6", "AB_date_6"],
@@ -717,6 +722,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_7_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_7", "AB_date_7"],
@@ -729,6 +735,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_8_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_8", "AB_date_8"],
@@ -741,6 +748,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_9_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_9", "AB_date_9"],
@@ -753,6 +761,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_10_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_10", "AB_date_10"],
@@ -765,6 +774,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_11_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_11", "AB_date_11"],
@@ -777,6 +787,7 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
     Ab_date_12_type=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["AB_date_12", "AB_date_12"],
@@ -789,4 +800,5 @@ study = StudyDefinition(
             "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
             "incidence": 0.99,
         },
+    ),
 )
