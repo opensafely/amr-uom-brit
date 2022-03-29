@@ -187,8 +187,10 @@ summary(m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + 
 ```
 
 ## URTI
+#Error in prettyNum(.Internal(format(x, trim, digits, nsmall, width, 3L,: invalid 'nsmall' argument
+#https://stackoverflow.com/questions/64002936/error-in-prettynum-internalformatx-trim-digits-nsmall-width-3l-invalid
 ```{r}
-summary(m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + res2 , data = df2))
+summary(m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid + res2 , data = df2, control = glm.control(maxit = 500)))
 ```
 
 ## LRTI
