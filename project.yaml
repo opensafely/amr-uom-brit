@@ -322,12 +322,12 @@ actions:
       moderately_sensitive:
         html: output/report/check_consultation_model.html
 
-  consultation_model_3: # model 3 for adjusting autocorrelation
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_3.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_3.html
+  # consultation_model_3: # model 3 for adjusting autocorrelation
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_3.rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_model_process_1]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_3.html
 
   # check_consultation_model_urti: #  
   #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_urti.Rmd", output_dir = "output/report")'
