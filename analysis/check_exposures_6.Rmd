@@ -20,7 +20,7 @@ require("ggplot2")
 # import data
 rm(list=ls())
 #df=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome2.csv")
-df <- read_csv(here::here("output","input_outcome_2_6.csv"))
+df <- read_csv(here::here("output","matched_outcome_6.csv"))
 
 ```
 
