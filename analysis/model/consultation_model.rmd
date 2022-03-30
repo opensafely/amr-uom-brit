@@ -16,6 +16,7 @@ library("data.table")
 library("dplyr")
 library("tidyverse")
 library("MASS")
+library(tsModel)
 #library("gtsummary")
 ```
 
@@ -23,11 +24,8 @@ library("MASS")
 ### Import data
 filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds")
 
-#temp <- vector("list", length(filelist))
-
-#for (i in seq_along(filelist)){
-
-df = read_rds(here::here("output","measures",filelist[1]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[1]))
+#df = read_rds(here::here("output","measures",filelist[1]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -36,14 +34,12 @@ df = df%>% group_by(date, covid)%>%
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
-
-#temp[[i]]=df
 
 df1=df
 rm(df)
-#}
 
-df = read_rds(here::here("output","measures",filelist[2]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[2]))
+#df = read_rds(here::here("output","measures",filelist[2]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -53,12 +49,12 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-#temp[[i]]=df
+
 
 df2=df
 rm(df)
-
-df = read_rds(here::here("output","measures",filelist[3]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[3]))
+#df = read_rds(here::here("output","measures",filelist[3]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -68,12 +64,12 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-#temp[[i]]=df
+
 
 df3=df
 rm(df)
-
-df = read_rds(here::here("output","measures",filelist[4]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[4]))
+#df = read_rds(here::here("output","measures",filelist[4]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -82,14 +78,11 @@ df = df%>% group_by(date, covid)%>%
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
-
-#temp[[i]]=df
 
 df4=df
 rm(df)
-
-
-df = read_rds(here::here("output","measures",filelist[5]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[5]))
+#df = read_rds(here::here("output","measures",filelist[5]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -98,14 +91,11 @@ df = df%>% group_by(date, covid)%>%
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
-
-#temp[[i]]=df
 
 df5=df
 rm(df)
-
-
-df = read_rds(here::here("output","measures",filelist[6]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[6]))
+#df = read_rds(here::here("output","measures",filelist[6]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -115,52 +105,56 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-#temp[[i]]=df
 
 df6=df
 rm(df)
-
 ```
 
 ```{r message=FALSE}
-# month: categorical variables
-df1$month=as.character(df1$month)
-df2$month=as.character(df2$month)
-df3$month=as.character(df3$month)
-df4$month=as.character(df4$month)
-df5$month=as.character(df5$month)
-df6$month=as.character(df6$month)
 
-df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df1$month=df1$season
-df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df2$month=df2$season
-df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df3$month=df3$season
-df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df4$month=df4$season
-df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df5$month=df5$season
-df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df6$month=df6$season
+
+
+
+# month: categorical variables
+#df1$month=as.character(df1$month)
+#df2$month=as.character(df2$month)
+#df3$month=as.character(df3$month)
+#df4$month=as.character(df4$month)
+#df5$month=as.character(df5$month)
+#df6$month=as.character(df6$month)
+
+
+# seasons
+#df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+#                                   month=="03"|month=="04"|month=="05" ~"spring",
+#                                   month=="06"|month=="07"|month=="08" ~"summer",
+#                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+#df1$month=df1$season
+#df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+#                                   month=="03"|month=="04"|month=="05" ~"spring",
+#                                   month=="06"|month=="07"|month=="08" ~"summer",
+#                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+#df2$month=df2$season
+#df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+ #                                  month=="03"|month=="04"|month=="05" ~"spring",
+ #                                  month=="06"|month=="07"|month=="08" ~"summer",
+#                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+#df3$month=df3$season
+#df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+ #                                  month=="03"|month=="04"|month=="05" ~"spring",
+ ##                                  month=="06"|month=="07"|month=="08" ~"summer",
+#                                  month=="09"|month=="10"|month=="11" ~"autumn"))
+#df4$month=df4$season
+#df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+ #                                  month=="03"|month=="04"|month=="05" ~"spring",
+ #                                  month=="06"|month=="07"|month=="08" ~"summer",
+ #                                  month=="09"|month=="10"|month=="11" ~"autumn"))
+#df5$month=df5$season
+#df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+  #                                 month=="03"|month=="04"|month=="05" ~"spring",
+  #                                 month=="06"|month=="07"|month=="08" ~"summer",
+ #                                  month=="09"|month=="10"|month=="11" ~"autumn"))
+#df6$month=df6$season
 ```
 
 
@@ -168,33 +162,33 @@ df6$month=df6$season
 
 ##UTI
 ```{r}
-summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df1))
+summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) +times , data = df1))
 ```
 
 ## URTI
 ```{r}
-summary(m2 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df2))
+summary(m2 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12)+times , data = df2))
 ```
 
 ## LRTI
 ```{r}
-summary(m3 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df3))
+summary(m3 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) +times , data = df3))
 ```
 
 ## Sinusitis
 ```{r}
-summary(m4 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df4))
+summary(m4 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) +times , data = df4))
 ```
 
 ## otitis externa
 ```{r}
-summary(m5 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df5))
+summary(m5 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) +times , data = df5))
 
 ```
 
 ## otitis media
 ```{r}
-summary(m6 <- glm.nb(counts~ offset(log(population))+ covid + month +times , data = df6))
+summary(m6 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) +times , data = df6))
 ```
 
 
@@ -270,32 +264,32 @@ labs(
 
 ## UTI
 ```{r}
-summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df1))
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) + times + times*covid  , data = df1))
 ```
 
 ## URTI
 ```{r}
-summary(m2.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df2))
+summary(m2.1 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12)+ times + times*covid  , data = df2))
 ```
 
 ## LRTI
 ```{r}
-summary(m3.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df3))
+summary(m3.1 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) + times + times*covid  , data = df3))
 ```
 
 ## sinusitis
 ```{r}
-summary(m4.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df4))
+summary(m4.1 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) + times + times*covid  , data = df4))
 ```
 
 ## otitis externa
 ```{r}
-summary(m5.1 <-glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df5))
+summary(m5.1 <-glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) + times + times*covid  , data = df5))
 ```
 
 ## otitis media
 ```{r }
-summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + times*covid  , data = df6))
+summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) + times + times*covid  , data = df6))
 ```
 
 
