@@ -22,12 +22,8 @@ library("MASS")
 ```{r message=FALSE}
 ### Import data
 filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds")
-
-#temp <- vector("list", length(filelist))
-
-#for (i in seq_along(filelist)){
-
-df = read_rds(here::here("output","measures",filelist[1]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[1]))
+#df = read_rds(here::here("output","measures",filelist[1]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -36,14 +32,12 @@ df = df%>% group_by(date, covid)%>%
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
-
-#temp[[i]]=df
 
 df1=df
 rm(df)
-#}
 
-df = read_rds(here::here("output","measures",filelist[2]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[2]))
+#df = read_rds(here::here("output","measures",filelist[2]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -53,12 +47,12 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-#temp[[i]]=df
+
 
 df2=df
 rm(df)
-
-df = read_rds(here::here("output","measures",filelist[3]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[3]))
+#df = read_rds(here::here("output","measures",filelist[3]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -68,12 +62,12 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-#temp[[i]]=df
+
 
 df3=df
 rm(df)
-
-df = read_rds(here::here("output","measures",filelist[4]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[4]))
+#df = read_rds(here::here("output","measures",filelist[4]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -82,14 +76,11 @@ df = df%>% group_by(date, covid)%>%
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
-
-#temp[[i]]=df
 
 df4=df
 rm(df)
-
-
-df = read_rds(here::here("output","measures",filelist[5]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[5]))
+#df = read_rds(here::here("output","measures",filelist[5]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -98,14 +89,11 @@ df = df%>% group_by(date, covid)%>%
 df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
-
-#temp[[i]]=df
 
 df5=df
 rm(df)
-
-
-df = read_rds(here::here("output","measures",filelist[6]))
+df=read_rds(paste0("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/",filelist[6]))
+#df = read_rds(here::here("output","measures",filelist[6]))
 # infection counts, population size, covid period
 df = df%>% group_by(date, covid)%>% 
   summarise(counts=sum(infection_counts), 
@@ -115,23 +103,11 @@ df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
-#temp[[i]]=df
 
 df6=df
 rm(df)
 
 ```
-
-```{r message=FALSE}
-# month: categorical variables
-df1$month=as.character(df1$month)
-df2$month=as.character(df2$month)
-df3$month=as.character(df3$month)
-df4$month=as.character(df4$month)
-df5$month=as.character(df5$month)
-df6$month=as.character(df6$month)
-```
-
 
 # model1: Negative binomial model (without interaction)
 
