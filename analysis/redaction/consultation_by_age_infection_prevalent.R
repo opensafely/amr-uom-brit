@@ -481,7 +481,7 @@ lineplot_4<- ggplot(df_plot.4, aes(x=date, y=rate,group=age_cat))+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
-    title = "Consultation rate of prevalent patients- Otitis externa",
+    title = "Consultation rate of prevalent patients- Sinusitis",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", TPPnumber,"TPP Practices 
                     Grey shading represents national lockdown time.
