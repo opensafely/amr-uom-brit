@@ -16,8 +16,8 @@ setwd(here::here("output"))
 DF1=read_csv("input_outcome_2_2.csv")
 
 ## add variables to extracted cohort:"set_id","case", "match_counts"   
-DF2 <- read_csv("matched_combined_infection_hosp_2.csv
-")
+DF2 <- read_csv("matched_combined_infection_hosp_2.csv")
+
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
 DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
 
