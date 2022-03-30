@@ -251,12 +251,12 @@ actions:
 #       moderately_sensitive:
 #         html: output/check_matching_3.html
 
-#   check_exposures_outcome2_3:
-#     run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [merge_outcome2_3]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/check_exposures_outcome2_3.html 
+  check_exposures:
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_outcome_2_6]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures.html 
 
 #   model_univariable_outcome2:
 #     run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
