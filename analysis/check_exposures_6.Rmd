@@ -1,0 +1,292 @@
+---
+title: "exposure check"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome2.csv")
+df <- read_csv(here::here("output","input_outcome_2_6.csv"))
+
+```
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+df$wave=as.factor(df$wave)
+
+df$set_id=as.factor(df$set_id)#pair id
+
+df$match_counts=as.integer(df$match_counts)
+df$sex=as.character(df$sex)
+df$age=as.numeric(df$age)
+df$age_cat=as.character(df$age_cat)
+df$stp=as.character(df$stp)
+df$region=as.character(df$region)
+df$ethnicity_6=as.character(df$ethnicity_6)
+df$bmi=as.numeric(df$bmi)
+df$bmi_cat=as.character(df$bmi_cat)
+df$CCI=as.character(df$CCI)
+df$Charlson=as.integer(df$Charlson)
+df$smoking_cat_3=as.character(df$smoking_cat_3)
+df$imd=as.integer(df$imd)
+df$care_home=as.integer(df$care_home)
+df$covrx_ever=as.integer(df$covrx_ever)
+df$flu_vaccine=as.integer(df$flu_vaccine)
+df$ab_types=as.integer(df$ab_types)
+df$ab_freq=as.factor(df$ab_freq)
+df$ab_freq.type=as.factor(df$ab_freq.type)
+df$lastABtime=as.factor(df$lastABtime)
+df$ab_qn=as.character(df$ab_qn) #category
+df$br_ab_qn=as.character(df$ab_qn)#category
+df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+
+```
+
+
+# descriptive statistics
+### quintile groups
+
+```{r}
+#total antibiotics
+df.plot1=df%>% group_by(case,ab_qn)%>%summarise(percent=n())
+df.plot1$case=as.character(df.plot1$case)
+df.plot1$case=ifelse(df.plot1$case==1,"case","control")
+df.plot1$group="total AB"
+
+# broad-sperctrum antibiotics
+df.plot2=df%>% group_by(case,br_ab_qn)%>%summarise(percent=n())
+df.plot2$case=as.character(df.plot2$case)
+df.plot2$case=ifelse(df.plot2$case==1,"case","control")
+names(df.plot2)[2]<- "ab_qn"
+df.plot2$group="broad-spectrum AB"
+
+
+df.plot=rbind(df.plot1,df.plot2)
+
+p=ggplot(data=df.plot, aes(x=case, y=percent, fill=ab_qn)) +
+  geom_bar(stat="identity", position="fill")+
+  labs(x="")+
+   facet_grid(.~group ,scales = "free")
+
+p$labels$fill <- "Antibiotics 
+exposure level"
+
+p
+
+```
+#### ab use by age group
+```{r}
+
+#total antibiotics
+df.plot1=df%>% group_by(case,age_cat)%>% mutate(denominator=n())
+df.plot1=df.plot1%>% group_by(case,age_cat,ab_qn)%>% 
+  summarise(nominator=n(),denominator=mean(denominator))%>%
+  mutate(percent=nominator/denominator)
+df.plot1$group="total AB"
+
+
+#broad antibiotics
+df.plot2=df%>% group_by(case,age_cat)%>% mutate(denominator=n())
+df.plot2=df.plot2%>% group_by(case,age_cat,br_ab_qn)%>% 
+  summarise(nominator=n(),denominator=mean(denominator))%>%
+  mutate(percent=nominator/denominator)
+names(df.plot2)[3]<- "ab_qn"
+df.plot2$group="broad-spectrum AB"
+
+df.plot=rbind(df.plot1,df.plot2)
+df.plot$case=ifelse(df.plot$case=="1","case","control")
+df.plot$age_cat=factor(df.plot$age_cat,levels=c("18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80+"))
+
+p=ggplot(data=df.plot, aes(x=age_cat, y=percent, color=ab_qn)) +
+    geom_line()+  
+  geom_point()+
+  labs(x="")+
+   facet_grid(group~case ,scales = "free")
+
+p$labels$fill <- "Antibiotics 
+exposure level"
+
+p
+
+```
+#### scatter plot: number of AB/types, age
+```{r}
+
+df.plot1=df%>%filter(ab_prescriptions !=0)
+df.plot1$case=ifelse(df.plot1$case==1,"case","control")
+
+df.plot2=df%>%filter(broad_ab_prescriptions !=0)
+df.plot2$case=ifelse(df.plot2$case==1,"case","control")
+
+ggplot(df.plot1, aes(x=age, y=ab_prescriptions, color=case)) +
+  geom_point()+
+  labs(color="")
+ggplot(df.plot2, aes(x=age, y=broad_ab_prescriptions, color=case)) +
+  geom_point()+
+  labs(color="")
+
+# ab type
+df.plot3=df%>%filter(ab_types !=0)
+df.plot3=df%>%filter(broad_ab_prescriptions !=0)
+df.plot3$case=ifelse(df.plot3$case==1,"case","control")
+
+ggplot(df.plot3, aes(x=age, y=ab_types, color=case)) +
+  geom_point()+
+  labs(color="")
+rm(list=ls())
+```
+
+
+# <font color=blue>**Outcome 3**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome3.csv")
+df <- read_csv(here::here("output","matched_outcome3.csv"))
+
+```
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+df$wave=as.factor(df$wave)
+
+df$set_id=as.factor(df$set_id)#pair id
+
+df$match_counts=as.integer(df$match_counts)
+df$sex=as.character(df$sex)
+df$age=as.numeric(df$age)
+df$age_cat=as.character(df$age_cat)
+df$stp=as.character(df$stp)
+df$region=as.character(df$region)
+df$ethnicity_6=as.character(df$ethnicity_6)
+df$bmi=as.numeric(df$bmi)
+df$bmi_cat=as.character(df$bmi_cat)
+df$CCI=as.character(df$CCI)
+df$Charlson=as.integer(df$Charlson)
+df$smoking_cat_3=as.character(df$smoking_cat_3)
+df$imd=as.integer(df$imd)
+df$care_home=as.integer(df$care_home)
+df$covrx_ever=as.integer(df$covrx_ever)
+df$flu_vaccine=as.integer(df$flu_vaccine)
+df$ab_types=as.integer(df$ab_types)
+df$ab_freq=as.factor(df$ab_freq)
+df$ab_freq.type=as.factor(df$ab_freq.type)
+df$lastABtime=as.factor(df$lastABtime)
+df$ab_qn=as.character(df$ab_qn) #category
+df$br_ab_qn=as.character(df$ab_qn)#category
+df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+
+```
+
+
+# descriptive statistics
+### quintile groups
+
+```{r}
+#total antibiotics
+df.plot1=df%>% group_by(case,ab_qn)%>%summarise(percent=n())
+df.plot1$case=as.character(df.plot1$case)
+df.plot1$case=ifelse(df.plot1$case==1,"case","control")
+df.plot1$group="total AB"
+
+# broad-sperctrum antibiotics
+df.plot2=df%>% group_by(case,br_ab_qn)%>%summarise(percent=n())
+df.plot2$case=as.character(df.plot2$case)
+df.plot2$case=ifelse(df.plot2$case==1,"case","control")
+names(df.plot2)[2]<- "ab_qn"
+df.plot2$group="broad-spectrum AB"
+
+
+df.plot=rbind(df.plot1,df.plot2)
+
+p=ggplot(data=df.plot, aes(x=case, y=percent, fill=ab_qn)) +
+  geom_bar(stat="identity", position="fill")+
+  labs(x="")+
+   facet_grid(.~group ,scales = "free")
+
+p$labels$fill <- "Antibiotics 
+exposure level"
+
+p
+
+```
+#### ab use by age group
+```{r}
+
+#total antibiotics
+df.plot1=df%>% group_by(case,age_cat)%>% mutate(denominator=n())
+df.plot1=df.plot1%>% group_by(case,age_cat,ab_qn)%>% 
+  summarise(nominator=n(),denominator=mean(denominator))%>%
+  mutate(percent=nominator/denominator)
+df.plot1$group="total AB"
+
+
+#broad antibiotics
+df.plot2=df%>% group_by(case,age_cat)%>% mutate(denominator=n())
+df.plot2=df.plot2%>% group_by(case,age_cat,br_ab_qn)%>% 
+  summarise(nominator=n(),denominator=mean(denominator))%>%
+  mutate(percent=nominator/denominator)
+names(df.plot2)[3]<- "ab_qn"
+df.plot2$group="broad-spectrum AB"
+
+df.plot=rbind(df.plot1,df.plot2)
+df.plot$case=ifelse(df.plot$case=="1","case","control")
+df.plot$age_cat=factor(df.plot$age_cat,levels=c("18-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80+"))
+
+p=ggplot(data=df.plot, aes(x=age_cat, y=percent, color=ab_qn)) +
+    geom_line()+  
+  geom_point()+
+  labs(x="")+
+   facet_grid(group~case ,scales = "free")
+
+p$labels$fill <- "Antibiotics 
+exposure level"
+
+p
+
+```
+#### scatter plot: number of AB/types, age
+```{r}
+
+df.plot1=df%>%filter(ab_prescriptions !=0)
+df.plot1$case=ifelse(df.plot1$case==1,"case","control")
+
+df.plot2=df%>%filter(broad_ab_prescriptions !=0)
+df.plot2$case=ifelse(df.plot2$case==1,"case","control")
+
+ggplot(df.plot1, aes(x=age, y=ab_prescriptions, color=case)) +
+  geom_point()+
+  labs(color="")
+ggplot(df.plot2, aes(x=age, y=broad_ab_prescriptions, color=case)) +
+  geom_point()+
+  labs(color="")
+
+# ab type
+df.plot3=df%>%filter(ab_types !=0)
+df.plot3=df%>%filter(broad_ab_prescriptions !=0)
+df.plot3$case=ifelse(df.plot3$case==1,"case","control")
+
+ggplot(df.plot3, aes(x=age, y=ab_types, color=case)) +
+  geom_point()+
+  labs(color="")
+
+```
+
+
+

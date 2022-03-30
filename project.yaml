@@ -251,12 +251,26 @@ actions:
 #       moderately_sensitive:
 #         html: output/check_matching_3.html
 
-  check_exposures:
-    run: r:latest -e 'rmarkdown::render("analysis/check_exposures.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  check_exposures_6:
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_6.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [extract_variables_outcome_2_6]
     outputs:
       moderately_sensitive:
-        html: output/check_exposures.html 
+        html: output/check_exposures_6.html 
+
+  check_exposures_4:
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_4.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_outcome_2_4]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_4.html 
+
+  check_exposures_2:
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_outcome_2_2]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_2.html 
 
 #   model_univariable_outcome2:
 #     run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
