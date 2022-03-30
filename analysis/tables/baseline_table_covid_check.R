@@ -1,7 +1,7 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# Generate baseline table to check new COVID variables by xtracting one cohort
+# Generate baseline table to check new COVID variables by extracting one cohort
 # not by month
 # # # # # # # # # # # # # # # # # # # # #
 
@@ -81,63 +81,52 @@ rm(overall_counts)
 # df$charlsonGrp <- factor(df$charlsonGrp, 
 #                                  labels = c("zero", "low", "medium", "high", "very high"))
 # 
-# df$age_cat<- as.factor(df$age_cat)
-# 
-# # # count of GP consultations in 12m before random index date
-# # 
-# # ### flu vac in 12m before random index date
-# # #summary(df$flu_vaccine)
-# # df$flu_vaccine <- as.factor(df$flu_vaccine)
-# # 
-# # 
-# # # ## Any covid vaccine
-# # # str(df$covrx1_dat)
-# # summary(df$covrx1_dat)
-# # summary(df$covrx2_dat)
-# df$covrx1=ifelse(is.na(df$covrx1_dat),0,1)
-# df$covrx2=ifelse(is.na(df$covrx2_dat),0,1)
-# df$covrx=ifelse(df$covrx1 >0 | df$covrx2 >0, 1, 0)
-# df$covrx <- as.factor(df$covrx)
-# # #summary(df$covrx)
-# 
+df$age_cat<- as.factor(df$age_cat)
+
+# flu vaccines by year (if date present had vaccine)
+df$fluvac19=ifelse(is.na(df$flu_vaccine_tpp_2019),0,1)
+df$fluvac20=ifelse(is.na(df$flu_vaccine_tpp_2020),0,1)
+df$fluvac21=ifelse(is.na(df$flu_vaccine_tpp_2021),0,1)
+df$fluvac22=ifelse(is.na(df$flu_vaccine_tpp_2022),0,1)
+
+ 
+# # # # ## Any covid vaccine
+df$covrx1=ifelse(is.na(df$covrx1_dat),0,1)
+df$covrx2=ifelse(is.na(df$covrx2_dat),0,1)
+df$covrx=ifelse(df$covrx1 >0 | df$covrx2 >0, 1, 0)
+df$covrx <- as.factor(df$covrx)
+
+
+df$covrx_sgss1=ifelse(is.na(df$Covid_test_result_sgss_1_DATE),0,1)
+df$covrx_sgss2=ifelse(is.na(df$Covid_test_result_sgss_2_DATE),0,1)
+df$covrx_sgss=ifelse(df$covrx_sgss1 >0 | df$covrx_sgss2 >0, 1, 0)
+df$covrx_sgss <- as.factor(df$covrx_sgss)
+
+
+df$covrx_vaccin_gp1=ifelse(is.na(df$date_vaccin_gp_1),0,1)
+df$covrx_vaccin_gp2=ifelse(is.na(df$date_vaccin_gp_2),0,1)
+df$covrx_vaccin_gp=ifelse(df$covrx_vaccin_gp1 >0 | df$covrx_vaccin_gp2 >0, 1, 0)
+df$covrx_vaccin_gp <- as.factor(df$covrx_vaccin_gp)
+
+
 # # ever died
-# df$died_ever <- ifelse(is.na(df$died_date),0,1)
-# df$died_ever <- as.factor(df$died_ever)
-# #summary(df$died_ever)
-# 
+df$died_ever <- ifelse(is.na(df$died_date),0,1)
+df$died_ever <- as.factor(df$died_ever)
+
 # ## covid positive ever
-# #df$covid_positive<- df$Covid_test_result_sgss
-# #df$covid_positive<-as.factor(df$covid_positive)
-# df$Covid_test_result_sgss<- as.factor(df$Covid_test_result_sgss)
-# 
-# df$hx_indications <- as.factor(df$hx_indications)
-# df$hx_antibiotics <- as.factor(df$hx_antibiotics)
-# 
-# 
-# ## select variables for the baseline table
-# bltab_vars <- select(df, date, age, age_cat, sex, bmi, 
-#                      bmi_cat, ethnicity_6, charlsonGrp, smoking_cat, 
-#                      flu_vaccine, gp_count, antibacterial_brit,
-#                      antibacterial_12mb4, broad_spectrum_antibiotics_prescriptions, 
-#                      Covid_test_result_sgss, imd, hx_indications, hx_antibiotics, 
-#                      covrx, died_ever) 
-# 
-# # generate data table 
-# 
-# 
+df$covid_positive=ifelse(df$Covid_test_result_sgss_1 >0 | df$Covid_test_result_sgss_2 >0, 1, 0)
+df$covid_positive<-as.factor(df$covid_positive)
+
+
+# generate data table 
+# remove practice and patient ID
+
+df2<- select(df, age, age_cat, sex, gp_covid_count,
+             antibiotics_prescriptions, broad_spectrum_antibiotics_prescriptions,
+             fluvac19, fluvac20, fluvac21, fluvac22,
+             covrx, covrx_sgss, covrx_vaccin_gp,
+             died_ever, covid_positive)
 # # columns for baseline table
-# colsfortab <- colnames(bltab_vars)
-# bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
-# #str(t)
-# write_csv(t, here::here("output", "blt_one_random_obs_perpat.csv"))
-# 
-# ####### code for tableone package - not in OS platform yet
-# #blt <- CreateTableOne(data=bltab_vars)
-# #blt_all_levs <- print(blt, showAllLevels=T, quote=F)
-# #View(blt_all_levs)
-# #write.csv(blt_all_levs, "blt_one_random_obs_perpat.csv")
-# 
-# ####### code for tbl_summary() in gtsummary package
-# #test <- bltab_vars %>% rownames_to_column()
-# 
-# 
+colsfortab <- colnames(df2)
+df %>% summary_factorlist(explanatory = colsfortab) -> t
+write_csv(t, here::here("output", "blt_covid_check.csv"))

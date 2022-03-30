@@ -133,6 +133,7 @@ actions:
     outputs:
       moderately_sensitive:
         baseline_covidcheck: output/overall_covid.csv
+        blt_covidcheck: output/blt_covid_check.csv
 
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
