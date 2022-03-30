@@ -21,7 +21,7 @@ DF2 <- read_csv("matched_combined_infection_hosp_2.csv")
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
 DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
 
-#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can;t merge with dummy data
+#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
 df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
 rm(DF1,DF2)
 
@@ -180,8 +180,7 @@ rm(list=ls())
 DF1=read_csv("input_outcome_2_4.csv")
 
 ## add variables to extracted cohort:"set_id","case", "match_counts"   
-DF2 <- read_csv("matched_combined_infection_hosp_4.csv
-")
+DF2 <- read_csv("matched_combined_infection_hosp_4.csv")
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
 DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
 
