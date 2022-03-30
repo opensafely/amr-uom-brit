@@ -242,7 +242,7 @@ actions:
     needs: [matching_2,extract_variables_outcome_2_6,extract_variables_outcome_2_4,extract_variables_outcome_2_2,]
     outputs:
       highly_sensitive:
-       cohort1: output/matched_outcome_2.csv
+        cohort1: output/matched_outcome_2.csv
         cohort2: output/matched_outcome_4.csv
         cohort3: output/matched_outcome_6.csv
 
