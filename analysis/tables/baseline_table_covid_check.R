@@ -35,14 +35,14 @@ df <- read_csv(
     age = col_number(),
     age_cat = col_factor(),
     sex = col_factor(),
-    practice = col_character,
+    practice = col_number(),
     Covid_test_result_sgss_1 = col_date(format = ""),
     Covid_test_result_sgss_2 = col_date(format = ""),
     covid_positive_count_sgss = col_number(),
     gp_covid_count = col_number(),
     antibiotics_prescriptions = col_number(),
     broad_spectrum_antibiotics_prescriptions = col_number(),
-    patient_id = col_character)
+    patient_id = col_number())
 )
   
 
