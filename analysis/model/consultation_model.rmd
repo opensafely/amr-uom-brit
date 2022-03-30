@@ -370,10 +370,10 @@ labs(
 ```{r}
 ## combine results
 # covid*times
-DF2=bind_rows(est1.1[15,],est2.1[15,],est3.1[15,],est4.1[15,],est5.1[15,],est6.1[15,])
+DF2=bind_rows(est1.1[7,],est2.1[7,],est3.1[7,],est4.1[7,],est5.1[7,],est6.1[7,])
 DF2$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
 #reorder
-DF=DF%>%arrange(Infection)
+DF2=DF2%>%arrange(Infection)
 
 names(DF2)[1]="IRR"
 names(DF2)[2]="ci_l"
