@@ -16,7 +16,7 @@ library("data.table")
 library("dplyr")
 library("tidyverse")
 library("MASS")
-library(tsModel)
+library("Epi")
 #library("gtsummary")
 ```
 
@@ -113,7 +113,12 @@ rm(df)
 ```{r message=FALSE}
 
 
-
+df1$month=as.numeric(df1$month)
+df2$month=as.numeric(df2$month)
+df3$month=as.numeric(df3$month)
+df4$month=as.numeric(df4$month)
+df5$month=as.numeric(df5$month)
+df6$month=as.numeric(df6$month)
 
 # month: categorical variables
 #df1$month=as.character(df1$month)
@@ -162,33 +167,33 @@ rm(df)
 
 ##UTI
 ```{r}
-summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) +times , data = df1))
+summary(m1 <- glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) +times , data = df1))
 ```
 
 ## URTI
 ```{r}
-summary(m2 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12)+times , data = df2))
+summary(m2 <- glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) +times , data = df2))
 ```
 
 ## LRTI
 ```{r}
-summary(m3 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) +times , data = df3))
+summary(m3 <- glm.nb(counts~ offset(log(population))+ covid +  harm(month,2,12) +times , data = df3))
 ```
 
 ## Sinusitis
 ```{r}
-summary(m4 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) +times , data = df4))
+summary(m4 <- glm.nb(counts~ offset(log(population))+ covid +  harm(month,2,12) +times , data = df4))
 ```
 
 ## otitis externa
 ```{r}
-summary(m5 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) +times , data = df5))
+summary(m5 <- glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) +times , data = df5))
 
 ```
 
 ## otitis media
 ```{r}
-summary(m6 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) +times , data = df6))
+summary(m6 <- glm.nb(counts~ offset(log(population))+ covid +  harm(month,2,12) +times , data = df6))
 ```
 
 
@@ -264,32 +269,32 @@ labs(
 
 ## UTI
 ```{r}
-summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) + times + times*covid  , data = df1))
+summary(m1.1 <- glm.nb(counts~ offset(log(population))+ covid +  harm(month,2,12) + times + times*covid  , data = df1))
 ```
 
 ## URTI
 ```{r}
-summary(m2.1 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12)+ times + times*covid  , data = df2))
+summary(m2.1 <- glm.nb(counts~ offset(log(population))+ covid +  harm(month,2,12)+ times + times*covid  , data = df2))
 ```
 
 ## LRTI
 ```{r}
-summary(m3.1 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) + times + times*covid  , data = df3))
+summary(m3.1 <- glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) + times + times*covid  , data = df3))
 ```
 
 ## sinusitis
 ```{r}
-summary(m4.1 <- glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) + times + times*covid  , data = df4))
+summary(m4.1 <- glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) + times + times*covid  , data = df4))
 ```
 
 ## otitis externa
 ```{r}
-summary(m5.1 <-glm.nb(counts~ offset(log(population))+ covid +  harmonic(month,2,12) + times + times*covid  , data = df5))
+summary(m5.1 <-glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) + times + times*covid  , data = df5))
 ```
 
 ## otitis media
 ```{r }
-summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + harmonic(month,2,12) + times + times*covid  , data = df6))
+summary(m6.1 <- glm.nb(counts~ offset(log(population))+ covid + harm(month,2,12) + times + times*covid  , data = df6))
 ```
 
 
