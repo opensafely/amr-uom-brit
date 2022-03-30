@@ -36,8 +36,8 @@ df <- read_csv(
     age_cat = col_factor(),
     sex = col_factor(),
     practice = col_number(),
-    Covid_test_result_sgss_1 = col_date(format = ""),
-    Covid_test_result_sgss_2 = col_date(format = ""),
+    Covid_test_result_sgss_1 = col_integer(),
+    Covid_test_result_sgss_2 = col_integer(),
     covid_positive_count_sgss = col_number(),
     gp_covid_count = col_number(),
     antibiotics_prescriptions = col_number(),
@@ -57,7 +57,7 @@ num_pats <- length(unique(df$patient_id))
 num_pracs <- length(unique(df$practice))
 
 overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
-write_csv(overall_counts_covid, here::here("output", "overall_covid.csv"))
+write_csv(overall_counts, here::here("output", "overall_covid.csv"))
 rm(overall_counts)
 
 
