@@ -132,7 +132,6 @@ p1 <- ggplot(plot1, aes(x=mon, y=prop, group=year)) +
 
 p1
 
-
 ```
 
 ## Excluding Amoxicillin
@@ -260,3 +259,20 @@ p5
 ```
 
 
+```{r echo=FALSE}
+
+kable(df_total, caption = 'Total number of ab by month')
+
+```
+
+```{r echo=FALSE}
+
+kable(df_total_op, caption = 'Total number of ab by month OpenPrescribing')
+
+```
+
+```{r echo=FALSE}
+
+kable(df_broad_op, caption = 'Broad_spectrum by month')
+
+```
