@@ -16,6 +16,7 @@ library("ggplot2")
 library("dplyr")
 library("tidyverse")
 library('lubridate')
+library('knitr')
 ```
 
 
@@ -37,7 +38,6 @@ df <- read_csv(
   na = character()
   )
 
-
 df$date <- as.Date(df$date,format="%Y-%m-%d")
 df[is.na(df)] <- 0 
 
@@ -56,7 +56,7 @@ df$mon <- as.factor(df$cal_mon)
 
 ```
 
-## Broad_spectrum antibiotics frequency table
+## Broad_spectrum antibiotics frequency table--Brit_list
 
 ```{r echo=TRUE}
 
@@ -69,11 +69,12 @@ dfb_total <- dfb %>% group_by(antibacterial_brit_abtype) %>% summarise(
   total_count = sum(antibacterial_brit, na.rm = TRUE)
 )
 
-dfb_total %>% arrange(desc(total_count))
+dfb_total <- dfb_total %>% arrange(desc(total_count))
+kable(dfb_total, caption = 'Broad_spectrum antibiotics frequency table')
 
 ```
 
-## broad_type
+## broad_spectrum prescription trends by type
 
 ```{r}
 
@@ -98,15 +99,7 @@ plot2
 ```
 
 
-
-
-
-
-
-
 ## Percentage diagram
-
-
 
 ```{r echo=TRUE}
 
@@ -142,8 +135,7 @@ p1
 
 ```
 
-
-## excluded Amoxicillin
+## Excluding Amoxicillin
 
 ```{r}
 
@@ -183,55 +175,39 @@ p3
 ```
 
 
-```{r}
-ablist <- c("Benzylpenicillin","Phenoxymethylpenicillin","Flucloxacillin",
-            "Temocillin","Amoxicillin","Ampicillin","Co-fluampicil","Co-amoxiclav","Flucloxacillin",
-            "Piperacillin","Ticarcillin","Pivmecillinam","Cefamandole","Cefazolin","Cefepime","Cefpirome",
-            "Cefprozil","Cefaclor","Cefadroxil","Cefalexin","Cefixime","Cefotaxime","Cefoxitin","Cefpodoxime",
-            "Cefradine","Ceftazidime","Ceftriaxone","Cefuroxime","Cilastatin","Doripenem","Ertapenem","Meropenem",
-            "Aztreonam","Ampicillin",
-"Demeclocycline" ,"Doxycycline",
- "Lymecycline", "Minocycline",
-"Oxytetracycline", "Tetracycline",
-"Tigecycline", "Amikacin",
-"Gentamicin", "Neomycin",
-"Netilmicin", "Tobramycin",
-"Azithromycin", "Clarithromycin",
-"Erythromycin", "Telithromycin",
- "Clindamycin" ,"Chloramphenicol",
-"Colistimethate", "Dalbavancin",
-"Dalfopristin", "Daptomycin",
-"Fidaxomicin", "Fosfomycin",
-"Fusidate", "Linezolid",
-"Nitazoxanid", "Pristinamycin",
-"Rifaximin", "Taurolidin",
-"Tedizolid", "Teicoplanin",
-"Vancomycin", "Sulfadiazine",
-"Sulfamethoxazole", "Sulfapyridine",
-"Trimethoprim", "Metronidazole",
-"Tinidazole", "Amoxicillin",
-"Ciprofloxacin", "Levofloxacin",
-"Moxifloxacin", "Nalidixic acid",
-"Norfloxacin", "Ofloxacin",
-"Fosfomycin", "Methenamine",
- "Nitrofurantoin")
+## Use antibiotics list and broad_spectrum list on openprescribing.
 
-df_total2 <- df %>% filter(antibacterial_brit_abtype %in% ablist )
-df_total2 <-  df_total2 %>% group_by(date) %>% summarise(
+```{r}
+broad_type_op <- c("Co-amoxiclav", "Cefaclor", 
+  "Cefadroxil", "Cefixime", "Cefotaxime", "Ceftriaxone", "Ceftazidime", 
+  "Cefuroxime", "Cefalexin", "Cefradine", "Moxifloxacin", "Ciprofloxacin", 
+  "Nalidixic acid", "Levofloxacin", "Norfloxacin", "Ofloxacin")
+
+overall_type_op <- abtypelist <- c("Amoxicillin", "Ampicillin", "Co-amoxiclav", 
+  "Benzylpenicillin", "Co-fluampicil", "Flucloxacillin", "Temocillin", 
+  "Phenoxymethylpenicillin", "Piperacillin", "Pivmecillinam", "Ticarcillin", 
+  "Cefaclor", "Cefadroxil", "Cefixime", "Cefotaxime", "Ceftriaxone", 
+  "Ceftazidime", "Cefuroxime", "Cefalexin", "Cefradine", "Tetracycline", 
+  "Minocycline", "Demeclocycline", "Doxycycline", "Lymecycline", 
+  "Oxytetracycline", "Tigecycline", "Azithromycin", "Clarithromycin", 
+  "Erythromycin", "Telithromycin", "Trimethoprim", "Sulfadiazine", 
+  "Sulfamethoxazole", "Sulfapyridine", "Tinidazole", "Metronidazole", 
+  "Moxifloxacin", "Ciprofloxacin", "Nalidixic acid", "Levofloxacin", 
+  "Norfloxacin", "Ofloxacin", "Fosfomycin", "Nitrofurantoin", "Methenamine")
+
+df_total_op <- df %>% filter(antibacterial_brit_abtype %in% overall_type_op )
+df_total_op <-  df_total_op %>% group_by(date) %>% summarise(
   ab_total = sum(antibacterial_brit, na.rm = TRUE)
 )
 
-broadtype2 <- c("Ampicillin","Co-amoxiclav","Moxifloxacin","Cefaclor","Cefadroxil","Cefuroxime",     "Cefalexin","Cefazolin","Cefixime","Cefotaxime","Cefoxitin","Cefradine","Cefpirome","Ceftazidime","Ceftriaxone",    "Cefprozil","Ciprofloxacin","Co-fluampicil","Doripenem","Ertapenem", "Cilastatin","Cefamandole","Levofloxacin" , 
-"Meropenem" ,"Nalidixic acid","Norfloxacin", "Ofloxacin","Cefpodoxime","Cefepime")
 
+df_broad_op <- df %>% filter(antibacterial_brit_abtype %in% broad_type_op )
 
-dfb2 <- df %>% filter(antibacterial_brit_abtype %in% broadtype2 )
-
-df_b2 <- dfb2 %>% group_by(date) %>% summarise(
+df_broad_op <- df_broad_op %>% group_by(date) %>% summarise(
   b_total = sum(antibacterial_brit, na.rm = TRUE)
 )
 
-plot4 <- merge(df_b2,df_total2, by = 'date')
+plot4 <- merge(df_broad_op,df_total_op, by = 'date')
 plot4$cal_mon <- month(plot4$date)
 plot4$cal_year <- year(plot4$date)
 plot4$year <- as.factor(plot4$cal_year)
@@ -255,5 +231,32 @@ p4
 
 ```
 
+## Use broad_spectrum list on openprescribing by Brit overall
+
+```{r}
+plot5 <- merge(df_broad_op,df_total, by = 'date')
+plot5$cal_mon <- month(plot5$date)
+plot5$cal_year <- year(plot5$date)
+plot5$year <- as.factor(plot5$cal_year)
+plot5$mon <- as.factor(plot5$cal_mon)
+plot5 <- plot5 %>% mutate(prop = b_total/ab_total)
+
+
+p5 <- ggplot(plot5, aes(x=mon, y=prop, group=year)) +
+  geom_line(aes(color=year))+
+  geom_point(aes(color=year))+
+  scale_color_brewer(palette="Paired")+
+  theme_minimal()+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.001))+
+  labs(
+    title = "Proportion of broad-spectrum antibiotics prescribed",
+    subtitle = paste(first_mon,"-",last_mon),
+    x = "Month",
+    y = "broad-spectrum antibiotics prescribing %")
+
+p5
+
+
+```
 
 
