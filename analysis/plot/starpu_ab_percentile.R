@@ -78,7 +78,7 @@ month_mean_starpu_df <- select(starpu_quantiles, starpu_mean,lowquart,
 month_mean_starpu_df <- month_mean_starpu_df %>% group_by(date) %>%
   slice_head()
 
-write.csv(month_mean_starpu_df, file="monthly_quantile_ab_STARPU.csv")
+write.csv(month_mean_starpu_df, here::here("output","monthly_quantile_ab_STARPU.csv"))
 rm(month_mean_starpu_df)
 
 plot_percentile_STARPU <- ggplot(starpu_quantiles, aes(x=date))+
