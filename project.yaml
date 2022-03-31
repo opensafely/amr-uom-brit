@@ -65,16 +65,15 @@ actions:
     needs: [generate_measures]
     outputs:
       moderately_sensitive:
-        percentile: output/overall_25th_75th_percentile.png
+        percentile: output/overall_25th_75th_percentile.jpeg
         table_total: output/total_number_antibacterial_prescriptions.csv
 
-  # describe_starpu:
-  #   run: r:latest analysis/plot/starpu_ab_prescribing.R
-  #   needs: [generate_measures]
-  #   outputs:
-  #     moderately_sensitive:
-  #       cohort: output/starpuline.png
-  #       boxplot: output/starpubox.png
+  describe_percentile_starpu:
+    run: r:latest analysis/plot/starpu_ab_percentile.R
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        percentile_STARPU: output/overall_25th_75th_percentile_STARPU.jpeg
   
   # generate_notebook_starpu:
   #   run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400

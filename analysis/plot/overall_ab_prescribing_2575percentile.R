@@ -83,7 +83,7 @@ plot_percentile <- ggplot(df_mean, aes(x=date))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
-    title = "Antibiotics prescribing rate by month",
+    title = "Antibiotic prescribing rate by month",
     subtitle = paste(first_mon,"-",last_mon),
     caption = paste("Data from approximately", num_uniq_prac,"TPP Practices"),
     x = "",
@@ -95,7 +95,7 @@ plot_percentile
 
 ggsave(
   plot= plot_percentile,
-  filename="overall_25th_75th_percentile.png", path=here::here("output"),
+  filename="overall_25th_75th_percentile.jpeg", path=here::here("output"),
 )
 
 

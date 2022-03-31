@@ -882,12 +882,12 @@ measures = [
     #         ),
 
     
-    ## STRPU antibiotics
-    # Measure(id="STARPU_antibiotics",
-    #         numerator="antibacterial_brit",
-    #         denominator="population",
-    #         group_by=["practice", "sex", "age_cat"]
-    #         ),
+    # STRPU antibiotics
+    Measure(id="STARPU_antibiotics",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["practice", "sex", "age_cat"]
+            ),
 
     # ## STRPU broad_spectrum
     # Measure(id="STARPU_broad_spectrum",
