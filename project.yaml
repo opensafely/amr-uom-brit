@@ -74,6 +74,7 @@ actions:
     outputs:
       moderately_sensitive:
         percentile_STARPU: output/overall_25th_75th_percentile_STARPU.jpeg
+        percentile_csv_STARPU: output/monthly_quantile_ab_STARPU.csv
   
   # generate_notebook_starpu:
   #   run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
