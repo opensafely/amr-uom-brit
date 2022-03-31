@@ -9,6 +9,7 @@
 library('tidyverse')
 library("ggplot2")
 library("dplyr")
+library('lubridate')
 
 # impoprt data
 starpu <- read_csv(
@@ -17,7 +18,7 @@ starpu <- read_csv(
     practice = col_number(),
     sex = col_character(),
     age_cat = col_factor(),
-    antibacterial_prescriptions = col_number(),
+    antibacterial_brit = col_number(),
     population = col_number(),
     value = col_number(),
     date = col_date(format="%Y-%m-%d")
@@ -31,9 +32,9 @@ starpu <- starpu %>% filter(practice >0)
 #summary(starpu$antibacterial_brit)
 
 # remove last month data
-starpu$date <- as.Date(df$date)
+starpu$date <- as.Date(starpu$date)
 last.date=max(starpu$date)
-starpu=starpudf%>% filter(date!=last.date)
+starpu=starpu%>% filter(date!=last.date)
 first_mon <- (format(min(starpu$date), "%m-%Y"))
 last_mon <- (format(max(starpu$date), "%m-%Y"))
 num_uniq_prac <- as.numeric(dim(table((starpu$practice))))
