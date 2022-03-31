@@ -749,6 +749,13 @@ actions:
       moderately_sensitive:
         html: output/report/broad_type.html
 
+  describe_broad_percentage_op:
+    run: r:latest analysis/plot/broad_percentage_op.R
+    needs: [describe_ab_type_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/broad_percentage_op.jpeg
+
 
 
   # describe_broad_proportion_measure:
