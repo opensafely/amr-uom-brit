@@ -33,7 +33,7 @@ from osmatching import match
 match(
     case_csv="case_covid_hosp",
     match_csv="control_covid_infection",
-    matches_per_case=4,
+    matches_per_case=6,
     match_variables={
         "sex": "category",
         "age": 5, #+- 5 years old
