@@ -73,6 +73,14 @@ starpu_quantiles <- measurstarpu %>% group_by(date) %>%
          ninefive= quantile(starpu_month_1000, na.rm=TRUE, c(0.95)),
          five=quantile(starpu_month_1000, na.rm=TRUE, c(0.05)))
 
+month_mean_starpu_df <- select(starpu_quantiles, starpu_mean,lowquart,
+                               highquart,ninefive,five)
+month_mean_starpu_df <- month_mean_starpu_df %>% group_by(date) %>%
+  slice_head()
+
+write.csv(month_mean_starpu_df, file="monthly_quantile_ab_STARPU.csv")
+rm(month_mean_starpu_df)
+
 plot_percentile_STARPU <- ggplot(starpu_quantiles, aes(x=date))+
     geom_line(aes(y=starpu_mean),color="steelblue")+
     geom_point(aes(y=starpu_mean),color="steelblue")+
