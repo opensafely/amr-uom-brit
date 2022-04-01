@@ -58,6 +58,9 @@ df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59"
 ##antibiotic type
 # select ab types columns
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
+
+df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag
+
 # count number of types
 df$ab_types=rowSums(df[col]>0)
 df=df[ ! names(df) %in% col]
@@ -71,24 +74,31 @@ df$ab_first_date=as.Date(df$ab_first_date)
 df$interval=as.integer(difftime(df$ab_last_date,df$ab_first_date,unit="day"))
 df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ record to 1
 
-df$ab_freq=df$ab_prescriptions/df$interval
-df$ab_freq.type=df$ab_types/df$interval
-
 df$lastABtime=as.integer(difftime(df$ab_last_date,df$patient_index_date,unit="day"))
 
-## quantile category
+## quintile category
 
-quintile<-function(x){
-  ifelse(x>quantile(x,.8),"5",
-         ifelse(x>quantile(x,.6),"4",
-                ifelse(x>quantile(x,.4),"3",
-                       ifelse(x>quantile(x,.2),"2","1"))))}
+# quintile<-function(x){
+#   ifelse(x>quantile(x,.8),"5",
+#          ifelse(x>quantile(x,.6),"4",
+#                 ifelse(x>quantile(x,.4),"3",
+#                        ifelse(x>quantile(x,.2),"2","1"))))}
 
-df$ab_qn=quintile(df$ab_prescriptions)
-df$br_ab_qn=quintile(df$broad_ab_prescriptions)
+# df$ab_qn=quintile(df$ab_prescriptions)
+# df$br_ab_qn=quintile(df$broad_ab_prescriptions)
+
+df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
+
+df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5),
+               br_ab_qn=ntile(broad_ab_prescriptions,5))
+
+df$ab_qn=ifelse(is.na(df$ab_qn),0,df$ab_qn)# no ab ->0; ab exp. ->1~5
+df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
 
 df$ab_qn=as.factor(df$ab_qn)
 df$br_ab_qn=as.factor(df$br_ab_qn)
+
 
 
 ######## confounding variables #########
