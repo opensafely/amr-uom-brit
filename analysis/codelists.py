@@ -31,6 +31,10 @@ broad_spectrum_antibiotics_codes = codelist_from_csv(
     "codelists/user-rriefu-broad-spectrum-antibiotics.csv", system="snomed", column="dmd_id", category_column="type",
 )
 
+broad_spectrum_antibiotics_op = codelist_from_csv(
+    "codelists/user-BillyZhongUOM-broad_spectrum_op.csv", system="snomed", column="dmd_id", category_column="type",
+)
+
 
 ### asthma & COPD
 asthma_copd_codes = codelist_from_csv(
@@ -460,3 +464,4 @@ antibiotics_indications= codelist_from_csv(
   column = "code",
   category_column="category",
 )
+
