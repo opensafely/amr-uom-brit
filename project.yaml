@@ -230,12 +230,19 @@ actions:
       moderately_sensitive:
         html: output/check_matching_3.html
 
-  check_exposures_outcome2_3:
-    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  check_exposures_outcome2:
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [merge_outcome2_3]
     outputs:
       moderately_sensitive:
-        html: output/check_exposures_outcome2_3.html 
+        html: output/check_exposures_outcome2.html 
+
+  check_exposures_outcome3:
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_outcome3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [merge_outcome2_3]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_outcome3.html 
 
   model_univariable_outcome2:
     run: r:latest -e 'rmarkdown::render("analysis/model_univariable_outcome2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
