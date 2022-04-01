@@ -172,7 +172,7 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
 # variables for analysis
-df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval","ab_freq","ab_freq.type", "lastABtime","ab_qn", "br_ab_qn"))
+df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval", "lastABtime","ab_qn", "br_ab_qn"))
 
 
 
@@ -237,8 +237,6 @@ df$ab_first_date=as.Date(df$ab_first_date)
 df$interval=as.integer(difftime(df$ab_last_date,df$ab_first_date,unit="day"))
 df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ record to 1
 
-df$ab_freq=df$ab_prescriptions/df$interval
-df$ab_freq.type=df$ab_types/df$interval
 
 df$lastABtime=as.integer(difftime(df$patient_index_date,df$ab_last_date,unit="day"))
 
@@ -335,7 +333,7 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
 # variables for analysis
-df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval","ab_freq","ab_freq.type", "lastABtime","ab_qn", "br_ab_qn"))
+df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval", "lastABtime","ab_qn", "br_ab_qn"))
 
 
 
@@ -400,8 +398,8 @@ df$ab_first_date=as.Date(df$ab_first_date)
 df$interval=as.integer(difftime(df$ab_last_date,df$ab_first_date,unit="day"))
 df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ record to 1
 
-df$ab_freq=df$ab_prescriptions/df$interval
-df$ab_freq.type=df$ab_types/df$interval
+
+
 
 df$lastABtime=as.integer(difftime(df$ab_last_date,df$patient_index_date,unit="day"))
 
