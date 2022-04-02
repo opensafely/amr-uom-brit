@@ -10,6 +10,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_*.csv.gz
+
+  generate_study_population_broad_comparison:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_broad_comparison --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_broad_*.csv.gz
   
   generate_study_population_covidcheck:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_covidcheck_2 
@@ -44,6 +50,13 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_infection_*.csv
+
+  generate_measures_broad:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_broad_comparison --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_broad_comparison]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_broad_*.csv
         
   # describe_elderly_agedis:
   #   run: r:latest analysis/tables/gen_csv_age_check.R
