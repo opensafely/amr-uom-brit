@@ -759,12 +759,12 @@ actions:
         plot4: output/redacted_v2/noAB_sinusitis.jpeg
         plot5: output/redacted_v2/noAB_ot_externa.jpeg
         plot6: output/redacted_v2/noAB_otmedia.jpeg
-        csv1: output/redacted_v2/abtype_uti_check.csv
-        csv2: output/redacted_v2/abtype_lrti_check.csv
-        csv3: output/redacted_v2/abtype_urti_check.csv
-        csv4: output/redacted_v2/abtype_sinusitis_check.csv
-        csv5: output/redacted_v2/abtype_ot_externa_check.csv
-        csv6: output/redacted_v2/abtype_otmedia_check.csv
+        csv1: output/redacted_v2/noAB_uti_check.csv
+        csv2: output/redacted_v2/noAB_lrti_check.csv
+        csv3: output/redacted_v2/noAB_urti_check.csv
+        csv4: output/redacted_v2/noAB_sinusitis_check.csv
+        csv5: output/redacted_v2/noAB_ot_externa_check.csv
+        csv6: output/redacted_v2/noAB_otmedia_check.csv
         csv7: output/redacted_v2/noAB.csv
 
 
