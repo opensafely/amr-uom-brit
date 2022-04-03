@@ -2,70 +2,41 @@ library("tidyverse")
 library('dplyr')
 library('lubridate')
 
-
-df19_ab = read_rds(here::here("output","measures","recorded_ab_type_2019.rds"))
-df19_ab=dplyr::bind_rows(df19_ab)
-
-df20_ab = read_rds(here::here("output","measures","recorded_ab_type_2020.rds"))
-df20_ab=dplyr::bind_rows(df20_ab)
-
-df21_ab = read_rds(here::here("output","measures","recorded_ab_type_2021.rds"))
-df21_ab=dplyr::bind_rows(df21_ab)
-
-df22_ab = read_rds(here::here("output","measures","recorded_ab_type_2022.rds"))
-df22_ab=dplyr::bind_rows(df22_ab)
-
-
-df <- rbind(df19_ab,df20_ab,df21_ab,df22_ab)
-rm(df19_ab,df20_ab,df21_ab,df22_ab)
-
-df <- df %>% group_by(date,type) %>% summarise(
-  abcount = sum(count, na.rm = TRUE)
+df1 <- read_csv(
+  here::here("output", "measures", "measure_broad_op_proportion.csv"),  
+  col_types = cols_only(
+    practice = col_integer(),
+    # Outcomes
+    broad_spectrum_op  = col_double(),
+    antibacterial_brit = col_double(),
+    value = col_double(),
+    
+    # Date
+    date = col_date(format="%Y-%m-%d")
+    
+  ),
+  na = character()
 )
 
-## openprescribing 
-broad_type_op <- c("Co-amoxiclav", "Cefaclor", 
-                   "Cefadroxil", "Cefixime", "Cefotaxime", "Ceftriaxone", "Ceftazidime", 
-                   "Cefuroxime", "Cefalexin", "Cefradine", "Moxifloxacin", "Ciprofloxacin", 
-                   "Nalidixic acid", "Levofloxacin", "Norfloxacin", "Ofloxacin")
+# remove last month data
+last.date=max(df1$date)
+df1=df1%>% filter(date != last.date)
+first_mon=format(min(df1$date),"%m-%Y")
+last_mon= format(max(df1$date),"%m-%Y")
 
-overall_type_op <- c("Amoxicillin", "Ampicillin", "Co-amoxiclav", 
-                                   "Benzylpenicillin", "Co-fluampicil", "Flucloxacillin", "Temocillin", 
-                                   "Phenoxymethylpenicillin", "Piperacillin", "Pivmecillinam", "Ticarcillin", 
-                                   "Cefaclor", "Cefadroxil", "Cefixime", "Cefotaxime", "Ceftriaxone", 
-                                   "Ceftazidime", "Cefuroxime", "Cefalexin", "Cefradine", "Tetracycline", 
-                                   "Minocycline", "Demeclocycline", "Doxycycline", "Lymecycline", 
-                                   "Oxytetracycline", "Tigecycline", "Azithromycin", "Clarithromycin", 
-                                   "Erythromycin", "Telithromycin", "Trimethoprim", "Sulfadiazine", 
-                                   "Sulfamethoxazole", "Sulfapyridine", "Tinidazole", "Metronidazole", 
-                                   "Moxifloxacin", "Ciprofloxacin", "Nalidixic acid", "Levofloxacin", 
-                                   "Norfloxacin", "Ofloxacin", "Fosfomycin", "Nitrofurantoin", "Methenamine")
 
-df_total_op <- df %>% filter(type %in% overall_type_op )
-df_total_op <-  df_total_op %>% group_by(date) %>% summarise(
-  ab_total = sum(abcount, na.rm = TRUE)
+plot1 <- df1 %>% group_by(date) %>% summarise(
+  b_count = sum(broad_spectrum_op, na.rm = TRUE),
+  ab_count = sum(antibacterial_brit, na.rm = TRUE)
 )
 
-df_broad_op <- df %>% filter(type %in% broad_type_op )
+plot1 <- plot1 %>% mutate(prop = b_count/ab_count)
+plot1$cal_mon <- month(plot1$date)
+plot1$cal_year <- year(plot1$date)
+plot1$year <- as.factor(plot1$cal_year)
+plot1$mon <- as.factor(plot1$cal_mon)
 
-df_broad_op <- df_broad_op %>% group_by(date) %>% summarise(
-  b_total = sum(abcount, na.rm = TRUE)
-)
-
-plot <- merge(df_broad_op,df_total_op, by = 'date')
-last.date=max(plot$date)
-plot=plot%>% filter(date!=last.date)
-first_mon=format(min(plot$date),"%m-%Y")
-last_mon= format(max(plot$date),"%m-%Y")
-
-plot$cal_mon <- month(plot$date)
-plot$cal_year <- year(plot$date)
-plot$year <- as.factor(plot$cal_year)
-plot$mon <- as.factor(plot$cal_mon)
-plot <- plot %>% mutate(prop = b_total/ab_total)
-
-
-p <- ggplot(plot, aes(x=mon, y=prop, group=year)) +
+p <- ggplot(plot1, aes(x=mon, y=prop, group=year)) +
   geom_line(aes(color=year))+
   geom_point(aes(color=year))+
   scale_color_brewer(palette="Paired")+
@@ -82,3 +53,5 @@ ggsave(
   plot= p,
   filename="broad_percentage_op.jpeg", path=here::here("output"),
 )
+
+
