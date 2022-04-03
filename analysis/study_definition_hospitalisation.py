@@ -357,10 +357,42 @@ study = StudyDefinition(
         },
     ),
 
-    ## all meds except antibiotics (dmd codes)
-    meds_nonabs=patients.with_these_medications(
-        meds_nonabs_codes,
-        between=["index_date - 12 months", "last_day_of_month(index_date)"],
+    # antibacterial_brit_binary=patients.with_these_medications(
+    #     antibacterials_codes_brit,
+    #     # between=["index_date", "last_day_of_month(index_date)"],
+    #     between=["index_date - 12 months", "last_day_of_month(index_date)"],
+    #     returning="binary_flag",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+    #         "incidence": 0.5,
+    #     },
+    # )
+
+    # ## all meds (dmd codes)
+    # all_meds_binary=patients.with_these_medications(
+    #     meds_nonabs_codes, # dmd codes for *all* meds incl abs
+    #     between=["index_date - 1 months", "last_day_of_month(index_date)"],
+    #     returning="binary_flag",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+    #         "incidence": 0.5,
+    #     },
+    # ),
+
+    # ## all meds except antibiotics (dmd codes) 
+    # all_meds_nonabs_binary=patients.satisfying(
+    #     """
+    #     all_meds_binary AND NOT
+    #     antibacterial_brit_binary
+    #     """,
+    # ),
+
+
+    # all meds except antibiotics (dmd codes) 
+    antibacterial_brit_one_month=patients.with_these_medications(
+        antibacterials_codes_brit,
+        # between=["index_date", "last_day_of_month(index_date)"],
+        between=["index_date - 1 months", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
@@ -368,14 +400,15 @@ study = StudyDefinition(
         },
     ),
 
-    # ## Broad spectrum antibiotics
-    # broad_spectrum_antibiotics_prescriptions=patients.with_these_medications(
-    #     broad_spectrum_antibiotics_codes,
-    #     between=["index_date", "last_day_of_month(index_date)"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    # ),
+    all_meds_one_month=patients.with_these_medications(
+        all_meds_codes,
+        between=["index_date - 1 months", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 
     ## Covid positive test result
     sgss_positive=patients.with_test_result_in_sgss(
@@ -398,48 +431,48 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
     ),
 
-    ### First COVID vaccination medication code (any)
-    covrx1_dat=patients.with_vaccination_record(
-        returning="date",
-        tpp={
-            "product_name_matches": [
-                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
-            ],
-        },
-        emis={
-            "product_codes": covrx_code,
-        },
-        find_first_match_in_period=True,
-        on_or_before="index_date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
-            "incidence": 0.5,
-        }
-    ),
-    # Second COVID vaccination medication code (any)
-    covrx2_dat=patients.with_vaccination_record(
-        returning="date",
-        tpp={
-            "product_name_matches": [
-                "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
-                "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
-                "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
-            ],
-        },
-        emis={
-            "product_codes": covrx_code,
-        },
-        find_last_match_in_period=True,
-        on_or_after="covrx1_dat + 19 days",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "rate": "exponential_increase", 
-            "incidence": 0.5,
-        }
-    ),
+    # ### First COVID vaccination medication code (any)
+    # covrx1_dat=patients.with_vaccination_record(
+    #     returning="date",
+    #     tpp={
+    #         "product_name_matches": [
+    #             "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+    #             "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+    #             "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+    #         ],
+    #     },
+    #     emis={
+    #         "product_codes": covrx_code,
+    #     },
+    #     find_first_match_in_period=True,
+    #     on_or_before="index_date",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "rate": "exponential_increase", "date":{"earliest":"2020-11-29"},
+    #         "incidence": 0.5,
+    #     }
+    # ),
+    # # Second COVID vaccination medication code (any)
+    # covrx2_dat=patients.with_vaccination_record(
+    #     returning="date",
+    #     tpp={
+    #         "product_name_matches": [
+    #             "COVID-19 mRNA Vac BNT162b2 30mcg/0.3ml conc for susp for inj multidose vials (Pfizer-BioNTech)",
+    #             "COVID-19 Vac AstraZeneca (ChAdOx1 S recomb) 5x10000000000 viral particles/0.5ml dose sol for inj MDV",
+    #             "COVID-19 mRNA (nucleoside modified) Vaccine Moderna 0.1mg/0.5mL dose dispersion for inj MDV",
+    #         ],
+    #     },
+    #     emis={
+    #         "product_codes": covrx_code,
+    #     },
+    #     find_last_match_in_period=True,
+    #     on_or_after="covrx1_dat + 19 days",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={
+    #         "rate": "exponential_increase", 
+    #         "incidence": 0.5,
+    #     }
+    # ),
 
     ## hospitalisation
     admitted=patients.admitted_to_hospital(
@@ -1531,7 +1564,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["uti_date_1 - 42 days", "uti_date_1"],
+        between=["gp_cons_uti_1 - 42 days", "gp_cons_uti_1"], #["uti_date_1 - 42 days", "uti_date_1"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}} #could not use "uti_date_1 - 42 days", as only index_date and today allowed??
     ),
@@ -1541,7 +1574,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["uti_date_2 - 42 days", "uti_date_2"],
+        between=["gp_cons_uti_2 - 42 days", "gp_cons_uti_2"], #["uti_date_2 - 42 days", "uti_date_2"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1551,7 +1584,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["uti_date_3 - 42 days", "uti_date_3"],
+        between=["gp_cons_uti_3 - 42 days", "gp_cons_uti_3"], #["uti_date_3 - 42 days", "uti_date_3"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1561,11 +1594,10 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["uti_date_4 - 42 days", "uti_date_4"],
+        between=["gp_cons_uti_4 - 42 days", "gp_cons_uti_4"], #["uti_date_4 - 42 days", "uti_date_4"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
-
 
     #  --URTI 
     incdt_urti_date_1=patients.with_these_clinical_events(
@@ -1573,7 +1605,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["urti_date_1 - 42 days", "urti_date_1"],
+        between=["gp_cons_urti_1 - 42 days", "gp_cons_urti_1"], #["urti_date_1 - 42 days", "urti_date_1"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1583,7 +1615,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["urti_date_2 - 42 days", "urti_date_2"],
+        between=["gp_cons_urti_2 - 42 days", "gp_cons_urti_2"], #["urti_date_2 - 42 days", "urti_date_2"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1593,7 +1625,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["urti_date_3 - 42 days", "urti_date_3"],
+        between=["gp_cons_urti_3 - 42 days", "gp_cons_urti_3"], #["urti_date_3 - 42 days", "urti_date_3"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1603,7 +1635,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["urti_date_4 - 42 days", "urti_date_4"],
+        between=["gp_cons_urti_4 - 42 days", "gp_cons_urti_4"], #["urti_date_4 - 42 days", "urti_date_4"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1614,7 +1646,7 @@ study = StudyDefinition(
         lrti_codes,
         returning="date",
         date_format="YYYY-MM-DD",
-        between=["lrti_date_1 - 42 days", "lrti_date_1"],
+        between=["gp_cons_lrti_1 - 42 days", "gp_cons_lrti_1"], #["lrti_date_1 - 42 days", "lrti_date_1"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1623,7 +1655,7 @@ study = StudyDefinition(
         lrti_codes,
         returning="date",
         date_format="YYYY-MM-DD",
-        between=["lrti_date_2 - 42 days", "lrti_date_2"],
+        between=["gp_cons_lrti_2 - 42 days", "gp_cons_lrti_2"], #["lrti_date_2 - 42 days", "lrti_date_2"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1632,7 +1664,7 @@ study = StudyDefinition(
         lrti_codes,
         returning="date",
         date_format="YYYY-MM-DD",
-        between=["lrti_date_3 - 42 days", "lrti_date_3"],
+        between=["gp_cons_lrti_3 - 42 days", "gp_cons_lrti_3"], #["lrti_date_3 - 42 days", "lrti_date_3"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1641,7 +1673,7 @@ study = StudyDefinition(
         lrti_codes,
         returning="date",
         date_format="YYYY-MM-DD",
-        between=["lrti_date_4 - 42 days", "lrti_date_4"],
+        between=["gp_cons_lrti_4 - 42 days", "gp_cons_lrti_4"], #["lrti_date_4 - 42 days", "lrti_date_4"]
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
     ),
@@ -1779,7 +1811,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_1", "uti_date_1 + 42 days"],
+       between=["gp_cons_uti_1", "gp_cons_uti_1 + 42 days"], #["uti_date_1", "uti_date_1 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1788,7 +1820,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_2", "uti_date_2 + 42 days"],
+       between=["gp_cons_uti_2", "gp_cons_uti_2 + 42 days"], #["uti_date_2", "uti_date_2 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1797,7 +1829,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_3", "uti_date_3 + 42 days"],
+       between=["gp_cons_uti_3", "gp_cons_uti_3 + 42 days"], #["uti_date_3", "uti_date_3 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1806,7 +1838,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["uti_date_4", "uti_date_4 + 42 days"],
+       between=["gp_cons_uti_4", "gp_cons_uti_4 + 42 days"], #["uti_date_4", "uti_date_4 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1816,7 +1848,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_1", "urti_date_1 + 42 days"],
+       between=["gp_cons_urti_1", "gp_cons_urti_1 + 42 days"], #["urti_date_1", "urti_date_1 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1825,7 +1857,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_2", "urti_date_2 + 42 days"],
+       between=["gp_cons_urti_2", "gp_cons_urti_2 + 42 days"], #["urti_date_2", "urti_date_2 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1834,7 +1866,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_3", "urti_date_3 + 42 days"],
+       between=["gp_cons_urti_3", "gp_cons_urti_3 + 42 days"], #["urti_date_3", "urti_date_3 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1843,7 +1875,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["urti_date_4", "urti_date_4 + 42 days"],
+       between=["gp_cons_urti_4", "gp_cons_urti_4 + 42 days"], #["urti_date_4", "urti_date_4 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1853,7 +1885,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["lrti_date_1", "lrti_date_1 + 42 days"],
+       between=["gp_cons_lrti_1", "gp_cons_lrti_1 + 42 days"], #["lrti_date_1", "lrti_date_1 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1862,7 +1894,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["lrti_date_2", "lrti_date_2 + 42 days"],
+       between=["gp_cons_lrti_2", "gp_cons_lrti_2 + 42 days"], #["lrti_date_2", "lrti_date_2 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1871,7 +1903,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["lrti_date_3", "lrti_date_3 + 42 days"],
+       between=["gp_cons_lrti_3", "gp_cons_lrti_3 + 42 days"], #["lrti_date_3", "lrti_date_3 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -1880,7 +1912,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["lrti_date_4", "lrti_date_4 + 42 days"],
+       between=["gp_cons_lrti_4", "gp_cons_lrti_4 + 42 days"], #["lrti_date_4", "lrti_date_4 + 42 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),

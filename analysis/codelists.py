@@ -32,7 +32,7 @@ broad_spectrum_antibiotics_codes = codelist_from_csv(
 )
 
 ### all meds
-meds_nonabs_codes = codelist_from_csv(
+all_meds_codes = codelist_from_csv(
     "codelists/user-yayang-nonab.csv", 
     system="snomed", 
     column="dmd"
