@@ -32,12 +32,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -60,12 +61,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
   
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -197,12 +199,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -225,12 +228,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -361,12 +365,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -389,12 +394,12 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -525,12 +530,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -553,12 +559,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -688,12 +695,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -716,12 +724,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -853,12 +862,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -881,12 +891,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
