@@ -349,12 +349,12 @@ actions:
   #     moderately_sensitive:
   #       html: output/report/consultation_model_harmonic_month.html
 
-  consultation_model_zero_truncated: # zero-truncated negative binomial
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_zero_truncated.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_zero_truncated.html
+  # consultation_model_zero_truncated: # zero-truncated negative binomial
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_zero_truncated.rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_model_process_1]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_zero_truncated.html
 
 
 
