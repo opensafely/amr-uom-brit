@@ -32,12 +32,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -60,12 +61,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
   
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -111,7 +113,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -127,7 +129,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
           labels = c("A", "B"),
@@ -197,12 +199,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -225,12 +228,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -276,8 +280,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
-
+  scale_y_continuous(labels = scales::percent)
+  
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
@@ -292,7 +296,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -361,12 +365,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -389,12 +394,12 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -440,7 +445,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -456,7 +461,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -525,12 +530,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -553,12 +559,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -604,7 +611,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -620,7 +627,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -688,12 +695,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -716,12 +724,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -767,7 +776,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -783,7 +792,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -853,12 +862,13 @@ df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
-# calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.1=df.1%>%
@@ -881,12 +891,13 @@ df.1.noAB=df.1%>%filter(is.na(abtype))
 df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
 
 ##select incident cases
-#  calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
 # list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+# calculate ab types
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -932,7 +943,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -948,7 +959,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
