@@ -184,7 +184,7 @@ lineplot=annotate_figure(lineplot,
                                    hjust = 1, x = 1, size = 10),
                  fig.lab =paste0("Top 10 antibiotic types prescribed for UTI patients       ",
                                          first_mon," - ",last_mon),
-                left = text_grob("rate per 1000 UTI patients", rot = 90),
+                left = text_grob("counts per 1000 UTI patients", rot = 90),
 )
 
 
@@ -370,7 +370,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Top 10 antibiotic types prescribed for LRTI patients       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("rate per 1000 LRTI patients", rot = 90),
+                         left = text_grob("counts per 1000 LRTI patients", rot = 90),
 )
 
 
@@ -556,7 +556,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Top 10 antibiotic types prescribed for URTI patients       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("rate per 1000 URTI patients", rot = 90),
+                         left = text_grob("counts per 1000 URTI patients", rot = 90),
 )
 
 
@@ -739,7 +739,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Top 10 antibiotic types prescribed for sinusitis patients       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("rate per 1000 sinusitis patients", rot = 90),
+                         left = text_grob("counts per 1000 sinusitis patients", rot = 90),
 )
 
 
@@ -923,7 +923,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Top 10 antibiotic types prescribed for otitis externa patients       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("rate per 1000 otitis externa patients", rot = 90),
+                         left = text_grob("counts per 1000 otitis externa patients", rot = 90),
 )
 
 
@@ -1107,7 +1107,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Top 10 antibiotic types prescribed for otitis media patients       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("rate per 1000 otitis media patients", rot = 90),
+                         left = text_grob("counts per 1000 otitis media patients", rot = 90),
 )
 
 

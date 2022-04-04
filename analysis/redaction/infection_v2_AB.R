@@ -89,8 +89,8 @@ df.0$percentage=df.0$count/df.0$total
 
 ## csv check for plot
 rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
+df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "AB_uti_check.csv"))
 
@@ -256,8 +256,8 @@ df.0$percentage=df.0$count/df.0$total
 
 ## csv check for plot
 rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
+df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "AB_lrti_check.csv"))
 
@@ -423,8 +423,8 @@ df.0$percentage=df.0$count/df.0$total
 
 ## csv check for plot
 rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
+df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "AB_urti_check.csv"))
 
@@ -589,8 +589,8 @@ df.0$percentage=df.0$count/df.0$total
 
 ## csv check for plot
 rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
+df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check.csv"))
 
@@ -758,8 +758,8 @@ df.0$percentage=df.0$count/df.0$total
 
 ## csv check for plot
 rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
+df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check.csv"))
 
@@ -923,8 +923,8 @@ df.0$percentage=df.0$count/df.0$total
 
 ## csv check for plot
 rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
+df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check.csv"))
 
