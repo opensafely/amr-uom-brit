@@ -113,7 +113,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -129,7 +129,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
           labels = c("A", "B"),
@@ -280,8 +280,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
-
+  scale_y_continuous(labels = scales::percent)
+  
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
@@ -296,7 +296,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -445,7 +445,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -461,7 +461,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -611,7 +611,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -627,7 +627,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -776,7 +776,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -792,7 +792,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -943,7 +943,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
@@ -959,7 +959,7 @@ lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
