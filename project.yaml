@@ -748,7 +748,7 @@ actions:
         csv11: output/redacted/abtype_ot_externa.csv
         csv12: output/redacted/abtype_otmedia.csv
 
-  describe_infection_noAB_plot: #  incident+prevalent
+  describe_infection_noAB_plot: #  percentage
     run: r:latest analysis/redaction/infection_v2_noAB.R
     needs: [describe_infection_abtype_process]
     outputs:
@@ -767,7 +767,7 @@ actions:
         csv6: output/redacted_v2/noAB_otmedia_check.csv
         csv7: output/redacted_v2/noAB.csv
 
-  describe_infection_AB_plot: #  incident+prevalent
+  describe_infection_AB_plot: #  percentage
     run: r:latest analysis/redaction/infection_v2_AB.R
     needs: [describe_infection_abtype_process]
     outputs:
