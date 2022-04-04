@@ -172,7 +172,7 @@ df.table.1=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="uti",percent=count/total)
 
-rm(df,df.0,df.1,lineplot,,lineplot.0,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 ########### LRTI
 df=readRDS("abtype_lrti.rds")
@@ -332,7 +332,7 @@ df.table.2=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="lrti",percent=count/total)
 
-rm(df,df.0,df.1,lineplot,,lineplot.0,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
