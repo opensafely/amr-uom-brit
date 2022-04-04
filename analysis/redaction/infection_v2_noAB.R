@@ -36,33 +36,13 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.1=df.1%>%filter(!is.na(abtype))
+## filter case without ab
+df.1=df.1%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
-
 
   
 ##select incident cases
@@ -70,39 +50,21 @@ df.1$percentage=df.1$count/df.1$total
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.0=df.0%>%filter(!is.na(abtype))
+## filter case without ab
+df.0=df.0%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.0=df.0%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
 
+
 ## csv check for plot
-rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+rm(df)
+df.0$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_uti_check.csv"))
 
@@ -209,33 +171,13 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.1=df.1%>%filter(!is.na(abtype))
+## filter case without ab
+df.1=df.1%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
-
 
 
 ##select incident cases
@@ -243,39 +185,21 @@ df.1$percentage=df.1$count/df.1$total
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.0=df.0%>%filter(!is.na(abtype))
+## filter case without ab
+df.0=df.0%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.0=df.0%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
 
+
 ## csv check for plot
-rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+rm(df)
+df.0$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_lrti_check.csv"))
 
@@ -382,33 +306,13 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.1=df.1%>%filter(!is.na(abtype))
+## filter case without ab
+df.1=df.1%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
-
 
 
 ##select incident cases
@@ -416,39 +320,21 @@ df.1$percentage=df.1$count/df.1$total
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.0=df.0%>%filter(!is.na(abtype))
+## filter case without ab
+df.0=df.0%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.0=df.0%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
 
+
 ## csv check for plot
-rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+rm(df)
+df.0$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_urti_check.csv"))
 
@@ -555,33 +441,13 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.1=df.1%>%filter(!is.na(abtype))
+## filter case without ab
+df.1=df.1%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
-
 
 
 ##select incident cases
@@ -589,39 +455,21 @@ df.1$percentage=df.1$count/df.1$total
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.0=df.0%>%filter(!is.na(abtype))
+## filter case without ab
+df.0=df.0%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.0=df.0%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
 
+
 ## csv check for plot
-rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+rm(df)
+df.0$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_sinusitis_check.csv"))
 
@@ -727,33 +575,13 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.1=df.1%>%filter(!is.na(abtype))
+## filter case without ab
+df.1=df.1%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
-
 
 
 ##select incident cases
@@ -761,39 +589,21 @@ df.1$percentage=df.1$count/df.1$total
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.0=df.0%>%filter(!is.na(abtype))
+## filter case without ab
+df.0=df.0%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.0=df.0%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
 
+
 ## csv check for plot
-rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+rm(df)
+df.0$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_ot_externa_check.csv"))
 
@@ -901,33 +711,13 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.1=df.1%>%filter(!is.na(abtype))
+## filter case without ab
+df.1=df.1%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
-
 
 
 ##select incident cases
@@ -935,39 +725,21 @@ df.1$percentage=df.1$count/df.1$total
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
-## filter case with ab
-df.0=df.0%>%filter(!is.na(abtype))
+## filter case without ab
+df.0=df.0%>%filter(is.na(abtype))
 
-
-# calculate ab types
+# calculate  no ab
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-
-#top 10 ab
-DF.top10.0=df.0%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
-df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
-
-# consultation with without AB
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
 
+
 ## csv check for plot
-rm(DF.top10.0,DF.top10.1,df)
-df.0$prevalent=as.factor(1)
-df.1$prevalent=as.factor(0)
+rm(df)
+df.0$prevalent=as.factor(0)
+df.1$prevalent=as.factor(1)
 df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_otmedia_check.csv"))
 
