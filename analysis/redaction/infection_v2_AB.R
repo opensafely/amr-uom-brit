@@ -849,12 +849,6 @@ rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 ########## otitis media
 
-
-
-otmedia
-
-
-
 df=readRDS("abtype_otmedia.rds")
 df=bind_rows(df)
 
