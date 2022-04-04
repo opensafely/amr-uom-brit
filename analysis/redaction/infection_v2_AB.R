@@ -33,40 +33,7 @@ df$abtype=as.character(df$abtype)
 
 ##select prevalent cases
 # calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
-
-# list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
-  mutate(total=n())
-
-#top 10 ab
-DF.top10.1=df.1%>%
-  group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
-  slice(1:10)
-
-# sort ab type
-# recode other types
-df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
-
-# recode NA -> no recorded antibiotics
-df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
-df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
-
-
-# consultation with AB 
-df.1=df.1%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
-df.1$percentage=df.1$count/df.1$total
-
-##select incident cases
-# calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
-
-# list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
-  mutate(total=n())
+df.0=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -83,10 +50,9 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date,type)%>%summarise(count=sum(count))
 
 
 ## csv check for plot
@@ -112,7 +78,7 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0$percentage=as.numeric(df.0$percentage)
@@ -128,7 +94,7 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -272,7 +238,7 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0$percentage=as.numeric(df.0$percentage)
@@ -288,7 +254,7 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -442,7 +408,7 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0$percentage=as.numeric(df.0$percentage)
@@ -458,7 +424,7 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -610,7 +576,7 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0$percentage=as.numeric(df.0$percentage)
@@ -626,7 +592,7 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -777,7 +743,7 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0$percentage=as.numeric(df.0$percentage)
@@ -793,7 +759,7 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
@@ -944,7 +910,7 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 # incident
 df.0$percentage=as.numeric(df.0$percentage)
@@ -960,7 +926,7 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(n.breaks = 10)
+  scale_y_continuous(labels = scales::percent)
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
