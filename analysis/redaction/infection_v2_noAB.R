@@ -37,7 +37,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -66,7 +66,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -204,7 +204,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -233,7 +233,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -370,7 +370,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -399,7 +399,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -535,7 +535,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -564,7 +564,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -700,7 +700,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -729,7 +729,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -867,7 +867,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
@@ -896,7 +896,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
 # calculate ab types
-df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
 #top 10 ab
