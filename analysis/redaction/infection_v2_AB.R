@@ -31,15 +31,46 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+## filter case with ab
+df=df%>%filter(!is.na(abtype))
+
 ##select prevalent cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
+
+#top 10 ab
+DF.top10.1=df.1%>%
+  group_by(abtype)%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
+  slice(1:10)
+
+# sort ab type
+# recode other types
+df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$abtype, "Others")
+
+# recode NA -> no recorded antibiotics
+df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
+df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
+
+
+# consultation with AB 
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
+
+##select incident cases
+# calculate ab types
+df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -52,7 +83,8 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date,type)%>%summarise(count=sum(count))
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
 
 ## csv check for plot
@@ -65,33 +97,35 @@ write_csv(df, here::here("output","redacted_v2", "AB_uti_check.csv"))
 
 ### line graph
 # prevalent
-df.1$percentage=as.numeric(df.1$percentage)
-
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0$percentage=as.numeric(df.0$percentage)
-
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
@@ -105,9 +139,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations with coded antibiotic prescriptions - UTI       ",
+                         fig.lab =paste0("Top10 antibiotic prescriptions issued - UTI       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 ggsave(
@@ -127,20 +161,27 @@ df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df$covid <- factor(df$covid, levels=c("0","1"))
 
 # define seasons
-# month for adjust seasonality
 df$month=format(df$date,"%m")
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 df.table.1=df%>%
+  group_by(covid,season,prevalent,type)%>%
+  summarise(count=sum(count))%>%
+  mutate(indic="uti")
+
+df.table.1=df.table.1%>%
   group_by(covid,season,prevalent)%>%
-  summarise(count=sum(count), total=sum(total))%>%
-  mutate(indic="uti",percent=count/total)
+  mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
+
+
+
 ########### LRTI
+
 df=readRDS("abtype_lrti.rds")
 df=bind_rows(df)
 
@@ -157,19 +198,20 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+## filter case with ab
+df=df%>%filter(!is.na(abtype))
+
 ##select prevalent cases
 # calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -182,23 +224,20 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 
 # consultation with AB 
-df.1=df.1%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==0)%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -209,9 +248,9 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
@@ -225,33 +264,35 @@ write_csv(df, here::here("output","redacted_v2", "AB_lrti_check.csv"))
 
 ### line graph
 # prevalent
-df.1$percentage=as.numeric(df.1$percentage)
-
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0$percentage=as.numeric(df.0$percentage)
-
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
@@ -265,9 +306,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations with coded antibiotic prescriptions - LRTI       ",
+                         fig.lab =paste0("Top10 antibiotic prescriptions issued - LRTI       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 ggsave(
@@ -287,29 +328,26 @@ df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df$covid <- factor(df$covid, levels=c("0","1"))
 
 # define seasons
-# month for adjust seasonality
 df$month=format(df$date,"%m")
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 df.table.2=df%>%
+  group_by(covid,season,prevalent,type)%>%
+  summarise(count=sum(count))%>%
+  mutate(indic="lrti")
+
+df.table.2=df.table.2%>%
   group_by(covid,season,prevalent)%>%
-  summarise(count=sum(count), total=sum(total))%>%
-  mutate(indic="lrti",percent=count/total)
+  mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
 
-
-
-
-
-
-
-########### URTI
+###########URTI
 
 df=readRDS("abtype_urti.rds")
 df=bind_rows(df)
@@ -327,19 +365,20 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+## filter case with ab
+df=df%>%filter(!is.na(abtype))
+
 ##select prevalent cases
 # calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -352,23 +391,20 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 
 # consultation with AB 
-df.1=df.1%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -379,9 +415,9 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
@@ -395,33 +431,35 @@ write_csv(df, here::here("output","redacted_v2", "AB_urti_check.csv"))
 
 ### line graph
 # prevalent
-df.1$percentage=as.numeric(df.1$percentage)
-
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0$percentage=as.numeric(df.0$percentage)
-
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
@@ -435,9 +473,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations with coded antibiotic prescriptions - URTI       ",
+                         fig.lab =paste0("Top10 antibiotic prescriptions issued - URTI       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 ggsave(
@@ -457,28 +495,26 @@ df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df$covid <- factor(df$covid, levels=c("0","1"))
 
 # define seasons
-# month for adjust seasonality
 df$month=format(df$date,"%m")
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 df.table.3=df%>%
+  group_by(covid,season,prevalent,type)%>%
+  summarise(count=sum(count))%>%
+  mutate(indic="urti")
+
+df.table.3=df.table.3%>%
   group_by(covid,season,prevalent)%>%
-  summarise(count=sum(count), total=sum(total))%>%
-  mutate(indic="urti",percent=count/total)
+  mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
+######### Sinusitis
 
-
-
-
-
-
-########### sinusitis
 df=readRDS("abtype_sinusitis.rds")
 df=bind_rows(df)
 
@@ -495,19 +531,20 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+## filter case with ab
+df=df%>%filter(!is.na(abtype))
+
 ##select prevalent cases
 # calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -520,23 +557,20 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 
 # consultation with AB 
-df.1=df.1%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -547,9 +581,9 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
@@ -563,33 +597,35 @@ write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check.csv"))
 
 ### line graph
 # prevalent
-df.1$percentage=as.numeric(df.1$percentage)
-
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0$percentage=as.numeric(df.0$percentage)
-
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
@@ -603,9 +639,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations with coded antibiotic prescriptions - sinusitis       ",
+                         fig.lab =paste0("Top10 antibiotic prescriptions issued - sinusitis       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 ggsave(
@@ -625,27 +661,29 @@ df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df$covid <- factor(df$covid, levels=c("0","1"))
 
 # define seasons
-# month for adjust seasonality
 df$month=format(df$date,"%m")
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 df.table.4=df%>%
+  group_by(covid,season,prevalent,type)%>%
+  summarise(count=sum(count))%>%
+  mutate(indic="sinusitis")
+
+df.table.4=df.table.4%>%
   group_by(covid,season,prevalent)%>%
-  summarise(count=sum(count), total=sum(total))%>%
-  mutate(indic="sinusitis",percent=count/total)
+  mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
 
+####### otitis externa
 
 
 
-
-########### ot_externa
 df=readRDS("abtype_ot_externa.rds")
 df=bind_rows(df)
 
@@ -662,19 +700,20 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+## filter case with ab
+df=df%>%filter(!is.na(abtype))
+
 ##select prevalent cases
 # calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -687,23 +726,20 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 
 # consultation with AB 
-df.1=df.1%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -714,9 +750,9 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
@@ -730,33 +766,35 @@ write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check.csv"))
 
 ### line graph
 # prevalent
-df.1$percentage=as.numeric(df.1$percentage)
-
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0$percentage=as.numeric(df.0$percentage)
-
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
@@ -770,9 +808,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations with coded antibiotic prescriptions - otitis externa       ",
+                         fig.lab =paste0("Top10 antibiotic prescriptions issued - otitis externa       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 ggsave(
@@ -792,27 +830,31 @@ df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df$covid <- factor(df$covid, levels=c("0","1"))
 
 # define seasons
-# month for adjust seasonality
 df$month=format(df$date,"%m")
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 df.table.5=df%>%
+  group_by(covid,season,prevalent,type)%>%
+  summarise(count=sum(count))%>%
+  mutate(indic="ot_externa")
+
+df.table.5=df.table.5%>%
   group_by(covid,season,prevalent)%>%
-  summarise(count=sum(count), total=sum(total))%>%
-  mutate(indic="ot_externa",percent=count/total)
+  mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
+########## otitis media
 
 
 
+otmedia
 
 
 
-########### otmedia
 df=readRDS("abtype_otmedia.rds")
 df=bind_rows(df)
 
@@ -829,19 +871,20 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+## filter case with ab
+df=df%>%filter(!is.na(abtype))
+
 ##select prevalent cases
 # calculate ab types
-df.1=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.1=df.1%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -854,23 +897,20 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 
 # consultation with AB 
-df.1=df.1%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date,abtype)%>%summarise(count=n())
+df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
-# list size per month: total consultations
-df.0=df.0%>%group_by(date)%>%
-  mutate(total=n())
 
 #top 10 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
-  summarise(count2=mean(count))%>% # RX: average per month
-  arrange(desc(count2))%>%
+  summarise(count=sum(count))%>% 
+  arrange(desc(count))%>%
   slice(1:10)
 
 # sort ab type
@@ -881,9 +921,9 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+
 # consultation with AB 
-df.0=df.0%>%filter(!is.na(abtype))%>%group_by(date)%>%mutate(total=n())
-df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count), total=mean(total))
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
 df.0$percentage=df.0$count/df.0$total
 
 
@@ -897,33 +937,35 @@ write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check.csv"))
 
 ### line graph
 # prevalent
-df.1$percentage=as.numeric(df.1$percentage)
-
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0$percentage=as.numeric(df.0$percentage)
-
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line()+
+  geom_line(aes(linetype=type))+
+  geom_point(aes(shape=type))+
+  theme(legend.position = "right",legend.title =element_blank())+
+  scale_shape_manual(values = c(rep(1:11))) +
+  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
-    y = "",
-    x=""
-  )+
+    y = "" ,
+    x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)
@@ -937,9 +979,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations with coded antibiotic prescriptions - otitis media       ",
+                         fig.lab =paste0("Top10 antibiotic prescriptions issued - otitis media       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 ggsave(
@@ -959,20 +1001,21 @@ df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df$covid <- factor(df$covid, levels=c("0","1"))
 
 # define seasons
-# month for adjust seasonality
 df$month=format(df$date,"%m")
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 df.table.6=df%>%
+  group_by(covid,season,prevalent,type)%>%
+  summarise(count=sum(count))%>%
+  mutate(indic="otmedia")
+
+df.table.6=df.table.6%>%
   group_by(covid,season,prevalent)%>%
-  summarise(count=sum(count), total=sum(total))%>%
-  mutate(indic="otmedia",percent=count/total)
+  mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
-
-
 
 
 #### combine table
