@@ -36,6 +36,10 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
+## filter case with ab
+df.1=df.1%>%filter(!is.na(abtype))
+
+
 # calculate ab types
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
@@ -55,15 +59,20 @@ df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$a
 df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
 
-# consultation without AB
-df.1.noAB=df.1%>%filter(is.na(abtype))
-df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
+
   
 ##select incident cases
 # list size per month: total consultations
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+## filter case with ab
+df.0=df.0%>%filter(!is.na(abtype))
+
 
 # calculate ab types
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
@@ -84,25 +93,24 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
-# consultation without AB
-df.0.noAB=df.0%>%filter(is.na(abtype))
-df.0.noAB$percentage=df.0.noAB$count/df.0.noAB$total
 
 
 ## csv check for plot
-rm(df.0,df.1,DF.top10.0,DF.top10.1,df)
-df.0.noAB$prevalent=as.factor(1)
-df.1.noAB$prevalent=as.factor(0)
-df=rbind(df.0.noAB,df.1.noAB)
+rm(DF.top10.0,DF.top10.1,df)
+df.0$prevalent=as.factor(1)
+df.1$prevalent=as.factor(0)
+df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_uti_check.csv"))
 
 
 ### line graph
 # prevalent
-df.1.noAB$percentage=as.numeric(df.1.noAB$percentage)
 
-lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -116,9 +124,7 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
-
-lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -142,7 +148,7 @@ lineplot=annotate_figure(lineplot,
                                    hjust = 1, x = 1, size = 10),
                  fig.lab =paste0("Consultations without coded antibiotic prescriptions - UTI       ",
                                          first_mon," - ",last_mon),
-                left = text_grob("Percentage", rot = 90),
+                left = text_grob("", rot = 90),
 )
 
 
@@ -174,7 +180,7 @@ df.table.1=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="uti",percent=count/total)
 
-rm(df,df.0.noAB,df.1.noAB,lineplot,linepl,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
@@ -203,6 +209,10 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
+## filter case with ab
+df.1=df.1%>%filter(!is.na(abtype))
+
+
 # calculate ab types
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
@@ -222,15 +232,20 @@ df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$a
 df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
 
-# consultation without AB
-df.1.noAB=df.1%>%filter(is.na(abtype))
-df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
+
 
 ##select incident cases
 # list size per month: total consultations
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+## filter case with ab
+df.0=df.0%>%filter(!is.na(abtype))
+
 
 # calculate ab types
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
@@ -251,25 +266,24 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
-# consultation without AB
-df.0.noAB=df.0%>%filter(is.na(abtype))
-df.0.noAB$percentage=df.0.noAB$count/df.0.noAB$total
 
 
 ## csv check for plot
-rm(df.0,df.1,DF.top10.0,DF.top10.1,df)
-df.0.noAB$prevalent=as.factor(1)
-df.1.noAB$prevalent=as.factor(0)
-df=rbind(df.0.noAB,df.1.noAB)
+rm(DF.top10.0,DF.top10.1,df)
+df.0$prevalent=as.factor(1)
+df.1$prevalent=as.factor(0)
+df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_lrti_check.csv"))
 
 
 ### line graph
 # prevalent
-df.1.noAB$percentage=as.numeric(df.1.noAB$percentage)
 
-lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -283,9 +297,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   scale_y_continuous(labels = scales::percent)
   
 # incident
-df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
-lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -309,7 +322,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Consultations without coded antibiotic prescriptions - LRTI       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 
@@ -341,7 +354,7 @@ df.table.2=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="lrti",percent=count/total)
 
-rm(df,df.0.noAB,df.1.noAB,lineplot,linepl,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 ########### URTI
@@ -369,6 +382,10 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
+## filter case with ab
+df.1=df.1%>%filter(!is.na(abtype))
+
+
 # calculate ab types
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
@@ -388,18 +405,24 @@ df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$a
 df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
 
-# consultation without AB
-df.1.noAB=df.1%>%filter(is.na(abtype))
-df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
+
 
 ##select incident cases
 # list size per month: total consultations
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
 
+## filter case with ab
+df.0=df.0%>%filter(!is.na(abtype))
+
+
 # calculate ab types
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
+
 
 #top 10 ab
 DF.top10.0=df.0%>%
@@ -416,25 +439,24 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
-# consultation without AB
-df.0.noAB=df.0%>%filter(is.na(abtype))
-df.0.noAB$percentage=df.0.noAB$count/df.0.noAB$total
 
 
 ## csv check for plot
-rm(df.0,df.1,DF.top10.0,DF.top10.1,df)
-df.0.noAB$prevalent=as.factor(1)
-df.1.noAB$prevalent=as.factor(0)
-df=rbind(df.0.noAB,df.1.noAB)
+rm(DF.top10.0,DF.top10.1,df)
+df.0$prevalent=as.factor(1)
+df.1$prevalent=as.factor(0)
+df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_urti_check.csv"))
 
 
 ### line graph
 # prevalent
-df.1.noAB$percentage=as.numeric(df.1.noAB$percentage)
 
-lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -448,9 +470,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
-lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -472,9 +493,9 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations without coded antibiotic prescriptions - URTIurti       ",
+                         fig.lab =paste0("Consultations without coded antibiotic prescriptions - URTI       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 
@@ -506,7 +527,7 @@ df.table.3=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="urti",percent=count/total)
 
-rm(df,df.0.noAB,df.1.noAB,lineplot,linepl,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
@@ -534,6 +555,10 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
+## filter case with ab
+df.1=df.1%>%filter(!is.na(abtype))
+
+
 # calculate ab types
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
@@ -553,15 +578,20 @@ df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$a
 df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
 
-# consultation without AB
-df.1.noAB=df.1%>%filter(is.na(abtype))
-df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
+
 
 ##select incident cases
 # list size per month: total consultations
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+## filter case with ab
+df.0=df.0%>%filter(!is.na(abtype))
+
 
 # calculate ab types
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
@@ -582,25 +612,24 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
-# consultation without AB
-df.0.noAB=df.0%>%filter(is.na(abtype))
-df.0.noAB$percentage=df.0.noAB$count/df.0.noAB$total
 
 
 ## csv check for plot
-rm(df.0,df.1,DF.top10.0,DF.top10.1,df)
-df.0.noAB$prevalent=as.factor(1)
-df.1.noAB$prevalent=as.factor(0)
-df=rbind(df.0.noAB,df.1.noAB)
+rm(DF.top10.0,DF.top10.1,df)
+df.0$prevalent=as.factor(1)
+df.1$prevalent=as.factor(0)
+df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_sinusitis_check.csv"))
 
 
 ### line graph
 # prevalent
-df.1.noAB$percentage=as.numeric(df.1.noAB$percentage)
 
-lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -614,9 +643,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
-lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -640,7 +668,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Consultations without coded antibiotic prescriptions - sinusitis       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 
@@ -672,7 +700,7 @@ df.table.4=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="sinusitis",percent=count/total)
 
-rm(df,df.0.noAB,df.1.noAB,lineplot,linepl,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 ########### ot_externa
@@ -699,6 +727,10 @@ df$abtype=as.character(df$abtype)
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
 
+## filter case with ab
+df.1=df.1%>%filter(!is.na(abtype))
+
+
 # calculate ab types
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
@@ -718,15 +750,20 @@ df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$a
 df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
 
-# consultation without AB
-df.1.noAB=df.1%>%filter(is.na(abtype))
-df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
+
 
 ##select incident cases
 # list size per month: total consultations
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+## filter case with ab
+df.0=df.0%>%filter(!is.na(abtype))
+
 
 # calculate ab types
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
@@ -747,25 +784,24 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
-# consultation without AB
-df.0.noAB=df.0%>%filter(is.na(abtype))
-df.0.noAB$percentage=df.0.noAB$count/df.0.noAB$total
 
 
 ## csv check for plot
-rm(df.0,df.1,DF.top10.0,DF.top10.1,df)
-df.0.noAB$prevalent=as.factor(1)
-df.1.noAB$prevalent=as.factor(0)
-df=rbind(df.0.noAB,df.1.noAB)
+rm(DF.top10.0,DF.top10.1,df)
+df.0$prevalent=as.factor(1)
+df.1$prevalent=as.factor(0)
+df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_ot_externa_check.csv"))
 
 
 ### line graph
 # prevalent
-df.1.noAB$percentage=as.numeric(df.1.noAB$percentage)
 
-lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -779,9 +815,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
-lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -805,7 +840,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Consultations without coded antibiotic prescriptions - otitis externa       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 
@@ -837,13 +872,12 @@ df.table.5=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="ot_externa",percent=count/total)
 
-rm(df,df.0.noAB,df.1.noAB,lineplot,linepl,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 
 
 ########### otmedia
-
 
 df=readRDS("abtype_otmedia.rds")
 df=bind_rows(df)
@@ -861,10 +895,15 @@ df$prevalent=as.factor(df$prevalent)
 df$date=as.Date(df$date)
 df$abtype=as.character(df$abtype)
 
+
 ##select prevalent cases
 # list size per month: total consultations
 df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%
   mutate(total=n())
+
+## filter case with ab
+df.1=df.1%>%filter(!is.na(abtype))
+
 
 # calculate ab types
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
@@ -885,15 +924,20 @@ df.1$type=ifelse(df.1$abtype %in% DF.top10.1$abtype | is.na(df.1$abtype), df.1$a
 df.1$type=ifelse(is.na(df.1$type),"No_antibiotics", df.1$type)
 df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.1$percentage=df.1$count/df.1$total
 
-# consultation without AB
-df.1.noAB=df.1%>%filter(is.na(abtype))
-df.1.noAB$percentage=df.1.noAB$count/df.1.noAB$total
+
 
 ##select incident cases
 # list size per month: total consultations
 df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%
   mutate(total=n())
+
+## filter case with ab
+df.0=df.0%>%filter(!is.na(abtype))
+
 
 # calculate ab types
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
@@ -914,25 +958,23 @@ df.0$type=ifelse(df.0$abtype %in% DF.top10.0$abtype | is.na(df.0$abtype), df.0$a
 df.0$type=ifelse(is.na(df.0$type),"No_antibiotics", df.0$type)
 df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibiotics"))# reorder
 
+# consultation with without AB
+df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
+df.0$percentage=df.0$count/df.0$total
 
-# consultation without AB
-df.0.noAB=df.0%>%filter(is.na(abtype))
-df.0.noAB$percentage=df.0.noAB$count/df.0.noAB$total
 
 
 ## csv check for plot
-rm(df.0,df.1,DF.top10.0,DF.top10.1,df)
-df.0.noAB$prevalent=as.factor(1)
-df.1.noAB$prevalent=as.factor(0)
-df=rbind(df.0.noAB,df.1.noAB)
+rm(DF.top10.0,DF.top10.1,df)
+df.0$prevalent=as.factor(1)
+df.1$prevalent=as.factor(0)
+df=rbind(df.0,df.1)
 write_csv(df, here::here("output","redacted_v2", "noAB_otmedia_check.csv"))
 
 
 ### line graph
 # prevalent
-df.1.noAB$percentage=as.numeric(df.1.noAB$percentage)
-
-lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
+lineplot.1<- ggplot(df.1, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -946,9 +988,8 @@ lineplot.1<- ggplot(df.1.noAB, aes(x=date, y=percentage))+
   scale_y_continuous(labels = scales::percent)
 
 # incident
-df.0.noAB$percentage=as.numeric(df.0.noAB$percentage)
 
-lineplot.0<- ggplot(df.0.noAB, aes(x=date, y=percentage))+
+lineplot.0<- ggplot(df.0, aes(x=date, y=percentage))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -972,7 +1013,7 @@ lineplot=annotate_figure(lineplot,
                                             hjust = 1, x = 1, size = 10),
                          fig.lab =paste0("Consultations without coded antibiotic prescriptions - otitis media       ",
                                          first_mon," - ",last_mon),
-                         left = text_grob("Percentage", rot = 90),
+                         left = text_grob("", rot = 90),
 )
 
 
@@ -1004,7 +1045,7 @@ df.table.6=df%>%
   summarise(count=sum(count), total=sum(total))%>%
   mutate(indic="otmedia",percent=count/total)
 
-rm(df,df.0.noAB,df.1.noAB,lineplot,linepl,lineplot.1)
+rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
 

@@ -62,7 +62,7 @@ df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
@@ -229,7 +229,7 @@ df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
@@ -396,7 +396,7 @@ df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
@@ -562,7 +562,7 @@ df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
@@ -731,7 +731,7 @@ df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
@@ -896,7 +896,7 @@ df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
-df.0=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
+df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
