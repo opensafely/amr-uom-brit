@@ -357,7 +357,6 @@ actions:
   #       html: output/report/consultation_model_zero_truncated.html
 
 
-
   # consultation_model_3: # model 3 for adjusting autocorrelation
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_3.rmd", output_dir = "output/report")'
   #   needs: [describe_consultation_model_process_1]
