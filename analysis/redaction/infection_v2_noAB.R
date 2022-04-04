@@ -472,7 +472,7 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Consultations without coded antibiotic prescriptions - URTIurti       ",
+                         fig.lab =paste0("Consultations without coded antibiotic prescriptions - URTI       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("Percentage", rot = 90),
 )
