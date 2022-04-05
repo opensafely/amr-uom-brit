@@ -424,9 +424,9 @@ study = StudyDefinition(
     
 ##### covid codes fit on AB date 1-12
 
-    AB_date_1_indication=patients.with_these_clinical_events(
+AB_date_1_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_1", "AB_date_1"], 
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -437,7 +437,7 @@ study = StudyDefinition(
             ),
     AB_date_2_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_2", "AB_date_2"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -448,7 +448,7 @@ study = StudyDefinition(
             ),
     AB_date_3_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_3", "AB_date_3"], 
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -459,7 +459,7 @@ study = StudyDefinition(
             ),
     AB_date_4_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_4", "AB_date_4"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -470,7 +470,7 @@ study = StudyDefinition(
             ),
     AB_date_5_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_5", "AB_date_5"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -481,7 +481,7 @@ study = StudyDefinition(
             ),
     AB_date_6_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_6", "AB_date_6"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -492,7 +492,7 @@ study = StudyDefinition(
             ),
     AB_date_7_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_7", "AB_date_7"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -503,7 +503,7 @@ study = StudyDefinition(
             ),
     AB_date_8_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_8", "AB_date_8"], 
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -514,7 +514,7 @@ study = StudyDefinition(
             ),
     AB_date_9_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_9", "AB_date_9"], 
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -525,7 +525,7 @@ study = StudyDefinition(
             ),
     AB_date_10_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_10", "AB_date_10"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -536,7 +536,7 @@ study = StudyDefinition(
             ),
     AB_date_11_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_11", "AB_date_11"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -547,7 +547,7 @@ study = StudyDefinition(
             ),
     AB_date_12_indication=patients.with_these_clinical_events(
         any_primary_care_code,
-        returning='category',
+        returning='binary_flag',
         between=["AB_date_12", "AB_date_12"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
@@ -556,6 +556,7 @@ study = StudyDefinition(
             "urti":0.1, "uti":0.1,}},
             "incidence": 0.8,},
             ),
+
 
 
 # ### broad sprctrum antibiotics- binary flag
