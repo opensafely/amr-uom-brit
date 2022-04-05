@@ -108,7 +108,7 @@ rm(df.0,df.1,df)
 df.plot.1$prevalent=as.factor(1)
 df.plot.0$prevalent=as.factor(0)
 df=rbind(df.plot.1,df.plot.0)
-write_csv(df, here::here("output","redacted", "abtype_uti_check.csv"))
+write_csv(df, here::here("output","redacted" ,"count","abtype_uti_check.csv"))
 
 
 ### tables
@@ -131,7 +131,7 @@ df.table=df%>%
   slice(1:10)%>%
   mutate(indic="uti")
 
-write_csv(df, here::here("output","redacted", "abtype_uti.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_uti.csv"))
 
 
 ### plots
@@ -190,7 +190,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_uti.jpeg", path=here::here("output","redacted")) 
+  filename="abtype_uti.jpeg", path=here::here("output","redacted","count")) 
 
 rm(list=ls())
 
@@ -294,7 +294,7 @@ rm(df.0,df.1,df)
 df.plot.1$prevalent=as.factor(1)
 df.plot.0$prevalent=as.factor(0)
 df=rbind(df.plot.1,df.plot.0)
-write_csv(df, here::here("output","redacted", "abtype_lrti_check.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_lrti_check.csv"))
 
 
 ### tables
@@ -317,7 +317,7 @@ df.table=df%>%
   slice(1:10)%>%
   mutate(indic="lrti")
 
-write_csv(df, here::here("output","redacted", "abtype_lrti.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_lrti.csv"))
 
 
 ### plots
@@ -376,7 +376,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_lrti.jpeg", path=here::here("output","redacted")) 
+  filename="abtype_lrti.jpeg", path=here::here("output","redacted","count")) 
 
 rm(list=ls())
 
@@ -480,7 +480,7 @@ rm(df.0,df.1,df)
 df.plot.1$prevalent=as.factor(1)
 df.plot.0$prevalent=as.factor(0)
 df=rbind(df.plot.1,df.plot.0)
-write_csv(df, here::here("output","redacted", "abtype_urti_check.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_urti_check.csv"))
 
 
 ### tables
@@ -503,7 +503,7 @@ df.table=df%>%
   slice(1:10)%>%
   mutate(indic="urti")
 
-write_csv(df, here::here("output","redacted", "abtype_urti.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_urti.csv"))
 
 
 ### plots
@@ -562,7 +562,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_urti.jpeg", path=here::here("output","redacted")) 
+  filename="abtype_urti.jpeg", path=here::here("output","redacted","count")) 
 
 rm(list=ls())
 
@@ -663,7 +663,7 @@ rm(df.0,df.1,df)
 df.plot.1$prevalent=as.factor(1)
 df.plot.0$prevalent=as.factor(0)
 df=rbind(df.plot.1,df.plot.0)
-write_csv(df, here::here("output","redacted", "abtype_sinusitis_check.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_sinusitis_check.csv"))
 
 
 ### tables
@@ -686,7 +686,7 @@ df.table=df%>%
   slice(1:10)%>%
   mutate(indic="sinusitis")
 
-write_csv(df, here::here("output","redacted", "abtype_sinusitis.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_sinusitis.csv"))
 
 
 ### plots
@@ -745,7 +745,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_sinusitis.jpeg", path=here::here("output","redacted")) 
+  filename="abtype_sinusitis.jpeg", path=here::here("output","redacted","count")) 
 
 rm(list=ls())
 
@@ -847,7 +847,7 @@ rm(df.0,df.1,df)
 df.plot.1$prevalent=as.factor(1)
 df.plot.0$prevalent=as.factor(0)
 df=rbind(df.plot.1,df.plot.0)
-write_csv(df, here::here("output","redacted", "abtype_ot_externa_check.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_ot_externa_check.csv"))
 
 
 ### tables
@@ -870,7 +870,7 @@ df.table=df%>%
   slice(1:10)%>%
   mutate(indic="ot_externa")
 
-write_csv(df, here::here("output","redacted", "abtype_ot_externa.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_ot_externa.csv"))
 
 
 ### plots
@@ -929,7 +929,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_ot_externa.jpeg", path=here::here("output","redacted")) 
+  filename="abtype_ot_externa.jpeg", path=here::here("output","redacted","count")) 
 
 rm(list=ls())
 
@@ -1031,7 +1031,7 @@ rm(df.0,df.1,df)
 df.plot.1$prevalent=as.factor(1)
 df.plot.0$prevalent=as.factor(0)
 df=rbind(df.plot.1,df.plot.0)
-write_csv(df, here::here("output","redacted", "abtype_otmedia_check.csv"))
+write_csv(df, here::here("output","redacted","count", "abtype_otmedia_check.csv"))
 
 
 ### tables
@@ -1054,7 +1054,7 @@ df.table=df%>%
   slice(1:10)%>%
   mutate(indic="otmedia")
 
-write_csv(df, here::here("output","redacted", "abtype_otmedia.csv"))
+write_csv(df, here::here("output","redacted", "count","abtype_otmedia.csv"))
 
 
 ### plots
@@ -1113,7 +1113,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="abtype_otmedia.jpeg", path=here::here("output","redacted")) 
+  filename="abtype_otmedia.jpeg", path=here::here("output","redacted","count")) 
 
 rm(list=ls())
 
