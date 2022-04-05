@@ -8,7 +8,7 @@ library("lubridate")
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
-setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
 
 # file list
