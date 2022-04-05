@@ -807,7 +807,7 @@ actions:
         csv12: output/redacted/abtype_otmedia.csv
 
   describe_infection_abtype_plot_count: #  output raw counts
-    run: r:latest analysis/redaction/infection_abtype_count.R
+    run: r:latest analysis/redaction/infection_abtype_counts.R
     needs: [describe_infection_abtype_process]
     outputs:
        moderately_sensitive:
