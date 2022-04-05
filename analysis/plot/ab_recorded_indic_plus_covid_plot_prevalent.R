@@ -7,48 +7,34 @@ library("tidyverse")
 library("lubridate")
 
 rm(list=ls())
-setwd(here::here("output", "measures"))
-#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
+setwd(here::here("output"))
 
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
-# file list
-Files = list.files(pattern="recorded_ab_covid_20", full.names = FALSE)
-temp <- vector("list", length(Files))
+# ab for covid
+df1=read_csv("ab_recorded_covid_prevalent.csv")
+df1=df1%>%filter(infection=="1")
+df1$infection="Covid"
 
-for (i in seq_along(Files)){
-  
-  DF=read_rds(Files[i])
-  
-  #dat=rbindlist(DF)
-  dat=bind_rows(DF)
-  rm(DF)
-  
-  
-  # filter incident
-  dat=dat%>%filter(prevalent==1)%>%select(patient_id,date,infection)# covid infection
-  
-  
-  # summarise ab counts for covid infection
-  dat=dat%>%group_by(date,infection)%>%summarise(count=n())
-  # total antibiotics count per month
-  dat=dat%>%group_by(date)%>%mutate(total=sum(count))
-  # percentage
-  dat$value=dat$count/dat$total
-  
-  temp[[i]] = dat
-  rm(dat)
-}
+# ab for indications
+df2=read_csv("ab_recorded_prevalent.csv")
 
-# combine list->data.frame
-dat=bind_rows(temp)
-
-rm(temp,dat.sum,i,Files)
+#merge
+dat=rbind(df1,df2)
 
 # remove last month data
-last.date=max(dat$date)
-dat=dat%>% filter(date != last.date)
+last.date=as.Date("2022-02-01")
+dat=dat%>% filter(date < last.date)
 first_mon=format(min(dat$date),"%m-%Y")
 last_mon= format(max(dat$date),"%m-%Y")
+
+
+# 
+dat=dat%>%group_by(date)%>%mutate(total=sum(count))
+dat$value=dat$count/dat$total
+
+# reorder
+dat$infection <- factor(dat$infection, levels=c("Covid","LRTI","Otitis_externa","Otitis_media","Sinusitis","URTI","UTI","Other_infection","Uncoded"))
 
 
 # # plot
@@ -59,7 +45,7 @@ abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) +
   geom_col(color="white")+
   labs(
     fill = "Covid",
-    title = "Prevalent antibiotic prescriptions with Covid code recorded",
+    title = "Prevalent antibiotic prescriptions with an infection code recorded",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -68,7 +54,7 @@ abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) +
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  scale_fill_manual(values = c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
+  scale_fill_manual(values = c("black","red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 
 
 ## # line graph-percent
@@ -81,7 +67,7 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Covid",
-    title = "Prevalent antibiotic prescriptions with Covid code recorded",
+    title = "Prevalent antibiotic prescriptions with an infection code recorded",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -90,21 +76,21 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  scale_shape_manual(values = c(rep(1:8))) +
-  scale_color_manual(values =  c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
+  scale_shape_manual(values = c(rep(1:9))) +
+  scale_color_manual(values =  c("black","red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4","orange"))
 
 
 
 ggsave(
   plot= abtype_bar,
-  filename="ab_recorded_covid_prevalent_bar.jpeg", path=here::here("output"),
+  filename="ab_recorded_covid_indication_prevalent_bar.jpeg", path=here::here("output"),
 )
 ggsave(
   plot= lineplot,
-  filename="ab_recorded_covid_prevalent_line.jpeg", path=here::here("output"),
+  filename="ab_recorded_covid_indication_prevalent_line.jpeg", path=here::here("output"),
 ) 
 
-write_csv(dat, here::here("output", "ab_recorded_covid_prevalent.csv"))
+write_csv(dat, here::here("output", "ab_recorded_covid_indication_prevalent.csv"))
 
 
 

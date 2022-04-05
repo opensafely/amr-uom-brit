@@ -547,7 +547,25 @@ actions:
         plot1: output/ab_recorded_covid_prevalent_bar.jpeg
         plot2: output/ab_recorded_covid_prevalent_line.jpeg
         csv: output/ab_recorded_covid_prevalent.csv
-    
+  
+  describe_ab_recoded_covid_all_plot_incident: # combind all indication and covid
+    run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_incident.R
+    needs: [describe_ab_recoded_covid_plot_incident,describe_ab_recoded_indication_plot_incident] 
+    outputs:
+       moderately_sensitive:
+        plot1: output/ab_recorded_covid_indication_incident_bar.jpeg
+        plot2: output/ab_recorded_covid_indication_incident_line.jpeg
+        csv: output/ab_recorded_covid_indication_incident.csv
+  
+  describe_ab_recoded_covid_all_plot_prevalent: 
+    run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_prevalent.R
+    needs: [describe_ab_recoded_covid_plot_prevalent,describe_ab_recoded_indication_plot_prevalent] 
+    outputs:
+       moderately_sensitive:
+        plot1: output/ab_recorded_covid_indication_prevalent_bar.jpeg
+        plot2: output/ab_recorded_covid_indication_prevalent_line.jpeg
+        csv: output/ab_recorded_covid_indication_prevalent.csv
+
   describe_ab_recoded_broad_process:
     run: r:latest analysis/process/broad_transform.R
     needs: [generate_study_population_antibiotics]
