@@ -11,7 +11,7 @@ dir.create(here::here("output", "redacted"))
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
-#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
+setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
 
 ########### UTI
@@ -28,7 +28,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id))))
+  mutate(patient=sum(length(unique(patient_id)))) # error fix: df$patinet_id
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
