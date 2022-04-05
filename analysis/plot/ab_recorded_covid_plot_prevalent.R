@@ -59,7 +59,7 @@ abtype_bar <- ggplot(dat,aes(x=date, y=value, fill=infection)) +
   geom_col(color="white")+
   labs(
     fill = "Covid",
-    title = "Incident antibiotic prescriptions with Covid code recorded",
+    title = "Prevalent antibiotic prescriptions with Covid code recorded",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
@@ -81,7 +81,7 @@ lineplot<- ggplot(dat, aes(x=date, y=value,group=infection,color=infection))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
     fill = "Covid",
-    title = "Incident antibiotic prescriptions with Covid code recorded",
+    title = "Prevalent antibiotic prescriptions with Covid code recorded",
     subtitle = paste(first_mon,"-",last_mon),
     caption = "Grey shading represents national lockdown time. ",
     y = "Percentage",
