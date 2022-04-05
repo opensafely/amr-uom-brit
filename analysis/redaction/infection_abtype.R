@@ -214,7 +214,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id))))
+  mutate(patient=sum(length(unique(patient_id))))
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -400,7 +400,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id))))
+  mutate(patient=sum(length(unique(patient_id))))
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -583,7 +583,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id))))
+  mutate(patient=sum(length(unique(patient_id))))
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -767,7 +767,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id))))
+  mutate(patient=sum(length(unique(patient_id))))
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
@@ -951,7 +951,7 @@ last_mon <- (format(max(df$date), "%m-%Y"))
 
 # list size per month
 df=df%>%group_by(date)%>%
-  mutate(patient=sum(length(unique(df$patient_id))))
+  mutate(patient=sum(length(unique(patient_id))))
 
 # variable types
 df$prevalent=as.factor(df$prevalent)
