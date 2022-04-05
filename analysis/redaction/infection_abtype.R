@@ -11,7 +11,7 @@ dir.create(here::here("output", "redacted"))
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
-setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
 
 ########### UTI
