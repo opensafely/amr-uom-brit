@@ -529,6 +529,24 @@ actions:
         plot1: output/ab_recorded_prevalent_bar.jpeg
         plot2: output/ab_recorded_prevalent_line.jpeg
         csv: output/ab_recorded_prevalent.csv
+
+  describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
+    run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
+    needs: [describe_ab_recoded_covid_process] 
+    outputs:
+       moderately_sensitive:
+        plot1: output/ab_recorded_covid_incident_bar.jpeg
+        plot2: output/ab_recorded_covid_incident_line.jpeg
+        csv: output/ab_recorded_covid_incident.csv
+
+  describe_ab_recoded_covid_plot_prevalent: 
+    run: r:latest analysis/plot/ab_recorded_covid_plot_prevalent.R
+    needs: [describe_ab_recoded_covid_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/ab_recorded_covid_prevalent_bar.jpeg
+        plot2: output/ab_recorded_covid_prevalent_line.jpeg
+        csv: output/ab_recorded_covid_prevalent.csv
     
   describe_ab_recoded_broad_process:
     run: r:latest analysis/process/broad_transform.R
