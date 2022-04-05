@@ -8,6 +8,7 @@ library("lubridate")
 
 rm(list=ls())
 setwd(here::here("output"))
+
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
 # ab for covid
