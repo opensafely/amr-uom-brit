@@ -228,7 +228,6 @@ dat=read_csv(here::here("output","matched_combined_infection_hosp.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -250,7 +249,6 @@ dat=read_csv(here::here("output","matched_combined_hosp_icu_death.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -276,7 +274,6 @@ dat=read_csv(here::here("output","input_outcome_2_case.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -298,7 +295,6 @@ dat=read_csv(here::here("output","input_outcome_2_control.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -323,7 +319,6 @@ dat=read_csv(here::here("output","input_outcome_3_case.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -345,7 +340,6 @@ dat=read_csv(here::here("output","input_outcome_3_control.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -372,7 +366,6 @@ dat=read_csv(here::here("output","matched_outcome2.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
@@ -394,7 +387,6 @@ dat=read_csv(here::here("output","matched_outcome3.csv"),
 
 range(dat$patient_index_date, na.rm=T)
 
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
 
 dat %>%
   tbl_summary(
