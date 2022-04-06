@@ -78,8 +78,8 @@ table(control$num.matches)
 round(prop.table(table(control$num.matches)),digits=2)
 
 contr=subset(df,df$case=="0")
-table(contr$match_count)
-round(prop.table(table(contr$match_count)),digits=2)
+table(contr$match_counts)
+round(prop.table(table(contr$match_counts)),digits=2)
 ```
 
 

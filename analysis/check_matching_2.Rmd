@@ -66,7 +66,7 @@ num.contr=length(unique(df[df$case=="0",]$patient_id))
 #### *1:6 matching by age (within 5 years), sex, region (stp)*
 
 **number of matched controls per case**
-```{r echo=FALSE }
+```{r}
 
 control=subset(df,df$case=="0")
 control=control%>%group_by(set_id)%>%summarise(num.matches=n())
@@ -76,9 +76,9 @@ table(control$num.matches)
 # proportional of matched controls per case
 round(prop.table(table(control$num.matches)),digits=2)
 
-contr=subset(df,df$case=="0")
-table(contr$match_count)
-round(prop.table(table(contr$match_count)),digits=2)
+contr=df%>%filter(case=="0")
+table(contr$match_counts)
+round(prop.table(table(contr$match_counts)),digits=2)
 ```
 
 
