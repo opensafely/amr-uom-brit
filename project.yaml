@@ -130,7 +130,7 @@ actions:
 
   check_input: # check above 
     run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [matching_2,matching_2,extract_variables_outcome_3_control,extract_variables_outcome_3_case,extract_variables_outcome_2_control,extract_variables_outcome_2_case,merge_outcome2_3,process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
+    needs: [matching_3,matching_2,extract_variables_outcome_3_control,extract_variables_outcome_3_case,extract_variables_outcome_2_control,extract_variables_outcome_2_case,merge_outcome2_3,process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
     outputs:
       moderately_sensitive:
         html: output/check_input.html
