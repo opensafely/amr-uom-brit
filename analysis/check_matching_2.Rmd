@@ -184,10 +184,10 @@ df.con %>%
 
 ##### **3. Antibiotics exposure variables**
 ```{r  echo=FALSE }
-df.ab <- df %>% select(case,ab_types,ab_prescriptions,ab_qn,broad_ab_prescriptions,br_ab_qn,lastABtime,interval,ab_freq,ab_freq.type)
-df$ab_freq=as.numeric(df$ab_freq)
+df.ab <- df %>% select(case,ab_types,ab_prescriptions,ab_qn,broad_ab_prescriptions,br_ab_qn,lastABtime,interval)
+
 df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
-df$ab_freq.type=as.numeric(df$ab_freq.type)
+
 df$lastABtime=as.integer(df$lastABtime)
 #df.ab$ab_freq=as.numeric(df.ab$ab_freq)
 #df.ab$ab_prescriptions=as.numeric(as.character( df.ab$ab_prescriptions))

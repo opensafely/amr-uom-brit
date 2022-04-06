@@ -3,6 +3,16 @@ title: "exposure check"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+```
 
 # <font color=blue>**Outcome 3**</font>
 ```{r include=FALSE}
