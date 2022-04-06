@@ -122,6 +122,58 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 
 ```
 
+# Cases: control not found
+##### **Unmatched cases count:`r unmatched`**
+##### **Matched cases count:`r matched`**
+```{r echo=FALSE }
+
+# unmatched cases
+
+df.sub.unmatch=subset(df.sub.unmatch, select = c("patient_id","sex","age"))
+df.sub.unmatch= df.sub.unmatch%>%mutate(mean.age=mean(age), matched="0")
+
+df.sub.match=subset(df.sub.match, select = c("patient_id","sex","age"))
+df.sub.match= df.sub.match%>%mutate(mean.age=mean(age), matched="1")
+
+DF=rbind(df.sub.match, df.sub.unmatch)
+
+
+ggplot(DF, aes(x=age)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  geom_vline(data=DF, aes(xintercept=mean.age),
+             linetype="dashed")+
+  scale_x_continuous(breaks = seq(0, 110, by=20))+
+  facet_grid(matched ~.)+
+  labs(caption="0=unmatched cases, 1=matched cases")
+```
+```{r echo=FALSE}
+df.case=subset(df, df$case==1)
+DF=subset(DF,select=c("patient_id","matched"))
+df.case=merge(df.case,DF,by="patient_id")
+```
+
+### Comparison table of matched & unmatched cases
+
+```{r echo=FALSE}
+df.case$matched=as.factor(df.case$matched)
+
+df.case %>%
+  select(matched,age,bmi,Charlson,ab_types,ab_prescriptions,broad_ab_prescriptions) %>%
+  tbl_uvregression(
+    method = glm,
+    y = matched,
+    method.args = list(family = binomial),
+    exponentiate = TRUE,
+    pvalue_fun = ~style_pvalue(.x, digits = 2)
+  ) %>%
+  add_global_p() %>%  # add global p-value 
+  add_nevent() %>%    # add number of events of the outcome
+  bold_p() %>%        # bold p-values under a given threshold (default 0.05)
+   bold_labels()
+
+```
+
 
 
 # <font color=blue>**1:4 matching**</font>
@@ -229,6 +281,58 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
   geom_vline(data=df.sub.set, aes(xintercept=grp.mean.setid, color=case),
              linetype="dashed")+
   scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+# Cases: control not found
+##### **Unmatched cases count:`r unmatched`**
+##### **Matched cases count:`r matched`**
+```{r echo=FALSE }
+
+# unmatched cases
+
+df.sub.unmatch=subset(df.sub.unmatch, select = c("patient_id","sex","age"))
+df.sub.unmatch= df.sub.unmatch%>%mutate(mean.age=mean(age), matched="0")
+
+df.sub.match=subset(df.sub.match, select = c("patient_id","sex","age"))
+df.sub.match= df.sub.match%>%mutate(mean.age=mean(age), matched="1")
+
+DF=rbind(df.sub.match, df.sub.unmatch)
+
+
+ggplot(DF, aes(x=age)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  geom_vline(data=DF, aes(xintercept=mean.age),
+             linetype="dashed")+
+  scale_x_continuous(breaks = seq(0, 110, by=20))+
+  facet_grid(matched ~.)+
+  labs(caption="0=unmatched cases, 1=matched cases")
+```
+```{r echo=FALSE}
+df.case=subset(df, df$case==1)
+DF=subset(DF,select=c("patient_id","matched"))
+df.case=merge(df.case,DF,by="patient_id")
+```
+
+### Comparison table of matched & unmatched cases
+
+```{r echo=FALSE}
+df.case$matched=as.factor(df.case$matched)
+
+df.case %>%
+  select(matched,age,bmi,Charlson,ab_types,ab_prescriptions,broad_ab_prescriptions) %>%
+  tbl_uvregression(
+    method = glm,
+    y = matched,
+    method.args = list(family = binomial),
+    exponentiate = TRUE,
+    pvalue_fun = ~style_pvalue(.x, digits = 2)
+  ) %>%
+  add_global_p() %>%  # add global p-value 
+  add_nevent() %>%    # add number of events of the outcome
+  bold_p() %>%        # bold p-values under a given threshold (default 0.05)
+   bold_labels()
 
 ```
 
@@ -343,4 +447,56 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 ```
 
 
+
+# Cases: control not found
+##### **Unmatched cases count:`r unmatched`**
+##### **Matched cases count:`r matched`**
+```{r echo=FALSE }
+
+# unmatched cases
+
+df.sub.unmatch=subset(df.sub.unmatch, select = c("patient_id","sex","age"))
+df.sub.unmatch= df.sub.unmatch%>%mutate(mean.age=mean(age), matched="0")
+
+df.sub.match=subset(df.sub.match, select = c("patient_id","sex","age"))
+df.sub.match= df.sub.match%>%mutate(mean.age=mean(age), matched="1")
+
+DF=rbind(df.sub.match, df.sub.unmatch)
+
+
+ggplot(DF, aes(x=age)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  geom_vline(data=DF, aes(xintercept=mean.age),
+             linetype="dashed")+
+  scale_x_continuous(breaks = seq(0, 110, by=20))+
+  facet_grid(matched ~.)+
+  labs(caption="0=unmatched cases, 1=matched cases")
+```
+```{r echo=FALSE}
+df.case=subset(df, df$case==1)
+DF=subset(DF,select=c("patient_id","matched"))
+df.case=merge(df.case,DF,by="patient_id")
+```
+
+### Comparison table of matched & unmatched cases
+
+```{r echo=FALSE}
+df.case$matched=as.factor(df.case$matched)
+
+df.case %>%
+  select(matched,age,bmi,Charlson,ab_types,ab_prescriptions,broad_ab_prescriptions) %>%
+  tbl_uvregression(
+    method = glm,
+    y = matched,
+    method.args = list(family = binomial),
+    exponentiate = TRUE,
+    pvalue_fun = ~style_pvalue(.x, digits = 2)
+  ) %>%
+  add_global_p() %>%  # add global p-value 
+  add_nevent() %>%    # add number of events of the outcome
+  bold_p() %>%        # bold p-values under a given threshold (default 0.05)
+   bold_labels()
+
+```
 
