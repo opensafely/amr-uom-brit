@@ -166,7 +166,7 @@ df$covrx1_ever=ifelse(is.na(df$covrx1_dat),0,1)
 df$covrx2_ever=ifelse(df$covrx2_dat>0,1,0)
 df$covrx_ever=ifelse(df$covrx1>0|df$covrx2>0,1,0)
 
-# flue vaccine
+# flu vaccine
 
 
 write_csv(df, here::here("output", "matched_outcome2.csv"))
