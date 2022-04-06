@@ -122,6 +122,24 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 
 ```
 
+### Comparison table of case & control groups
+
+##### **1. Matching Variables **
+
+```{r  echo=FALSE }
+
+df.m=df%>% select(case, age, sex, stp)
+df$age=as.numeric(df$age)
+
+df.m %>%
+  tbl_summary(
+    by = case,
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)")) %>%
+  bold_labels()
+
+```
 
 
 ```{r echo=FALSE }
@@ -174,7 +192,7 @@ df.case=merge(df.case,DF,by="patient_id")
 df.case$matched=as.factor(df.case$matched)
 
 df.case %>%
-  select(matched,age,bmi,Charlson,ab_types,ab_prescriptions,broad_ab_prescriptions) %>%
+  select(matched,age,sex,stp) %>%
   tbl_uvregression(
     method = glm,
     y = matched,
@@ -298,6 +316,24 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
   scale_x_continuous(breaks = seq(0, 110, by=10))
 
 ```
+### Comparison table of case & control groups
+
+##### **1. Matching Variables **
+
+```{r  echo=FALSE }
+
+df.m=df%>% select(case, age, sex, stp)
+df$age=as.numeric(df$age)
+
+df.m %>%
+  tbl_summary(
+    by = case,
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)")) %>%
+  bold_labels()
+
+```
 
 
 ```{r echo=FALSE }
@@ -351,7 +387,7 @@ df.case=merge(df.case,DF,by="patient_id")
 df.case$matched=as.factor(df.case$matched)
 
 df.case %>%
-  select(matched,age,bmi,Charlson,ab_types,ab_prescriptions,broad_ab_prescriptions) %>%
+  select(matched,age,sex,stp) %>%
   tbl_uvregression(
     method = glm,
     y = matched,
@@ -476,6 +512,24 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 
 ```
 
+### Comparison table of case & control groups
+
+##### **1. Matching Variables **
+
+```{r  echo=FALSE }
+
+df.m=df%>% select(case, age, sex, stp)
+df$age=as.numeric(df$age)
+
+df.m %>%
+  tbl_summary(
+    by = case,
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)")) %>%
+  bold_labels()
+
+```
 
 
 ```{r echo=FALSE }
@@ -528,7 +582,7 @@ df.case=merge(df.case,DF,by="patient_id")
 df.case$matched=as.factor(df.case$matched)
 
 df.case %>%
-  select(matched,age,bmi,Charlson,ab_types,ab_prescriptions,broad_ab_prescriptions) %>%
+  select(matched,age,sex,stp) %>%
   tbl_uvregression(
     method = glm,
     y = matched,
