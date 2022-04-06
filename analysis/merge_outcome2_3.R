@@ -11,6 +11,7 @@ library('dplyr')
 library('lubridate')
 
 setwd(here::here("output"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 ###### outcome 2 ###### 
 
 # combine case & control subsets
@@ -22,7 +23,8 @@ rm(df1,df2)
 ## add variables to extracted cohort:"set_id","case", "match_counts"   
 DF2 <- read_csv("matched_combined_infection_hosp.csv")
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
-DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
+#DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
+DF2= DF2%>%select("patient_id","set_id","case", "match_counts")
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can;t merge with dummy data
 df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
@@ -175,7 +177,7 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
 # variables for analysis
-df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval","ab_freq","ab_freq.type", "lastABtime","ab_qn", "br_ab_qn"))
+df=df%>%select(c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval", "lastABtime","ab_qn", "br_ab_qn"))
 
 
 
@@ -196,7 +198,7 @@ rm(df1,df2)
 ## add variables to extracted cohort:"set_id","case", "match_counts"   
 DF2 <- read_csv("matched_combined_hosp_icu_death.csv")
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
-DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
+DF2 = DF2%>%select(c("patient_id","set_id","case", "match_counts"))
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can;t merge with dummy data
 df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
@@ -340,7 +342,7 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 # variables for analysis
 # variables for analysis
-df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval","lastABtime","ab_qn", "br_ab_qn"))
+df=df%>%select(c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval","lastABtime","ab_qn", "br_ab_qn"))
 
 
 
