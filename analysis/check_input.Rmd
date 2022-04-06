@@ -212,3 +212,194 @@ dat %>%
       all_categorical() ~ "{n} ({p}%)"))
 rm(list=ls())
 ```
+
+
+
+##  after matching:
+#### 1. outcome 2
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","matched_combined_infection_hosp.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+#### 2. outcome 3
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","matched_combined_hosp_icu_death.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+
+
+
+##  after extracting variables:
+#### 1.1 outcome 2, case
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","input_outcome_2_case.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+#### 1.2 outcome 2, control
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","input_outcome_2_control.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+
+
+
+#### 2.1 outcome 3, case
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","input_outcome_3_case.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+#### 2.2 outcome 3, control
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","input_outcome_3_control.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+
+
+
+
+##  merging dataset & add variables
+#### 1. outcome 2
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","matched_outcome2.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+#### 2. outcome 3
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","matched_outcome3.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```

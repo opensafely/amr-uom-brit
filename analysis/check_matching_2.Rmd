@@ -75,6 +75,10 @@ control=control%>%group_by(set_id)%>%summarise(num.matches=n())
 table(control$num.matches)
 # proportional of matched controls per case
 round(prop.table(table(control$num.matches)),digits=2)
+
+contr=subset(df,df$case=="0")
+table(contr$match_count)
+round(prop.table(table(contr$match_count)),digits=2)
 ```
 
 
@@ -151,7 +155,7 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 
 ```{r  echo=FALSE }
 
-df.m=df%>% select(case, age,age_cat, sex, region)
+df.m=df%>% select(case, age,age_cat, sex,stp, region)
 df$age=as.numeric(df$age)
 
 df.m %>%

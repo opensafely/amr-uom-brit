@@ -16,18 +16,21 @@ setwd(here::here("output"))
 
 # combine case & control subsets
 df1=read_csv("input_outcome_2_case.csv")
+df1$case="1"
 df2=read_csv("input_outcome_2_control.csv")
+df2$case="0"
 DF1=rbind(df1,df2)
 rm(df1,df2)
 
 ## add variables to extracted cohort:"set_id","case", "match_counts"   
 DF2 <- read_csv("matched_combined_infection_hosp.csv")
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
+DF2= DF2%>%select("patient_id","age","sex","set_id","case", "match_counts","stp")
 #DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
-DF2= DF2%>%select("patient_id","set_id","case", "match_counts")
+#DF2= DF2%>%select("patient_id","set_id","case", "match_counts")
 
-#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can;t merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
+df=merge(DF1,DF2,by=c("patient_id","age","sex","stp","case"),all.x=T) #can;t merge with dummy data
+#df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
 rm(DF1,DF2)
 
 ######## time ##########
@@ -76,7 +79,7 @@ df$ab_first_date=as.Date(df$ab_first_date)
 df$interval=as.integer(difftime(df$ab_last_date,df$ab_first_date,unit="day"))
 df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ record to 1
 
-df$lastABtime=as.integer(difftime(df$ab_last_date,df$patient_index_date,unit="day"))
+df$lastABtime=as.integer(difftime(df$patient_index_date,df$ab_last_date,unit="day"))
 
 ## quintile category
 
@@ -191,17 +194,21 @@ rm(list=ls())
 
 # combine case & control subsets
 df1=read_csv("input_outcome_3_case.csv")
+df1$case="1"
 df2=read_csv("input_outcome_3_control.csv")
+df2$case="0"
 DF1=rbind(df1,df2)
 rm(df1,df2)
 
 ## add variables to extracted cohort:"set_id","case", "match_counts"   
-DF2 <- read_csv("matched_combined_hosp_icu_death.csv")
+DF2 <- read_csv("matched_combined_infection_hosp.csv")
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
-DF2 = DF2%>%select(c("patient_id","set_id","case", "match_counts"))
+DF2= DF2%>%select("patient_id","age","sex","set_id","case", "match_counts","stp")
+#DF2 = subset(DF2,select=c("patient_id","set_id","case", "match_counts"))
+#DF2= DF2%>%select("patient_id","set_id","case", "match_counts")
 
-#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can;t merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
+df=merge(DF1,DF2,by=c("patient_id","age","sex","stp","case"),all.x=T) #can;t merge with dummy data
+#df=merge(DF1,DF2,by=c("patient_id"),all.x=T)
 rm(DF1,DF2)
 
 ######## time ##########
@@ -250,18 +257,27 @@ df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ 
 df$ab_freq=df$ab_prescriptions/df$interval
 df$ab_freq.type=df$ab_types/df$interval
 
-df$lastABtime=as.integer(difftime(df$ab_last_date,df$patient_index_date,unit="day"))
+df$lastABtime=as.integer(difftime(df$patient_index_date,df$ab_last_date,unit="day"))
 
-## quantile category
+## quintile category
 
-quintile<-function(x){
-  ifelse(x>quantile(x,.8),"5",
-         ifelse(x>quantile(x,.6),"4",
-                ifelse(x>quantile(x,.4),"3",
-                       ifelse(x>quantile(x,.2),"2","1"))))}
+# quintile<-function(x){
+#   ifelse(x>quantile(x,.8),"5",
+#          ifelse(x>quantile(x,.6),"4",
+#                 ifelse(x>quantile(x,.4),"3",
+#                        ifelse(x>quantile(x,.2),"2","1"))))}
 
-df$ab_qn=quintile(df$ab_prescriptions)
-df$br_ab_qn=quintile(df$broad_ab_prescriptions)
+# df$ab_qn=quintile(df$ab_prescriptions)
+# df$br_ab_qn=quintile(df$broad_ab_prescriptions)
+
+df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
+
+df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5),
+               br_ab_qn=ntile(broad_ab_prescriptions,5))
+
+df$ab_qn=ifelse(is.na(df$ab_qn),0,df$ab_qn)# no ab ->0; ab exp. ->1~5
+df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
 
 df$ab_qn=as.factor(df$ab_qn)
 df$br_ab_qn=as.factor(df$br_ab_qn)
