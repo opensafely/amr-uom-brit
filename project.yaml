@@ -806,6 +806,30 @@ actions:
         csv11: output/redacted/abtype_ot_externa.csv
         csv12: output/redacted/abtype_otmedia.csv
 
+  describe_infection_abtype_plot_count: #  output raw counts
+    run: r:latest analysis/redaction/infection_abtype_counts.R
+    needs: [describe_infection_abtype_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/redacted/count_abtype_uti.jpeg
+        plot2: output/redacted/count_abtype_lrti.jpeg
+        plot3: output/redacted/count_abtype_urti.jpeg
+        plot4: output/redacted/count_abtype_sinusitis.jpeg
+        plot5: output/redacted/count_abtype_ot_externa.jpeg
+        plot6: output/redacted/count_abtype_otmedia.jpeg
+        csv1: output/redacted/count_abtype_uti_check.csv
+        csv2: output/redacted/count_abtype_lrti_check.csv
+        csv3: output/redacted/count_abtype_urti_check.csv
+        csv4: output/redacted/count_abtype_sinusitis_check.csv
+        csv5: output/redacted/count_abtype_ot_externa_check.csv
+        csv6: output/redacted/count_abtype_otmedia_check.csv
+        csv7: output/redacted/count_abtype_uti.csv
+        csv8: output/redacted/count_abtype_lrti.csv
+        csv9: output/redacted/count_abtype_urti.csv
+        csv10: output/redacted/count_abtype_sinusitis.csv
+        csv11: output/redacted/count_abtype_ot_externa.csv
+        csv12: output/redacted/count_abtype_otmedia.csv
+
   describe_infection_noAB_plot: #  percentage
     run: r:latest analysis/redaction/infection_v2_noAB.R
     needs: [describe_infection_abtype_process]
@@ -843,7 +867,6 @@ actions:
         csv5: output/redacted_v2/AB_ot_externa_check.csv
         csv6: output/redacted_v2/AB_otmedia_check.csv
         csv7: output/redacted_v2/AB.csv
-
 
 
   describe_broad_proportion_measure:   
