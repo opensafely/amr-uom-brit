@@ -122,6 +122,21 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 
 ```
 
+
+
+```{r echo=FALSE }
+
+# select unmatched cases
+# matches not found
+#unmatched=sum(table(df$set_id)=="1")
+df.sub.unmatch=df %>% group_by(set_id) %>% filter(n() == 1) # if matched pair: n>=2
+unmatched=length(as.factor(df.sub.unmatch$patient_id))
+# select matched cases
+df.sub.match=subset(df.sub.case,  !df.sub.case$patient_id %in% df.sub.unmatch$patient_id)
+matched=length(as.factor(df.sub.match$patient_id))
+
+```
+
 # Cases: control not found
 ##### **Unmatched cases count:`r unmatched`**
 ##### **Matched cases count:`r matched`**
@@ -283,6 +298,21 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
   scale_x_continuous(breaks = seq(0, 110, by=10))
 
 ```
+
+
+```{r echo=FALSE }
+
+# select unmatched cases
+# matches not found
+#unmatched=sum(table(df$set_id)=="1")
+df.sub.unmatch=df %>% group_by(set_id) %>% filter(n() == 1) # if matched pair: n>=2
+unmatched=length(as.factor(df.sub.unmatch$patient_id))
+# select matched cases
+df.sub.match=subset(df.sub.case,  !df.sub.case$patient_id %in% df.sub.unmatch$patient_id)
+matched=length(as.factor(df.sub.match$patient_id))
+
+```
+
 
 # Cases: control not found
 ##### **Unmatched cases count:`r unmatched`**
@@ -447,6 +477,19 @@ ggplot(df.sub.set, aes(x=m.age.setid, fill=case, color=case)) +
 ```
 
 
+
+```{r echo=FALSE }
+
+# select unmatched cases
+# matches not found
+#unmatched=sum(table(df$set_id)=="1")
+df.sub.unmatch=df %>% group_by(set_id) %>% filter(n() == 1) # if matched pair: n>=2
+unmatched=length(as.factor(df.sub.unmatch$patient_id))
+# select matched cases
+df.sub.match=subset(df.sub.case,  !df.sub.case$patient_id %in% df.sub.unmatch$patient_id)
+matched=length(as.factor(df.sub.match$patient_id))
+
+```
 
 # Cases: control not found
 ##### **Unmatched cases count:`r unmatched`**
