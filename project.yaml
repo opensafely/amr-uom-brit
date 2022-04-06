@@ -576,15 +576,15 @@ actions:
         rds3: output/measures/recorded_ab_broad_2021.rds
         rds4: output/measures/recorded_ab_broad_2022.rds
 
-  describe_ab_type_process:
-    run: r:latest analysis/process/narrow_check_transform.R
-    needs: [generate_study_population_antibiotics_tpye]
-    outputs:
-       highly_sensitive:
-        rds1: output/measures/recorded_ab_type_2019.rds
-        rds2: output/measures/recorded_ab_type_2020.rds
-        rds3: output/measures/recorded_ab_type_2021.rds
-        rds4: output/measures/recorded_ab_type_2022.rds
+  # describe_ab_type_process:
+  #   run: r:latest analysis/process/narrow_check_transform.R
+  #   needs: [generate_study_population_antibiotics_tpye]
+  #   outputs:
+  #      highly_sensitive:
+  #       rds1: output/measures/recorded_ab_type_2019.rds
+  #       rds2: output/measures/recorded_ab_type_2020.rds
+  #       rds3: output/measures/recorded_ab_type_2021.rds
+  #       rds4: output/measures/recorded_ab_type_2022.rds
 
   describe_broad_proportion:
     run: r:latest analysis/plot/broad_proportion.R
