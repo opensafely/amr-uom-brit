@@ -57,6 +57,13 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_broad_*.csv
+
+## for appropriateness of antibiotic prescribing 
+  generate_study_population_repeat_antibiotics: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_repeat --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_repeat_*.csv.gz
         
   # describe_elderly_agedis:
   #   run: r:latest analysis/tables/gen_csv_age_check.R
@@ -479,11 +486,14 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
 
-  generate_study_population_antibiotics_tpye: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_antibiotics_type_*.csv.gz
+# ### generate study cohort with the date of each prescriptions
+#   generate_study_population_antibiotics_tpye: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/measures/input_antibiotics_type_*.csv.gz
+
+
 
   generate_study_population_antibiotics_covid: #  Ab for covid
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -511,7 +521,7 @@ actions:
   #       rds2: output/measures/recorded_ab_2020.rds
   #       rds3: output/measures/recorded_ab_2021.rds
   #       rds4: output/measures/recorded_ab_2022.rds
-  
+
   describe_ab_recoded_indication_plot_incident: 
     run: r:latest analysis/plot/ab_recorded_indication_plot_incident.R
     needs: [describe_ab_recoded_broad_process] # transfrom & define all variables
