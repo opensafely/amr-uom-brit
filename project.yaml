@@ -157,6 +157,16 @@ actions:
         combined4: output/matched_combined_infection_hosp_4.csv
         combined6: output/matched_combined_infection_hosp_6.csv
 
+  matching: # matching with replacement
+    run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_1]
+    outputs:
+      moderately_sensitive:
+        html: output/matching.html
+      highly_sensitive: 
+        rds: output/matched_patients.rds
+        csv: output/matched_patients_id.csv
+
 
 #   matching_3:
 #     run: python:latest python analysis/matching_outcome_3.py
