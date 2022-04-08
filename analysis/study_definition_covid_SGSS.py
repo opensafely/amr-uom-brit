@@ -180,10 +180,10 @@ study = StudyDefinition(
     ),
     ## died after patient index date
     ons_died_date=patients.died_from_any_cause(
-        between=[f'{index_date_variable}' , f'{index_date_variable} + 1 month'],        
+        between=["patient_index_date" , "patient_index_date + 1 month"],        
         returning="date_of_death",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}},
+        return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.05},
     ),
 
 
