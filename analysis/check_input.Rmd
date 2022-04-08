@@ -137,6 +137,43 @@ dat %>%
 rm(list=ls())
 ```
 
+
+# matching with replacement
+###### patient_index_date range
+```{r}
+dat=read_rds(here::here("output","matched_patients.rds"))
+range(dat$patient_index_date, na.rm=T)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+##  extracting variables
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","input_outcome.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
 #  matching without replacement
 ### 1:6
 ###### patient_index_date range
