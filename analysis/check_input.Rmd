@@ -21,7 +21,7 @@ require("ggplot2")
 
 # cohort extractor
 
-#### 1.1 study_population_covid_primary_care 
+## 1.1 study_population_covid_primary_care 
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_covid_primarycare.csv"),
@@ -43,7 +43,7 @@ dat %>%
 rm(dat)
 ```
 
-#### 1.2 study_population_covid_SGSS
+## 1.2 study_population_covid_SGSS
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_covid_SGSS.csv"),
@@ -69,7 +69,30 @@ rm(list=ls())
 
 
 #  define case and control
-#### 1. covid infection without any covid record later
+
+#### case: covid infection with hospital admission
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","case_covid_hosp.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
+## control_1: covid infection without any covid record later
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","control_covid_infection.csv"),
@@ -92,7 +115,7 @@ rm(list=ls())
 ```
 
 
-#### 1.2 covid infection without any covid record later +  any death later 
+##  control_2: covid infection without any covid record later + any death later 
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","control_covid_infection_2.csv"),
@@ -114,33 +137,8 @@ dat %>%
 rm(list=ls())
 ```
 
-
-
-#### 2. covid infection with hospital admission
-###### patient_index_date range
-```{r}
-dat=read_csv(here::here("output","case_covid_hosp.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character(),
-               patient_index_date=col_date()
-             ))
-
-range(dat$patient_index_date, na.rm=T)
-
-dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
-
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
-rm(list=ls())
-```
-
-
-##  after matching
-#### 1:6
+#  matching without replacement
+### 1:6
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","matched_combined_infection_hosp_6.csv"),
@@ -162,7 +160,7 @@ dat %>%
 rm(list=ls())
 ```
 
-#### 1:4
+### 1:4
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","matched_combined_infection_hosp_4.csv"),
@@ -184,7 +182,7 @@ dat %>%
 rm(list=ls())
 ```
 
-#### 1:2
+### 1:2
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","matched_combined_infection_hosp_2.csv"),
@@ -207,7 +205,7 @@ rm(list=ls())
 ```
 
 
-## after extracting variables
+##  extracting variables
 #### 1:6
 ###### patient_index_date range
 ```{r}
@@ -278,7 +276,7 @@ rm(list=ls())
 
 
 ## sorting variables
-#### 1:6
+### 1:6
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","matched_outcome_6.csv"),
@@ -301,7 +299,7 @@ rm(list=ls())
 ```
 
 
-#### 1:4
+### 1:4
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","matched_outcome_4.csv"),
@@ -324,7 +322,7 @@ rm(list=ls())
 ```
 
 
-#### 1:2
+### 1:2
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","matched_outcome_2.csv"),
@@ -345,3 +343,6 @@ dat %>%
       all_categorical() ~ "{n} ({p}%)"))
 rm(list=ls())
 ```
+
+
+
