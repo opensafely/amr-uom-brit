@@ -10,7 +10,7 @@ from cohortextractor import (
 )
 
 ###### import matched cohort
-COHORT = "output/matched_outcome_1_control_2101.csv"
+COHORT = "output/matched_patients_id.csv"
 
 ###### Code lists
 from codelists import *
@@ -68,7 +68,7 @@ study = StudyDefinition(
 
     ## Age
     age=patients.age_as_of(
-        "index_date",
+        "patient_index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
