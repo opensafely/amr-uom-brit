@@ -69,9 +69,16 @@ actions:
   #       notebook: output/hospitalisation_prediction_uti/hospitalisation_prediction_uti.html 
   #       figures: output/hospitalisation_prediction_uti/*
 
+  describe_hospitalisation_reading_csv_urti:
+    run: r:latest analysis/hospitalisation_reading_csv_urti.R
+    needs: [generate_study_population_hospitalisation_1, generate_study_population_hospitalisation_2, generate_study_population_hospitalisation_3, generate_study_population_hospitalisation_4]
+    outputs:
+       moderately_sensitive:
+        rds1: output/hospitalisation_data/data2019.csv.gz
+
   generate_notebook_hospitalisation_prediction_urti:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population_hospitalisation_1, generate_study_population_hospitalisation_2, generate_study_population_hospitalisation_3, generate_study_population_hospitalisation_4]
+    needs: [describe_hospitalisation_reading_csv_urti]
     # , generate_study_population_hospitalisation_3, generate_study_population_hospitalisation_4]
     outputs:
       moderately_sensitive:
