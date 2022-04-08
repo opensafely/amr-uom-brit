@@ -140,4 +140,9 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome.csv
   
-   
+  process_Rmatching: # add variables 
+    run: r:latest analysis/process_Rmatching.R
+    needs: [extract_variables,matching]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome.rds
