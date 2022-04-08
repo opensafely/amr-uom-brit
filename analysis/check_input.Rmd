@@ -21,7 +21,7 @@ require("ggplot2")
 
 # cohort extractor
 
-## 1.1 study_population_covid_primary_care 
+## study_population_covid_primary_care 
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_covid_primarycare.csv"),
@@ -43,7 +43,7 @@ dat %>%
 rm(dat)
 ```
 
-## 1.2 study_population_covid_SGSS
+## study_population_covid_SGSS
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_covid_SGSS.csv"),
