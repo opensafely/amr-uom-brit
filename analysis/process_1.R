@@ -1,15 +1,13 @@
 
 # # # # # # # # # # # # # # # # # # # # #
 # This script:
-# define covid infection (case) & potiential control group
-# 
-# 
+# 1. define covid infections cohort (SGSS+primary care) 
+# 2. define case (admittied to hospital) and control (without any severe outcome)
 # # # # # # # # # # # # # # # # # # # # #
 
 ## Import libraries---
 
 library('tidyverse')
-library("ggplot2")
 library('dplyr')
 library('lubridate')
 
