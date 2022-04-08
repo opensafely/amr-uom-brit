@@ -70,7 +70,7 @@ rm(list=ls())
 
 #  define case and control
 
-#### case: covid infection with hospital admission
+## case: covid infection with hospital admission
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","case_covid_hosp.csv"),
