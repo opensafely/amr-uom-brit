@@ -26,6 +26,7 @@ df1=df1%>%
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
 
+df1=df1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 
 df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
@@ -35,7 +36,7 @@ df2=df2%>%
          is.na(covid_admission_date),
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
-
+df2=df2%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 
 df=rbind(df1,df2)

@@ -1,6 +1,12 @@
 ---
 title: "Input Data Check"
-output: html_document
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
 ---
 
 ```{r setup, include=FALSE}
@@ -201,9 +207,7 @@ rm(list=ls())
 ```
 
 
-
-## after extracting variables
-#### 1:4
+### 1:4
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_outcome_2_4.csv"),
@@ -226,9 +230,7 @@ rm(list=ls())
 ```
 
 
-
-## after extracting variables
-#### 1:2
+### 1:2
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_outcome_2_2.csv"),
