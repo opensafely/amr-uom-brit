@@ -115,8 +115,17 @@ actions:
       moderately_sensitive:
         html: output/matching.html
       highly_sensitive: 
-        rds: output/matched_patients.rds
+        rds1: output/matched_patients.rds
+        rds2: output/unmatched_patients.rds
         csv: output/matched_patients_id.csv
+
+  check_matching:
+    run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_matching.html
+
 
   extract_variables: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
@@ -124,3 +133,5 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_outcome.csv
+  
+   
