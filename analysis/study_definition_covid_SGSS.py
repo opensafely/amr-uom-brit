@@ -168,7 +168,7 @@ study = StudyDefinition(
             },
     ),
 
-    # observation end date
+# data check
     ## de-register after start date
     dereg_date=patients.date_deregistered_from_all_supported_practices(
         on_or_before="patient_index_date - 1 day",
