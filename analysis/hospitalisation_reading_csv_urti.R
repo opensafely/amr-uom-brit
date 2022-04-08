@@ -20,7 +20,7 @@ dat201906 <- read.csv("input_hospitalisation_2019-06-01.csv.gz", header=TRUE)
 # dat2019 = merge(dat201901, dat201902, dat201903, dat201904, dat201905, dat201906, dat201907, dat201908, dat201909, dat201910, dat201911, dat201912)
 
 #put all data frames into list
-dat2019 <- list(dat201901, dat201902, dat201903, dat201904, dat201905, dat201906, dat201907, dat201908, dat201909, dat201910, dat201911, dat201912)
+dat2019 <- list(dat201901, dat201902, dat201903, dat201904, dat201905, dat201906)#, dat201907, dat201908, dat201909, dat201910, dat201911, dat201912)
 
 #merge all data frames in list
 Reduce(function(x, y) merge(x, y, all=TRUE), dat2019)
