@@ -64,6 +64,17 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_ab_repeat_*.csv.gz
+
+  # describe_repeat_ab_process:
+  #   run: r:latest analysis/process/ab_repeat_transform.R
+  #   needs: [generate_study_population_repeat_antibiotics]
+  #   outputs:
+  #      moderately_sensitive:
+  #       rds1: output/measures/repeatab_uti.rds
+  #       rds2: output/measures/repeatab_lrti.rds
+  #       rds3: output/measures/repeatab_urti.rds
+
+
         
   # describe_elderly_agedis:
   #   run: r:latest analysis/tables/gen_csv_age_check.R
@@ -486,12 +497,12 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
 
-# ### generate study cohort with the date of each prescriptions
-#   generate_study_population_antibiotics_tpye: 
-#     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
-#     outputs:
-#       highly_sensitive:
-#         cohort: output/measures/input_antibiotics_type_*.csv.gz
+### generate study cohort with the date of each prescriptions
+  generate_study_population_antibiotics_tpye: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_antibiotics_type_*.csv.gz
 
 
 
