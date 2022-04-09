@@ -14,7 +14,7 @@ library('lubridate')
 
 #### COVID INFECTION
 
-# impoprt data
+# import data
 df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
 
 # filter SGSS (exclude SGSS+admission, SGSS+death)
@@ -55,9 +55,7 @@ df$cal_YM=format(df$patient_index_date,"%Y-%m")
 df.0=df%>%
   filter(
           is.na(covid_admission_date_after),
-          is.na(died_date_cpns_after),
-          is.na(died_date_ons_covid_after),
-          is.na(ons_died_date))  # die any
+          is.na(died_date_cpns_after)|is.na(died_date_ons_covid_after)|is.na(ons_died_date))  # die any
 
 #write_csv(df, here::here("output", "case_covid_infection.csv"))
 
