@@ -172,11 +172,11 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
 # variables for analysis
-df=subset(df,select=c("wave","patient_id","set_id","case", "match_counts","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval", "lastABtime","ab_qn", "br_ab_qn"))
+df=subset(df,select=c("wave","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval", "lastABtime","ab_qn", "br_ab_qn"))
 
 
 
-write_csv(df, here::here("output", "matched_outcome.rds"))
+write_rds(df, here::here("output", "matched_outcome.rds"))
 rm(list=ls())
 
 
