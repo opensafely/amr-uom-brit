@@ -132,7 +132,6 @@ actions:
       moderately_sensitive:
         html: output/check_matching.html
 
-
   extract_variables: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
     needs: [matching]
