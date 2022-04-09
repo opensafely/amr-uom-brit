@@ -35,7 +35,7 @@ actions:
 
   check_input: # 
     run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [extract_variables,matching,process_matching,extract_variables_outcome_2_2,extract_variables_outcome_2_4,extract_variables_outcome_2_6,matching_2,process_1,generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
+    needs: [process_Rmatching,process_2,extract_variables,matching,process_matching,extract_variables_outcome_2_2,extract_variables_outcome_2_4,extract_variables_outcome_2_6,matching_2,process_1,generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
     outputs:
       moderately_sensitive:
         html: output/check_input.html

@@ -142,6 +142,7 @@ rm(list=ls())
 ###### patient_index_date range
 ```{r}
 dat=read_rds(here::here("output","matched_patients.rds"))
+dat=dat%>%select(age,sex,patient_index_date)
 range(dat$patient_index_date, na.rm=T)
 
 dat %>%
@@ -152,7 +153,7 @@ dat %>%
 rm(list=ls())
 ```
 
-##  extracting variables
+##  extract variables
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","input_outcome.csv"),
@@ -174,10 +175,11 @@ dat %>%
 rm(list=ls())
 ```
 
-##  extracting variables
+##  sort variables
 ###### patient_index_date range
 ```{r}
-dat=read_rds(here::here("output","matched_patients.rds"))
+dat=read_rds(here::here("output","matched_outcome.rds"))
+dat=dat%>%select(age,sex,patient_index_date)
 
 range(dat$patient_index_date, na.rm=T)
 
@@ -259,7 +261,7 @@ rm(list=ls())
 ```
 
 
-##  extracting variables
+##  extract variables
 #### 1:6
 ###### patient_index_date range
 ```{r}
@@ -329,7 +331,7 @@ rm(list=ls())
 ```
 
 
-## sorting variables
+## sort variables
 ### 1:6
 ###### patient_index_date range
 ```{r}
