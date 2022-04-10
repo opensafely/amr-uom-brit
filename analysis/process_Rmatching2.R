@@ -176,7 +176,7 @@ df=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case"
 
 
 
-write_rds(df, here::here("output", "matched_outcome_2.rds"))
+write_rds(df, here::here("output", "matched_outcome2.rds"))
 rm(list=ls())
 
 
