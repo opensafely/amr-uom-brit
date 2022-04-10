@@ -156,7 +156,7 @@ rm(list=ls())
 ## matching 2
 ###### patient_index_date range
 ```{r}
-dat=read_rds(here::here("output","matched_patients_2.rds"))
+dat=read_rds(here::here("output","matched_patients2.rds"))
 dat=dat%>%select(age,sex,patient_index_date)
 range(dat$patient_index_date, na.rm=T)
 
