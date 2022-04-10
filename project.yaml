@@ -42,6 +42,17 @@ actions:
         rds1: output/matched_patients.rds
         rds2: output/unmatched_patients.rds
         csv: output/matched_patients_id.csv
+  
+  matching2: # matching with replacement
+    run: r:latest -e 'rmarkdown::render("analysis/matching2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_1]
+    outputs:
+      moderately_sensitive:
+        html: output/matching2.html
+      highly_sensitive: 
+        rds1: output/matched_patients_2.rds
+        rds2: output/unmatched_patients_2.rds
+        csv: output/matched_patients_id_2.csv
 
   check_matching:
     run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'

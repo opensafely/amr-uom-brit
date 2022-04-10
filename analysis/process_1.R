@@ -15,8 +15,8 @@ library('lubridate')
 #### COVID hospital admission
 
 # import data
-#df <- read_csv(here::here("output", "input_covid_admission.csv"))
-df=read_csv("input_covid_admission.csv")
+df <- read_csv(here::here("output", "input_covid_admission.csv"))
+#df=read_csv("input_covid_admission.csv")
 
 # filter cohort
 df =df%>%filter( !is.na(patient_index_date)) # covid hospital case
