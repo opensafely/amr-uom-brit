@@ -13,7 +13,8 @@ library('lubridate')
 setwd(here::here("output"))
 
 # extracted dataset after matching
-DF1=read_csv("input_outcome_2.csv")
+DF1=read_csv("input_outcome
+2.csv")
 
 ## add variables to extracted cohort:"subclass","case", 
 DF2 <- read_rds("matched_patients_2.rds")
