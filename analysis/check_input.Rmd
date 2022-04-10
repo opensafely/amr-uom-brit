@@ -156,7 +156,7 @@ rm(list=ls())
 ## matching 2
 ###### patient_index_date range
 ```{r}
-dat=read_rds(here::here("output","matched_patients2.rds"))
+dat=read_rds(here::here("output","matched_patients_2.rds"))
 dat=dat%>%select(age,sex,patient_index_date)
 range(dat$patient_index_date, na.rm=T)
 
@@ -195,7 +195,7 @@ rm(list=ls())
 ## extraction 2
 ###### patient_index_date range
 ```{r}
-dat=read_csv(here::here("output","input_outcome_2.csv"),
+dat=read_csv(here::here("output","input_outcome2.csv"),
              col_types=cols_only(
                age=col_double(),
                sex=col_character(),
