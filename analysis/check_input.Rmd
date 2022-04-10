@@ -24,7 +24,7 @@ require("ggplot2")
 ## study_population_covid_hosp
 ###### patient_index_date range
 ```{r}
-dat=read_csv(here::here("output","input_covid_hosp.csv"),
+dat=read_csv(here::here("output","input_covid_admission.csv"),
              col_types=cols_only(
                age=col_double(),
                sex=col_character(),
