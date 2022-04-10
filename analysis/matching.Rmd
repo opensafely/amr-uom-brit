@@ -30,9 +30,9 @@ options(knitr.table.format="html")
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 setwd(here::here("output"))
 
-df1=read_csv(here::here("output","case_covid_hosp.csv"))
+df1=read_csv(here::here("output","case_covid_icu_death.csv"))
 df1$case=1
-df2=read_csv(here::here("output","control_covid_infection.csv"))
+df2=read_csv(here::here("output","control_covid_hosp.csv"))
 df2$case=0
 
 #df1=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_hosp.csv")

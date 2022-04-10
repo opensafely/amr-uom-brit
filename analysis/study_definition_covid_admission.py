@@ -17,7 +17,7 @@ from datetime import datetime
 start_date = "2020-02-01"
 end_date = "2021-12-31"
 
-# # ###### Import variables -->moved to after matching
+# # ###### Import variables
 
 ## covid history before patient_index_date
 from variables_covid import generate_covid_variables
@@ -39,9 +39,6 @@ covid_variables = generate_covid_variables(index_date_variable="patient_index_da
 # # from variables_CCI import generate_CCI_variables
 # # CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
 
-
-# ## import recurring event functions
-# from recurrent_event_funs import *
 
 study = StudyDefinition(
 
@@ -170,48 +167,32 @@ study = StudyDefinition(
             },
     ),
 
-    # observation end date
-    ## de-register after start date
-    dereg_date=patients.date_deregistered_from_all_supported_practices(
-        on_or_after="index_date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-        "date": {"earliest": "2020-02-01"},
-        "incidence": 0.05
-        }
-    ),
-    ## died after start date
-    ons_died_date=patients.died_from_any_cause(
-        on_or_after="index_date",
-        returning="date_of_death",
-        date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}},
+    	
+# data check	
+    ## de-register after start date	
+    dereg_date=patients.date_deregistered_from_all_supported_practices(	
+        on_or_before="patient_index_date - 1 day",	
+        date_format="YYYY-MM-DD",	
+        return_expectations={	
+        "date": {"earliest": "2020-02-01"},	
+        "incidence": 0.05	
+        }	
+    ),	
+    ## died after patient index date	
+    ons_died_date_after=patients.died_from_any_cause(	
+        between=["patient_index_date" , "patient_index_date + 1 month"],        	
+        returning="date_of_death",	
+        date_format="YYYY-MM-DD",	
+        return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.1},	
     ),
 
-    # # antibiotics prescribing time 
-    # ab_0_date=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     returning="date",
-    #     date_format="YYYY-MM-DD",
-    #     on_or_before="patient_index_date",
-    #     find_last_match_in_period=True,
-    #     return_expectations={
-    #         "date": {"earliest": start_date, "latest": end_date},
-    #         "rate": "exponential_increase",
-    #         "incidence": 0.01
-    #     },
-    # ),
-    # **with_these_medications_date_X(
-    #     name="ab",
-    #     n=6,
-    #     index_date="patient_index_date",
-    #     codelist=mantibacterials_codes_brit,
-    #     return_expectations={
-    #         "date": {"earliest": start_date, "latest": end_date},
-    #         "rate": "uniform",
-    #         "incidence": 0.01,
-    #     },
-    # ),
+    ## died before patient index date	
+    ons_died_date_before=patients.died_from_any_cause(	
+        on_or_before="patient_index_date - 1 day",        	
+        returning="date_of_death",	
+        date_format="YYYY-MM-DD",	
+        return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
+    ),
 
 
     # # **ab_variables,
