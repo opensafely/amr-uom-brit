@@ -64,7 +64,7 @@ study = StudyDefinition(
         """,
 
         has_died=patients.died_from_any_cause(
-            on_or_before="index_date",
+            on_or_before="patient_index_date - 1 day",
             returning="binary_flag",
         ),
 
