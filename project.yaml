@@ -613,6 +613,13 @@ actions:
         rds1: output/measures/ab_type_2021.rds
         rds2: output/measures/ab_type_2022.rds
 
+  describe_ab_throat:
+    run: r:latest analysis/plot/throat_ab.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2]
+    outputs:
+       moderately_sensitive:
+        table: output/ab_throat.csv
+
 
   describe_broad_proportion:
     run: r:latest analysis/plot/broad_proportion.R
