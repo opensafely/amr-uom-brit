@@ -611,7 +611,7 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/ab_type_2021.rds
-        rds2: output/measures/ab_type_2022.rds
+        # rds2: output/measures/ab_type_2022.rds
 
   describe_ab_throat:
     run: r:latest analysis/plot/throat_ab.R
