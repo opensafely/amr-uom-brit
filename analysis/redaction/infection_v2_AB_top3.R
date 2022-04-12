@@ -313,7 +313,7 @@ lineplot=annotate_figure(lineplot,
 
 ggsave(
   plot= lineplot,
-  filename="AB_lrti_top3_top3.jpeg", path=here::here("output","redacted_v2")) 
+  filename="AB_lrti_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
