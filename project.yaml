@@ -128,6 +128,13 @@ actions:
       highly_sensitive:
         cohort: output/case_covid_icu_death.csv
 
+  check_input_icu: # check above 
+    run: r:latest -e 'rmarkdown::render("analysis/check_input_icu.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_3]
+    outputs:
+      moderately_sensitive:
+        html: output/check_input_icu.html
+
   check_input: # check above 
     run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [matching_3,matching_2,extract_variables_outcome_3_control,extract_variables_outcome_3_case,extract_variables_outcome_2_control,extract_variables_outcome_2_case,merge_outcome2_3,process_1,process_2,process_3,generate_study_population, generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission,generate_study_population_covid_death_ons,generate_study_population_covid_death_cpns]
