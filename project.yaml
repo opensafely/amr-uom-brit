@@ -11,29 +11,29 @@ actions:
   #     highly_sensitive:
   #       cohort: output/measures/input_*.csv.gz
 
-  generate_study_population_hospitalisation_1:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-01-01 to 2019-03-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
+  generate_study_population_hospitalisation:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisation_*.csv.gz
+        cohort: output/hospitalisation_data/input_hospitalisation.csv.gz
 
-  generate_study_population_hospitalisation_2:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-04-01 to 2019-06-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisatio*.csv.gz
+  # generate_study_population_hospitalisation_2:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-04-01 to 2019-06-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/hospitalisation_data/input_hospitalisatio*.csv.gz
 
-  generate_study_population_hospitalisation_3:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-07-01 to 2019-09-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisati*.csv.gz
+  # generate_study_population_hospitalisation_3:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-07-01 to 2019-09-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/hospitalisation_data/input_hospitalisati*.csv.gz
 
-  generate_study_population_hospitalisation_4:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-10-01 to 2019-12-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisat*.csv.gz
+  # generate_study_population_hospitalisation_4:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-10-01 to 2019-12-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/hospitalisation_data/input_hospitalisat*.csv.gz
 
   # generate_measures:
   #   run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
@@ -76,13 +76,13 @@ actions:
   #      moderately_sensitive:
   #       rds1: output/hospitalisation_data/data2019.csv.gz
 
-  generate_notebook_hospitalisation_prediction_urti:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population_hospitalisation_1, generate_study_population_hospitalisation_2]
-    outputs:
-      moderately_sensitive:
-        notebook: output/hospitalisation_prediction_urti/hospitalisation_prediction_urti.html 
-        figures: output/hospitalisation_prediction_urti/*
+  # generate_notebook_hospitalisation_prediction_urti:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_study_population_hospitalisation_1, generate_study_population_hospitalisation_2]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_prediction_urti/hospitalisation_prediction_urti.html 
+  #       figures: output/hospitalisation_prediction_urti/*
   
   # generate_notebook_hospitalisation_prediction:
   #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction --ExecutePreprocessor.timeout=86400
