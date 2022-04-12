@@ -169,7 +169,7 @@ rm(list=ls())
 ```
 
 
-#### 2. covid hospital admission
+#### 2.1 covid hospital admission
 ###### patient_index_date range
 ```{r}
 dat=read_csv(here::here("output","case_covid_admission.csv"),
@@ -190,6 +190,29 @@ dat %>%
       all_categorical() ~ "{n} ({p}%)"))
 rm(list=ls())
 ```
+
+#### 2.2 covid hospital admission-control (remove worse_outrome_after)
+###### patient_index_date range
+```{r}
+dat=read_csv(here::here("output","control_covid_admission.csv"),
+             col_types=cols_only(
+               age=col_double(),
+               sex=col_character(),
+               patient_index_date=col_date()
+             ))
+
+range(dat$patient_index_date, na.rm=T)
+
+dat$patient_index_date=ifelse(is.na(dat$patient_index_date),NA,1)
+
+dat %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous() ~ "{min}, {max}",
+      all_categorical() ~ "{n} ({p}%)"))
+rm(list=ls())
+```
+
 
 #### 3. covid death: ONS +CPNS
 ###### patient_index_date range

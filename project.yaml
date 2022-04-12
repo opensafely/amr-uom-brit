@@ -120,6 +120,8 @@ actions:
       highly_sensitive:
         cohort1: output/case_covid_admission.csv
         cohort2: output/case_covid_ICU.csv
+        cohort3: output/control_covid_admission.csv
+
 
   process_3:
     run: r:latest analysis/process_3.R

@@ -54,7 +54,7 @@ from osmatching import match
 
 match(
     case_csv="case_covid_icu_death",
-    match_csv="case_covid_admission",
+    match_csv="control_covid_admission",
     matches_per_case=6,
     match_variables={
         "sex": "category",
