@@ -24,6 +24,13 @@ actions:
         highly_sensitive:
           cohort: output/input_covidcheck_2.csv.gz
 
+  generate_study_population_samedayab:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_sameday_ab 
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_sameday_ab.csv.gz
+
   generate_study_population_infection:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_infection --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
@@ -165,6 +172,14 @@ actions:
       moderately_sensitive:
         baseline_covidcheck: output/overall_covid.csv
         blt_covidcheck: output/blt_covid_check.csv
+
+  describe_service_eval_sameday_ab:
+    run: r:latest analysis/tables/sameday_covid_ab.R
+    needs: [generate_study_population_samedayab]
+    outputs:
+      moderately_sensitive:
+        baseline_covidcheck: output/sameday_positive.csv
+        blt_covidcheck: output/sameday_ab.csv
 
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
