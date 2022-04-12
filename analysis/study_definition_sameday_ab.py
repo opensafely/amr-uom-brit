@@ -141,6 +141,7 @@ study = StudyDefinition(
 
 ###Same day antibiotics prescribing (sgss)
 
+    ## first positive date
     first_positive_test_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
@@ -155,6 +156,27 @@ study = StudyDefinition(
     sgss_ab_prescribed=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["first_positive_test_date - 2 days","first_positive_test_date + 2 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.5,},
+    ),
+
+    ## Second positive date 
+    second_positive_test_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        on_or_after="first_positive_test_date + 19 days",
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"date": {"earliest" : "2020-02-01"},
+        "incidence" : 0.25},
+    ),
+
+    
+    ## second same day ab
+    sgss_ab_prescribed_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["second_positive_test_date - 2 days","second_positive_test_date + 2 days"],
         returning="binary_flag",
         return_expectations={"incidence":0.5,},
     ),
