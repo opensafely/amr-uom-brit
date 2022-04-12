@@ -130,7 +130,7 @@ actions:
 
   check_input_icu: # check above 
     run: r:latest -e 'rmarkdown::render("analysis/check_input_icu.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_3]
+    needs: [process_2]
     outputs:
       moderately_sensitive:
         html: output/check_input_icu.html
