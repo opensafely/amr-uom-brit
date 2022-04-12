@@ -45,7 +45,7 @@ DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -71,7 +71,7 @@ DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -212,7 +212,7 @@ DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -238,7 +238,7 @@ DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -379,7 +379,7 @@ DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -405,7 +405,7 @@ DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -545,7 +545,7 @@ DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -571,7 +571,7 @@ DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -714,7 +714,7 @@ DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -740,7 +740,7 @@ DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -879,7 +879,7 @@ DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
@@ -905,7 +905,7 @@ DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
   arrange(desc(count))%>%
-  slice(1:5)
+  slice(1:3)
 
 # sort ab type
 # recode other types
