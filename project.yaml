@@ -613,9 +613,16 @@ actions:
         rds1: output/measures/ab_type_2021.rds
         # rds2: output/measures/ab_type_2022.rds
 
+  describe_ab_type_process_3:
+    run: r:latest analysis/process/ab_type_transform_3.R
+    needs: [generate_study_population_antibiotics_tpye]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/ab_type_2022.rds
+
   describe_ab_throat:
     run: r:latest analysis/plot/throat_ab.R
-    needs: [describe_ab_type_process_1,describe_ab_type_process_2]
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
     outputs:
        moderately_sensitive:
         table: output/ab_throat.csv
