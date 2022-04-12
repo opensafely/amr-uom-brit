@@ -41,11 +41,11 @@ for (i in seq_along(csvFiles_22)){
                    AB_date_10 = col_date(format = ""),
                    AB_date_11 = col_date(format = ""),
                    AB_date_12 = col_date(format = ""),
-                   age = col_integer(),
+                   age = col_double(),
                    age_cat = col_character(),
                    sex = col_character(),
-                   practice = col_integer(),
-                   antibacterial_brit = col_integer(),
+                   practice = col_double(),
+                   antibacterial_brit = col_double(),
                    AB_date_1_indication = col_character(),
                    AB_date_2_indication = col_character(),
                    AB_date_3_indication = col_character(),
@@ -70,7 +70,7 @@ for (i in seq_along(csvFiles_22)){
                    Ab_date_10_type = col_character(),
                    Ab_date_11_type = col_character(),
                    Ab_date_12_type = col_character(),
-                   patient_id = col_integer()
+                   patient_id = col_double()
                  ),
                  na = character())
   
