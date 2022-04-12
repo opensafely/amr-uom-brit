@@ -29,7 +29,7 @@ df =df%>%filter( !is.na(patient_index_date)) # hosp admission case
 df.icu= df%>% filter(icu_days>0)
 
 df=df%>% filter(!icu_days>0|is.na(icu_days))
-write_csv(df, here::here("output", "case_covid_ICU.csv"))
+write_csv(df.icu, here::here("output", "case_covid_ICU.csv"))
 
 # exclude case has previous covid related history (variables before patient_index_date)
 # exclude case has severe outcome within 30 days
