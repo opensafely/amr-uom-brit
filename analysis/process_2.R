@@ -37,7 +37,7 @@ df=df%>%
          is.na(SGSS_positive_test_date_before),
          is.na(primary_care_covid_date_before),
          is.na(died_date_cpns_before),
-         is.na(died_date_ons_covid_before),
+         is.na(died_date_ons_covid_before))
    #       is.na(died_date_cpns_after),
    #       is.na(died_date_ons_covid_after))
 
