@@ -18,16 +18,9 @@ require("ggplot2")
 
 ```{r }
 
-dat=read_csv(here::here("output","case_covid_ICU.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character()
-             ))
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
+dat=read_csv(here::here("output","case_covid_ICU.csv"))
+
+count(dat)
 rm(dat)
 ```
 
@@ -35,15 +28,8 @@ rm(dat)
 
 ```{r }
 
-dat=read_csv(here::here("output","case_covid_admission.csv"),
-             col_types=cols_only(
-               age=col_double(),
-               sex=col_character()
-             ))
-dat %>%
-  tbl_summary(
-    statistic = list(
-      all_continuous() ~ "{min}, {max}",
-      all_categorical() ~ "{n} ({p}%)"))
+dat=read_csv(here::here("output","case_covid_admission.csv"))
+
+count(dat)
 rm(dat)
 ```
