@@ -7,7 +7,7 @@ library("tidyverse")
 library("lubridate")
 library("ggpubr")
 
-dir.create(here::here("output", "redacted_v2","top5"))
+dir.create(here::here("output", "redacted_v2/top5"))
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
@@ -92,7 +92,7 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
-write_csv(df, here::here("output","redacted_v2","top5", "AB_uti_check.csv"))
+write_csv(df, here::here("output","redacted_v2", "AB_uti_check_top3.csv"))
 
 
 ### line graph
@@ -139,14 +139,14 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - UTI       ",
+                         fig.lab =paste0("Top 3 antibiotic prescriptions issued - UTI       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("", rot = 90),
 )
 
 ggsave(
   plot= lineplot,
-  filename="AB_uti.jpeg", path=here::here("output","redacted_v2","top5")) 
+  filename="AB_uti_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -259,7 +259,7 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
-write_csv(df, here::here("output","redacted_v2","top5", "AB_lrti_check.csv"))
+write_csv(df, here::here("output","redacted_v2", "AB_lrti_check_top3.csv"))
 
 
 ### line graph
@@ -306,14 +306,14 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - LRTI       ",
+                         fig.lab =paste0("Top 3 antibiotic prescriptions issued - LRTI       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("", rot = 90),
 )
 
 ggsave(
   plot= lineplot,
-  filename="AB_lrti.jpeg", path=here::here("output","redacted_v2","top5")) 
+  filename="AB_lrti_top3_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -426,7 +426,7 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
-write_csv(df, here::here("output","redacted_v2","top5", "AB_urti_check.csv"))
+write_csv(df, here::here("output","redacted_v2", "AB_urti_check_top3.csv"))
 
 
 ### line graph
@@ -473,14 +473,14 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - URTI       ",
+                         fig.lab =paste0("Top 3 antibiotic prescriptions issued - URTI       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("", rot = 90),
 )
 
 ggsave(
   plot= lineplot,
-  filename="AB_urti.jpeg", path=here::here("output","redacted_v2","top5")) 
+  filename="AB_urti_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -592,7 +592,7 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
-write_csv(df, here::here("output","redacted_v2","top5", "AB_sinusitis_check.csv"))
+write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check_top3.csv"))
 
 
 ### line graph
@@ -639,14 +639,14 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - sinusitis       ",
+                         fig.lab =paste0("Top 3 antibiotic prescriptions issued - sinusitis       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("", rot = 90),
 )
 
 ggsave(
   plot= lineplot,
-  filename="AB_sinusitis.jpeg", path=here::here("output","redacted_v2","top5")) 
+  filename="AB_sinusitis_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -761,7 +761,7 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
-write_csv(df, here::here("output","redacted_v2","top5", "AB_ot_externa_check.csv"))
+write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check_top3.csv"))
 
 
 ### line graph
@@ -808,14 +808,14 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - otitis externa       ",
+                         fig.lab =paste0("Top 3 antibiotic prescriptions issued - otitis externa       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("", rot = 90),
 )
 
 ggsave(
   plot= lineplot,
-  filename="AB_ot_externa.jpeg", path=here::here("output","redacted_v2","top5")) 
+  filename="AB_ot_externa_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -926,7 +926,7 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
-write_csv(df, here::here("output","redacted_v2","top5", "AB_otmedia_check.csv"))
+write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check_top3.csv"))
 
 
 ### line graph
@@ -973,14 +973,14 @@ lineplot=annotate_figure(lineplot,
                          bottom = text_grob("A= incident cases; B= prevalent cases.
                                    Grey shading represents national lockdown time.", 
                                             hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - otitis media       ",
+                         fig.lab =paste0("Top 3 antibiotic prescriptions issued - otitis media       ",
                                          first_mon," - ",last_mon),
                          left = text_grob("", rot = 90),
 )
 
 ggsave(
   plot= lineplot,
-  filename="AB_otmedia.jpeg", path=here::here("output","redacted_v2","top5")) 
+  filename="AB_otmedia_top3.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -1014,7 +1014,7 @@ rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 #### combine table
 df.table=rbind(df.table.1,df.table.2,df.table.3,df.table.4,df.table.5,df.table.6)
-write_csv(df.table, here::here("output","redacted_v2","top5", "AB.csv"))
+write_csv(df.table, here::here("output","redacted_v2", "AB_top3.csv"))
 
 
 
