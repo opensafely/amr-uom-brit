@@ -910,7 +910,6 @@ actions:
         csv6: output/redacted_v2/AB_otmedia_check.csv
         csv7: output/redacted_v2/AB.csv
 
-
   describe_infection_AB_plot_top3: #  percentage
     run: r:latest analysis/redaction/infection_v2_AB_top3.R
     needs: [describe_infection_abtype_process]
