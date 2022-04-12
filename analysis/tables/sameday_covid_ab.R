@@ -36,18 +36,33 @@ df <- read_csv(
 ## select covid group
 df$covid_positive_1=ifelse(is.na(df$first_positive_test_date),0,1)
 df$covid_positive_2=ifelse(is.na(df$second_positive_test_date),0,1)
-df <- df %>% filter(covid_positive_1 == 1 |covid_positive_2 == 1)
+df1 <- df %>% filter(covid_positive_1 == 1)
+df2 <- df1 %>% filter(covid_positive_2 == 1)
 
-num_pats <- length(unique(df$patient_id))
-num_pracs <- length(unique(df$practice))
+num_pats <- length(unique(df1$patient_id))
+num_pracs <- length(unique(df1$practice))
 
 overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
-write_csv(overall_counts, here::here("output", "sameday_positive.csv"))
-rm(overall_counts)
+write_csv(overall_counts, here::here("output", "sameday_positive_1.csv"))
+rm(overall_counts,num_pats,num_pracs)
 
-df2<- select(df, age, age_cat, sex,sgss_ab_prescribed, sgss_ab_prescribed_2)
+num_pats <- length(unique(df2$patient_id))
+num_pracs <- length(unique(df2$practice))
+
+overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "sameday_positive_2.csv"))
+rm(overall_counts,num_pats,num_pracs)
+
+df1<- select(df1, age, age_cat, sex,sgss_ab_prescribed)
+# # columns for baseline table
+colsfortab <- colnames(df1)
+df1 %>% summary_factorlist(explanatory = colsfortab) -> t1
+write_csv(t1, here::here("output", "sameday_ab_1.csv"))
+
+df2<- select(df2, age, age_cat, sex, sgss_ab_prescribed_2)
 # # columns for baseline table
 colsfortab <- colnames(df2)
-df2 %>% summary_factorlist(explanatory = colsfortab) -> t
-write_csv(t, here::here("output", "sameday_ab.csv"))
+df2 %>% summary_factorlist(explanatory = colsfortab) -> t2
+write_csv(t2, here::here("output", "sameday_ab_2.csv"))
+
 

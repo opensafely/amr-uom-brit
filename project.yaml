@@ -178,8 +178,10 @@ actions:
     needs: [generate_study_population_samedayab]
     outputs:
       moderately_sensitive:
-        baseline_covidcheck: output/sameday_positive.csv
-        blt_covidcheck: output/sameday_ab.csv
+        table1: output/sameday_positive_1.csv
+        table2: output/sameday_positive_2.csv
+        table3: output/sameday_ab_1.csv
+        table4: output/sameday_ab_2.csv
 
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
