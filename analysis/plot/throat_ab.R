@@ -98,11 +98,7 @@ dat$infection=ifelse(dat$infection=="","uncoded",dat$infection)
 df3 <- dat %>% filter(infection=='Sore throat')
 rm(dat)
 
-DF=read_rds('ab_type_2022.rds')
-
-#dat=rbindlist(DF)
-dat=bind_rows(DF)
-rm(DF)
+dat=read_rds('ab_type_2022.rds')
 
 # recode
 dat$infection=recode(dat$infection,
