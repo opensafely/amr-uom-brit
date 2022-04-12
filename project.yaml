@@ -911,6 +911,27 @@ actions:
         csv7: output/redacted_v2/AB.csv
 
 
+  describe_infection_AB_plot_top5: #  percentage
+    run: r:latest analysis/redaction/infection_v2_AB_top5.R
+    needs: [describe_infection_abtype_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/redacted_v2/top5/AB_uti.jpeg
+        plot2: output/redacted_v2/top5/AB_lrti.jpeg
+        plot3: output/redacted_v2/top5/AB_urti.jpeg
+        plot4: output/redacted_v2/top5/AB_sinusitis.jpeg
+        plot5: output/redacted_v2/top5/AB_ot_externa.jpeg
+        plot6: output/redacted_v2/top5/AB_otmedia.jpeg
+        csv1: output/redacted_v2/top5/AB_uti_check.csv
+        csv2: output/redacted_v2/top5/AB_lrti_check.csv
+        csv3: output/redacted_v2/top5/AB_urti_check.csv
+        csv4: output/redacted_v2/top5/AB_sinusitis_check.csv
+        csv5: output/redacted_v2/top5/AB_ot_externa_check.csv
+        csv6: output/redacted_v2/top5/AB_otmedia_check.csv
+        csv7: output/redacted_v2/top5/AB.csv
+
+
+
   describe_broad_proportion_measure:   
     run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
     needs: [generate_measures]
