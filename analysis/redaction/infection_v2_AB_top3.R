@@ -7,7 +7,7 @@ library("tidyverse")
 library("lubridate")
 library("ggpubr")
 
-dir.create(here::here("output", "redacted_v2/top5"))
+dir.create(here::here("output", "redacted_v2"))
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
