@@ -159,5 +159,3 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/modeling.html
-      highly_sensitive: 
-        rds1: output/matched_patients.rds
