@@ -1,0 +1,184 @@
+---
+title: "exposure check"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+df$wave=as.factor(df$wave)
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$sex=as.character(df$sex)
+df$age=as.numeric(df$age)
+df$age_cat=as.character(df$age_cat)
+df$stp=as.character(df$stp)
+df$region=as.character(df$region)
+
+df$ethnicity_6=as.character(df$ethnicity_6)
+df$bmi=as.numeric(df$bmi)
+df$bmi_cat=as.character(df$bmi_cat)
+df$CCI=as.character(df$CCI)
+df$Charlson=as.integer(df$Charlson)
+
+df$smoking_cat_3=as.character(df$smoking_cat_3)
+df$imd=as.integer(df$imd)
+
+df$care_home=as.integer(df$care_home)
+df$covrx_ever=as.integer(df$covrx_ever)
+df$flu_vaccine=as.integer(df$flu_vaccine)
+
+df$ab_types=as.integer(df$ab_types)
+df$lastABtime=as.factor(df$lastABtime)
+df$ab_qn=as.character(df$ab_qn) #category
+df$br_ab_qn=as.character(df$br_ab_qn)#category
+df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+
+```
+
+# randomly pick patients in subclass
+```{r}
+df=df%>% group_by(case,subclass)%>% sample(1)
+```
+
+
+#BMI
+```{r}
+ggplot(df, aes(x=bmi, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+#Charlson
+```{r}
+ggplot(df, aes(x=Charlson, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+#imd
+```{r}
+ggplot(df, aes(x=imd, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+#lastABtime
+```{r}
+ggplot(df, aes(x=lastABtime, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+
+#ab_prescriptions
+```{r}
+ggplot(df, aes(x=ab_prescriptions, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+
+#broad_ab_prescriptions
+```{r}
+ggplot(df, aes(x=broad_ab_prescriptions, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+# all patients
+
+#BMI
+```{r}
+ggplot(df, aes(x=bmi, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+#Charlson
+```{r}
+ggplot(df, aes(x=Charlson, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+#imd
+```{r}
+ggplot(df, aes(x=imd, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+#lastABtime
+```{r}
+ggplot(df, aes(x=lastABtime, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+
+#ab_prescriptions
+```{r}
+ggplot(df, aes(x=ab_prescriptions, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
+
+#broad_ab_prescriptions
+```{r}
+ggplot(df, aes(x=broad_ab_prescriptions, fill=case, color=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+  geom_density(alpha=0.5)
+```
+
+
