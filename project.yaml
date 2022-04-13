@@ -529,6 +529,7 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_type_*.csv.gz
 
+### generate study cohort three months before 2019-01-01 to get the incident infection information
   generate_study_population_antibiotics_tpye_pre: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_type_pre --index-date-range "2018-10-01 to 2018-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
@@ -648,6 +649,13 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/ab_type_2022.rds
+
+  describe_ab_type_process_pre:
+    run: r:latest analysis/process/ab_type_transform_pre.R
+    needs: [generate_study_population_antibiotics_tpye_pre]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/ab_type_pre.rds
 
   describe_ab_throat:
     run: r:latest analysis/plot/throat_ab.R
