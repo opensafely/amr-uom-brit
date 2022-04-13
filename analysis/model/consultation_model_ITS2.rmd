@@ -5,7 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
-#knitr::opts_knit$set(root.dir = '/workspace')
+knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 ## Interrupted time-series analysis

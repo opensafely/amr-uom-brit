@@ -377,6 +377,14 @@ actions:
       moderately_sensitive:
         html: output/report/consultation_model.html
 
+
+  consultation_model_ITS2: # compare modeling1 &2
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2.rmd", output_dir = "output/report")'
+    needs: [describe_consultation_model_process_1]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2.html
+
   # consultation_model_harmonic_month: #Epi: harm(month)
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_harmonic_month.rmd", output_dir = "output/report")'
   #   needs: [describe_consultation_model_process_1]
