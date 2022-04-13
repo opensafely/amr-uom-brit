@@ -42,6 +42,7 @@ df=df%>%
    #       is.na(died_date_ons_covid_after))
 
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
+df=df%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 write_csv(df, here::here("output", "case_covid_admission.csv"))
 
@@ -59,6 +60,7 @@ df=df%>%
          is.na(died_date_ons_covid_after))
 
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
+df=df%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 write_csv(df, here::here("output", "control_covid_admission.csv"))
 
