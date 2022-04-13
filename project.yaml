@@ -152,3 +152,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort1: output/matched_outcome.rds
+
+  modeling: 
+    run: r:latest -e 'rmarkdown::render("analysis/modeling.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling.html
+      highly_sensitive: 
+        rds1: output/matched_patients.rds
