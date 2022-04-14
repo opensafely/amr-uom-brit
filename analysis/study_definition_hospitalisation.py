@@ -343,7 +343,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_urti_1", "gp_cons_urti_1 + 42 days"], #["urti_date_1", "urti_date_1 + 42 days"]
+       between=["gp_cons_urti_1", "gp_cons_urti_1 + 30 days"], #["urti_date_1", "urti_date_1 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -352,7 +352,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_urti_2", "gp_cons_urti_2 + 42 days"], #["urti_date_2", "urti_date_2 + 42 days"]
+       between=["gp_cons_urti_2", "gp_cons_urti_2 + 30 days"], #["urti_date_2", "urti_date_2 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -361,7 +361,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_urti_3", "gp_cons_urti_3 + 42 days"], #["urti_date_3", "urti_date_3 + 42 days"]
+       between=["gp_cons_urti_3", "gp_cons_urti_3 + 30 days"], #["urti_date_3", "urti_date_3 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -370,7 +370,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_urti_4", "gp_cons_urti_4 + 42 days"], #["urti_date_4", "urti_date_4 + 42 days"]
+       between=["gp_cons_urti_4", "gp_cons_urti_4 + 30 days"], #["urti_date_4", "urti_date_4 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
