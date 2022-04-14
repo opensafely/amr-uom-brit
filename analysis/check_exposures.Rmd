@@ -87,14 +87,22 @@ ggplot(df, aes(x=Charlson, fill=case, color=case)) +
 #imd
 ```{r}
 ggplot(df, aes(x=imd, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
 #ab_types
 ```{r}
 ggplot(df, aes(x=ab_types, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -102,7 +110,11 @@ ggplot(df, aes(x=ab_types, fill=case, color=case)) +
 #lastABtime
 ```{r}
 ggplot(df, aes(x=lastABtime, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram(position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -111,7 +123,11 @@ ggplot(df, aes(x=lastABtime, fill=case, color=case)) +
 #ab_prescriptions
 ```{r}
 ggplot(df, aes(x=ab_prescriptions, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram(position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -120,7 +136,11 @@ ggplot(df, aes(x=ab_prescriptions, fill=case, color=case)) +
 #broad_ab_prescriptions
 ```{r}
 ggplot(df, aes(x=broad_ab_prescriptions, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -137,21 +157,33 @@ ggplot(df, aes(x=bmi, fill=case, color=case)) +
 #Charlson
 ```{r}
 ggplot(df, aes(x=Charlson, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
 #imd
 ```{r}
 ggplot(df, aes(x=imd, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
 #ab_types
 ```{r}
 ggplot(df, aes(x=ab_types, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -159,7 +191,11 @@ ggplot(df, aes(x=ab_types, fill=case, color=case)) +
 #lastABtime
 ```{r}
 ggplot(df, aes(x=lastABtime, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram(position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -168,7 +204,11 @@ ggplot(df, aes(x=lastABtime, fill=case, color=case)) +
 #ab_prescriptions
 ```{r}
 ggplot(df, aes(x=ab_prescriptions, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
@@ -177,7 +217,11 @@ ggplot(df, aes(x=ab_prescriptions, fill=case, color=case)) +
 #broad_ab_prescriptions
 ```{r}
 ggplot(df, aes(x=broad_ab_prescriptions, fill=case, color=case)) +
+<<<<<<< Updated upstream
   geom_histogram(aes(y=..density..), position="identity", alpha=0.1,bins=30)+
+=======
+  geom_histogram( position="identity", alpha=0.1,bins=30)+
+>>>>>>> Stashed changes
   geom_density(alpha=0.5)
 ```
 
