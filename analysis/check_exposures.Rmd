@@ -66,7 +66,7 @@ df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
 
 # randomly pick patients in subclass
 ```{r}
-df=df%>% group_by(case,subclass)%>% sample(1)
+df2=df%>% group_by(case,subclass)%>% sample_n(1)
 ```
 
 
