@@ -657,6 +657,13 @@ actions:
        highly_sensitive:
         rds1: output/measures/ab_type_pre.rds
 
+  describe_repeat_ab_table:
+    run: r:latest analysis/tables/repeat_ab_table.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
+    outputs:
+       moderately_sensitive:
+        table: output/blt_repeat_ab.csv
+
   describe_ab_throat:
     run: r:latest analysis/plot/throat_ab.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
