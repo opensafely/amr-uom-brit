@@ -662,7 +662,9 @@ actions:
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
     outputs:
        moderately_sensitive:
-        table: output/blt_repeat_ab.csv
+        table1: output/blt_repeat_ab.csv
+        table2: output/blt_throat_ab.csv
+        table3: output/blt_throat_ab_type.csv
 
   describe_ab_throat:
     run: r:latest analysis/plot/throat_ab.R

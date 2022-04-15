@@ -70,3 +70,31 @@ df1.1 <- df1.1 %>% group_by(infection) %>% mutate(total_ab=sum(count))
 df1.1$prop <- df1.1$count/df1.1$total_ab
 
 write_csv(df1.1, here::here("output", "blt_repeat_ab.csv"))
+
+rm(df,df1.1)
+### Appropriateness of antibiotic prescribing by indication
+### sore throat Phenoxymethylpenicillin Clarithromycin Erythromycin
+
+df_throat <- df1 %>% filter(infection == "Sore throat")
+df_throat_tab <- df_throat %>% group_by(incidental,type) %>% summarise(count=n())
+df_throat_tab <- df_throat_tab %>% mutate(total_ab=sum(count))
+df_throat_tab$prop <- df_throat_tab$count/df_throat_tab$total_ab
+
+df_throat_tab$deviation <- 1
+df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Phenoxymethylpenicillin",0, df_throat_tab$deviation)
+df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Clarithromycin",0, df_throat_tab$deviation)
+df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Erythromycin",0, df_throat_tab$deviation)
+
+write_csv(df_throat_tab, here::here("output", "blt_throat_ab.csv"))
+rm(df_throat,df_throat_tab)
+## Types of antibiotics prescribed for repeat courses 
+
+df1 <- df1 %>% group_by(patient_id) %>% arrange(date,.by_group = TRUE)%>% 
+  mutate(type2=lead(type))
+
+df_throat_tpye <- df1 %>% filter(infection == "Sore throat")
+df_throat_tpye_tab <- df_throat_tpye %>% group_by(type,type2) %>% summarise(count=n())
+df_throat_tpye_tab$total_ab <- sum(df_throat_tpye_tab$count)
+df_throat_tpye_tab$prop <- df_throat_tpye_tab$count/df_throat_tpye_tab$total_ab
+
+write_csv(df_throat_tpye_tab, here::here("output", "blt_throat_ab_type.csv"))
