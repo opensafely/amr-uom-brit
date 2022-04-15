@@ -153,12 +153,12 @@ actions:
       highly_sensitive:
         cohort1: output/matched_outcome.rds
 
-  check_exposures: 
-    run: r:latest -e 'rmarkdown::render("analysis/check_exposures.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  check_exposures_cont: # continuous variables
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cont.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/check_exposures.html
+        html: output/check_exposures_cont.html
   
 
   modeling: 
