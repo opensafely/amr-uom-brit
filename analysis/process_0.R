@@ -21,6 +21,8 @@ setwd(here::here("output"))
 
 filename=c("2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012",
            "2101","2102","2103","2104","2105","2106","2107","2108","2109","2110","2111","2112")
+# date list
+datelist= seq(as.Date("2020-02-01"), as.Date("2021-12-01"), "month")
 
 for (i in 1:length(filename)){
   DF=read_csv( paste0("input_general_population_",filename[i],".csv"))
@@ -31,6 +33,8 @@ for (i in 1:length(filename)){
            is.na(covid_admission_date),
            is.na(died_date_cpns), 
            is.na(died_date_ons_covid))
+  
+  DF$patient_index_date=datelist[i]
   
   write_csv(DF, here::here("output", paste0("general_population_",filename[i],".csv")))
   

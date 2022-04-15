@@ -13,6 +13,7 @@ match(
     },
     closest_match_variables=["age"],
     index_date_variable="patient_index_date",
+    drop_cases_from_matches="true"
     #replace_match_index_date_with_case="no_offset",
     #date_exclusion_variables={
         #"dereg_date": "before",
