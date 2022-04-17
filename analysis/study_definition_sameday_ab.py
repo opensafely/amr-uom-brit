@@ -140,7 +140,7 @@ study = StudyDefinition(
 
 
 ###Same day antibiotics prescribing (sgss)
-
+###(https://github.com/opensafely/ethnicity-covid-research/blob/main/analysis/study_definition.py)
     ## first positive date
     first_positive_test_date=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -153,6 +153,7 @@ study = StudyDefinition(
         "incidence" : 0.25},
     ),
 
+    ## first same day ab
     sgss_ab_prescribed=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["first_positive_test_date - 2 days","first_positive_test_date + 2 days"],
@@ -171,8 +172,7 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest" : "2020-02-01"},
         "incidence" : 0.25},
     ),
-
-    
+   
     ## second same day ab
     sgss_ab_prescribed_2=patients.with_these_medications(
         antibacterials_codes_brit,
@@ -180,5 +180,46 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence":0.5,},
     ),
+
+
+
+###Same day antibiotics prescribing (gp)
+
+    ## first positive date 
+    pg_first_positive_test_date=patients.with_these_clinical_events(
+        any_primary_care_code,       
+        returning="date",
+        on_or_after="2020-02-01",
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"rate" : "exponential_increase"},
+    ),
+
+    ## first same day ab
+    gp_ab_prescribed_1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pg_first_positive_test_date - 2 days","pg_first_positive_test_date + 2 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.5,},
+    ),
+
+    ## Second positive date 
+    pg_second_positive_test_date=patients.with_these_clinical_events(
+        any_primary_care_code,     
+        returning="date",
+        on_or_after="pg_first_positive_test_date + 19 days",
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"rate" : "exponential_increase"},
+    ),
+
+    ## second same day ab
+    gp_ab_prescribed_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pg_second_positive_test_date - 2 days","pg_second_positive_test_date + 2 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.5,},
+    ),
+
 
 )
