@@ -385,12 +385,40 @@ actions:
       moderately_sensitive:
         html: output/report/consultation_model_ITS2.html
 
+  consultation_model_ITS2_incident: 
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_incident.Rmd", output_dir = "output/report")'
+    needs: [describe_consultation_rate_all_incident_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_incident.html
+
+  consultation_model_ITS2_prevalent: 
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_prevalent.Rmd", output_dir = "output/report")'
+    needs: [describe_consultation_rate_all_prevalent_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_prevalent.html
+
   consultation_model_ITS2_harmonic_month: #sine,cosine harmonic month
     run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month.Rmd", output_dir = "output/report")'
     needs: [describe_consultation_model_process_1]
     outputs:
       moderately_sensitive:
         html: output/report/consultation_model_ITS2_harmonic_month.html
+
+  consultation_model_ITS2_harmonic_month_incident: 
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_incident.Rmd", output_dir = "output/report")'
+    needs: [describe_consultation_rate_all_incident_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_harmonic_month_incident.html
+
+  consultation_model_ITS2_harmonic_month_prevalent: 
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_prevalent.Rmd", output_dir = "output/report")'
+    needs: [describe_consultation_rate_all_prevalent_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_harmonic_month_prevalent.html
 
   # consultation_model_zero_truncated: # zero-truncated negative binomial
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_zero_truncated.rmd", output_dir = "output/report")'
