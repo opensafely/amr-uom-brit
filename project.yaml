@@ -173,16 +173,6 @@ actions:
         baseline_covidcheck: output/overall_covid.csv
         blt_covidcheck: output/blt_covid_check.csv
 
-  describe_service_eval_sameday_ab:
-    run: r:latest analysis/tables/sameday_covid_ab.R
-    needs: [generate_study_population_samedayab]
-    outputs:
-      moderately_sensitive:
-        table1: output/sameday_positive_1.csv
-        table2: output/sameday_positive_2.csv
-        table3: output/sameday_ab_1.csv
-        table4: output/sameday_ab_2.csv
-
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
   #   needs: [generate_measures]
@@ -535,6 +525,14 @@ actions:
     needs: [generate_study_population_samedayab]
     outputs:
        moderately_sensitive:
+        table1: output/sameday_positive_1_sgss.csv
+        table2: output/sameday_positive_2_sgss.csv
+        table3: output/sameday_ab_1_sgss.csv
+        table4: output/sameday_ab_2_sgss.csv
+        table5: output/sameday_positive_1_gp.csv
+        table6: output/sameday_positive_2_gp.csv
+        table7: output/sameday_ab_1_gp.csv
+        table8: output/sameday_ab_2_gp.csv
         plot1: output/same_day_ab_prop_line_sgss.jpeg
         plot2: output/same_day_ab_prop_line_gp.jpeg
 

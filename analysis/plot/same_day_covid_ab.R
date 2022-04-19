@@ -1,6 +1,7 @@
 library("dplyr")
 library("tidyverse")
 library('lubridate')
+library("finalfit")
 
 df <- read_csv(
   here::here("output", "input_sameday_ab.csv.gz"),
@@ -27,9 +28,79 @@ df$covid_positive_1_pg=ifelse(is.na(df$pg_first_positive_test_date),0,1)
 df$covid_positive_2_sgss=ifelse(is.na(df$second_positive_test_date),0,1)
 df$covid_positive_2_pg=ifelse(is.na(df$pg_second_positive_test_date),0,1)
 
+## select covid group from sgss record
+df1 <- df %>% filter(covid_positive_1_sgss == 1)
+df2 <- df1 %>% filter(covid_positive_2_sgss == 1)
+
+num_pats <- length(unique(df1$patient_id))
+num_pracs <- length(unique(df1$practice))
+
+overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "sameday_positive_1_sgss.csv"))
+rm(overall_counts,num_pats,num_pracs)
+
+num_pats <- length(unique(df2$patient_id))
+num_pracs <- length(unique(df2$practice))
+
+overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "sameday_positive_2_sgss.csv"))
+rm(overall_counts,num_pats,num_pracs)
+
+df1<- select(df1, age, age_cat, sex,sgss_ab_prescribed)
+# # columns for baseline table
+colsfortab <- colnames(df1)
+df1 %>% summary_factorlist(explanatory = colsfortab) -> t1
+write_csv(t1, here::here("output", "sameday_ab_1_sgss.csv"))
+
+df2<- select(df2, age, age_cat, sex, sgss_ab_prescribed_2)
+# # columns for baseline table
+colsfortab <- colnames(df2)
+df2 %>% summary_factorlist(explanatory = colsfortab) -> t2
+write_csv(t2, here::here("output", "sameday_ab_2_sgss.csv"))
+rm(df1,df2,t1,t2)
+
+## select covid group from gp record (by 2022-03-01)
+df1 <- df %>% filter(covid_positive_1_pg == 1)
+
+df1$date <- as.Date(df1$pg_first_positive_test_date)
+df1 <- df1 %>% filter(date<="2022-02-28")
+
+df2 <- df1 %>% filter(covid_positive_2_pg == 1)
+
+num_pats <- length(unique(df1$patient_id))
+num_pracs <- length(unique(df1$practice))
+
+overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "sameday_positive_1_gp.csv"))
+rm(overall_counts,num_pats,num_pracs)
+
+num_pats <- length(unique(df2$patient_id))
+num_pracs <- length(unique(df2$practice))
+
+overall_counts <- as.data.frame(cbind(num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "sameday_positive_2_gp.csv"))
+rm(overall_counts,num_pats,num_pracs)
+
+df1<- select(df1, age, age_cat, sex,gp_ab_prescribed_1)
+# # columns for baseline table
+colsfortab <- colnames(df1)
+df1 %>% summary_factorlist(explanatory = colsfortab) -> t1
+write_csv(t1, here::here("output", "sameday_ab_1_gp.csv"))
+
+df2<- select(df2, age, age_cat, sex, gp_ab_prescribed_2)
+# # columns for baseline table
+colsfortab <- colnames(df2)
+df2 %>% summary_factorlist(explanatory = colsfortab) -> t2
+write_csv(t2, here::here("output", "sameday_ab_2_gp.csv"))
+
+rm(df1,df2,t1,t2)
+
+
+
+
 ### Sgss same day ab
 df1 <- df %>% filter(covid_positive_1_sgss == 1)
-df1$date <- as.Date(df1$first_positive_test_date,format= "%m-%Y")
+df1$date <- as.Date(df1$first_positive_test_date)
 
 df1$cal_mon <- month(df1$date)
 df1$cal_year <- year(df1$date)
@@ -72,10 +143,13 @@ rm(df1,plot1,plot)
 ### Gp same day ab
 
 df2 <- df %>% filter(covid_positive_1_pg == 1)
-df2$date <- as.Date(df2$pg_first_positive_test_date,format= "%m-%Y")
+
+df2$date <- as.Date(df2$pg_first_positive_test_date)
+df2 <- df2 %>% filter(date<="2022-02-28")
 
 df2$cal_mon <- month(df2$date)
 df2$cal_year <- year(df2$date)
+
 
 plot2 <- df2 %>% group_by(cal_mon,cal_year) %>%
   summarise(total_count = sum(covid_positive_1_pg),
