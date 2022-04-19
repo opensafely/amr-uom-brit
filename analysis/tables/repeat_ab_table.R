@@ -79,6 +79,8 @@ df_throat <- df1 %>% filter(infection == "Sore throat")
 df_throat_tab <- df_throat %>% group_by(incidental,type) %>% summarise(count=n())
 df_throat_tab <- df_throat_tab %>% mutate(total_ab=sum(count))
 df_throat_tab$prop <- df_throat_tab$count/df_throat_tab$total_ab
+### for counts > 100
+df_throat_tab <- df_throat_tab %>% filter(count > 100)
 
 df_throat_tab$deviation <- 1
 df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Phenoxymethylpenicillin",0, df_throat_tab$deviation)
@@ -96,5 +98,7 @@ df_throat_tpye <- df1 %>% filter(infection == "Sore throat")
 df_throat_tpye_tab <- df_throat_tpye %>% group_by(type,type2) %>% summarise(count=n())
 df_throat_tpye_tab$total_ab <- sum(df_throat_tpye_tab$count)
 df_throat_tpye_tab$prop <- df_throat_tpye_tab$count/df_throat_tpye_tab$total_ab
+### for counts > 100
+df_throat_tpye_tab <- df_throat_tpye_tab %>% filter(count > 100)
 
 write_csv(df_throat_tpye_tab, here::here("output", "blt_throat_ab_type.csv"))
