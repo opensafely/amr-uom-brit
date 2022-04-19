@@ -224,11 +224,13 @@ study = StudyDefinition(
         between=['urti_date_4','urti_date_4 + 7 days'],
         returning='number_of_matches_in_period',
         return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1}, "incidence":0.2}
         ),
 
         ## GP consultations for urti
     gp_cons_urti_1=patients.with_gp_consultations(
+        # urti_codes,
+        # returning='date',
         between=["urti_date_1", "urti_date_1"],
         #returning='binary_flag',
         returning='date',
@@ -299,7 +301,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["gp_cons_urti_1 - 42 days", "gp_cons_urti_1"], #["urti_date_1 - 42 days", "urti_date_1"]
+        between=["gp_cons_urti_1 - 42 days", "gp_cons_urti_1 - 1 day"], #["urti_date_1 - 42 days", "urti_date_1"]
         find_first_match_in_period=True,
         # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
@@ -310,7 +312,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["gp_cons_urti_2 - 42 days", "gp_cons_urti_2"], #["urti_date_2 - 42 days", "urti_date_2"]
+        between=["gp_cons_urti_2 - 42 days", "gp_cons_urti_2 - 1 day"], #["urti_date_2 - 42 days", "urti_date_2"]
         find_first_match_in_period=True,
         # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
@@ -321,7 +323,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["gp_cons_urti_3 - 42 days", "gp_cons_urti_3"], #["urti_date_3 - 42 days", "urti_date_3"]
+        between=["gp_cons_urti_3 - 42 days", "gp_cons_urti_3 - 1 day"], #["urti_date_3 - 42 days", "urti_date_3"]
         find_first_match_in_period=True,
         # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
@@ -332,7 +334,7 @@ study = StudyDefinition(
         returning="binary_flag",
         # returning="date",
         # date_format="YYYY-MM-DD",
-        between=["gp_cons_urti_4 - 42 days", "gp_cons_urti_4"], #["urti_date_4 - 42 days", "urti_date_4"]
+        between=["gp_cons_urti_4 - 42 days", "gp_cons_urti_4 - 1 day"], #["urti_date_4 - 42 days", "urti_date_4"]
         find_first_match_in_period=True,
         # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
