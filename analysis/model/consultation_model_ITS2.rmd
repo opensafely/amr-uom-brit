@@ -11,7 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
-knitr::opts_knit$set(root.dir = '/workspace')
+#knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 ## Interrupted time-series analysis
@@ -150,36 +150,36 @@ rm(df)
 
 ```{r message=FALSE}
 
-df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df1$month=df1$season
-df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df2$month=df2$season
-df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df3$month=df3$season
-df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df4$month=df4$season
-df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df5$month=df5$season
-df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df6$month=df6$season
+#df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+#                                   month=="03"|month=="04"|month=="05" ~"spring",
+ #                                  month=="06"|month=="07"|month=="08" ~"summer",
+  #                                 month=="09"|month=="10"|month=="11" ~"autumn"))
+#df1$month=df1$season
+#df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+   #                                month=="03"|month=="04"|month=="05" ~"spring",
+    #                               month=="06"|month=="07"|month=="08" ~"summer",
+     #                              month=="09"|month=="10"|month=="11" ~"autumn"))
+#df2$month=df2$season
+#df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+      #                             month=="03"|month=="04"|month=="05" ~"spring",
+ #                                  month=="06"|month=="07"|month=="08" ~"summer",
+  #                                 month=="09"|month=="10"|month=="11" ~"autumn"))
+#df3$month=df3$season
+#df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+   #                                month=="03"|month=="04"|month=="05" ~"spring",
+  #                                 month=="06"|month=="07"|month=="08" ~"summer",
+ #                                  month=="09"|month=="10"|month=="11" ~"autumn"))
+#df4$month=df4$season
+#df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+  #                                 month=="03"|month=="04"|month=="05" ~"spring",
+  #                                 month=="06"|month=="07"|month=="08" ~"summer",
+  #                                 month=="09"|month=="10"|month=="11" ~"autumn"))
+#df5$month=df5$season
+#df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+   #                                month=="03"|month=="04"|month=="05" ~"spring",
+   #                                month=="06"|month=="07"|month=="08" ~"summer",
+    #                               month=="09"|month=="10"|month=="11" ~"autumn"))
+#df6$month=df6$season
 ```
 
 
