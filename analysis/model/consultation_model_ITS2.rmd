@@ -150,36 +150,36 @@ rm(df)
 
 ```{r message=FALSE}
 
-#df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-#                                   month=="03"|month=="04"|month=="05" ~"spring",
- #                                  month=="06"|month=="07"|month=="08" ~"summer",
-  #                                 month=="09"|month=="10"|month=="11" ~"autumn"))
-#df1$month=df1$season
-#df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-   #                                month=="03"|month=="04"|month=="05" ~"spring",
-    #                               month=="06"|month=="07"|month=="08" ~"summer",
-     #                              month=="09"|month=="10"|month=="11" ~"autumn"))
-#df2$month=df2$season
-#df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-      #                             month=="03"|month=="04"|month=="05" ~"spring",
- #                                  month=="06"|month=="07"|month=="08" ~"summer",
-  #                                 month=="09"|month=="10"|month=="11" ~"autumn"))
-#df3$month=df3$season
-#df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-   #                                month=="03"|month=="04"|month=="05" ~"spring",
-  #                                 month=="06"|month=="07"|month=="08" ~"summer",
- #                                  month=="09"|month=="10"|month=="11" ~"autumn"))
-#df4$month=df4$season
-#df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-  #                                 month=="03"|month=="04"|month=="05" ~"spring",
-  #                                 month=="06"|month=="07"|month=="08" ~"summer",
-  #                                 month=="09"|month=="10"|month=="11" ~"autumn"))
-#df5$month=df5$season
-#df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-   #                                month=="03"|month=="04"|month=="05" ~"spring",
-   #                                month=="06"|month=="07"|month=="08" ~"summer",
-    #                               month=="09"|month=="10"|month=="11" ~"autumn"))
-#df6$month=df6$season
+df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df1$month=df1$season
+df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df2$month=df2$season
+df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df3$month=df3$season
+df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df4$month=df4$season
+df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df5$month=df5$season
+df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df6$month=df6$season
 ```
 
 
@@ -463,6 +463,7 @@ abline(h=0,lty=2,lwd=2)
 #   partial autocorrelation functions
 acf(res1)
 pacf(res1)
+Box.test(res1, lag=32, type="Ljung-Box")
 rm(res1)
 ```
 
@@ -479,6 +480,7 @@ abline(h=0,lty=2,lwd=2)
 #   partial autocorrelation functions
 acf(res2)
 pacf(res2)
+Box.test(res2, lag=32, type="Ljung-Box")
 rm(res2)
 ```
 
@@ -495,6 +497,7 @@ abline(h=0,lty=2,lwd=2)
 #   partial autocorrelation functions
 acf(res3)
 pacf(res3)
+Box.test(res3, lag=32, type="Ljung-Box")
 rm(res3)
 ```
 
@@ -511,6 +514,7 @@ abline(h=0,lty=2,lwd=2)
 #   partial autocorrelation functions
 acf(res4)
 pacf(res4)
+Box.test(res4, lag=32, type="Ljung-Box")
 rm(res4)
 ```
 
@@ -528,6 +532,7 @@ abline(h=0,lty=2,lwd=2)
 #   partial autocorrelation functions
 acf(res5)
 pacf(res5)
+Box.test(res5, lag=32, type="Ljung-Box")
 rm(res5)
 ```
 
@@ -544,12 +549,11 @@ abline(h=0,lty=2,lwd=2)
 #   partial autocorrelation functions
 acf(res6)
 pacf(res6)
+Box.test(res6, lag=32, type="Ljung-Box")
 rm(res6)
 ```
 
 
-
-# Model checking and autocorrelation
 ## model 2
 ### UTI
 ```{r}
@@ -567,6 +571,8 @@ pacf(res1)
 
 acf(res1,lag.max=32)
 pacf(res1,lag.max=32)
+
+Box.test(res1, lag=32, type="Ljung-Box")
 rm(res1)
 ```
 
@@ -586,6 +592,8 @@ pacf(res2)
 
 acf(res2,lag.max=32)
 pacf(res2,lag.max=32)
+
+Box.test(res2, lag=32, type="Ljung-Box")
 rm(res2)
 ```
 
@@ -605,6 +613,8 @@ pacf(res3)
 
 acf(res3,lag.max=32)
 pacf(res3,lag.max=32)
+
+Box.test(res3, lag=32, type="Ljung-Box")
 rm(res3)
 ```
 
@@ -624,6 +634,7 @@ pacf(res4)
 
 acf(res4,lag.max=32)
 pacf(res4,lag.max=32)
+Box.test(res4, lag=32, type="Ljung-Box")
 rm(res4)
 ```
 
@@ -644,6 +655,7 @@ pacf(res5)
 
 acf(res5,lag.max=32)
 pacf(res5,lag.max=32)
+Box.test(res5, lag=32, type="Ljung-Box")
 rm(res5)
 ```
 
@@ -664,6 +676,8 @@ pacf(res6)
 
 acf(res6,lag.max=32)
 pacf(res6,lag.max=32)
+
+Box.test(res6, lag=32, type="Ljung-Box")
 rm(res6)
 ```
 
