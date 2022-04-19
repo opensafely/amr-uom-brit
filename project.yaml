@@ -664,8 +664,40 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/blt_repeat_ab.csv
-        table2: output/blt_throat_ab.csv
-        table3: output/blt_throat_ab_type.csv
+        table2: output/throat_ab.csv
+        table3: output/throat_ab_type.csv
+
+  describe_repeat_ab_table_2:
+    run: r:latest analysis/tables/repeat_ab_table_2.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
+    outputs:
+       moderately_sensitive:
+        table1: output/asthma_ab.csv
+        table2: output/asthma_ab_type.csv
+        table3: output/cold_ab.csv
+        table4: output/cold_ab_type.csv
+        table5: output/cough_ab.csv
+        table6: output/cough_ab_type.csv
+        table7: output/copd_ab.csv
+        table8: output/copd_ab_type.csv
+        table9: output/pneumonia_ab.csv
+        table10: output/pneumonia_ab_type.csv
+        table11: output/renal_ab.csv
+        table12: output/renal_ab_type.csv
+        table13: output/sepsis_ab.csv
+        table14: output/sepsis_ab_type.csv
+        table15: output/uti_ab.csv
+        table16: output/uti_ab_type.csv
+        table17: output/lrti_ab.csv
+        table18: output/lrti_ab_type.csv
+        table19: output/urti_ab.csv
+        table20: output/urti_ab_type.csv
+        table21: output/sinusitis_ab.csv
+        table22: output/sinusitis_ab_type.csv
+        table23: output/otmedia_ab.csv
+        table24: output/otmedia_ab_type.csv
+        table25: output/ot_externa_ab.csv
+        table26: output/ot_externa_ab_type.csv
 
   describe_ab_throat:
     run: r:latest analysis/plot/throat_ab.R
