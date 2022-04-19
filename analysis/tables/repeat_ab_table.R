@@ -87,7 +87,7 @@ df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Phenoxymethylpenicilli
 df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Clarithromycin",0, df_throat_tab$deviation)
 df_throat_tab$deviation <- ifelse( df_throat_tab$type == "Erythromycin",0, df_throat_tab$deviation)
 
-write_csv(df_throat_tab, here::here("output", "blt_throat_ab.csv"))
+write_csv(df_throat_tab, here::here("output", "throat_ab.csv"))
 rm(df_throat,df_throat_tab)
 ## Types of antibiotics prescribed for repeat courses 
 
@@ -101,4 +101,4 @@ df_throat_tpye_tab$prop <- df_throat_tpye_tab$count/df_throat_tpye_tab$total_ab
 ### for counts > 100
 df_throat_tpye_tab <- df_throat_tpye_tab %>% filter(count > 100)
 
-write_csv(df_throat_tpye_tab, here::here("output", "blt_throat_ab_type.csv"))
+write_csv(df_throat_tpye_tab, here::here("output", "throat_ab_type.csv"))
