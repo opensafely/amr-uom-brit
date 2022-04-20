@@ -74,6 +74,7 @@ df$interval=as.integer(difftime(df$ab_last_date,df$ab_first_date,unit="day"))
 df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ record to 1
 
 df$lastABtime=as.integer(difftime(df$patient_index_date,df$ab_last_date,unit="day"))
+df$lastABtime=ifelse(is.na(df$lastABtime),0,df$lastABtime)
 
 ## quintile category
 

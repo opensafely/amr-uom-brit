@@ -327,6 +327,18 @@ table(df$case,df$bmi_cat)
 prop.table(table(df$case,df$bmi_cat),margin=1)*100
 ```
 
+#imd
+```{r}
+ggplot(df, aes(x=imd,fill=case,color=case,group=case)) +
+  geom_bar(aes(y = ..prop..))+
+    geom_density(alpha=0.5)+
+  facet_grid(case~.)
+
+table(df$case,df$imd)
+prop.table(table(df$case,df$imd),margin=1)*100
+```
+
+
 # CCI
 ```{r}
 ggplot(df, aes(x=CCI,fill=case,color=case, group=case)) +
@@ -381,6 +393,18 @@ ggplot(df, aes(x=flu_vaccine,fill=case,color=case, group=case)) +
 table(df$case,df$flu_vaccine)
 prop.table(table(df$case,df$flu_vaccine),margin=1)*100
 ```
+
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types,fill=case,color=case,group=case)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+    geom_density(alpha=0.5)+
+  facet_grid(case~.)
+
+table(df$case,df$ab_types)
+prop.table(table(df$case,df$ab_types),margin=1)*100
+```
+
 
 # ab_qn
 ```{r}
