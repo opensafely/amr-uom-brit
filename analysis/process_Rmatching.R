@@ -62,6 +62,8 @@ df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag
 df$ab_types=rowSums(df[col]>0)
 df=df[ ! names(df) %in% col]
 
+df$ab_types=ifelse(is.na(df$ab_types),0,df$ab_types) # no ab 
+
 ##antibiotic prescribing frequency
 
 df$ab_last_date=as.Date(df$ab_last_date)
@@ -71,7 +73,8 @@ df$ab_first_date=as.Date(df$ab_first_date)
 df$interval=as.integer(difftime(df$ab_last_date,df$ab_first_date,unit="day"))
 df$interval=ifelse(df$interval==0,1,df$interval)#less than 1 day (first=last) ~ record to 1
 
-df$lastABtime=as.integer(difftime(df$ab_last_date,df$patient_index_date,unit="day"))
+df$lastABtime=as.integer(difftime(df$patient_index_date,df$ab_last_date,unit="day"))
+df$lastABtime=ifelse(is.na(df$lastABtime),0,df$lastABtime)
 
 ## quintile category
 
@@ -84,6 +87,7 @@ df$lastABtime=as.integer(difftime(df$ab_last_date,df$patient_index_date,unit="da
 # df$ab_qn=quintile(df$ab_prescriptions)
 # df$br_ab_qn=quintile(df$broad_ab_prescriptions)
 
+# set ab quintile category
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
 
@@ -95,6 +99,11 @@ df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
 
 df$ab_qn=as.factor(df$ab_qn)
 df$br_ab_qn=as.factor(df$br_ab_qn)
+
+# ab_continuous 
+df$ab_prescriptions=ifelse(is.na(df$ab_prescriptions),0,df$ab_prescriptions) # recode NA to 0
+df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_prescriptions) # recode NA to 0
+
 
 
 

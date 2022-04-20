@@ -1,0 +1,59 @@
+---
+title: "univariable analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+# matched variables
+df$sex=as.character(df$sex)
+df$age=as.numeric(df$age)
+df$age_cat=as.character(df$age_cat)
+df$stp=as.character(df$stp)
+df$region=as.character(df$region)
+
+
+
+df$ab_qn=as.character(df$ab_qn) #category
+df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+
+
+```
+
+
+# exposures
+```{r}
+# total AB
+summary( clogit(case ~ ab_prescriptions + strata(subclass), df))
+summary( clogit(case ~ ab_qn + strata(subclass), df))
+
+```
+
+

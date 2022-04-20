@@ -25,7 +25,7 @@ actions:
 
 # R MatchIt
 
-  matching: # matching with replacement
+  matching: # matching with replacement # died covid
     run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1]
     outputs:
@@ -36,7 +36,7 @@ actions:
         rds2: output/unmatched_patients.rds
         csv: output/matched_patients_id.csv
   
-  matching2: # matching with replacement
+  matching2: # matching with replacement # died any
     run: r:latest -e 'rmarkdown::render("analysis/matching2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1]
     outputs:
@@ -96,3 +96,27 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_input.html
+
+  ### for covid icu/ covid death
+  check_exposures_cont: # continuous variables
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cont.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_cont.html
+  
+  check_exposures_cat: # category variables
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cat.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_cat.html
+
+  modeling: 
+    run: r:latest -e 'rmarkdown::render("analysis/modeling.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling.html
+
+  ### for covid icu/ any death
