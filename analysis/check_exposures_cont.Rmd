@@ -1,5 +1,5 @@
 ---
-title: "exposure check"
+title: "variables check_"
 output: 
   html_document:
    toc: true
@@ -16,7 +16,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages, include=FALSE}
 require('tidyverse')
-require("gtsummary")
+#require("gtsummary")
+library(data.table)
 require("ggplot2")
 ```
 
@@ -76,8 +77,10 @@ ggplot(df, aes(x=bmi, fill=case, color=case)) +
   geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,bmi)
-tbl_summary(table, by=case)
+setDT(df)
+df[, as.list(summary(bmi)), by = case]
+#table<- df %>% select(case,bmi)
+#tbl_summary(table, by=case)
 
 ```
 
@@ -88,8 +91,8 @@ ggplot(df, aes(x=Charlson, fill=case, color=case)) +
   geom_density(alpha=0.5)+
     facet_grid(case~.)
 
-table<- df %>% select(case,Charlson)
-tbl_summary(table, by=case)
+
+df[, as.list(summary(Charlson)), by = case]
 
 ```
 
@@ -101,8 +104,7 @@ ggplot(df, aes(x=imd,fill=case,color=case)) +
   facet_grid(case~.)
 
 
-table<- df %>% select(case,imd)
-tbl_summary(table, by=case)
+df[, as.list(summary(imd)), by = case]
 ```
 
 #ab_types
@@ -112,8 +114,7 @@ ggplot(df, aes(x=ab_types,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,ab_types)
-tbl_summary(table, by=case)
+df[, as.list(summary(ab_types)), by = case]
 ```
 
 
@@ -124,8 +125,8 @@ ggplot(df, aes(x=lastABtime,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,lastABtime)
-tbl_summary(table, by=case)
+
+df[, as.list(summary(lastABtime)), by = case]
 ```
 
 
@@ -137,8 +138,8 @@ ggplot(df, aes(x=ab_prescriptions,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,ab_prescriptions)
-tbl_summary(table, by=case)
+df[, as.list(summary(ab_prescriptions)), by = case]
+
 ```
 
 
@@ -150,8 +151,7 @@ ggplot(df, aes(x=broad_ab_prescriptions,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,broad_ab_prescriptions)
-tbl_summary(table, by=case)
+df[, as.list(summary(broad_ab_prescriptions)), by = case]
 ```
 
 
@@ -161,6 +161,7 @@ tbl_summary(table, by=case)
 df=df%>% group_by(case,subclass)%>% sample_n(1)
 ```
 
+
 #BMI
 ```{r}
 ggplot(df, aes(x=bmi, fill=case, color=case)) +
@@ -168,8 +169,10 @@ ggplot(df, aes(x=bmi, fill=case, color=case)) +
   geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,bmi)
-tbl_summary(table, by=case)
+setDT(df)
+df[, as.list(summary(bmi)), by = case]
+#table<- df %>% select(case,bmi)
+#tbl_summary(table, by=case)
 
 ```
 
@@ -180,8 +183,8 @@ ggplot(df, aes(x=Charlson, fill=case, color=case)) +
   geom_density(alpha=0.5)+
     facet_grid(case~.)
 
-table<- df %>% select(case,Charlson)
-tbl_summary(table, by=case)
+
+df[, as.list(summary(Charlson)), by = case]
 
 ```
 
@@ -193,8 +196,7 @@ ggplot(df, aes(x=imd,fill=case,color=case)) +
   facet_grid(case~.)
 
 
-table<- df %>% select(case,imd)
-tbl_summary(table, by=case)
+df[, as.list(summary(imd)), by = case]
 ```
 
 #ab_types
@@ -204,8 +206,7 @@ ggplot(df, aes(x=ab_types,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,ab_types)
-tbl_summary(table, by=case)
+df[, as.list(summary(ab_types)), by = case]
 ```
 
 
@@ -216,8 +217,8 @@ ggplot(df, aes(x=lastABtime,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,lastABtime)
-tbl_summary(table, by=case)
+
+df[, as.list(summary(lastABtime)), by = case]
 ```
 
 
@@ -229,8 +230,8 @@ ggplot(df, aes(x=ab_prescriptions,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,ab_prescriptions)
-tbl_summary(table, by=case)
+df[, as.list(summary(ab_prescriptions)), by = case]
+
 ```
 
 
@@ -242,6 +243,5 @@ ggplot(df, aes(x=broad_ab_prescriptions,fill=case,color=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-table<- df %>% select(case,broad_ab_prescriptions)
-tbl_summary(table, by=case)
+df[, as.list(summary(broad_ab_prescriptions)), by = case]
 ```
