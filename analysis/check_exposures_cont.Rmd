@@ -69,6 +69,11 @@ df$br_ab_qn=as.character(df$br_ab_qn)#category
 ```
 
 # all patients
+```{r}
+table(df$case)
+prop.table(table(df$case))
+```
+
 
 #BMI
 ```{r}
@@ -159,6 +164,8 @@ df[, as.list(summary(broad_ab_prescriptions)), by = case]
 # randomly pick patients in subclass
 ```{r}
 df=df%>% group_by(case,subclass)%>% sample_n(1)
+table(df$case)
+prop.table(table(df$case))
 ```
 
 
@@ -178,10 +185,10 @@ df[, as.list(summary(bmi)), by = case]
 
 #Charlson
 ```{r}
-ggplot(df, aes(x=Charlson, fill=case, color=case)) +
-  geom_histogram(aes(y=..density..), position="identity")+
-  geom_density(alpha=0.5)+
-    facet_grid(case~.)
+ggplot(df, aes(x=Charlson,fill=case,color=case)) +
+  geom_bar(aes(y = ..prop..))+
+    geom_density(alpha=0.5)+
+  facet_grid(case~.)
 
 
 df[, as.list(summary(Charlson)), by = case]

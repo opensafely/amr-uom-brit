@@ -160,6 +160,12 @@ actions:
       moderately_sensitive:
         html: output/check_exposures_cont.html
   
+  check_exposures_cat: # continuous variables
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cat.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_cat.html
 
   modeling: 
     run: r:latest -e 'rmarkdown::render("analysis/modeling.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
