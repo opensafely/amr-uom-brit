@@ -31,6 +31,13 @@ actions:
         highly_sensitive:
           cohort: output/input_sameday_ab.csv.gz
 
+  generate_study_population_withab:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_withab_cohort 
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_withab_cohort.csv.gz
+
   generate_study_population_infection:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_infection --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
