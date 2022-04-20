@@ -27,7 +27,7 @@ actions:
 
   process_1:  # Covid ons death
     run: r:latest analysis/process_1.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
+    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
     outputs:
       highly_sensitive:
         case: output/case_covid_hosp.csv 
@@ -160,7 +160,7 @@ actions:
       moderately_sensitive:
         html: output/check_exposures_cont.html
   
-  check_exposures_cat: # continuous variables
+  check_exposures_cat: # category variables
     run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cat.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:

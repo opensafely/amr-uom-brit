@@ -71,7 +71,7 @@ df$br_ab_qn=as.character(df$br_ab_qn)#category
 # all patients
 ```{r}
 table(df$case)
-prop.table(table(df$case))
+prop.table(table(df$case))*100
 ```
 
 
@@ -165,7 +165,7 @@ df[, as.list(summary(broad_ab_prescriptions)), by = case]
 ```{r}
 df=df%>% group_by(case,subclass)%>% sample_n(1)
 table(df$case)
-prop.table(table(df$case))
+prop.table(table(df$case))*100
 ```
 
 
