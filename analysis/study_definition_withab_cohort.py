@@ -56,8 +56,6 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
-        AND
-        has_antibiotics
         """,
 
         has_died=patients.died_from_any_cause(
@@ -75,11 +73,7 @@ study = StudyDefinition(
             end_date="index_date",
             return_expectations={"incidence": 0.95},
         ),
-
-        has_antibiotics=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["2019-01-01", "2022-02-28"],
-        ),
+        
     ),
 
     ### Age
