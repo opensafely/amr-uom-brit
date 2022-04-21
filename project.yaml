@@ -336,21 +336,21 @@ actions:
         rds5: output/measures/monthly_consult_otmedia.rds
         rds6: output/measures/monthly_consult_ot_externa.rds
   
-  describe_consultation_model_1:
-    run: r:latest analysis/model/consult_model_1.R
-    needs: [describe_consultation_model_process_2]
-    outputs:
-       moderately_sensitive:
-        jpeg: output/consult_model1.jpeg
-        rds: output/consult_model1.rds
+  # # # # describe_consultation_model_1:
+  # # # #   run: r:latest analysis/model/consult_model_1.R
+  # # # #   needs: [describe_consultation_model_process_2]
+  # # # #   outputs:
+  # # # #      moderately_sensitive:
+  # # # #       jpeg: output/consult_model1.jpeg
+  # # # #       rds: output/consult_model1.rds
 
-  describe_consultation_model_2:
-    run: r:latest analysis/model/consult_model_2.R
-    needs: [describe_consultation_model_process_2]
-    outputs:
-       moderately_sensitive:
-        jpeg: output/consult_model2.jpeg
-        rds: output/consult_model2.rds
+  # # # # describe_consultation_model_2:
+  # # # #   run: r:latest analysis/model/consult_model_2.R
+  # # # #   needs: [describe_consultation_model_process_2]
+  # # # #   outputs:
+  # # # #      moderately_sensitive:
+  # # # #       jpeg: output/consult_model2.jpeg
+  # # # #       rds: output/consult_model2.rds
   
   # describe_consultation_model_3:
   #   run: r:latest analysis/model/consult_model_3.R
@@ -360,19 +360,19 @@ actions:
   #       jpeg: output/consult_model3.jpeg
   #       rds: output/consult_model3.rds
 
-  check_consultation_model: #Poisson vs. NBR  
-    run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_2]
-    outputs:
-      moderately_sensitive:
-        html: output/report/check_consultation_model.html
+  # # # # check_consultation_model: #Poisson vs. NBR  
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_model_process_2]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/check_consultation_model.html
 
-  consultation_model: # compare modeling1 &2
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model.html
+  # # # # consultation_model: # compare modeling1 &2
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_model_process_1]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model.html
 
 
   consultation_model_ITS2: # compare modeling1 &2
@@ -395,27 +395,34 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/consultation_model_ITS2_prevalent.html
-
-  consultation_model_ITS2_harmonic_month: #sine,cosine harmonic month
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1]
+  
+  consultation_model_ITS2_combined: # overall, incident, prevalent
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined.rmd", output_dir = "output/report")'
+    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
     outputs:
       moderately_sensitive:
-        html: output/report/consultation_model_ITS2_harmonic_month.html
+        html: output/report/consultation_model_ITS2_combined.html
 
-  consultation_model_ITS2_harmonic_month_incident: 
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_incident.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_rate_all_incident_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_harmonic_month_incident.html
+  # # # # consultation_model_ITS2_harmonic_month: #sine,cosine harmonic month
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_model_process_1]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model_ITS2_harmonic_month.html
 
-  consultation_model_ITS2_harmonic_month_prevalent: 
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_prevalent.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_rate_all_prevalent_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_harmonic_month_prevalent.html
+  # # # # consultation_model_ITS2_harmonic_month_incident: 
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_incident.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_rate_all_incident_redacted]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model_ITS2_harmonic_month_incident.html
+
+  # # # # consultation_model_ITS2_harmonic_month_prevalent: 
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_prevalent.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_rate_all_prevalent_redacted]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model_ITS2_harmonic_month_prevalent.html
 
   # consultation_model_zero_truncated: # zero-truncated negative binomial
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_zero_truncated.rmd", output_dir = "output/report")'
@@ -423,7 +430,6 @@ actions:
   #   outputs:
   #     moderately_sensitive:
   #       html: output/report/consultation_model_zero_truncated.html
-
 
   # consultation_model_3: # model 3 for adjusting autocorrelation
   #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_3.rmd", output_dir = "output/report")'
