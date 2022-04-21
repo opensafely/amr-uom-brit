@@ -2,11 +2,8 @@ library("dplyr")
 library("tidyverse")
 library("lubridate")
 
-rm(list=ls())
-
-setwd(here::here("output"))
-
-df <- read_csv( "input_withab_cohort.csv.gz",  
+df <- read_csv(
+  here::here("output", "input_withab_cohort.csv.gz"),
                col_types = cols_only(
                  age = col_integer(),
                  sex = col_character(),
@@ -14,9 +11,8 @@ df <- read_csv( "input_withab_cohort.csv.gz",
                  region = col_factor(),
                  imd = col_integer(),
                  ethnicity = col_factor(),
-                 patient_id = col_integer()
-               ),
-               na = character())
+                 patient_id = col_integer())
+)
 
 df.r <- df %>% select(patient_id,region)
 rm(df)
