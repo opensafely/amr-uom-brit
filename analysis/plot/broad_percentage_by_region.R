@@ -4,8 +4,9 @@ library("lubridate")
 
 rm(list=ls())
 
-df <- read_csv(
-    here::here("output", "input_withab_cohort.csv.gz"),  
+setwd(here::here("output"))
+
+df <- read_csv( "input_withab_cohort.csv.gz",  
                col_types = cols_only(
                  age = col_integer(),
                  sex = col_character(),
