@@ -22,16 +22,14 @@ rm(df)
 
 setwd(here::here("output", "measures"))
 
-df1 <- readRDS('ab_type_pre.rds')
-df2 <- readRDS('ab_type_2019.rds')
-df3 <- readRDS('ab_type_2020.rds')
-df4 <- readRDS('ab_type_2021.rds')
-df5 <- readRDS('ab_type_2022.rds')
+df1 <- readRDS('ab_type_2019.rds')
+df2 <- readRDS('ab_type_2020.rds')
+df3 <- readRDS('ab_type_2021.rds')
+df1 <- bind_rows(df1)
 df2 <- bind_rows(df2)
 df3 <- bind_rows(df3)
-df4 <- bind_rows(df4)
-DF <- rbind(df1,df2,df3,df4,df5)
-rm(df1,df2,df3,df4,df5)
+DF <- rbind(df1,df2,df3)
+rm(df1,df2,df3)
 
 df <- merge(DF,df.r, by='patient_id')
 rm(DF,df.r)
@@ -78,7 +76,7 @@ ggsave(
   filename="broad_prescriptions_by_region.jpeg", path=here::here("output"),
 )  
 
-
+rm(plot.broad_number,df.broad)
 
 df.all <-  df %>% group_by(Date,region) %>% summarise(
   ab_number = n()
