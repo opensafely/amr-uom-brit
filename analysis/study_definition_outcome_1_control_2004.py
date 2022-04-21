@@ -68,7 +68,7 @@ study = StudyDefinition(
 
     ## Age
     age=patients.age_as_of(
-        "index_date",
+        "patient_index_date",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -143,18 +143,18 @@ study = StudyDefinition(
     ),
 
     # observation end date
-    ## de-register after start date
+    ## de-register after index date
     dereg_date=patients.date_deregistered_from_all_supported_practices(
-        on_or_after="index_date",
+        on_or_after="patient_index_date",
         date_format="YYYY-MM-DD",
         return_expectations={
         "date": {"earliest": "2020-02-01"},
         "incidence": 0.05
         }
     ),
-    ## died after start date
+    ## died after index date
     ons_died_date=patients.died_from_any_cause(
-        on_or_after="index_date",
+        on_or_after="patient_index_date",
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"}},
