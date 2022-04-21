@@ -606,12 +606,12 @@ p4
 ```{r message=FALSE}
 ### Model2_result
 #setting up the basic plot
-p5 <- ggplot(data=DF, aes(y=group, x=IRR,xmin=ci_l, xmax=ci_u,color=group))+ 
+p5 <- ggplot(data=DF, aes(y=group, x=IRR,color=group))+ 
 #this adds the effect sizes to the plot
 geom_point()+ 
 
 #adds the CIs
-geom_errorbarh(height=.1)+
+geom_errorbarh(aes(xmin=ci_l, xmax=ci_u))+
 
 #adding a vertical line at the effect = 0 mark
 geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
