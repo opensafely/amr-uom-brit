@@ -626,11 +626,25 @@ labs(
     x="IRR (95% CI)",
     y=""
   )+
-facet_grid(Infection~.)+
- theme(axis.title.y =element_blank(),
+facet_grid(Infection~., scales = "free", space = "free")+
+ theme(strip.text.y = element_text(angle = 0),
+   axis.title.y =element_blank(),
         axis.text.y=element_blank(),
        axis.ticks.y=element_blank(),
        legend.title=element_blank(),
        legend.position="bottom")
 p5
 ```
+
+# table
+
+```{r}
+model.all<- list(m1, m1.1)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
+
