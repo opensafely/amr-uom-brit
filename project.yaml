@@ -565,6 +565,14 @@ actions:
         plot1: output/broad_prescriptions_by_age.jpeg
         plot2: output/broad_proportion_by_age.jpeg
 
+  describe_amoxicillin_by_age:
+    run: r:latest analysis/plot/amoxicillin_percentage_by_age.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
+    outputs:
+       moderately_sensitive:
+        plot1: output/amoxicillin_prescriptions_by_age.jpeg
+        plot2: output/amoxicillin_proportion_by_age.jpeg
+
   # describe_same_day_ab_gp:
   #   run: r:latest analysis/plot/same_day_covid_ab_gp.R
   #   needs: [generate_measures]
