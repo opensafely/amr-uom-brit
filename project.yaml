@@ -1106,7 +1106,7 @@ actions:
   #       plot2: output/broad_proportions_practice.jpeg
 
 
-  ab_check: # compare modeling1 &2
+  describe_ab_check: # compare modeling1 &2
     run: r:latest -e 'rmarkdown::render("analysis/process/ab_check.rmd", output_dir = "output/report")'
     needs: [generate_study_population_antibiotics]
     outputs:
