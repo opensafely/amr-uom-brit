@@ -1,0 +1,179 @@
+---
+title: "AB check"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+```{r}
+library("tidyverse") 
+library('dplyr')#conflict with plyr; load after plyr
+library('lubridate')
+
+rm(list=ls())
+
+setwd(here::here("output", "measures"))
+
+# file list
+csvFiles_19 = list.files(pattern="input_antibiotics_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_antibiotics_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_antibiotics_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_antibiotics_2022", full.names = FALSE)
+
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
+
+col=paste0("AB_date_",rep(1:12),"_count")
+
+temp <- vector("list", length(csvFiles_19))
+
+for (i in seq_along(csvFiles_19)){
+  # read in one-month data
+  df <- read_csv((csvFiles_19[i]))
+  
+  df=df[col]
+  df$date=date_19[i]
+  
+  temp[[i]] <-df}
+
+DF1=bind_rows(temp)
+rm(temp,df)
+
+
+
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
+  # read in one-month data
+  df <- read_csv((csvFiles_20[i]))
+  
+  df=df[col]
+  df$date=date_20[i]
+  
+  temp[[i]] <-df}
+
+DF2=bind_rows(temp)
+rm(temp,df)
+
+
+
+temp <- vector("list", length(csvFiles_21))
+
+for (i in seq_along(csvFiles_21)){
+  # read in one-month data
+  df <- read_csv((csvFiles_21[i]))
+  
+  df=df[col]
+  df$date=date_21[i]
+  
+  temp[[i]] <-df}
+
+DF3=bind_rows(temp)
+rm(temp,df)
+
+
+DF=rbind(DF1,DF2,DF3)
+rm(DF1,DF2,DF3)
+
+DF1=subset(DF,select = c("date","AB_date_1_count"))
+
+
+
+ggplot(DF, aes(x=AB_date_1_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_2_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_3_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_4_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_5_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_6_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_7_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_8_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_9_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_10_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_11_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+
+ggplot(DF, aes(x=AB_date_12_count)) + 
+  geom_histogram(aes(y=..density..),      # Histogram with density instead of count on y-axis
+                 binwidth=.5,
+                 colour="black", fill="white") +
+  geom_density(alpha=.2, fill="#FF6666") 
+
+  
+```
+
