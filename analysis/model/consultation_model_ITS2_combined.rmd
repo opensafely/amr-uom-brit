@@ -349,7 +349,7 @@ df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
-df$month=df$season
+df$month=relevel(as.factor(df$season),ref="spring")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
@@ -494,7 +494,7 @@ df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
-df$month=df$season
+df$month=relevel(as.factor(df$season),ref="spring")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
