@@ -600,6 +600,13 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_type_pre_*.csv.gz
 
+### generate study cohort with the date of each infection
+  generate_study_population_infection_all: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_all --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_all_*.csv.gz
+
   generate_study_population_antibiotics_covid: #  Ab for covid
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
