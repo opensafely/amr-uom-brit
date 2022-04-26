@@ -184,6 +184,50 @@ df6$month=relevel(as.factor(df6$season),ref="spring")
 ```
 
 
+```{r}
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df1$date)) # NA exclusion
+
+df1=df1%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df1=df1%>% filter(covid==1 | covid==3)
+df1$covid= recode(df1$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df1$covid <- factor(df1$covid, levels=c("0","1"))
+
+df2=df2%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df2=df2%>% filter(covid==1 | covid==3)
+df2$covid= recode(df2$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df2$covid <- factor(df2$covid, levels=c("0","1"))
+
+df3=df3%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df3=df3%>% filter(covid==1 | covid==3)
+df3$covid= recode(df3$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df3$covid <- factor(df3$covid, levels=c("0","1"))
+
+df4=df4%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df4=df4%>% filter(covid==1 | covid==3)
+df4$covid= recode(df4$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df4$covid <- factor(df4$covid, levels=c("0","1"))
+
+df5=df5%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df5=df5%>% filter(covid==1 | covid==3)
+df5$covid= recode(df5$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df5$covid <- factor(df5$covid, levels=c("0","1"))
+
+df6=df6%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df6=df6%>% filter(covid==1 | covid==3)
+df6$covid= recode(df6$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df6$covid <- factor(df6$covid, levels=c("0","1"))
+```
+
+
 1. UTI
 ```{r}
 m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
@@ -308,61 +352,61 @@ df6=df%>%filter(indic=="otitis media")
 
 1. UTI
 ```{r}
-m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
+m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
 ```
 
 2. URTI
 ```{r}
-m2.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
+m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
 ```
 
 3. LRTI
 ```{r}
-m3.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
+m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
 ```
 
 4. sinusitis
 ```{r}
-m4.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
+m4.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
 ```
 
 5. otitis externa
 ```{r}
-m5.1 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
+m5.2 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
 ```
 
 6. otitis media
 ```{r }
-m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
+m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
 ```
 
 
 ```{r message=FALSE, include=FALSE}
 ### confidence intervals for the coefficients
-(est1.1 <- cbind(Estimate = coef(m1.1), confint(m1.1)))
-(est2.1 <- cbind(Estimate = coef(m2.1), confint(m2.1)))
-(est3.1 <- cbind(Estimate = coef(m3.1), confint(m3.1)))
-(est4.1 <- cbind(Estimate = coef(m4.1), confint(m4.1)))
-(est5.1 <- cbind(Estimate = coef(m5.1), confint(m5.1)))
-(est6.1 <- cbind(Estimate = coef(m6.1), confint(m6.1)))
+(est1.2 <- cbind(Estimate = coef(m1.2), confint(m1.2)))
+(est2.2 <- cbind(Estimate = coef(m2.2), confint(m2.2)))
+(est3.2 <- cbind(Estimate = coef(m3.2), confint(m3.2)))
+(est4.2 <- cbind(Estimate = coef(m4.2), confint(m4.2)))
+(est5.2 <- cbind(Estimate = coef(m5.2), confint(m5.2)))
+(est6.2 <- cbind(Estimate = coef(m6.2), confint(m6.2)))
 ```
 
 
 ```{r message=FALSE}
 ### calculate IRR & 95%CI
-est1.1=exp(est1.1)
-est2.1=exp(est2.1)
-est3.1=exp(est3.1)
-est4.1=exp(est4.1)
-est5.1=exp(est5.1)
-est6.1=exp(est6.1)
+est1.2=exp(est1.2)
+est2.2=exp(est2.2)
+est3.2=exp(est3.2)
+est4.2=exp(est4.2)
+est5.2=exp(est5.2)
+est6.2=exp(est6.2)
 ```
 
 ### covid
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(est1.1[2,],est2.1[2,],est3.1[2,],est4.1[2,],est5.1[2,],est6.1[2,])
+DF=bind_rows(est1.2[2,],est2.2[2,],est3.2[2,],est4.2[2,],est5.2[2,],est6.2[2,])
 DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
 #reorder
 DF=DF%>%arrange(Infection)
@@ -375,7 +419,6 @@ DF2=DF
 
 DF2
 ```
-
 
 
 
@@ -497,8 +540,124 @@ names(DF)[3]="ci_u"
 
 DF3=DF
 
-DF3
+```{r message=FALSE}
+
+# import incident cases
+df = read_csv(here::here("output","redacted","consultation_rate_prevalent_check.csv"))
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+# infection counts, population size, covid period
+df= df%>% group_by(date, covid,indic)%>% 
+  summarise(counts=sum(counts), 
+            population=sum(population))
+
+# month for adjust seasonality
+df$month=format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+df$month=df$season
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+
+
+df1=df%>%filter(indic=="UTI")
+df2=df%>%filter(indic=="LRTI")
+df3=df%>%filter(indic=="URTI") 
+df4=df%>%filter(indic=="sinusitis")
+df5=df%>%filter(indic=="otitis externa")
+df6=df%>%filter(indic=="otitis media")
+
+
 ```
+
+
+1. UTI
+```{r}
+m1.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
+```
+
+2. URTI
+```{r}
+m2.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
+```
+
+3. LRTI
+```{r}
+m3.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
+```
+
+4. sinusitis
+```{r}
+m4.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
+```
+
+5. otitis externa
+```{r}
+m5.3 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
+```
+
+6. otitis media
+```{r }
+m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
+```
+
+
+```{r message=FALSE, include=FALSE}
+### confidence intervals for the coefficients
+(est1.3 <- cbind(Estimate = coef(m1.3), confint(m1.3)))
+(est2.3 <- cbind(Estimate = coef(m2.3), confint(m2.3)))
+(est3.3 <- cbind(Estimate = coef(m3.3), confint(m3.3)))
+(est4.3 <- cbind(Estimate = coef(m4.3), confint(m4.3)))
+(est5.3 <- cbind(Estimate = coef(m5.3), confint(m5.3)))
+(est6.3 <- cbind(Estimate = coef(m6.3), confint(m6.3)))
+```
+
+
+```{r message=FALSE}
+### calculate IRR & 95%CI
+est1.3=exp(est1.3)
+est2.3=exp(est2.3)
+est3.3=exp(est3.3)
+est4.3=exp(est4.3)
+est5.3=exp(est5.3)
+est6.3=exp(est6.3)
+```
+
+### covid
+```{r message=FALSE}
+## combine results
+# covid
+DF=bind_rows(est1.3[2,],est2.3[2,],est3.3[2,],est4.3[2,],est5.3[2,],est6.3[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+#reorder
+DF=DF%>%arrange(Infection)
+
+names(DF)[1]="IRR"
+names(DF)[2]="ci_l"
+names(DF)[3]="ci_u"
+
+DF2=DF
+
+DF2
+```
+
 
 
 
@@ -638,8 +797,9 @@ p5
 
 # table
 
+## UTI
 ```{r}
-model.all<- list(m1, m1.1)
+model.all<- list(m1.1, m1.2,m1.3)
 modelsummary(model.all,
              fmt = 1,
              statistic = 'conf.int', 
@@ -648,3 +808,58 @@ modelsummary(model.all,
              exponentiate = TRUE)
 ```
 
+## URTI
+```{r}
+model.all<- list(m2.1, m2.2,m2.3)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
+
+## LRTI
+```{r}
+model.all<- list(m3.1, m3.2,m3.3)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
+
+## sinusitis
+```{r}
+model.all<- list(m4.1, m4.2,m4.3)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
+
+## otitis externa
+```{r}
+model.all<- list(m5.1, m5.2,m5.3)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
+
+
+## otitis media
+```{r}
+model.all<- list(m6.1, m6.2,m6.3)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
