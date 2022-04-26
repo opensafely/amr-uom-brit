@@ -271,17 +271,9 @@ m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 ```
 
 
-```{r message=FALSE}
-### calculate IRR & 95%CI
-est1.1=exp(est1.1)
-est2.1=exp(est2.1)
-est3.1=exp(est3.1)
-est4.1=exp(est4.1)
-est5.1=exp(est5.1)
-est6.1=exp(est6.1)
-```
+## predictor:covid
 
-### covid
+### estimate- coefficient
 ```{r message=FALSE}
 ## combine results
 # covid
@@ -290,14 +282,41 @@ DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
 #reorder
 DF=DF%>%arrange(Infection)
 
-names(DF)[1]="IRR"
+names(DF)[1]="coefficient"
 names(DF)[2]="ci_l"
 names(DF)[3]="ci_u"
 
 DF1=DF
 DF1
+rm(DF)
 ```
 
+### exp(estimate)- IRR
+```{r message=FALSE}
+### calculate IRR & 95%CI
+exp1.1=exp(est1.1)
+exp2.1=exp(est2.1)
+exp3.1=exp(est3.1)
+exp4.1=exp(est4.1)
+exp5.1=exp(est5.1)
+exp6.1=exp(est6.1)
+```
+
+```{r message=FALSE}
+## combine results
+# covid
+DF=bind_rows(exp1.1[2,],exp2.1[2,],exp3.1[2,],exp4.1[2,],exp5.1[2,],exp6.1[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+#reorder
+DF=DF%>%arrange(Infection)
+
+names(DF)[1]="Coefficient"
+names(DF)[2]="ci_l"
+names(DF)[3]="ci_u"
+
+DF1.exp=DF
+DF1.exp
+```
 
 # prevalent
 
@@ -392,17 +411,10 @@ m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 ```
 
 
-```{r message=FALSE}
-### calculate IRR & 95%CI
-est1.2=exp(est1.2)
-est2.2=exp(est2.2)
-est3.2=exp(est3.2)
-est4.2=exp(est4.2)
-est5.2=exp(est5.2)
-est6.2=exp(est6.2)
-```
+## predictor:covid
 
-### covid
+### estimate- coefficient
+
 ```{r message=FALSE}
 ## combine results
 # covid
@@ -411,16 +423,45 @@ DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
 #reorder
 DF=DF%>%arrange(Infection)
 
-names(DF)[1]="IRR"
+names(DF)[1]="coefficient"
 names(DF)[2]="ci_l"
 names(DF)[3]="ci_u"
 
 DF2=DF
 
 DF2
+rm(DF)
 ```
 
 
+```{r message=FALSE}
+### calculate IRR & 95%CI
+exp1.2=exp(est1.2)
+exp2.2=exp(est2.2)
+exp3.2=exp(est3.2)
+exp4.2=exp(est4.2)
+exp5.2=exp(est5.2)
+exp6.2=exp(est6.2)
+```
+
+### exp(estimate)- IRR
+```{r message=FALSE}
+## combine results
+# covid
+DF=bind_rows(exp1.2[2,],exp2.2[2,],exp3.2[2,],exp4.2[2,],exp5.2[2,],exp6.2[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+#reorder
+DF=DF%>%arrange(Infection)
+
+names(DF)[1]="IRR"
+names(DF)[2]="ci_l"
+names(DF)[3]="ci_u"
+
+DF2.exp=DF
+
+DF2.exp
+rm(DF)
+```
 
 # incident
 
@@ -473,120 +514,6 @@ df6=df%>%filter(indic=="otitis media")
 ```
 
 
-1. UTI
-```{r}
-m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
-```
-
-2. URTI
-```{r}
-m2.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
-```
-
-3. LRTI
-```{r}
-m3.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
-```
-
-4. sinusitis
-```{r}
-m4.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
-```
-
-5. otitis externa
-```{r}
-m5.1 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
-```
-
-6. otitis media
-```{r }
-m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
-```
-
-
-```{r message=FALSE, include=FALSE}
-### confidence intervals for the coefficients
-(est1.1 <- cbind(Estimate = coef(m1.1), confint(m1.1)))
-(est2.1 <- cbind(Estimate = coef(m2.1), confint(m2.1)))
-(est3.1 <- cbind(Estimate = coef(m3.1), confint(m3.1)))
-(est4.1 <- cbind(Estimate = coef(m4.1), confint(m4.1)))
-(est5.1 <- cbind(Estimate = coef(m5.1), confint(m5.1)))
-(est6.1 <- cbind(Estimate = coef(m6.1), confint(m6.1)))
-```
-
-
-```{r message=FALSE}
-### calculate IRR & 95%CI
-est1.1=exp(est1.1)
-est2.1=exp(est2.1)
-est3.1=exp(est3.1)
-est4.1=exp(est4.1)
-est5.1=exp(est5.1)
-est6.1=exp(est6.1)
-```
-
-### covid
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(est1.1[2,],est2.1[2,],est3.1[2,],est4.1[2,],est5.1[2,],est6.1[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
-#reorder
-DF=DF%>%arrange(Infection)
-
-names(DF)[1]="IRR"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-
-DF3=DF
-
-```{r message=FALSE}
-
-# import incident cases
-df = read_csv(here::here("output","redacted","consultation_rate_prevalent_check.csv"))
-
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
-
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
-
-
-# infection counts, population size, covid period
-df= df%>% group_by(date, covid,indic)%>% 
-  summarise(counts=sum(counts), 
-            population=sum(population))
-
-# month for adjust seasonality
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df$month=df$season
-# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
-df$times <- as.numeric(as.factor(df$date))
-
-# time sequnece after covid
-df=df%>% group_by(covid)%>%mutate(time.since=1:n())
-df$time.since <- ifelse(df$covid==0,0,df$time.since)
-
-
-df1=df%>%filter(indic=="UTI")
-df2=df%>%filter(indic=="LRTI")
-df3=df%>%filter(indic=="URTI") 
-df4=df%>%filter(indic=="sinusitis")
-df5=df%>%filter(indic=="otitis externa")
-df6=df%>%filter(indic=="otitis media")
-
-
-```
-
 
 1. UTI
 ```{r}
@@ -618,7 +545,9 @@ m5.3 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.sinc
 m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
 ```
 
+## predictor:covid
 
+### estimate- coefficient
 ```{r message=FALSE, include=FALSE}
 ### confidence intervals for the coefficients
 (est1.3 <- cbind(Estimate = coef(m1.3), confint(m1.3)))
@@ -631,20 +560,41 @@ m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 
 
 ```{r message=FALSE}
-### calculate IRR & 95%CI
-est1.3=exp(est1.3)
-est2.3=exp(est2.3)
-est3.3=exp(est3.3)
-est4.3=exp(est4.3)
-est5.3=exp(est5.3)
-est6.3=exp(est6.3)
-```
-
-### covid
-```{r message=FALSE}
 ## combine results
 # covid
 DF=bind_rows(est1.3[2,],est2.3[2,],est3.3[2,],est4.3[2,],est5.3[2,],est6.3[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+#reorder
+DF=DF%>%arrange(Infection)
+
+names(DF)[1]="coefficient"
+names(DF)[2]="ci_l"
+names(DF)[3]="ci_u"
+
+DF3=DF
+
+DF3
+rm(DF)
+```
+
+
+### exp(estimate)- IRR
+
+```{r message=FALSE}
+### calculate IRR & 95%CI
+exp1.3=exp(est1.3)
+exp2.3=exp(est2.3)
+exp3.3=exp(est3.3)
+exp4.3=exp(est4.3)
+exp5.3=exp(est5.3)
+exp6.3=exp(est6.3)
+```
+
+
+```{r message=FALSE}
+## combine results
+# covid
+DF=bind_rows(exp1.3[2,],exp2.3[2,],exp3.3[2,],exp4.3[2,],exp5.3[2,],exp6.3[2,])
 DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
 #reorder
 DF=DF%>%arrange(Infection)
@@ -653,61 +603,32 @@ names(DF)[1]="IRR"
 names(DF)[2]="ci_l"
 names(DF)[3]="ci_u"
 
-DF2=DF
+DF3.exp=DF
 
-DF2
+DF3.exp
+rm(DF)
 ```
 
 
 
-
-
-# plot
+# model plot
+## coefficient
 ```{r}
 DF1$group="overall"
 DF2$group="prevalent"
 DF3$group="incident"
-DF=rbind(DF1,DF2,DF3)
+DF=bind_rows(DF1,DF2,DF3)
 DF$group=factor(DF$group,levels=c("overall","incident","prevalent"))
 DF$Infection=factor(DF$Infection, levels=c("URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
 
 ```
 
 
-```{r message=FALSE}
-### Model2_result
-#setting up the basic plot
-p2 <- ggplot(data=DF, aes(y=Infection, x=IRR,xmin=ci_l, xmax=ci_u, fill=group))+ 
-#this adds the effect sizes to the plot
-geom_point()+ 
-
-#adds the CIs
-geom_errorbarh(height=.1)+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
-#thematic stuff
-#theme_minimal()+
-#theme(text=element_text(family="Times",size=18, color="black"))+
-#theme(panel.spacing = unit(1, "lines"))+
-labs(
-      title = "Consultation Reduction",
-    x="IRR (95% CI)",
-    y=""
-  )+
-facet_grid(group~.)
- #theme(axis.title.y =element_blank(),
-  #      axis.text.y=element_blank(),
-   #     axis.ticks.y=element_blank())
-p2
-```
-
-
 
 ```{r message=FALSE}
 ### Model2_result
 #setting up the basic plot
-p3 <- ggplot(data=DF, aes(y=Infection, x=IRR,xmin=ci_l, xmax=ci_u))+ 
+p <- ggplot(data=DF, aes(y=group, x=coefficient,color=group))+ 
 #this adds the effect sizes to the plot
 geom_point()+ 
 
@@ -716,58 +637,44 @@ geom_errorbarh(aes(xmin=ci_l, xmax=ci_u))+
 
 #adding a vertical line at the effect = 0 mark
 geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
-#thematic stuff
-#theme_minimal()+
-#theme(text=element_text(family="Times",size=18, color="black"))+
-#theme(panel.spacing = unit(1, "lines"))+
-labs(
-      title = "Consultation Reduction",
-    x="IRR (95% CI)",
-    y=""
-  )+
-facet_grid(group~Infection)+
- theme(axis.title.y =element_blank(),
-        axis.text.y=element_blank(),
-       axis.ticks.y=element_blank())
-p3
-```
-
-
-```{r message=FALSE}
-### Model2_result
-#setting up the basic plot
-p4 <- ggplot(data=DF, aes(y=group, x=IRR,xmin=ci_l, xmax=ci_u,color=group))+ 
-#this adds the effect sizes to the plot
-geom_point()+ 
-
-#adds the CIs
-geom_errorbarh(height=.1)+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
-#thematic stuff
+#tematic stuff
 theme_bw()+
 #theme(text=element_text(family="Times",size=18, color="black"))+
 #theme(panel.spacing = unit(1, "lines"))+
 labs(
       title = "Consultation Reduction",
-    x="IRR (95% CI)",
+    x="Coefficient(95% CI)",
     y=""
   )+
-facet_grid(~Infection)+
- theme(axis.title.y =element_blank(),
+facet_grid(Infection~., scales = "free", space = "free")+
+ theme(strip.text.y = element_text(angle = 0),
+   axis.title.y =element_blank(),
         axis.text.y=element_blank(),
        axis.ticks.y=element_blank(),
        legend.title=element_blank(),
        legend.position="bottom")
-p4
+p
 ```
+
+
+## IRR
+```{r}
+
+DF1.exp$group="overall"
+DF2.exp$group="prevalent"
+DF3.exp$group="incident"
+DF=bind_rows(DF1.exp,DF2.exp,DF3.exp)
+DF$group=factor(DF$group,levels=c("overall","incident","prevalent"))
+DF$Infection=factor(DF$Infection, levels=c("URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
+
+```
+
 
 
 ```{r message=FALSE}
 ### Model2_result
 #setting up the basic plot
-p5 <- ggplot(data=DF, aes(y=group, x=IRR,color=group))+ 
+p2 <- ggplot(data=DF, aes(y=group, x=IRR,color=group))+ 
 #this adds the effect sizes to the plot
 geom_point()+ 
 
@@ -792,8 +699,10 @@ facet_grid(Infection~., scales = "free", space = "free")+
        axis.ticks.y=element_blank(),
        legend.title=element_blank(),
        legend.position="bottom")
-p5
+p2
 ```
+
+
 
 # table
 
