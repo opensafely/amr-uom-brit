@@ -2,7 +2,7 @@
 
 # This script provides the formal specification of the study data that will be extracted from
 # the OpenSAFELY database.
-# 17 Mar 2022 updated: infection history refer to first date of infection instead of index date
+# 26 Apr 2022 updated: indication record with/without same-day ab
 
 ######################################
 
@@ -57,6 +57,8 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        AND
+        has_infection
         """,
 
         has_died=patients.died_from_any_cause(
@@ -73,6 +75,11 @@ study = StudyDefinition(
             start_date="index_date - 1 year",
             end_date="index_date",
             return_expectations={"incidence": 0.95},
+        ),
+
+        has_infection=patients.with_these_clinical_events( # all indication
+        antibiotics_indications,
+        between=["index_date", "last_day_of_month(index_date)"],
         ),
 
     ),
@@ -142,7 +149,16 @@ study = StudyDefinition(
     ),
 
 
-
+    ## all infection
+    infection_count=patients.with_these_clinical_events(
+        antibiotics_indications,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 2, "stddev": 1},
+            "incidence": 1,
+        },
+    ),
 
 
 ########find patient's infection date 
