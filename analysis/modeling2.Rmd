@@ -13,6 +13,7 @@ require('tidyverse')
 require("gtsummary")
 require("ggplot2")
 library("survival")
+library(car)
 ```
 
 
@@ -43,8 +44,8 @@ df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
 ```{r}
 # dummy data
- #df[1:15,5]<-1
- #df[16:29,5]<-0
+# df[1:15,5]<-1
+# df[16:29,5]<-0
 #df[1:15,4]<-seq(1:15)
 # df[16:29,4]<-seq(1:14)
 ```
@@ -53,7 +54,10 @@ df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 # models
 ```{r}
  
-summary( clogit(case ~ ab_qn + CCI + covrx_ever + strata(subclass), df))
+
+  mod=clogit(case ~ ab_qn + CCI + covrx_ever + strata(subclass), df)
+ summary( mod) 
+ vif(mod)
 
 ```
 
