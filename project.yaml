@@ -167,9 +167,16 @@ actions:
       moderately_sensitive:
         html: output/check_exposures_cat.html
 
-  modeling: 
+  modeling: # ab level
     run: r:latest -e 'rmarkdown::render("analysis/modeling.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/modeling.html
+
+  modeling2: # ab level+ CCI + covid vaccine
+    run: r:latest -e 'rmarkdown::render("analysis/modeling2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling2.html

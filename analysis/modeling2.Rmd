@@ -1,0 +1,60 @@
+---
+title: "univariable analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+# matched variables
+df$ab_qn=as.character(df$ab_qn) #category
+
+df$CCI= relevel(as.factor(df$CCI), ref="Very low")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+
+```
+
+```{r}
+# dummy data
+ #df[1:15,5]<-1
+ #df[16:29,5]<-0
+#df[1:15,4]<-seq(1:15)
+# df[16:29,4]<-seq(1:14)
+```
+
+
+# models
+```{r}
+ 
+summary( clogit(case ~ ab_qn + CCI + covrx_ever + strata(subclass), df))
+
+```
+
+
