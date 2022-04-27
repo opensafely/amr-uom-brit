@@ -13,6 +13,7 @@ require('tidyverse')
 require("gtsummary")
 require("ggplot2")
 library("survival")
+library(car)
 ```
 
 
