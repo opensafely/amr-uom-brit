@@ -119,4 +119,18 @@ actions:
       moderately_sensitive:
         html: output/modeling.html
 
+  modeling2: # ab level+ CCI + covid vaccine
+    run: r:latest -e 'rmarkdown::render("analysis/modeling2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling2.html
+
+  modeling3: # all
+    run: r:latest -e 'rmarkdown::render("analysis/modeling3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling3.html
+
   ### for covid icu/ any death
