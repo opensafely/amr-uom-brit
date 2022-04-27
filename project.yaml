@@ -764,6 +764,16 @@ actions:
 
 #############################################################################
 
+  describe_cleaning_process:
+    run: r:latest analysis/process/cleaning_process.R
+    needs: [describe_infection_all_process_1,describe_infection_all_process_2,describe_infection_all_process_pre,
+    describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/cleaned_ab_infection.rds
+
+#############################################################################
+
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]

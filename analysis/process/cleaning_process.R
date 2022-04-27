@@ -1,3 +1,11 @@
+library("tidyverse") 
+library('dplyr')#conflict with plyr; load after plyr
+library('lubridate')
+
+
+rm(list=ls())
+setwd(here::here("output", "measures"))
+
 df1 <- readRDS('infect_all_2019.rds')
 df2 <- readRDS('infect_all_2020.rds')
 df3 <- readRDS('infect_all_2021.rds')
@@ -27,9 +35,10 @@ DF1 <- DF1 %>% select(patient_id,age,sex,date,infection)
 
 DF2 <- DF2 %>% select(patient_id,age,sex,date,type,infection)
 DF <- full_join(DF1, DF2, by = c("patient_id","date","infection"))
-DF <- DF %>% mutate_all(na_if,"")
+
 DF$age <- ifelse(is.na(DF$age.x),DF$age.y,DF$age.x)
 DF <- DF[,c(-2,-6)]
 DF$sex <- ifelse(is.na(DF$sex.x),DF$sex.y,DF$sex.x)
 DF <- DF[,c(-2,-5)]
 
+saveRDS(DF, "cleaned_ab_infection.rds")
