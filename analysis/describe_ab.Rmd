@@ -67,7 +67,6 @@ prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
 
 
 
-
 ```{r}
 
 df.1=df%>%filter(case==1)
@@ -76,6 +75,19 @@ ggplot(df.1, aes(x=br_ab_qn)) +
   facet_grid(ab_qn~.)
 table(df$ab_qn,df$br_ab_qn)
 prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
+```
+
+```{r}
+mod=clogit(case ~ ab_qn + ab_types + an_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
+summary(mod)
+vif(mod)
+```
+
+
+```{r}
+mod=clogit(case ~ ab_qn +br_ab_qn + an_qn*br_ab_qn + CCI + covrx_ever + strata(subclass), df)
+summary(mod)
+vif(mod)
 ```
 
 
