@@ -1,0 +1,94 @@
+---
+title: "subgroup analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+# matched variables
+df$ab_qn=as.character(df$ab_qn) #category
+df$ab_types=as.integer(df$ab_types)
+
+df$br_ab_qn=as.character(df$br_ab_qn)
+
+
+
+
+```
+
+```{r}
+# dummy data
+ #df[1:15,5]<-1
+ #df[16:29,5]<-0
+#df[1:15,4]<-seq(1:15)
+# df[16:29,4]<-seq(1:14)
+```
+
+`
+```{r}
+df.1=df%>%filter(case==1)
+
+ggplot(df.1, aes(x=ab_types)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+    geom_density(alpha=0.5)+
+  facet_grid(ab_qn~.)
+
+table(df$ab_qn,df$ab_types)
+prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
+```
+
+
+
+```{r}
+
+df.1=df%>%filter(case==1)
+ggplot(df.1, aes(x=br_ab_qn)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(ab_qn~.)
+table(df$ab_qn,df$br_ab_qn)
+prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
+```
+
+```{r}
+
+mod=clogit(case ~ ab_qn + ab_types + ab_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
+summary(mod)
+vif(mod)
+```
+
+
+```{r}
+mod=clogit(case ~ ab_qn +br_ab_qn + ab_qn*br_ab_qn + CCI + covrx_ever + strata(subclass), df)
+summary(mod)
+vif(mod)
+```
+
+
