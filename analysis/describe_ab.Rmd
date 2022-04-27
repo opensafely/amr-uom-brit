@@ -52,17 +52,30 @@ df$br_ab_qn=as.character(df$br_ab_qn)
 # df[16:29,4]<-seq(1:14)
 ```
 
+`
 ```{r}
-ggplot(df, aes(x=ab_types,fill=case,color=case)) +
+df.1=df%>%filter(case==1)
+
+ggplot(df.1, aes(x=ab_types)) +
   geom_histogram(aes(y = ..density..),binwidth = 0.8)+
     geom_density(alpha=0.5)+
-  facet_grid(ab_qn~case)
+  facet_grid(ab_qn~.)
+
+table(df$ab_qn,df$ab_types)
+prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
 ```
+
+
+
 
 ```{r}
-ggplot(df, aes(x=br_ab_qn,fill=case,color=case, group=case)) +
-  geom_bar(aes(y = ..prop..))+
-  facet_grid(ab_qn~case)
 
+df.1=df%>%filter(case==1)
+ggplot(df.1, aes(x=br_ab_qn)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(ab_qn~.)
+table(df$ab_qn,df$br_ab_qn)
+prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
 ```
+
 
