@@ -187,3 +187,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/modeling3.html
+
+  describe_ab: 
+    run: r:latest -e 'rmarkdown::render("analysis/describe_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/describe_ab.html
