@@ -13,6 +13,7 @@ require('tidyverse')
 require("gtsummary")
 require("ggplot2")
 library("survival")
+library(car)
 ```
 
 
@@ -64,7 +65,9 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 # models
 ```{r}
  
-summary( clogit(case ~ ab_qn + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df))
+mod=clogit(case ~ ab_qn + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod)
+vif(mod)
 
 ```
 
