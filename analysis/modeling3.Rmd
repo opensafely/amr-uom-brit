@@ -1,5 +1,5 @@
 ---
-title: "model2"
+title: "model3"
 output: html_document
 ---
 
@@ -38,6 +38,17 @@ df$ab_qn=as.character(df$ab_qn) #category
 df$CCI= relevel(as.factor(df$CCI), ref="Very low")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+
 
 ```
 
@@ -53,7 +64,7 @@ df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 # models
 ```{r}
  
-summary( clogit(case ~ ab_qn + CCI + covrx_ever + strata(subclass), df))
+summary( clogit(case ~ ab_qn + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df))
 
 ```
 
