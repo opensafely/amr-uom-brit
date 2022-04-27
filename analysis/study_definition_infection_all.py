@@ -202,6 +202,56 @@ study = StudyDefinition(
         ),
 
 
+########## identify patient's infection types  #############
+
+    indication_date_1_type=patients.with_these_clinical_events(
+        antibiotics_indications,
+        returning='category',
+        between=["indication_date_1", "indication_date_1"], 
+        return_expectations={
+            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+            "urti":0.1, "uti":0.1,}},
+            "incidence": 0.8,},
+            ),
+
+    indication_date_2_type=patients.with_these_clinical_events(
+        antibiotics_indications,
+        returning='category',
+        between=["indication_date_2", "indication_date_2"], 
+        return_expectations={
+            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+            "urti":0.1, "uti":0.1,}},
+            "incidence": 0.8,},
+            ),
+
+    indication_date_3_type=patients.with_these_clinical_events(
+        antibiotics_indications,
+        returning='category',
+        between=["indication_date_3", "indication_date_3"], 
+        return_expectations={
+            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+            "urti":0.1, "uti":0.1,}},
+            "incidence": 0.8,},
+            ),
+
+    indication_date_4_type=patients.with_these_clinical_events(
+        antibiotics_indications,
+        returning='category',
+        between=["indication_date_4", "indication_date_4"], 
+        return_expectations={
+            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+            "urti":0.1, "uti":0.1,}},
+            "incidence": 0.8,},
+            ),
+
 ########## identify indication date come with ab prescription or not #############
 
     ab_indication_date_1= patients.with_these_medications(
