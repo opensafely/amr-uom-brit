@@ -88,17 +88,46 @@ df$lastABtime=ifelse(is.na(df$lastABtime),0,df$lastABtime)
 # df$br_ab_qn=quintile(df$broad_ab_prescriptions)
 
 # set ab quintile category
-df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
-df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
+#df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
+#df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
 
-df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5),
-               br_ab_qn=ntile(broad_ab_prescriptions,5))
+#df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5),
+#               br_ab_qn=ntile(broad_ab_prescriptions,5))
+
+#df$ab_qn=ifelse(is.na(df$ab_qn),0,df$ab_qn)# no ab ->0; ab exp. ->1~5
+#df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
+
+#df$ab_qn=as.factor(df$ab_qn)
+#df$br_ab_qn=as.factor(df$br_ab_qn)
+
+# ab_continuous 
+#df$ab_prescriptions=ifelse(is.na(df$ab_prescriptions),0,df$ab_prescriptions) # recode NA to 0
+#df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_prescriptions) # recode NA to 0
+# set ab quintile category
+df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
+
+df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5))
 
 df$ab_qn=ifelse(is.na(df$ab_qn),0,df$ab_qn)# no ab ->0; ab exp. ->1~5
-df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
 
 df$ab_qn=as.factor(df$ab_qn)
+
+
+df$broad_ab=ifelse(is.na(df$ab_prescriptions)| # without any ab
+                     is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,NA, # without broad ab
+                   df$broad_ab_prescriptions) # with broad ab
+
+df=df%>%mutate(br_ab_qn=ntile(broad_ab,5))
+
+df$br_ab_qn=ifelse(is.na(df$ab_prescriptions),"without any ab",
+                   ifelse(is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,"without broad ab",
+                          df$br_ab_qn))
+
+
+df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
 df$br_ab_qn=as.factor(df$br_ab_qn)
+
+
 
 # ab_continuous 
 df$ab_prescriptions=ifelse(is.na(df$ab_prescriptions),0,df$ab_prescriptions) # recode NA to 0
