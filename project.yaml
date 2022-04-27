@@ -607,6 +607,13 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_infection_all_*.csv.gz
 
+### generate study cohort three months before 2019-01-01 to get the incident infection information
+  generate_study_population_infection_all_pre: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_all_pre --index-date-range "2018-10-01 to 2018-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_all_pre_*.csv.gz
+
   generate_study_population_antibiotics_covid: #  Ab for covid
     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
