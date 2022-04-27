@@ -705,6 +705,8 @@ actions:
         rds3: output/measures/recorded_ab_broad_2021.rds
         rds4: output/measures/recorded_ab_broad_2022.rds
 
+###### ab record transform process ######
+
   describe_ab_type_process_1:
     run: r:latest analysis/process/ab_type_transform_1.R
     needs: [generate_study_population_antibiotics_tpye]
@@ -734,6 +736,33 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/ab_type_pre.rds
+
+###### infection record transform process ######
+
+  describe_infection_all_process_1:
+    run: r:latest analysis/process/ab_infection_all_transform_1.R
+    needs: [generate_study_population_infection_all]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/infect_all_2019.rds
+        rds2: output/measures/infect_all_2020.rds
+        rds3: output/measures/infect_all_2021.rds
+
+  describe_infection_all_process_2:
+    run: r:latest analysis/process/ab_infection_all_transform_2.R
+    needs: [generate_study_population_infection_all]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/infect_all_2022.rds
+
+  describe_infection_all_process_pre:
+    run: r:latest analysis/process/ab_infection_all_transform_pre.R
+    needs: [generate_study_population_infection_all_pre]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/infect_all_pre.rds
+
+#############################################################################
 
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
