@@ -29,7 +29,7 @@ df <- read_rds(here::here("output","matched_outcome.rds"))
 ```{r}
 
 # outcome
-df$case=as.factor(df$case) #1/0
+df$case=as.numeric(df$case) #1/0
 
 df$subclass=as.factor(df$subclass)#pair id
 
@@ -78,6 +78,7 @@ prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
 ```
 
 ```{r}
+
 mod=clogit(case ~ ab_qn + ab_types + ab_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
 summary(mod)
 vif(mod)
