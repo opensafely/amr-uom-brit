@@ -11,11 +11,11 @@ actions:
   #     highly_sensitive:
   #       cohort: output/measures/input_*.csv.gz
 
-  generate_study_population_hospitalisation:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --output-format=csv.gz
+  generate_study_population_hospitalisation_rate:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisation.csv.gz
+        cohort: output/hospitalisation_data/input_hospitalisation_rate.csv.gz
 
   # generate_study_population_hospitalisation_2:
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-04-01 to 2019-06-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
@@ -43,10 +43,10 @@ actions:
   #       notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
   #       figures: output/hospitalisation_risk/*
 
-  generate_notebook_hospitalisation_rate:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population_hospitalisation]
-    outputs:
-      moderately_sensitive:
-        notebook: output/hospitalisation_rate/hospitalisation_rate.html 
-        figures: output/hospitalisation_rate/*
+  # generate_notebook_hospitalisation_rate:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_study_population_hospitalisation_rate]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_rate/hospitalisation_rate.html 
+  #       figures: output/hospitalisation_rate/*
