@@ -16,7 +16,6 @@ library("survival")
 ```
 
 
-# <font color=blue>**Outcome 2**</font>
 ```{r include=FALSE}
 # import data
 rm(list=ls())
@@ -42,6 +41,8 @@ df$region=as.character(df$region)
 
 
 df$ab_qn=as.character(df$ab_qn) #category
+df$ab_qn_5=as.character(df$ab_qn_5) #category
+
 df$ab_prescriptions=as.numeric(df$ab_prescriptions)
 
 
@@ -51,8 +52,13 @@ df$ab_prescriptions=as.numeric(df$ab_prescriptions)
 # exposures
 ```{r}
 # total AB
-summary( clogit(case ~ ab_prescriptions + strata(subclass), df))
 summary( clogit(case ~ ab_qn + strata(subclass), df))
+
+```
+
+```{r}
+# total AB
+summary( clogit(case ~ ab_qn_5 + strata(subclass), df))
 
 ```
 

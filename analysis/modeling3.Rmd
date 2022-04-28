@@ -35,6 +35,8 @@ df$subclass=as.factor(df$subclass)#pair id
 
 # matched variables
 df$ab_qn=as.character(df$ab_qn) #category
+df$ab_qn_5=as.character(df$ab_qn_5) #category
+
 
 df$CCI= relevel(as.factor(df$CCI), ref="Very low")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
@@ -71,4 +73,10 @@ vif(mod)
 
 ```
 
+```{r}
+ 
+mod=clogit(case ~ ab_qn_5 + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod)
+vif(mod)
 
+```
