@@ -61,7 +61,7 @@ df$br_ab_qn=as.character(df$br_ab_qn)
 
 # abtypes
 
-## continuous
+## continuous variable
 ```{r}
 
 ggplot(df, aes(x=ab_types)) +
@@ -72,20 +72,25 @@ table(df$ab_qn,df$ab_types)
 prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
 ```
 
-## category
+## categorical variable
 ```{r}
-df=df%>%mutate(abtype_3=ntile(ab_types,3))
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
 
-summary(df[df$abtype_3==1,]$ab_types)
-summary(df[df$abtype_3==2,]$ab_types)
-summary(df[df$abtype_3==3,]$ab_types)
+df=df%>%mutate(abtype_3=case_when( ab_types==0 ~ "0",
+               ab_types>0 & ab_types<=3 ~"1",
+               ab_types>3 & ab_types<=6 ~"2",
+               ab_types>6 & ab_types<=9 ~"3"))
+
+summary(df[df$abtype_3=="1",]$ab_types)
+summary(df[df$abtype_3=="2",]$ab_types)
+summary(df[df$abtype_3=="3",]$ab_types)
 
 
 table(df$ab_qn,df$abtype_3)
 prop.table(table(df$ab_qn,df$abtype_3),margin=1)*100
 
 ggplot(df, aes(x=abtype_3)) +
-  geom_bar(aes(y = ..prop..))+
+  geom_bar()+
   facet_grid(ab_qn~case)
 
 
@@ -95,7 +100,7 @@ ggplot(df, aes(x=abtype_3)) +
 ```{r}
 
 ggplot(df, aes(x=br_ab_qn)) +
-  geom_bar(aes(y = ..prop..))+
+  geom_bar()+
   facet_grid(ab_qn~case)
 table(df$ab_qn,df$br_ab_qn)
 prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
