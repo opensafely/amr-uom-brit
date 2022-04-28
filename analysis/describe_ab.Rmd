@@ -114,16 +114,16 @@ prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
 
 ```{r}
 
-mod=clogit(case ~ ab_qn + ab_types + ab_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
-summary(mod)
-vif(mod)
+#mod=clogit(case ~ ab_qn + ab_types + ab_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
+#summary(mod)
+#vif(mod)
 ```
 
 ## br_ab
 ```{r}
-mod=clogit(case ~ ab_qn +br_ab_qn + ab_qn*br_ab_qn + CCI + covrx_ever + strata(subclass), df)
-summary(mod)
-vif(mod)
+#mod=clogit(case ~ ab_qn +br_ab_qn + ab_qn*br_ab_qn + CCI + covrx_ever + strata(subclass), df)
+#summary(mod)
+#vif(mod)
 ```
 
 
