@@ -77,17 +77,35 @@ df$lastABtime=as.integer(difftime(df$patient_index_date,df$ab_last_date,unit="da
 df$lastABtime=ifelse(is.na(df$lastABtime),0,df$lastABtime)
 
 ## quintile category
+ #quintile<-function(x){
+  # ifelse(is.na(x)|x==0,"0",
+   #       ifelse(x>quantile(x,.8),"5",
+    #             ifelse(x>quantile(x,.6),"4",
+     #                   ifelse(x>quantile(x,.4),"3",
+      #                         ifelse(x>quantile(x,.2),"2","1")))))}
 
-# quintile<-function(x){
-#   ifelse(x>quantile(x,.8),"5",
-#          ifelse(x>quantile(x,.6),"4",
-#                 ifelse(x>quantile(x,.4),"3",
-#                        ifelse(x>quantile(x,.2),"2","1"))))}
-
+ 
 # df$ab_qn=quintile(df$ab_prescriptions)
 # df$br_ab_qn=quintile(df$broad_ab_prescriptions)
 
 # set ab quintile category
+
+### ab quintile = according to unique ab prescription numbers
+df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
+qn_num=unique(df$ab_prescriptions)
+qn_cat1=quantile(qn_num,0.2,na.rm=T)
+qn_cat2=quantile(qn_num,0.4,na.rm=T)
+qn_cat3=quantile(qn_num,0.6,na.rm=T)
+qn_cat4=quantile(qn_num,0.8,na.rm=T)
+
+df$ab_qn_5=ifelse(is.na(df$ab_prescriptions),0,
+                  ifelse(df$ab_prescriptions<=qn_cat1,1,
+                         ifelse(df$ab_prescriptions<=qn_cat2,2,
+                                ifelse(df$ab_prescriptions<=qn_cat3,3,
+                                       ifelse(df$ab_prescriptions<=qn_cat4,4,5)
+                                       ))))
+
+### ab quintile = according to ab prescription numbers
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
 
 df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5))
