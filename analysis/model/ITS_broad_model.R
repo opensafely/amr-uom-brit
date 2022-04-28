@@ -198,7 +198,7 @@ its_function <- function(outcomes_vec = outcomes,
     forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
     # export table of results for the appendix 
     write_csv(forest_plot_df, here::here("output", "its_main_ORs.csv"))
-    
+
     forest_plot_df <- forest_plot_df %>%
       mutate(dummy_facet = "A")
     ## Forest plot
@@ -226,16 +226,15 @@ its_function <- function(outcomes_vec = outcomes,
             panel.grid.minor.x = element_blank(),
             panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
             panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
-    #fp
-    # Export plot -------------------------------------------------------------
-
-    plot1 
-    fp
 }    
 # save plot
 its_function(outcomes_vec = outcomes,
              display_from <- as.Date("2020-01-01")
 )
+
+plot1
+
+dp
 
 ### 
 ggsave(
