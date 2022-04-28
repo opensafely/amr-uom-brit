@@ -796,6 +796,18 @@ actions:
 
 #############################################################################
 
+
+  describe_ITS_model:
+    run: r:latest analysis/model/ITS_broad_model.R
+    needs: [describe_ITS_var_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/broad_plot_1.jpeg
+        plot2: output/broad_forest_plot.jpeg
+
+
+#############################################################################
+
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
