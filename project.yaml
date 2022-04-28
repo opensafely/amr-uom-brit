@@ -828,6 +828,18 @@ actions:
         table13: output/df2.model_ot_media.csv
         table14: output/df2.model_ot_externa.csv
 
+#############################################################################
+
+
+  describe_ITS_model_2:
+    run: r:latest analysis/model/ITS_broad_model_2.R
+    needs: [describe_ITS_var_without_A_process]
+    outputs:
+       moderately_sensitive:
+        table1: output/its_main_plot_data_without_A.csv
+        plot: output/forest_plot_broad_without_A.jpeg
+        table2: output/its_main_ORs_without_A.csv
+
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
