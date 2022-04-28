@@ -226,24 +226,25 @@ its_function <- function(outcomes_vec = outcomes,
             panel.grid.minor.x = element_blank(),
             panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
             panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
+
+  # Export plot -------------------------------------------------------------
+    ## uses patchwork package to combine plots
+    layout = "
+            AAAAAA
+            AAAAAA
+            AAAAAA
+            AAAAAA
+			BBBBBB
+			BBBBBB
+		"
+      plot1 + fp + 
+      plot_layout(design = layout) 
+
 }    
-# save plot
+
+pdf(file = here::here("output", paste0("broad_plot", ".pdf")), width = 13, height = 14)
 its_function(outcomes_vec = outcomes,
              display_from <- as.Date("2020-01-01")
 )
-
-plot1
-
-dp
-
-### 
-ggsave(
-  plot= plot1,
-  filename="broad_plot_1.jpeg", path=here::here("output"),
-)  
-ggsave(
-  plot= fp,
-  filename="broad_forest_plot.jpeg", path=here::here("output"),
-)  
 
 
