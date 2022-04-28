@@ -774,6 +774,15 @@ actions:
 
 #############################################################################
 
+  describe_ITS_var_process:
+    run: r:latest analysis/process/ITS_var.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
+    outputs:
+       moderately_sensitive:
+        table1: output/df.model.csv
+
+#############################################################################
+
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
