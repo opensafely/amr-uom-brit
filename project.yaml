@@ -50,3 +50,12 @@ actions:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_urti/hospitalisation_prediction_urti.html 
         figures: output/hospitalisation_prediction_urti/*
+
+
+  # generate_notebook_hospitalisation_rate:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_study_population_hospitalisation]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_rate/hospitalisation_rate.html 
+  #       figures: output/hospitalisation_rate/*
