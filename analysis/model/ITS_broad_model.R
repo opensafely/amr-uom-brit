@@ -175,17 +175,15 @@ its_function <- function(outcomes_vec = outcomes,
             panel.grid.major = element_blank(),
             panel.grid.minor.x = element_blank(),
             panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
-            panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3))) 
-    
-    if(lubridate::year(display_from) == 2020){
-      plot1 <- plot1 + 
-        scale_x_date(breaks = "1 month", date_labels = "%b") +
-        labs(x = "Date (2020)")
-    }else{
-      plot1 <- plot1 + 
+            panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3))) + 
         scale_x_date(breaks = "1 year", date_labels = "%Y") +
         labs(x = "Year")
     }
+
+    ggsave(
+  plot= plot1,
+  filename="ITS_plot.jpeg", path=here::here("output"),
+)  
     #plot1
 
         # Forest plot of ORs ------------------------------------------------------
@@ -227,22 +225,13 @@ its_function <- function(outcomes_vec = outcomes,
             panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
             panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
 
-  # Export plot -------------------------------------------------------------
-    ## uses patchwork package to combine plots
-    layout = "
-            AAAAAA
-            AAAAAA
-            AAAAAA
-            AAAAAA
-			BBBBBB
-			BBBBBB
-		"
-      plot1 + fp + 
-      plot_layout(design = layout) 
+ggsave(
+  plot= fp,
+  filename="forest_plot_broad.jpeg", path=here::here("output"),
+)  
 
 }    
 
-pdf(file = here::here("output", paste0("broad_plot", ".pdf")), width = 13, height = 14)
 its_function(outcomes_vec = outcomes,
              display_from <- as.Date("2020-01-01")
 )
