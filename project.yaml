@@ -808,6 +808,26 @@ actions:
 
 #############################################################################
 
+  describe_ITS_var_without_A_process:
+    run: r:latest analysis/process/ITS_var_without_Amoxicillin.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
+    outputs:
+       moderately_sensitive:
+        table1: output/df2.model_asthma.csv
+        table2: output/df2.model_cold.csv
+        table3: output/df2.model_cough.csv
+        table4: output/df2.model_copd.csv
+        table5: output/df2.model_pneumonia.csv
+        table6: output/df2.model_renal.csv
+        table7: output/df2.model_sepsis.csv
+        table8: output/df2.model_throat.csv
+        table9: output/df2.model_uti.csv
+        table10: output/df2.model_lrti.csv
+        table11: output/df2.model_urti.csv
+        table12: output/df2.model_sinusitis.csv
+        table13: output/df2.model_ot_media.csv
+        table14: output/df2.model_ot_externa.csv
+
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
