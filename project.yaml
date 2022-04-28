@@ -802,9 +802,9 @@ actions:
     needs: [describe_ITS_var_process]
     outputs:
        moderately_sensitive:
-        plot1: output/ITS_plot.jpeg
-        plot2: output/forest_plot_broad.jpeg
-        table1: output/its_main_ORs.csv
+        table1: output/its_main_plot_data.csv
+        plot: output/forest_plot_broad.jpeg
+        table2: output/its_main_ORs.csv
 
 #############################################################################
 
