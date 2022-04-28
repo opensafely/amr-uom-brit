@@ -779,7 +779,20 @@ actions:
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
     outputs:
        moderately_sensitive:
-        table1: output/df.model.csv
+        table1: output/df.model_asthma.csv
+        table2: output/df.model_cold.csv
+        table3: output/df.model_cough.csv
+        table4: output/df.model_copd.csv
+        table5: output/df.model_pneumonia.csv
+        table6: output/df.model_renal.csv
+        table7: output/df.model_sepsis.csv
+        table8: output/df.model_throat.csv
+        table9: output/df.model_uti.csv
+        table10: output/df.model_lrti.csv
+        table11: output/df.model_urti.csv
+        table12: output/df.model_sinusitis.csv
+        table13: output/df.model_ot_media.csv
+        table14: output/df.model_ot_externa.csv
 
 #############################################################################
 
