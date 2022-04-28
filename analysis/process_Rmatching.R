@@ -105,22 +105,32 @@ df$ab_qn_5=ifelse(is.na(df$ab_prescriptions),0,
                                        ifelse(df$ab_prescriptions<=qn_cat4,4,5)
                                        ))))
 
+### broad ab quintile = according to unique broad ab prescription numbers
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions) # filter no ab+no br ab
+br_qn_num=unique(df$broad_ab_prescriptions)
+br_qn_cat1=quantile(br_qn_num,0.2,na.rm=T)
+br_qn_cat2=quantile(br_qn_num,0.4,na.rm=T)
+br_qn_cat3=quantile(br_qn_num,0.6,na.rm=T)
+br_qn_cat4=quantile(br_qn_num,0.8,na.rm=T)
+
+df$br_ab_qn_5=ifelse(is.na(df$broad_ab_prescriptions),0,
+                  ifelse(df$broad_ab_prescriptions<=br_qn_cat1,1,
+                         ifelse(df$broad_ab_prescriptions<=br_qn_cat2,2,
+                                ifelse(df$broad_ab_prescriptions<=br_qn_cat3,3,
+                                       ifelse(df$broad_ab_prescriptions<=br_qn_cat4,4,5)
+                                ))))
+
 ### ab quintile = according to ab prescription numbers
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
-
 df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5))
-
 df$ab_qn=ifelse(is.na(df$ab_qn),0,df$ab_qn)# no ab ->0; ab exp. ->1~5
-
 df$ab_qn=as.factor(df$ab_qn)
 
 
 df$broad_ab=ifelse(is.na(df$ab_prescriptions)| # without any ab
               is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,NA, # without broad ab
                        df$broad_ab_prescriptions) # with broad ab
-
 df=df%>%mutate(br_ab_qn=ntile(broad_ab,5))
-
 df$br_ab_qn=ifelse(is.na(df$ab_prescriptions),"without any ab",
                    ifelse(is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,"without broad ab",
                           df$br_ab_qn))
