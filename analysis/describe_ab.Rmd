@@ -1,6 +1,12 @@
 ---
 title: "subgroup analysis"
-output: html_document
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
 ---
 
 ```{r setup, include=FALSE}
@@ -46,35 +52,64 @@ df$br_ab_qn=as.character(df$br_ab_qn)
 
 ```{r}
 # dummy data
- #df[1:15,5]<-1
- #df[16:29,5]<-0
-#df[1:15,4]<-seq(1:15)
-# df[16:29,4]<-seq(1:14)
+df[1:15,5]<-1
+ df[16:29,5]<-0
+df[1:15,4]<-seq(1:15)
+ df[16:29,4]<-seq(1:14)
 ```
 
-`
-```{r}
-df.1=df%>%filter(case==1)
 
-ggplot(df.1, aes(x=ab_types)) +
-  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
-    geom_density(alpha=0.5)+
-  facet_grid(ab_qn~.)
+# abtypes
+
+## continuous
+```{r}
+
+ggplot(df, aes(x=ab_types)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(ab_qn~case)
 
 table(df$ab_qn,df$ab_types)
 prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
 ```
 
+## category
+```{r}
+df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+summary(df[df$abtype_3==1,]$ab_types)
+summary(df[df$abtype_3==2,]$ab_types)
+summary(df[df$abtype_3==3,]$ab_types)
 
 
+table(df$ab_qn,df$abtype_3)
+prop.table(table(df$ab_qn,df$abtype_3),margin=1)*100
+
+ggplot(df, aes(x=abtype_3)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(ab_qn~case)
+
+
+```
+
+# broad ab
 ```{r}
 
-df.1=df%>%filter(case==1)
-ggplot(df.1, aes(x=br_ab_qn)) +
+ggplot(df, aes(x=br_ab_qn)) +
   geom_bar(aes(y = ..prop..))+
-  facet_grid(ab_qn~.)
+  facet_grid(ab_qn~case)
 table(df$ab_qn,df$br_ab_qn)
 prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
+```
+
+
+
+# model
+## abtype_3
+
+```{r}
+#df$ab_qn_type=ifelse(ab_qn==0, 0
+ #                    ifelse(ab_qn==1))
+
 ```
 
 ```{r}
@@ -84,7 +119,7 @@ summary(mod)
 vif(mod)
 ```
 
-
+## br_ab
 ```{r}
 mod=clogit(case ~ ab_qn +br_ab_qn + ab_qn*br_ab_qn + CCI + covrx_ever + strata(subclass), df)
 summary(mod)
