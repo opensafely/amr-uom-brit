@@ -125,6 +125,9 @@ df$br_ab_qn_5=ifelse(is.na(df$broad_ab_prescriptions),0,
                                 ifelse(df$broad_ab_prescriptions<=br_qn_cat3,3,
                                        ifelse(df$broad_ab_prescriptions<=br_qn_cat4,4,5)
                                 ))))
+df$br_ab_qn_5=ifelse(is.na(df$ab_prescriptions),"without any ab",
+                   ifelse(is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,"without broad ab",
+                          df$br_ab_qn_5))
 
 ### 2.1-ab quintile = according to ab prescription numbers
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
@@ -168,6 +171,23 @@ df$total_ab_qn_5=ifelse(is.na(df$total_ab),0,
                                              ifelse(df$total_ab<=qn_cat4,4,5)
                                       ))))
 
+### 1.2-broad ab quintile = according to unique broad ab prescription numbers
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions) # filter no ab+no br ab
+br_qn_num=unique(df$broad_ab_prescriptions)
+br_qn_cat1=quantile(br_qn_num,0.2,na.rm=T)
+br_qn_cat2=quantile(br_qn_num,0.4,na.rm=T)
+br_qn_cat3=quantile(br_qn_num,0.6,na.rm=T)
+br_qn_cat4=quantile(br_qn_num,0.8,na.rm=T)
+
+df$br_total_ab_qn_5=ifelse(is.na(df$total_ab),0,
+                     ifelse(df$broad_ab_prescriptions<=br_qn_cat1,1,
+                            ifelse(df$broad_ab_prescriptions<=br_qn_cat2,2,
+                                   ifelse(df$broad_ab_prescriptions<=br_qn_cat3,3,
+                                          ifelse(df$broad_ab_prescriptions<=br_qn_cat4,4,5)
+                                   ))))
+df$br_total_ab_qn_5=ifelse(is.na(df$total_ab),"without any ab",
+                     ifelse(is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,"without broad ab",
+                            df$br_total_ab_qn_5))
 
 
 ### 2.1-ab quintile = according to total ab numbers
@@ -258,7 +278,7 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
 # variables for analysis
-df=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5"))
+df=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5"))
 
 
 
