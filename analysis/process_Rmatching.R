@@ -61,6 +61,7 @@ df$total_ab=rowSums(df[col])# total types number -> total ab prescription
 
 df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag(1,0)
 df$ab_types=rowSums(df[col]>0)# count number of types
+write_rds(df[col], here::here("output", "abtype79.rds"))
 df=df[ ! names(df) %in% col]
 
 df$ab_types=ifelse(is.na(df$ab_types),0,df$ab_types) # no ab 
@@ -258,6 +259,8 @@ df$peripheral_vascular <- ifelse(df$peripheral_vascular_comor == 1, 1, 0)
 
 comor=c("cancer_comor","cardiovascular_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
 df$Charlson=rowSums(df[comor])
+write_rds(df[comor], here::here("output", "comor17.rds"))
+
 df= df[!names(df)%in%comor]
 
 df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Very low",

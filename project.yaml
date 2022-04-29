@@ -152,6 +152,8 @@ actions:
     outputs:
       highly_sensitive:
         cohort1: output/matched_outcome.rds
+        rds1: output/abtype79.rds
+        rds2: output/comor17.rds
 
   check_exposures_cont: # continuous variables
     run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cont.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
