@@ -58,6 +58,17 @@ df$br_ab_qn=as.character(df$br_ab_qn)
  #df[16:29,4]<-seq(1:14)
 ```
 
+#  cross table : total vs. ab_prescriptions
+```{r}
+table(df$total_ab_qn_5,df$ab_qn_5)
+prop.table(table(df$total_ab_qn_5,df$ab_qn_5),margin=1)*100
+```
+
+```{r}
+table(df$total_ab_qn,df$ab_qn)
+prop.table(table(df$total_ab_qn,df$ab_qn),margin=1)*100
+```
+
 
 # abtypes
 
