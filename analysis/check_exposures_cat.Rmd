@@ -515,7 +515,7 @@ colSums(df[,col])
 ```
 
 ```{r}
-df <- read_rds(here::here("output","comor.rds"))
+df <- read_rds(here::here("output","comor17.rds"))
 comor=c("cancer_comor","cardiovascular_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
 
 colSums(df[,col])
