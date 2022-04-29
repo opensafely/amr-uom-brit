@@ -534,8 +534,9 @@ colSums(df2)
 
 # compare 79 kind ab and all ab
 ```{r}
-
 df1$total=rowSums(df1)
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
 df=df%>%select(ab_prescriptions)
 DF=cbind(df1,df)
 DF$diff=DF$ab_prescriptions-DF$total
