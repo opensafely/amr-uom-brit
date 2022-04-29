@@ -10,8 +10,8 @@ library("ggplot2")
 library('dplyr')
 library('lubridate')
 
-#setwd(here::here("output"))
-setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
+setwd(here::here("output"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # extracted dataset after matching
 DF1=read_csv("input_outcome.csv")
 
