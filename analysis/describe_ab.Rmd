@@ -72,7 +72,7 @@ table(df$ab_qn,df$ab_types)
 prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
 ```
 
-## categorical variable
+## categorical variable- ab_qn
 ```{r}
 #df=df%>%mutate(abtype_3=ntile(ab_types,3))
 
@@ -96,7 +96,24 @@ ggplot(df, aes(x=abtype_3)) +
 
 ```
 
+
+## categorical variable- ab_qn_5
+```{r}
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+table(df$ab_qn_5,df$abtype_3)
+prop.table(table(df$ab_qn_5,df$abtype_3),margin=1)*100
+
+ggplot(df, aes(x=abtype_3)) +
+  geom_bar()+
+  facet_grid(ab_qn_5~case)
+
+
+```
+
+
 # broad ab
+## ab_qn
 ```{r}
 
 ggplot(df, aes(x=br_ab_qn)) +
@@ -106,20 +123,23 @@ table(df$ab_qn,df$br_ab_qn)
 prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
 ```
 
-
-
-# model
-## abtype_3
-
+## ab_qn_5
 ```{r}
-#df$ab_qn_type=ifelse(ab_qn==0, 0
- #                    ifelse(ab_qn==1))
+
+ggplot(df, aes(x=br_ab_qn)) +
+  geom_bar()+
+  facet_grid(ab_qn_5~case)
+table(df$ab_qn_5,df$br_ab_qn)
+prop.table(table(df$ab_qn_5,df$br_ab_qn),margin=1)*100
 
 ```
 
+
+# models
+## ab type
 ```{r}
 
-#mod=clogit(case ~ ab_qn + ab_types + ab_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
+#mod=clogit(case ~ ab_qn + ab_types + CCI + covrx_ever + strata(subclass), df)
 #summary(mod)
 #vif(mod)
 ```
