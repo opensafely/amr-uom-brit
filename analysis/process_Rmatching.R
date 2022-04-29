@@ -10,8 +10,8 @@ library("ggplot2")
 library('dplyr')
 library('lubridate')
 
-setwd(here::here("output"))
-
+#setwd(here::here("output"))
+setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # extracted dataset after matching
 DF1=read_csv("input_outcome.csv")
 
@@ -56,10 +56,11 @@ df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59"
 # select ab types columns
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
-df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag
+df[col]=df[col]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df$total_ab=rowSums(df[col])# total types number -> total ab prescription
 
-# count number of types
-df$ab_types=rowSums(df[col]>0)
+df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag(1,0)
+df$ab_types=rowSums(df[col]>0)# count number of types
 df=df[ ! names(df) %in% col]
 
 df$ab_types=ifelse(is.na(df$ab_types),0,df$ab_types) # no ab 
