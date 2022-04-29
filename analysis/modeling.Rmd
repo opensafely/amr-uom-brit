@@ -40,10 +40,11 @@ df$region=as.character(df$region)
 
 
 
-df$ab_qn=as.character(df$ab_qn) #category
-df$ab_qn_5=as.character(df$ab_qn_5) #category
+# replace ab prescription with total ab
+df$ab_qn=as.character(df$total_ab_qn) #category
+df$ab_qn_5=as.character(df$total_ab_qn_5) #category
 
-df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+df$ab_prescriptions=as.numeric(df$total_ab)
 
 
 ```
