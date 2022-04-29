@@ -112,16 +112,6 @@ ggplot(df, aes(x=imd,fill=case,color=case,group=case)) +
 df[, as.list(summary(imd)), by = case]
 ```
 
-#ab_types
-```{r}
-ggplot(df, aes(x=ab_types,fill=case,color=case,group=case)) +
-  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
-    geom_density(alpha=0.5)+
-  facet_grid(case~.)
-
-df[, as.list(summary(ab_types)), by = case]
-```
-
 
 #lastABtime
 ```{r}
@@ -134,6 +124,25 @@ ggplot(df, aes(x=lastABtime,fill=case,color=case,group=case)) +
 df[, as.list(summary(lastABtime)), by = case]
 ```
 
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types,fill=case,color=case,group=case)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+    geom_density(alpha=0.5)+
+  facet_grid(case~.)
+
+df[, as.list(summary(ab_types)), by = case]
+```
+
+#total ab (compare to ab_prescriptions)
+```{r}
+ggplot(df, aes(x=total_ab,fill=case,color=case,group=case)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+    geom_density(alpha=0.5)+
+  facet_grid(case~.)
+
+df[, as.list(summary(ab_types)), by = case]
+```
 
 
 #ab_prescriptions
