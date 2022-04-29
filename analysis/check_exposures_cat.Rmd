@@ -508,13 +508,13 @@ prop.table(table(df$case,df$br_total_ab_qn_5),margin=1)*100
 # freq table of overall 79 type ab & 17 kind comor
 ```{r}
 df <- read_rds(here::here("output","abtype79.rds"))
-colSums(df[,col])
+colSums(df)
 
 ```
 
 ```{r}
 df <- read_rds(here::here("output","comor17.rds"))
 
-colSums(df[,col])
+colSums(df)
 
 ```
