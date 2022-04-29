@@ -141,7 +141,7 @@ ggplot(df, aes(x=total_ab,fill=case,color=case,group=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-df[, as.list(summary(ab_types)), by = case]
+df[, as.list(summary(total_ab)), by = case]
 ```
 
 
@@ -257,7 +257,7 @@ ggplot(df, aes(x=total_ab,fill=case,color=case,group=case)) +
     geom_density(alpha=0.5)+
   facet_grid(case~.)
 
-df[, as.list(summary(ab_types)), by = case]
+df[, as.list(summary(total_ab)), by = case]
 ```
 
 
