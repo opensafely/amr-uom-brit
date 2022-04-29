@@ -207,6 +207,17 @@ table(df$case,df$flu_vaccine)
 prop.table(table(df$case,df$flu_vaccine),margin=1)*100
 ```
 
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types,fill=case,color=case,group=case)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+  facet_grid(case~.)
+
+table(df$case,df$ab_types)
+prop.table(table(df$case,df$ab_types),margin=1)*100
+```
+
+
 # ab_qn
 ```{r}
 ggplot(df, aes(x=ab_qn,fill=case,color=case, group=case)) +
