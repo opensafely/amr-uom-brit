@@ -13,7 +13,7 @@ require('tidyverse')
 require("gtsummary")
 require("ggplot2")
 library("survival")
-#library(car)
+library(car)
 ```
 
 
@@ -57,7 +57,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 # dummy data
-# df[1:15,5]<-1
+#df[1:15,5]<-1
 # df[16:29,5]<-0
 #df[1:15,4]<-seq(1:15)
 # df[16:29,4]<-seq(1:14)
@@ -130,6 +130,7 @@ summary(df[df$ab_qn_type=="13",]$total_ab)
 summary(df[df$ab_qn_type=="14",]$total_ab)
 summary(df[df$ab_qn_type=="15",]$total_ab)
 
+df$ab_qn_type=as.factor(df$ab_qn_type)
 
 table(df$ab_qn_type)
 ```
@@ -140,7 +141,8 @@ table(df$ab_qn_type)
 
 ```{r}
  
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+#mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
+           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 #summary(mod)
 #vif(mod)
 
