@@ -17,7 +17,6 @@ library("survival")
 ```
 
 
-# <font color=blue>**Outcome 2**</font>
 ```{r include=FALSE}
 # import data
 rm(list=ls())
@@ -58,28 +57,35 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 # dummy data
- #df[1:15,5]<-1
- #df[16:29,5]<-0
-#df[1:15,4]<-seq(1:15)
-# df[16:29,4]<-seq(1:14)
+ df[1:15,5]<-1
+ df[16:29,5]<-0
+df[1:15,4]<-seq(1:15)
+ df[16:29,4]<-seq(1:14)
 ```
 
 ```{r}
-df=df%>%mutate(abtype_3=case_when( ab_types==0 ~ "0",
+df=df%>%mutate(abtype_3= case_when(ab_types==0 ~ "0",
                ab_types>=1 & ab_types<=2 ~"1",
                ab_types>=3 & ab_types<=4 ~"2",
                ab_types>=5  ~"3"))
 
-summary(df[df$total_ab_qn_5=="0",]$total_ab)
+summary(df[df$abtype_3=="0",]$ab_types)
+summary(df[df$abtype_3=="1",]$ab_types)
+summary(df[df$abtype_3=="2",]$ab_types)
+summary(df[df$abtype_3=="3",]$ab_types)
 
 
 ```
 
 ```{r}
-summary(df[df$abtype_3==="0",]$abtype)
-summary(df[df$abtype_3==="1",]$abtype)
-summary(df[df$abtype_3==="2",]$abtype)
-summary(df[df$abtype_3==="3",]$abtype)
+
+
+summary(df[df$total_ab_qn_5=="0",]$total_ab)
+summary(df[df$total_ab_qn_5=="1",]$total_ab)
+summary(df[df$total_ab_qn_5=="2",]$total_ab)
+summary(df[df$total_ab_qn_5=="3",]$total_ab)
+summary(df[df$total_ab_qn_5=="4",]$total_ab)
+summary(df[df$total_ab_qn_5=="5",]$total_ab)
 
 
 ```
