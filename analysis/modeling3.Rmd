@@ -33,10 +33,10 @@ df$case=as.numeric(df$case) #1/0
 
 df$subclass=as.factor(df$subclass)#pair id
 
-# matched variables
-df$ab_qn=as.character(df$ab_qn) #category
-df$ab_qn_5=as.character(df$ab_qn_5) #category
-
+# replace ab prescription with total ab
+df$ab_qn=as.character(df$total_ab_qn) #category
+df$ab_qn_5=as.character(df$total_ab_qn_5) #category
+df$ab_prescriptions=as.numeric(df$total_ab)
 
 df$CCI= relevel(as.factor(df$CCI), ref="Very low")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")

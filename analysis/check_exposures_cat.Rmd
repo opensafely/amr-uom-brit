@@ -65,6 +65,8 @@ df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_
 
 df$ab_qn=as.character(df$ab_qn) #category
 df$ab_qn_5=as.character(df$ab_qn_5)
+df$total_ab_qn=as.character(df$total_ab_qn) #category
+df$total_ab_qn_5=as.character(df$total_ab_qn_5)
 df$br_ab_qn=as.character(df$br_ab_qn)#category
 
 ```
@@ -205,6 +207,17 @@ table(df$case,df$flu_vaccine)
 prop.table(table(df$case,df$flu_vaccine),margin=1)*100
 ```
 
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types,fill=case,color=case,group=case)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+  facet_grid(case~.)
+
+table(df$case,df$ab_types)
+prop.table(table(df$case,df$ab_types),margin=1)*100
+```
+
+
 # ab_qn
 ```{r}
 ggplot(df, aes(x=ab_qn,fill=case,color=case, group=case)) +
@@ -225,6 +238,26 @@ table(df$case,df$ab_qn_5)
 prop.table(table(df$case,df$ab_qn_5),margin=1)*100
 ```
 
+# total_ab_qn
+```{r}
+ggplot(df, aes(x=total_ab_qn,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$total_ab_qn)
+prop.table(table(df$case,df$total_ab_qn),margin=1)*100
+```
+
+# total_ab_qn_5
+```{r}
+ggplot(df, aes(x=total_ab_qn_5,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$total_ab_qn_5)
+prop.table(table(df$case,df$total_ab_qn_5),margin=1)*100
+```
+
 # br_ab_qn
 ```{r}
 ggplot(df, aes(x=br_ab_qn,fill=case,color=case, group=case)) +
@@ -233,6 +266,26 @@ ggplot(df, aes(x=br_ab_qn,fill=case,color=case, group=case)) +
 
 table(df$case,df$br_ab_qn)
 prop.table(table(df$case,df$br_ab_qn),margin=1)*100
+```
+
+# br_ab_qn_5
+```{r}
+ggplot(df, aes(x=br_ab_qn_5,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$br_ab_qn_5)
+prop.table(table(df$case,df$br_ab_qn_5),margin=1)*100
+```
+
+# br_total_ab_qn_5
+```{r}
+ggplot(df, aes(x=br_total_ab_qn_5,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$br_total_ab_qn_5)
+prop.table(table(df$case,df$br_total_ab_qn_5),margin=1)*100
 ```
 
 
@@ -412,6 +465,26 @@ table(df$case,df$ab_qn_5)
 prop.table(table(df$case,df$ab_qn_5),margin=1)*100
 ```
 
+# total_ab_qn
+```{r}
+ggplot(df, aes(x=total_ab_qn,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$total_ab_qn)
+prop.table(table(df$case,df$total_ab_qn),margin=1)*100
+```
+
+# total_ab_qn_5
+```{r}
+ggplot(df, aes(x=total_ab_qn_5,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$total_ab_qn_5)
+prop.table(table(df$case,df$total_ab_qn_5),margin=1)*100
+```
+
 # br_ab_qn
 ```{r}
 ggplot(df, aes(x=br_ab_qn,fill=case,color=case, group=case)) +
@@ -421,3 +494,56 @@ ggplot(df, aes(x=br_ab_qn,fill=case,color=case, group=case)) +
 table(df$case,df$br_ab_qn)
 prop.table(table(df$case,df$br_ab_qn),margin=1)*100
 ```
+
+# br_ab_qn_5
+```{r}
+ggplot(df, aes(x=br_ab_qn_5,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$br_ab_qn_5)
+prop.table(table(df$case,df$br_ab_qn_5),margin=1)*100
+```
+
+# br_total_ab_qn_5
+```{r}
+ggplot(df, aes(x=br_total_ab_qn_5,fill=case,color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(case~.)
+
+table(df$case,df$br_total_ab_qn_5)
+prop.table(table(df$case,df$br_total_ab_qn_5),margin=1)*100
+```
+
+
+# freq table of overall 79 type ab & 17 kind comor
+```{r}
+df1 <- read_rds(here::here("output","abtype79.rds"))
+colSums(df1)
+
+```
+
+```{r}
+df2 <- read_rds(here::here("output","comor17.rds"))
+
+colSums(df2)
+
+```
+
+
+
+# compare 79 kind ab and all ab
+```{r}
+df1$total=rowSums(df1)
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+df=df%>%select(ab_prescriptions)
+DF=cbind(df1,df)
+DF$diff=DF$ab_prescriptions-DF$total
+DF=DF%>%filter(ab_prescriptions==0 & total!=0)
+DF=DF[,-c(80:82)]
+
+colSums(DF)
+
+```
+

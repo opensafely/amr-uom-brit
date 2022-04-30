@@ -58,10 +58,25 @@ df$br_ab_qn=as.character(df$br_ab_qn)
  #df[16:29,4]<-seq(1:14)
 ```
 
+# compare total vs. ab_presc
+
+## cross table : total vs. ab_prescriptions
+```{r}
+table(df$total_ab_qn_5,df$ab_qn_5)
+prop.table(table(df$total_ab_qn_5,df$ab_qn_5),margin=1)*100
+```
+
+```{r}
+table(df$total_ab_qn,df$ab_qn)
+prop.table(table(df$total_ab_qn,df$ab_qn),margin=1)*100
+```
+
+
 
 # abtypes
 
 ## continuous variable
+### ab prescriptions
 ```{r}
 
 ggplot(df, aes(x=ab_types)) +
@@ -72,7 +87,42 @@ table(df$ab_qn,df$ab_types)
 prop.table(table(df$ab_qn,df$ab_types),margin=1)*100
 ```
 
+```{r}
+
+ggplot(df, aes(x=ab_types)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(ab_qn_5~case)
+
+table(df$ab_qn_5,df$ab_types)
+prop.table(table(df$ab_qn_5,df$ab_types),margin=1)*100
+```
+
+### total ab
+```{r}
+
+ggplot(df, aes(x=ab_types)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(total_ab_qn~case)
+
+table(df$total_ab_qn,df$ab_types)
+prop.table(table(df$total_ab_qn,df$ab_types),margin=1)*100
+```
+
+
+```{r}
+
+ggplot(df, aes(x=ab_types)) +
+  geom_bar(aes(y = ..prop..))+
+  facet_grid(total_ab_qn_5~case)
+
+table(df$total_ab_qn_5,df$ab_types)
+prop.table(table(df$total_ab_qn_5,df$ab_types),margin=1)*100
+```
+
+
 ## categorical variable
+
+### ab prescriptions ab_qn
 ```{r}
 #df=df%>%mutate(abtype_3=ntile(ab_types,3))
 
@@ -96,30 +146,175 @@ ggplot(df, aes(x=abtype_3)) +
 
 ```
 
-# broad ab
-```{r}
 
-ggplot(df, aes(x=br_ab_qn)) +
+### ab prescriptions- ab_qn_5
+```{r}
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+table(df$ab_qn_5,df$abtype_3)
+prop.table(table(df$ab_qn_5,df$abtype_3),margin=1)*100
+
+ggplot(df, aes(x=abtype_3)) +
+  geom_bar()+
+  facet_grid(ab_qn_5~case)
+
+```
+
+### total- total_ab_qn
+```{r}
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+table(df$total_ab_qn,df$abtype_3)
+prop.table(table(df$total_ab_qn,df$abtype_3),margin=1)*100
+
+```
+
+### total- total_ab_qn_5
+```{r}
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+table(df$total_ab_qn_5,df$abtype_3)
+prop.table(table(df$total_ab_qn_5,df$abtype_3),margin=1)*100
+
+
+```
+
+
+
+
+## categorical variable- ab_qn
+```{r}
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+df=df%>%mutate(abtype_3=case_when( ab_types==0 ~ "0",
+               ab_types>0 & ab_types<=3 ~"1",
+               ab_types>3 & ab_types<=6 ~"2",
+               ab_types>6 & ab_types<=9 ~"3"))
+
+summary(df[df$abtype_3=="1",]$ab_types)
+summary(df[df$abtype_3=="2",]$ab_types)
+summary(df[df$abtype_3=="3",]$ab_types)
+
+
+table(df$ab_qn,df$abtype_3)
+prop.table(table(df$ab_qn,df$abtype_3),margin=1)*100
+
+ggplot(df, aes(x=abtype_3)) +
   geom_bar()+
   facet_grid(ab_qn~case)
-table(df$ab_qn,df$br_ab_qn)
-prop.table(table(df$ab_qn,df$br_ab_qn),margin=1)*100
+
+
+```
+
+
+## categorical variable- ab_qn_5
+```{r}
+#df=df%>%mutate(abtype_3=ntile(ab_types,3))
+
+table(df$ab_qn_5,df$abtype_3)
+prop.table(table(df$ab_qn_5,df$abtype_3),margin=1)*100
+
+ggplot(df, aes(x=abtype_3)) +
+  geom_bar()+
+  facet_grid(ab_qn_5~case)
+
+
 ```
 
 
 
-# model
-## abtype_3
-
+# broad ab qn 5
+## ab_qn
 ```{r}
-#df$ab_qn_type=ifelse(ab_qn==0, 0
- #                    ifelse(ab_qn==1))
+
+ggplot(df, aes(x=br_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(ab_qn~case)
+table(df$ab_qn,df$br_ab_qn_5)
+prop.table(table(df$ab_qn,df$br_ab_qn_5),margin=1)*100
+```
+
+## ab_qn_5
+```{r}
+
+ggplot(df, aes(x=br_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(ab_qn_5~case)
+table(df$ab_qn_5,df$br_ab_qn_5)
+prop.table(table(df$ab_qn_5,df$br_ab_qn_5),margin=1)*100
 
 ```
 
+## total_ab_qn
 ```{r}
 
-#mod=clogit(case ~ ab_qn + ab_types + ab_qn*ab_types + CCI + covrx_ever + strata(subclass), df)
+ggplot(df, aes(x=br_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(total_ab_qn~case)
+table(df$total_ab_qn,df$br_ab_qn_5)
+prop.table(table(df$total_ab_qn,df$br_ab_qn_5),margin=1)*100
+```
+
+## total_ab_qn_5
+```{r}
+
+ggplot(df, aes(x=br_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(total_ab_qn_5~case)
+table(df$total_ab_qn_5,df$br_ab_qn_5)
+prop.table(table(df$total_ab_qn_5,df$br_ab_qn_5),margin=1)*100
+
+```
+
+# broad total ab qn 5
+## ab_qn
+```{r}
+
+ggplot(df, aes(x=br_total_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(ab_qn~case)
+table(df$ab_qn,df$br_total_ab_qn_5)
+prop.table(table(df$ab_qn,df$br_total_ab_qn_5),margin=1)*100
+```
+
+## ab_qn_5
+```{r}
+
+ggplot(df, aes(x=br_total_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(ab_qn_5~case)
+table(df$ab_qn_5,df$br_total_ab_qn_5)
+prop.table(table(df$ab_qn_5,df$br_total_ab_qn_5),margin=1)*100
+
+```
+
+## total_ab_qn
+```{r}
+
+ggplot(df, aes(x=br_total_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(total_ab_qn~case)
+table(df$total_ab_qn,df$br_total_ab_qn_5)
+prop.table(table(df$total_ab_qn,df$br_total_ab_qn_5),margin=1)*100
+```
+
+## total_ab_qn_5
+```{r}
+
+ggplot(df, aes(x=br_total_ab_qn_5)) +
+  geom_bar()+
+  facet_grid(total_ab_qn_5~case)
+table(df$total_ab_qn_5,df$br_total_ab_qn_5)
+prop.table(table(df$total_ab_qn_5,df$br_total_ab_qn_5),margin=1)*100
+
+```
+
+
+# models
+## ab type
+```{r}
+
+#mod=clogit(case ~ ab_qn + ab_types + CCI + covrx_ever + strata(subclass), df)
 #summary(mod)
 #vif(mod)
 ```

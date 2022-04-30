@@ -11,7 +11,7 @@ library('dplyr')
 library('lubridate')
 
 setwd(here::here("output"))
-
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # extracted dataset after matching
 DF1=read_csv("input_outcome.csv")
 
@@ -56,10 +56,12 @@ df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59"
 # select ab types columns
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
-df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag
+df[col]=df[col]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df$total_ab=rowSums(df[col])# total types number -> total ab prescription
 
-# count number of types
-df$ab_types=rowSums(df[col]>0)
+df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag(1,0)
+df$ab_types=rowSums(df[col]>0)# count number of types
+write_rds(df[col], here::here("output", "abtype79.rds"))
 df=df[ ! names(df) %in% col]
 
 df$ab_types=ifelse(is.na(df$ab_types),0,df$ab_types) # no ab 
@@ -88,9 +90,14 @@ df$lastABtime=ifelse(is.na(df$lastABtime),0,df$lastABtime)
 # df$ab_qn=quintile(df$ab_prescriptions)
 # df$br_ab_qn=quintile(df$broad_ab_prescriptions)
 
-# set ab quintile category
 
-### ab quintile = according to unique ab prescription numbers
+
+
+# set ab quintile category - compare two ways # 
+
+##### I.  ab_prescription
+
+### 1.1-ab quintile = according to unique ab prescription numbers
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
 qn_num=unique(df$ab_prescriptions)
 qn_cat1=quantile(qn_num,0.2,na.rm=T)
@@ -105,7 +112,7 @@ df$ab_qn_5=ifelse(is.na(df$ab_prescriptions),0,
                                        ifelse(df$ab_prescriptions<=qn_cat4,4,5)
                                        ))))
 
-### broad ab quintile = according to unique broad ab prescription numbers
+### 1.2-broad ab quintile = according to unique broad ab prescription numbers
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions) # filter no ab+no br ab
 br_qn_num=unique(df$broad_ab_prescriptions)
 br_qn_cat1=quantile(br_qn_num,0.2,na.rm=T)
@@ -119,14 +126,17 @@ df$br_ab_qn_5=ifelse(is.na(df$broad_ab_prescriptions),0,
                                 ifelse(df$broad_ab_prescriptions<=br_qn_cat3,3,
                                        ifelse(df$broad_ab_prescriptions<=br_qn_cat4,4,5)
                                 ))))
+df$br_ab_qn_5=ifelse(is.na(df$ab_prescriptions),"without any ab",
+                   ifelse(is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,"without broad ab",
+                          df$br_ab_qn_5))
 
-### ab quintile = according to ab prescription numbers
+### 2.1-ab quintile = according to ab prescription numbers
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
 df=df%>%mutate(ab_qn=ntile(ab_prescriptions,5))
 df$ab_qn=ifelse(is.na(df$ab_qn),0,df$ab_qn)# no ab ->0; ab exp. ->1~5
 df$ab_qn=as.factor(df$ab_qn)
 
-
+### 2.2-broad ab quintile = according to broad ab prescription numbers
 df$broad_ab=ifelse(is.na(df$ab_prescriptions)| # without any ab
               is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,NA, # without broad ab
                        df$broad_ab_prescriptions) # with broad ab
@@ -139,11 +149,58 @@ df$br_ab_qn=ifelse(is.na(df$ab_prescriptions),"without any ab",
 df$br_ab_qn=ifelse(is.na(df$br_ab_qn),0,df$br_ab_qn)
 df$br_ab_qn=as.factor(df$br_ab_qn)
 
-
-
 # ab_continuous 
 df$ab_prescriptions=ifelse(is.na(df$ab_prescriptions),0,df$ab_prescriptions) # recode NA to 0
 df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_prescriptions) # recode NA to 0
+
+
+
+#### II. total ab- calculated from 79 knid ab
+
+### 1.1-ab quintile = according to unique ab prescription numbers
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+qn_num=unique(df$total_ab)
+qn_cat1=quantile(qn_num,0.2,na.rm=T)
+qn_cat2=quantile(qn_num,0.4,na.rm=T)
+qn_cat3=quantile(qn_num,0.6,na.rm=T)
+qn_cat4=quantile(qn_num,0.8,na.rm=T)
+
+df$total_ab_qn_5=ifelse(is.na(df$total_ab),0,
+                        ifelse(df$total_ab<=qn_cat1,1,
+                               ifelse(df$total_ab<=qn_cat2,2,
+                                      ifelse(df$total_ab<=qn_cat3,3,
+                                             ifelse(df$total_ab<=qn_cat4,4,5)
+                                      ))))
+
+### 1.2-broad ab quintile = according to unique broad ab prescription numbers
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions) # filter no ab+no br ab
+br_qn_num=unique(df$broad_ab_prescriptions)
+br_qn_cat1=quantile(br_qn_num,0.2,na.rm=T)
+br_qn_cat2=quantile(br_qn_num,0.4,na.rm=T)
+br_qn_cat3=quantile(br_qn_num,0.6,na.rm=T)
+br_qn_cat4=quantile(br_qn_num,0.8,na.rm=T)
+
+df$br_total_ab_qn_5=ifelse(is.na(df$total_ab),0,
+                     ifelse(df$broad_ab_prescriptions<=br_qn_cat1,1,
+                            ifelse(df$broad_ab_prescriptions<=br_qn_cat2,2,
+                                   ifelse(df$broad_ab_prescriptions<=br_qn_cat3,3,
+                                          ifelse(df$broad_ab_prescriptions<=br_qn_cat4,4,5)
+                                   ))))
+df$br_total_ab_qn_5=ifelse(is.na(df$total_ab),"without any ab",
+                     ifelse(is.na(df$broad_ab_prescriptions)|df$broad_ab_prescriptions==0,"without broad ab",
+                            df$br_total_ab_qn_5))
+
+
+### 2.1-ab quintile = according to total ab numbers
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+df=df%>%mutate(total_ab_qn=ntile(total_ab,5))
+df$total_ab_qn=ifelse(is.na(df$total_ab_qn),0,df$total_ab_qn)# no ab ->0; ab exp. ->1~5
+df$total_ab_qn=as.factor(df$total_ab_qn)
+
+# ab_continuous 
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab) # recode NA to 0
+
+
 
 
 
@@ -202,6 +259,8 @@ df$peripheral_vascular <- ifelse(df$peripheral_vascular_comor == 1, 1, 0)
 
 comor=c("cancer_comor","cardiovascular_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
 df$Charlson=rowSums(df[comor])
+write_rds(df[comor], here::here("output", "comor17.rds"))
+
 df= df[!names(df)%in%comor]
 
 df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Very low",
@@ -222,7 +281,7 @@ df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
 # variables for analysis
-df=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine", "ab_prescriptions","broad_ab_prescriptions","ab_types","interval", "lastABtime","ab_qn", "br_ab_qn"))
+df=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5"))
 
 
 

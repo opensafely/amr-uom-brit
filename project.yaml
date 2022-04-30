@@ -75,12 +75,12 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome2.csv
   
-  process_Rmatching: # add variables 
-    run: r:latest analysis/process_Rmatching.R
-    needs: [extract_variables,matching]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome.rds
+  # process_Rmatching: # add variables 
+  #   run: r:latest analysis/process_Rmatching.R
+  #   needs: [extract_variables,matching]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort1: output/matched_outcome.rds
 
   process_Rmatching2: # add variables 
     run: r:latest analysis/process_Rmatching2.R
@@ -98,6 +98,15 @@ actions:
         html: output/check_input.html
 
   ### for covid icu/ covid death
+  process_Rmatching: # add variables 
+    run: r:latest analysis/process_Rmatching.R
+    needs: [extract_variables,matching]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome.rds
+        rds1: output/abtype79.rds
+        rds2: output/comor17.rds
+
   check_exposures_cont: # continuous variables
     run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cont.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
@@ -112,7 +121,7 @@ actions:
       moderately_sensitive:
         html: output/check_exposures_cat.html
 
-  modeling: 
+  modeling: # ab level
     run: r:latest -e 'rmarkdown::render("analysis/modeling.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
@@ -132,11 +141,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/modeling3.html
-        
+
   describe_ab: 
     run: r:latest -e 'rmarkdown::render("analysis/describe_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/describe_ab.html
+
+
   ### for covid icu/ any death
