@@ -803,7 +803,8 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/its_main_plot_data.csv
-        plot: output/forest_plot_broad.jpeg
+        plot1: output/forest_plot_broad.jpeg
+        plot2: output/predicted_plot.jpeg
         table2: output/its_main_ORs.csv
 
 #############################################################################
