@@ -160,12 +160,12 @@ its_function <- function(outcomes_vec = outcomes,
   
   main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot,format="%Y-%m-%d")
 
-  plot1 <- ggplot(filter(main_plot_data, weekPlot >= display_from), aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
+  plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
     ### the probability if therer was no lockdwon
-    geom_line(data = filter(main_plot_data, weekPlot >= abline_min), aes(y = probline_noCov), col = 2, lty = 2) +
-    geom_ribbon(data = filter(main_plot_data, weekPlot >= abline_min), aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
+    geom_line(data = main_plot_data, aes(y = probline_noCov), col = 2, lty = 2) +
+    geom_ribbon(data = main_plot_data, aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
     ### probability with model (inc. std. error)
     geom_line(aes(y = predicted_vals), col = 4, lty = 2) +
     geom_ribbon(aes(ymin = lci, ymax=uci), fill = alpha(4,0.4), lty = 0) +
@@ -189,7 +189,8 @@ its_function <- function(outcomes_vec = outcomes,
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
           panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))+
-		labs(x = "Year")
+  + scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+
 
   plot1
   ggsave(
