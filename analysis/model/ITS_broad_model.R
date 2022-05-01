@@ -35,7 +35,7 @@ for(ii in 1:length(outcomes)){
 }
 
 its_function <- function(outcomes_vec = outcomes,
-                         display_from = as.Date("2020-01-01")){
+                         display_from = as.Date("2019-01-01")){
   plot_its <- function(outcome){
     df_outcome <- get(outcome)
     ## model binomial 
@@ -186,9 +186,7 @@ its_function <- function(outcomes_vec = outcomes,
           panel.grid.major = element_blank(),
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
-          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))+ 
-      scale_x_date(breaks = "1 month") +
-      labs(x = "Date (2020)")
+          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
   plot1
   ggsave(
     plot= plot1,
@@ -242,5 +240,5 @@ its_function <- function(outcomes_vec = outcomes,
 }    
 
 its_function(outcomes_vec = outcomes,
-             display_from <- as.Date("2020-01-01")
+             display_from <- as.Date("2019-01-01")
 )
