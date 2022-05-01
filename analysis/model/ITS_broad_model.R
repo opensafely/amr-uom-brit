@@ -157,8 +157,6 @@ its_function <- function(outcomes_vec = outcomes,
   }
   
   write_csv(main_plot_data, here::here("output", "its_main_plot_data.csv"))
-  
-  main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot,format="%Y-%m-%d")
 
   plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
