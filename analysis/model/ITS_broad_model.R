@@ -161,7 +161,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
-    ### the probability if therer was no lockdwon
+    ### the probability if therer was no Covid
     geom_line(data = main_plot_data, aes(y = probline_noCov), col = 2, lty = 2) +
     geom_ribbon(data = main_plot_data, aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
     ### probability with model (inc. std. error)
@@ -186,8 +186,7 @@ its_function <- function(outcomes_vec = outcomes,
           panel.grid.major = element_blank(),
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
-          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))+
-    labs(x = "")
+          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
 
   plot1
   ggsave(
