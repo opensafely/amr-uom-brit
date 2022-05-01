@@ -158,6 +158,8 @@ its_function <- function(outcomes_vec = outcomes,
   
   write_csv(main_plot_data, here::here("output", "its_main_plot_data.csv"))
   
+  main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot)
+  
   plot1 <- ggplot(filter(main_plot_data, weekPlot >= display_from), aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
