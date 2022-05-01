@@ -186,7 +186,8 @@ its_function <- function(outcomes_vec = outcomes,
           panel.grid.major = element_blank(),
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
-          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
+          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))+
+    scale_x_date(date_breaks = "6 month",date_labels =  "%Y")+
   plot1
   ggsave(
     plot= plot1,
@@ -196,7 +197,7 @@ its_function <- function(outcomes_vec = outcomes,
   # Forest plot of ORs ------------------------------------------------------
   ## clean up the names
   forest_plot_df <- forest_plot_data %>%
-    rename("Est" = "Estimate", "lci" = "2.5 %", "uci" = "97.5 %") %>%
+    rename("Est" = "exp(Est.)", "lci" = "2.5%", "uci" = "97.5%") %>%
     left_join(outcome_of_interest_namematch, by = c("var" = "outcome"))
   
   # changes the names of outcomes to full names
