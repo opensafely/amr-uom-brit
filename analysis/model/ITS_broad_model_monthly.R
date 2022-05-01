@@ -187,9 +187,7 @@ its_function <- function(outcomes_vec = outcomes,
           panel.grid.major = element_blank(),
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
-          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))+ 
-				scale_x_date(breaks = "1 year", date_labels = "%Y") +
-				labs(x = "Year")
+          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))
 
   plot1
   ggsave(
