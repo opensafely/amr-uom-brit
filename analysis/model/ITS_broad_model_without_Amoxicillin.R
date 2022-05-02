@@ -18,8 +18,8 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "df.2.model_")
-outcomes <- stringr::str_remove_all(all_files, c("df.2.model_|.csv"))
+all_files <- list.files(here::here("output"), pattern = "df2.model_")
+outcomes <- stringr::str_remove_all(all_files, c("df2.model_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
                                            "outcome_name" = (c("Asthma","Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
@@ -30,7 +30,7 @@ bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("df.2.model_", outcomes[ii], ".csv")))
+  load_file <- read.csv(here::here("output", paste0("df2.model_", outcomes[ii], ".csv")))
   assign(outcomes[ii], load_file)
 }
 
@@ -156,7 +156,7 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  write_csv(main_plot_data, here::here("output", "its_main_plot_data2.csv"))
+  write_csv(main_plot_data, here::here("output", "its_main_plot_data_noA.csv"))
   main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot)
   plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
@@ -191,7 +191,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1
   ggsave(
     plot= plot1,
-    filename="predicted_plot2.jpeg", path=here::here("output"),
+    filename="predicted_plot_noA.jpeg", path=here::here("output"),
   )  
   
   # Forest plot of ORs ------------------------------------------------------
@@ -203,7 +203,7 @@ its_function <- function(outcomes_vec = outcomes,
   # changes the names of outcomes to full names
   forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
-  write_csv(forest_plot_df, here::here("output", "its_main_ORs2.csv"))
+  write_csv(forest_plot_df, here::here("output", "its_main_ORs_noA.csv"))
   
   forest_plot_df <- forest_plot_df %>% filter(outcome_name %in% c("Asthma","Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
@@ -240,7 +240,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp
   ggsave(
     plot= fp,
-    filename="forest_plot_broad2.jpeg", path=here::here("output"),
+    filename="forest_plot_broad_noA.jpeg", path=here::here("output"),
   )  
   
 }    
