@@ -165,12 +165,12 @@ its_function <- function(outcomes_vec = outcomes,
     left_join(outcome_of_interest_namematch, by = c("var" = "outcome"))
   
   # changes the names of outcomes to full names
-  forest_plot_df$outcome_name[plot_order] <- factor(forest_plot_df$outcome_name[plot_order], levels = outcome_of_interest_namematch$outcome_name[plot_order])
+  forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
   write_csv(forest_plot_df, here::here("output", "its_main_ORs_monthly.csv"))
   
-  forest_plot_df <- forest_plot_df %>%
-    mutate(dummy_facet = "A")
+  forest_plot_df <- forest_plot_df[plot_order,]
+  
   ## Forest plot
   fp <- ggplot(data=forest_plot_df, aes(x=dummy_facet, y=Est, ymin=lci, ymax=uci)) +
     geom_point(size = 2.5, pch = 16, colour = "darkred") +
