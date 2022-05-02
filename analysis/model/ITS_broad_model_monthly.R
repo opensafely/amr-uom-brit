@@ -158,7 +158,7 @@ its_function <- function(outcomes_vec = outcomes,
   
   write_csv(main_plot_data, here::here("output", "its_main_plot_data_monthly.csv"))
   
-  plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
+  plot1 <- ggplot(main_plot_data, aes(x = monPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
     ### the probability if therer was no Covid
