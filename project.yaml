@@ -873,6 +873,7 @@ actions:
        moderately_sensitive:
         table1: output/its_main_plot_data_monthly.csv
         plot1: output/forest_plot_broad_monthly.jpeg
+        plot2: output/predicted_plot.jpeg
         table2: output/its_main_ORs_monthly.csv
 
 

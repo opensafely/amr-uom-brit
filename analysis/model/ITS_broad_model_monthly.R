@@ -158,6 +158,44 @@ its_function <- function(outcomes_vec = outcomes,
   
   write_csv(main_plot_data, here::here("output", "its_main_plot_data_monthly.csv"))
   
+  plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
+    # the data
+    geom_line(col = "gray60") +
+    ### the probability if therer was no Covid
+    geom_line(data = main_plot_data, aes(y = probline_noCov), col = 2, lty = 2) +
+    geom_ribbon(data = main_plot_data, aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
+    ### probability with model (inc. std. error)
+    geom_line(aes(y = predicted_vals), col = 4, lty = 2) +
+    geom_ribbon(aes(ymin = lci, ymax=uci), fill = alpha(4,0.4), lty = 0) +
+    ### format the plot
+    facet_wrap(~outcome_name, scales = "free", ncol = 4) +
+    geom_vline(xintercept = c(as.Date(abline_min), 
+                              as.Date(abline_max)), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
+    labs(y = "% of broad-spectrum prescription", title = "A") +
+    theme_classic() +
+    theme(axis.title = element_text(size =16), 
+          axis.text.x = element_text(angle = 60, hjust = 1, size = 12),
+          legend.position = "top",
+          plot.background = element_rect(fill = bkg_colour, colour =  NA),
+          panel.background = element_rect(fill = bkg_colour, colour =  NA),
+          legend.background = element_rect(fill = bkg_colour, colour = NA),
+          legend.text = element_text(size = 12),
+          legend.title = element_text(size = 12),
+          strip.text = element_text(size = 12, hjust = 0),
+          strip.background = element_rect(fill = bkg_colour, colour =  NA),
+          panel.grid.major = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
+          panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3)))+ 
+				scale_x_date(breaks = "1 year", date_labels = "%Y") +
+				labs(x = "Year")
+
+  plot1
+  ggsave(
+    plot= plot1,
+    filename="predicted_plot.jpeg", path=here::here("output"),
+  )  
+
   # Forest plot of ORs ------------------------------------------------------
   ## clean up the names
   forest_plot_df <- forest_plot_data %>%
