@@ -157,7 +157,7 @@ its_function <- function(outcomes_vec = outcomes,
   }
   
   write_csv(main_plot_data, here::here("output", "its_main_plot_data.csv"))
-
+  main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot)
   plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
@@ -169,8 +169,8 @@ its_function <- function(outcomes_vec = outcomes,
     geom_ribbon(aes(ymin = lci, ymax=uci), fill = alpha(4,0.4), lty = 0) +
     ### format the plot
     facet_wrap(~outcome_name, scales = "free", ncol = 4) +
-    geom_vline(xintercept = c(abline_min, 
-                              abline_max), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
+    geom_vline(xintercept = c(as.Date(abline_min), 
+                              as.Date(abline_max)), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
     labs(y = "% of broad-spectrum prescription", title = "A") +
     theme_classic() +
     theme(axis.title = element_text(size =16), 
@@ -204,6 +204,11 @@ its_function <- function(outcomes_vec = outcomes,
   forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
   write_csv(forest_plot_df, here::here("output", "its_main_ORs.csv"))
+  
+  forest_plot_df <- forest_plot_df %>% filter(outcome_name %in% c("Asthma","Cold","COPD","Cough",
+                                                               "LRTI","Otitis externa","Otitis media",
+                                                               "Renal","Sinusitis",
+                                                               "Sore throat","URTI","UTI") )
   
   forest_plot_df <- forest_plot_df %>%
     mutate(dummy_facet = "A")
