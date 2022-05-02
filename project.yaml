@@ -865,6 +865,41 @@ actions:
 
 #############################################################################
 
+  describe_ITS_var_monthly_2_process:
+    run: r:latest analysis/process/ITS_var_monthly_2.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
+    outputs:
+       moderately_sensitive:
+        table1: output/df.m2.model_asthma.csv
+        table2: output/df.m2.model_cold.csv
+        table3: output/df.m2.model_cough.csv
+        table4: output/df.m2.model_copd.csv
+        table5: output/df.m2.model_pneumonia.csv
+        table6: output/df.m2.model_renal.csv
+        table7: output/df.m2.model_sepsis.csv
+        table8: output/df.m2.model_throat.csv
+        table9: output/df.m2.model_uti.csv
+        table10: output/df.m2.model_lrti.csv
+        table11: output/df.m2.model_urti.csv
+        table12: output/df.m2.model_sinusitis.csv
+        table13: output/df.m2.model_ot_media.csv
+        table14: output/df.m2.model_ot_externa.csv
+
+#############################################################################
+
+
+  describe_ITS_model_monthly_2:
+    run: r:latest analysis/model/ITS_broad_model_monthly_2.R
+    needs: [describe_ITS_var_monthly_2_process]
+    outputs:
+       moderately_sensitive:
+        table1: output/its_main_plot_data_monthly_2.csv
+        plot1: output/forest_plot_broad_monthly_2.jpeg
+        plot2: output/predicted_plot_monthly_2.jpeg
+        table2: output/its_main_ORs_monthly_2.csv
+
+
+#############################################################################
 
   describe_ITS_model_monthly:
     run: r:latest analysis/model/ITS_broad_model_monthly.R
