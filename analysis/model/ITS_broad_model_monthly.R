@@ -27,7 +27,7 @@ outcome_of_interest_namematch <- bind_cols("outcome" = outcomes,
                                                                "Sore throat","URTI","UTI"))
 )
 bkg_colour <- "gray99"
-
+plot_order <- c(14,13,5,11,6,7,1,2,3,4,9,12)
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
   load_file <- read.csv(here::here("output", paste0("df.m.model_", outcomes[ii], ".csv")))
@@ -35,7 +35,6 @@ for(ii in 1:length(outcomes)){
 }
 
 its_function <- function(outcomes_vec = outcomes,
-												 covid_adjustment_period_mons = 3,
                          display_from = as.Date("2019-01-01")){
   plot_its <- function(outcome){
     df_outcome <- get(outcome)
@@ -148,7 +147,7 @@ its_function <- function(outcomes_vec = outcomes,
     left_join(outcome_of_interest_namematch, by = c("var" = "outcome"))
   
   ## replace outcome name with the pretty name for printing on results
-  main_plot_data$outcome_name <- factor(main_plot_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
+  main_plot_data$outcome_name <- factor(main_plot_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name[plot_order])
   
   abline_max <- main_plot_data$monPlot[max(which(is.na(main_plot_data$covid)))+1]
   abline_min <- main_plot_data$monPlot[min(which(is.na(main_plot_data$covid)))-1]
