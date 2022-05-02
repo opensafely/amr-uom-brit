@@ -169,8 +169,11 @@ its_function <- function(outcomes_vec = outcomes,
   # export table of results for the appendix 
   write_csv(forest_plot_df, here::here("output", "its_main_ORs_monthly.csv"))
   
-  forest_plot_df <- forest_plot_df[plot_order,]
-  
+  forest_plot_df <- forest_plot_df %>% filter(outcome_name %in% c("Asthma","Cold","COPD","Cough",
+                                                               "LRTI","Otitis externa","Otitis media",
+                                                               "Renal","Sinusitis",
+                                                               "Sore throat","URTI","UTI") )
+
   ## Forest plot
   fp <- ggplot(data=forest_plot_df, aes(x=dummy_facet, y=Est, ymin=lci, ymax=uci)) +
     geom_point(size = 2.5, pch = 16, colour = "darkred") +
