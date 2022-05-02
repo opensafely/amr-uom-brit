@@ -193,7 +193,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1
   ggsave(
     plot= plot1,
-    filename="predicted_plot.jpeg", path=here::here("output"),
+    filename="predicted_plot_monthly.jpeg", path=here::here("output"),
   )  
 
   # Forest plot of ORs ------------------------------------------------------
