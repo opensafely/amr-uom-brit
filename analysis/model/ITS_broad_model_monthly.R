@@ -173,6 +173,9 @@ its_function <- function(outcomes_vec = outcomes,
                                                                "LRTI","Otitis externa","Otitis media",
                                                                "Renal","Sinusitis",
                                                                "Sore throat","URTI","UTI") )
+  
+  forest_plot_df <- forest_plot_df %>%
+    mutate(dummy_facet = "A")
 
   ## Forest plot
   fp <- ggplot(data=forest_plot_df, aes(x=dummy_facet, y=Est, ymin=lci, ymax=uci)) +
