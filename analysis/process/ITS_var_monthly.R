@@ -36,7 +36,8 @@ DF$infection=recode(DF$infection,
                     sinusits = "Sinusitis",
                     otmedia = "Otitis media",
                     ot_externa = "Otitis externa")
-DF$infection[DF$infection == ""] <- NA  
+DF$infection[DF$infection == ""] <- NA
+DF$infection <- ifelse(is.na(DF$infection),"uncoded",DF$infection)
 DF$type[DF$type == ""] <- NA  
 
 ### prepare var ###
@@ -622,6 +623,47 @@ df.model <- df.model %>%
                                 NA)))
 
 write_csv(df.model, here::here("output", "df.m.model_ot_externa.csv"))
+rm(df,df.all,df.broad,df.broad_total,df.model)
+
+###  Uncoded
+
+df <- DF %>% filter (infection == "uncoded")
+df <- df[!is.na(df$type),]
+
+###  Transfer df into numOutcome / numEligible  version
+
+df$cal_year <- year(df$Date)
+df$cal_mon <- month(df$Date)
+df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
+
+df.broad <- df %>% filter(type %in% broadtype )
+df.broad_total <- df.broad %>% group_by(time) %>% summarise(
+  numOutcome = n(),
+)
+
+df.all <-  df %>% group_by(time) %>% summarise(
+  numEligible = n(),
+)
+df.model <- merge(df.broad_total,df.all,by="time")
+
+df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
+                                                time>=13 & time<=24 ~ time-12,
+                                                time>=24 & time<=36 ~ time-24,
+                                                time>36 ~ time-36)) %>% 
+  mutate(year = case_when(time>=1 & time<=12 ~ 2019,
+                          time>=13 & time<=24 ~ 2020,
+                          time>=24 & time<=36 ~ 2021,
+                          time>36 ~ 2022)) %>% 
+  mutate(day = 1) 
+df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
+df.model <- df.model %>%
+  mutate(pre_covid = ifelse(monPlot < covid_adjustment_period_from , 1, 0),
+         during_covid = ifelse(monPlot >= start_covid , 1, 0)) %>%
+  mutate(covid = ifelse(pre_covid == 1 , 0,
+                        ifelse (during_covid == 1, 1,
+                                NA)))
+
+write_csv(df.model, here::here("output", "df.m.model_uncoded.csv"))
 rm(df,df.all,df.broad,df.broad_total,df.model)
 
 

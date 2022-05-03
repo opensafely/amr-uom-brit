@@ -24,7 +24,7 @@ outcome_of_interest_namematch <- bind_cols("outcome" = outcomes,
                                            "outcome_name" = (c("Asthma","Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
                                                                "Pneumonia","Renal","Sepsis","Sinusitis",
-                                                               "Sore throat","URTI","UTI"))
+                                                               "Sore throat","URTI","UTI","Uncoded"))
 )
 bkg_colour <- "gray99"
 plot_order <- c(14,13,5,11,6,7,1,2,3,4,9,12)
@@ -210,7 +210,7 @@ its_function <- function(outcomes_vec = outcomes,
   forest_plot_df <- forest_plot_df %>% filter(outcome_name %in% c("Asthma","Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
                                                                "Renal","Sinusitis",
-                                                               "Sore throat","URTI","UTI") )
+                                                               "Sore throat","URTI","UTI","Uncoded") )
   
   forest_plot_df <- forest_plot_df %>%
     mutate(dummy_facet = "A")
