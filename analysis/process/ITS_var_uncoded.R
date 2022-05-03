@@ -35,9 +35,9 @@ DF$infection=recode(DF$infection,
                     urti = "URTI",
                     sinusits = "Sinusitis",
                     otmedia = "Otitis media",
-                    ot_externa = "Otitis externa",
-                    "" = "uncoded",
-                    NA = "uncoded")
+                    ot_externa = "Otitis externa")
+DF$infection[DF$infection == ""] <- NA
+DF$infection <- ifelse(is.na(DF$infection),"uncoded",DF$infection)
 DF$type[DF$type == ""] <- NA  
 
 ### prepare var ###
