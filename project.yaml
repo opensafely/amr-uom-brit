@@ -974,6 +974,43 @@ actions:
 
 #############################################################################
 
+  describe_ITS_var_uncoded_process:
+    run: r:latest analysis/process/ITS_var_uncoded.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
+    outputs:
+       moderately_sensitive:
+        table1: output/df.model_added_uti.csv
+        table2: output/df.model_added_cold.csv
+        table3: output/df.model_added_cough.csv
+        table4: output/df.model_added_copd.csv
+        table5: output/df.model_added_pneumonia.csv
+        table6: output/df.model_added_renal.csv
+        table7: output/df.model_added_sepsis.csv
+        table8: output/df.model_added_throat.csv
+        table9: output/df.model_added_uti.csv
+        table10: output/df.model_added_lrti.csv
+        table11: output/df.model_added_urti.csv
+        table12: output/df.model_added_sinusitis.csv
+        table13: output/df.model_added_ot_media.csv
+        table14: output/df.model_added_ot_externa.csv
+        table15: output/df.model_added_uncoded.csv
+
+#############################################################################
+
+
+  describe_ITS_model_uncoded:
+    run: r:latest analysis/model/ITS_broad_model_uncoded.R
+    needs: [describe_ITS_var_uncoded_process]
+    outputs:
+       moderately_sensitive:
+        table1: output/its_main_plot_data_uncoded.csv
+        plot1: output/forest_plot_broad_uncoded.jpeg
+        plot2: output/predicted_plot_uncoded.jpeg
+        table2: output/its_main_ORs_uncoded.csv
+
+#############################################################################
+
+
   describe_repeat_ab_table:
     run: r:latest analysis/tables/repeat_ab_table.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3,describe_ab_type_process_pre]
