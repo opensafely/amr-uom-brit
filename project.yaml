@@ -979,7 +979,7 @@ actions:
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
     outputs:
        moderately_sensitive:
-        table1: output/df.model_added_uti.csv
+        table1: output/df.model_added_asthma.csv
         table2: output/df.model_added_cold.csv
         table3: output/df.model_added_cough.csv
         table4: output/df.model_added_copd.csv
