@@ -148,6 +148,16 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/describe_ab.html
+  
+  # abtype modeling
+  modeling4: # all
+    run: r:latest -e 'rmarkdown::render("analysis/modeling4.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling4.html
+
+  
 
 
   ### for covid icu/ any death

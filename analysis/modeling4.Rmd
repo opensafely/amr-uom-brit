@@ -1,0 +1,150 @@
+---
+title: "model 4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+```
+
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+# replace ab prescription with total ab
+#df$ab_qn=as.character(df$total_ab_qn) #category
+df$total_ab_qn_5=as.factor(df$total_ab_qn_5) #category
+df$total_ab=as.numeric(df$total_ab)
+df$ab_types=as.numeric(df$ab_types)
+
+df$CCI= relevel(as.factor(df$CCI), ref="Very low")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+
+
+```
+
+```{r}
+# dummy data
+#df[1:15,5]<-1
+# df[16:29,5]<-0
+#df[1:15,4]<-seq(1:15)
+# df[16:29,4]<-seq(1:14)
+```
+
+```{r}
+df=df%>%mutate(abtype_3= case_when(ab_types==0 ~ "0",
+               ab_types>=1 & ab_types<=2 ~"1",
+               ab_types>=3 & ab_types<=4 ~"2",
+               ab_types>=5  ~"3"))
+
+summary(df[df$abtype_3=="0",]$ab_types)
+summary(df[df$abtype_3=="1",]$ab_types)
+summary(df[df$abtype_3=="2",]$ab_types)
+summary(df[df$abtype_3=="3",]$ab_types)
+
+
+```
+
+```{r}
+
+
+summary(df[df$total_ab_qn_5=="0",]$total_ab)
+summary(df[df$total_ab_qn_5=="1",]$total_ab)
+summary(df[df$total_ab_qn_5=="2",]$total_ab)
+summary(df[df$total_ab_qn_5=="3",]$total_ab)
+summary(df[df$total_ab_qn_5=="4",]$total_ab)
+summary(df[df$total_ab_qn_5=="5",]$total_ab)
+
+
+```
+
+
+```{r}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(total_ab_qn_5==0 & abtype_3==0 ~ "0",
+                           total_ab_qn_5==1 & abtype_3==1 ~ "1",
+                           total_ab_qn_5==1 & abtype_3==2 ~ "2",
+                           total_ab_qn_5==1 & abtype_3==3 ~ "3",
+                           total_ab_qn_5==2 & abtype_3==1 ~ "4",
+                           total_ab_qn_5==2 & abtype_3==2 ~ "5",
+                           total_ab_qn_5==2 & abtype_3==3 ~ "6",
+                           total_ab_qn_5==3 & abtype_3==1 ~ "7",
+                           total_ab_qn_5==3 & abtype_3>=2 ~ "8",
+                          # total_ab_qn_5==3 & abtype_3==3 ~ "9",                           
+                           total_ab_qn_5==4 & abtype_3==1 ~ "10",
+                           total_ab_qn_5==4 & abtype_3>=2 ~ "11",
+                           #total_ab_qn_5==4 & abtype_3==3 ~ "12",                           
+                           total_ab_qn_5==5 & abtype_3==1 ~ "13",
+                           total_ab_qn_5==5 & abtype_3>=2 ~ "14"
+                         #  total_ab_qn_5==5 & abtype_3==3 ~ "15" 
+                          ))
+
+
+
+summary(df[df$ab_qn_type=="0",]$total_ab)
+summary(df[df$ab_qn_type=="1",]$total_ab)
+summary(df[df$ab_qn_type=="2",]$total_ab)
+summary(df[df$ab_qn_type=="3",]$total_ab)
+summary(df[df$ab_qn_type=="4",]$total_ab)
+summary(df[df$ab_qn_type=="5",]$total_ab)
+summary(df[df$ab_qn_type=="6",]$total_ab)
+summary(df[df$ab_qn_type=="7",]$total_ab)
+summary(df[df$ab_qn_type=="8",]$total_ab)
+summary(df[df$ab_qn_type=="9",]$total_ab)
+summary(df[df$ab_qn_type=="10",]$total_ab)
+summary(df[df$ab_qn_type=="11",]$total_ab)
+summary(df[df$ab_qn_type=="12",]$total_ab)
+summary(df[df$ab_qn_type=="13",]$total_ab)
+summary(df[df$ab_qn_type=="14",]$total_ab)
+summary(df[df$ab_qn_type=="15",]$total_ab)
+
+df$ab_qn_type=as.factor(df$ab_qn_type)
+
+table(df$ab_qn_type)
+```
+
+
+# models
+
+
+```{r}
+ 
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
+           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
+summary(mod)
+vif(mod)
+
+```
