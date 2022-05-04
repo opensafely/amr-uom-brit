@@ -182,7 +182,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
 
 
 names(DF)[2]="OR"
