@@ -94,26 +94,39 @@ summary(df[df$total_ab_qn_5=="5",]$total_ab)
 
 ```{r}
 
+#df=df%>%mutate(ab_qn_type= 
+ #                case_when(total_ab_qn_5==0 & abtype_3==0 ~ "0",
+  #                         total_ab_qn_5==1 & abtype_3==1 ~ "1",
+   #                        total_ab_qn_5==1 & abtype_3==2 ~ "2",
+    #                       total_ab_qn_5==1 & abtype_3==3 ~ "3",
+     #                      total_ab_qn_5==2 & abtype_3==1 ~ "4",
+      #                     total_ab_qn_5==2 & abtype_3==2 ~ "5",
+       #                    total_ab_qn_5==2 & abtype_3==3 ~ "6",
+        #                   total_ab_qn_5==3 & abtype_3==1 ~ "7",
+         #                  total_ab_qn_5==3 & abtype_3>=2 ~ "8",
+          #                # total_ab_qn_5==3 & abtype_3==3 ~ "9",                           
+           #                total_ab_qn_5==4 & abtype_3==1 ~ "10",
+            #               total_ab_qn_5==4 & abtype_3>=2 ~ "11",
+             #              #total_ab_qn_5==4 & abtype_3==3 ~ "12",                           
+              #             total_ab_qn_5==5 & abtype_3==1 ~ "13",
+               #            total_ab_qn_5==5 & abtype_3>=2 ~ "14"
+                #         #  total_ab_qn_5==5 & abtype_3==3 ~ "15" 
+                 #         ))
+
+
 df=df%>%mutate(ab_qn_type= 
                  case_when(total_ab_qn_5==0 & abtype_3==0 ~ "0",
-                           total_ab_qn_5==1 & abtype_3==1 ~ "1",
+                           total_ab_qn_5==1 & ab_types==1 ~ "1",
                            total_ab_qn_5==1 & abtype_3==2 ~ "2",
-                           total_ab_qn_5==1 & abtype_3==3 ~ "3",
-                           total_ab_qn_5==2 & abtype_3==1 ~ "4",
-                           total_ab_qn_5==2 & abtype_3==2 ~ "5",
-                           total_ab_qn_5==2 & abtype_3==3 ~ "6",
-                           total_ab_qn_5==3 & abtype_3==1 ~ "7",
-                           total_ab_qn_5==3 & abtype_3>=2 ~ "8",
-                          # total_ab_qn_5==3 & abtype_3==3 ~ "9",                           
-                           total_ab_qn_5==4 & abtype_3==1 ~ "10",
-                           total_ab_qn_5==4 & abtype_3>=2 ~ "11",
-                           #total_ab_qn_5==4 & abtype_3==3 ~ "12",                           
-                           total_ab_qn_5==5 & abtype_3==1 ~ "13",
-                           total_ab_qn_5==5 & abtype_3>=2 ~ "14"
-                         #  total_ab_qn_5==5 & abtype_3==3 ~ "15" 
+                           total_ab_qn_5==1 & abtype_3>=3 ~ "3",
+                           total_ab_qn_5==2 & abtype_3<=2 ~ "4",
+                           total_ab_qn_5==2 & abtype_3==3 ~ "5",
+                           total_ab_qn_5==2 & abtype_3>=4 ~ "6",
+                           total_ab_qn_5==3 & abtype_3<=2 ~ "7",
+                           total_ab_qn_5==3 & abtype_3>=3 ~ "8",
+                           total_ab_qn_5==4 & abtype_3<=2 ~ "9",
+                           total_ab_qn_5==4 & abtype_3>=3 ~ "10"
                           ))
-
-
 
 summary(df[df$ab_qn_type=="0",]$total_ab)
 summary(df[df$ab_qn_type=="1",]$total_ab)
@@ -126,11 +139,11 @@ summary(df[df$ab_qn_type=="7",]$total_ab)
 summary(df[df$ab_qn_type=="8",]$total_ab)
 summary(df[df$ab_qn_type=="9",]$total_ab)
 summary(df[df$ab_qn_type=="10",]$total_ab)
-summary(df[df$ab_qn_type=="11",]$total_ab)
-summary(df[df$ab_qn_type=="12",]$total_ab)
-summary(df[df$ab_qn_type=="13",]$total_ab)
-summary(df[df$ab_qn_type=="14",]$total_ab)
-summary(df[df$ab_qn_type=="15",]$total_ab)
+#summary(df[df$ab_qn_type=="11",]$total_ab)
+#summary(df[df$ab_qn_type=="12",]$total_ab)
+#summary(df[df$ab_qn_type=="13",]$total_ab)
+#summary(df[df$ab_qn_type=="15",]$total_ab)
+#summary(df[df$ab_qn_type=="14",]$total_ab)
 
 df$ab_qn_type=as.factor(df$ab_qn_type)
 
@@ -157,7 +170,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:12,-2]
+result=result[1:10,-2]
 ```
 
 
@@ -166,7 +179,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type10","ab_qn_type11","ab_qn_type13","ab_qn_type14"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10"))
 
 
 names(DF)[2]="OR"
