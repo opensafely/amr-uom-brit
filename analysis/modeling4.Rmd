@@ -126,8 +126,8 @@ df=df%>%mutate(ab_qn_type=
                            total_ab_qn_5==3 &  ab_types>=3 ~ "8",
                            total_ab_qn_5==4 &  ab_types<=2 ~ "9",
                            total_ab_qn_5==4 &  ab_types>=3 ~ "10",
-                            total_ab_qn_5==5 &  ab_types<=1 ~ "11",
-                           total_ab_qn_5==5 &  ab_types>=2 ~ "12"                          
+                            total_ab_qn_5==5 &  ab_types<=2 ~ "11",
+                           total_ab_qn_5==5 &  ab_types>=3 ~ "12"                          
                           ))
 
 summary(df[df$ab_qn_type=="0",]$total_ab)
