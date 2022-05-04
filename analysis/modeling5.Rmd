@@ -67,7 +67,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 
-
+df$br_total_ab_qn_5=factor(df$br_total_ab_qn_5,levels=c("br_total_ab_qn_5without any ab","br_total_ab_qn_5without broad ab","br_total_ab_qn_51","br_total_ab_qn_52","br_total_ab_qn_53","br_total_ab_qn_54","br_total_ab_qn_55"))
 summary(df[df$br_total_ab_qn_5=="without any ab",]$broad_ab_prescriptions)
 summary(df[df$br_total_ab_qn_5=="without broad ab",]$broad_ab_prescriptions)
 summary(df[df$br_total_ab_qn_5=="1",]$broad_ab_prescriptions)
@@ -108,7 +108,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="broad_AB_exposure"
-#DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
+
 
 
 names(DF)[2]="OR"
@@ -134,7 +134,7 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
   
 #thematic stuff
 theme_classic()+ 
-  xlim(0, 10)+
+  xlim(0, 5)+
 theme(text=element_text(family="Times",size=18, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
