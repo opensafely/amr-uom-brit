@@ -172,7 +172,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:10,-2]
+result=result[1:12,-2]
 ```
 
 
