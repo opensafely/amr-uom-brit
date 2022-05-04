@@ -157,7 +157,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[-14:-17,-2]
+result=result[-13:-16,-2]
 ```
 
 
@@ -166,6 +166,10 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
+DF$AB_exposure=as.factor(DF$AB_exposure)
+DF$AB_exposure=factor(c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type10","ab_qn_type11","ab_qn_type13","ab_qn_type14"))
+
+
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
 names(DF)[4]="CI_U"
