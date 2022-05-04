@@ -17,7 +17,7 @@ library(car)
 ```
 
 
-# <font color=blue>**Outcome 2**</font>
+# <font color=blue>**Outcome 3**</font>
 ```{r include=FALSE}
 # import data
 rm(list=ls())
@@ -43,6 +43,23 @@ df$CCI= relevel(as.factor(df$CCI), ref="Very low")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
 
+df$cancer=as.factor(df$cancer)
+df$cvd=as.factor(df$cvd)
+df$copd=as.factor(df$copd)
+df$heart_failure=as.factor(df$heart_failure)
+df$connective_tissue=as.factor(df$connective_tissue)
+df$dementia=as.factor(df$dementia)
+df$diabetes=as.factor(df$diabetes)
+df$diabetes_complications=as.factor(df$diabetes_complications)
+df$hemiplegia=as.factor(df$hemiplegia)
+df$hiv=as.factor(df$hiv)
+df$metastatic_cancer=as.factor(df$metastatic_cancer)
+df$mild_liver=as.factor(df$mild_liver)
+df$mod_severe_liver=as.factor(df$mod_severe_liver)
+df$mod_severe_renal=as.factor(df$mod_severe_renal)
+df$mi=as.factor(df$mi)
+df$peptic_ulcer=as.factor(df$peptic_ulcer)
+df$peripheral_vascular=as.factor(df$peripheral_vascular)
 ```
 
 ```{r}
@@ -54,7 +71,7 @@ df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 ```
 
 
-# models
+# models_CCI
 ```{r}
  
 mod=clogit(case ~ ab_qn + CCI + covrx_ever + strata(subclass), df)
@@ -67,4 +84,13 @@ summary(mod)
 vif(mod)
 ```
 
+
+# models_individual comorbidity
+```{r}
+ 
+mod=clogit(case ~ ab_qn_5  + covrx_ever + cancer + cvd + copd + heart_failure + connective_tissue + dementia + diabetes + diabetes_complications + hemiplegia + hiv + metastatic_cancer + mild_liver + mod_severe_liver + mod_severe_renal + mi + peptic_ulcer + peripheral_vascular + strata(subclass), df)
+summary(mod)
+vif(mod)
+
+```
 
