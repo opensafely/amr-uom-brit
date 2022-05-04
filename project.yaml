@@ -204,3 +204,12 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/modeling4.html
+
+
+    # broad ab modeling
+  modeling5: # all
+    run: r:latest -e 'rmarkdown::render("analysis/modeling5.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/modeling5.html
