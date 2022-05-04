@@ -71,17 +71,19 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 df=df%>% group_by(case,subclass)%>% sample_n(1)
 table(df$case)
 prop.table(table(df$case))
+df$case=as.factor(df$case)
 
 # case
-df.plot1=df%>% filter(case==1 & br_total_ab_qn_5!="without any ab")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
-df.plot1=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
-names(df.plot1)[2]<- "exp.level"
+df=df%>%filter(br_total_ab_qn_5=="1"|br_total_ab_qn_5=="2"|br_total_ab_qn_5=="3"|br_total_ab_qn_5=="4"|br_total_ab_qn_5=="5"|br_total_ab_qn_5=="without broad ab")
+
+df.plot1=df%>% filter(case=="1")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
+names(df.plot1)[1]<- "exp.level"
 df.plot1$group="Case"
 
 
-df.plot2=df%>% filter(case==0 & br_total_ab_qn_5!="without any ab")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
-df.plot2=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
-names( df.plot2)[2]<- "exp.level"
+
+df.plot2=df%>% filter(case=="0")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
+names( df.plot2)[1]<- "exp.level"
 df.plot2$group="Control"
 
 df.plot=rbind(df.plot1,df.plot2)
