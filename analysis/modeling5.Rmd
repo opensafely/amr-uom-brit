@@ -60,89 +60,29 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```{r}
 # dummy data
 #df[1:15,5]<-1
- #df[16:29,5]<-0
-#df[1:15,4]<-seq(1:15)
-# df[16:29,4]<-seq(1:14)
+#df[16:29,5]<-0
+#df[1:15,4]= seq(1:15)
+#df[16:29,4]<-seq(1:14)
 ```
 
+#broad-sperctrum antibiotics
 ```{r}
 
-df$br_total_ab_qn_5=factor(df$br_total_ab_qn_5,levels=c("br_total_ab_qn_5without any ab","br_total_ab_qn_5without broad ab","br_total_ab_qn_51","br_total_ab_qn_52","br_total_ab_qn_53","br_total_ab_qn_54","br_total_ab_qn_55"))
-summary(df[df$br_total_ab_qn_5=="without any ab",]$broad_ab_prescriptions)
-summary(df[df$br_total_ab_qn_5=="without broad ab",]$broad_ab_prescriptions)
-summary(df[df$br_total_ab_qn_5=="1",]$broad_ab_prescriptions)
-summary(df[df$br_total_ab_qn_5=="2",]$broad_ab_prescriptions)
-summary(df[df$br_total_ab_qn_5=="3",]$broad_ab_prescriptions)
-summary(df[df$br_total_ab_qn_5=="4",]$broad_ab_prescriptions)
-summary(df[df$br_total_ab_qn_5=="5",]$broad_ab_prescriptions)
+df=df%>% group_by(case,subclass)%>% sample_n(1)
+table(df$case)
+prop.table(table(df$case))
+
+df.plot2=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
+df.plot2$case=as.character(df.plot2$case)
+df.plot2$case=ifelse(df.plot2$case==1,"case","control")
+names(df.plot2)[2]<- "exp.level"
+df.plot2$group="broad-spectrum AB"
 
 
-```
+ggplot(data=df.plot2, aes(x=case, y=percent, fill=exp.level)) +
+  geom_bar(stat="identity", position="fill")+
+  labs(x="")+
+   facet_grid(.~group ,scales = "free")
 
-
-# models
-
-
-```{r}
- 
-mod=clogit(case ~ br_total_ab_qn_5 + CCI + covrx_ever + strata(subclass), df)
-           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
-sum.mod=summary(mod)
-sum.mod
-vif(mod)
-
-```
-
-
-```{r}
-result=data.frame(sum.mod$conf.int)
-
-result
-
-result=result[1:6,-2]
-```
-
-
-```{r}
-DF=result
-
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="broad_AB_exposure"
-
-
-
-names(DF)[2]="OR"
-names(DF)[3]="CI_L"
-names(DF)[4]="CI_U"
-
-DF
-```
-
-
-```{r}
-p <- ggplot(data=DF, aes(y=broad_AB_exposure, x=OR))+ 
-
-#this adds the effect sizes to the plot
-geom_point(color="blue")+ 
-
-#adds the CIs
-geom_errorbarh(aes(xmin=CI_L, xmax=CI_U))+
-  
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
-  
-#thematic stuff
-theme_classic()+ 
-  xlim(0, 5)+
-theme(text=element_text(family="Times",size=18, color="black"))+
-theme(panel.spacing = unit(1, "lines"))+
-
-labs(
-      title = "",
-    x="OR (95% CI)",
-    y=""
-  )
-p
 ```
 
