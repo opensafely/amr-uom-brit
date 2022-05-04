@@ -14,6 +14,7 @@ require("gtsummary")
 require("ggplot2")
 library("survival")
 library(car)
+library(data.table)
 ```
 
 
@@ -144,7 +145,58 @@ table(df$ab_qn_type)
  
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
-summary(mod)
+sum.mod=summary(mod)
+sum.mod
 vif(mod)
 
 ```
+
+
+```{r}
+result=data.frame(sum.mod$conf.int)
+
+result
+
+result=result[-14:-17,-2]
+```
+
+
+```{r}
+DF=result
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF
+```
+
+
+```{r}
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+
+#this adds the effect sizes to the plot
+geom_point(color="blue")+ 
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U))+
+  
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+  
+#thematic stuff
+theme_classic()+
+theme(text=element_text(family="Times",size=18, color="black"))+
+theme(panel.spacing = unit(1, "lines"))+
+
+labs(
+      title = "",
+    x="OR (95% CI)",
+    y=""
+  )
+p
+```
+
