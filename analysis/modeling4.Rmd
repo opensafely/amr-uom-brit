@@ -157,7 +157,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[-13:-16,-2]
+result=result[1:12,-2]
 ```
 
 
@@ -189,10 +189,11 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U))+
   
 
 #adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black")+
+geom_vline(xintercept=1, color="black", linetype="dashed")+
   
 #thematic stuff
-theme_classic()+
+theme_classic()+ 
+  xlim(0, 7)+
 theme(text=element_text(family="Times",size=18, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
