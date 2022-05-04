@@ -60,7 +60,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```{r}
 # dummy data
 #df[1:15,5]<-1
-# df[16:29,5]<-0
+ #df[16:29,5]<-0
 #df[1:15,4]<-seq(1:15)
 # df[16:29,4]<-seq(1:14)
 ```
