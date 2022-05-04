@@ -1,0 +1,94 @@
+---
+title: "model 5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+```
+
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+# replace ab prescription with total ab
+#df$ab_qn=as.character(df$total_ab_qn) #category
+df$total_ab_qn_5=as.factor(df$total_ab_qn_5) #category
+df$total_ab=as.numeric(df$total_ab)
+df$br_total_ab_qn_5=as.factor(df$br_total_ab_qn_5)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+
+df$CCI= relevel(as.factor(df$CCI), ref="Very low")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+
+
+```
+
+```{r}
+# dummy data
+#df[1:15,5]<-1
+#df[16:29,5]<-0
+#df[1:15,4]= seq(1:15)
+#df[16:29,4]<-seq(1:14)
+```
+
+#broad-sperctrum antibiotics
+```{r}
+
+df=df%>% group_by(case,subclass)%>% sample_n(1)
+table(df$case)
+prop.table(table(df$case))
+
+# case
+df.plot1=df%>% filter(case==1 & br_total_ab_qn_5!="without any ab")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
+df.plot1=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
+names(df.plot1)[2]<- "exp.level"
+df.plot1$group="Case"
+
+
+df.plot2=df%>% filter(case==0 & br_total_ab_qn_5!="without any ab")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
+df.plot2=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
+names( df.plot2)[2]<- "exp.level"
+df.plot2$group="Control"
+
+df.plot=rbind(df.plot1,df.plot2)
+
+ggplot(data=df.plot, aes(x=group, y=percent, fill=exp.level)) +
+  geom_bar(stat="identity", position="fill")+
+  labs(x="")
+
+```
+
