@@ -72,14 +72,21 @@ df=df%>% group_by(case,subclass)%>% sample_n(1)
 table(df$case)
 prop.table(table(df$case))
 
+# case
+df.plot1=df%>% filter(case==1 & br_total_ab_qn_5!="without any ab")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
+df.plot1=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
+names(df.plot1)[2]<- "exp.level"
+df.plot1$group="Case"
+
+
+df.plot2=df%>% filter(case==1 & br_total_ab_qn_5!="without any ab")%>%group_by(br_total_ab_qn_5)%>%summarise(percent=n())
 df.plot2=df%>% group_by(case,br_total_ab_qn_5)%>%summarise(percent=n())
-df.plot2$case=as.character(df.plot2$case)
-df.plot2$case=ifelse(df.plot2$case==1,"case","control")
-names(df.plot2)[2]<- "exp.level"
-df.plot2$group="broad-spectrum AB"
+names( df.plot2)[2]<- "exp.level"
+df.plot2$group="Control"
 
+df.plot=rbind(df.plot1,df.plot2)
 
-ggplot(data=df.plot2, aes(x=case, y=percent, fill=exp.level)) +
+ggplot(data=df.plot, aes(x=case, y=percent, fill=exp.level)) +
   geom_bar(stat="identity", position="fill")+
   labs(x="")+
    facet_grid(.~group ,scales = "free")
