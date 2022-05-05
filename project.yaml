@@ -284,6 +284,8 @@ actions:
         plot1.6: output/redacted/consult_age_incident_ot_externa.jpeg
         csv1: output/redacted/consultation_rate_incident_check.csv
         csv2: output/redacted/consultation_rate_incident.csv
+        csv3:  output/redacted/consultation_rate_incident_exclusion.csv
+
 
   describe_consultation_rate_all_prevalent_redacted:
     run: r:latest analysis/redaction/consultation_by_age_infection_prevalent.R
@@ -298,6 +300,7 @@ actions:
         plot1.6: output/redacted/consult_age_prevalent_ot_externa.jpeg
         csv1: output/redacted/consultation_rate_prevalent_check.csv
         csv2: output/redacted/consultation_rate_prevalent.csv
+        csv3:  output/redacted/consultation_rate_prevalent_exclusion.csv
 
   describe_consultation_rate_all_GP_redacted:
     run: r:latest analysis/redaction/consultation_by_age_infection_GP.R
