@@ -333,9 +333,10 @@ write.csv(df,here::here("output","redacted","consultation_rate_incident_check.cs
 
 
 ### 3.table
-df=df%>%group_by(date,indic)%>%mutate(count=sum(counts))
-df$rate=df$counts/df$total.pop*1000
-write.csv(df,here::here("output","redacted","consultation_rate_incident.csv"))
+df2=df%>%group_by(date,indic)%>%summarise(count=sum(counts), total.pop=mean(total.pop))
+df2$covid=ifelse(df$date<as.Date("2019-12-31"),0,1)
+df2$rate=df2$count/df2$total.pop*1000
+write.csv(df2,here::here("output","redacted","consultation_rate_incident.csv"))
 
 # define covid date
 breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
