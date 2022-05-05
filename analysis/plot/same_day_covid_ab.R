@@ -138,6 +138,7 @@ ggsave(
   plot= plot,
   filename="same_day_ab_prop_line_sgss.jpeg", path=here::here("output"),
 )  
+write_csv(plot1, here::here("output", "same_day_ab_prop_line_sgss_table.csv"))
 
 rm(df1,plot1,plot)
 ### Gp same day ab
@@ -182,3 +183,4 @@ ggsave(
   plot= plot,
   filename="same_day_ab_prop_line_gp.jpeg", path=here::here("output"),
 )  
+write_csv(plot2, here::here("output", "same_day_ab_prop_line_gp_table.csv"))
