@@ -333,6 +333,10 @@ write.csv(df,here::here("output","redacted","consultation_rate_incident_check.cs
 
 
 ### 3.table
+df=df%>%group_by(date,indic)%>%mutate(count=sum(counts))
+df$rate=df$counts/df$total.pop*1000
+write.csv(df,here::here("output","redacted","consultation_rate_incident.csv"))
+
 # define covid date
 breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
@@ -351,8 +355,8 @@ df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
                                    month=="12"|month=="01"|month=="02" ~ "winter"))
 
-df=df%>%group_by(covid,season,indic)%>%summarise(rate=mean(counts)/mean(total.pop)*1000)
-write.csv(df,here::here("output","redacted","consultation_rate_incident.csv"))
+df=df%>%group_by(covid,season,indic)%>%summarise(rate=mean(count)/mean(total.pop)*1000)
+write.csv(df,here::here("output","redacted","consultation_rate_incident_exclusion.csv"))
 
 
 ### 4. plots
