@@ -135,10 +135,10 @@ plot <-ggplot(data = plot1, aes(x = Date, y = prop))+
 plot
 
 ggsave(
-  plot= plot1,
+  plot= plot,
   filename="same_day_ab_prop_line_sgss.jpeg", path=here::here("output"),
 )  
-write_csv(plot, here::here("output", "same_day_ab_prop_line_sgss_table.csv"))
+write_csv(plot1, here::here("output", "same_day_ab_prop_line_sgss_table.csv"))
 
 rm(df1,plot1,plot)
 ### Gp same day ab
