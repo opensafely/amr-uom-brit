@@ -334,7 +334,7 @@ write.csv(df,here::here("output","redacted","consultation_rate_prevalent_check.c
 
 ### 3.table
 df2=df%>%group_by(date,indic)%>%summarise(count=sum(counts), total.pop=mean(total.pop))
-df2$covid=ifelse(df$date<as.Date("2019-12-31"),0,1)
+df2$covid=ifelse(df2$date<as.Date("2019-12-31"),0,1)
 df2$rate=df2$count/df2$total.pop*1000
 write.csv(df2,here::here("output","redacted","consultation_rate_incident.csv"))
 
