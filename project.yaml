@@ -546,6 +546,8 @@ actions:
         table6: output/sameday_positive_2_gp.csv
         table7: output/sameday_ab_1_gp.csv
         table8: output/sameday_ab_2_gp.csv
+        table9: output/same_day_ab_prop_line_sgss_table.csv
+        table10: output/same_day_ab_prop_line_gp_table.csv
         plot1: output/same_day_ab_prop_line_sgss.jpeg
         plot2: output/same_day_ab_prop_line_gp.jpeg
 
