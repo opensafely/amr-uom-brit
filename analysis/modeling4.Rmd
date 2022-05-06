@@ -59,7 +59,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```{r}
 # dummy data
 #df[1:15,5]<-1
-# df[16:29,5]<-0
+ #df[16:29,5]<-0
 #df[1:15,4]<-seq(1:15)
 # df[16:29,4]<-seq(1:14)
 ```
@@ -144,7 +144,7 @@ df=df%>%mutate(ab_qn_type=
                            total_ab_qn_5==4 &  ab_types==1 ~ "10",
                            total_ab_qn_5==4 &  ab_types==2 ~ "11",
                            total_ab_qn_5==4 &  ab_types>=3 ~ "12",
-                            total_ab_qn_5==5 &  ab_types==1 ~ "13",
+                           total_ab_qn_5==5 &  ab_types==1 ~ "13",
                            total_ab_qn_5==5 &  ab_types==2 ~ "14", 
                            total_ab_qn_5==5 &  ab_types>=3 ~ "15"
                           ))
@@ -167,7 +167,7 @@ summary(df[df$ab_qn_type=="14",]$total_ab)
 summary(df[df$ab_qn_type=="15",]$total_ab)
 
 df$ab_qn_type=as.factor(df$ab_qn_type)
-df$ab_qn_type=factor(df$ab_qn_type,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
 
 
 table(df$ab_qn_type)
