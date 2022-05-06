@@ -145,7 +145,7 @@ df=df%>%mutate(ab_qn_type=
                            total_ab_qn_5==4 &  ab_types==2 ~ "11",
                            total_ab_qn_5==4 &  ab_types>=3 ~ "12",
                             total_ab_qn_5==5 &  ab_types==1 ~ "13",
-                           total_ab_qn_5==5 &  ab_types==2 ~ "14" 
+                           total_ab_qn_5==5 &  ab_types==2 ~ "14", 
                            total_ab_qn_5==5 &  ab_types>=3 ~ "15"
                           ))
 
