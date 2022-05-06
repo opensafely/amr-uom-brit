@@ -58,10 +58,10 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 # dummy data
-#df[1:15,5]<-1
- #df[16:29,5]<-0
-#df[1:15,4]<-seq(1:15)
-# df[16:29,4]<-seq(1:14)
+df[1:15,5]<-1
+df[16:29,5]<-0
+df[1:15,4]<-seq(1:15)
+ df[16:29,4]<-seq(1:14)
 ```
 
 ```{r}
@@ -167,7 +167,7 @@ summary(df[df$ab_qn_type=="14",]$total_ab)
 summary(df[df$ab_qn_type=="15",]$total_ab)
 
 df$ab_qn_type=as.factor(df$ab_qn_type)
-df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
+#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
 
 
 table(df$ab_qn_type)
