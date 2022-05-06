@@ -321,7 +321,7 @@ summary(df[df$ab_qn_type=="14",]$total_ab)
 summary(df[df$ab_qn_type=="15",]$total_ab)
 
 df$ab_qn_type=as.factor(df$ab_qn_type)
-df$ab_qn_type=factor(df$ab_qn_type,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type8","ab_qn_type9","ab_qn_type11","ab_qn_type12","ab_qn_type14","ab_qn_type15"))
+#df$ab_qn_type=factor(df$ab_qn_type,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type8","ab_qn_type9","ab_qn_type11","ab_qn_type12","ab_qn_type14","ab_qn_type15"))
 
 
 table(df$ab_qn_type)
