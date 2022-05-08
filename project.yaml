@@ -231,4 +231,18 @@ actions:
       highly_sensitive:
         cohort1: output/unmatched_outcome.rds
 
+  # check_exposures_cont_unmatched: # continuous variables
+  #   run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cont_unmatched.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_unmatched]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_exposures_cont_unmatched.html
+  
+  check_exposures_cat_unmatched: # category variables
+    run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cat_unmatched.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_unmatched]
+    outputs:
+      moderately_sensitive:
+        html: output/check_exposures_cat_unmatched.html
+
   

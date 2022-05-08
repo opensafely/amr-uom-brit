@@ -1,0 +1,243 @@
+---
+title: "variables check"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+#require("gtsummary")
+library(data.table)
+require("ggplot2")
+```
+
+
+# <font color=blue>**Outcome 2**</font>
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","unmatched_outcome.rds"))
+
+```
+
+```{r}
+df$case==0
+df$case=as.factor(df$case) #1/0
+df$wave=as.factor(df$wave)
+
+#df$subclass=as.factor(df$subclass)#pair id
+
+df$sex=as.character(df$sex)
+df$age=as.numeric(df$age)
+df$age_cat=as.character(df$age_cat)
+df$stp=as.character(df$stp)
+df$region=as.character(df$region)
+
+df$ethnicity_6=as.character(df$ethnicity_6)
+df$bmi=as.numeric(df$bmi)
+df$bmi_cat=as.character(df$bmi_cat)
+df$CCI=as.character(df$CCI)
+df$Charlson=as.integer(df$Charlson)
+
+df$smoking_cat_3=as.character(df$smoking_cat_3)
+df$imd=as.integer(df$imd)
+
+df$care_home=as.factor(df$care_home)
+df$covrx_ever=as.factor(df$covrx_ever)
+df$flu_vaccine=as.factor(df$flu_vaccine)
+
+df$ab_types=as.integer(df$ab_types)
+
+df$lastABtime=as.numeric(df$lastABtime)
+df$ab_prescriptions=as.numeric(df$ab_prescriptions)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_prescriptions)
+
+df$ab_qn=as.character(df$ab_qn) #category
+df$ab_qn_5=as.character(df$ab_qn_5)
+df$total_ab_qn=as.character(df$total_ab_qn) #category
+df$total_ab_qn_5=as.character(df$total_ab_qn_5)
+df$br_ab_qn=as.character(df$br_ab_qn)#category
+
+```
+
+# all patients
+```{r}
+table(df$case)
+prop.table(table(df$case))*100
+```
+
+
+# wave
+```{r}
+ggplot(df, aes(x=wave, fill=case, color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))
+
+    
+
+table(df$wave)
+prop.table(table(df$wave),margin=1)*100
+#table<- df %>% select(case,bmi)
+#tbl_summary(table, by=case)
+
+```
+
+# sex
+```{r}
+ggplot(df, aes(x=sex, fill=case, color=case, group=case)) +
+  geom_bar(aes(y = ..prop..))
+
+    
+
+
+table(df$sex)
+prop.table(table(df$sex),margin=1)*100
+
+```
+
+#age_cat
+```{r}
+ggplot(df, aes(x=age_cat)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$age_cat)
+prop.table(table(df$age_cat),margin=1)*100
+```
+
+#stp
+```{r}
+ggplot(df, aes(x=stp)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$stp)
+prop.table(table(df$stp),margin=1)*100
+```
+
+
+# region
+```{r}
+ggplot(df, aes(x=region)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$region)
+prop.table(table(df$region),margin=1)*100
+```
+
+# ethnicity_6
+```{r}
+ggplot(df, aes(x=ethnicity_6)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$ethnicity_6)
+prop.table(table(df$ethnicity_6),margin=1)*100
+```
+
+# bmi_cat
+```{r}
+ggplot(df, aes(x=bmi_cat)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$bmi_cat)
+prop.table(table(df$bmi_cat),margin=1)*100
+```
+
+# CCI
+```{r}
+ggplot(df, aes(x=CCI)) +
+  geom_bar(aes(y = ..prop..))
+  
+  
+
+table(df$CCI)
+prop.table(table(df$CCI),margin=1)*100
+```
+
+# smoking_cat_3
+```{r}
+ggplot(df, aes(x=smoking_cat_3)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$smoking_cat_3)
+prop.table(table(df$smoking_cat_3),margin=1)*100
+```
+
+# care_home
+```{r}
+ggplot(df, aes(x=care_home)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$care_home)
+prop.table(table(df$care_home),margin=1)*100
+```
+
+# covrx_ever
+```{r}
+ggplot(df, aes(x=covrx_ever)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$covrx_ever)
+prop.table(table(df$covrx_ever),margin=1)*100
+```
+
+# flu_vaccine
+```{r}
+ggplot(df, aes(x=flu_vaccine)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$flu_vaccine)
+prop.table(table(df$flu_vaccine),margin=1)*100
+```
+
+#ab_types
+```{r}
+ggplot(df, aes(x=ab_types,fill=case,color=case,group=case)) +
+  geom_histogram(aes(y = ..density..),binwidth = 0.8)+
+  
+
+table(df$ab_types)
+prop.table(table(df$ab_types),margin=1)*100
+```
+
+
+
+# total_ab_qn_5
+```{r}
+ggplot(df, aes(x=total_ab_qn_5)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$total_ab_qn_5)
+prop.table(table(df$total_ab_qn_5),margin=1)*100
+```
+
+
+# br_total_ab_qn_5
+```{r}
+ggplot(df, aes(x=br_total_ab_qn_5)) +
+  geom_bar(aes(y = ..prop..))
+  
+
+table(df$br_total_ab_qn_5)
+prop.table(table(df$br_total_ab_qn_5),margin=1)*100
+```
+
