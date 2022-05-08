@@ -13,10 +13,10 @@ library('lubridate')
 setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # extracted dataset after matching
-DF1=read_csv("input_outcome.csv")
+DF1=read_csv("input_outcome2.csv")
 
 ## add variables to extracted cohort:"subclass","case", 
-DF2 <- read_rds("matched_patients.rds")
+DF2 <- read_rds("matched_patients_2.rds")
 
 #DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
 DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
