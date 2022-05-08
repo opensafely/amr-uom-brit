@@ -213,3 +213,22 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/modeling5.html
+
+
+
+# unmatched controls
+  extract_variables_unmatched: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_unmatched
+    needs: [process_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_unmatched.csv
+  
+  process_unmatched: # add variables 
+    run: r:latest analysis/process_unmatched.R
+    needs: [extract_variables_unmatched]
+    outputs:
+      highly_sensitive:
+        cohort1: output/unmatched_outcome.rds
+
+  
