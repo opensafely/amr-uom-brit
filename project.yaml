@@ -82,12 +82,12 @@ actions:
   #     highly_sensitive:
   #       cohort1: output/matched_outcome.rds
 
-  # process_Rmatching2: # add variables 
-  #   run: r:latest analysis/process_Rmatching2.R
-  #   needs: [extract_variables2,matching2]
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort1: output/matched_outcome2.rds
+  process_Rmatching2: # add variables 
+    run: r:latest analysis/process_Rmatching2.R
+    needs: [extract_variables2,matching2]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome2.rds
 
 
   check_input: # 
