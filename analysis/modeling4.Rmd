@@ -15,6 +15,8 @@ require("ggplot2")
 library("survival")
 library(car)
 library(data.table)
+library(gridExtra)
+
 ```
 
 
@@ -58,10 +60,10 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 # dummy data
-df[1:15,5]<-1
-df[16:29,5]<-0
-df[1:15,4]<-seq(1:15)
- df[16:29,4]<-seq(1:14)
+#df[1:15,5]<-1
+#df[16:29,5]<-0
+#df[1:15,4]<-seq(1:15)
+# df[16:29,4]<-seq(1:14)
 ```
 
 ```{r}
@@ -178,7 +180,7 @@ table(df$ab_qn_type)
 
 
 ```{r}
- 
+
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
@@ -204,13 +206,38 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
 
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="level1, type=1"
+DF[2,1]="level1, type=2"
+DF[3,1]="level1, type≥3"
+DF[4,1]="level2, type=1"
+DF[5,1]="level2, type=2"
+DF[6,1]="level2, type≥3"
+DF[7,1]="level3, type=1"
+DF[8,1]="level3, type=2"
+DF[9,1]="level3, type≥3"
+DF[10,1]="level4, type=1"
+DF[11,1]="level4, type=2"
+DF[12,1]="level4, type≥3"
+DF[13,1]="level5, type=1"
+DF[14,1]="level5, type=2"
+DF[15,1]="level5, type≥3"
+
+ Index = rep(1:15) ## This provides an order to the data
+  label = c("level1, type=1","level1, type=2","level1, type≥3","level2, type=1","level2, type=2","level2, type≥3","level3, type=1","level3, type=2","level3, type≥3","level4, type=1","level4, type=2","level4, type≥3","level5, type=1","level5, type=2","level5, type≥3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
 names(DF)[4]="CI_U"
 
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
 DF
 ```
+
 
 
 ```{r}
@@ -239,6 +266,43 @@ labs(
   )
 p
 ```
+```{r}
+table_base <- ggplot(DF, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = rev(Index), x = 1, label = sprintf("%0.1f", round(OR, digits = 1))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = rev(Index), x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+
+```{r}
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
+
+
 
 
 
@@ -366,30 +430,3 @@ names(DF)[4]="CI_U"
 DF
 ```
 
-
-```{r}
-p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-
-#this adds the effect sizes to the plot
-geom_point(color="blue")+ 
-
-#adds the CIs
-geom_errorbarh(aes(xmin=CI_L, xmax=CI_U))+
-  
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
-  
-#thematic stuff
-theme_classic()+ 
-  xlim(0, 15)+
-theme(text=element_text(family="Times",size=18, color="black"))+
-theme(panel.spacing = unit(1, "lines"))+
-
-labs(
-      title = "",
-    x="OR (95% CI)",
-    y=""
-  )
-p
-```
