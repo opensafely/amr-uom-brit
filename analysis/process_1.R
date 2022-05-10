@@ -59,13 +59,18 @@ df.0=df%>%
 write_csv(df.0, here::here("output", "control_covid_infection.csv"))
 
 ## definition _1
-# CASE - covid infection with hospital admission
- df.1=df%>%
-   filter(! is.na(covid_admission_date_after))
+# # # CASE - covid infection with hospital admission
+# #  df.1=df%>%
+# #    filter(! is.na(covid_admission_date_after))
 
 ## definition _2
-## CASE - covid infection with hospital admission
-#df <- read_csv(here::here("output", "input_covid_admission.csv"))
+## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1=df.1%>%filter(
+         is.na(SGSS_positive_test_date_before),
+         is.na(primary_care_covid_date_before), 
+         is.na(died_date_cpns_before),
+         is.na(died_date_ons_covid_before))
 
 
 
