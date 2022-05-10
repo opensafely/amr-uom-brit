@@ -33,6 +33,8 @@ actions:
         case: output/case_covid_hosp.csv 
         control: output/control_covid_infection.csv 
 
+        ################# check ok###########
+
   process_2: # died any cause
     run: r:latest analysis/process_2.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
