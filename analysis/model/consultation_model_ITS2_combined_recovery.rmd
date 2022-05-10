@@ -228,6 +228,7 @@ df6$covid <- factor(df6$covid, levels=c("0","1"))
 ```
 
 
+
 1. UTI
 ```{r}
 m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
@@ -703,6 +704,15 @@ p2
 ```
 
 
+# check input data
+```{r}
+nrow(DF1)
+nrow(DF1.exp)
+nrow(DF2)
+nrow(DF2.exp)
+nrow(DF3)
+nrow(DF3.exp)
+```
 
 # table
 
