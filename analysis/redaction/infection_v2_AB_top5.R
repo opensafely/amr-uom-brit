@@ -11,7 +11,7 @@ dir.create(here::here("output", "redacted_v2"))
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
-#setwd("/Users/user/Documents/GitHub/amr-uom-brit/output/measures")
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
 
 ########### UTI
@@ -92,6 +92,14 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
+
+# redacted
+df$raw_count=df$count
+df$raw_total=df$total
+df$count=ifelse(df$count<=5,5, df$count)
+df=df%>%group_by(date)%>%mutate(total=sum(count))
+
+
 write_csv(df, here::here("output","redacted_v2", "AB_uti_check_top5.csv"))
 
 
@@ -259,6 +267,12 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
+
+# redacted
+df$raw_count=df$count
+df$raw_total=df$total
+df$count=ifelse(df$count<=5,5, df$count)
+df=df%>%group_by(date)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_lrti_check_top5.csv"))
 
 
@@ -426,6 +440,11 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
+# redacted
+df$raw_count=df$count
+df$raw_total=df$total
+df$count=ifelse(df$count<=5,5, df$count)
+df=df%>%group_by(date)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_urti_check_top5.csv"))
 
 
@@ -592,6 +611,12 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
+
+# redacted
+df$raw_count=df$count
+df$raw_total=df$total
+df$count=ifelse(df$count<=5,5, df$count)
+df=df%>%group_by(date)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check_top5.csv"))
 
 
@@ -761,6 +786,12 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
+
+# redacted
+df$raw_count=df$count
+df$raw_total=df$total
+df$count=ifelse(df$count<=5,5, df$count)
+df=df%>%group_by(date)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check_top5.csv"))
 
 
@@ -926,6 +957,12 @@ rm(DF.top10.0,DF.top10.1,df)
 df.1$prevalent=as.factor(1)
 df.0$prevalent=as.factor(0)
 df=rbind(df.0,df.1)
+
+# redacted
+df$raw_count=df$count
+df$raw_total=df$total
+df$count=ifelse(df$count<=5,5, df$count)
+df=df%>%group_by(date)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check_top5.csv"))
 
 
