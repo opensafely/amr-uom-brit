@@ -97,7 +97,7 @@ df=rbind(df.0,df.1)
 df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
-df=df%>%group_by(date)%>%mutate(total=sum(count))
+df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 
 
 write_csv(df, here::here("output","redacted_v2", "AB_uti_check_top5.csv"))
@@ -272,7 +272,7 @@ df=rbind(df.0,df.1)
 df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
-df=df%>%group_by(date)%>%mutate(total=sum(count))
+df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_lrti_check_top5.csv"))
 
 
@@ -444,7 +444,7 @@ df=rbind(df.0,df.1)
 df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
-df=df%>%group_by(date)%>%mutate(total=sum(count))
+df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_urti_check_top5.csv"))
 
 
@@ -616,7 +616,7 @@ df=rbind(df.0,df.1)
 df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
-df=df%>%group_by(date)%>%mutate(total=sum(count))
+df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check_top5.csv"))
 
 
@@ -791,7 +791,7 @@ df=rbind(df.0,df.1)
 df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
-df=df%>%group_by(date)%>%mutate(total=sum(count))
+df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check_top5.csv"))
 
 
@@ -962,7 +962,7 @@ df=rbind(df.0,df.1)
 df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
-df=df%>%group_by(date)%>%mutate(total=sum(count))
+df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check_top5.csv"))
 
 
