@@ -1553,6 +1553,7 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/its_main_plot_data_overall.csv
-        plot1: output/forest_plot_broad_overall.jpeg
-        plot2: output/predicted_plot_overall.jpeg
+        plot1: output/forest_plot_broad_overall_A.jpeg
+        plot2: output/forest_plot_broad_overall_B.jpeg
+        plot3: output/predicted_plot_overall.jpeg
         table2: output/its_main_ORs_overall.csv

@@ -118,12 +118,22 @@ its_function <- function(outcomes_vec = outcomes,
       filter(var == "covid") %>%
       mutate(var = outcome)
     
-    ## output
-    return(list(df_1 = outcome_plot, vals_to_print = vals_to_print))
+  	## Get ORs for effect of time on outcome after covid happened (time + interaction of time:lockdown)
+		interaction_lincom <- glht(binom_model2, linfct = c("timeC + Covid:timeC = 0"))
+		summary(interaction_lincom)
+			
+		out <- confint(interaction_lincom)
+		time_grad_postCov <- out$confint[1,] %>% exp() %>% t() %>% as.data.frame() 
+		interaction_to_print <- time_grad_postCov %>%
+			mutate(var = outcome)
+			
+		## output
+		return(list(df_1 = outcome_plot, vals_to_print = vals_to_print, interaction_to_print = interaction_to_print))
   }
   # the plot ----------------------------------------------------------------
   main_plot_data <- NULL
   forest_plot_data <- NULL
+  interaction_tbl_data <- NULL
   for(ii in 1:length(outcomes_vec)){
     main_plot_data <- main_plot_data %>%
       bind_rows(
@@ -133,6 +143,9 @@ its_function <- function(outcomes_vec = outcomes,
       bind_rows(
         plot_its(outcomes_vec[ii])$vals_to_print
       )
+		interaction_tbl_data <- interaction_tbl_data %>%
+			bind_rows(
+				plot_its(outcomes_vec[ii])$interaction_to_print
   }
   
   
@@ -189,8 +202,49 @@ its_function <- function(outcomes_vec = outcomes,
   ggsave(
     plot= plot1,
     filename="predicted_plot_overall.jpeg", path=here::here("output"),
-  )  
+  )    
+
+		# Forest plot of interaction terms ------------------------------------------------------
+		## clean up the names
+		interaction_tbl_data <- interaction_tbl_data %>%
+			rename("Est" = "Estimate", lci = lwr, uci = upr) %>%
+			left_join(outcome_of_interest_namematch, by = c("var" = "outcome"))
+		
+		# changes the names of outcomes to full names
+		interaction_tbl_data$outcome_name <- factor(interaction_tbl_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
+    write_csv(interaction_tbl_data, here::here("output", "its_main_INTORs_overall.csv"))
   
+		# forest plot of estiamtes
+		fp2 <- ggplot(data=interaction_tbl_data, aes(x=outcome_name, y=Est, ymin=lci, ymax=uci)) +
+			geom_point(size = 2.5, pch = 16, colour = "orange") +
+			geom_linerange(lwd = 1.5, colour = "orange") +
+			geom_hline(yintercept=1, lty=2) +  # add a dotted line at x=1 after flip
+			coord_flip() +  # flip coordinates (puts labels on y axis)
+			labs(x = "", y = '95% CI', title = "B: Recovery") +
+			theme_classic() +
+			theme(axis.title = element_text(size = 16),
+						#axis.text.x = element_text(angle = 45),
+						axis.line.y.left = element_blank(),
+						axis.line.y.right = element_line(),
+						axis.text.y = element_blank(),
+						legend.position = "top",
+						plot.background = element_rect(fill = bkg_colour, colour =  NA),
+						panel.background = element_rect(fill = bkg_colour, colour =  NA),
+						legend.background = element_rect(fill = bkg_colour, colour = NA),
+						strip.background = element_rect(fill = bkg_colour, colour =  NA),
+						panel.grid.major = element_blank(),
+						panel.grid.minor.x = element_blank(),
+						panel.grid.minor.y = element_line(size=.2, color=rgb(0,0,0,0.2)) ,
+						panel.grid.major.y = element_line(size=.2, color=rgb(0,0,0,0.3))) +
+			scale_x_discrete(limits = rev(levels(as.factor(interaction_tbl_data$outcome_name))))
+
+  fp2
+  ggsave(
+    plot= fp2,
+    filename="forest_plot_broad_overall_A.jpeg", path=here::here("output"),
+  )  
+
+
   # Forest plot of ORs ------------------------------------------------------
   ## clean up the names
   forest_plot_df <- forest_plot_data %>%
@@ -233,7 +287,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp
   ggsave(
     plot= fp,
-    filename="forest_plot_broad_overall.jpeg", path=here::here("output"),
+    filename="forest_plot_broad_overall_B.jpeg", path=here::here("output"),
   )  
   
 }    
