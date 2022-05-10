@@ -234,6 +234,7 @@ nrow(df3)
 nrow(df4)
 nrow(df5)
 nrow(df6)
+range(df1$date)
 ```
 
 
@@ -380,7 +381,7 @@ nrow(df3)
 nrow(df4)
 nrow(df5)
 nrow(df6)
-
+range(df1$date)
 ```
 
 
@@ -531,6 +532,7 @@ nrow(df3)
 nrow(df4)
 nrow(df5)
 nrow(df6)
+range(df1$date)
 
 ```
 
