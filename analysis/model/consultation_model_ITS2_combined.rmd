@@ -184,50 +184,6 @@ df6$month=relevel(as.factor(df6$season),ref="spring")
 ```
 
 
-```{r}
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df1$date)) # NA exclusion
-
-df1=df1%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df1=df1%>% filter(covid==1 | covid==3)
-df1$covid= recode(df1$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df1$covid <- factor(df1$covid, levels=c("0","1"))
-
-df2=df2%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df2=df2%>% filter(covid==1 | covid==3)
-df2$covid= recode(df2$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df2$covid <- factor(df2$covid, levels=c("0","1"))
-
-df3=df3%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df3=df3%>% filter(covid==1 | covid==3)
-df3$covid= recode(df3$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df3$covid <- factor(df3$covid, levels=c("0","1"))
-
-df4=df4%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df4=df4%>% filter(covid==1 | covid==3)
-df4$covid= recode(df4$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df4$covid <- factor(df4$covid, levels=c("0","1"))
-
-df5=df5%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df5=df5%>% filter(covid==1 | covid==3)
-df5$covid= recode(df5$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df5$covid <- factor(df5$covid, levels=c("0","1"))
-
-df6=df6%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df6=df6%>% filter(covid==1 | covid==3)
-df6$covid= recode(df6$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df6$covid <- factor(df6$covid, levels=c("0","1"))
-```
-
-
 1. UTI
 ```{r}
 m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
