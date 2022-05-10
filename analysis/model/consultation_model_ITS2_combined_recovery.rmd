@@ -227,6 +227,14 @@ df6$covid= recode(df6$covid, '1'="0", '3'="1") # precovid=0, covid=1
 df6$covid <- factor(df6$covid, levels=c("0","1"))
 ```
 
+```{r}
+nrow(df1)
+nrow(df2)
+nrow(df3)
+nrow(df4)
+nrow(df5)
+nrow(df6)
+```
 
 
 1. UTI
@@ -366,6 +374,12 @@ df4=df%>%filter(indic=="sinusitis")
 df5=df%>%filter(indic=="otitis externa")
 df6=df%>%filter(indic=="otitis media")
 
+nrow(df1)
+nrow(df2)
+nrow(df3)
+nrow(df4)
+nrow(df5)
+nrow(df6)
 
 ```
 
@@ -511,6 +525,12 @@ df4=df%>%filter(indic=="sinusitis")
 df5=df%>%filter(indic=="otitis externa")
 df6=df%>%filter(indic=="otitis media")
 
+nrow(df1)
+nrow(df2)
+nrow(df3)
+nrow(df4)
+nrow(df5)
+nrow(df6)
 
 ```
 
@@ -704,15 +724,7 @@ p2
 ```
 
 
-# check input data
-```{r}
-nrow(DF1)
-nrow(DF1.exp)
-nrow(DF2)
-nrow(DF2.exp)
-nrow(DF3)
-nrow(DF3.exp)
-```
+
 
 # table
 
