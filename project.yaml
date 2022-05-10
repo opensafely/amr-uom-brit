@@ -1536,3 +1536,11 @@ actions:
 
 
 #############################################################################
+
+  describe_ITS_var_overall_process:
+    run: r:latest analysis/process/ITS_var_overall.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
+    outputs:
+       moderately_sensitive:
+        table1: output/df_model_overall.csv
+        table2: output/df_model_overall_18.csv
