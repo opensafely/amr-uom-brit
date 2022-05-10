@@ -146,6 +146,7 @@ its_function <- function(outcomes_vec = outcomes,
 		interaction_tbl_data <- interaction_tbl_data %>%
 			bind_rows(
 				plot_its(outcomes_vec[ii])$interaction_to_print
+      )
   }
   
   
