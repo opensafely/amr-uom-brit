@@ -1,5 +1,5 @@
 ---
-title: "subgroup analysis"
+title: "antibiotics variables check"
 output: 
   html_document:
    toc: true
@@ -23,7 +23,34 @@ library(car)
 ```
 
 
-# <font color=blue>**Outcome 2**</font>
+# AB quintile by total ab
+```{r}
+
+```
+
+```{r}
+### 1.1-ab quintile = according to unique ab prescription numbers
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+
+ggplot(df, aes(x=total_ab)) +
+  geom_bar(aes(y = ..prop..))
+
+summary(df$total_ab)
+
+df$ab_prescriptions=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+
+ggplot(df, aes(x=ab_prescriptions)) +
+  geom_bar(aes(y = ..prop..))
+summary(df$ab_prescriptions)
+
+
+
+```
+
+
+
+
+
 ```{r include=FALSE}
 # import data
 rm(list=ls())
