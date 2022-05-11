@@ -173,7 +173,7 @@ actions:
  ### for covid icu/ covid death
   process_Rmatching: # add variables 
     run: r:latest analysis/process_Rmatching.R
-    needs: [extract_variables2,matching2]
+    needs: [extract_variables,matching]
     outputs:
       highly_sensitive:
         cohort1: output/matched_outcome.rds
