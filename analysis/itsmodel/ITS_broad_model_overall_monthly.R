@@ -50,7 +50,7 @@ its_function <- function(outcomes_vec = outcomes,
     ## manipulate data so output looks cleaner
     model_data <- df_outcome %>% 
       mutate(timeC = time - ldn_centre) %>%
-      mutate_at("months", ~as.factor(.)) 
+      mutate_at("mon", ~as.factor(.)) 
     
     ## fit model with lagged residuals 
     binom_model2 <- glm(as.matrix(cbind(numOutcome, numEligible)) ~ covid + timeC + timeC:covid + as.factor(mon)  + binom_lagres, family=binomial, data = filter(model_data, !is.na(covid)))
