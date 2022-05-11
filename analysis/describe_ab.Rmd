@@ -51,10 +51,20 @@ summary(df$total_ab)
 
 df$ab_prescriptions=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
 
-ggplot(df, aes(x=ab_prescriptions)) +
-  geom_bar(aes(y = ..prop..))
-summary(df$ab_prescriptions)
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+qn_num=unique(df$total_ab)
+qn_cat1=quantile(qn_num,0.2,na.rm=T)
+qn_cat2=quantile(qn_num,0.4,na.rm=T)
+qn_cat3=quantile(qn_num,0.6,na.rm=T)
+qn_cat4=quantile(qn_num,0.8,na.rm=T)
 
+qn_cat1
+qn_cat1
+qn_cat1
+qn_cat1
+
+
+df$quintile=ifelse(df$total_ab<qn_cat1,1,NA)
 
 
 ```
