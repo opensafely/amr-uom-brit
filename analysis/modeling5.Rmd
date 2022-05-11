@@ -35,7 +35,7 @@ df$subclass=as.factor(df$subclass)#pair id
 
 # replace ab prescription with total ab
 #df$ab_qn=as.character(df$total_ab_qn) #category
-df$total_ab_qn_5=as.factor(df$total_ab_qn_5) #category
+df$total_ab_qn_5=as.factor(df$level) #category
 df$total_ab=as.numeric(df$total_ab)
 df$br_total_ab_qn_5=as.factor(df$br_total_ab_qn_5)
 df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
