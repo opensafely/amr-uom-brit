@@ -1590,3 +1590,29 @@ actions:
         table2: output/noA_its_main_ORs_overall.csv
         table3: output/noA_its_main_INTORs_overall.csv
         plot4: output/noA_all_plot.jpeg
+
+#############################################################################
+############################# monthly  ######################################
+#############################################################################
+  describe_ITS_var_overall_monthly_process:
+    run: r:latest analysis/process/ITS_var_overall_monthly.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3]
+    outputs:
+       moderately_sensitive:
+        table1: output/df_mon_model_overall.csv
+        table2: output/df_mon_model_overall_18.csv
+
+#############################################################################
+
+  describe_ITS_model_overall_monthly:
+    run: r:latest analysis/itsmodel/ITS_broad_model_overall_monthly.R
+    needs: [describe_ITS_var_overall_monthly_process]
+    outputs:
+       moderately_sensitive:
+        table1: output/its_main_plot_data_overall_monthly.csv
+        plot1: output/forest_plot_broad_overall_monthly_A.jpeg
+        plot2: output/forest_plot_broad_overall_monthly_B.jpeg
+        plot3: output/predicted_plot_overall_monthly.jpeg
+        table2: output/its_main_ORs_overall_monthly.csv
+        table3: output/its_main_INTORs_overall_monthly.csv
+        plot4: output/all_plot_monthly.jpeg
