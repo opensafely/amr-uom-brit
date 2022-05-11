@@ -145,14 +145,13 @@ def generate_infection_variables(index_date_variable):
     ), 
 
 
-    #  throat
-    throat_counts=patients.with_these_clinical_events(
-        throat_codes,
+    #  copd
+    copd_counts=patients.with_these_clinical_events(
+        copd_codes,
         returning="number_of_matches_in_period",
         between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ), 
-
   )
     return infection_variables
