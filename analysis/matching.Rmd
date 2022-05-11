@@ -127,7 +127,7 @@ write.csv(m.data2,here::here("output","matched_patients_id.csv"))
 
 unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
 unmatched=unmatched%>%filter(case==1)
-write_rds(unmatched,here::here("output","unmatched_case.rds"))
+write_rds(unmatched,here::here("output","unmatched_cases.rds"))
 
 
 ```

@@ -24,7 +24,6 @@ actions:
       highly_sensitive:
         cohort: output/input_covid_admission.csv
 
-
   process_1:  # Covid ons death
     run: r:latest analysis/process_1.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
@@ -33,9 +32,7 @@ actions:
         case: output/case_covid_hosp.csv 
         control: output/control_covid_infection.csv 
 
-  #R MatchIt
-
-  matching: # matching with replacement
+  matching: #R MatchIt  matching with replacement
     run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1]
     outputs:
@@ -46,7 +43,6 @@ actions:
         rds2: output/unmatched_cases.rds
         csv: output/matched_patients_id.csv
 
-
   extract_variables: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
     needs: [matching]
@@ -54,6 +50,14 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome.csv
 
+  process_Rmatching: # add variables 
+    run: r:latest analysis/process_Rmatching.R
+    needs: [extract_variables,matching]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome.rds
+        rds1: output/abtype79.rds
+        rds2: output/comor17.rds
         ################# check ok###########
 
   process_2: # died any cause
@@ -169,14 +173,14 @@ actions:
   #     highly_sensitive:
   #       cohort: output/input_outcome.csv
   
-  process_Rmatching: # add variables 
-    run: r:latest analysis/process_Rmatching.R
-    needs: [extract_variables,matching]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome.rds
-        rds1: output/abtype79.rds
-        rds2: output/comor17.rds
+  # process_Rmatching: # add variables 
+  #   run: r:latest analysis/process_Rmatching.R
+  #   needs: [extract_variables,matching]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort1: output/matched_outcome.rds
+  #       rds1: output/abtype79.rds
+  #       rds2: output/comor17.rds
 
   check_exposures_cont: # continuous variables
     run: r:latest -e 'rmarkdown::render("analysis/check_exposures_cont.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
