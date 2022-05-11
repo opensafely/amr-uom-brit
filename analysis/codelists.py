@@ -32,23 +32,6 @@ broad_spectrum_antibiotics_codes = codelist_from_csv(
 )
 
 
-### asthma & COPD
-asthma_copd_codes = codelist_from_csv(
-    "codelists/user-rriefu-asthma_copd.csv", system="snomed", column="code"
-)
-
-
-### asthma
-asthma_codes = codelist_from_csv(
-    "codelists/user-rriefu-asthma.csv", system="snomed", column="code"
-)
-
-
-
-### cold
-cold_codes = codelist_from_csv(
-    "codelists/user-rriefu-cold_subset.csv", system="snomed", column="code")
-
 ### ethnicity 
 ethnicity_codes = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-eth2001.csv",
@@ -257,10 +240,13 @@ uti_codes = codelist_from_csv(
 )
 
 
-## all infections
-all_infection_codes = combine_codelists(asthma_copd_codes, asthma_codes, cold_codes, copd_codes, 
+## all infections_all
+infection_codes_all = combine_codelists(asthma_copd_codes, asthma_codes, cold_codes, copd_codes, 
       cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, 
       renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes )
+
+## 6 infections
+infection_codes_6 = combine_codelists(lrti_codes, ot_externa_codes, otmedia_codes,sinusitis_codes,  urti_codes, uti_codes )
 
 
 ###  vaccination
