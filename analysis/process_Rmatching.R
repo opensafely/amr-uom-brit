@@ -273,7 +273,7 @@ inf=c("asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts"
 df=df %>%mutate_at(inf, ~replace_na(., 0))
 
 #hospitalisation
-df=df %>%mutate_at(hopsital_counts, ~replace_na(., 0))
+df$hospital_counts=ifelse(is.na(df$hospital_counts),0,df$hospital_counts)
 
 
 
