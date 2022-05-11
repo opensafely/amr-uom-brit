@@ -52,26 +52,29 @@ summary(df$total_ab)
 df$ab_prescriptions=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
 
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+
+
+```
+
+## group by outocme1 variables
+```{r}
 #qn_num=unique(df$total_ab)
 qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
 qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
 qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
-qn_cat1
-qn_cat2
-qn_cat3
-qn_cat4
+qn_cat1 #1
+qn_cat2 #1
+qn_cat3 #2
+qn_cat4 #4
 
 
-df$quintile=ifelse(df$total_ab<qn_cat1,1,NA)
+df$level=ifelse(df$total_ab==qn_cat1,1,NA)
+df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
+df$quintile=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
+df$quintile=ifelse(df$total_ab >qn_cat4,4,df$level)
 
-df$quintile=ifelse(df$total_ab>qn_cat1 & df$total_ab<qn_cat2,2,df$quintile)
-df$quintile=ifelse(df$total_ab>qn_cat2 & df$total_ab<qn_cat3,3,df$quintile)
-
-df$quintile=ifelse(df$total_ab>qn_cat3 & df$total_ab<qn_cat4,4,df$quintile)
-
-df$quintile=ifelse(df$total_ab>qn_cat4 ,5,df$quintile)
 
 table(df$quintile)
 
@@ -79,10 +82,37 @@ summary(df[df$quintile==1,]$total_ab)
 summary(df[df$quintile==2,]$total_ab)
 summary(df[df$quintile==3,]$total_ab)
 summary(df[df$quintile==4,]$total_ab)
-summary(df[df$quintile==5,]$total_ab)
-
 ```
 
+```{r}
+#qn_num=unique(df$total_ab)
+qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
+qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
+qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
+qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
+
+qn_cat1 #1
+qn_cat2 #2
+qn_cat3 #3
+qn_cat4 #7
+
+
+df$level=ifelse(df$total_ab==qn_cat1,1,NA)
+df$level=ifelse(df$total_ab==qn_cat2,2,df$level)
+df$quintile=ifelse(df$total_ab==qn_cat3,3,df$level)
+df$quintile=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level)
+df$quintile=ifelse(df$total_ab >qn_cat4 ,5,df$level)
+
+
+table(df$quintile)
+
+summary(df[df$quintile==1,]$total_ab)
+summary(df[df$quintile==2,]$total_ab)
+summary(df[df$quintile==3,]$total_ab)
+summary(df[df$quintile==4,]$total_ab)
+summary(df[df$quintile==4,]$total_ab)
+
+```
 
 ```{r}
 
