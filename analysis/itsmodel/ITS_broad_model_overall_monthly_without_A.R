@@ -18,8 +18,8 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "df_mon_model_")
-outcomes <- stringr::str_remove_all(all_files, c("df_mon_model_|.csv"))
+all_files <- list.files(here::here("output"), pattern = "df_noA_mon_model_")
+outcomes <- stringr::str_remove_all(all_files, c("df_noA_mon_model_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
                                            "outcome_name" = (c("Overall","Overall-18+"))
 )
@@ -27,7 +27,7 @@ bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("df_mon_model_", outcomes[ii], ".csv")))
+  load_file <- read.csv(here::here("output", paste0("df_noA_mon_model_", outcomes[ii], ".csv")))
   assign(outcomes[ii], load_file)
 }
 
@@ -167,7 +167,7 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  write_csv(main_plot_data, here::here("output", "its_main_plot_data_overall_monthly.csv"))
+  write_csv(main_plot_data, here::here("output", "noA_its_main_plot_data_overall_monthly.csv"))
   main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot)
   plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
     # the data
@@ -202,7 +202,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1
   ggsave(
     plot= plot1,
-    filename="predicted_plot_overall_monthly.jpeg", path=here::here("output"),
+    filename="noA_predicted_plot_overall_monthly.jpeg", path=here::here("output"),
   )    
 
 		# Forest plot of interaction terms ------------------------------------------------------
@@ -213,7 +213,7 @@ its_function <- function(outcomes_vec = outcomes,
 		
 		# changes the names of outcomes to full names
 		interaction_tbl_data$outcome_name <- factor(interaction_tbl_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
-    write_csv(interaction_tbl_data, here::here("output", "its_main_INTORs_overall_monthly.csv"))
+    write_csv(interaction_tbl_data, here::here("output", "noA_its_main_INTORs_overall_monthly.csv"))
   
 		# forest plot of estiamtes
 		fp2 <- ggplot(data=interaction_tbl_data, aes(x=outcome_name, y=Est, ymin=lci, ymax=uci)) +
@@ -242,7 +242,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp2
   ggsave(
     plot= fp2,
-    filename="forest_plot_broad_overall_monthly_A.jpeg", path=here::here("output"),
+    filename="noA_forest_plot_broad_overall_monthly_A.jpeg", path=here::here("output"),
   )  
 
 
@@ -288,7 +288,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp
   ggsave(
     plot= fp,
-    filename="forest_plot_broad_overall_monthly_B.jpeg", path=here::here("output"),
+    filename="noA_forest_plot_broad_overall_monthly_B.jpeg", path=here::here("output"),
   )  
 
 		layout = "
@@ -302,8 +302,8 @@ its_function <- function(outcomes_vec = outcomes,
   ggsave(
     plot= 		plot1 + fp + fp2 + 
 			plot_layout(design = layout) ,
-    filename="all_plot_monthly.jpeg", path=here::here("output"),
-  ) 
+    filename="noA_all_plot_monthly.jpeg", path=here::here("output"),
+  )
 
 }    
 
