@@ -174,7 +174,7 @@ its_function <- function(outcomes_vec = outcomes,
     geom_line(col = "gray60") +
     ### the probability if therer was no Covid
     geom_line(data = main_plot_data, aes(y = probline_noCov), col = 2, lty = 2) +
-    geom_ribbon(data = main_plot_data, aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
+    # geom_ribbon(data = main_plot_data, aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
     ### probability with model (inc. std. error)
     geom_line(aes(y = predicted_vals), col = 4, lty = 2) +
     geom_ribbon(aes(ymin = lci, ymax=uci), fill = alpha(4,0.4), lty = 0) +
