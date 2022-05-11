@@ -23,10 +23,22 @@ library(car)
 ```
 
 
-# AB quintile by total ab
-```{r}
+
+
+
+
+
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
 
 ```
+
+
+# AB quintile by total ab
 
 ```{r}
 ### 1.1-ab quintile = according to unique ab prescription numbers
@@ -47,17 +59,6 @@ summary(df$ab_prescriptions)
 
 ```
 
-
-
-
-
-```{r include=FALSE}
-# import data
-rm(list=ls())
-#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-df <- read_rds(here::here("output","matched_outcome.rds"))
-
-```
 
 ```{r}
 
