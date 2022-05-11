@@ -18,9 +18,9 @@ actions:
     outputs:
       highly_sensitive:
         case: output/case_covid_icu_death.csv
-        case2: output/case_covid_icu_death_2.csv
+       # case2: output/case_covid_icu_death_2.csv
         control: output/control_covid_hosp.csv
-        control2: output/control_covid_hosp_2.csv
+      #  control2: output/control_covid_hosp_2.csv
         
 
 # R MatchIt
