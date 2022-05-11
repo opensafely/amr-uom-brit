@@ -68,6 +68,14 @@ def generate_confounding_variables(index_date_variable):
         },
     ),
 
+   # ever hospitalisation
+    hospital_counts=patients.admitted_to_hospital(
+        returning= "number_of_matches_in_period" ,  
+        between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],
+        return_expectations={"int": {"distribution": "normal",
+                                     "mean": 25, "stddev": 5}, "incidence": 1}
+   ),
+
     # Care home
     care_home=patients.with_these_clinical_events(
         carehome_primis_codes,
@@ -76,6 +84,29 @@ def generate_confounding_variables(index_date_variable):
         returning="binary_flag",
         return_expectations={"incidence": 0.5},
      ),
+
+        #care_home_type - binary 
+    care_home_type=patients.care_home_status_as_of(
+        "index_date",
+        categorised_as={
+            "Yes": """
+              IsPotentialCareHome
+              AND LocationDoesNotRequireNursing='Y'
+              AND LocationRequiresNursing='N'
+            """,
+            "Yes": """
+              IsPotentialCareHome
+              AND LocationDoesNotRequireNursing='N'
+              AND LocationRequiresNursing='Y'
+            """,
+            "Yes": "IsPotentialCareHome",
+            "No": "DEFAULT",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"Yes": 0.30, "No": 0.70},},
+        },
+    ), 
 
     # index of multiple deprivation, estimate of SES based on patient post code 
 	imd=patients.categorised_as(
