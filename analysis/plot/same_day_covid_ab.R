@@ -59,11 +59,12 @@ df2 %>% summary_factorlist(explanatory = colsfortab) -> t2
 write_csv(t2, here::here("output", "sameday_ab_2_sgss.csv"))
 rm(df1,df2,t1,t2)
 
-## select covid group from gp record (by 2022-03-01)
+## select covid group from gp record (from 2020-03-01 to 2022-02-28)
 df1 <- df %>% filter(covid_positive_1_pg == 1)
 
 df1$date <- as.Date(df1$pg_first_positive_test_date)
 df1 <- df1 %>% filter(date<="2022-02-28")
+df1 <- df1 %>% filter(date>="2020-03-01")
 
 df2 <- df1 %>% filter(covid_positive_2_pg == 1)
 
@@ -147,6 +148,7 @@ df2 <- df %>% filter(covid_positive_1_pg == 1)
 
 df2$date <- as.Date(df2$pg_first_positive_test_date)
 df2 <- df2 %>% filter(date<="2022-02-28")
+df2 <- df2 %>% filter(date>="2020-03-01")
 
 df2$cal_mon <- month(df2$date)
 df2$cal_year <- year(df2$date)
