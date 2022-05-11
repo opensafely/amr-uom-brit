@@ -145,6 +145,31 @@ df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_
 
 #### II. total ab- calculated from 79 knid ab
 
+#1. according to oucome1 classification
+qn_cat1 =1
+qn_cat2 =1
+qn_cat3 =2
+qn_cat4 =4
+
+df$level=ifelse(df$total_ab==qn_cat1,1,0)
+df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
+df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
+df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
+
+# according quintil number
+qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
+qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
+qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
+qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
+
+
+df$level5=ifelse(df$total_ab==qn_cat1,1,0)
+df$level5=ifelse(df$total_ab==qn_cat2,2,df$level5)
+df$level5=ifelse(df$total_ab==qn_cat3,3,df$level5)
+df$level5=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level5)
+df$level5=ifelse(df$total_ab >qn_cat4 ,5,df$level5)
+
+
 ### 1.1-ab quintile = according to unique ab prescription numbers
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
 qn_num=unique(df$total_ab)
@@ -280,7 +305,7 @@ df$hospital_counts=ifelse(is.na(df$hospital_counts),0,df$hospital_counts)
 
 # variables for analysis
 df2=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
-"ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5",
+"ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5",level5,level,
 "cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular",
 "asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
 "renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6","hospital_counts"))
