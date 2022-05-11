@@ -40,7 +40,7 @@ df$subclass=as.factor(df$subclass)#pair id
 
 # replace ab prescription with total ab
 df$ab_qn=as.character(df$total_ab_qn) #category
-df$ab_qn_5=as.character(df$level5) #category
+df$ab_qn_5=as.character(df$level) #category
 df$ab_prescriptions=as.numeric(df$total_ab)
 
 df$CCI= relevel(as.factor(df$CCI), ref="Very low")

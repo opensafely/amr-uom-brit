@@ -42,7 +42,8 @@ df$region=as.character(df$region)
 
 # replace ab prescription with total ab
 df$ab_qn=as.character(df$level) #category
-df$ab_qn_5=as.character(df$level5) #category
+df$ab_qn_5=as.character(df$level) #category
+table(df$ab_qn_5)
 
 df$ab_prescriptions=as.numeric(df$total_ab)
 

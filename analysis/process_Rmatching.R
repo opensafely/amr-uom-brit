@@ -145,16 +145,6 @@ df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_
 
 #### II. total ab- calculated from 79 knid ab
 
-#1. according to oucome1 classification
-qn_cat1 =1
-qn_cat2 =1
-qn_cat3 =2
-qn_cat4 =4
-
-df$level=ifelse(df$total_ab==qn_cat1,"1","0")
-df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,"2",df$level)
-df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,"3",df$level)
-df$level=ifelse(df$total_ab >qn_cat4,"4",df$level)
 
 # according quintil number
 qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
@@ -162,13 +152,26 @@ qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
 qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
+qn_cat1 #1
+qn_cat2 #2
+qn_cat3 #3
+qn_cat4 #6
 
-df$level5=ifelse(df$total_ab==qn_cat1,"1","0")
-df$level5=ifelse(df$total_ab==qn_cat2,"2",df$level5)
-df$level5=ifelse(df$total_ab==qn_cat3,"3",df$level5)
-df$level5=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,"4",df$level5)
-df$level5=ifelse(df$total_ab >qn_cat4 ,"5",df$level5)
 
+df$level=ifelse(df$total_ab==qn_cat1,1,0)
+df$level=ifelse(df$total_ab==qn_cat2,2,df$level)
+df$level=ifelse(df$total_ab==qn_cat3,3,df$level)
+df$level=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level)
+df$level=ifelse(df$total_ab >qn_cat4 ,5,df$level)
+
+
+table(df$level)
+
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
 
 ### 1.1-ab quintile = according to unique ab prescription numbers
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
