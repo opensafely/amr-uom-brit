@@ -290,7 +290,7 @@ write_rds(df, here::here("output", "matched_outcome.rds"))
 
 
 # check again
-df=df%>%filter(is.na(df$ons_died_date_before))
+df=df%>%filter(is.na(dons_died_date_before))
 df=df%>%filter(is.na(dereg_date))
 write_rds(df, here::here("output", "matched_outcome_check.rds"))
 
