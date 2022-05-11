@@ -800,6 +800,13 @@ actions:
        highly_sensitive:
         rds1: output/measures/cleaned_ab_infection.rds
 
+  describe_cleaning_process_2:
+    run: r:latest analysis/process/cleaning_process_2.R
+    needs: [describe_cleaning_process]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/cleaned_indication_ab.rds
+
   describe_ab_table:
     run: r:latest analysis/tables/repeat_ab_all_record.R
     needs: [describe_cleaning_process]
