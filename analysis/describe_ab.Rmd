@@ -110,7 +110,7 @@ summary(df[df$level==1,]$total_ab)
 summary(df[df$level==2,]$total_ab)
 summary(df[df$level==3,]$total_ab)
 summary(df[df$level==4,]$total_ab)
-summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
 
 ```
 
