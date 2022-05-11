@@ -30,6 +30,10 @@ df$covid_positive_2_pg=ifelse(is.na(df$pg_second_positive_test_date),0,1)
 
 ## select covid group from sgss record
 df1 <- df %>% filter(covid_positive_1_sgss == 1)
+df1$date <- as.Date(df1$first_positive_test_date)
+df1 <- df1 %>% filter(date<="2022-02-28")
+df1 <- df1 %>% filter(date>="2020-03-01")
+
 df2 <- df1 %>% filter(covid_positive_2_sgss == 1)
 
 num_pats <- length(unique(df1$patient_id))
@@ -102,6 +106,8 @@ rm(df1,df2,t1,t2)
 ### Sgss same day ab
 df1 <- df %>% filter(covid_positive_1_sgss == 1)
 df1$date <- as.Date(df1$first_positive_test_date)
+df1 <- df1 %>% filter(date<="2022-02-28")
+df1 <- df1 %>% filter(date>="2020-03-01")
 
 df1$cal_mon <- month(df1$date)
 df1$cal_year <- year(df1$date)
