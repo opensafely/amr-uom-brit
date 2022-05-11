@@ -68,6 +68,14 @@ def generate_confounding_variables(index_date_variable):
         },
     ),
 
+   # ever hospitalisation
+    hospital_counts=patients.admitted_to_hospital(
+        returning= "number_of_matches_in_period" ,  
+        between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],
+        return_expectations={"int": {"distribution": "normal",
+                                     "mean": 25, "stddev": 5}, "incidence": 1}
+   ),
+
     # Care home
     care_home=patients.with_these_clinical_events(
         carehome_primis_codes,
