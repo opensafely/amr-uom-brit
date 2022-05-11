@@ -32,18 +32,6 @@ df$wave=ifelse(df$patient_index_date > as.Date("2020-11-30"),"3", # wave3(nation
                ifelse(df$patient_index_date > as.Date("2020-08-31"),"2", # wave2(test for wider population): Sep-Dec,2020
                       ifelse( df$patient_index_date > as.Date("2020-01-31"),"1","0")))# wave1(test for health workers):Feb-Aug,2020
 
-#1 die before patient_index_date/#2 die after patient_index_date/# 0 never die
-df$died_ever=ifelse(df$ons_died_date < df$patient_index_date, 1, 2)
-df$died_ever=ifelse(is.na(df$ons_died_date),0,df$died_ever)
-df=df%>%filter(died_ever != 1) # exclude died before index
-
-
-#1 deregister before patient_index_date/#2 deregister after patient_index_date/# 0 never de-register
-df$dereg_ever=ifelse(df$dereg_date < df$patient_index_date, 1, 2)
-df$dereg_ever=ifelse(is.na(df$dereg_date),0,df$dereg_ever)
-df=df%>%filter(died_ever != 1) # exclude de-register before index
-
-
 ####### matching variables ########
 ## age
 df=df%>%filter(df$age_cat != "0")
@@ -279,13 +267,33 @@ df$covrx2_ever=ifelse(is.na(df$covrx2_dat),0,1)
 df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
+# infections
+inf=c("asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
+      "renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6")
+df=df %>%mutate_at(inf, ~replace_na(., 0))
+
+#hospitalisation
+df=df %>%mutate_at(hopsital_counts, ~replace_na(., 0))
+
+
+
 
 # variables for analysis
 df=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
-"ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5","cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular"))
+"ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5",
+"cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular",
+"asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
+"renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6","hospital_counts"))
 
 
 write_rds(df, here::here("output", "matched_outcome.rds"))
+
+
+# check again
+df=df%>%filter(is.na(df$ons_died_date_before))
+df=df%>%filter(is.na(dereg_date))
+write_rds(df, here::here("output", "matched_outcome_check.rds"))
+
 rm(list=ls())
 
 

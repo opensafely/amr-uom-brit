@@ -56,8 +56,11 @@ actions:
     outputs:
       highly_sensitive:
         cohort1: output/matched_outcome.rds
+        cohort2: output/matched_outcome_check.rds # filter died $ de-regist again
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
+
+
         ################# check ok###########
 
   process_2: # died any cause
