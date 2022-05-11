@@ -187,24 +187,31 @@ study = StudyDefinition(
         },
     ),
 
-# data check
-    ## de-register after start date
-    dereg_date=patients.date_deregistered_from_all_supported_practices(
-        on_or_before="patient_index_date - 1 day",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-        "date": {"earliest": "2020-02-01"},
-        "incidence": 0.05
-        }
+# data check	
+    ## de-register after start date	
+    dereg_date=patients.date_deregistered_from_all_supported_practices(	
+        on_or_before="patient_index_date - 1 day",	
+        date_format="YYYY-MM-DD",	
+        return_expectations={	
+        "date": {"earliest": "2020-02-01"},	
+        "incidence": 0.05	
+        }	
+    ),	
+    ## died after patient index date	
+    ons_died_date_after=patients.died_from_any_cause(	
+        between=["patient_index_date" , "patient_index_date + 1 month"],        	
+        returning="date_of_death",	
+        date_format="YYYY-MM-DD",	
+        return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.1},	
     ),
-    ## died after patient index date
-    ons_died_date=patients.died_from_any_cause(
-        between=["patient_index_date" , "patient_index_date + 1 month"],        
-        returning="date_of_death",
-        date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.05},
+
+    ## died before patient index date	
+    ons_died_date_before=patients.died_from_any_cause(	
+        on_or_before="patient_index_date - 1 day",        	
+        returning="date_of_death",	
+        date_format="YYYY-MM-DD",	
+        return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
     ),
- 
 
     # # **ab_variables,
     # # **confounding_variables,

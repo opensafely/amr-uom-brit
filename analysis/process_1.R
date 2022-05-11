@@ -72,6 +72,7 @@ df.1=df.1%>%filter(
          is.na(died_date_cpns_before),
          is.na(died_date_ons_covid_before))
 
-
+# calendar month for matching
+df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 
 write_csv(df.1, here::here("output", "case_covid_hosp.csv"))
