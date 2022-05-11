@@ -70,7 +70,7 @@ qn_cat3 =2
 qn_cat4 =4
 
 
-df$level=ifelse(df$total_ab==qn_cat1,1,NA)
+df$level=ifelse(df$total_ab==qn_cat1,1,0)
 df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
 df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
 df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
@@ -94,10 +94,10 @@ qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 qn_cat1 #1
 qn_cat2 #2
 qn_cat3 #3
-qn_cat4 #7
+qn_cat4 #6
 
 
-df$level=ifelse(df$total_ab==qn_cat1,1,NA)
+df$level=ifelse(df$total_ab==qn_cat1,1,0)
 df$level=ifelse(df$total_ab==qn_cat2,2,df$level)
 df$level=ifelse(df$total_ab==qn_cat3,3,df$level)
 df$level=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level)

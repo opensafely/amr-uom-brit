@@ -151,10 +151,10 @@ qn_cat2 =1
 qn_cat3 =2
 qn_cat4 =4
 
-df$level=ifelse(df$total_ab==qn_cat1,1,0)
-df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
-df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
-df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
+df$level=ifelse(df$total_ab==qn_cat1,"1","0")
+df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,"2",df$level)
+df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,"3",df$level)
+df$level=ifelse(df$total_ab >qn_cat4,"4",df$level)
 
 # according quintil number
 qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
@@ -163,11 +163,11 @@ qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
 
-df$level5=ifelse(df$total_ab==qn_cat1,1,0)
-df$level5=ifelse(df$total_ab==qn_cat2,2,df$level5)
-df$level5=ifelse(df$total_ab==qn_cat3,3,df$level5)
-df$level5=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level5)
-df$level5=ifelse(df$total_ab >qn_cat4 ,5,df$level5)
+df$level5=ifelse(df$total_ab==qn_cat1,"1","0")
+df$level5=ifelse(df$total_ab==qn_cat2,"2",df$level5)
+df$level5=ifelse(df$total_ab==qn_cat3,"3",df$level5)
+df$level5=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,"4",df$level5)
+df$level5=ifelse(df$total_ab >qn_cat4 ,"5",df$level5)
 
 
 ### 1.1-ab quintile = according to unique ab prescription numbers
