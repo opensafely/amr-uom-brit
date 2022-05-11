@@ -64,10 +64,10 @@ qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
 qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
-qn_cat1 #1
-qn_cat2 #1
-qn_cat3 #2
-qn_cat4 #4
+qn_cat1 =1
+qn_cat2 =1
+qn_cat3 =2
+qn_cat4 =4
 
 
 df$level=ifelse(df$total_ab==qn_cat1,1,NA)
