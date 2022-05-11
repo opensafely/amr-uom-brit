@@ -29,8 +29,14 @@ df=df%>%filter( !is.na(patient_index_date)) # covid hospital case
 #          is.na(died_date_ons_covid),
 #          is.na(ons_died_date_before)) 
 
-# select inciden hospital 
-
+# select incident hospital patient
+## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1=df.1%>%filter(
+         is.na(SGSS_positive_test_date_before),
+         is.na(primary_care_covid_date_before), 
+         is.na(died_date_cpns_before),
+         is.na(died_date_ons_covid_before))
 
 
 # calendar month for matching
