@@ -41,7 +41,7 @@ its_function <- function(outcomes_vec = outcomes,
     ldn_centre <- df_outcome$time[min(which(df_outcome$covid == 1))]
     
     ## fit model, calculate lagged residuals to fit in final model
-    binom_model1 <- glm(as.matrix(cbind(numOutcome, numEligible)) ~ covid + I(time-ldn_centre) + I(time-ldn_centre):covid + as.factor(months) , family=binomial, data = filter(df_outcome, !is.na(covid)))
+    binom_model1 <- glm(as.matrix(cbind(numOutcome, numEligible)) ~ covid + I(time-ldn_centre) + I(time-ldn_centre):covid + as.factor(mon) , family=binomial, data = filter(df_outcome, !is.na(covid)))
     ### confidence intervals for the coefficients
     ci.exp(binom_model1)
     binom_lagres <- lag(residuals(binom_model1)) %>% as.numeric()
@@ -53,7 +53,7 @@ its_function <- function(outcomes_vec = outcomes,
       mutate_at("months", ~as.factor(.)) 
     
     ## fit model with lagged residuals 
-    binom_model2 <- glm(as.matrix(cbind(numOutcome, numEligible)) ~ covid + timeC + timeC:covid + as.factor(months)  + binom_lagres, family=binomial, data = filter(model_data, !is.na(covid)))
+    binom_model2 <- glm(as.matrix(cbind(numOutcome, numEligible)) ~ covid + timeC + timeC:covid + as.factor(mon)  + binom_lagres, family=binomial, data = filter(model_data, !is.na(covid)))
     ci.exp(binom_model2)
     summary.glm(binom_model2)
     
@@ -160,16 +160,16 @@ its_function <- function(outcomes_vec = outcomes,
   ## replace outcome name with the pretty name for printing on results
   main_plot_data$outcome_name <- factor(main_plot_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   
-  abline_max <- main_plot_data$weekPlot[max(which(is.na(main_plot_data$covid)))+1]
-  abline_min <- main_plot_data$weekPlot[min(which(is.na(main_plot_data$covid)))-1]
+  abline_max <- main_plot_data$monPlot[max(which(is.na(main_plot_data$covid)))+1]
+  abline_min <- main_plot_data$monPlot[min(which(is.na(main_plot_data$covid)))-1]
   if(is.na(abline_min) & is.na(abline_max)){
     abline_min <- start_covid
     abline_max <- start_covid
   }
   
   write_csv(main_plot_data, here::here("output", "its_main_plot_data_overall_monthly.csv"))
-  main_plot_data$weekPlot <- as.Date(main_plot_data$weekPlot)
-  plot1 <- ggplot(main_plot_data, aes(x = weekPlot, y = pc_broad, group = outcome_name)) +
+  main_plot_data$monPlot <- as.Date(main_plot_data$monPlot)
+  plot1 <- ggplot(main_plot_data, aes(x = monPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
     ### the probability if therer was no Covid
