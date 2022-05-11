@@ -290,7 +290,21 @@ its_function <- function(outcomes_vec = outcomes,
     plot= fp,
     filename="noA_forest_plot_broad_overall_B.jpeg", path=here::here("output"),
   )  
-  
+
+		layout = "
+			AAAAAA
+			AAAAAA
+			AAAAAA
+			AAAAAA
+			BBBCCC
+			BBBCCC
+		"
+  ggsave(
+    plot= 		plot1 + fp + fp2 + 
+			plot_layout(design = layout) ,
+    filename="noA_all_plot.jpeg", path=here::here("output"),
+  ) 
+
 }    
 
 its_function(outcomes_vec = outcomes,
