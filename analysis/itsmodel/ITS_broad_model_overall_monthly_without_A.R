@@ -255,7 +255,7 @@ its_function <- function(outcomes_vec = outcomes,
   # changes the names of outcomes to full names
   forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
-  write_csv(forest_plot_df, here::here("output", "its_main_ORs_overall_monthly.csv"))
+  write_csv(forest_plot_df, here::here("output", "noA_its_main_ORs_overall_monthly.csv"))
   
   
   forest_plot_df <- forest_plot_df %>%
