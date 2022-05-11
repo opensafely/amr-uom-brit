@@ -17,18 +17,20 @@ library('lubridate')
 # import data
 df <- read_csv(here::here("output", "input_covid_admission.csv"))
 #df=read_csv("input_covid_admission.csv")
+df=df%>%filter(patient_index_date <= as.Date("2021-12-31"))
+
 
 # filter cohort
-df =df%>%filter( !is.na(patient_index_date)) # covid hospital case
+df=df%>%filter( !is.na(patient_index_date)) # covid hospital case
 
-df=df%>%
-  filter(
-         is.na(died_date_cpns), 
-         is.na(died_date_ons_covid),
-         is.na(ons_died_date_before))
+# df=df%>%
+#   filter(
+#          is.na(died_date_cpns), 
+#          is.na(died_date_ons_covid),
+#          is.na(ons_died_date_before)) 
 
+# select inciden hospital 
 
-df=df%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 
 # calendar month for matching
