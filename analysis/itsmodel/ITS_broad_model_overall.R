@@ -118,8 +118,8 @@ its_function <- function(outcomes_vec = outcomes,
       filter(var == "covid") %>%
       mutate(var = outcome)
     
-  	## Get ORs for effect of time on outcome after covid happened (time + interaction of time:lockdown)
-		interaction_lincom <- glht(binom_model2, linfct = c("timeC + Covid:timeC = 0"))
+  	## Get ORs for effect of time on outcome after covid happened (time + interaction of time:covid)
+		interaction_lincom <- glht(binom_model2, linfct = c("timeC + timeC:covid = 0"))
 		summary(interaction_lincom)
 			
 		out <- confint(interaction_lincom)
