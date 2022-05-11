@@ -76,7 +76,7 @@ df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
 df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
 
 
-table(df$quintile)
+table(df$level)
 
 summary(df[df$level==1,]$total_ab)
 summary(df[df$level==2,]$total_ab)
@@ -104,7 +104,7 @@ df$level=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level)
 df$level=ifelse(df$total_ab >qn_cat4 ,5,df$level)
 
 
-table(df$quintile)
+table(df$level)
 
 summary(df[df$level==1,]$total_ab)
 summary(df[df$level==2,]$total_ab)
