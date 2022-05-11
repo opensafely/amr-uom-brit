@@ -33,6 +33,27 @@ actions:
         case: output/case_covid_hosp.csv 
         control: output/control_covid_infection.csv 
 
+  #R MatchIt
+
+  matching: # matching with replacement
+    run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_1]
+    outputs:
+      moderately_sensitive:
+        html: output/matching.html
+      highly_sensitive: 
+        rds1: output/matched_patients.rds
+        rds2: output/unmatched_cases.rds
+        csv: output/matched_patients_id.csv
+
+
+  extract_variables: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
+    needs: [matching]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome.csv
+
         ################# check ok###########
 
   process_2: # died any cause
@@ -121,18 +142,18 @@ actions:
       moderately_sensitive:
         html: output/check_exposures_2.html 
 
-# R MatchIt
+# # R MatchIt
 
-  matching: # matching with replacement
-    run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_1]
-    outputs:
-      moderately_sensitive:
-        html: output/matching.html
-      highly_sensitive: 
-        rds1: output/matched_patients.rds
-        rds2: output/unmatched_patients.rds
-        csv: output/matched_patients_id.csv
+#   matching: # matching with replacement
+#     run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [process_1]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/matching.html
+#       highly_sensitive: 
+#         rds1: output/matched_patients.rds
+#         rds2: output/unmatched_patients.rds
+#         csv: output/matched_patients_id.csv
 
   check_matching:
     run: r:latest -e 'rmarkdown::render("analysis/check_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -141,12 +162,12 @@ actions:
       moderately_sensitive:
         html: output/check_matching.html
 
-  extract_variables: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
-    needs: [matching]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome.csv
+  # extract_variables: 
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
+  #   needs: [matching]
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/input_outcome.csv
   
   process_Rmatching: # add variables 
     run: r:latest analysis/process_Rmatching.R

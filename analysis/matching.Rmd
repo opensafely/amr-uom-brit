@@ -118,7 +118,7 @@ plot(summary(m.out1))
 ```{r}
 
 m.data1 <- get_matches(m.out1) # repeated id between sets(subclasses)
-m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM") # key variables for merging
+m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","age_cat","region") # key variables for merging
 write_rds(m.data1, here::here("output", "matched_patients.rds"))
 
 m.data2 <- match.data(m.out1) # unique patient ID
@@ -126,7 +126,9 @@ m.data2=m.data2%>%select("patient_id","patient_index_date")
 write.csv(m.data2,here::here("output","matched_patients_id.csv"))
 
 unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
-write_rds(unmatched,here::here("output","unmatched_patients.rds"))
+unmatched=unmatched%>%filter(case==1)
+write_rds(unmatched,here::here("output","unmatched_case.rds"))
+
 
 ```
 

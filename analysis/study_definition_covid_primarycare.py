@@ -101,39 +101,39 @@ study = StudyDefinition(
         },
     ),
 
-    # # ## Age categories
-    # # ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
-    # # age_cat=patients.categorised_as(
-    # #     {
-    # #         "0":"DEFAULT",
-    # #         "0-4": """ age >= 0 AND age < 5""",
-    # #         "5-14": """ age >= 5 AND age < 15""",
-    # #         "15-24": """ age >= 15 AND age < 25""",
-    # #         "25-34": """ age >= 25 AND age < 35""",
-    # #         "35-44": """ age >= 35 AND age < 45""",
-    # #         "45-54": """ age >= 45 AND age < 55""",
-    # #         "55-64": """ age >= 55 AND age < 65""",
-    # #         "65-74": """ age >= 65 AND age < 75""",
-    # #         "75+": """ age >= 75 AND age < 120""",
-    # #     },
-    # #     return_expectations={
-    # #         "rate": "universal",
-    # #         "category": {
-    # #             "ratios": {
-    # #                 "0": 0,
-    # #                 "0-4": 0.12, 
-    # #                 "5-14": 0.11,
-    # #                 "15-24": 0.11,
-    # #                 "25-34": 0.11,
-    # #                 "35-44": 0.11,
-    # #                 "45-54": 0.11,
-    # #                 "55-64": 0.11,
-    # #                 "65-74": 0.11,
-    # #                 "75+": 0.11,
-    # #             }
-    # #         },
-    # #     },
-    # # ),
+    ## Age categories
+    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
+    age_cat=patients.categorised_as(
+        {
+            "0":"DEFAULT",
+            "0-4": """ age >= 0 AND age < 5""",
+            "5-14": """ age >= 5 AND age < 15""",
+            "15-24": """ age >= 15 AND age < 25""",
+            "25-34": """ age >= 25 AND age < 35""",
+            "35-44": """ age >= 35 AND age < 45""",
+            "45-54": """ age >= 45 AND age < 55""",
+            "55-64": """ age >= 55 AND age < 65""",
+            "65-74": """ age >= 65 AND age < 75""",
+            "75+": """ age >= 75 AND age < 120""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0,
+                    "0-4": 0.12, 
+                    "5-14": 0.11,
+                    "15-24": 0.11,
+                    "25-34": 0.11,
+                    "35-44": 0.11,
+                    "45-54": 0.11,
+                    "55-64": 0.11,
+                    "65-74": 0.11,
+                    "75+": 0.11,
+                }
+            },
+        },
+    ),
 
     
     ## Sex
@@ -166,7 +166,26 @@ study = StudyDefinition(
                 },
             },
     ),
-
+    
+   # Region - NHS England 9 regions
+    region=patients.registered_practice_as_of(
+        "patient_index_date",
+        returning="nuts1_region_name",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                  "North East": 0.1,
+                  "North West": 0.1,
+                  "Yorkshire and The Humber": 0.1,
+                  "East Midlands": 0.1,
+                  "West Midlands": 0.1,
+                  "East": 0.1,
+                  "London": 0.2,
+                  "South West": 0.1,
+                  "South East": 0.1, }, },
+        },
+    ),
 
 # data check
     ## de-register after start date
@@ -185,7 +204,7 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.05},
     ),
-
+ 
 
     # # **ab_variables,
     # # **confounding_variables,
