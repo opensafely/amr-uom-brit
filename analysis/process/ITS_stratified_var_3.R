@@ -15,7 +15,7 @@ df_raw <- readRDS("cleaned_indication_ab.rds")
 ### prepare var ###
 
 start_covid = as.Date("2020-04-01")
-covid_adjustment_period_from = as.Date("2020-03-01")
+covid_adjustment_period_from = as.Date("2020-01-01")
 
 ###  Prepare the data frame for Interrupted time-series analysis  ###
 ###  Transfer df into numOutcome / numEligible  version

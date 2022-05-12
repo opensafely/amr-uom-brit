@@ -20,7 +20,7 @@ broadtype <- c("Ampicillin","Co-amoxiclav","Moxifloxacin","Cefaclor","Cefadroxil
                "Meropenem" ,"Nalidixic acid","Norfloxacin", "Ofloxacin","Cefpodoxime","Cefepime")
 
 start_covid = as.Date("2020-04-01")
-covid_adjustment_period_from = as.Date("2020-03-01")
+covid_adjustment_period_from = as.Date("2020-01-01")
 
 ###  Prepare the data frame for Interrupted time-series analysis  ###
 ###  Transfer df into numOutcome / numEligible  version
