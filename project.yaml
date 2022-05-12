@@ -1772,7 +1772,7 @@ actions:
         plot1: output/incident_1.jpeg
         plot2: output/incident_plot_A.jpeg
         plot3: output/incident_plot_B.jpeg
-        plot4: output/incident_plot_conbined.jpeg
+        plot4: output/incident_plot_combined.jpeg
         table1: output/incident_1_table.csv
         table2: output/incident_plot_B_table.csv
         table3: output/incident_plot_A_table.csv
