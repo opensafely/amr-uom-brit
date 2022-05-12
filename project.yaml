@@ -11,29 +11,38 @@ actions:
   #     highly_sensitive:
   #       cohort: output/measures/input_*.csv.gz
 
-  generate_study_population_hospitalisation_rate:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate --output-format=csv.gz
+  # generate_study_population_hospitalisation_rate:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/hospitalisation_data/input_hospitalisation_rate.csv.gz
+
+  # generate_measures:
+    # run: cohortextractor:latest generate_measures --study-definition all --skip-existing --output-dir=output/measures
+    # needs: [generate_study_population_hospitalisation_rate]
+    # outputs:
+    #   moderately_sensitive:
+    #     measure_csv: output/measures/measure_hospitalisation_rate.csv
+
+  study_definition_hospitalisation_rate:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisation_rate.csv.gz
+        cohort: output/measures/input_*.csv.gz
 
-  # generate_study_population_hospitalisation_2:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-04-01 to 2019-06-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/hospitalisation_data/input_hospitalisatio*.csv.gz
+  generate_measures:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_hospitalisation_rate --skip-existing --output-dir=output/measures
+    needs: [study_definition_hospitalisation_rate]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_*.csv
 
-  # generate_study_population_hospitalisation_3:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-07-01 to 2019-09-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
+  # describe_percentile_starpu:
+  #   run: r:latest analysis/plot/starpu_ab_percentile.R
+  #   needs: [generate_study_population_hospitalisation_rate]
   #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/hospitalisation_data/input_hospitalisati*.csv.gz
-
-  # generate_study_population_hospitalisation_4:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-10-01 to 2019-12-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/hospitalisation_data/input_hospitalisat*.csv.gz
+  #     moderately_sensitive:
+  #       percentile_STARPU: output/overall_25th_75th_percentile_STARPU.jpeg
 
   # generate_notebook_hospitalisation_analysis:
   #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_analysis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_risk --ExecutePreprocessor.timeout=86400
@@ -43,10 +52,10 @@ actions:
   #       notebook: output/hospitalisation_risk/hospitalisation_analysis.html 
   #       figures: output/hospitalisation_risk/*
 
-  generate_notebook_hospitalisation_rate:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population_hospitalisation_rate]
-    outputs:
-      moderately_sensitive:
-        notebook: output/hospitalisation_rate/hospitalisation_rate.html 
-        figures: output/hospitalisation_rate/*
+  # generate_notebook_hospitalisation_rate:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_study_population_hospitalisation_rate]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_rate/hospitalisation_rate.html 
+  #       figures: output/hospitalisation_rate/*
