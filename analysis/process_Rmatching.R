@@ -152,10 +152,12 @@ qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
 
-df$level=ifelse(df$total_ab==qn_cat1,1,0)
+df$level=ifelse(df$total_ab==qn_cat1,1,NA)
 df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
 df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
 df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
+
+df$level=ifelse(is.na(df$level),0,df$level)
 
 
 ### 1.1-ab quintile = according to unique ab prescription numbers
