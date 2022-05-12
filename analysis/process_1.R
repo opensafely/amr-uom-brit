@@ -58,7 +58,6 @@ df.0=df%>%
           is.na(died_date_cpns_after),
           is.na(died_date_ons_covid_after))
 
-write_csv(df.0, here::here("output", "control_covid_infection.csv"))
 
 ## definition _1
 # # # CASE - covid infection with hospital admission
@@ -82,4 +81,19 @@ df.1=df.1%>%filter(
 # calendar month for matching
 df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 
-write_csv(df.1, here::here("output", "case_covid_hosp.csv"))
+df.0$case=0
+df.1$case=1
+df=rbind(df.1,df.0)
+
+# keep earlist covid positive date
+df=df%>%
+  group_by(patient_id)%>%
+  arrange(patient_id,patient_index_date)%>%
+  distinct(patient_id, .keep_all = TRUE)
+
+df0=df%>%filter(case==0)
+df1=df%>%filter(case==1)
+
+write_csv(df0, here::here("output", "control_covid_infection.csv"))
+
+write_csv(df1, here::here("output", "case_covid_hosp.csv"))

@@ -23,8 +23,8 @@ end_date = "2021-12-31"
 ####### Import variables
 
 # ## infection before patient_index_date
-from variables_infection import generate_infection_variables
-infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
+# from variables_infection import generate_infection_variables
+# infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
 
 ## Exposure variables: antibiotics 
 from variables_antibiotics import generate_ab_variables
@@ -171,7 +171,7 @@ study = StudyDefinition(
 
     **ab_variables,
     **confounding_variables,
-    **infection_variables,
+    #**infection_variables,
     #**comobidities_variables,
     **CCI_variables,
 )
