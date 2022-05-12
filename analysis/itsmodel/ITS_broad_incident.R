@@ -23,8 +23,7 @@ outcomes <- stringr::str_remove_all(all_files, c("dt_incidental_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
                                            "outcome_name" = (c("Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
-                                                               "Pneumonia","Sinusitis",
-                                                               "Sore throat","URTI","UTI"))
+                                                               "Sinusitis","Sore throat","URTI","UTI"))
 )
 bkg_colour <- "gray99"
 

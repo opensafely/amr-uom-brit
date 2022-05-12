@@ -181,43 +181,6 @@ df.model <- df.model %>%
 write_csv(df.model, here::here("output", "dt_repeat_incidental_copd.csv"))
 rm(df,df.all,df.repeat,df.repeat_total,df.model)
 
-###  Pneumonia
-
-df <- DF %>% filter (infection == "Pneumonia")
-df <- df[!is.na(df$type),]
-
-###  Transfer df into numOutcome / numEligible  version
-
-df.repeat <- df %>% filter(repeat_ab == 1)
-df.repeat_total <- df.repeat %>% group_by(time) %>% summarise(
-  numOutcome = n(),
-)
-
-df.all <-  df %>% group_by(time) %>% summarise(
-  numEligible = n(),
-)
-df.model <- merge(df.repeat_total,df.all,by="time")
-
-df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
-                                                time>=13 & time<=24 ~ time-12,
-                                                time>=24 & time<=36 ~ time-24,
-                                                time>36 ~ time-36)) %>% 
-  mutate(year = case_when(time>=1 & time<=12 ~ 2019,
-                          time>=13 & time<=24 ~ 2020,
-                          time>=24 & time<=36 ~ 2021,
-                          time>36 ~ 2022)) %>% 
-  mutate(day = 1) 
-df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
-df.model <- df.model %>%
-  mutate(pre_covid = ifelse(monPlot < covid_adjustment_period_from , 1, 0),
-         during_covid = ifelse(monPlot >= start_covid , 1, 0)) %>%
-  mutate(covid = ifelse(pre_covid == 1 , 0,
-                        ifelse (during_covid == 1, 1,
-                                NA)))
-
-write_csv(df.model, here::here("output", "dt_repeat_incidental_pneumonia.csv"))
-rm(df,df.all,df.repeat,df.repeat_total,df.model)
-
 ###  Sore throat
 
 df <- DF %>% filter (infection == "Sore throat")
@@ -590,43 +553,6 @@ df.model <- df.model %>%
                                 NA)))
 
 write_csv(df.model, here::here("output", "dt_repeat_prevalent_copd.csv"))
-rm(df,df.all,df.repeat,df.repeat_total,df.model)
-
-###  Pneumonia
-
-df <- DF %>% filter (infection == "Pneumonia")
-df <- df[!is.na(df$type),]
-
-###  Transfer df into numOutcome / numEligible  version
-
-df.repeat <- df %>% filter(repeat_ab == 1)
-df.repeat_total <- df.repeat %>% group_by(time) %>% summarise(
-  numOutcome = n(),
-)
-
-df.all <-  df %>% group_by(time) %>% summarise(
-  numEligible = n(),
-)
-df.model <- merge(df.repeat_total,df.all,by="time")
-
-df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
-                                                time>=13 & time<=24 ~ time-12,
-                                                time>=24 & time<=36 ~ time-24,
-                                                time>36 ~ time-36)) %>% 
-  mutate(year = case_when(time>=1 & time<=12 ~ 2019,
-                          time>=13 & time<=24 ~ 2020,
-                          time>=24 & time<=36 ~ 2021,
-                          time>36 ~ 2022)) %>% 
-  mutate(day = 1) 
-df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
-df.model <- df.model %>%
-  mutate(pre_covid = ifelse(monPlot < covid_adjustment_period_from , 1, 0),
-         during_covid = ifelse(monPlot >= start_covid , 1, 0)) %>%
-  mutate(covid = ifelse(pre_covid == 1 , 0,
-                        ifelse (during_covid == 1, 1,
-                                NA)))
-
-write_csv(df.model, here::here("output", "dt_repeat_prevalent_pneumonia.csv"))
 rm(df,df.all,df.repeat,df.repeat_total,df.model)
 
 ###  Sore throat

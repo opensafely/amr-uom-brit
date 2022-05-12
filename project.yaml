@@ -1682,7 +1682,6 @@ actions:
         table2: output/dt_incidental_cold.csv
         table3: output/dt_incidental_cough.csv
         table4: output/dt_incidental_copd.csv
-        table5: output/dt_incidental_pneumonia.csv
         table8: output/dt_incidental_throat.csv
         table9: output/dt_incidental_uti.csv
         table10: output/dt_incidental_lrti.csv
@@ -1693,7 +1692,6 @@ actions:
         table16: output/dt_prevalent_cold.csv
         table17: output/dt_prevalent_cough.csv
         table18: output/dt_prevalent_copd.csv
-        table19: output/dt_prevalent_pneumonia.csv
         table22: output/dt_prevalent_throat.csv
         table23: output/dt_prevalent_uti.csv
         table24: output/dt_prevalent_lrti.csv
@@ -1712,7 +1710,6 @@ actions:
         table2: output/dt_repeat_incidental_cold.csv
         table3: output/dt_repeat_incidental_cough.csv
         table4: output/dt_repeat_incidental_copd.csv
-        table5: output/dt_repeat_incidental_pneumonia.csv
         table8: output/dt_repeat_incidental_throat.csv
         table9: output/dt_repeat_incidental_uti.csv
         table10: output/dt_repeat_incidental_lrti.csv
@@ -1723,7 +1720,6 @@ actions:
         table16: output/dt_repeat_prevalent_cold.csv
         table17: output/dt_repeat_prevalent_cough.csv
         table18: output/dt_repeat_prevalent_copd.csv
-        table19: output/dt_repeat_prevalent_pneumonia.csv
         table22: output/dt_repeat_prevalent_throat.csv
         table23: output/dt_repeat_prevalent_uti.csv
         table24: output/dt_repeat_prevalent_lrti.csv
