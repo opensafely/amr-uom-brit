@@ -33,9 +33,11 @@ df <- df %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
 df$cal_year <- year(df$date)
 df$cal_mon <- month(df$date)
 df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
+
+df <- df %>% filter(sameday_ab==1) %>% filter(incidental==1)
 ### Broad spectrum 
 
-df.broad <- df %>% filter(type %in% broadtype ) %>% filter(sameday_ab==1) %>% filter(incidental==1)
+df.broad <- df %>% filter(type %in% broadtype ) 
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
@@ -68,7 +70,7 @@ rm(df.all,df.broad,df.broad_total,df.model)
 
 ### repeat antibiotics
 
-df.repeat <- df %>% filter(repeat_ab==1) %>% filter(sameday_ab==1) %>% filter(incidental==1)
+df.repeat <- df %>% filter(repeat_ab==1) 
 df.repeat_total <- df.repeat %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
