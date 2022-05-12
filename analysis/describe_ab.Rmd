@@ -24,11 +24,6 @@ library(car)
 
 
 
-
-
-
-
-
 ```{r include=FALSE}
 # import data
 rm(list=ls())
@@ -49,15 +44,18 @@ ggplot(df, aes(x=total_ab)) +
 
 summary(df$total_ab)
 
-df$ab_prescriptions=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+df$total_ab=as.factor(df$total_ab)
 
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
-
+freq=data.frame(table(df$case,df$total_ab))
+freq
 
 ```
 
 ## group by outocme1 variables
 ```{r}
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+
+
 #qn_num=unique(df$total_ab)
 qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
 qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
