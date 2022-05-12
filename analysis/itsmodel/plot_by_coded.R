@@ -29,7 +29,7 @@ plot_sameday <- ggplot(df1_overall_sameday, aes(x=monPlot, y=value ,group=sameda
     y = "",
     x=""
   )+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.1, by = 0.005))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_shape_manual(values = c(rep(1:9))) +
   scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen"))+
@@ -66,7 +66,7 @@ plot_sameday <- ggplot(df1_Incidental_sameday, aes(x=monPlot, y=value ,group=sam
     y = "",
     x=""
   )+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.1, by = 0.005))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_shape_manual(values = c(rep(1:9))) +
   scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen"))+
@@ -102,7 +102,7 @@ plot_sameday <- ggplot(df2_overall_sameday, aes(x=monPlot, y=value ,group=sameda
     y = "",
     x=""
   )+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.05))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_shape_manual(values = c(rep(1:9))) +
   scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen"))+
@@ -139,7 +139,7 @@ plot_sameday <- ggplot(df2_Incidental_sameday, aes(x=monPlot, y=value ,group=sam
     y = "",
     x=""
   )+
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.005))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 1, by = 0.01))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_shape_manual(values = c(rep(1:9))) +
   scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen"))+
