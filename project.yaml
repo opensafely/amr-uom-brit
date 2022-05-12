@@ -1743,3 +1743,32 @@ actions:
         table26: output/dt_repeat_prevalent_sinusitis.csv
         table27: output/dt_repeat_prevalent_ot_media.csv
         table28: output/dt_repeat_prevalent_ot_externa.csv
+#############################################################################
+
+  describe_ITS_broad_incident:
+    run: r:latest analysis/itsmodel/ITS_broad_incident.R
+    needs: [describe_ITS_var_stratified_process_2]
+    outputs:
+       moderately_sensitive:
+        table1: output/its_broad_incident_predicted_data_table.csv
+        plot1: output/forest_broad_incident_A.jpeg
+        plot2: output/forest_broad_incident_B.jpeg
+        plot3: output/its_broad_incident_predicted.jpeg
+        table2: output/its_broad_incident_recovery_data_table.csv
+        table3: output/its_broad_incident_changes_data_table.csv
+        plot4: output/conbined_broad_incident.jpeg
+
+  describe_ITS_broad_prevalent:
+    run: r:latest analysis/itsmodel/ITS_broad_prevalent.R
+    needs: [describe_ITS_var_stratified_process_2]
+    outputs:
+       moderately_sensitive:
+        table1: output/its_broad_prevalent_predicted_data_table.csv
+        plot1: output/forest_broad_prevalent_A.jpeg
+        plot2: output/forest_broad_prevalent_B.jpeg
+        plot3: output/its_broad_prevalent_predicted.jpeg
+        table2: output/its_broad_prevalent_recovery_data_table.csv
+        table3: output/its_broad_prevalent_changes_data_table.csv
+        plot4: output/conbined_broad_prevalent.jpeg
+
+#############################################################################
