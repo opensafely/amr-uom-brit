@@ -83,9 +83,9 @@ vif(mod)
 # models_individual comorbidity
 ```{r}
  
-mod=clogit(case ~ ab_qn_5  + covrx_ever + cancer + cvd + copd + heart_failure + connective_tissue + dementia + diabetes + diabetes_complications + hemiplegia + hiv + metastatic_cancer + mild_liver + mod_severe_liver + mod_severe_renal + mi + peptic_ulcer + peripheral_vascular + strata(subclass), df)
-summary(mod)
-vif(mod)
+#mod=clogit(case ~ ab_qn_5  + covrx_ever + cancer + cvd + copd + heart_failure + connective_tissue + dementia + diabetes + diabetes_complications + hemiplegia + hiv + metastatic_cancer + mild_liver + mod_severe_liver + mod_severe_renal + mi + peptic_ulcer + peripheral_vascular + strata(subclass), df)
+#summary(mod)
+#vif(mod)
 
 ```
 
