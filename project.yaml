@@ -1763,3 +1763,16 @@ actions:
        moderately_sensitive:
         table1: output/mon_incident_broad.csv
         table2: output/mon_incident_repeat.csv
+
+  describe_ITS_model_incident:
+    run: r:latest analysis/itsmodel/ITS_incident.R
+    needs: [describe_ITS_var_incident_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/incident_1.jpeg
+        plot2: output/incident_plot_A.jpeg
+        plot3: output/incident_plot_B.jpeg
+        plot4: output/incident_plot_conbined.jpeg
+        table1: output/incident_1_table.csv
+        table2: output/incident_plot_B_table.csv
+        table3: output/incident_plot_A_table.csv
