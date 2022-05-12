@@ -1707,26 +1707,17 @@ actions:
     needs: [describe_cleaning_process_2]
     outputs:
        moderately_sensitive:
-        table2: output/dt_repeat_incidental_cold.csv
-        table3: output/dt_repeat_incidental_cough.csv
-        table4: output/dt_repeat_incidental_copd.csv
-        table8: output/dt_repeat_incidental_throat.csv
-        table9: output/dt_repeat_incidental_uti.csv
-        table10: output/dt_repeat_incidental_lrti.csv
-        table11: output/dt_repeat_incidental_urti.csv
-        table12: output/dt_repeat_incidental_sinusitis.csv
-        table13: output/dt_repeat_incidental_ot_media.csv
-        table14: output/dt_repeat_incidental_ot_externa.csv
-        table16: output/dt_repeat_prevalent_cold.csv
-        table17: output/dt_repeat_prevalent_cough.csv
-        table18: output/dt_repeat_prevalent_copd.csv
-        table22: output/dt_repeat_prevalent_throat.csv
-        table23: output/dt_repeat_prevalent_uti.csv
-        table24: output/dt_repeat_prevalent_lrti.csv
-        table25: output/dt_repeat_prevalent_urti.csv
-        table26: output/dt_repeat_prevalent_sinusitis.csv
-        table27: output/dt_repeat_prevalent_ot_media.csv
-        table28: output/dt_repeat_prevalent_ot_externa.csv
+        table2: output/repeat_incidental_cold.csv
+        table3: output/repeat_incidental_cough.csv
+        table4: output/repeat_incidental_copd.csv
+        table8: output/repeat_incidental_throat.csv
+        table9: output/repeat_incidental_uti.csv
+        table10: output/repeat_incidental_lrti.csv
+        table11: output/repeat_incidental_urti.csv
+        table12: output/repeat_incidental_sinusitis.csv
+        table13: output/repeat_incidental_ot_media.csv
+        table14: output/repeat_incidental_ot_externa.csv
+
 #############################################################################
 
   describe_ITS_broad_incident:
