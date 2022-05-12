@@ -21,10 +21,10 @@ library(tidyr)
 all_files <- list.files(here::here("output"), pattern = "dt_incidental_")
 outcomes <- stringr::str_remove_all(all_files, c("dt_incidental_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("Asthma","Cold","Cough","COPD",
-                                                               "Pneumonia","Renal","Sepsis",
-                                                               "Sore throat","UTI","LRTI","URTI",
-                                                               "Sinusitis","Otitis media","Otitis externa"))
+                                           "outcome_name" = (c("Asthma","Cold","COPD","Cough",
+                                                               "LRTI","Otitis externa","Otitis media",
+                                                               "Pneumonia","Renal","Sepsis","Sinusitis",
+                                                               "Sore throat","URTI","UTI"))
 )
 bkg_colour <- "gray99"
 

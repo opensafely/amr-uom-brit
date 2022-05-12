@@ -1758,17 +1758,17 @@ actions:
         table3: output/its_broad_incident_changes_data_table.csv
         plot4: output/conbined_broad_incident.jpeg
 
-  describe_ITS_broad_prevalent:
-    run: r:latest analysis/itsmodel/ITS_broad_prevalent.R
+  describe_ITS_repeat_incident:
+    run: r:latest analysis/itsmodel/ITS_repeat_incident.R
     needs: [describe_ITS_var_stratified_process_2]
     outputs:
        moderately_sensitive:
-        table1: output/its_broad_prevalent_predicted_data_table.csv
-        plot1: output/forest_broad_prevalent_A.jpeg
-        plot2: output/forest_broad_prevalent_B.jpeg
-        plot3: output/its_broad_prevalent_predicted.jpeg
-        table2: output/its_broad_prevalent_recovery_data_table.csv
-        table3: output/its_broad_prevalent_changes_data_table.csv
-        plot4: output/conbined_broad_prevalent.jpeg
+        table1: output/its_repeat_incident_predicted_data_table.csv
+        plot1: output/forest_repeat_incident_A.jpeg
+        plot2: output/forest_repeat_incident_B.jpeg
+        plot3: output/its_repeat_incident_predicted.jpeg
+        table2: output/its_repeat_incident_recovery_data_table.csv
+        table3: output/its_repeat_incident_changes_data_table.csv
+        plot4: output/conbined_repeat_incident.jpeg
 
 #############################################################################
