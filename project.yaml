@@ -1735,7 +1735,7 @@ actions:
 
   describe_ITS_repeat_incident:
     run: r:latest analysis/itsmodel/ITS_repeat_incident.R
-    needs: [describe_ITS_var_stratified_process_2]
+    needs: [describe_ITS_var_stratified_process_3]
     outputs:
        moderately_sensitive:
         table1: output/its_repeat_incident_predicted_data_table.csv
