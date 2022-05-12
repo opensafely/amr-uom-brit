@@ -35,7 +35,7 @@ actions:
     needs: [study_definition_hospitalisation_rate]
     outputs:
       moderately_sensitive:
-        measure_csv: output/measures/measure_*.csv.gz
+        measure_csv: output/measures/measure_*.csv
 
   # describe_percentile_starpu:
   #   run: r:latest analysis/plot/starpu_ab_percentile.R
