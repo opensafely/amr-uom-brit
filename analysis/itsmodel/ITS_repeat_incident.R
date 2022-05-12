@@ -21,9 +21,9 @@ library(tidyr)
 all_files <- list.files(here::here("output"), pattern = "dt_repeat_incidental_")
 outcomes <- stringr::str_remove_all(all_files, c("dt_repeat_incidental_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("Asthma","Cold","COPD","Cough",
+                                           "outcome_name" = (c("Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
-                                                               "Pneumonia","Renal","Sepsis","Sinusitis",
+                                                               "Pneumonia","Sinusitis",
                                                                "Sore throat","URTI","UTI"))
 )
 bkg_colour <- "gray99"
@@ -184,7 +184,7 @@ its_function <- function(outcomes_vec = outcomes,
     facet_wrap(~outcome_name, scales = "free", ncol = 4) +
     geom_vline(xintercept = c(as.Date(abline_min), 
                               as.Date(abline_max)), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
-    labs(x = "", y = "% of broad-spectrum prescription", title = "A") +
+    labs(x = "", y = "% of repeat prescription", title = "A") +
     theme_classic() +
     theme(axis.title = element_text(size =16), 
           axis.text.x = element_text(angle = 60, hjust = 1, size = 12),
