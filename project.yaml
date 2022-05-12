@@ -1647,3 +1647,12 @@ actions:
         table2: output/noA_its_main_ORs_overall_monthly.csv
         table3: output/noA_its_main_INTORs_overall_monthly.csv
         plot4: output/noA_all_plot_monthly.jpeg
+
+#############################################################################
+  describe_ITS_var_stratified_process:
+    run: r:latest analysis/process/ITS_stratified_var.R
+    needs: [describe_cleaning_process_2]
+    outputs:
+       moderately_sensitive:
+        table1: output/mon_stratified_broad.csv
+        table2: output/mon_stratified_repeat.csv
