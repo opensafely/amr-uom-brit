@@ -402,29 +402,29 @@ study = StudyDefinition(
 
 measures = [
 
-    Measure(
-        id="hosp_rate",
-        numerator="admitted",
-        denominator="population",
-        # group_by=["sex", 'age_cat'],
-        small_number_suppression=True,
-    ),
+    # Measure(
+    #     id="hosp_rate",
+    #     numerator="admitted",
+    #     denominator="population",
+    #     # group_by=["sex", 'age_cat'],
+    #     small_number_suppression=True,
+    # ),
 
-    Measure(
-        id="hosp_rate_sex",
-        numerator="admitted",
-        denominator="population",
-        group_by=["sex"],
-        small_number_suppression=True,
-    ),
+    # Measure(
+    #     id="hosp_rate_sex",
+    #     numerator="admitted",
+    #     denominator="population",
+    #     group_by=["sex"],
+    #     small_number_suppression=True,
+    # ),
 
-    Measure(
-        id="hosp_rate_age_cat",
-        numerator="admitted",
-        denominator="population",
-        group_by=['age_cat'],
-        small_number_suppression=True,
-    ),
+    # Measure(
+    #     id="hosp_rate_age_cat",
+    #     numerator="admitted",
+    #     denominator="population",
+    #     group_by=['age_cat'],
+    #     small_number_suppression=True,
+    # ),
 
     Measure(
         id="hosp_rate_sex_age_cat",
