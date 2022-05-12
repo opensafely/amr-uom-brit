@@ -6,7 +6,7 @@ expectations:
 actions:
 
   study_definition_hospitalisation_rate:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate --index-date-range "2020-01-01 to 2021-01-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate --index-date-range "2020-01-01 to 2021-02-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_*.csv.gz
