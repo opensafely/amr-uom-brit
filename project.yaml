@@ -1656,3 +1656,18 @@ actions:
        moderately_sensitive:
         table1: output/mon_stratified_broad.csv
         table2: output/mon_stratified_repeat.csv
+
+#############################################################################
+  describe_plot_by_coded:
+    run: r:latest analysis/itsmodel/plot_by_coded.R
+    needs: [describe_ITS_var_stratified_process]
+    outputs:
+       moderately_sensitive:
+        plot1: output/broad_all_group.jpeg
+        plot2: output/broad_incidental_group.jpeg
+        plot3: output/repeat_all_group.jpeg
+        plot4: output/repeat_incidental_group.jpeg
+        table1: output/broad_all_group_table.csv
+        table2: output/broad_incidental_group_table.csv
+        table3: output/repeat_all_group_table.csv
+        talbe4: output/repeat_incidental_group_table.csv
