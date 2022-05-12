@@ -159,11 +159,13 @@ qn_cat3 #3
 qn_cat4 #6
 
 
-df$level=ifelse(df$total_ab==qn_cat1,1,0)
+df$level=ifelse(df$total_ab==qn_cat1,1,NA)
 df$level=ifelse(df$total_ab==qn_cat2,2,df$level)
 df$level=ifelse(df$total_ab==qn_cat3,3,df$level)
 df$level=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level)
 df$level=ifelse(df$total_ab >qn_cat4 ,5,df$level)
+
+df$level=ifelse(is.na(df$level),0,df$level)
 
 
 table(df$level)
