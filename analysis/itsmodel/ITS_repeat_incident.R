@@ -18,8 +18,8 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "dt_repeat_incidental_")
-outcomes <- stringr::str_remove_all(all_files, c("dt_repeat_incidental_|.csv"))
+all_files <- list.files(here::here("output"), pattern = "repeat_incidental_")
+outcomes <- stringr::str_remove_all(all_files, c("repeat_incidental_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
                                            "outcome_name" = (c("Cold","COPD","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
@@ -29,7 +29,7 @@ bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("dt_repeat_incidental_", outcomes[ii], ".csv")))
+  load_file <- read.csv(here::here("output", paste0("repeat_incidental_", outcomes[ii], ".csv")))
   assign(outcomes[ii], load_file)
 }
 
