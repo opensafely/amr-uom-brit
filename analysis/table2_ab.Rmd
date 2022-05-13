@@ -1,6 +1,12 @@
 ---
 title: "table 2_describe ab"
-output: html_document
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
 ---
 
 
@@ -15,7 +21,7 @@ require("gtsummary")
 ```
 
 
-
+# antibiotics by case/control
 
 ```{r}
 #df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
@@ -48,35 +54,53 @@ table1 <-
 table1
 ```
 
-```{r}
-df2=df1%>%select("case","total_ab" ,"level")
-```
 
+# Antibiotics 
 ```{r}
-table2=
-  df2%>%
-  tbl_cross(
-    row = level,
-    col = case,
-    percent = "cell"
-  )
+df00=df1%>%select("case","total_ab" ,"level")%>%filter(case==0)
+
+df01=df1%>%select("case","total_ab" ,"level")%>%filter(case==1)
+
 ```
 
 
-```{r}
-# level0
-l1=rbind(summary(df2[df2$level==0,]$total_ab),
-        summary(df2[df2$level==1,]$total_ab),
-        summary(df2[df2$level==2,]$total_ab),
-        summary(df2[df2$level==3,]$total_ab),
-        summary(df2[df2$level==4,]$total_ab),
-        summary(df2[df2$level==5,]$total_ab))
 
+## case
+```{r}
+# case
+l1=rbind(summary(df01[df01$level==0,]$total_ab),
+        summary(df01[df01$level==1,]$total_ab),
+        summary(df01[df01$level==2,]$total_ab),
+        summary(df01[df01$level==3,]$total_ab),
+        summary(df01[df01$level==4,]$total_ab),
+        summary(df01[df01$level==5,]$total_ab))
 l1=data.frame(l1)
 
 l1=l1%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
 
 rownames(l1)<-c("level0","level1","level2","level3","level4","level5")
-
+l1
 ```
 
+## control
+```{r}
+
+# control
+l0=rbind(summary(df00[df00$level==0,]$total_ab),
+        summary(df00[df00$level==1,]$total_ab),
+        summary(df00[df00$level==2,]$total_ab),
+        summary(df00[df00$level==3,]$total_ab),
+        summary(df00[df00$level==4,]$total_ab),
+        summary(df00[df00$level==5,]$total_ab))
+
+l0=data.frame(l0)
+
+l0=l0%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
+
+rownames(l0)<-c("level0","level1","level2","level3","level4","level5")
+
+
+l0
+
+
+```
