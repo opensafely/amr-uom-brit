@@ -1,0 +1,147 @@
+---
+title: "table 2_describe ab"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+```
+
+
+#  group ab level
+
+
+```{r}
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+
+df <- read_rds(here::here("output","matched_outcome.rds"))
+df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime")
+df$total_ab=ifelse(df$total_ab==0,NA,1)
+df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,1)
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,1)
+df$lastABtime=ifelse(is.na(df$total_ab),NA,df$lastABtime)
+
+df$total_ab=as.numeric(df$total_ab)
+df$ab_prescription=as.numeric(df$ab_prescriptions)
+df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+
+```
+
+
+## frequency
+```{r}
+
+df0=df%>%select("case","total_ab")%>%filter(case==0)
+df1=df%>%select("case","total_ab")%>%filter(case==1)
+
+
+freq0=data.frame(table(df0$case,df0$total_ab))
+freq0$cumulative_percentage= 100*cumsum(freq0$Freq)/sum(freq0$Freq)
+colnames(freq0)<-c("case","total_ab","freq","cum_%")
+
+
+freq1=data.frame(table(df1$case,df1$total_ab))
+freq1$cumulative_percentage= 100*cumsum(freq1$Freq)/sum(freq1$Freq)
+colnames(freq1)<-c("case","total_ab","freq","cum_%")
+
+
+ggplot(freq0, aes(x="total_ab",y="cum_%")) +
+  geom_col()
+ggplot(freq1, aes(x="total_ab",y="cum_%")) +
+  geom_col()
+
+```
+
+
+## quintile 
+```{r}
+qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
+qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
+qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
+qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
+```
+
+
+# antibiotics by case/control
+
+```{r}
+
+#df0=df0%>%select("stp")
+
+table1 <- 
+  tbl_summary(
+    df,
+    by = case, 
+  #  statistic = list(all_continuous() ~ "{median} ({IQR})",
+   #                  all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table1
+```
+
+
+# Antibiotics 
+```{r}
+df00=df%>%select("case","total_ab" ,"level")%>%filter(case==0)
+
+df01=df%>%select("case","total_ab" ,"level")%>%filter(case==1)
+
+```
+
+
+
+## case
+```{r}
+# case
+l1=rbind(summary(df01[df01$level==0,]$total_ab),
+        summary(df01[df01$level==1,]$total_ab),
+        summary(df01[df01$level==2,]$total_ab),
+        summary(df01[df01$level==3,]$total_ab),
+        summary(df01[df01$level==4,]$total_ab),
+        summary(df01[df01$level==5,]$total_ab))
+l1=data.frame(l1)
+
+l1=l1%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
+
+rownames(l1)<-c("level0","level1","level2","level3","level4","level5")
+l1
+```
+
+## control
+```{r}
+
+# control
+l0=rbind(summary(df00[df00$level==0,]$total_ab),
+        summary(df00[df00$level==1,]$total_ab),
+        summary(df00[df00$level==2,]$total_ab),
+        summary(df00[df00$level==3,]$total_ab),
+        summary(df00[df00$level==4,]$total_ab),
+        summary(df00[df00$level==5,]$total_ab))
+
+l0=data.frame(l0)
+
+l0=l0%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
+
+rownames(l0)<-c("level0","level1","level2","level3","level4","level5")
+
+
+l0
+
+
+```

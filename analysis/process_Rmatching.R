@@ -35,7 +35,7 @@ df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3",
 ####### matching variables ########
 ## age
 df=df%>%filter(df$age_cat != "0")
-df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
+df$age_cat <- factor(df$age_cat, levels=c( "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 
@@ -266,18 +266,20 @@ df$mi <- ifelse(df$mi_comor == 1, 1, 0)
 df$peptic_ulcer <- ifelse(df$peptic_ulcer_comor == 1, 1, 0)
 df$peripheral_vascular <- ifelse(df$peripheral_vascular_comor == 1, 1, 0)
 
-comor=c("cancer_comor","cardiovascular_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
+df$cerebrovascular_disease_comor=df$cardiovascular_comor #correct name
+
+comor=c("cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
 df$Charlson=rowSums(df[comor])
 write_rds(df[comor], here::here("output", "comor17.rds"))
 
-df= df[!names(df)%in%comor]
+#df= df[!names(df)%in%comor]
 
 df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Zero",
                              Charlson<3 ~ "Low",
                              Charlson<5 ~ "Medium",
                              Charlson<7 ~ "High",
                              Charlson>=7 ~ "Very high"))
-df$CCI <- factor(df$smoking_cat_3, levels=c("Zero", "Low","Medium","High","Very high"))
+df$CCI <- factor(df$CCI, levels=c("Zero", "Low","Medium","High","Very high"))
 
 
 CCI_comor=c("cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular")
@@ -307,7 +309,8 @@ df$care_home_type=ifelse(df$care_home_type=="Yes",1,0)
 # variables for analysis
 df2=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
 "ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5","level",
-"cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular",
+"cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor",
+#"cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular",
 "care_home_type","hospital_counts"
 ))
 
