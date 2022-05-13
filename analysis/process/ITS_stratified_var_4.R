@@ -21,7 +21,7 @@ broadtype <- c("Ampicillin","Co-amoxiclav","Moxifloxacin","Cefaclor","Cefadroxil
                "Meropenem" ,"Nalidixic acid","Norfloxacin", "Ofloxacin","Cefpodoxime","Cefepime")
 
 start_covid = as.Date("2020-04-01")
-covid_adjustment_period_from = as.Date("2020-01-01")
+covid_adjustment_period_from = as.Date("2020-03-01")
 
 ###  Prepare the data frame for Interrupted time-series analysis  ###
 ###  Transfer df into numOutcome / numEligible  version
@@ -34,7 +34,7 @@ df$cal_year <- year(df$date)
 df$cal_mon <- month(df$date)
 df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
 
-df <- df %>% filter(sameday_ab==1) %>% filter(incidental==1)
+
 ### Broad spectrum 
 
 df.broad <- df %>% filter(type %in% broadtype ) 
@@ -65,7 +65,7 @@ df.model <- df.model %>%
                         ifelse (during_covid == 1, 1,
                                 NA)))
 
-write_csv(df.model, here::here("output", "mon_incident_broad.csv"))
+write_csv(df.model, here::here("output", "mon_broad.csv"))
 rm(df.all,df.broad,df.broad_total,df.model)
 
 ### repeat antibiotics
@@ -98,4 +98,4 @@ df.model <- df.model %>%
                         ifelse (during_covid == 1, 1,
                                 NA)))
 
-write_csv(df.model, here::here("output", "mon_incident_repeat.csv"))
+write_csv(df.model, here::here("output", "mon_repeat.csv"))
