@@ -152,7 +152,7 @@ qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
 
-df$level=ifelse(df$total_ab==qn_cat1,1,NA)
+df$level=ifelse(df$total_ab <=qn_cat1,1,NA)
 df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
 df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
 df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
@@ -282,24 +282,26 @@ df$covrx2_ever=ifelse(is.na(df$covrx2_dat),0,1)
 df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
-# infections
-inf=c("asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
-      "renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6")
-df=df %>%mutate_at(inf, ~replace_na(., 0))
+# infections remove from main extraction
+#inf=c("asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
+#      "renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6")
+#df=df %>%mutate_at(inf, ~replace_na(., 0))
 
 #hospitalisation
 df$hospital_counts=ifelse(is.na(df$hospital_counts),0,df$hospital_counts)
 
+# care_home_type
+
+df$care_home_type=ifelse(df$care_home_type=="Yes",1,0)
 
 
 
 # variables for analysis
 df2=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
-"ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5",level,
+"ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5","level",
 "cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular",
-"asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
-"renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6","hospital_counts"))
-
+"care_home_type","hospital_counts"
+))
 
 write_rds(df2, here::here("output", "matched_outcome.rds"))
 
