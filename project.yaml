@@ -60,6 +60,12 @@ actions:
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
 
+  describe_table1: # compare before & after matching 
+    run: r:latest -e 'rmarkdown::render("analysis/describe_table1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_1,process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/describe_table1.html
 
         ################# check ok###########
 

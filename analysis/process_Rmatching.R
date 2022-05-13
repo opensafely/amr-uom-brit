@@ -28,9 +28,9 @@ rm(DF1,DF2)
 ######## time ##########
 
 ## wave  
-df$wave=ifelse(df$patient_index_date > as.Date("2020-11-30"),"3", # wave3(national vaccination programme):Dec2020--Dec,2021
-               ifelse(df$patient_index_date > as.Date("2020-08-31"),"2", # wave2(test for wider population): Sep-Dec,2020
-                      ifelse( df$patient_index_date > as.Date("2020-01-31"),"1","0")))# wave1(test for health workers):Feb-Aug,2020
+df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3", 
+               ifelse(df$patient_index_date >= as.Date("2020-09-01"),"2", 
+                      ifelse( df$patient_index_date >= as.Date("2020-02-01"),"1","0")))
 
 ####### matching variables ########
 ## age
