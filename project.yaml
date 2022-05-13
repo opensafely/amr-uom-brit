@@ -67,12 +67,19 @@ actions:
       moderately_sensitive:
         html: output/table1.html
 
-  table2: # compare before & after matching 
+  table2: # confounders
     run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/table2.html
+
+  table2_ab: # ab
+    run: r:latest -e 'rmarkdown::render("analysis/table2_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/table2_ab.html
 
         ################# check ok###########
 
