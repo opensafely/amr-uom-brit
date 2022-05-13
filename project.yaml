@@ -807,6 +807,13 @@ actions:
        highly_sensitive:
         rds1: output/measures/cleaned_indication_ab.rds
 
+  describe_cleaning_process_3:
+    run: r:latest analysis/process/cleaning_id_extraction.R
+    needs: [describe_cleaning_process_2]
+    outputs:
+       highly_sensitive:
+        talbe1: output/ab_id_date.csv
+
   describe_ab_table:
     run: r:latest analysis/tables/repeat_ab_all_record.R
     needs: [describe_cleaning_process]
@@ -1767,3 +1774,10 @@ actions:
         table1: output/incident_1_table.csv
         table2: output/incident_plot_B_table.csv
         table3: output/incident_plot_A_table.csv
+
+  extract_variables: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic
+    needs: [describe_cleaning_process_3]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_demographic.csv
