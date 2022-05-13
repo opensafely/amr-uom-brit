@@ -1754,13 +1754,13 @@ actions:
         plot4: output/conbined_repeat_incident.jpeg
 
 #############################################################################
-  describe_ITS_var_incident_process:
+  describe_ITS_var_all_process:
     run: r:latest analysis/process/ITS_stratified_var_4.R
     needs: [describe_cleaning_process_2]
     outputs:
        moderately_sensitive:
-        table1: output/mon_incident_broad.csv
-        table2: output/mon_incident_repeat.csv
+        table1: output/mon_broad.csv
+        table2: output/mon_repeat.csv
 
   describe_ITS_model_incident:
     run: r:latest analysis/itsmodel/ITS_incident.R
