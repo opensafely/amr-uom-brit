@@ -28,9 +28,9 @@ rm(DF1,DF2)
 ######## time ##########
 
 ## wave  
-df$wave=ifelse(df$patient_index_date > as.Date("2020-11-30"),"3", # wave3(national vaccination programme):Dec2020--Dec,2021
-               ifelse(df$patient_index_date > as.Date("2020-08-31"),"2", # wave2(test for wider population): Sep-Dec,2020
-                      ifelse( df$patient_index_date > as.Date("2020-01-31"),"1","0")))# wave1(test for health workers):Feb-Aug,2020
+df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3", 
+               ifelse(df$patient_index_date >= as.Date("2020-09-01"),"2", 
+                      ifelse( df$patient_index_date >= as.Date("2020-02-01"),"1","0")))
 
 ####### matching variables ########
 ## age
@@ -144,40 +144,24 @@ df$broad_ab_prescriptions=ifelse(is.na(df$broad_ab_prescriptions),0,df$broad_ab_
 
 
 #### II. total ab- calculated from 79 knid ab
-
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
-
-# according quintil number
+#qn_num=unique(df$total_ab)
 qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
 qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
 qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
 qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
 
-qn_cat1 #1
-qn_cat2 #2
-qn_cat3 #3
-qn_cat4 #6
 
-
-df$level=ifelse(df$total_ab==qn_cat1,1,NA)
-df$level=ifelse(df$total_ab==qn_cat2,2,df$level)
-df$level=ifelse(df$total_ab==qn_cat3,3,df$level)
-df$level=ifelse(df$total_ab >qn_cat3 &df$total_ab <=qn_cat4 ,4,df$level)
-df$level=ifelse(df$total_ab >qn_cat4 ,5,df$level)
+df$level=ifelse(df$total_ab <=qn_cat1,1,NA)
+df$level=ifelse(df$total_ab >qn_cat1 & df$total_ab <=qn_cat3,2,df$level)
+df$level=ifelse(df$total_ab >qn_cat3 & df$total_ab <=qn_cat4,3,df$level)
+df$level=ifelse(df$total_ab >qn_cat4,4,df$level)
 
 df$level=ifelse(is.na(df$level),0,df$level)
 
 
-table(df$level)
-
-summary(df[df$level==1,]$total_ab)
-summary(df[df$level==2,]$total_ab)
-summary(df[df$level==3,]$total_ab)
-summary(df[df$level==4,]$total_ab)
-summary(df[df$level==5,]$total_ab)
-
 ### 1.1-ab quintile = according to unique ab prescription numbers
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
+#df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab) # filter no ab
 qn_num=unique(df$total_ab)
 qn_cat1=quantile(qn_num,0.2,na.rm=T)
 qn_cat2=quantile(qn_num,0.4,na.rm=T)
@@ -234,6 +218,8 @@ df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 5  ~ "Other",
                                        ethnicity == 6   ~ "Unknown"))
 df$ethnicity_6=as.factor(df$ethnicity_6)
+df$ethnicity_6 <- factor(df$ethnicity_6, levels=c("White", "South Asian","Black","Mixed","Other","Unknown"))
+
 
 ## BMI category
 #bmi 
@@ -248,6 +234,7 @@ df<- df %>%
                              bmi>=30  ~"Obese"))
 df$bmi_cat<- as.factor(df$bmi_cat)
 #summary(df_one_pat$bmi_cat)
+df$bmi_cat <- factor(df$bmi_cat, levels=c("Healthy weight", "Underweight","Overweight","Obese","Unknown"))
 
 
 ##smoking status
@@ -256,6 +243,9 @@ df=df%>%mutate(smoking_cat_3= case_when(smoking_status=="S" ~ "Current",
                                         smoking_status=="N" ~ "Never",
                                         smoking_status=="M" ~ "Unknown", 
                                         is.na(smoking_status) ~ "Unknown"))
+df$smoking_cat_3 <- factor(df$smoking_cat_3, levels=c("Never", "Current","Former","Unknown"))
+
+
 
 ### CCI
 df$cancer<- ifelse(df$cancer_comor == 1, 2, 0)
@@ -282,11 +272,13 @@ write_rds(df[comor], here::here("output", "comor17.rds"))
 
 df= df[!names(df)%in%comor]
 
-df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Very low",
+df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Zero",
                              Charlson<3 ~ "Low",
                              Charlson<5 ~ "Medium",
                              Charlson<7 ~ "High",
                              Charlson>=7 ~ "Very high"))
+df$CCI <- factor(df$smoking_cat_3, levels=c("Zero", "Low","Medium","High","Very high"))
+
 
 CCI_comor=c("cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular")
 #df= df[!names(df)%in%CCI_comor]
@@ -298,15 +290,17 @@ df$covrx2_ever=ifelse(is.na(df$covrx2_dat),0,1)
 df$covrx_ever=ifelse(df$covrx1_ever>0|df$covrx2_ever>0,1,0)
 
 
-# infections
-inf=c("asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
-      "renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6")
-df=df %>%mutate_at(inf, ~replace_na(., 0))
+# infections remove from main extraction
+#inf=c("asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
+#      "renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6")
+#df=df %>%mutate_at(inf, ~replace_na(., 0))
 
 #hospitalisation
 df$hospital_counts=ifelse(is.na(df$hospital_counts),0,df$hospital_counts)
-df$care_home_type=ifelse(df$care_home_type=="Yes",1,0)
 
+# care_home_type
+
+df$care_home_type=ifelse(df$care_home_type=="Yes",1,0)
 
 
 
@@ -314,10 +308,8 @@ df$care_home_type=ifelse(df$care_home_type=="Yes",1,0)
 df2=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
 "ab_types","interval", "lastABtime","ab_prescriptions","ab_qn_5","ab_qn","total_ab","total_ab_qn_5","total_ab_qn","broad_ab_prescriptions", "br_ab_qn","br_ab_qn_5","br_total_ab_qn_5","level",
 "cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular",
-"asthma_counts","cold_counts","copd_counts", "cough_counts", "lrti_counts", "ot_externa_counts", "otmedia_counts", "pneumonia_counts", 
-"renal_counts", "sepsis_counts", "sinusitis_counts", "throat_counts", "urti_counts","uti_counts","infection_counts_all","infection_counts_6",
-"hospital_counts","care_home_type"))
-
+"care_home_type","hospital_counts"
+))
 
 write_rds(df2, here::here("output", "matched_outcome.rds"))
 
