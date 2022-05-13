@@ -65,7 +65,7 @@ df.model <- df.model %>%
                         ifelse (during_covid == 1, 1,
                                 NA)))
 
-write_csv(df.model, here::here("output", "mon_broad.csv"))
+write_csv(df.model, here::here("output", "mon_incident_broad.csv"))
 rm(df.all,df.broad,df.broad_total,df.model)
 
 ### repeat antibiotics
@@ -98,4 +98,4 @@ df.model <- df.model %>%
                         ifelse (during_covid == 1, 1,
                                 NA)))
 
-write_csv(df.model, here::here("output", "mon_repeat.csv"))
+write_csv(df.model, here::here("output", "mon_incident_repeat.csv"))

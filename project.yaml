@@ -1759,8 +1759,8 @@ actions:
     needs: [describe_cleaning_process_2]
     outputs:
        moderately_sensitive:
-        table1: output/mon_broad.csv
-        table2: output/mon_repeat.csv
+        table1: output/mon_incident_broad.csv
+        table2: output/mon_incident_repeat.csv
 
   describe_ITS_model_incident:
     run: r:latest analysis/itsmodel/ITS_incident.R
