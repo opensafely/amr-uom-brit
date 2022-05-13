@@ -171,27 +171,32 @@ pre code {
 <pre class="r"><code>#df1=read_rds(&quot;/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds&quot;)
 
 df1 &lt;- read_rds(here::here(&quot;output&quot;,&quot;matched_outcome.rds&quot;))
-df1=df1%&gt;% select(&quot;case&quot;,&quot;total_ab&quot;,&quot;ab_prescriptions&quot;,&quot;broad_ab_prescriptions&quot; ,&quot;level&quot;, &quot;lastABtime&quot;)</code></pre>
+df1=df1%&gt;% select(&quot;case&quot;,&quot;total_ab&quot;,&quot;ab_prescriptions&quot;,&quot;broad_ab_prescriptions&quot; ,&quot;level&quot;, &quot;lastABtime&quot;)
+df1$total_ab=ifelse(df1$total_ab==0,NA,1)
+df1$ab_prescriptions=ifelse(df1$ab_prescriptions==0,NA,1)
+df1$broad_ab_prescriptions=ifelse(df1$broad_ab_prescriptions==0,NA,1)
+
+df1$lastABtime=ifelse(is.na(df1$total_ab),NA,df1$lastABtime)</code></pre>
 <pre class="r"><code>#df0=df0%&gt;%select(&quot;stp&quot;)
 
 table1 &lt;- 
   tbl_summary(
     df1,
     by = case, 
-    statistic = list(all_continuous() ~ &quot;{mean} ({sd})&quot;,
-                     all_categorical() ~ &quot;{n}  ({p}%)&quot;),
+  #  statistic = list(all_continuous() ~ &quot;{median} ({IQR})&quot;,
+   #                  all_categorical() ~ &quot;{n}  ({p}%)&quot;),
     digits = all_continuous() ~ 2,
   ) %&gt;%
   modify_header(label = &quot;**Variable**&quot;) %&gt;% # update the column header
   bold_labels() </code></pre>
 <pre><code>## 17 observations missing `case` have been removed. To include these observations, use `forcats::fct_explicit_na()` on `case` column before passing to `tbl_summary()`.</code></pre>
 <pre class="r"><code>table1</code></pre>
-<div id="ymealhlxvm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="njlhwiurfl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ymealhlxvm .gt_table {
+#njlhwiurfl .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -216,7 +221,7 @@ table1 &lt;-
   border-left-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_heading {
+#njlhwiurfl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -228,7 +233,7 @@ table1 &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_title {
+#njlhwiurfl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -238,7 +243,7 @@ table1 &lt;-
   border-bottom-width: 0;
 }
 
-#ymealhlxvm .gt_subtitle {
+#njlhwiurfl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -248,13 +253,13 @@ table1 &lt;-
   border-top-width: 0;
 }
 
-#ymealhlxvm .gt_bottom_border {
+#njlhwiurfl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_col_headings {
+#njlhwiurfl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -269,7 +274,7 @@ table1 &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_col_heading {
+#njlhwiurfl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -289,7 +294,7 @@ table1 &lt;-
   overflow-x: hidden;
 }
 
-#ymealhlxvm .gt_column_spanner_outer {
+#njlhwiurfl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -301,15 +306,15 @@ table1 &lt;-
   padding-right: 4px;
 }
 
-#ymealhlxvm .gt_column_spanner_outer:first-child {
+#njlhwiurfl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ymealhlxvm .gt_column_spanner_outer:last-child {
+#njlhwiurfl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ymealhlxvm .gt_column_spanner {
+#njlhwiurfl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -321,7 +326,7 @@ table1 &lt;-
   width: 100%;
 }
 
-#ymealhlxvm .gt_group_heading {
+#njlhwiurfl .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -343,7 +348,7 @@ table1 &lt;-
   vertical-align: middle;
 }
 
-#ymealhlxvm .gt_empty_group_heading {
+#njlhwiurfl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -358,15 +363,15 @@ table1 &lt;-
   vertical-align: middle;
 }
 
-#ymealhlxvm .gt_from_md > :first-child {
+#njlhwiurfl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ymealhlxvm .gt_from_md > :last-child {
+#njlhwiurfl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ymealhlxvm .gt_row {
+#njlhwiurfl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -385,7 +390,7 @@ table1 &lt;-
   overflow-x: hidden;
 }
 
-#ymealhlxvm .gt_stub {
+#njlhwiurfl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -397,7 +402,7 @@ table1 &lt;-
   padding-left: 12px;
 }
 
-#ymealhlxvm .gt_summary_row {
+#njlhwiurfl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -407,7 +412,7 @@ table1 &lt;-
   padding-right: 5px;
 }
 
-#ymealhlxvm .gt_first_summary_row {
+#njlhwiurfl .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -417,7 +422,7 @@ table1 &lt;-
   border-top-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_grand_summary_row {
+#njlhwiurfl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -427,7 +432,7 @@ table1 &lt;-
   padding-right: 5px;
 }
 
-#ymealhlxvm .gt_first_grand_summary_row {
+#njlhwiurfl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -437,11 +442,11 @@ table1 &lt;-
   border-top-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_striped {
+#njlhwiurfl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ymealhlxvm .gt_table_body {
+#njlhwiurfl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -450,7 +455,7 @@ table1 &lt;-
   border-bottom-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_footnotes {
+#njlhwiurfl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -464,13 +469,13 @@ table1 &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_footnote {
+#njlhwiurfl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#ymealhlxvm .gt_sourcenotes {
+#njlhwiurfl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -484,41 +489,41 @@ table1 &lt;-
   border-right-color: #D3D3D3;
 }
 
-#ymealhlxvm .gt_sourcenote {
+#njlhwiurfl .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#ymealhlxvm .gt_left {
+#njlhwiurfl .gt_left {
   text-align: left;
 }
 
-#ymealhlxvm .gt_center {
+#njlhwiurfl .gt_center {
   text-align: center;
 }
 
-#ymealhlxvm .gt_right {
+#njlhwiurfl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ymealhlxvm .gt_font_normal {
+#njlhwiurfl .gt_font_normal {
   font-weight: normal;
 }
 
-#ymealhlxvm .gt_font_bold {
+#njlhwiurfl .gt_font_bold {
   font-weight: bold;
 }
 
-#ymealhlxvm .gt_font_italic {
+#njlhwiurfl .gt_font_italic {
   font-style: italic;
 }
 
-#ymealhlxvm .gt_super {
+#njlhwiurfl .gt_super {
   font-size: 65%;
 }
 
-#ymealhlxvm .gt_footnote_marks {
+#njlhwiurfl .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -534,21 +539,19 @@ table1 &lt;-
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left" style="font-weight: bold;">total_ab</td>
-<td class="gt_row gt_center"></td></tr>
-    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">96</td>
-<td class="gt_row gt_center">1  (100%)</td></tr>
+<td class="gt_row gt_center">1 (100%)</td></tr>
     <tr><td class="gt_row gt_left" style="font-weight: bold;">ab_prescriptions</td>
-<td class="gt_row gt_center">0  (0%)</td></tr>
+<td class="gt_row gt_center">NA (NA, NA)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">1</td></tr>
     <tr><td class="gt_row gt_left" style="font-weight: bold;">broad_ab_prescriptions</td>
-<td class="gt_row gt_center"></td></tr>
-    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3</td>
-<td class="gt_row gt_center">1  (100%)</td></tr>
+<td class="gt_row gt_center">1 (100%)</td></tr>
     <tr><td class="gt_row gt_left" style="font-weight: bold;">level</td>
 <td class="gt_row gt_center"></td></tr>
     <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
-<td class="gt_row gt_center">1  (100%)</td></tr>
+<td class="gt_row gt_center">1 (100%)</td></tr>
     <tr><td class="gt_row gt_left" style="font-weight: bold;">lastABtime</td>
-<td class="gt_row gt_center">0  (0%)</td></tr>
+<td class="gt_row gt_center">0 (0%)</td></tr>
   </tbody>
   
   <tfoot>
@@ -559,7 +562,7 @@ table1 &lt;-
             <em>1</em>
           </sup>
            
-          n  (%)
+          n (%); Median (IQR)
           <br />
         </p>
       </td>
@@ -567,6 +570,14 @@ table1 &lt;-
   </tfoot>
 </table>
 </div>
+<pre class="r"><code>df2=df1%&gt;%select(&quot;case&quot;,&quot;total_ab&quot; ,&quot;level&quot;)</code></pre>
+<pre class="r"><code>table2=
+  df2%&gt;%
+  tbl_cross(
+    row = level,
+    col = case,
+    percent = &quot;cell&quot;
+  )</code></pre>
 
 
 
