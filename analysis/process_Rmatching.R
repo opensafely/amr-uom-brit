@@ -35,7 +35,7 @@ df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3",
 ####### matching variables ########
 ## age
 df=df%>%filter(df$age_cat != "0")
-df$age_cat <- factor(df$age_cat, levels=c("0-4", "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
+df$age_cat <- factor(df$age_cat, levels=c( "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 
@@ -277,8 +277,29 @@ df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Zero",
                              Charlson<5 ~ "Medium",
                              Charlson<7 ~ "High",
                              Charlson>=7 ~ "Very high"))
-df$CCI <- factor(df$smoking_cat_3, levels=c("Zero", "Low","Medium","High","Very high"))
+df$CCI <- factor(df$CCI, levels=c("Zero", "Low","Medium","High","Very high"))
 
+
+
+# individiual disease
+### CCI
+df$cancer<- ifelse(df$cancer_comor == 1, 1, 0)
+df$cvd <- ifelse(df$cardiovascular_comor == 1, 1, 0)
+df$copd <- ifelse(df$chronic_obstructive_pulmonary_comor == 1, 1, 0)
+df$heart_failure <- ifelse(df$heart_failure_comor == 1, 1, 0)
+df$connective_tissue <- ifelse(df$connective_tissue_comor == 1, 1, 0)
+df$dementia <- ifelse(df$dementia_comor == 1, 1, 0)
+df$diabetes <- ifelse(df$diabetes_comor == 1, 1, 0)
+df$diabetes_complications <- ifelse(df$diabetes_complications_comor == 1, 1, 0)
+df$hemiplegia <- ifelse(df$hemiplegia_comor == 1, 1, 0)
+df$hiv <- ifelse(df$hiv_comor == 1, 1, 0)
+df$metastatic_cancer <- ifelse(df$metastatic_cancer_comor == 1, 1, 0)
+df$mild_liver <- ifelse(df$mild_liver_comor == 1, 1, 0)
+df$mod_severe_liver <- ifelse(df$mod_severe_liver_comor == 1, 1, 0)
+df$mod_severe_renal <- ifelse(df$mod_severe_renal_comor == 1, 1, 0)
+df$mi <- ifelse(df$mi_comor == 1, 1, 0)
+df$peptic_ulcer <- ifelse(df$peptic_ulcer_comor == 1, 1, 0)
+df$peripheral_vascular <- ifelse(df$peripheral_vascular_comor == 1, 1, 0)
 
 CCI_comor=c("cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular")
 #df= df[!names(df)%in%CCI_comor]

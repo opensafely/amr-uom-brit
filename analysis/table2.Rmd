@@ -36,6 +36,7 @@ table1 <-
     by = case, 
     statistic = list(all_continuous() ~ "{mean} ({sd})",
                      all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
   ) %>%
   modify_header(label = "**Variable**") %>% # update the column header
   bold_labels() 
