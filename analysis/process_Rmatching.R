@@ -218,6 +218,8 @@ df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 5  ~ "Other",
                                        ethnicity == 6   ~ "Unknown"))
 df$ethnicity_6=as.factor(df$ethnicity_6)
+df$ethnicity_6 <- factor(df$ethnicity_6, levels=c("White", "South Asian","Black","Mixed","Other","Unknown"))
+
 
 ## BMI category
 #bmi 
@@ -232,6 +234,7 @@ df<- df %>%
                              bmi>=30  ~"Obese"))
 df$bmi_cat<- as.factor(df$bmi_cat)
 #summary(df_one_pat$bmi_cat)
+df$bmi_cat <- factor(df$bmi_cat, levels=c("Healthy weight", "Underweight","Overweight","Obese","Unknown"))
 
 
 ##smoking status
@@ -240,6 +243,9 @@ df=df%>%mutate(smoking_cat_3= case_when(smoking_status=="S" ~ "Current",
                                         smoking_status=="N" ~ "Never",
                                         smoking_status=="M" ~ "Unknown", 
                                         is.na(smoking_status) ~ "Unknown"))
+df$smoking_cat_3 <- factor(df$smoking_cat_3, levels=c("Never", "Current","Former","Unknown"))
+
+
 
 ### CCI
 df$cancer<- ifelse(df$cancer_comor == 1, 2, 0)
@@ -266,11 +272,13 @@ write_rds(df[comor], here::here("output", "comor17.rds"))
 
 df= df[!names(df)%in%comor]
 
-df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Very low",
+df=df%>%mutate(CCI=case_when(Charlson<1 ~ "Zero",
                              Charlson<3 ~ "Low",
                              Charlson<5 ~ "Medium",
                              Charlson<7 ~ "High",
                              Charlson>=7 ~ "Very high"))
+df$CCI <- factor(df$smoking_cat_3, levels=c("Zero", "Low","Medium","High","Very high"))
+
 
 CCI_comor=c("cancer","cvd","copd","heart_failure","connective_tissue","dementia","diabetes","diabetes_complications","hemiplegia","hiv","metastatic_cancer","mild_liver","mod_severe_liver","mod_severe_renal","mi","peptic_ulcer","peripheral_vascular")
 #df= df[!names(df)%in%CCI_comor]

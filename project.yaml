@@ -67,6 +67,13 @@ actions:
       moderately_sensitive:
         html: output/table1.html
 
+  table2: # compare before & after matching 
+    run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/table2.html
+
         ################# check ok###########
 
   process_2: # died any cause
