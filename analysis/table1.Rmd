@@ -63,7 +63,7 @@ table
 ```{r}
 #df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
-df1 <- read_rds(here::here("output","matched_patients.rds"))
+df1 <- read_rds(here::here("output","matched_outcome.rds"))
 df1=df1%>% select("case","wave","age","age_cat","region")
 
 
