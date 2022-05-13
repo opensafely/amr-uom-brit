@@ -1,5 +1,5 @@
 ---
-title: "table 2"
+title: "table 2_describe ab"
 output: html_document
 ---
 
@@ -21,7 +21,7 @@ require("gtsummary")
 #df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
 df1 <- read_rds(here::here("output","matched_outcome.rds"))
-df1=df1%>% select("case","ethnicity_6",  "bmi_cat",  "CCI", "cancer","cvd","copd","heart_failure" ,"connective_tissue",      "dementia" , "diabetes","diabetes_complications" ,"hemiplegia","hiv","metastatic_cancer" ,"mild_liver","mod_severe_liver",  "mod_severe_renal","mi" ,"peptic_ulcer","peripheral_vascular", "smoking_cat_3","imd","care_home_type","care_home","covrx_ever","flu_vaccine")
+df1=df1%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime")
 
 
 ```
