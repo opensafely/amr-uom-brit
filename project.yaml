@@ -63,7 +63,13 @@ actions:
       moderately_sensitive:
         html: output/table2_ab.html
 
-
+  model: 
+    run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model.html
+        
   # matching2: # matching with replacement # died any
   #   run: r:latest -e 'rmarkdown::render("analysis/matching2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
   #   needs: [process_1]
