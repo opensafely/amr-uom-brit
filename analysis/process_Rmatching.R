@@ -87,7 +87,7 @@ df$lastABtime=ifelse(is.na(df$lastABtime),0,df$lastABtime)
 
 ### 1.1-ab quintile = according to unique ab prescription numbers
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions) # filter no ab
-#qn_num=unique(df$ab_prescriptions)
+qn_num=unique(df$ab_prescriptions)
 qn_cat1=quantile(qn_num,0.2,na.rm=T)
 qn_cat2=quantile(qn_num,0.4,na.rm=T)
 qn_cat3=quantile(qn_num,0.6,na.rm=T)
@@ -102,7 +102,7 @@ df$ab_qn_5=ifelse(is.na(df$ab_prescriptions),0,
 
 ### 1.2-broad ab quintile = according to unique broad ab prescription numbers
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions) # filter no ab+no br ab
-#br_qn_num=unique(df$broad_ab_prescriptions)
+br_qn_num=unique(df$broad_ab_prescriptions)
 br_qn_cat1=quantile(br_qn_num,0.2,na.rm=T)
 br_qn_cat2=quantile(br_qn_num,0.4,na.rm=T)
 br_qn_cat3=quantile(br_qn_num,0.6,na.rm=T)
