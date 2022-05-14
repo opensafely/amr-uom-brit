@@ -39,7 +39,7 @@ df$subclass=as.factor(df$subclass)#pair id
 
 df$level=as.character(df$level) #category
 
-df$CCI= relevel(as.factor(df$CCI), ref="Very low")
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
 df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
