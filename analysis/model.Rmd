@@ -63,7 +63,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```{r}
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
-vif(mod)
+vif(mod1)
 ```
 
 # adjust model
