@@ -23,20 +23,16 @@ require("gtsummary")
 
 #  group ab level
 
-
 ```{r}
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
 df <- read_rds(here::here("output","matched_outcome.rds"))
-df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime")
-df$total_ab=ifelse(df$total_ab==0,NA,1)
-df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,1)
-df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,1)
+df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions)
+df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
 df$lastABtime=ifelse(is.na(df$total_ab),NA,df$lastABtime)
-
-df$total_ab=as.numeric(df$total_ab)
-df$ab_prescription=as.numeric(df$ab_prescriptions)
-df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
+df$ab_types=ifelse(df$ab_types==0,NA,df$ab_types)
 
 ```
 
@@ -45,33 +41,34 @@ df$broad_ab_prescriptions=as.numeric(df$broad_ab_prescriptions)
 ```{r}
 
 df0=df%>%select("case","total_ab")%>%filter(case==0)
-df1=df%>%select("case","total_ab")%>%filter(case==1)
-
-
 freq0=data.frame(table(df0$case,df0$total_ab))
 freq0$cumulative_percentage= 100*cumsum(freq0$Freq)/sum(freq0$Freq)
 colnames(freq0)<-c("case","total_ab","freq","cum_%")
 
-
+df1=df%>%select("case","total_ab")%>%filter(case==1)
 freq1=data.frame(table(df1$case,df1$total_ab))
 freq1$cumulative_percentage= 100*cumsum(freq1$Freq)/sum(freq1$Freq)
 colnames(freq1)<-c("case","total_ab","freq","cum_%")
 
+```
 
-ggplot(freq0, aes(x="total_ab",y="cum_%")) +
-  geom_col()
-ggplot(freq1, aes(x="total_ab",y="cum_%")) +
-  geom_col()
+### case
+```{r}
+freq1
+```
 
+### control
+```{r}
+freq0
 ```
 
 
 ## quintile 
 ```{r}
-qn_cat1=quantile(df$total_ab,0.2,na.rm=T)
-qn_cat2=quantile(df$total_ab,0.4,na.rm=T)
-qn_cat3=quantile(df$total_ab,0.6,na.rm=T)
-qn_cat4=quantile(df$total_ab,0.8,na.rm=T)
+quantile(df$total_ab,0.2,na.rm=T)
+quantile(df$total_ab,0.4,na.rm=T)
+quantile(df$total_ab,0.6,na.rm=T)
+quantile(df$total_ab,0.8,na.rm=T)
 ```
 
 
@@ -85,6 +82,7 @@ table1 <-
   tbl_summary(
     df,
     by = case, 
+    type = c("total_ab","ab_prescriptions","broad_ab_prescriptions", "lastABtime","ab_types") ~ "continuous2",
   #  statistic = list(all_continuous() ~ "{median} ({IQR})",
    #                  all_categorical() ~ "{n}  ({p}%)"),
     digits = all_continuous() ~ 2,
