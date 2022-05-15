@@ -551,7 +551,7 @@ plot_0 <- ggplot(df0.sum, aes(x=date))+
   geom_line(aes(y=lowquart),color="darkred",linetype="dotted")+
   geom_line(aes(y=median), color="black")+
   geom_line(aes(y=highquart), color="darkred",linetype="dotted")+
-  facet_grid(rows = vars(indic))+
+  facet_grid(rows = vars(indic),scales="free_y")+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   labs(
