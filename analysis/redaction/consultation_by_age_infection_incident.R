@@ -445,7 +445,7 @@ lineplot_0<- ggplot(df_plot.0, aes(x=date, y=rate,group=age_cat))+
 
 ggsave(
   plot= lineplot_0,
-  filename="consult_age_prevalent_all.jpeg", path=here::here("output","redacted"))
+  filename="consult_age_incident_all.jpeg", path=here::here("output","redacted"))
 
 rm(df_plot.0,lineplot_0,gaps)
 
