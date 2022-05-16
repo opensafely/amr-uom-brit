@@ -171,41 +171,41 @@ study = StudyDefinition(
        return_expectations={"incidence": 0.3},
     ),
 
-    ## Covid positive test result during hospital admission related to urti
-    sgss_pos_covid_admitted=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        between=["admitted_date - 90 days", "admitted_date + 30 days"],
-        find_first_match_in_period=True,
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.5},
-    ),
+    # ## Covid positive test result during hospital admission related to urti
+    # sgss_pos_covid_admitted=patients.with_test_result_in_sgss(
+    #     pathogen="SARS-CoV-2",
+    #     test_result="positive",
+    #     between=["admitted_date - 90 days", "admitted_date + 30 days"],
+    #     find_first_match_in_period=True,
+    #     returning="date",
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={"incidence": 0.5},
+    # ),
 
-    ## Covid diagnosis during hospital admission related to urti
-    gp_covid_date_admitted = patients.with_these_clinical_events(
-        any_primary_care_code,
-        returning="date",
-        between=["admitted_date - 90 days", "admitted_date + 30 days"],
-        find_first_match_in_period=True,
-        date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.5},
-        # return_expectations={"date":{"earliest":index_date}, "rate": "exponential_increase", "incidence": 0.5},
-    ),
+    # ## Covid diagnosis during hospital admission related to urti
+    # gp_covid_date_admitted = patients.with_these_clinical_events(
+    #     any_primary_care_code,
+    #     returning="date",
+    #     between=["admitted_date - 90 days", "admitted_date + 30 days"],
+    #     find_first_match_in_period=True,
+    #     date_format="YYYY-MM-DD",
+    #     return_expectations={"incidence": 0.5},
+    #     # return_expectations={"date":{"earliest":index_date}, "rate": "exponential_increase", "incidence": 0.5},
+    # ),
 
-    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
-    sgss_gp_cov_admitted = patients.satisfying(
-        """
-        sgss_pos_covid_admitted OR
-        gp_covid_date_admitted
-        """,
-    ),
+    # ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
+    # sgss_gp_cov_admitted = patients.satisfying(
+    #     """
+    #     sgss_pos_covid_admitted OR
+    #     gp_covid_date_admitted
+    #     """,
+    # ),
 
     ## Covid positive test result during hospital admission related to urti - BINARY
     sgss_pos_covid_admitted_binary = patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["admitted_date - 90 days", "admitted_date + 30 days"],
+        between=["admitted_date - 42 days", "admitted_date + 7 days"],
         find_first_match_in_period=True,
         returning="binary_flag",
         # date_format="YYYY-MM-DD",
@@ -216,7 +216,7 @@ study = StudyDefinition(
     gp_covid_date_admitted_binary = patients.with_these_clinical_events(
         any_primary_care_code,
         returning="binary_flag",
-        between=["admitted_date - 90 days", "admitted_date + 30 days"],
+        between=["admitted_date - 42 days", "admitted_date + 7 days"],
         find_first_match_in_period=True,
         # date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.5},
@@ -232,39 +232,39 @@ study = StudyDefinition(
     ),
 
 
-    ## Covid positive test result during hospital admission related to urti - COUNT
-    sgss_pos_covid_admitted_count = patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        between=["admitted_date - 90 days", "admitted_date + 30 days"],
-        # find_first_match_in_period=True,
-        returning="number_of_matches_in_period",
-        # date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.5},
-    ),
+#     ## Covid positive test result during hospital admission related to urti - COUNT
+#     sgss_pos_covid_admitted_count = patients.with_test_result_in_sgss(
+#         pathogen="SARS-CoV-2",
+#         test_result="positive",
+#         between=["admitted_date - 90 days", "admitted_date + 30 days"],
+#         # find_first_match_in_period=True,
+#         returning="number_of_matches_in_period",
+#         # date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.5},
+#     ),
 
 
-## hospitalisation with no covid Dx 90 days before and 30 days after admission
-    admitted_no_sgss_gp_cov_date = patients.satisfying(
-        """
-        admitted_date AND NOT
-        sgss_gp_cov_admitted
-        """,
-    ),
+# ## hospitalisation with no covid Dx 90 days before and 30 days after admission
+#     admitted_no_sgss_gp_cov_date = patients.satisfying(
+#         """
+#         admitted_date AND NOT
+#         sgss_gp_cov_admitted
+#         """,
+#     ),
 
-    admitted_no_sgss_gp_cov_binary = patients.satisfying(
-        """
-        admitted AND NOT
-        sgss_gp_cov_admitted_binary
-        """,
-    ),
+#     admitted_no_sgss_gp_cov_binary = patients.satisfying(
+#         """
+#         admitted AND NOT
+#         sgss_gp_cov_admitted_binary
+#         """,
+#     ),
 
-    admitted_no_sgss_gp_cov_count = patients.satisfying(
-        """
-        admitted AND NOT
-        sgss_gp_cov_admitted_count
-        """,
-    ),    
+#     admitted_no_sgss_gp_cov_count = patients.satisfying(
+#         """
+#         admitted AND NOT
+#         sgss_gp_cov_admitted_count
+#         """,
+#     ),    
 
     # admitted = patients.admitted_to_hospital(
     #    with_these_diagnoses=hospitalisation_infection_related,
@@ -318,7 +318,7 @@ measures = [
         id="hosp_rate_sex_age_cat",
         numerator="admitted",
         denominator="population",
-        group_by=["sex", 'age_cat'],
+        group_by=["sex", 'age_cat', 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),
     
