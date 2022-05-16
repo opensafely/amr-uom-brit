@@ -182,6 +182,12 @@ study = StudyDefinition(
             "incidence": 0.3},
     ),
 
+    gp_count_admitted_binary=patients.with_gp_consultations(
+        between=["admitted_date - 21 days", "admitted_date - 1 day"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.5},
+    ),
+
     # admitted_cat = patients.admitted_to_hospital(
     #    with_these_diagnoses=hospitalisation_infection_related,
     #    returning="category",
