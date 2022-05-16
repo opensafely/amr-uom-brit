@@ -293,15 +293,13 @@ its_function <- function(outcomes_vec = outcomes,
   )  
 
 		layout = "
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			BBBCCC
-			BBBCCC
+			AAABBB
+			AAABBB
+			AAABBB
+
 		"
   ggsave(
-    plot= 		plot1 + fp + fp2 + 
+    plot= 	 fp + fp2 + 
 			plot_layout(design = layout) ,
     filename="mon_overall_combined.jpeg", path=here::here("output"),
   ) 
