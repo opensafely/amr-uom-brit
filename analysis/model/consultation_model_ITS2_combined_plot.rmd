@@ -202,11 +202,6 @@ df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter
                                    month=="06"|month=="07"|month=="08" ~"summer",
                                    month=="09"|month=="10"|month=="11" ~"autumn"))
 df6$month=relevel(as.factor(df6$season),ref="spring")
-df7=df7%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df7$month=relevel(as.factor(df7$season),ref="spring")
 ```
 
 
