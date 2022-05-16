@@ -14,6 +14,56 @@ dir.create(here::here("output", "redacted"))
 
 
 ### 1. import data 
+##1.0 all indications
+df <- read_csv(
+  here::here("output", "measures", "measure_indication_counts.csv"),
+  col_types = cols_only(
+    
+    # Identifier
+    practice = col_integer(),
+    
+    # Outcomes
+    indication_counts  = col_double(),
+    population  = col_double(),
+    hx_indications= col_double(),
+    age_cat = col_character(),
+    value = col_double(),
+    
+    # Date
+    date = col_date(format="%Y-%m-%d")
+    
+  ),
+  na = character()
+)
+df$date <- as.Date(df$date)
+
+df=df%>% rename(infection_counts=indication_counts, hx_pt=hx_indications)
+
+df[is.na(df)] <- 0 # replace NA ->0
+
+# remove last month data
+last.date=as.Date("2022-03-01")
+df=df%>% filter(date<last.date)
+first_mon=format(min(df$date),"%m-%Y")
+last_mon= format(max(df$date),"%m-%Y")
+TPPnumber=length(unique(df$practice))
+
+# select incident pt and count consultations
+# hx_pt==0 means no same infection consultation in 90 days
+df$hx_counts=ifelse(df$hx_pt==0,df$infection_counts,0)
+
+# summarize incident counts & total population
+df_0=df%>%
+  group_by(date,age_cat)%>% 
+  summarise(counts=sum(hx_counts), 
+            population=sum(population))%>%
+  mutate(indic="all indications")
+
+rm(df,first_mon,last_mon,last.date)
+
+
+
+
 ##1.1 UTI
 df <- read_csv(
   here::here("output", "measures", "measure_infection_consult_UTI.csv"),
@@ -314,8 +364,8 @@ rm(df,last.date)
 
 ### 2. combined dataframe
 
-df=rbind(df_1,df_2,df_3,df_4,df_5,df_6)
-rm(df_1,df_2,df_3,df_4,df_5,df_6)
+df=rbind(df_0,df_1,df_2,df_3,df_4,df_5,df_6)
+rm(df_0,df_1,df_2,df_3,df_4,df_5,df_6)
 df=df%>%filter(age_cat != "0") # remove 0 group
 
 df=df%>%group_by(date,indic)%>%mutate(total.pop=sum(population))
@@ -364,6 +414,41 @@ write.csv(df,here::here("output","redacted","consultation_rate_incident_exclusio
 
 # # line graph- by age group and divided by year
 df_plot$age_cat <- factor(df_plot$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+
+# all indications
+df_plot.0=df_plot%>%filter(indic=="all indications")
+
+# plot missing value line
+gaps=df_plot.0 %>% filter(!is.na(rate))
+
+lineplot_0<- ggplot(df_plot.0, aes(x=date, y=rate,group=age_cat))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  #scale_y_continuous(n.breaks = 20)+
+  geom_line(aes(color=age_cat))+
+  geom_line(data =gaps, linetype = "dashed",aes(color=age_cat)) +
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate of incident patients- all indications",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = paste("Data from approximately", TPPnumber,"TPP Practices 
+                    Grey shading represents national lockdown time.
+                    
+                    "),
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+
+ggsave(
+  plot= lineplot_0,
+  filename="consult_age_prevalent_all.jpeg", path=here::here("output","redacted"))
+
+rm(df_plot.0,lineplot_0,gaps)
+
 
 # UTI
 df_plot.1=df_plot%>%filter(indic=="UTI")
