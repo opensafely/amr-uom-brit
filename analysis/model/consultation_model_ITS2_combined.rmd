@@ -28,7 +28,7 @@ library(modelsummary)
 
 ```{r message=FALSE}
 ### Import data
-filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds")
+filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds","consult_indications.rds")
 
 #temp <- vector("list", length(filelist))
 
@@ -147,6 +147,27 @@ df$time.since <- ifelse(df$covid==0,0,df$time.since)
 df6=df
 rm(df)
 
+
+
+# all indications updated
+df = read_rds(here::here("output","measures",filelist[7]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df7=df
+rm(df)
+
 ```
 
 ```{r message=FALSE}
@@ -214,6 +235,11 @@ m5.1<-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since
 m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
 ```
 
+7. all indications
+```{r }
+m7.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
+```
+
 
 ```{r message=FALSE}
 ### confidence intervals for the coefficients
@@ -223,6 +249,7 @@ m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 (est4.1 <- cbind(Estimate = coef(m4.1), confint(m4.1)))
 (est5.1 <- cbind(Estimate = coef(m5.1), confint(m5.1)))
 (est6.1 <- cbind(Estimate = coef(m6.1), confint(m6.1)))
+(est7.1 <- cbind(Estimate = coef(m7.1), confint(m7.1)))
 
 ```
 
@@ -233,8 +260,8 @@ m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(est1.1[2,],est2.1[2,],est3.1[2,],est4.1[2,],est5.1[2,],est6.1[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+DF=bind_rows(est1.1[2,],est2.1[2,],est3.1[2,],est4.1[2,],est5.1[2,],est6.1[2,],est7.1[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -256,13 +283,15 @@ exp3.1=exp(est3.1)
 exp4.1=exp(est4.1)
 exp5.1=exp(est5.1)
 exp6.1=exp(est6.1)
+exp7.1=exp(est7.1)
+
 ```
 
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(exp1.1[2,],exp2.1[2,],exp3.1[2,],exp4.1[2,],exp5.1[2,],exp6.1[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+DF=bind_rows(exp1.1[2,],exp2.1[2,],exp3.1[2,],exp4.1[2,],exp5.1[2,],exp6.1[2,],exp7.1[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -320,6 +349,8 @@ df3=df%>%filter(indic=="URTI")
 df4=df%>%filter(indic=="sinusitis")
 df5=df%>%filter(indic=="otitis externa")
 df6=df%>%filter(indic=="otitis media")
+df7=df%>%filter(indic=="all")
+
 
 
 ```
@@ -355,6 +386,11 @@ m5.2 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.sinc
 m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
 ```
 
+7. all
+```{r }
+m7.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
+```
+
 
 ```{r message=FALSE, include=FALSE}
 ### confidence intervals for the coefficients
@@ -364,6 +400,8 @@ m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 (est4.2 <- cbind(Estimate = coef(m4.2), confint(m4.2)))
 (est5.2 <- cbind(Estimate = coef(m5.2), confint(m5.2)))
 (est6.2 <- cbind(Estimate = coef(m6.2), confint(m6.2)))
+(est7.2 <- cbind(Estimate = coef(m7.2), confint(m7.2)))
+
 ```
 
 
@@ -374,8 +412,8 @@ m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(est1.2[2,],est2.2[2,],est3.2[2,],est4.2[2,],est5.2[2,],est6.2[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+DF=bind_rows(est1.2[2,],est2.2[2,],est3.2[2,],est4.2[2,],est5.2[2,],est6.2[2,],est7.2[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -398,14 +436,16 @@ exp3.2=exp(est3.2)
 exp4.2=exp(est4.2)
 exp5.2=exp(est5.2)
 exp6.2=exp(est6.2)
+exp7.2=exp(est7.2)
+
 ```
 
 ### exp(estimate)- IRR
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(exp1.2[2,],exp2.2[2,],exp3.2[2,],exp4.2[2,],exp5.2[2,],exp6.2[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+DF=bind_rows(exp1.2[2,],exp2.2[2,],exp3.2[2,],exp4.2[2,],exp5.2[2,],exp6.2[2,],exp7.2[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -465,6 +505,8 @@ df3=df%>%filter(indic=="URTI")
 df4=df%>%filter(indic=="sinusitis")
 df5=df%>%filter(indic=="otitis externa")
 df6=df%>%filter(indic=="otitis media")
+df7=df%>%filter(indic=="all indications")
+
 
 
 ```
@@ -501,6 +543,11 @@ m5.3 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.sinc
 m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
 ```
 
+7. all
+```{r }
+m7.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
+```
+
 ## predictor:covid
 
 ### estimate- coefficient
@@ -512,14 +559,16 @@ m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 (est4.3 <- cbind(Estimate = coef(m4.3), confint(m4.3)))
 (est5.3 <- cbind(Estimate = coef(m5.3), confint(m5.3)))
 (est6.3 <- cbind(Estimate = coef(m6.3), confint(m6.3)))
+(est7.3 <- cbind(Estimate = coef(m7.3), confint(m7.3)))
+
 ```
 
 
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(est1.3[2,],est2.3[2,],est3.3[2,],est4.3[2,],est5.3[2,],est6.3[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+DF=bind_rows(est1.3[2,],est2.3[2,],est3.3[2,],est4.3[2,],est5.3[2,],est6.3[2,],est7.3[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -544,14 +593,16 @@ exp3.3=exp(est3.3)
 exp4.3=exp(est4.3)
 exp5.3=exp(est5.3)
 exp6.3=exp(est6.3)
+exp7.3=exp(est7.3)
+
 ```
 
 
 ```{r message=FALSE}
 ## combine results
 # covid
-DF=bind_rows(exp1.3[2,],exp2.3[2,],exp3.3[2,],exp4.3[2,],exp5.3[2,],exp6.3[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media")
+DF=bind_rows(exp1.3[2,],exp2.3[2,],exp3.3[2,],exp4.3[2,],exp5.3[2,],exp6.3[2,],exp7.3[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
 #reorder
 DF=DF%>%arrange(Infection)
 
@@ -575,7 +626,7 @@ DF2$group="prevalent"
 DF3$group="incident"
 DF=bind_rows(DF1,DF2,DF3)
 DF$group=factor(DF$group,levels=c("overall","incident","prevalent"))
-DF$Infection=factor(DF$Infection, levels=c("URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
+DF$Infection=factor(DF$Infection, levels=c("All indications","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
 
 ```
 
@@ -621,7 +672,7 @@ DF2.exp$group="prevalent"
 DF3.exp$group="incident"
 DF=bind_rows(DF1.exp,DF2.exp,DF3.exp)
 DF$group=factor(DF$group,levels=c("overall","incident","prevalent"))
-DF$Infection=factor(DF$Infection, levels=c("URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
+DF$Infection=factor(DF$Infection, levels=c("All indications","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
 
 ```
 
@@ -721,6 +772,18 @@ modelsummary(model.all,
 ## otitis media
 ```{r}
 model.all<- list(m6.1, m6.2,m6.3)
+modelsummary(model.all,
+             fmt = 1,
+             statistic = 'conf.int', 
+             conf_level = .95,
+             stars = TRUE,
+             exponentiate = TRUE)
+```
+
+
+## all indications
+```{r}
+model.all<- list(m7.1, m7.2,m7.3)
 modelsummary(model.all,
              fmt = 1,
              statistic = 'conf.int', 

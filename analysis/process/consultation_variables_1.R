@@ -26,6 +26,62 @@ rm(df19,df20,df21)
 
 
 
+#### 2.1 read measures for all indications
+df <- read_csv(here::here("output","measures","measure_indication_counts.csv"),
+               col_types = cols_only(
+                 
+                 # Identifier
+                 practice = col_integer(),
+                 
+                 # Outcomes
+                 indication_counts  = col_double(),
+                 population  = col_double(),
+                 hx_indications = col_double(),
+                 age_cat = col_character(),
+                 
+                 # Date
+                 date = col_date(format="%Y-%m-%d")
+                 
+               ),
+               na = character()
+)
+df$date <- as.Date(df$date)
+
+df=df%>% rename(infection_counts=indication_counts, hx_pt=hx_indications)
+
+df[is.na(df)] <- 0 # replace NA ->0
+
+#### 03. add variables
+
+# add region variables
+df=merge(df,region, by= "practice")
+
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+# month for adjust seasonality
+df$month=format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+
+# sort age
+df$age_cat <- factor(df$age_cat, levels=c("0-4", "5-14","15-24","25-34","35-44","45-54","55-64","65-74","75+"))
+
+saveRDS(df,"consult_indications.rds")
+
+rm(df)
+
 
 #### 2.1 read measures for uti
 df <- read_csv(here::here("output","measures","measure_infection_consult_UTI.csv"),
