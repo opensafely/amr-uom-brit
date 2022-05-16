@@ -9,7 +9,7 @@ DF <- readRDS("cleaned_indication_ab.rds")
 
 # recode
 DF$date <- as.Date(DF$date)
-DF <- DF %>% filter(date <= as.Date("2019-12-31"))
+DF <- DF %>% filter(date <= as.Date("2019-6-30"))
 DF <- DF %>% filter(age > 3)
 DF <- DF %>% select(patient_id, "patient_index_date" = date)
 
