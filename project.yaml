@@ -1787,26 +1787,35 @@ actions:
         plot4: output/conbined_repeat_incident.jpeg
 
 #############################################################################
-  describe_ITS_var_incident_process:
+  describe_ITS_var_broad_mon_overall_process:
     run: r:latest analysis/process/ITS_stratified_var_4.R
     needs: [describe_cleaning_process_2]
     outputs:
        moderately_sensitive:
-        table1: output/mon_incident_broad.csv
-        table2: output/mon_incident_repeat.csv
+        table1: output/mon_overall_all_prescription.csv
+        table2: output/mon_overall_cold.csv
+        table3: output/mon_overall_cough.csv
+        table4: output/mon_overall_copd.csv
+        table5: output/mon_overall_throat.csv
+        table6: output/mon_overall_uti.csv
+        table7: output/mon_overall_lrti.csv
+        table8: output/mon_overall_urti.csv
+        table9: output/mon_overall_sinusitis.csv
+        table10: output/mon_overall_ot_media.csv
+        table11: output/mon_overall_ot_externa.csv
 
-  describe_ITS_model_incident:
-    run: r:latest analysis/itsmodel/ITS_incident.R
-    needs: [describe_ITS_var_incident_process]
+  describe_ITS_model_broad_mon_overall:
+    run: r:latest analysis/itsmodel/ITS_broad_mon_overall.R
+    needs: [describe_ITS_var_broad_mon_overall_process]
     outputs:
        moderately_sensitive:
-        plot1: output/incident_1.jpeg
-        plot2: output/incident_plot_A.jpeg
-        plot3: output/incident_plot_B.jpeg
-        plot4: output/incident_plot_combined.jpeg
-        table1: output/incident_1_table.csv
-        table2: output/incident_plot_B_table.csv
-        table3: output/incident_plot_A_table.csv
+        plot1: output/mon_overall_predicted_plot.jpeg
+        plot2: output/mon_overall_forest_C.jpeg
+        plot3: output/mon_overall_forest_B.jpeg
+        plot4: output/mon_overall_combined.jpeg
+        table1: output/mon_overall_predicted_table.csv
+        table2: output/mon_overall_forest_B_table.csv
+        table3: output/mon_overall_forest_C_table.csv
 
   extract_variables: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic

@@ -18,16 +18,18 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "mon_incident_")
-outcomes <- stringr::str_remove_all(all_files, c("mon_incident_|.csv"))
+all_files <- list.files(here::here("output"), pattern = "mon_overall_")
+outcomes <- stringr::str_remove_all(all_files, c("mon_overall_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("Broad spectrum","Repeat prescription"))
+                                           "outcome_name" = (c("All prescription","Cold","COPD","Cough",
+                                                               "LRTI","Otitis externa","Otitis media",
+                                                               "Sinusitis","Sore throat","URTI","UTI"))
 )
 bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("mon_incident_", outcomes[ii], ".csv")))
+  load_file <- read.csv(here::here("output", paste0("mon_overall_", outcomes[ii], ".csv")))
   assign(outcomes[ii], load_file)
 }
 
@@ -167,7 +169,7 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  write_csv(main_plot_data, here::here("output", "incident_1_table.csv"))
+  write_csv(main_plot_data, here::here("output", "mon_overall_predicted_table.csv"))
   main_plot_data$monPlot <- as.Date(main_plot_data$monPlot)
   plot1 <- ggplot(main_plot_data, aes(x = monPlot, y = pc_broad, group = outcome_name)) +
     # the data
@@ -201,7 +203,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1
   ggsave(
     plot= plot1,
-    filename="incident_1.jpeg", path=here::here("output"),
+    filename="mon_overall_predicted_plot.jpeg", path=here::here("output"),
   )    
 
 		# Forest plot of interaction terms ------------------------------------------------------
@@ -212,7 +214,7 @@ its_function <- function(outcomes_vec = outcomes,
 		
 		# changes the names of outcomes to full names
 		interaction_tbl_data$outcome_name <- factor(interaction_tbl_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
-    write_csv(interaction_tbl_data, here::here("output", "incident_plot_B_table.csv"))
+    write_csv(interaction_tbl_data, here::here("output", "mon_overall_forest_C_table.csv"))
   
 		# forest plot of estiamtes
 		fp2 <- ggplot(data=interaction_tbl_data, aes(x=outcome_name, y=Est, ymin=lci, ymax=uci)) +
@@ -241,7 +243,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp2
   ggsave(
     plot= fp2,
-    filename="incident_plot_B.jpeg", path=here::here("output"),
+    filename="mon_overall_forest_C.jpeg", path=here::here("output"),
   )  
 
 
@@ -254,7 +256,7 @@ its_function <- function(outcomes_vec = outcomes,
   # changes the names of outcomes to full names
   forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
-  write_csv(forest_plot_df, here::here("output", "incident_plot_A_table.csv"))
+  write_csv(forest_plot_df, here::here("output", "mon_overall_forest_B_table.csv"))
   
   
   forest_plot_df <- forest_plot_df %>%
@@ -287,21 +289,12 @@ its_function <- function(outcomes_vec = outcomes,
   fp
   ggsave(
     plot= fp,
-    filename="incident_plot_A.jpeg", path=here::here("output"),
+    filename="mon_overall_forest_B.jpeg", path=here::here("output"),
   )  
 
-		layout = "
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			BBBCCC
-			BBBCCC
-		"
   ggsave(
-    plot= 		plot1 + fp + fp2 + 
-			plot_layout(design = layout) ,
-    filename="incident_plot_combined.jpeg", path=here::here("output"),
+    plot= 	 fp + fp2 ,
+    filename="mon_overall_combined.jpeg", path=here::here("output"),
   ) 
 
 }    
