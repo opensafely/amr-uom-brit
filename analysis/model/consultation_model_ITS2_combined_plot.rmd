@@ -268,11 +268,12 @@ df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])
 
 ggplot(df1, aes(x=date, y=rate, group=covid)) + 
   theme_bw()+
-  annotate(geom = "rect", xmin = as.Date("2019-01-01"),xmax = as.Date("2019-12-01"),ymin = -Inf, ymax = Inf,fill="grey90", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2019-01-01"),xmax = as.Date("2019-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_point(shape=4)+
  geom_line(aes(y=fit/population),color="grey")+
- geom_smooth(method="lm", se=TRUE, fullrange=FALSE, level=0.95, color="black")+
+ geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(method="lm", se=FALSE, fullrange=FALSE, level=0.95, color="black")+
  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
