@@ -1808,3 +1808,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_demographic_2019.csv
+
+  extract_test: 
+    run: r:latest analysis/process/cleaning_id_extraction_test.R
+    needs: [extract_variables_2019,describe_cleaning_process_2019]
+    outputs:
+       moderately_sensitive:
+        plot1: output/extraction_test.csv
