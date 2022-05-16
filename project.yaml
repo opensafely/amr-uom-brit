@@ -831,6 +831,13 @@ actions:
        highly_sensitive:
         talbe1: output/ab_id_date.csv
 
+  describe_cleaning_process_2019:
+    run: r:latest analysis/process/cleaning_id_extraction_2019.R
+    needs: [describe_cleaning_process_2]
+    outputs:
+       highly_sensitive:
+        talbe1: output/ab_id_date_2019.csv
+
   describe_ab_table:
     run: r:latest analysis/tables/repeat_ab_all_record.R
     needs: [describe_cleaning_process]
@@ -1798,3 +1805,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_demographic.csv
+
+  extract_variables_2019: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic_2019
+    needs: [describe_cleaning_process_2019]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_demographic_2019.csv
