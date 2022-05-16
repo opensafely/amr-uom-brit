@@ -1,5 +1,5 @@
 ---
-title: "consultation rate - ITS model2 - combined plots"
+title: "consultation rate - ITS model2 - trend "
 output: 
   html_document:
    toc: true
@@ -205,6 +205,21 @@ df6$month=relevel(as.factor(df6$season),ref="spring")
 ```
 
 
+## rate
+```{r}
+df1$rate=df1$counts/df1$population
+df2$rate=df2$counts/df2$population
+
+df3$rate=df3$counts/df3$population
+
+df4$rate=df4$counts/df4$population
+
+df5$rate=df5$counts/df5$population
+df6$rate=df6$counts/df6$population
+
+```
+
+
 1. UTI
 ```{r}
 m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
@@ -241,67 +256,163 @@ m7.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 ```
 
 
-```{r message=FALSE}
-### confidence intervals for the coefficients
-(est1.1 <- cbind(Estimate = coef(m1.1), confint(m1.1)))
-(est2.1 <- cbind(Estimate = coef(m2.1), confint(m2.1)))
-(est3.1 <- cbind(Estimate = coef(m3.1), confint(m3.1)))
-(est4.1 <- cbind(Estimate = coef(m4.1), confint(m4.1)))
-(est5.1 <- cbind(Estimate = coef(m5.1), confint(m5.1)))
-(est6.1 <- cbind(Estimate = coef(m6.1), confint(m6.1)))
-(est7.1 <- cbind(Estimate = coef(m7.1), confint(m7.1)))
+
+## scatter plot
+```{r}
+
+df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- UTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df2 <- cbind(df2, "resp" = predict(m2.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- URTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df3 <- cbind(df3, "resp" = predict(m3.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- LRTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df4 <- cbind(df4, "resp" = predict(m4.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- sinusitis",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df5 <- cbind(df5, "resp" = predict(m5.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- otitis externa",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df6 <- cbind(df6, "resp" = predict(m6.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- otitis media",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
 
 ```
 
 
-## predictor:covid
+```{r}
 
-### estimate- coefficient
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(est1.1[2,],est2.1[2,],est3.1[2,],est4.1[2,],est5.1[2,],est6.1[2,],est7.1[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
-#reorder
-DF=DF%>%arrange(Infection)
+df7 <- cbind(df7, "resp" = predict(m7.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
 
-names(DF)[1]="coefficient"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
+ggplot(df7, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- all indications",
 
-DF1=DF
-DF1
-rm(DF)
-```
-
-### exp(estimate)- IRR
-```{r message=FALSE}
-### calculate IRR & 95%CI
-exp1.1=exp(est1.1)
-exp2.1=exp(est2.1)
-exp3.1=exp(est3.1)
-exp4.1=exp(est4.1)
-exp5.1=exp(est5.1)
-exp6.1=exp(est6.1)
-exp7.1=exp(est7.1)
+    x = "", 
+    y = "Number of consultations per 1000 patients")
 
 ```
 
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(exp1.1[2,],exp2.1[2,],exp3.1[2,],exp4.1[2,],exp5.1[2,],exp6.1[2,],exp7.1[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
-#reorder
-DF=DF%>%arrange(Infection)
-
-names(DF)[1]="IRR"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-
-DF1.exp=DF
-DF1.exp
-```
 
 # prevalent
 
@@ -392,72 +503,162 @@ m7.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 ```
 
 
-```{r message=FALSE, include=FALSE}
-### confidence intervals for the coefficients
-(est1.2 <- cbind(Estimate = coef(m1.2), confint(m1.2)))
-(est2.2 <- cbind(Estimate = coef(m2.2), confint(m2.2)))
-(est3.2 <- cbind(Estimate = coef(m3.2), confint(m3.2)))
-(est4.2 <- cbind(Estimate = coef(m4.2), confint(m4.2)))
-(est5.2 <- cbind(Estimate = coef(m5.2), confint(m5.2)))
-(est6.2 <- cbind(Estimate = coef(m6.2), confint(m6.2)))
-(est7.2 <- cbind(Estimate = coef(m7.2), confint(m7.2)))
+## scatter plot
+```{r}
+
+df1 <- cbind(df1, "resp" = predict(m1.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  UTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df2 <- cbind(df2, "resp" = predict(m2.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  URTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df3 <- cbind(df3, "resp" = predict(m3.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  LRTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df4 <- cbind(df4, "resp" = predict(m4.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  sinusitis",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df5 <- cbind(df5, "resp" = predict(m5.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  otitis externa",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df6 <- cbind(df6, "resp" = predict(m6.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  otitis media",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
 
 ```
 
 
-## predictor:covid
+```{r}
 
-### estimate- coefficient
+df7 <- cbind(df7, "resp" = predict(m7.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
 
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(est1.2[2,],est2.2[2,],est3.2[2,],est4.2[2,],est5.2[2,],est6.2[2,],est7.2[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
-#reorder
-DF=DF%>%arrange(Infection)
+ggplot(df7, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  all indications",
 
-names(DF)[1]="coefficient"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-
-DF2=DF
-
-DF2
-rm(DF)
-```
-
-
-```{r message=FALSE}
-### calculate IRR & 95%CI
-exp1.2=exp(est1.2)
-exp2.2=exp(est2.2)
-exp3.2=exp(est3.2)
-exp4.2=exp(est4.2)
-exp5.2=exp(est5.2)
-exp6.2=exp(est6.2)
-exp7.2=exp(est7.2)
+    x = "", 
+    y = "Number of consultations per 1000 patients")
 
 ```
 
-### exp(estimate)- IRR
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(exp1.2[2,],exp2.2[2,],exp3.2[2,],exp4.2[2,],exp5.2[2,],exp6.2[2,],exp7.2[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
-#reorder
-DF=DF%>%arrange(Infection)
-
-names(DF)[1]="IRR"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-
-DF2.exp=DF
-
-DF2.exp
-rm(DF)
-```
 
 # incident
 
@@ -548,246 +749,160 @@ m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 m7.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
 ```
 
-## predictor:covid
 
-### estimate- coefficient
-```{r message=FALSE, include=FALSE}
-### confidence intervals for the coefficients
-(est1.3 <- cbind(Estimate = coef(m1.3), confint(m1.3)))
-(est2.3 <- cbind(Estimate = coef(m2.3), confint(m2.3)))
-(est3.3 <- cbind(Estimate = coef(m3.3), confint(m3.3)))
-(est4.3 <- cbind(Estimate = coef(m4.3), confint(m4.3)))
-(est5.3 <- cbind(Estimate = coef(m5.3), confint(m5.3)))
-(est6.3 <- cbind(Estimate = coef(m6.3), confint(m6.3)))
-(est7.3 <- cbind(Estimate = coef(m7.3), confint(m7.3)))
-
-```
-
-
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(est1.3[2,],est2.3[2,],est3.3[2,],est4.3[2,],est5.3[2,],est6.3[2,],est7.3[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
-#reorder
-DF=DF%>%arrange(Infection)
-
-names(DF)[1]="coefficient"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-
-DF3=DF
-
-DF3
-rm(DF)
-```
-
-
-### exp(estimate)- IRR
-
-```{r message=FALSE}
-### calculate IRR & 95%CI
-exp1.3=exp(est1.3)
-exp2.3=exp(est2.3)
-exp3.3=exp(est3.3)
-exp4.3=exp(est4.3)
-exp5.3=exp(est5.3)
-exp6.3=exp(est6.3)
-exp7.3=exp(est7.3)
-
-```
-
-
-```{r message=FALSE}
-## combine results
-# covid
-DF=bind_rows(exp1.3[2,],exp2.3[2,],exp3.3[2,],exp4.3[2,],exp5.3[2,],exp6.3[2,],exp7.3[2,])
-DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","All indications")
-#reorder
-DF=DF%>%arrange(Infection)
-
-names(DF)[1]="IRR"
-names(DF)[2]="ci_l"
-names(DF)[3]="ci_u"
-
-DF3.exp=DF
-
-DF3.exp
-rm(DF)
-```
-
-
-
-# model plot
-## coefficient
-```{r}
-DF1$group="overall"
-DF2$group="prevalent"
-DF3$group="incident"
-DF=bind_rows(DF1,DF2,DF3)
-DF$group=factor(DF$group,levels=c("overall","incident","prevalent"))
-DF$Infection=factor(DF$Infection, levels=c("All indications","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
-
-```
-
-
-
-```{r message=FALSE}
-### Model2_result
-#setting up the basic plot
-p <- ggplot(data=DF, aes(y=group, x=coefficient,color=group))+ 
-#this adds the effect sizes to the plot
-geom_point()+ 
-
-#adds the CIs
-geom_errorbarh(aes(xmin=ci_l, xmax=ci_u))+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=0, color="black", linetype="dashed", alpha=.5)+
-#tematic stuff
-theme_bw()+
-#theme(text=element_text(family="Times",size=18, color="black"))+
-#theme(panel.spacing = unit(1, "lines"))+
-labs(
-      title = "Consultation Reduction",
-    x="Coefficient(95% CI)",
-    y=""
-  )+
-facet_grid(Infection~., scales = "free", space = "free")+
- theme(strip.text.y = element_text(angle = 0),
-   axis.title.y =element_blank(),
-        axis.text.y=element_blank(),
-       axis.ticks.y=element_blank(),
-       legend.title=element_blank(),
-       legend.position="bottom")
-p
-```
-
-
-## IRR
+## scatter plot
 ```{r}
 
-DF1.exp$group="overall"
-DF2.exp$group="prevalent"
-DF3.exp$group="incident"
-DF=bind_rows(DF1.exp,DF2.exp,DF3.exp)
-DF$group=factor(DF$group,levels=c("overall","incident","prevalent"))
-DF$Infection=factor(DF$Infection, levels=c("All indications","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
+df1 <- cbind(df1, "resp" = predict(m1.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  UTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
 
 ```
 
-
-
-```{r message=FALSE}
-### Model2_result
-#setting up the basic plot
-p2 <- ggplot(data=DF, aes(y=group, x=IRR,color=group))+ 
-#this adds the effect sizes to the plot
-geom_point()+ 
-
-#adds the CIs
-geom_errorbarh(aes(xmin=ci_l, xmax=ci_u))+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
-#tematic stuff
-theme_bw()+
-#theme(text=element_text(family="Times",size=18, color="black"))+
-#theme(panel.spacing = unit(1, "lines"))+
-labs(
-      title = "Consultation Reduction",
-    x="IRR (95% CI)",
-    y=""
-  )+
-facet_grid(Infection~., scales = "free", space = "free")+
- theme(strip.text.y = element_text(angle = 0),
-   axis.title.y =element_blank(),
-        axis.text.y=element_blank(),
-       axis.ticks.y=element_blank(),
-       legend.title=element_blank(),
-       legend.position="bottom")
-p2
-```
-
-
-
-# table
-
-## UTI
 ```{r}
-model.all<- list(m1.1, m1.2,m1.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
+
+df2 <- cbind(df2, "resp" = predict(m2.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  URTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
 ```
 
-## URTI
 ```{r}
-model.all<- list(m2.1, m2.2,m2.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
+
+df3 <- cbind(df3, "resp" = predict(m3.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  LRTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
 ```
 
-## LRTI
 ```{r}
-model.all<- list(m3.1, m3.2,m3.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
+
+df4 <- cbind(df4, "resp" = predict(m4.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  sinusitis",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
 ```
 
-## sinusitis
 ```{r}
-model.all<- list(m4.1, m4.2,m4.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
+
+df5 <- cbind(df5, "resp" = predict(m5.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  otitis externa",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
 ```
 
-## otitis externa
 ```{r}
-model.all<- list(m5.1, m5.2,m5.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
+
+df6 <- cbind(df6, "resp" = predict(m6.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  otitis media",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
 ```
 
 
-## otitis media
 ```{r}
-model.all<- list(m6.1, m6.2,m6.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
+
+df7 <- cbind(df7, "resp" = predict(m7.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df7, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  all indications",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
 ```
 
-
-## all indications
-```{r}
-model.all<- list(m7.1, m7.2,m7.3)
-modelsummary(model.all,
-             fmt = 1,
-             statistic = 'conf.int', 
-             conf_level = .95,
-             stars = TRUE,
-             exponentiate = TRUE)
-```
