@@ -1,0 +1,908 @@
+---
+title: "consultation rate - ITS model2 - trend "
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+# overall
+
+```{r message=FALSE}
+library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+library("MASS")
+library(modelsummary)
+#library("gtsummary")
+```
+
+```{r message=FALSE}
+### Import data
+filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds","consult_indications.rds")
+
+#temp <- vector("list", length(filelist))
+
+#for (i in seq_along(filelist)){
+
+df = read_rds(here::here("output","measures",filelist[1]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df1=df
+rm(df)
+#}
+
+df = read_rds(here::here("output","measures",filelist[2]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df2=df
+rm(df)
+
+df = read_rds(here::here("output","measures",filelist[3]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df3=df
+rm(df)
+
+df = read_rds(here::here("output","measures",filelist[4]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df4=df
+rm(df)
+
+
+df = read_rds(here::here("output","measures",filelist[5]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df5=df
+rm(df)
+
+
+df = read_rds(here::here("output","measures",filelist[6]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df6=df
+rm(df)
+
+
+
+# all indications updated
+df = read_rds(here::here("output","measures",filelist[7]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df7=df
+rm(df)
+
+```
+
+```{r message=FALSE}
+
+df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df1$month=relevel(as.factor(df1$season),ref="spring")
+df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df2$month=relevel(as.factor(df2$season),ref="spring")
+df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df3$month=relevel(as.factor(df3$season),ref="spring")
+df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df4$month=relevel(as.factor(df4$season),ref="spring")
+df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df5$month=relevel(as.factor(df5$season),ref="spring")
+df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df6$month=relevel(as.factor(df6$season),ref="spring")
+```
+
+
+## rate
+```{r}
+df1$rate=df1$counts/df1$population
+df2$rate=df2$counts/df2$population
+
+df3$rate=df3$counts/df3$population
+
+df4$rate=df4$counts/df4$population
+
+df5$rate=df5$counts/df5$population
+df6$rate=df6$counts/df6$population
+
+```
+
+
+1. UTI
+```{r}
+m1.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
+```
+
+2. URTI
+```{r}
+m2.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
+```
+
+3. LRTI
+```{r}
+m3.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
+```
+
+4. sinusitis
+```{r}
+m4.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
+```
+
+5. otitis externa
+```{r}
+m5.1<-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
+```
+
+6. otitis media
+```{r }
+m6.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
+```
+
+7. all indications
+```{r }
+m7.1 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
+```
+
+
+
+## scatter plot
+```{r}
+
+df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- UTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df2 <- cbind(df2, "resp" = predict(m2.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- URTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df3 <- cbind(df3, "resp" = predict(m3.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- LRTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df4 <- cbind(df4, "resp" = predict(m4.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- sinusitis",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df5 <- cbind(df5, "resp" = predict(m5.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- otitis externa",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df6 <- cbind(df6, "resp" = predict(m6.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- otitis media",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+
+```{r}
+
+df7 <- cbind(df7, "resp" = predict(m7.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df7, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate- all indications",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+
+# prevalent
+
+
+```{r message=FALSE}
+
+# import incident cases
+df = read_csv(here::here("output","redacted","consultation_rate_prevalent_check.csv"))
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+# infection counts, population size, covid period
+df= df%>% group_by(date, covid,indic)%>% 
+  summarise(counts=sum(counts), 
+            population=sum(population))
+
+# month for adjust seasonality
+df$month=format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+df$month=relevel(as.factor(df$season),ref="spring")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+
+
+df1=df%>%filter(indic=="UTI")
+df2=df%>%filter(indic=="LRTI")
+df3=df%>%filter(indic=="URTI") 
+df4=df%>%filter(indic=="sinusitis")
+df5=df%>%filter(indic=="otitis externa")
+df6=df%>%filter(indic=="otitis media")
+df7=df%>%filter(indic=="all")
+
+
+
+```
+
+
+1. UTI
+```{r}
+m1.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
+```
+
+2. URTI
+```{r}
+m2.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
+```
+
+3. LRTI
+```{r}
+m3.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
+```
+
+4. sinusitis
+```{r}
+m4.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
+```
+
+5. otitis externa
+```{r}
+m5.2 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
+```
+
+6. otitis media
+```{r }
+m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
+```
+
+7. all
+```{r }
+m7.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
+```
+
+
+## scatter plot
+```{r}
+
+df1 <- cbind(df1, "resp" = predict(m1.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  UTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df2 <- cbind(df2, "resp" = predict(m2.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  URTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df3 <- cbind(df3, "resp" = predict(m3.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  LRTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df4 <- cbind(df4, "resp" = predict(m4.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  sinusitis",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df5 <- cbind(df5, "resp" = predict(m5.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  otitis externa",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df6 <- cbind(df6, "resp" = predict(m6.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  otitis media",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+
+```{r}
+
+df7 <- cbind(df7, "resp" = predict(m7.2, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df7, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - prevalent  all indications",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+
+# incident
+
+
+```{r message=FALSE}
+
+# import incident cases
+df = read_csv(here::here("output","redacted","consultation_rate_incident_check.csv"))
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+
+# infection counts, population size, covid period
+df= df%>% group_by(date, covid,indic)%>% 
+  summarise(counts=sum(counts), 
+            population=sum(population))
+
+# month for adjust seasonality
+df$month=format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+df$month=relevel(as.factor(df$season),ref="spring")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+
+
+df1=df%>%filter(indic=="UTI")
+df2=df%>%filter(indic=="LRTI")
+df3=df%>%filter(indic=="URTI") 
+df4=df%>%filter(indic=="sinusitis")
+df5=df%>%filter(indic=="otitis externa")
+df6=df%>%filter(indic=="otitis media")
+df7=df%>%filter(indic=="all indications")
+
+
+
+```
+
+
+
+1. UTI
+```{r}
+m1.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df1)
+```
+
+2. URTI
+```{r}
+m2.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df2)
+```
+
+3. LRTI
+```{r}
+m3.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df3)
+```
+
+4. sinusitis
+```{r}
+m4.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df4)
+```
+
+5. otitis externa
+```{r}
+m5.3 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.since , data = df5)
+```
+
+6. otitis media
+```{r }
+m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
+```
+
+7. all
+```{r }
+m7.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
+```
+
+
+## scatter plot
+```{r}
+
+df1 <- cbind(df1, "resp" = predict(m1.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  UTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df2 <- cbind(df2, "resp" = predict(m2.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  URTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df3 <- cbind(df3, "resp" = predict(m3.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  LRTI",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df4 <- cbind(df4, "resp" = predict(m4.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  sinusitis",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df5 <- cbind(df5, "resp" = predict(m5.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  otitis externa",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+```{r}
+
+df6 <- cbind(df6, "resp" = predict(m6.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  otitis media",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
+
+```{r}
+
+df7 <- cbind(df7, "resp" = predict(m7.3, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df7, aes(x=date, y=rate)) + 
+  theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2020-01-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point()+
+  geom_line(aes(y=fit/population))+
+  geom_smooth()+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Consultation rate - incident  all indications",
+
+    x = "", 
+    y = "Number of consultations per 1000 patients")
+
+```
+
