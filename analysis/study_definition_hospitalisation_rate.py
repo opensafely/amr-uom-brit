@@ -171,6 +171,38 @@ study = StudyDefinition(
        return_expectations={"incidence": 0.3},
     ),
 
+    admitted_cat = patients.admitted_to_hospital(
+        with_these_diagnoses = hospitalisation_infection_related,
+        returning='primary_diagnosis',
+        between=["index_date", "last_day_of_month(index_date)"],
+        return_expectations={
+           "category": {"ratios": {"Streptococcal sepsis":0.1, "Other sepsis":0.1, "Pneumonia due to Streptococcus pneumoniae":0.1, 
+           "Pneumonia due to Haemophilus influenzae":0.1, "Pneumonia in diseases classified elsewhere":0.2, 
+           "ot_externa":0.2, "Meningitis in bacterial diseases classified elsewhere":0.2}},
+            "incidence": 0.3},
+    ),
+
+    # admitted_cat = patients.admitted_to_hospital(
+    #    with_these_diagnoses=hospitalisation_infection_related,
+    #    returning="category",
+    # #    date_format="YYYY-MM-DD",
+    #    between=["index_date", "last_day_of_month(index_date)"],
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.3},
+    # ),
+
+    # # self-reported ethnicity 
+    # ethnicity=patients.with_these_clinical_events(
+    #     ethnicity_codes,
+    #     returning="category",
+    #     find_last_match_in_period=True,
+    #     include_date_of_match=False,
+    #     return_expectations={
+    #         "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+    #         "incidence": 0.75,
+    #     },
+    # ),
+
     # ## Covid positive test result during hospital admission related to urti
     # sgss_pos_covid_admitted=patients.with_test_result_in_sgss(
     #     pathogen="SARS-CoV-2",
