@@ -837,6 +837,8 @@ actions:
     outputs:
        highly_sensitive:
         talbe1: output/ab_id_date_2019.csv
+       moderately_sensitive:
+        table1: output/num_pats_count.csv
 
   describe_ab_table:
     run: r:latest analysis/tables/repeat_ab_all_record.R

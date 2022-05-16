@@ -12,5 +12,7 @@ DF$date <- as.Date(DF$date)
 DF <- DF %>% filter(date <= as.Date("2019-6-30"))
 DF <- DF %>% filter(age > 3)
 DF <- DF %>% select(patient_id, "patient_index_date" = date)
-
+num_pats <- length(unique(DF$patient_id))
+overall_counts <- as.data.frame(num_pats)
 write_csv(DF, here::here("output", "ab_id_date_2019.csv"))
+write_csv(overall_counts, here::here("output", "num_pats_count.csv"))
