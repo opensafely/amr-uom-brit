@@ -286,7 +286,7 @@ actions:
   
   describe_consultation_rate_all_incident_redacted:
     run: r:latest analysis/redaction/consultation_by_age_infection_incident.R
-    needs: [generate_measures_infection]
+    needs: [generate_measures_infection,generate_measures_indication]
     outputs:
        moderately_sensitive:
         plot1.1: output/redacted/consult_age_incident_UTI.jpeg
@@ -319,7 +319,7 @@ actions:
 
   describe_consultation_rate_all_GP_redacted:
     run: r:latest analysis/redaction/consultation_by_age_infection_GP.R
-    needs: [generate_measures_infection,generate_measures_indication]
+    needs: [generate_measures_infection]
     outputs:
        moderately_sensitive: 
         plot1: output/redacted/consult_all_prevalent.jpeg
