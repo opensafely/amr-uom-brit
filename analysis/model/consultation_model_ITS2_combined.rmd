@@ -388,7 +388,7 @@ m5.2 <-glm.nb(counts~ offset(log(population))+ covid + month + times + time.sinc
 
 6. otitis media
 ```{r }
-m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df6)
+m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since, data = df6)
 ```
 
 7. all

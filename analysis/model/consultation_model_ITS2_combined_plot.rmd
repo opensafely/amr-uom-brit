@@ -209,11 +209,8 @@ df6$month=relevel(as.factor(df6$season),ref="spring")
 ```{r}
 df1$rate=df1$counts/df1$population
 df2$rate=df2$counts/df2$population
-
 df3$rate=df3$counts/df3$population
-
 df4$rate=df4$counts/df4$population
-
 df5$rate=df5$counts/df5$population
 df6$rate=df6$counts/df6$population
 
@@ -502,6 +499,16 @@ m6.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 m7.2 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
 ```
 
+## rate
+```{r}
+df1$rate=df1$counts/df1$population
+df2$rate=df2$counts/df2$population
+df3$rate=df3$counts/df3$population
+df4$rate=df4$counts/df4$population
+df5$rate=df5$counts/df5$population
+df6$rate=df6$counts/df6$population
+
+```
 
 ## scatter plot
 ```{r}
@@ -749,6 +756,16 @@ m6.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.sin
 m7.3 <- glm.nb(counts~ offset(log(population))+ covid + month + times + time.since  , data = df7)
 ```
 
+## rate
+```{r}
+df1$rate=df1$counts/df1$population
+df2$rate=df2$counts/df2$population
+df3$rate=df3$counts/df3$population
+df4$rate=df4$counts/df4$population
+df5$rate=df5$counts/df5$population
+df6$rate=df6$counts/df6$population
+
+```
 
 ## scatter plot
 ```{r}
