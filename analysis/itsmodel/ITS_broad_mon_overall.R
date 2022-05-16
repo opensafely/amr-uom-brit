@@ -292,15 +292,8 @@ its_function <- function(outcomes_vec = outcomes,
     filename="mon_overall_forest_B.jpeg", path=here::here("output"),
   )  
 
-		layout = "
-			BBBCCC
-			BBBCCC
-			BBBCCC
-
-		"
   ggsave(
-    plot= 	fp + fp2 + 
-			plot_layout(design = layout) ,
+    plot= 	 fp + fp2 ,
     filename="mon_overall_combined.jpeg", path=here::here("output"),
   ) 
 
