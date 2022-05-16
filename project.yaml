@@ -844,6 +844,8 @@ actions:
     outputs:
        highly_sensitive:
         talbe1: output/ab_id_date_2019.csv
+       moderately_sensitive:
+        table1: output/num_pats_count.csv
 
   describe_ab_table:
     run: r:latest analysis/tables/repeat_ab_all_record.R
@@ -1819,3 +1821,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_demographic_2019.csv
+
+  extract_test: 
+    run: r:latest analysis/process/cleaning_id_extraction_test.R
+    needs: [extract_variables_2019,describe_cleaning_process_2019]
+    outputs:
+       moderately_sensitive:
+        plot1: output/extraction_test.csv
