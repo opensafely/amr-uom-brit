@@ -17,3 +17,11 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+
+  generate_notebook_hospitalisation_rate:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate --ExecutePreprocessor.timeout=86400
+    needs: [generate_measures]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_rate/hospitalisation_rate.html 
+        figures: output/hospitalisation_rate/*

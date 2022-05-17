@@ -163,7 +163,7 @@ study = StudyDefinition(
     ),
 
     admitted_date = patients.admitted_to_hospital(
-       with_these_diagnoses=hospitalisation_infection_related,
+       with_these_diagnoses = hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
        between=["index_date", "last_day_of_month(index_date)"],
@@ -182,7 +182,7 @@ study = StudyDefinition(
             "incidence": 0.3},
     ),
 
-    gp_count_admitted_binary=patients.with_gp_consultations(
+    gp_count_admitted_binary = patients.with_gp_consultations(
         between=["admitted_date - 21 days", "admitted_date - 1 day"],
         returning="binary_flag",
         return_expectations={"incidence": 0.5},
@@ -359,6 +359,22 @@ measures = [
         group_by=["sex", 'age_cat', 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),
+
+    Measure(
+        id="hosp_rate_cat_sex_age_cat",
+        numerator="admitted",
+        denominator="population",
+        group_by=["sex", 'age_cat', 'admitted_cat', 'sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),
+    
+    Measure(
+        id="hosp_rate_sex_age_cat_gp",
+        numerator="admitted",
+        denominator="population",
+        group_by=["sex", 'age_cat', 'gp_count_admitted_binary', 'sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),         
     
     # Measure(
     #     id="hosp_admission_by_stp",
