@@ -28,8 +28,8 @@ library("MASS")
 
 ```{r message=FALSE}
 # Import data
-#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/ab_recorded_incident.csv")
-df = read.csv(here::here("output","ab_recorded_incident.csv"))
+df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/ab_recorded_incident.csv")
+#df = read.csv(here::here("output","ab_recorded_incident.csv"))
 
 # seasons
 df$date=as.Date(df$date)
@@ -77,28 +77,28 @@ df7=df%>%filter(infection=="Other_infection")
 
 ```{r}
 # 0. uncoded
-m0.1 <- glm.nb(value~  covid + season + times + time.since  , data = df0)
+m0.1 <- glm.nb(count~ offset(log(total))+  covid + season + times + time.since  , data = df0)
 
 # 1.  UTI
-m1.1 <- glm.nb(value~ covid + season + times + time.since  , data = df1)
+m1.1 <- glm.nb(count~ offset(log(total)) + covid + season + times + time.since  , data = df1)
 
 # 2.  URTI
-m2.1 <- glm.nb(value~ covid + season + times + time.since  , data = df2)
+m2.1 <- glm.nb(count~ offset(log(total))+ covid + season + times + time.since  , data = df2)
 
 # 3.  LRTI
-m3.1 <- glm.nb(value~ covid + season + times + time.since  , data = df3)
+m3.1 <- glm.nb(count~ offset(log(total)) + covid + season + times + time.since  , data = df3)
 
 # 4.  sinusitis
-m4.1 <- glm.nb(value~ covid + season + times + time.since  , data = df4)
+m4.1 <- glm.nb(count~ offset(log(total))+  covid + season + times + time.since  , data = df4)
 
 # 5.  Otitis_externa
-m5.1 <- glm.nb(value~ covid + season + times + time.since  , data = df5)
+m5.1 <- glm.nb(count~ offset(log(total))+ covid + season + times + time.since  , data = df5)
 
 # 6.  Otitis_media
-m6.1 <- glm.nb(value~ covid + season + times + time.since  , data = df6)
+m6.1 <- glm.nb(count~ offset(log(total))+  covid + season + times + time.since  , data = df6)
 
 # 7.  Other_infection
-m7.1 <- glm.nb(value~ covid + season + times + time.since  , data = df7)
+m7.1 <- glm.nb(count~ offset(log(total))+ covid + season + times + time.since  , data = df7)
 
 ```
 
@@ -115,13 +115,21 @@ m7.1 <- glm.nb(value~ covid + season + times + time.since  , data = df7)
 (est6.1 <- cbind(Estimate = coef(m6.1), confint(m6.1)))
 (est7.1 <- cbind(Estimate = coef(m7.1), confint(m7.1)))
 ### IRR
+# 0. uncoded
 exp0.1=exp(est0.1)
+# 1.  UTI
 exp1.1=exp(est1.1)
+# 2.  URTI
 exp2.1=exp(est2.1)
+# 3.  LRTI
 exp3.1=exp(est3.1)
+# 4.  sinusitis
 exp4.1=exp(est4.1)
+# 5.  Otitis_externa
 exp5.1=exp(est5.1)
+# 6.  Otitis_media
 exp6.1=exp(est6.1)
+# 7.  Other_infection
 exp7.1=exp(est7.1)
 
 ```
@@ -158,8 +166,8 @@ ggplot(df0, aes(x=date, y=value, group=covid)) +
 # geom_line(aes(y=fit*1000/population),color="grey")+
 # geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
  geom_smooth(color="black",se = FALSE)+
-  
- scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
@@ -184,8 +192,8 @@ ggplot(df1, aes(x=date, y=value, group=covid)) +
 # geom_line(aes(y=fit*1000/population),color="grey")+
 # geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
  geom_smooth(color="black",se = FALSE)+
-  
- scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank())+
   labs(
