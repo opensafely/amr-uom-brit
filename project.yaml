@@ -856,6 +856,15 @@ actions:
        moderately_sensitive:
         table1: output/num_pats_count_2020.csv
 
+  describe_cleaning_process_2021:
+    run: r:latest analysis/process/cleaning_id_extraction_2021.R
+    needs: [describe_cleaning_process_2]
+    outputs:
+       highly_sensitive:
+        talbe1: output/ab_id_date_2021.csv
+       moderately_sensitive:
+        table1: output/num_pats_count_2021.csv
+
   describe_ab_table:
     run: r:latest analysis/tables/repeat_ab_all_record.R
     needs: [describe_cleaning_process]
@@ -1853,3 +1862,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_demographic_2020.csv
+
+  extract_variables_2021: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic_2021
+    needs: [describe_cleaning_process_2021]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_demographic_2021.csv
