@@ -727,6 +727,8 @@ df$covid <- factor(df$covid, levels=c("0","1"))
 df=df%>% group_by(covid)%>%mutate(time.since=1:n())
 df$time.since <- ifelse(df$covid==0,0,df$time.since)
 
+df$value=df$count/df$total
+
 ```
 
 
