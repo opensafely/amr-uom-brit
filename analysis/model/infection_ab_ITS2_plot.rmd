@@ -1,0 +1,328 @@
+---
+title: "ITS - infections without issued antibiotics % "
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+```{r message=FALSE}
+library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+library("MASS")
+#library(modelsummary)
+#library("gtsummary")
+```
+
+```{r message=FALSE}
+# Import data
+
+#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/redacted_v2/noAB_uti_check.csv")
+df1 = read.csv(here::here("output","redacted_v2","noAB_uti_check.csv"))
+df1$infection="UTI"
+df2 = read.csv(here::here("output","redacted_v2","noAB_urti_check.csv"))
+df2$infection="URTI"
+df3 = read.csv(here::here("output","redacted_v2","noAB_lrti_check.csv"))
+df3$infection="LRTI"
+df4 = read.csv(here::here("output","redacted_v2","noAB_sinusitis_check.csv"))
+df4$infection="Sinusitis"
+df5 = read.csv(here::here("output","redacted_v2","noAB_ot_externa_check.csv"))
+df5$infection="Otitis_externa"
+df6 = read.csv(here::here("output","redacted_v2","noAB_otmedia_check.csv"))
+df6$infection="Otitis_media"
+
+df=rbind(df1,df2,df3,df4,df5,df6)
+
+# seasons
+df$date=as.Date(df$date)
+df$month= format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+df$season=relevel(as.factor(df$season),ref="spring")
+
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+# time sequence after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+
+# %
+df$value=df$percentage
+
+DF=df
+rm(df)
+```
+
+
+# Incident consultations
+```{r}
+df=DF%>%filter(prevalent==0)
+# split data
+df1=df%>%filter(infection=="UTI")
+df2=df%>%filter(infection=="URTI")
+df3=df%>%filter(infection=="LRTI")
+df4=df%>%filter(infection=="Sinusitis")
+df5=df%>%filter(infection=="Otitis_externa")
+df6=df%>%filter(infection=="Otitis_media")
+
+```
+
+
+```{r}
+
+# 1.  UTI
+m1.1 <- glm.nb(count~ offset(log(total)) + covid + season + times + time.since  , data = df1)
+
+# 2.  URTI
+m2.1 <- glm.nb(count~ offset(log(total))+ covid + season + times + time.since  , data = df2)
+
+# 3.  LRTI
+m3.1 <- glm.nb(count~ offset(log(total)) + covid + season + times + time.since  , data = df3)
+
+# 4.  sinusitis
+m4.1 <- glm.nb(count~ offset(log(total))+  covid + season + times + time.since  , data = df4)
+
+# 5.  Otitis_externa
+m5.1 <- glm.nb(count~ offset(log(total))+ covid + season + times + time.since  , data = df5)
+
+# 6.  Otitis_media
+m6.1 <- glm.nb(count~ offset(log(total))+  covid + season + times + time.since  , data = df6)
+
+```
+
+## result- model summary
+
+coefficient
+```{r message=FALSE}
+### confidence intervals for the coefficients
+(est1.1 <- cbind(Estimate = coef(m1.1), confint(m1.1)))
+(est2.1 <- cbind(Estimate = coef(m2.1), confint(m2.1)))
+(est3.1 <- cbind(Estimate = coef(m3.1), confint(m3.1)))
+(est4.1 <- cbind(Estimate = coef(m4.1), confint(m4.1)))
+(est5.1 <- cbind(Estimate = coef(m5.1), confint(m5.1)))
+(est6.1 <- cbind(Estimate = coef(m6.1), confint(m6.1)))
+### IRR
+# 0. uncoded
+exp0.1=exp(est0.1)
+# 1.  UTI
+exp1.1=exp(est1.1)
+# 2.  URTI
+exp2.1=exp(est2.1)
+# 3.  LRTI
+exp3.1=exp(est3.1)
+# 4.  sinusitis
+exp4.1=exp(est4.1)
+# 5.  Otitis_externa
+exp5.1=exp(est5.1)
+# 6.  Otitis_media
+exp6.1=exp(est6.1)
+# 7.  Other_infection
+exp7.1=exp(est7.1)
+
+```
+
+IRR
+```{r message=FALSE}
+## combine results
+# covid
+DF=bind_rows(exp1.1[2,],exp2.1[2,],exp3.1[2,],exp4.1[2,],exp5.1[2,],exp6.1[2,])
+DF$Infection=c("UTI","URTI","LRTI","Sinusitis","Otitis_externa","Otitis_media")
+#reorder
+DF$Infection=factor(DF$Infection,levels = c("UTI","URTI","LRTI","Sinusitis","Otitis_externa","Otitis_media"))
+
+names(DF)[1]="IRR"
+names(DF)[2]="ci_l"
+names(DF)[3]="ci_u"
+
+DF1.exp=DF
+DF1.exp
+```
+
+
+## result- ITS Plot
+
+Incident UTI consultations without antibiotics 
+```{r}
+
+df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df1, aes(x=date, y=value, group=covid)) + 
+ theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point(shape=4)+
+ # geom_line(aes(y=fit/total),color="grey")+
+# geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(color="black",se = FALSE)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "",
+
+    x = "", 
+    y = "")
+
+```
+
+
+Incident URTI consultations without antibiotics 
+```{r}
+
+df2 <- cbind(df2, "resp" = predict(m2.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df2, aes(x=date, y=value, group=covid)) + 
+ theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point(shape=4)+
+ # geom_line(aes(y=fit/total),color="grey")+
+# geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(color="black",se = FALSE)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "",
+
+    x = "", 
+    y = "")
+
+```
+
+Incident LRTI consultations without antibiotics 
+```{r}
+
+df3 <- cbind(df3, "resp" = predict(m3.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df3, aes(x=date, y=value, group=covid)) + 
+ theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point(shape=4)+
+ # geom_line(aes(y=fit/total),color="grey")+
+# geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(color="black",se = FALSE)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "",
+
+    x = "", 
+    y = "")
+
+```
+
+Incident Sinusitis consultations without antibiotics 
+```{r}
+
+df4 <- cbind(df4, "resp" = predict(m4.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df4, aes(x=date, y=value, group=covid)) + 
+ theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point(shape=4)+
+ # geom_line(aes(y=fit/total),color="grey")+
+# geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(color="black",se = FALSE)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "",
+
+    x = "", 
+    y = "")
+
+```
+
+Incident Otitis externa consultations without antibiotics 
+```{r}
+
+df5 <- cbind(df5, "resp" = predict(m5.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df5, aes(x=date, y=value, group=covid)) + 
+ theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point(shape=4)+
+ # geom_line(aes(y=fit/total),color="grey")+
+# geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(color="black",se = FALSE)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "",
+
+    x = "", 
+    y = "")
+
+```
+
+Incident Otitis media consultations without antibiotics 
+
+```{r}
+
+df6 <- cbind(df6, "resp" = predict(m6.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
+
+ggplot(df6, aes(x=date, y=value, group=covid)) + 
+ theme_bw()+
+  annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_point(shape=4)+
+ # geom_line(aes(y=fit/total),color="grey")+
+# geom_ribbon(aes(ymin=(fit-1.96*se.fit)/population, ymax=(fit+1.96*se.fit)/population),alpha=0.2,fill="black") +
+ geom_smooth(color="black",se = FALSE)+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  theme(axis.text.x = element_text(angle = 60,hjust=1),
+        legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "",
+
+    x = "", 
+    y = "")
+
+```
+
+
+# Prevalent AB prescribing
+
+
+# Overall AB prescribing
+
+
+# combined IRR plot
+

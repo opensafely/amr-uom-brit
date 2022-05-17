@@ -1464,6 +1464,13 @@ actions:
         csv6: output/redacted_v2/AB_otmedia_check.csv
         csv7: output/redacted_v2/AB.csv
 
+  infection_ab_ITS2_plot: 
+    run: r:latest -e 'rmarkdown::render("analysis/model/infection_ab_ITS2_plot.rmd", output_dir = "output/report")'
+    needs: [describe_infection_noAB_plot]
+    outputs:
+      moderately_sensitive:
+        html: output/report/infection_ab_ITS2_plot.html
+
   describe_infection_AB_plot_top3: #  percentage
     run: r:latest analysis/redaction/infection_v2_AB_top3.R
     needs: [describe_infection_abtype_process]
