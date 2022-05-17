@@ -29,7 +29,7 @@ library("MASS")
 ```{r message=FALSE}
 # Import data
 #df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/ab_recorded_incident.csv")
-df = read.csv(here::here("output","measures","ab_recorded_incident.csv"))
+df = read.csv(here::here("output","ab_recorded_incident.csv"))
 
 # seasons
 df$date=as.Date(df$date)
