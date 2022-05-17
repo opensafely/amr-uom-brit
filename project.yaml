@@ -716,7 +716,7 @@ actions:
     needs: [describe_ab_recoded_indication_plot_prevalent,describe_ab_recoded_indication_plot_incident]
     outputs:
       moderately_sensitive:
-        html: output/report/consultation_model_ITS2_combined_plot.html
+        html: output/report/ab_recoded_indication_ITS2_plot.html
 
   describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
     run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
