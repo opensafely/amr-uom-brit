@@ -1869,3 +1869,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_demographic_2021.csv
+
+  describe_prepare_var_2019_process: 
+    run: r:latest analysis/multinomial/prepare_var_2019.R
+    needs: [extract_variables_2019]
+    outputs:
+      moderately_sensitive:
+        table1: output/prepare_var_count_2019.csv
+        table2: output/blt_var_2019.csv
+      highly_sensitive:
+        cohort: output/prepared_var_2019.csv
