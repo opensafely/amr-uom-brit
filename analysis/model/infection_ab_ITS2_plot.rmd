@@ -560,6 +560,38 @@ ggplot(df6, aes(x=date, y=value, group=covid)) +
 #  consultations
 ```{r}
 df=DF.all
+
+df=DF.all%>%group_by(date,infection)%>%summarise(count=sum(count),total=sum(total))
+
+# seasons
+df$date=as.Date(df$date)
+df$month= format(df$date,"%m")
+df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+                                   month=="06"|month=="07"|month=="08" ~ "summer",
+                                   month=="09"|month=="10"|month=="11" ~ "autumn",
+                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+df$season=relevel(as.factor(df$season),ref="spring")
+
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# define covid date
+breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+            max(df$date)) # NA exclusion
+
+df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+
+df=df%>% filter(covid==1 | covid==3)
+df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+df$covid <- factor(df$covid, levels=c("0","1"))
+
+# time sequence after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+
+df$value=df$count/df$total
+
 # split data
 df1=df%>%filter(infection=="UTI")
 df2=df%>%filter(infection=="URTI")
