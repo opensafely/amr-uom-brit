@@ -1879,3 +1879,12 @@ actions:
         table2: output/blt_var_2019.csv
       highly_sensitive:
         cohort: output/prepared_var_2019.csv
+
+  describe_lrti_var_2019_process: 
+    run: r:latest analysis/multinomial/lrti_var_2019.R
+    needs: [describe_prepare_var_2019_process,describe_cleaning_process_2]
+    outputs:
+      moderately_sensitive:
+        table: output/lrti_count_2019.csv
+      highly_sensitive:
+        cohort: output/lrti_outcome_2019.csv
