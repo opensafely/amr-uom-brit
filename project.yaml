@@ -711,6 +711,13 @@ actions:
         plot2: output/ab_recorded_prevalent_line.jpeg
         csv: output/ab_recorded_prevalent.csv
 
+  ab_recoded_indication_ITS2_plot: # overall, incident, prevalent
+    run: r:latest -e 'rmarkdown::render("analysis/model/ab_recoded_indication_ITS2_plot.rmd", output_dir = "output/report")'
+    needs: [describe_ab_recoded_indication_plot_prevalent,describe_ab_recoded_indication_plot_incident]
+    outputs:
+      moderately_sensitive:
+        html: output/report/ab_recoded_indication_ITS2_plot.html
+
   describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
     run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
     needs: [describe_ab_recoded_covid_process] 
