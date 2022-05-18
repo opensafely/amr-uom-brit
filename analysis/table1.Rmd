@@ -32,7 +32,7 @@ df0$wave=ifelse(df0$patient_index_date >= as.Date("2021-05-01"),"3",
                ifelse(df0$patient_index_date >= as.Date("2020-09-01"),"2", 
                       ifelse(df0$patient_index_date >= as.Date("2020-02-01"),"1","0")))
 
-df0=df0%>% select("case","wave","age","region")
+df0=df0%>% select("case","wave","sex","age","region")
 
 
 df0$age_cat=ifelse(df0$age<30,"18-29",
@@ -73,7 +73,7 @@ table
 #df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
 df1 <- read_rds(here::here("output","matched_outcome.rds"))
-df1=df1%>% select("case","wave","age","age_cat","region")
+df1=df1%>% select("case","wave","sex","age","age_cat","region")
 
 
 ```
