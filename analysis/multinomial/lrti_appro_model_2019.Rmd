@@ -49,6 +49,12 @@ DF$charlsonGrp <- relevel(DF$charlsonGrp, ref = "zero")
 DF <- DF %>% dplyr::select(outcome,age_group,sex,ethnicity_6,region,charlsonGrp,imd)
 DF <- DF %>% filter (DF$sex=="M"|DF$sex=="F")
 DF <- DF %>% filter (!is.na(outcome))
+DF <- DF %>% filter (!is.na(ethnicity_6))
+DF <- DF %>% filter (!is.na(imd))
+DF <- DF %>% filter (!is.na(region))
+DF <- DF %>% filter (!is.na(charlsonGrp))
+DF <- DF %>% filter (!is.na(age_group))
+DF <- DF %>% filter (!is.na(sex))
 ```
 
 ```{r}
