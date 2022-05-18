@@ -245,12 +245,7 @@ df=df%>%mutate(ab_qn_type=
                            level=="4" &  ab_types==3 ~ "10",
                            level=="4" &  ab_types==4 ~ "11",
                            level=="4" &  ab_types==5 ~ "12",
-                           level=="4" &  ab_types==6 ~ "13",
-                           level=="4" &  ab_types==7 ~ "14",
-                           level=="4" &  ab_types==8 ~ "15",
-                           level=="4" &  ab_types==9 ~ "16"
-
-                          ))
+                           level=="4" &  ab_types>=6 ~ "13" ))
 
 
 df$ab_qn_type=as.factor(df$ab_qn_type)
@@ -278,7 +273,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:16,-2]
+result=result[1:13,-2]
 ```
 
 
@@ -287,7 +282,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15","ab_qn_type16"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type=1"
@@ -302,14 +297,12 @@ DF[9,1]="level4, type=2"
 DF[10,1]="level4, type=3"
 DF[11,1]="level4, type=4"
 DF[12,1]="level4, type=5"
-DF[13,1]="level4, type=6"
-DF[14,1]="level4, type=7"
-DF[15,1]="level4, type=8"
-DF[16,1]="level4, type=9"
+DF[13,1]="level4, type>=6"
 
 
- Index = rep(1:16) ## This provides an order to the data
-  label = c("level1, type=1","level2, type=1","level2, type=2","level3, type=1","level3, type=2","level3, type=3","level3, type=4","level4, type=1","level4, type=2","level4, type=3","level4, type=4","level4, type=5","level4, type=6","level4, type=7","level4, type=8","level4, type=9")
+
+ Index = rep(1:13) ## This provides an order to the data
+  label = c("level1, type=1","level2, type=1","level2, type=2","level3, type=1","level3, type=2","level3, type=3","level3, type=4","level4, type=1","level4, type=2","level4, type=3","level4, type=4","level4, type=5","level4, type>=6")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -381,7 +374,7 @@ tab2 <- table_base+
 
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
