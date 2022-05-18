@@ -76,9 +76,6 @@ p <- (1 - pnorm(abs(z),0,1)) * 2
 p
 ```
 
-```{r echo=TRUE}
-anova(m0,m1)
-```
 
 ```{r echo=TRUE}
 ###relative risk ratio ###
