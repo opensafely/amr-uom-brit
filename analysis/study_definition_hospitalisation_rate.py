@@ -172,7 +172,8 @@ study = StudyDefinition(
     ),
 
     admitted_cat = patients.admitted_to_hospital(
-        with_these_diagnoses = hospitalisation_infection_related,
+        # with_these_diagnoses = hospitalisation_infection_related,
+        with_these_primary_diagnoses = hospitalisation_infection_related,
         returning='primary_diagnosis',
         between=["index_date", "last_day_of_month(index_date)"],
         return_expectations={
@@ -183,7 +184,7 @@ study = StudyDefinition(
     ),
 
     gp_count_admitted_binary = patients.with_gp_consultations(
-        between=["admitted_date - 21 days", "admitted_date - 1 day"],
+        between=["admitted_date - 5 days", "admitted_date - 1 day"],
         returning="binary_flag",
         return_expectations={"incidence": 0.5},
     ),
