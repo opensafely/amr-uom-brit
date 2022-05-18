@@ -38,6 +38,9 @@ df$case=as.numeric(df$case) #1/0
 df$subclass=as.factor(df$subclass)#pair id
 
 df$level=as.character(df$level) #category
+df$level=ifelse(df$level=="3","2",
+                ifelse(df$level=="4","3",
+                       ifelse(df$level=="5","4",df$level)))
 
 df$CCI= relevel(as.factor(df$CCI), ref="Zero")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
@@ -71,6 +74,16 @@ rm(df)
 df=DF%>%filter(sex=="M")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+
+```
+
 ## crude model
 
 ```{r}
@@ -92,6 +105,16 @@ vif(mod1)
 # female
 ```{r}
 df=DF%>%filter(sex=="F")
+```
+
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+
 ```
 
 ## crude model
@@ -125,3 +148,13 @@ mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 vif(mod1)
 ```
+
+## adjust model
+
+```{r}
+ 
+mod1=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
