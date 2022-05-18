@@ -47,6 +47,8 @@ DF$imd <- relevel(DF$imd, ref = "1")
 DF$region <- relevel(DF$region, ref = "East")
 DF$charlsonGrp <- relevel(DF$charlsonGrp, ref = "zero")
 DF <- DF %>% dplyr::select(outcome,age_group,sex,ethnicity_6,region,charlsonGrp,imd)
+DF <- DF %>% filter (DF$sex=="M"|DF$sex=="F")
+DF <- DF %>% filter (!is.na(outcome))
 ```
 
 ```{r include=FALSE}

@@ -33,7 +33,6 @@ df1 <- df %>% filter(incidental==1) %>% filter(infection== "LRTI")
 df1 <- df1 %>% mutate(outcome = case_when(df1$repeat_ab==0 & df1$type %in% lrtitype ~ 1,
                           df1$repeat_ab==0 & df1$type %in% lrtitype == FALSE ~ 2,
                           df1$repeat_ab==1  ~ 3))
-  
 write_csv(df1, here::here("output", "lrti_outcome_2019.csv"))
 num_pats <- length(unique(df1$patient_id))
 num_pracs <- length(unique(df1$practice))
