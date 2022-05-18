@@ -35,6 +35,9 @@ df$case=as.numeric(df$case) #1/0
 df$subclass=as.factor(df$subclass)#pair id
 
 df$level=as.character(df$level) #category
+df$level=ifelse(df$level=="3","2",
+                ifelse(df$level=="4","3",
+                       ifelse(df$level=="5","4",df$level)))
 df$ab_types=as.numeric(df$ab_types) 
 
 
@@ -53,22 +56,12 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```
 
-```{r}
-# dummy data
-df[1:15,5]<-1
-df[16:29,5]<-0
-df[1:15,4]<-seq(1:15)
-df[16:29,4]<-seq(1:14)
-```
-
 
 
 ```{r}
 
 
-df$level=ifelse(df$level=="3","2",
-                ifelse(df$level=="4","3",
-                       ifelse(df$level=="5","4",df$level)))
+
 
 df=df%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
@@ -139,10 +132,10 @@ DF[2,1]="level2, type=1"
 DF[3,1]="level2, type=2"
 DF[4,1]="level3, type=1"
 DF[5,1]="level3, type=2"
-DF[6,1]="level3, type≥3"
+DF[6,1]="level3, type>=3"
 DF[7,1]="level4, type=1"
 DF[8,1]="level4, type=2"
-DF[9,1]="level4, type≥3"
+DF[9,1]="level4, type>=3"
 
 
  Index = rep(1:9) ## This provides an order to the data
@@ -177,7 +170,7 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
   
 #thematic stuff
 theme_classic()+ 
-  xlim(0, 15)+
+  #xlim(0, 4)+
 theme(text=element_text(family="Times",size=18, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
@@ -225,130 +218,4 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 
-
-
-
-## merge high qn group
-
-
-
-```{r}
-
-#df=df%>%mutate(ab_qn_type= 
- #                case_when(total_ab_qn_5==0 & abtype_3==0 ~ "0",
-  #                         total_ab_qn_5==1 & abtype_3==1 ~ "1",
-   #                        total_ab_qn_5==1 & abtype_3==2 ~ "2",
-    #                       total_ab_qn_5==1 & abtype_3==3 ~ "3",
-     #                      total_ab_qn_5==2 & abtype_3==1 ~ "4",
-      #                     total_ab_qn_5==2 & abtype_3==2 ~ "5",
-       #                    total_ab_qn_5==2 & abtype_3==3 ~ "6",
-        #                   total_ab_qn_5==3 & abtype_3==1 ~ "7",
-         #                  total_ab_qn_5==3 & abtype_3>=2 ~ "8",
-          #                # total_ab_qn_5==3 & abtype_3==3 ~ "9",                           
-           #                total_ab_qn_5==4 & abtype_3==1 ~ "10",
-            #               total_ab_qn_5==4 & abtype_3>=2 ~ "11",
-             #              #total_ab_qn_5==4 & abtype_3==3 ~ "12",                           
-              #             total_ab_qn_5==5 & abtype_3==1 ~ "13",
-               #            total_ab_qn_5==5 & abtype_3>=2 ~ "14"
-                #         #  total_ab_qn_5==5 & abtype_3==3 ~ "15" 
-                 #         ))
-
-
-#df=df%>%mutate(ab_qn_type= 
-#                 case_when(total_ab_qn_5==0 & ab_types==0 ~ "0",
- #                          total_ab_qn_5==1 & ab_types==1 ~ "1",
-  #                         total_ab_qn_5==1 &  ab_types==2 ~ "2",
-   #                        total_ab_qn_5==1 &  ab_types>=3 ~ "3",
-    #                       total_ab_qn_5==2 &  ab_types<=2 ~ "4",
-     #                      total_ab_qn_5==2 &  ab_types==3 ~ "5",
-      #                     total_ab_qn_5==2 &  ab_types>=4 ~ "6",
-       #                    total_ab_qn_5==3 &  ab_types<=2 ~ "7",
-        #                   total_ab_qn_5==3 &  ab_types>=3 ~ "8",
-         #                  total_ab_qn_5==4 &  ab_types<=2 ~ "9",
-          #                 total_ab_qn_5==4 &  ab_types>=3 ~ "10",
-           #                 total_ab_qn_5==5 &  ab_types<=2 ~ "11",
-            #               total_ab_qn_5==5 &  ab_types>=3 ~ "12"                          
-             #             ))
-
-df=df%>%mutate(ab_qn_type= 
-                 case_when(total_ab_qn_5==0 & ab_types==0 ~ "0",
-                           total_ab_qn_5==1 & ab_types==1 ~ "1",
-                           total_ab_qn_5==1 &  ab_types==2 ~ "2",
-                           total_ab_qn_5==1 &  ab_types>=3 ~ "3",
-                           total_ab_qn_5==2 &  ab_types==1 ~ "4",
-                           total_ab_qn_5==2 &  ab_types==2 ~ "5",
-                           total_ab_qn_5==2 &  ab_types>=3 ~ "6",
-                          # total_ab_qn_5==3 &  ab_types==1 ~ "7",
-                           total_ab_qn_5==3 &  ab_types<=2 ~ "8",
-                           total_ab_qn_5==3 &  ab_types>=3 ~ "9",
-                          # total_ab_qn_5==4 &  ab_types==1 ~ "10",
-                           total_ab_qn_5==4 &  ab_types<=2 ~ "11",
-                           total_ab_qn_5==4 &  ab_types>=3 ~ "12",
-                         #   total_ab_qn_5==5 &  ab_types==1 ~ "13",
-                           total_ab_qn_5==5 &  ab_types<=2 ~ "14", 
-                           total_ab_qn_5==5 &  ab_types>=3 ~ "15"
-                          ))
-
-summary(df[df$ab_qn_type=="0",]$total_ab)
-summary(df[df$ab_qn_type=="1",]$total_ab)
-summary(df[df$ab_qn_type=="2",]$total_ab)
-summary(df[df$ab_qn_type=="3",]$total_ab)
-summary(df[df$ab_qn_type=="4",]$total_ab)
-summary(df[df$ab_qn_type=="5",]$total_ab)
-summary(df[df$ab_qn_type=="6",]$total_ab)
-#summary(df[df$ab_qn_type=="7",]$total_ab)
-summary(df[df$ab_qn_type=="8",]$total_ab)
-summary(df[df$ab_qn_type=="9",]$total_ab)
-#summary(df[df$ab_qn_type=="10",]$total_ab)
-summary(df[df$ab_qn_type=="11",]$total_ab)
-summary(df[df$ab_qn_type=="12",]$total_ab)
-#summary(df[df$ab_qn_type=="13",]$total_ab)
-summary(df[df$ab_qn_type=="14",]$total_ab)
-summary(df[df$ab_qn_type=="15",]$total_ab)
-
-df$ab_qn_type=as.factor(df$ab_qn_type)
-#df$ab_qn_type=factor(df$ab_qn_type,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type8","ab_qn_type9","ab_qn_type11","ab_qn_type12","ab_qn_type14","ab_qn_type15"))
-
-
-table(df$ab_qn_type)
-```
-
-
-# models
-
-
-```{r}
- 
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
-           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
-sum.mod=summary(mod)
-sum.mod
-vif(mod)
-
-```
-
-
-```{r}
-result=data.frame(sum.mod$conf.int)
-
-result
-
-result=result[1:12,-2]
-```
-
-
-```{r}
-DF=result
-
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="AB_exposure"
-#DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
-
-
-names(DF)[2]="OR"
-names(DF)[3]="CI_L"
-names(DF)[4]="CI_U"
-
-DF
-```
 
