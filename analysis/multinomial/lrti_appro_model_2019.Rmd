@@ -161,6 +161,8 @@ test=FALSE
   # seperately
   lps <- split(LP,col(LP))
   for(i in 1:(k-1)){assign(paste("lp", i, sep = ""),unlist(lps[[i]]))}
-head(LP)
+aaa <- length(LP[,1])
+bbb <- length(outcome)
+cbind(aaa,bbb)
 
 ```
