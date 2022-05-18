@@ -178,7 +178,7 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
 #thematic stuff
 theme_classic()+ 
   #xlim(0, 4)+
-#theme(text=element_text(family="Times",size=12, color="black"))+
+theme(text=element_text(size=14, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
 labs(
@@ -217,7 +217,7 @@ tab2 <- table_base+
 
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
