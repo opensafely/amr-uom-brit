@@ -176,9 +176,9 @@ study = StudyDefinition(
         returning='primary_diagnosis',
         between=["index_date", "last_day_of_month(index_date)"],
         return_expectations={
-           "category": {"ratios": {"Streptococcal sepsis":0.1, "Other sepsis":0.1, "Pneumonia due to Streptococcus pneumoniae":0.1, 
-           "Pneumonia due to Haemophilus influenzae":0.1, "Pneumonia in diseases classified elsewhere":0.2, 
-           "ot_externa":0.2, "Meningitis in bacterial diseases classified elsewhere":0.2}},
+           "category": {"ratios": {"Streptococcal sepsis":0.1, "Other sepsis":0.05, "Pneumonia due to Streptococcus pneumoniae":0.05, 
+           "Pneumonia due to Haemophilus influenzae":0.1, "Pneumonia in diseases classified elsewhere":0.3, 
+           "ot_externa":0.3, "Meningitis in bacterial diseases classified elsewhere":0.1}},
             "incidence": 0.3},
     ),
 
