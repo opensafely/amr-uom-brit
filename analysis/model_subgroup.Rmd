@@ -148,6 +148,15 @@ vif(mod1)
 df=DF%>%filter(age_grp=="1")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+
+```
 ## crude model
 
 ```{r}
@@ -161,6 +170,15 @@ vif(mod1)
 df=DF%>%filter(age_grp=="2")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+
+```
 ## crude model
 
 ```{r}
@@ -170,10 +188,20 @@ vif(mod1)
 ```
 
 # age group 60-79
+
 ```{r}
 df=DF%>%filter(age_grp=="3")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+
+```
 ## crude model
 
 ```{r}
@@ -187,6 +215,15 @@ vif(mod1)
 df=DF%>%filter(age_grp=="4")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+
+```
 ## crude model
 
 ```{r}
