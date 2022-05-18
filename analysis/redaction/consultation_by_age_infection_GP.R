@@ -421,15 +421,6 @@ df=rbind(df0,df1)
 
 # remove low counts
 
-df.sum <- df %>% 
-  group_by(date,indic)%>%
-  mutate(  
-    lowquart= quantile(rate, na.rm=TRUE)[2],
-    median= quantile(rate, na.rm=TRUE)[3],
-    highquart= quantile(rate, na.rm=TRUE)[4],
-    lowquart.counts= quantile(counts, na.rm=TRUE)[2],
-    median.counts= quantile(counts, na.rm=TRUE)[3],
-    highquart.counts= quantile(counts, na.rm=TRUE)[4])
 
 df0.sum <- df %>% filter(prevalent==0)%>%
   group_by(date,indic)%>%
@@ -487,17 +478,10 @@ df1.table=df1.sum%>%
             rate_75th= mean(highquart),
             gp.counts=sum(length(unique(practice))))
 
-df.table=df.sum%>%
-  group_by(date,indic)%>%
-  summarise(rate_25th= mean(lowquart),
-            median=mean(median),
-            rate_75th= mean(highquart),
-            gp.counts=sum(length(unique(practice))))
 
 
 write.csv(df1.table,here::here("output","redacted","consultation_GP_rate_prevalent.csv"))
 write.csv(df0.table,here::here("output","redacted","consultation_GP_rate_incident.csv"))
-write.csv(df.table,here::here("output","redacted","consultation_GP_rate_all.csv"))
 
 rm(df1.table,df0.table,df1.sum,df0.sum,df)
 
@@ -678,6 +662,8 @@ ggsave(
   
 
  write.csv(df,here::here("output","redacted","consultation_all_GP_check.csv"))
+ write.csv(df.sum,here::here("output","redacted","consultation_GP_rate_all.csv"))
+ 
 # rm(df,df0,df1)
 
 
