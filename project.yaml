@@ -329,6 +329,8 @@ actions:
         csv1.2: output/redacted/consultation_all_GP_check.csv
         csv2: output/redacted/consultation_GP_rate_prevalent.csv
         csv3: output/redacted/consultation_GP_rate_incident.csv
+        csv4: output/redacted/consultation_GP_rate_all.csv
+
 
   describe_consultation_model_process_1:
     run: r:latest analysis/process/consultation_variables_1.R

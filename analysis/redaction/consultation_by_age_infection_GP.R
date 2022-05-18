@@ -402,26 +402,37 @@ df0$prevalent=0
 df1$prevalent=1
 df=rbind(df0,df1)
 
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+#df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+#df=df%>% filter(covid==1 | covid==3)
+#df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+#df$covid <- factor(df$covid, levels=c("0","1"))
 
 # month for adjust seasonality
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
+#df$month=format(df$date,"%m")
+#df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+   #                                month=="06"|month=="07"|month=="08" ~ "summer",
+ #                                  month=="09"|month=="10"|month=="11" ~ "autumn",
+  #                                 month=="12"|month=="01"|month=="02" ~ "winter"))
 
 # remove low counts
+
+df.sum <- df %>% 
+  group_by(date,indic)%>%
+  mutate(  
+    lowquart= quantile(rate, na.rm=TRUE)[2],
+    median= quantile(rate, na.rm=TRUE)[3],
+    highquart= quantile(rate, na.rm=TRUE)[4],
+    lowquart.counts= quantile(counts, na.rm=TRUE)[2],
+    median.counts= quantile(counts, na.rm=TRUE)[3],
+    highquart.counts= quantile(counts, na.rm=TRUE)[4])
+
 df0.sum <- df %>% filter(prevalent==0)%>%
-  group_by(covid,season,indic)%>%
+  group_by(date,indic)%>%
   mutate(  
             lowquart= quantile(rate, na.rm=TRUE)[2],
             median= quantile(rate, na.rm=TRUE)[3],
@@ -431,7 +442,7 @@ df0.sum <- df %>% filter(prevalent==0)%>%
             highquart.counts= quantile(counts, na.rm=TRUE)[4])
 
 df1.sum <- df %>% filter(prevalent==1)%>%
-  group_by(covid,season,indic)%>%
+  group_by(date,indic)%>%
   mutate(  
            lowquart= quantile(rate, na.rm=TRUE)[2],
            median= quantile(rate, na.rm=TRUE)[3],
@@ -462,7 +473,7 @@ df1.sum <- df %>% filter(prevalent==1)%>%
 
 # summarise tables
 df0.table=df0.sum%>%
-  group_by(covid,season,indic)%>%
+  group_by(date,indic)%>%
   summarise(rate_25th= mean(lowquart),
             median=mean(median),
             rate_75th= mean(highquart),
@@ -470,7 +481,14 @@ df0.table=df0.sum%>%
 
 
 df1.table=df1.sum%>%
-  group_by(covid,season,indic)%>%
+  group_by(date,indic)%>%
+  summarise(rate_25th= mean(lowquart),
+            median=mean(median),
+            rate_75th= mean(highquart),
+            gp.counts=sum(length(unique(practice))))
+
+df.table=df.sum%>%
+  group_by(date,indic)%>%
   summarise(rate_25th= mean(lowquart),
             median=mean(median),
             rate_75th= mean(highquart),
@@ -479,6 +497,7 @@ df1.table=df1.sum%>%
 
 write.csv(df1.table,here::here("output","redacted","consultation_GP_rate_prevalent.csv"))
 write.csv(df0.table,here::here("output","redacted","consultation_GP_rate_incident.csv"))
+write.csv(df.table,here::here("output","redacted","consultation_GP_rate_all.csv"))
 
 rm(df1.table,df0.table,df1.sum,df0.sum,df)
 
