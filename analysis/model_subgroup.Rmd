@@ -187,6 +187,15 @@ summary(mod1)
 vif(mod1)
 ```
 
+## adjust model
+
+```{r}
+ 
+mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
 # age group 60-79
 
 ```{r}
@@ -206,6 +215,15 @@ summary(df[df$level==4,]$total_ab)
 
 ```{r}
 mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
+## adjust model
+
+```{r}
+ 
+mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 summary(mod1)
 vif(mod1)
 ```
@@ -232,4 +250,12 @@ summary(mod1)
 vif(mod1)
 ```
 
+## adjust model
+
+```{r}
+ 
+mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
 
