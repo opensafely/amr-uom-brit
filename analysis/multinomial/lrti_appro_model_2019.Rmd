@@ -8,7 +8,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = FALSE)
-#knitr::opts_knit$set(root.dir = '/workspace')
+knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 
@@ -27,7 +27,7 @@ library("here")
 ```
 
 ```{r include=FALSE}
-DF <- read_csv(here("output","lrti_outcome_2019.csv"))
+DF = read.csv(here::here("output","ab_recorded_incident.csv"))
 DF <- DF %>% filter (age>3)
 DF <- DF %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
                                               age>=16 & age<=44 ~ "16-44",
