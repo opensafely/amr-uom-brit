@@ -63,6 +63,7 @@ testing <- DF[ind==2,]
 ### use training dataset to develop the model
 m0 <- multinom(outcome ~ age_group + sex ,data = training)
 m1 <- multinom(outcome ~.,data = training)
+fit.multinomial <- vgam(outcome ~., family = multinomial(ref = "1"), data = training)
 ```
 
 ```{r echo=TRUE}
@@ -140,9 +141,7 @@ tab1/colSums(tab1)
 outcome=testing$outcome
 k=3
 p <- predict(m1 , newdata = testing,type="probs")
-LP21 <- as.matrix(log(p[,2]/p[,1]))
-LP31 <- as.matrix(log(p[,3]/p[,1]))
-LP <- cbind(LP21,LP31)
+LP <- predict(fit.multinomial, newdata = testing)
 r=1
 estimates=FALSE
 dfr=2
