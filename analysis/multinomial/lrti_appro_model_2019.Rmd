@@ -1,16 +1,16 @@
 ---
-title: "lrti_risk_prediction_model_evaluation"
+title: "lrti_appro_model_2019"
 author: "Billy"
-date: "17/05/2022"
+date: "18/05/2022"
 output: html_document
 ---
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = '/workspace')
+knitr::opts_chunk$set(include = FALSE)
+#knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
-### import package
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 library("dplyr")
@@ -26,9 +26,7 @@ library("here")
 
 ```
 
-
-
-```{r}
+```{r include=FALSE}
 DF <- read_csv(here("output","lrti_outcome_2019.csv"))
 DF <- DF %>% filter (age>3)
 DF <- DF %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
@@ -49,11 +47,9 @@ DF$imd <- relevel(DF$imd, ref = "1")
 DF$region <- relevel(DF$region, ref = "East")
 DF$charlsonGrp <- relevel(DF$charlsonGrp, ref = "zero")
 DF <- DF %>% dplyr::select(outcome,age_group,sex,ethnicity_6,region,charlsonGrp,imd)
-
 ```
 
-
-```{r}
+```{r include=FALSE}
 
 # Data Partition 
 set.seed(777)
@@ -64,89 +60,86 @@ ind <- sample(2,nrow(DF),
 training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
-m1 <- multinom(outcome ~.,data = training)
 ### use training dataset to develop the model
 m0 <- multinom(outcome ~ age_group + sex ,data = training)
 m1 <- multinom(outcome ~.,data = training)
-
 ```
 
-```{r}
+```{r echo=TRUE}
 summary(m1)
 ```
 
+```{r echo=TRUE}
 ### 2-tailed Z-test
-```{r}
 z <- summary(m1)$coefficients/summary(m1)$standard.errors
 p <- (1 - pnorm(abs(z),0,1)) * 2
 p
 ```
 
-```{r}
+```{r echo=TRUE}
 anova(m0,m1)
 ```
 
-###relative risk ratio ###
-```{r}
+```{r echo=TRUE}
 ###relative risk ratio ###
 exp(coef(m1))
 ```
 
 
+```{r echo=TRUE}
 ### Confusion Matrix & Misclassification Error - Training Data
-```{r}
 p <- predict(m1,training)
 tab <- table(p, training$outcome)
 tab
 ```
-```{r}
+
+```{r echo=TRUE}
 sum(diag(tab))/sum(tab)
 ```
-```{r}
+
+```{r echo=TRUE}
 1-sum(diag(tab))/sum(tab)
 ```
 
+```{r echo=TRUE}
 ### Confusion Matrix & Misclassification Error - Testing data
-```{r}
 p1 <- predict(m1,testing)
 tab1 <- table(p1, testing$outcome)
 tab1
 ```
-```{r}
+
+```{r echo=TRUE}
 1-sum(diag(tab1))/sum(tab1)
 ```
 
+
+```{r echo=TRUE}
 ### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
-
-```{r}
-
 # columns for  table
 colsfortab <- colnames(training)
 training %>% summary_factorlist(explanatory = colsfortab) -> t1
 t1
 ```
 
-```{r}
+```{r echo=TRUE}
 testing %>% summary_factorlist(explanatory = colsfortab) -> t2
 t2
 ```
 
-
+```{r echo=TRUE}
 ### Table 2. Assessment of calibration-in-the-large in the validation data.
-
-```{r}
 n <- table(testing$outcome)
 n/sum(n)
 ```
 
-```{r}
+```{r echo=TRUE}
 tab1/colSums(tab1)
 ```
 
 
 ### Parametric nominal calibration plot for the validation data of the ovarian tumor case study for each outcome category separately ((a)–(c)) and overall (d).
 
-```{r}
+```{r echo=TRUE}
 outcome=testing$outcome
 k=3
 p <- predict(m1 , newdata = testing,type="probs")
@@ -172,7 +165,7 @@ test=FALSE
   for(i in 1:(k-1)){assign(paste("lp", i, sep = ""),unlist(lps[[i]]))}
 ```
 
-```{r}
+```{r echo=TRUE}
   ###############################################
   # parametric logistic recalibration framework 
   # cf. section 2.2.1.                          
@@ -190,18 +183,9 @@ test=FALSE
 
 
 
-  # non-parametric recalibration framework (using df=2) 
-  
-  # reference category r
-  # lpi = ith linear predictor
-  # for k outcome categories, there are k-1 linear predictors and the code should be adapted to:
-  # fitnp <- vgam(outcome~s(lp1,df=dfr)+s(lp2,df=dfr)+...+s(lpk-1,df=dfr),family=multinomial(refLevel=r))
-  # Separate (non-)parametric calibration plots
 
 
-### parametric calibration plots 
-
-```{r}
+```{r echo=TRUE}
   
   fitnp<-vgam(outcome~s(lp1,df=dfr)+s(lp2,df=dfr),family=multinomial(refLevel=r))
   
@@ -232,9 +216,8 @@ test=FALSE
   par(new=F)} 
 ```
 
-  # non-parametric calibration plot 
 
-```{r}
+```{r echo=TRUE}
   
   # non-parametric calibration plot 
   # cf. section 2.2.2.              
@@ -261,9 +244,9 @@ test=FALSE
   
 ```
 
-# Overall (non-)parametric calibration plot
 
-```{r}
+
+```{r echo=TRUE}
   if(isTRUE(plotoverall)){
     
     
@@ -315,3 +298,7 @@ test=FALSE
 ```
 
  
+
+
+
+

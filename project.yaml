@@ -1903,9 +1903,9 @@ actions:
       highly_sensitive:
         cohort: output/lrti_outcome_2019.csv
 
-  lrti_model_2019: 
-    run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_risk_prediction_model_evaluation_2019.rmd", output_dir = "output/report")'
+  lrti_appro_model_2019:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_appro_model_2019.Rmd", output_dir = "output/report")'
     needs: [describe_lrti_var_2019_process]
     outputs:
       moderately_sensitive:
-        html: output/lrti_model_2019.html
+        html: output/report/lrti_appro_model_2019.html
