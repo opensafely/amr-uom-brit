@@ -139,7 +139,7 @@ DF[9,1]="level4, type>=3"
 
 
  Index = rep(1:9) ## This provides an order to the data
-  label = c("level1, type=1","level2, type=1","level2, type=2","level3, type=1","level3, type=2","level3, type≥3","level4, type=1","level4, type=2","level4, type≥3")
+  label = c("level1, type=1","level2, type=1","level2, type=2","level3, type=1","level3, type=2","level3, type>=3","level4, type=1","level4, type=2","level4, type>=3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -171,12 +171,12 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
 #thematic stuff
 theme_classic()+ 
   #xlim(0, 4)+
-theme(text=element_text(family="Times",size=18, color="black"))+
+theme(text=element_text(size=14, color="black"))+
 theme(panel.spacing = unit(1, "lines"))+
 
 labs(
       title = "",
-    x="OR (95% CI)",
+    x="",
     y=""
   )
 p
@@ -210,7 +210,7 @@ tab2 <- table_base+
 
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
