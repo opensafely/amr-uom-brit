@@ -71,6 +71,17 @@ rm(df)
 df=DF%>%filter(sex=="M")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
+
+```
+
 ## crude model
 
 ```{r}
@@ -80,49 +91,6 @@ vif(mod1)
 ```
 
 ## adjust model
-
-### individual disease
-```{r}
- 
-mod1=clogit(case ~ level + 
-              cancer_comor+cerebrovascular_disease_comor+ chronic_obstructive_pulmonary_comor+ heart_failure_comor+ connective_tissue_comor+ dementia_comor+ diabetes_comor+ diabetes_complications_comor+ hemiplegia_comor+ hiv_comor+ metastatic_cancer_comor+ mild_liver_comor+ mod_severe_liver_comor+ mod_severe_renal_comor+ mi_comor+ peptic_ulcer_comor+ peripheral_vascular_comor
-            + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-###  CCI
-```{r}
- 
-mod1=clogit(case ~ level + CCI 
-            + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-
-###  covid vaccine
-```{r}
- 
-mod1=clogit(case ~ level + covrx_ever + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-
-
-# fully-adjusted model
-
-### CCI+ covid
-```{r}
- 
-mod1=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-
-### all variables
 
 ```{r}
  
@@ -137,6 +105,18 @@ vif(mod1)
 df=DF%>%filter(sex=="F")
 ```
 
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
+
+
+```
+
 ## crude model
 
 ```{r}
@@ -147,53 +127,103 @@ vif(mod1)
 
 ## adjust model
 
-### individual disease
-```{r}
- 
-mod1=clogit(case ~ level + 
-              cancer_comor+cerebrovascular_disease_comor+ chronic_obstructive_pulmonary_comor+ heart_failure_comor+ connective_tissue_comor+ dementia_comor+ diabetes_comor+ diabetes_complications_comor+ hemiplegia_comor+ hiv_comor+ metastatic_cancer_comor+ mild_liver_comor+ mod_severe_liver_comor+ mod_severe_renal_comor+ mi_comor+ peptic_ulcer_comor+ peripheral_vascular_comor
-            + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-###  CCI
-```{r}
- 
-mod1=clogit(case ~ level + CCI 
-            + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-
-###  covid vaccine
-```{r}
- 
-mod1=clogit(case ~ level + covrx_ever + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-
-
-# fully-adjusted model
-
-### CCI+ covid
-```{r}
- 
-mod1=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
-
-### all variables
-
 ```{r}
  
 mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 summary(mod1)
 vif(mod1)
+```
 
+
+# age group 18-39
+```{r}
+df=DF%>%filter(age_grp=="1")
+```
+
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
+
+```
+## crude model
+
+```{r}
+mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
+# age group 40-59
+```{r}
+df=DF%>%filter(age_grp=="2")
+```
+
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
+
+```
+## crude model
+
+```{r}
+mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
+# age group 60-79
+
+```{r}
+df=DF%>%filter(age_grp=="3")
+```
+
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
+
+```
+## crude model
+
+```{r}
+mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
+# age group 80+
+```{r}
+df=DF%>%filter(age_grp=="4")
+```
+
+## ab level
+```{r}
+summary(df[df$level==0,]$total_ab)
+summary(df[df$level==1,]$total_ab)
+summary(df[df$level==2,]$total_ab)
+summary(df[df$level==3,]$total_ab)
+summary(df[df$level==4,]$total_ab)
+summary(df[df$level==5,]$total_ab)
+
+```
+## crude model
+
+```{r}
+mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
 ```
