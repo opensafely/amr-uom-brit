@@ -184,7 +184,7 @@ study = StudyDefinition(
             "incidence": 0.3},
     ),
 
-    gp_count_admitted_binary = patients.with_gp_consultations(
+    gp_cons_admitted_binary = patients.with_gp_consultations(
         between=["admitted_date - 5 days", "admitted_date - 1 day"],
         returning="binary_flag",
         return_expectations={"incidence": 0.5},
@@ -374,7 +374,7 @@ measures = [
         id="hosp_rate_sex_age_cat_gp",
         numerator="admitted",
         denominator="population",
-        group_by=["sex", 'age_cat', 'gp_count_admitted_binary', 'sgss_gp_cov_admitted_binary'],
+        group_by=["sex", 'age_cat', 'gp_cons_admitted_binary', 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),         
     
