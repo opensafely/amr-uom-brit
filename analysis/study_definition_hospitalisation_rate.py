@@ -163,7 +163,8 @@ study = StudyDefinition(
     ),
 
     admitted_date = patients.admitted_to_hospital(
-       with_these_diagnoses = hospitalisation_infection_related,
+    #    with_these_diagnoses = hospitalisation_infection_related,
+       with_these_primary_diagnoses = hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
        between=["index_date", "last_day_of_month(index_date)"],
