@@ -140,7 +140,7 @@ tab1/colSums(tab1)
 ```{r echo=TRUE}
 outcome=testing$outcome
 k=3
-p <- predict(m1 , newdata = testing,type="probs")
+p <- predict(fit.multinomial , newdata = testing,type="response")
 LP <- predict(fit.multinomial, newdata = testing)
 r=1
 estimates=FALSE
