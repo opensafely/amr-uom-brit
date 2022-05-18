@@ -403,8 +403,8 @@ df1$prevalent=1
 df=rbind(df0,df1)
 
 #breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+     #       as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+      #      max(df$date)) # NA exclusion
 
 #df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
