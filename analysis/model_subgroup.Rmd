@@ -54,7 +54,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-
+df$age_cat=as.factor(df$age_cat)
 # stratified by age & sex
 
 ## age grp
@@ -64,11 +64,12 @@ df=df%>%mutate(age_group=case_when(case==1 & age<40 ~1,
                                  case==1 & age>=80 ~4))
 df=df%>% group_by(subclass)%>%mutate(age_grp=sum(age_group,na.rm = T))
 
+df$age_grp=as.factor(df$age_grp)
 # dummy data
-df$case[1:7]=1
-df$case[8:14]=0
-df$subclass[1:7]=rep(1:7)
-df$subclass[8:14]=rep(1:7)
+#df$case[1:7]=1
+#df$case[8:14]=0
+#df$subclass[1:7]=rep(1:7)
+#df$subclass[8:14]=rep(1:7)
 DF=df
 rm(df)
 
@@ -144,8 +145,7 @@ vif(mod1)
 
 # age group 18-39
 ```{r}
-df=DF%>%filter(age_grp==1)
-count(df)
+df=DF%>%filter(age_grp=="1")
 ```
 
 ## crude model
@@ -160,7 +160,7 @@ vif(mod1)
 
 ```{r}
  
-mod1=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
+mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 summary(mod1)
 vif(mod1)
 ```
