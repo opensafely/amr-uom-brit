@@ -68,6 +68,15 @@ vif(mod1)
 
 # adjust model
 
+##  covid vaccine
+```{r}
+ 
+mod1=clogit(case ~ level + covrx_ever + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+
 ## individual disease
 ```{r}
  
@@ -88,14 +97,6 @@ vif(mod1)
 
 ```
 
-##  covid vaccine
-```{r}
- 
-mod1=clogit(case ~ level + covrx_ever + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-
-```
 
 
 # fully-adjusted model
@@ -103,18 +104,30 @@ vif(mod1)
 ## CCI+ covid
 ```{r}
  
-mod1=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
-summary(mod1)
-vif(mod1)
+mod2=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
+summary(mod2)
+vif(mod2)
 
 ```
+
+compare models: CCI vs. CCI+covid
+```{r}
+anova(mod1,mod2)
+```
+
 
 ## all variables
 
 ```{r}
  
-mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
-summary(mod1)
-vif(mod1)
+mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod3)
+vif(mod3)
 
 ```
+
+compare models:  CCI+ covid vs. all
+```{r}
+anova(mod2,mod3)
+```
+
