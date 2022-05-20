@@ -640,10 +640,6 @@ ggsave(
 
   ## combine incident& prevelent 
   df=rbind(df1,df0)   
-  df$year=format(as.Date(df$date),format="%Y")
-  
-  df = df%>% group_by(indic,date,practice)
-
 
   df=df %>% group_by(indic,date,practice) %>%
   summarise(counts=sum(counts), # sum (incident & prevalent)
@@ -691,7 +687,7 @@ ggsave(
  write.csv(df,here::here("output","redacted","consultation_all_GP_check.csv"))
  write.csv(df.sum,here::here("output","redacted","consultation_GP_rate_all.csv"))
  
- 
+ df$year=format(as.Date(df$date),format="%Y")
  df.sum.yr <- df %>% group_by(year,indic) %>%
    summarise(
      Q1= quantile(rate, na.rm=TRUE)[2],
@@ -703,6 +699,7 @@ ggsave(
  
  write.csv(DF,here::here("output","redacted","consultation_GP_rate_yr.csv"))
  
+
 # rm(df,df0,df1)
 
 
