@@ -519,7 +519,7 @@ ggplot(data=df7,aes(x=date,group=covid)) +
          axis.title.y=element_blank(),)
   
 p=ggarrange(P2 , P1,  
-           nrow = 2, align = "v")
+           nrow = 2, align = "v",heights = c(1,2))
 
 annotate_figure(p,
                 left = text_grob(" Number of consultations per 1000 patients", rot = 90)
@@ -877,7 +877,7 @@ ggplot(data=df7,aes(x=date,group=covid)) +
          axis.title.y=element_blank(),)
   
 p=ggarrange(P2 , P1,  
-           nrow = 2, align = "v")
+           nrow = 2, align = "v",heights = c(1,2))
 
 annotate_figure(p,
                 left = text_grob(" Number of consultations per 1000 patients", rot = 90)
@@ -1237,7 +1237,7 @@ ggplot(data=df7,aes(x=date,group=covid)) +
          axis.title.y=element_blank(),)
   
 p=ggarrange(P2 , P1,  
-           nrow = 2, align = "v")
+           nrow = 2, align = "v",heights = c(1,2))
 
 annotate_figure(p,
                 left = text_grob(" Number of consultations per 1000 patients", rot = 90)
