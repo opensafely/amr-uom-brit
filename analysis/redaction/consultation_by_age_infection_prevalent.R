@@ -384,28 +384,28 @@ write.csv(df,here::here("output","redacted","consultation_rate_prevalent_check.c
 df2=df%>%group_by(date,indic)%>%summarise(count=sum(counts), total.pop=mean(total.pop))
 df2$covid=ifelse(df2$date<as.Date("2019-12-31"),0,1)
 df2$rate=df2$count/df2$total.pop*1000
-write.csv(df2,here::here("output","redacted","consultation_rate_prevalent.csv"))
+write.csv(df2,here::here("output","redacted","consultation_rate_incident.csv"))
 
 # define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+#breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#          as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#           max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+#df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+#df=df%>% filter(covid==1 | covid==3)
+#df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+#df$covid <- factor(df$covid, levels=c("0","1"))
 
 # month for adjust seasonality
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-
-df=df%>%group_by(covid,season,indic)%>%summarise(rate=mean(count)/mean(total.pop)*1000)
-write.csv(df,here::here("output","redacted","consultation_rate_prevalent_exclusion.csv"))
+#df$month=format(df$date,"%m")
+#df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                               month=="06"|month=="07"|month=="08" ~ "summer",
+#                              month=="09"|month=="10"|month=="11" ~ "autumn",
+#                             month=="12"|month=="01"|month=="02" ~ "winter"))
+df$year=format(df$date,"%Y")
+df=df%>%group_by(year,indic)%>%summarise(rate=mean(count)/mean(total.pop)*1000)
+write.csv(df,here::here("output","redacted","consultation_rate_prevalent_year.csv"))
 
 
 ### 4. plots
