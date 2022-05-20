@@ -440,7 +440,7 @@ ggplot(df7, aes(x=date, y=rate, group=covid)) +
 ```
 
 
-combined 
+## combined 
 ```{r}
 
 df1$UTI=df1$rate
@@ -478,17 +478,17 @@ ggplot(data=DF,aes(x=date,group=covid)) +
                       values = c("UTI"=7,"LRTI"=6,"URTI"=5,"sinusitis"=4,"otitis_externa"=3,"otitis_media"=2,"all_indications"=1)) +
 
 
-  geom_point(aes(y=UTI, color="UTI"))+
+  geom_point(aes(y=UTI, color="UTI"),shape = 4)+
   geom_smooth(aes(y=UTI,color="UTI"),se = FALSE,fullrange=FALSE)+
-   geom_point(aes(y=URTI, color="URTI"))+
+   geom_point(aes(y=URTI, color="URTI"),shape = 4)+
   geom_smooth(aes(y=URTI,color="URTI"),se = FALSE,fullrange=FALSE)+
-  geom_point(aes(y=LRTI, color="LRTI"))+
+  geom_point(aes(y=LRTI, color="LRTI"),shape = 4)+
   geom_smooth(aes(y=LRTI,color="LRTI"),se = FALSE,fullrange=FALSE)+
-   geom_point(aes(y=sinusitis, color="sinusitis"))+
+   geom_point(aes(y=sinusitis, color="sinusitis"),shape = 4)+
   geom_smooth(aes(y=sinusitis,color="sinusitis"),se = FALSE,fullrange=FALSE)+
-     geom_point(aes(y=otitis_externa, color="otitis_externa"))+
+     geom_point(aes(y=otitis_externa, color="otitis_externa"),shape = 4)+
   geom_smooth(aes(y=otitis_externa,color="otitis_externa"),se = FALSE,fullrange=FALSE)+
-  geom_point(aes(y=otitis_media, color="otitis_media"))+
+  geom_point(aes(y=otitis_media, color="otitis_media"),shape = 4)+
   geom_smooth(aes(y=otitis_media,color="otitis_media"),se = FALSE,fullrange=FALSE)+
   
    scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
@@ -510,15 +510,16 @@ ggplot(data=df7,aes(x=date,group=covid)) +
   annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   
-   geom_point(aes(y=all_indications))+
+   geom_point(aes(y=all_indications),shape=4)+
   geom_smooth(aes(y=all_indications),se = FALSE,fullrange=FALSE,color="black")+
+     scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   
  theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
          axis.title.y=element_blank(),)
   
-p=ggarrange(P2 , P1, heights = c(1, 2), 
-           nrow = 2)
+p=ggarrange(P2 , P1,  
+           nrow = 2, align = "v")
 
 annotate_figure(p,
                 left = text_grob(" Number of consultations per 1000 patients", rot = 90)
@@ -797,8 +798,7 @@ ggplot(df7, aes(x=date, y=rate, group=covid)) +
 
 ```
 
-combined 
-
+## combined 
 ```{r}
 
 df1$UTI=df1$rate
@@ -836,17 +836,17 @@ ggplot(data=DF,aes(x=date,group=covid)) +
                       values = c("UTI"=7,"LRTI"=6,"URTI"=5,"sinusitis"=4,"otitis_externa"=3,"otitis_media"=2,"all_indications"=1)) +
 
 
-  geom_point(aes(y=UTI, color="UTI"))+
+  geom_point(aes(y=UTI, color="UTI"),shape = 4)+
   geom_smooth(aes(y=UTI,color="UTI"),se = FALSE,fullrange=FALSE)+
-   geom_point(aes(y=URTI, color="URTI"))+
+   geom_point(aes(y=URTI, color="URTI"),shape = 4)+
   geom_smooth(aes(y=URTI,color="URTI"),se = FALSE,fullrange=FALSE)+
-  geom_point(aes(y=LRTI, color="LRTI"))+
+  geom_point(aes(y=LRTI, color="LRTI"),shape = 4)+
   geom_smooth(aes(y=LRTI,color="LRTI"),se = FALSE,fullrange=FALSE)+
-   geom_point(aes(y=sinusitis, color="sinusitis"))+
+   geom_point(aes(y=sinusitis, color="sinusitis"),shape = 4)+
   geom_smooth(aes(y=sinusitis,color="sinusitis"),se = FALSE,fullrange=FALSE)+
-     geom_point(aes(y=otitis_externa, color="otitis_externa"))+
+     geom_point(aes(y=otitis_externa, color="otitis_externa"),shape = 4)+
   geom_smooth(aes(y=otitis_externa,color="otitis_externa"),se = FALSE,fullrange=FALSE)+
-  geom_point(aes(y=otitis_media, color="otitis_media"))+
+  geom_point(aes(y=otitis_media, color="otitis_media"),shape = 4)+
   geom_smooth(aes(y=otitis_media,color="otitis_media"),se = FALSE,fullrange=FALSE)+
   
    scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
@@ -868,15 +868,16 @@ ggplot(data=df7,aes(x=date,group=covid)) +
   annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   
-   geom_point(aes(y=all_indications))+
+   geom_point(aes(y=all_indications),shape=4)+
   geom_smooth(aes(y=all_indications),se = FALSE,fullrange=FALSE,color="black")+
+     scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   
  theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
          axis.title.y=element_blank(),)
   
-p=ggarrange(P2 , P1, heights = c(1, 2), 
-           nrow = 2)
+p=ggarrange(P2 , P1,  
+           nrow = 2, align = "v")
 
 annotate_figure(p,
                 left = text_grob(" Number of consultations per 1000 patients", rot = 90)
@@ -1157,8 +1158,7 @@ ggplot(df7, aes(x=date, y=rate, group=covid)) +
 
 ```
 
-combined 
-
+## combined 
 ```{r}
 
 df1$UTI=df1$rate
@@ -1196,17 +1196,17 @@ ggplot(data=DF,aes(x=date,group=covid)) +
                       values = c("UTI"=7,"LRTI"=6,"URTI"=5,"sinusitis"=4,"otitis_externa"=3,"otitis_media"=2,"all_indications"=1)) +
 
 
-  geom_point(aes(y=UTI, color="UTI"))+
+  geom_point(aes(y=UTI, color="UTI"),shape = 4)+
   geom_smooth(aes(y=UTI,color="UTI"),se = FALSE,fullrange=FALSE)+
-   geom_point(aes(y=URTI, color="URTI"))+
+   geom_point(aes(y=URTI, color="URTI"),shape = 4)+
   geom_smooth(aes(y=URTI,color="URTI"),se = FALSE,fullrange=FALSE)+
-  geom_point(aes(y=LRTI, color="LRTI"))+
+  geom_point(aes(y=LRTI, color="LRTI"),shape = 4)+
   geom_smooth(aes(y=LRTI,color="LRTI"),se = FALSE,fullrange=FALSE)+
-   geom_point(aes(y=sinusitis, color="sinusitis"))+
+   geom_point(aes(y=sinusitis, color="sinusitis"),shape = 4)+
   geom_smooth(aes(y=sinusitis,color="sinusitis"),se = FALSE,fullrange=FALSE)+
-     geom_point(aes(y=otitis_externa, color="otitis_externa"))+
+     geom_point(aes(y=otitis_externa, color="otitis_externa"),shape = 4)+
   geom_smooth(aes(y=otitis_externa,color="otitis_externa"),se = FALSE,fullrange=FALSE)+
-  geom_point(aes(y=otitis_media, color="otitis_media"))+
+  geom_point(aes(y=otitis_media, color="otitis_media"),shape = 4)+
   geom_smooth(aes(y=otitis_media,color="otitis_media"),se = FALSE,fullrange=FALSE)+
   
    scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
@@ -1228,15 +1228,16 @@ ggplot(data=df7,aes(x=date,group=covid)) +
   annotate(geom = "rect", xmin = as.Date("2019-12-01"),xmax = as.Date("2020-04-01"),ymin = -Inf, ymax = Inf,fill="grey60", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-04-01"),xmax = as.Date("2021-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   
-   geom_point(aes(y=all_indications))+
+   geom_point(aes(y=all_indications),shape=4)+
   geom_smooth(aes(y=all_indications),se = FALSE,fullrange=FALSE,color="black")+
+     scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
   
  theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
          axis.title.y=element_blank(),)
   
-p=ggarrange(P2 , P1, heights = c(1, 2), 
-           nrow = 2)
+p=ggarrange(P2 , P1,  
+           nrow = 2, align = "v")
 
 annotate_figure(p,
                 left = text_grob(" Number of consultations per 1000 patients", rot = 90)
