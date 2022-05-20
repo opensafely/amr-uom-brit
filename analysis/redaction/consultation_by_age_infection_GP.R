@@ -443,6 +443,30 @@ df1.sum <- df %>% filter(prevalent==1)%>%
            highquart.counts= quantile(counts, na.rm=TRUE)[4])
 
 
+# group by year
+df$year=format(as.Date(df$date),format="%Y")
+
+df0.sum.yr <- df %>% filter(prevalent==0)%>%
+  group_by(year,indic)%>%
+  summarise(  
+    Q1= quantile(rate, na.rm=TRUE)[2],
+    median= quantile(rate, na.rm=TRUE)[3],
+    Q3= quantile(rate, na.rm=TRUE)[4]
+    )
+
+df1.sum.yr <- df %>% filter(prevalent==0)%>%
+  group_by(year,indic)%>%
+  summarise(  
+    Q1= quantile(rate, na.rm=TRUE)[2],
+    median= quantile(rate, na.rm=TRUE)[3],
+    Q3= quantile(rate, na.rm=TRUE)[4]
+)
+
+df0.sum.yr$prevalent=0
+df1.sum.yr$prevalent=1
+
+DF=rbind(df0.sum.yr,df1.sum.yr)
+
 
 # #remove counts<=5
 
@@ -482,6 +506,8 @@ df1.table=df1.sum%>%
 
 write.csv(df1.table,here::here("output","redacted","consultation_GP_rate_prevalent.csv"))
 write.csv(df0.table,here::here("output","redacted","consultation_GP_rate_incident.csv"))
+
+
 
 rm(df1.table,df0.table,df1.sum,df0.sum,df)
 
@@ -614,7 +640,8 @@ ggsave(
 
   ## combine incident& prevelent 
   df=rbind(df1,df0)   
-
+  df$year=format(as.Date(df$date),format="%Y")
+  
   df = df%>% group_by(indic,date,practice)
 
 
@@ -663,6 +690,18 @@ ggsave(
 
  write.csv(df,here::here("output","redacted","consultation_all_GP_check.csv"))
  write.csv(df.sum,here::here("output","redacted","consultation_GP_rate_all.csv"))
+ 
+ 
+ df.sum.yr <- df %>% group_by(year,indic) %>%
+   summarise(
+     Q1= quantile(rate, na.rm=TRUE)[2],
+     median= quantile(rate, na.rm=TRUE)[3],
+     Q3= quantile(rate, na.rm=TRUE)[4])
+ 
+ df.sum.yr$prevalent=NA
+ DF=rbind(DF,df.sum.yr)
+ 
+ write.csv(DF,here::here("output","redacted","consultation_GP_rate_yr.csv"))
  
 # rm(df,df0,df1)
 

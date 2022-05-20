@@ -330,6 +330,7 @@ actions:
         csv2: output/redacted/consultation_GP_rate_prevalent.csv
         csv3: output/redacted/consultation_GP_rate_incident.csv
         csv4: output/redacted/consultation_GP_rate_all.csv
+        table: output/redacted/consultation_GP_rate_yr.csv
 
 
   describe_consultation_model_process_1:
