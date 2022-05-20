@@ -178,48 +178,7 @@ df7$indic="all"
 
 ```
 
-```{r message=FALSE}
 
-df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df1$month=relevel(as.factor(df1$season),ref="spring")
-df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df2$month=relevel(as.factor(df2$season),ref="spring")
-df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df3$month=relevel(as.factor(df3$season),ref="spring")
-df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df4$month=relevel(as.factor(df4$season),ref="spring")
-df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df5$month=relevel(as.factor(df5$season),ref="spring")
-df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df6$month=relevel(as.factor(df6$season),ref="spring")
-
-df7=df7%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
-                                   month=="03"|month=="04"|month=="05" ~"spring",
-                                   month=="06"|month=="07"|month=="08" ~"summer",
-                                   month=="09"|month=="10"|month=="11" ~"autumn"))
-df7$month=relevel(as.factor(df7$season),ref="spring")
-```
-
-
-## rate
 ```{r}
 df1$rate=df1$counts/df1$population*1000
 df2$rate=df2$counts/df2$population*1000
@@ -237,6 +196,7 @@ df7$rate=df7$counts/df7$population*1000
 ```{r}
 
 DF=rbind(df1,df2,df3,df4,df5,df6,df7)
+DF$indic=factor(DF$indic, levels = c("all","UTI","URTI","LRTI","sinusitis","otitis externa","otitis media"))
 
 
 ggplot(data=DF,aes(x=date,y=rate,group=covid)) + 
@@ -304,37 +264,20 @@ df=df%>% group_by(covid)%>%mutate(time.since=1:n())
 df$time.since <- ifelse(df$covid==0,0,df$time.since)
 
 
-df1=df%>%filter(indic=="UTI")
-df2=df%>%filter(indic=="LRTI")
-df3=df%>%filter(indic=="URTI") 
-df4=df%>%filter(indic=="sinusitis")
-df5=df%>%filter(indic=="otitis externa")
-df6=df%>%filter(indic=="otitis media")
-df7=df%>%filter(indic=="all indications")
+df$rate=df$counts/df$population*1000
+DF=df
 
-
+DF$indic=ifelse(DF$indic=="all indications","all",DF$indic)
+DF$indic=factor(DF$indic, levels = c("all","UTI","URTI","LRTI","sinusitis","otitis externa","otitis media"))
 
 ```
 
 
-
-## rate
-```{r}
-df1$rate=df1$counts/df1$population*1000
-df2$rate=df2$counts/df2$population*1000
-df3$rate=df3$counts/df3$population*1000
-df4$rate=df4$counts/df4$population*1000
-df5$rate=df5$counts/df5$population*1000
-df6$rate=df6$counts/df6$population*1000
-df7$rate=df7$counts/df7$population*1000
-
-```
 
 
 ## combined 
 ```{r}
 
-DF=rbind(df1,df2,df3,df4,df5,df6,df7)
 
 
 ggplot(data=DF,aes(x=date,y=rate,group=covid)) + 
@@ -400,38 +343,21 @@ df=df%>% group_by(covid)%>%mutate(time.since=1:n())
 df$time.since <- ifelse(df$covid==0,0,df$time.since)
 
 
-df1=df%>%filter(indic=="UTI")
-df2=df%>%filter(indic=="LRTI")
-df3=df%>%filter(indic=="URTI") 
-df4=df%>%filter(indic=="sinusitis")
-df5=df%>%filter(indic=="otitis externa")
-df6=df%>%filter(indic=="otitis media")
-df7=df%>%filter(indic=="all indications")
 
+df$rate=df$counts/df$population*1000
+DF=df
+
+DF$indic=ifelse(DF$indic=="all indications","all",DF$indic)
+DF$indic=factor(DF$indic, levels = c("all","UTI","URTI","LRTI","sinusitis","otitis externa","otitis media"))
 
 
 ```
 
 
-
-
-## rate
-```{r}
-df1$rate=df1$counts/df1$population*1000
-df2$rate=df2$counts/df2$population*1000
-df3$rate=df3$counts/df3$population*1000
-df4$rate=df4$counts/df4$population*1000
-df5$rate=df5$counts/df5$population*1000
-df6$rate=df6$counts/df6$population*1000
-df7$rate=df7$counts/df7$population*1000
-
-```
 
 
 ## combined 
 ```{r}
-DF=rbind(df1,df2,df3,df4,df5,df6,df7)
-
 
 ggplot(data=DF,aes(x=date,y=rate,group=covid)) + 
  theme_bw()+
