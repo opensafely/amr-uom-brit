@@ -2,6 +2,7 @@
 
 # This script provides the formal specification of the study data that will be extracted from
 # the OpenSAFELY database.
+# Update the pre_period to calculate the 12 count 12 months before
 
 ######################################
 
@@ -30,7 +31,7 @@ from codelists import *
 ## Define study time variables
 from datetime import datetime
 
-start_date = "2018-10-01"
+start_date = "2018-01-01"
 end_date = "2018-12-31"
 
 ## Define study population and variables
