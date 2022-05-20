@@ -444,25 +444,25 @@ combined
 ```{r}
 
 df1$UTI=df1$rate
-df1=df1%>%select(date,covid,UTI)
+df1=df1[,c("date","covid","UTI")]
 
 df2$URTI=df2$rate
-df2=df2%>%select(date,covid,URTI)
+df2=df2[,c("date","covid","UTI")]
 
 df3$LRTI=df3$rate
-df3=df3%>%select(date,covid,LRTI)
+df3=df3[,c("date","covid","UTI")]
 
 df4$sinusitis=df4$rate
-df4=df4%>%select(date,covid,sinusitis)
+df4=df4[,c("date","covid","UTI")]
 
 df5$otitis_externa=df5$rate
-df5=df5%>%select(date,covid,otitis_externa)
+df5=df5[,c("date","covid","UTI")]
 
 df6$otitis_media=df6$rate
-df6=df6%>%select(date,covid,otitis_media)
+df6=df6[,c("date","covid","UTI")]
 
 df7$all_indications=df7$rate
-df7=df7%>%select(date,covid,all_indications)
+df7=df7[,c("date","covid","UTI")]
 
 list=list(df1,df2,df3,df4,df5,df6,df7)
 DF=list %>% reduce(full_join, by=c('date',"covid"))
