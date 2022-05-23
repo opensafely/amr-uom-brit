@@ -405,8 +405,10 @@ write.csv(df2,here::here("output","redacted","consultation_rate_incident.csv"))
     #                               month=="06"|month=="07"|month=="08" ~ "summer",
      #                              month=="09"|month=="10"|month=="11" ~ "autumn",
       #                             month=="12"|month=="01"|month=="02" ~ "winter"))
+
 df$year=format(df$date,"%Y")
-df=df%>%group_by(year,indic)%>%summarise(rate=mean(count)/mean(total.pop)*1000)
+df$month_rate=df$counts/df$total.pop*1000
+df=df%>%group_by(year,indic)%>%summarise(rate_year=mean(month_rate))
 write.csv(df,here::here("output","redacted","consultation_rate_incident_year.csv"))
 
 
