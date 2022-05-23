@@ -1,5 +1,5 @@
 ---
-title: "consultation rate - ITS model2 - trend "
+title: "consultation rate trend - ITS model"
 output: 
   html_document:
    toc: true
@@ -190,7 +190,6 @@ df7$rate=df7$counts/df7$population*1000
 ```
 
 
-## combined 
 
 
 ```{r}
@@ -206,13 +205,18 @@ ggplot(data=DF,aes(x=date,y=rate,group=covid)) +
   
   geom_point(shape = 4)+
   geom_smooth(se = FALSE,fullrange=FALSE, color="black")+
+  update_geom_defaults("smooth", list(size = .5))+
   
-  facet_grid(rows = vars(indic),scales="free_y")+
+  facet_grid(rows = vars(indic),scales="free_y",labeller = label_wrap_gen(width = 2, multi_line = TRUE))+
   
-   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(labels = scales::label_number(accuracy = 0.01))+
+  
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank(),
-         axis.title.x=element_blank())+
+         axis.title.x=element_blank(),
+        )+
   labs(
     title = "",
 
@@ -287,19 +291,25 @@ ggplot(data=DF,aes(x=date,y=rate,group=covid)) +
   
   geom_point(shape = 4)+
   geom_smooth(se = FALSE,fullrange=FALSE, color="black")+
+  update_geom_defaults("smooth", list(size = .5))+
   
-  facet_grid(rows = vars(indic),scales="free_y")+
+  facet_grid(rows = vars(indic),scales="free_y",labeller = label_wrap_gen(width = 2, multi_line = TRUE))+
   
-   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(labels = scales::label_number(accuracy = 0.01))+
+  
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank(),
-         axis.title.x=element_blank())+
+         axis.title.x=element_blank(),
+        )+
   labs(
     title = "",
 
     x = "", 
     y = "Number of consultations per 1000 patients")
   
+
 
 ```
 
@@ -355,8 +365,6 @@ DF$indic=factor(DF$indic, levels = c("all","UTI","URTI","LRTI","sinusitis","otit
 
 
 
-
-## combined 
 ```{r}
 
 ggplot(data=DF,aes(x=date,y=rate,group=covid)) + 
@@ -366,17 +374,23 @@ ggplot(data=DF,aes(x=date,y=rate,group=covid)) +
   
   geom_point(shape = 4)+
   geom_smooth(se = FALSE,fullrange=FALSE, color="black")+
+  update_geom_defaults("smooth", list(size = .5))+
   
-  facet_grid(rows = vars(indic),scales="free_y")+
+  facet_grid(rows = vars(indic),scales="free_y",labeller = label_wrap_gen(width = 2, multi_line = TRUE))+
   
-   scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  scale_y_continuous(labels = scales::label_number(accuracy = 0.01))+
+  
+  scale_x_date(date_breaks = "1 month",date_labels =  "%Y-%m")+
+  
   theme(axis.text.x = element_text(angle = 60,hjust=1),
         legend.position = "bottom",legend.title =element_blank(),
-         axis.title.x=element_blank())+
+         axis.title.x=element_blank(),
+        )+
   labs(
     title = "",
 
     x = "", 
     y = "Number of consultations per 1000 patients")
   
+
 ```
