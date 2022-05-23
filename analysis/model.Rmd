@@ -143,7 +143,6 @@ anova(mod2,mod3)
 # remove outlier
 
 ```{r}
-df=df1
 
 count(df)
 # 99%percentile
