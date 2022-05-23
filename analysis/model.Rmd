@@ -146,7 +146,7 @@ anova(mod2,mod3)
 
 count(df)
 # 99%percentile
-outlier=quantile(df$total_ab,0.99,na.rm=T)
+outlier=quantile(df$total_ab,0.9999,na.rm=T)
 outlier
 
 df$outlier=ifelse(df$total_ab>outlier,1,0)
@@ -161,6 +161,7 @@ count(df)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
 df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
 df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
 count(df)
 
 
