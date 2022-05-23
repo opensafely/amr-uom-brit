@@ -138,22 +138,11 @@ study = StudyDefinition(
         }
     ),
 
-    # admitted_binary=patients.admitted_to_hospital(
-    #     returning="binary_flag",
-    #     between=["index_date", "last_day_of_month(index_date)"],
-    #     return_expectations={"incidence": 0.1},
-    # ),
-
-    # died=patients.died_from_any_cause(
-    #     between=["index_date", "last_day_of_month(index_date)"],
-    #     returning="binary_flag",
-    #     return_expectations={"incidence": 0.05},
-    # ),
-
 ## hospital admission
 
     admitted = patients.admitted_to_hospital(
-       with_these_diagnoses=hospitalisation_infection_related,
+    #    with_these_diagnoses = hospitalisation_infection_related,
+       with_these_primary_diagnoses = hospitalisation_infection_related,
        returning="number_of_matches_in_period",
     #    date_format="YYYY-MM-DD",
        between=["index_date", "last_day_of_month(index_date)"],
@@ -190,57 +179,6 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.5},
     ),
 
-    # admitted_cat = patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="category",
-    # #    date_format="YYYY-MM-DD",
-    #    between=["index_date", "last_day_of_month(index_date)"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
-
-    # # self-reported ethnicity 
-    # ethnicity=patients.with_these_clinical_events(
-    #     ethnicity_codes,
-    #     returning="category",
-    #     find_last_match_in_period=True,
-    #     include_date_of_match=False,
-    #     return_expectations={
-    #         "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
-    #         "incidence": 0.75,
-    #     },
-    # ),
-
-    # ## Covid positive test result during hospital admission related to urti
-    # sgss_pos_covid_admitted=patients.with_test_result_in_sgss(
-    #     pathogen="SARS-CoV-2",
-    #     test_result="positive",
-    #     between=["admitted_date - 90 days", "admitted_date + 30 days"],
-    #     find_first_match_in_period=True,
-    #     returning="date",
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.5},
-    # ),
-
-    # ## Covid diagnosis during hospital admission related to urti
-    # gp_covid_date_admitted = patients.with_these_clinical_events(
-    #     any_primary_care_code,
-    #     returning="date",
-    #     between=["admitted_date - 90 days", "admitted_date + 30 days"],
-    #     find_first_match_in_period=True,
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.5},
-    #     # return_expectations={"date":{"earliest":index_date}, "rate": "exponential_increase", "incidence": 0.5},
-    # ),
-
-    # ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx 
-    # sgss_gp_cov_admitted = patients.satisfying(
-    #     """
-    #     sgss_pos_covid_admitted OR
-    #     gp_covid_date_admitted
-    #     """,
-    # ),
-
     ## Covid positive test result during hospital admission related to urti - BINARY
     sgss_pos_covid_admitted_binary = patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -270,61 +208,6 @@ study = StudyDefinition(
         gp_covid_date_admitted_binary
         """,
     ),
-
-
-#     ## Covid positive test result during hospital admission related to urti - COUNT
-#     sgss_pos_covid_admitted_count = patients.with_test_result_in_sgss(
-#         pathogen="SARS-CoV-2",
-#         test_result="positive",
-#         between=["admitted_date - 90 days", "admitted_date + 30 days"],
-#         # find_first_match_in_period=True,
-#         returning="number_of_matches_in_period",
-#         # date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.5},
-#     ),
-
-
-# ## hospitalisation with no covid Dx 90 days before and 30 days after admission
-#     admitted_no_sgss_gp_cov_date = patients.satisfying(
-#         """
-#         admitted_date AND NOT
-#         sgss_gp_cov_admitted
-#         """,
-#     ),
-
-#     admitted_no_sgss_gp_cov_binary = patients.satisfying(
-#         """
-#         admitted AND NOT
-#         sgss_gp_cov_admitted_binary
-#         """,
-#     ),
-
-#     admitted_no_sgss_gp_cov_count = patients.satisfying(
-#         """
-#         admitted AND NOT
-#         sgss_gp_cov_admitted_count
-#         """,
-#     ),    
-
-    # admitted = patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="number_of_matches_in_period",
-    # #    date_format="YYYY-MM-DD",
-    #    between=["index_date", "last_day_of_month(index_date)"],
-    # #    find_first_match_in_period=True,
-    # #    return_expectations={"incidence": 0.3},
-    #     return_expectations={"int": {"distribution": "normal", "mean": 6, "stddev": 3}, "incidence": 0.6},
-    # ),
-
-    # admitted_date = patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    between=["index_date", "last_day_of_month(index_date)"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
-
 
 )
 
