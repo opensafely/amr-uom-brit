@@ -715,10 +715,14 @@ p2
 ```
 
 
-```{r message=FALSE}
-### Model2_result
-#setting up the basic plot
-p2 <- ggplot(data=DF3, aes(y=group, x=IRR))+ 
+# incident +prevalent
+## IRR
+```{r}
+
+DF=bind_rows(DF3.exp,DF2.exp)
+DF$Infection=factor(DF$Infection, levels=c("All indications","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
+
+p2 <- ggplot(data=DF, aes(y=group, x=IRR,color=group))+ 
 #this adds the effect sizes to the plot
 geom_point()+ 
 
@@ -732,7 +736,7 @@ theme_bw()+
 #theme(text=element_text(family="Times",size=18, color="black"))+
 #theme(panel.spacing = unit(1, "lines"))+
 labs(
-      title = "Consultation Reduction",
+      title = "",
     x="IRR (95% CI)",
     y=""
   )+
