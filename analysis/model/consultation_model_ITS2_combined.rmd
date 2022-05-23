@@ -715,6 +715,41 @@ p2
 ```
 
 
+# incident +prevalent
+## IRR
+```{r}
+
+DF=bind_rows(DF3.exp,DF2.exp)
+DF$Infection=factor(DF$Infection, levels=c("All indications","URTI","LRTI","Sinusitis","Otitis externa","Otitis media","UTI"))
+
+p2 <- ggplot(data=DF, aes(y=group, x=IRR,color=group))+ 
+#this adds the effect sizes to the plot
+geom_point()+ 
+
+#adds the CIs
+geom_errorbarh(aes(xmin=ci_l, xmax=ci_u))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black", linetype="dashed", alpha=.5)+
+#tematic stuff
+theme_bw()+
+#theme(text=element_text(family="Times",size=18, color="black"))+
+#theme(panel.spacing = unit(1, "lines"))+
+labs(
+      title = "",
+    x="IRR (95% CI)",
+    y=""
+  )+
+facet_grid(Infection~., scales = "free", space = "free")+
+ theme(strip.text.y = element_text(angle = 0),
+   axis.title.y =element_blank(),
+        axis.text.y=element_blank(),
+       axis.ticks.y=element_blank(),
+       legend.title=element_blank(),
+       legend.position="bottom")
+p2
+```
+
 
 # table
 
