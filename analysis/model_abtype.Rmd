@@ -731,7 +731,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 # 99%percentile
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
-outlier=quantile(df$total_ab,0.9999,na.rm=T)
+outlier=quantile(df$total_ab,0.9,na.rm=T)
 outlier
 
 
