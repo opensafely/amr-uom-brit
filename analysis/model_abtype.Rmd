@@ -91,7 +91,7 @@ table(df$level,df$ab_types)
 
 ```{r}
 
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
 sum.mod
@@ -152,28 +152,35 @@ DF
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
 #this adds the effect sizes to the plot
-geom_point(color="blue")+ 
+geom_point(color="black")+ 
 
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+
+    
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
-  
 
 #adding a vertical line at the effect = 0 mark
 geom_vline(xintercept=1, color="black", linetype="dashed")+
-  
+
 #thematic stuff
 theme_classic()+ 
   #xlim(0, 4)+
-theme(text=element_text(size=14, color="black"))+
-theme(panel.spacing = unit(1, "lines"))+
+theme(text=element_text(size=14, color="black"),
+      plot.subtitle =element_text(size=12,hjust=0.05),
+      panel.spacing = unit(1, "lines"),
+      plot.title.position = "plot")+
+  
 
 labs(
-      title = "",
+      subtitle = "Antibiotics",
     x="",
     y=""
   )
 p
 ```
+
 ```{r}
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
@@ -191,7 +198,7 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.1f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
@@ -245,7 +252,7 @@ table(df$level,df$ab_types)
 
 ```{r}
 
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
 sum.mod
@@ -437,7 +444,7 @@ count(df)
 
 ```
 
-# ab type cat.
+
 ```{r}
 
 df=df%>%mutate(ab_qn_type= 
@@ -450,26 +457,15 @@ df=df%>%mutate(ab_qn_type=
                            level=="3" &  ab_types>=3 ~ "6",
                            level=="4" &  ab_types==1 ~ "7",
                            level=="4" &  ab_types==2 ~ "8",
-                           level=="4" &  ab_types>=3 ~ "9"
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
                           ))
 
-summary(df[df$ab_qn_type=="0",]$total_ab)
-summary(df[df$ab_qn_type=="1",]$total_ab)
-summary(df[df$ab_qn_type=="2",]$total_ab)
-summary(df[df$ab_qn_type=="3",]$total_ab)
-summary(df[df$ab_qn_type=="4",]$total_ab)
-summary(df[df$ab_qn_type=="5",]$total_ab)
-summary(df[df$ab_qn_type=="6",]$total_ab)
-summary(df[df$ab_qn_type=="7",]$total_ab)
-summary(df[df$ab_qn_type=="8",]$total_ab)
-summary(df[df$ab_qn_type=="9",]$total_ab)
 
-
-df$ab_qn_type=as.factor(df$ab_qn_type)
-#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
-
-
-table(df$ab_qn_type)
+table(df$level,df$ab_types)
 ```
 
 
@@ -478,7 +474,7 @@ table(df$ab_qn_type)
 
 ```{r}
 
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + strata(subclass), df)
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
 sum.mod
@@ -492,7 +488,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:9,-2]
+result=result[1:12,-2]
 ```
 
 
@@ -501,7 +497,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type=1"
@@ -513,10 +509,13 @@ DF[6,1]="level3, type>=3"
 DF[7,1]="level4, type=1"
 DF[8,1]="level4, type=2"
 DF[9,1]="level4, type>=3"
+DF[10,1]="level5, type=1"
+DF[11,1]="level5, type=2"
+DF[12,1]="level5, type>=3"
 
 
- Index = rep(1:9) ## This provides an order to the data
-  label = c("level1, type=1","level2, type=1","level2, type=2","level3, type=1","level3, type=2","level3, type>=3","level4, type=1","level4, type=2","level4, type>=3")
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type=1","level2, type=1","level2, type=2","level3, type=1","level3, type=2","level3, type>=3","level4, type=1","level4, type=2","level4, type>=3","level5, type=1","level5, type=2","level5, type>=3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -536,23 +535,29 @@ DF
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
 #this adds the effect sizes to the plot
-geom_point(color="blue")+ 
+geom_point(color="black")+ 
 
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+
+    
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
-  
 
 #adding a vertical line at the effect = 0 mark
 geom_vline(xintercept=1, color="black", linetype="dashed")+
-  
+
 #thematic stuff
 theme_classic()+ 
   #xlim(0, 4)+
-theme(text=element_text(size=14, color="black"))+
-theme(panel.spacing = unit(1, "lines"))+
+theme(text=element_text(size=14, color="black"),
+      plot.subtitle =element_text(size=12,hjust=0.05),
+      panel.spacing = unit(1, "lines"),
+      plot.title.position = "plot")+
+  
 
 labs(
-      title = "",
+      subtitle = "Antibiotics",
     x="",
     y=""
   )
@@ -576,7 +581,7 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.1f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
@@ -588,7 +593,7 @@ tab2 <- table_base+
 
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
