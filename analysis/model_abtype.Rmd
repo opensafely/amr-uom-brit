@@ -158,12 +158,13 @@ DF
 ```{r}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
-#this adds the effect sizes to the plot
-geom_point(color="black")+ 
+
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 
+  #this adds the effect sizes to the plot
+geom_point(color="black")+ 
     
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
@@ -380,10 +381,14 @@ DF
 ```{r}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
+
+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 
-    
+#this adds the effect sizes to the plot
+geom_point(color="black")+ 
+  
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
