@@ -102,6 +102,8 @@ df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 
 write_csv(df, here::here("output","redacted_v2", "AB_uti_check_top5.csv"))
 
+df.1=df%>%filter(prevalent==1)
+df.0=df%>%filter(prevalent==0)
 
 ### line graph
 # prevalent
@@ -276,6 +278,9 @@ df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_lrti_check_top5.csv"))
 
 
+df.1=df%>%filter(prevalent==1)
+df.0=df%>%filter(prevalent==0)
+
 ### line graph
 # prevalent
 lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
@@ -448,6 +453,9 @@ df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_urti_check_top5.csv"))
 
 
+
+df.1=df%>%filter(prevalent==1)
+df.0=df%>%filter(prevalent==0)
 ### line graph
 # prevalent
 lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
@@ -619,6 +627,9 @@ df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check_top5.csv"))
 
+
+df.1=df%>%filter(prevalent==1)
+df.0=df%>%filter(prevalent==0)
 
 ### line graph
 # prevalent
@@ -794,7 +805,8 @@ df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check_top5.csv"))
 
-
+df.1=df%>%filter(prevalent==1)
+df.0=df%>%filter(prevalent==0)
 ### line graph
 # prevalent
 lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
@@ -966,6 +978,8 @@ df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check_top5.csv"))
 
 
+df.1=df%>%filter(prevalent==1)
+df.0=df%>%filter(prevalent==0)
 ### line graph
 # prevalent
 lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
