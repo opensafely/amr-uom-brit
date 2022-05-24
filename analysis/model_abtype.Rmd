@@ -314,7 +314,7 @@ DF[14,1]="level5, type4"
 DF[15,1]="level5, type5"
 
 
- Index = rep(1:16) ## This provides an order to the data
+ Index = rep(1:15) ## This provides an order to the data
   label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level4, type4","level5, type1","level5, type2","level5, type3","level5, type4","level5, type5")
 
 names(DF)[2]="OR"
@@ -386,7 +386,7 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.1f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
@@ -399,7 +399,7 @@ tab2 <- table_base+
 
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
