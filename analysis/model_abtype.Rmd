@@ -171,6 +171,8 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
 
 #thematic stuff
 theme_classic()+ 
+  
+scale_y_continuous(breaks=seq(1.0,2.2,0.3))+
   #xlim(0, 4)+
 theme(text=element_text(size=14, color="black"),
       plot.subtitle =element_text(size=12,hjust=0.05),
@@ -484,7 +486,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-df$total_ab=ifelse(df$total_ab==0,NA.df$total_ab)
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
 ```
 
@@ -707,7 +709,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-df$total_ab=ifelse(df$total_ab==0,NA.df$total_ab)
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
 ```
 
