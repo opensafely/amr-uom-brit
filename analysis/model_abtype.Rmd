@@ -253,18 +253,20 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 ```
 
 
 
 ```{r}
 
-count(df)
 # 99%percentile
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+
 outlier=quantile(df$total_ab,0.9999,na.rm=T)
 outlier
 
+
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
 df$outlier=ifelse(df$total_ab>outlier,1,0)
 
 # remove control outlier
@@ -279,6 +281,7 @@ df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
 df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 count(df)
+
 
 
 ```
@@ -485,18 +488,20 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 ```
 
 
 
 ```{r}
 
-count(df)
 # 99%percentile
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+
 outlier=quantile(df$total_ab,0.99,na.rm=T)
 outlier
 
+
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
 df$outlier=ifelse(df$total_ab>outlier,1,0)
 
 # remove control outlier
@@ -511,7 +516,6 @@ df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
 df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 count(df)
-
 
 ```
 
@@ -718,18 +722,20 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 ```
 
 
 
 ```{r}
 
-count(df)
 # 99%percentile
-outlier=quantile(df$total_ab,0.9,na.rm=T)
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+
+outlier=quantile(df$total_ab,0.9999,na.rm=T)
 outlier
 
+
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
 df$outlier=ifelse(df$total_ab>outlier,1,0)
 
 # remove control outlier
@@ -744,6 +750,7 @@ df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
 df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 count(df)
+
 
 
 ```
