@@ -235,9 +235,7 @@ df$case=as.numeric(df$case) #1/0
 df$subclass=as.factor(df$subclass)#pair id
 
 df$level=as.character(df$level) #category
-df$level=ifelse(df$level=="3","2",
-                ifelse(df$level=="4","3",
-                       ifelse(df$level=="5","4",df$level)))
+
 df$ab_types=as.numeric(df$ab_types) 
 
 
@@ -470,9 +468,7 @@ df$case=as.numeric(df$case) #1/0
 df$subclass=as.factor(df$subclass)#pair id
 
 df$level=as.character(df$level) #category
-df$level=ifelse(df$level=="3","2",
-                ifelse(df$level=="4","3",
-                       ifelse(df$level=="5","4",df$level)))
+
 df$ab_types=as.numeric(df$ab_types) 
 
 
@@ -703,10 +699,7 @@ df$case=as.numeric(df$case) #1/0
 
 df$subclass=as.factor(df$subclass)#pair id
 
-df$level=as.character(df$level) #category
-df$level=ifelse(df$level=="3","2",
-                ifelse(df$level=="4","3",
-                       ifelse(df$level=="5","4",df$level)))
+
 df$ab_types=as.numeric(df$ab_types) 
 
 
