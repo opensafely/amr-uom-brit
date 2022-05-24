@@ -99,17 +99,14 @@ study = StudyDefinition(
         
     ### Age categories
     ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
+    ###0-14; 15-34; 35-54; 55-74; 75+
     age_cat=patients.categorised_as(
         {
             "0":"DEFAULT",
-            "0-4": """ age >= 0 AND age < 5""",
-            "5-14": """ age >= 5 AND age < 15""",
-            "15-24": """ age >= 15 AND age < 25""",
-            "25-34": """ age >= 25 AND age < 35""",
-            "35-44": """ age >= 35 AND age < 45""",
-            "45-54": """ age >= 45 AND age < 55""",
-            "55-64": """ age >= 55 AND age < 65""",
-            "65-74": """ age >= 65 AND age < 75""",
+            "0-14": """ age >= 0 AND age < 15""",
+            "15-34": """ age >= 15 AND age < 35""",
+            "35-54": """ age >= 35 AND age < 55""",
+            "55-74": """ age >= 55 AND age < 75""",
             "75+": """ age >= 75 AND age < 120""",
         },
         return_expectations={
@@ -117,15 +114,11 @@ study = StudyDefinition(
             "category": {
                 "ratios": {
                     "0": 0,
-                    "0-4": 0.12, 
-                    "5-14": 0.11,
-                    "15-24": 0.11,
-                    "25-34": 0.11,
-                    "35-44": 0.11,
-                    "45-54": 0.11,
-                    "55-64": 0.11,
-                    "65-74": 0.11,
-                    "75+": 0.11,
+                    "0-14": 0.12, 
+                    "15-34": 0.22,
+                    "35-54": 0.22,
+                    "55-74": 0.22,
+                    "75+": 0.22,
                 }
             },
         },
@@ -161,15 +154,26 @@ study = StudyDefinition(
        return_expectations={"incidence": 0.3},
     ),
 
+    # admitted_cat = patients.admitted_to_hospital(
+    #     # with_these_diagnoses = hospitalisation_infection_related,
+    #     with_these_primary_diagnoses = hospitalisation_infection_related,
+    #     returning='primary_diagnosis',
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     return_expectations={
+    #        "category": {"ratios": {"Streptococcal sepsis":0.1, "Other sepsis":0.05, "Pneumonia due to Streptococcus pneumoniae":0.05, 
+    #        "Pneumonia due to Haemophilus influenzae":0.1, "Pneumonia in diseases classified elsewhere":0.3, 
+    #        "ot_externa":0.3, "Meningitis in bacterial diseases classified elsewhere":0.1}},
+    #         "incidence": 0.3},
+    # ),
+
     admitted_cat = patients.admitted_to_hospital(
         # with_these_diagnoses = hospitalisation_infection_related,
         with_these_primary_diagnoses = hospitalisation_infection_related,
         returning='primary_diagnosis',
         between=["index_date", "last_day_of_month(index_date)"],
         return_expectations={
-           "category": {"ratios": {"Streptococcal sepsis":0.1, "Other sepsis":0.05, "Pneumonia due to Streptococcus pneumoniae":0.05, 
-           "Pneumonia due to Haemophilus influenzae":0.1, "Pneumonia in diseases classified elsewhere":0.3, 
-           "ot_externa":0.3, "Meningitis in bacterial diseases classified elsewhere":0.1}},
+           "category": {"ratios": {"A39":0.1, "A40":0.1, "A41":0.05, "B95":0.05, "G00":0.1, "H60":0.1, "J13":0.1, 
+                                   "K05":0.1, "L01":0.1, "M00":0.1, "N10":0.1}},
             "incidence": 0.3},
     ),
 
@@ -238,26 +242,42 @@ measures = [
     # ),
 
     Measure(
-        id="hosp_rate_sex_age_cat",
+        id="hosp_rate",
         numerator="admitted",
         denominator="population",
-        group_by=["sex", 'age_cat', 'sgss_gp_cov_admitted_binary'],
+        group_by=['sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),
 
     Measure(
-        id="hosp_rate_cat_sex_age_cat",
+        id="hosp_rate_sex",
         numerator="admitted",
         denominator="population",
-        group_by=["sex", 'age_cat', 'admitted_cat', 'sgss_gp_cov_admitted_binary'],
+        group_by=["sex", 'sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),
+
+    Measure(
+        id="hosp_rate_age_cat",
+        numerator="admitted",
+        denominator="population",
+        group_by=['age_cat', 'sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),
+
+    Measure(
+        id="hosp_rate_cat",
+        numerator="admitted",
+        denominator="population",
+        group_by=['admitted_cat', 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),
     
     Measure(
-        id="hosp_rate_sex_age_cat_gp",
+        id="hosp_rate_gp",
         numerator="admitted",
         denominator="population",
-        group_by=["sex", 'age_cat', 'gp_cons_admitted_binary', 'sgss_gp_cov_admitted_binary'],
+        group_by=['gp_cons_admitted_binary', 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),         
     
