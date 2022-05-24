@@ -259,6 +259,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
 ```
 
@@ -483,6 +484,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+df$total_ab=ifelse(df$total_ab==0,NA.df$total_ab)
 
 ```
 
@@ -705,6 +707,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+df$total_ab=ifelse(df$total_ab==0,NA.df$total_ab)
 
 ```
 
