@@ -1,0 +1,241 @@
+---
+title: "model"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+```
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+
+
+
+```
+
+# all data
+# crude model
+
+```{r}
+mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
+# adjust model
+
+##  covid vaccine
+```{r}
+ 
+mod1=clogit(case ~ level + covrx_ever + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+
+## individual disease
+```{r}
+ 
+mod1=clogit(case ~ level + 
+              cancer_comor+cerebrovascular_disease_comor+ chronic_obstructive_pulmonary_comor+ heart_failure_comor+ connective_tissue_comor+ dementia_comor+ diabetes_comor+ diabetes_complications_comor+ hemiplegia_comor+ hiv_comor+ metastatic_cancer_comor+ mild_liver_comor+ mod_severe_liver_comor+ mod_severe_renal_comor+ mi_comor+ peptic_ulcer_comor+ peripheral_vascular_comor
+            + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+##  CCI
+```{r}
+ 
+mod1=clogit(case ~ level + CCI 
+            + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+
+
+
+# fully-adjusted model
+
+## CCI+ covid
+```{r}
+ 
+mod2=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
+summary(mod2)
+vif(mod2)
+
+```
+
+compare models: CCI vs. CCI+covid
+```{r}
+anova(mod1,mod2)
+```
+
+
+## all variables
+
+```{r}
+ 
+mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod3)
+vif(mod3)
+
+```
+
+compare models:  CCI+ covid vs. all
+```{r}
+anova(mod2,mod3)
+```
+
+
+
+
+
+
+
+
+
+
+# remove outlier
+
+```{r}
+
+count(df)
+# 99%percentile
+outlier=quantile(df$total_ab,0.9999,na.rm=T)
+outlier
+
+df$outlier=ifelse(df$total_ab>outlier,1,0)
+
+# remove control outlier
+df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
+
+df=df%>%filter(exclude.controls != 1)
+count(df)
+
+# remove whole subclass (case outlier)
+df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+# crude model
+
+```{r}
+mod1=clogit(case ~ level + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+```
+
+# adjust model
+
+##  covid vaccine
+```{r}
+ 
+mod1=clogit(case ~ level + covrx_ever + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+
+## individual disease
+```{r}
+ 
+mod1=clogit(case ~ level + 
+              cancer_comor+cerebrovascular_disease_comor+ chronic_obstructive_pulmonary_comor+ heart_failure_comor+ connective_tissue_comor+ dementia_comor+ diabetes_comor+ diabetes_complications_comor+ hemiplegia_comor+ hiv_comor+ metastatic_cancer_comor+ mild_liver_comor+ mod_severe_liver_comor+ mod_severe_renal_comor+ mi_comor+ peptic_ulcer_comor+ peripheral_vascular_comor
+            + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+##  CCI
+```{r}
+ 
+mod1=clogit(case ~ level + CCI 
+            + strata(subclass), df)
+summary(mod1)
+vif(mod1)
+
+```
+
+
+
+# fully-adjusted model
+
+## CCI+ covid
+```{r}
+ 
+mod2=clogit(case ~ level + CCI + covrx_ever + strata(subclass), df)
+summary(mod2)
+vif(mod2)
+
+```
+
+compare models: CCI vs. CCI+covid
+```{r}
+anova(mod1,mod2)
+```
+
+
+## all variables
+
+```{r}
+ 
+mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod3)
+vif(mod3)
+
+```
+
+compare models:  CCI+ covid vs. all
+```{r}
+anova(mod2,mod3)
+```
