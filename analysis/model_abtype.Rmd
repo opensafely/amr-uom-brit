@@ -428,7 +428,7 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.1f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
@@ -652,7 +652,7 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.1f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
@@ -874,7 +874,7 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.1f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
