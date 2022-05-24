@@ -149,12 +149,12 @@ DF
 ```{r}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
-#this adds the effect sizes to the plot
-geom_point(color="black")+ 
+
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
-
+#this adds the effect sizes to the plot
+geom_point(color="black")+ 
     
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
@@ -253,14 +253,12 @@ df=df%>%mutate(ab_qn_type=
                            level=="4" &  ab_types==1 ~ "7",
                            level=="4" &  ab_types==2 ~ "8",
                            level=="4" &  ab_types==3 ~ "9",
-                           level=="4" &  ab_types==4 ~ "10",
-                           level=="4" &  ab_types>=5 ~ "11",
-                           level=="5" &  ab_types==1 ~ "12",
-                           level=="5" &  ab_types==2 ~ "13",
-                           level=="5" &  ab_types==3 ~ "14",
-                           level=="5" &  ab_types==4 ~ "15",
-                           level=="5" &  ab_types==5 ~ "16",
-                           level=="5" &  ab_types>=6 ~ "17"
+                           level=="4" &  ab_types>=4 ~ "10",
+                           level=="5" &  ab_types==1 ~ "11",
+                           level=="5" &  ab_types==2 ~ "12",
+                           level=="5" &  ab_types==3 ~ "13",
+                           level=="5" &  ab_types==4 ~ "14",
+                           level=="5" &  ab_types>=5 ~ "15"
 
 
                           ))
@@ -287,7 +285,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:17,-2]
+result=result[1:15,-2]
 ```
 
 
@@ -296,7 +294,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15","ab_qn_type16","ab_qn_type17"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type1"
@@ -309,17 +307,15 @@ DF[7,1]="level4, type1"
 DF[8,1]="level4, type2"
 DF[9,1]="level4, type3"
 DF[10,1]="level4, type4"
-DF[11,1]="level4, type5"
-DF[12,1]="level5, type1"
-DF[13,1]="level5, type2"
-DF[14,1]="level5, type3"
-DF[15,1]="level5, type4"
-DF[16,1]="level5, type5"
-DF[17,1]="level5, type6"
+DF[11,1]="level5, type1"
+DF[12,1]="level5, type2"
+DF[13,1]="level5, type3"
+DF[14,1]="level5, type4"
+DF[15,1]="level5, type5"
 
 
  Index = rep(1:16) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level4, type4","level4, type5","level5, type1","level5, type2","level5, type3","level5, type4","level5, type5","level5, type6")
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level4, type4","level5, type1","level5, type2","level5, type3","level5, type4","level5, type5")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
