@@ -40,7 +40,7 @@ df$ab_types=ifelse(df$ab_types==0,NA,df$ab_types)
 
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 # frequency
 df0=df%>%select("case","total_ab")%>%filter(case==0)
 freq0=data.frame(table(df0$case,df0$total_ab))
@@ -55,7 +55,7 @@ colnames(freq1)<-c("case","total_ab","freq","cum_%")
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 ### case
 freq1
 ### control
@@ -63,7 +63,7 @@ freq0
 ```
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 ## quintile cutoff
 quantile(df$total_ab,0.2,na.rm=T)
 quantile(df$total_ab,0.4,na.rm=T)
