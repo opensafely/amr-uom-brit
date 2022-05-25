@@ -1,5 +1,5 @@
 ---
-title: "conditional logistic regression - antibiotic levels & types"
+title: "antibiotic types model"
 output: 
   html_document:
    toc: true
@@ -34,7 +34,7 @@ df <- read_rds(here::here("output","matched_outcome.rds"))
 
 ```
 
-```{r}
+```{r include=FALSE}
 # outcome
 df$case=as.numeric(df$case) #1/0
 
@@ -64,7 +64,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 
 # all data
-```{r}
+```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
@@ -79,30 +79,21 @@ df=df%>%mutate(ab_qn_type=
                            level=="4" &  ab_types>=3 ~ "9"
                           ))
 
-summary(df[df$ab_qn_type=="0",]$total_ab)
-summary(df[df$ab_qn_type=="1",]$total_ab)
-summary(df[df$ab_qn_type=="2",]$total_ab)
-summary(df[df$ab_qn_type=="3",]$total_ab)
-summary(df[df$ab_qn_type=="4",]$total_ab)
-summary(df[df$ab_qn_type=="5",]$total_ab)
-summary(df[df$ab_qn_type=="6",]$total_ab)
-summary(df[df$ab_qn_type=="7",]$total_ab)
-summary(df[df$ab_qn_type=="8",]$total_ab)
-summary(df[df$ab_qn_type=="9",]$total_ab)
-
+#summary(df[df$ab_qn_type=="0",]$total_ab)
+#summary(df[df$ab_qn_type=="1",]$total_ab)
 
 df$ab_qn_type=as.factor(df$ab_qn_type)
 #df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
 
 
-table(df$ab_qn_type)
+#table(df$ab_qn_type)
 ```
 
-
-```{r}
+## model summary
+```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
-           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
+
 sum.mod=summary(mod)
 sum.mod
 vif(mod)
@@ -110,7 +101,7 @@ vif(mod)
 ```
 
 
-```{r}
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
 result
@@ -119,7 +110,7 @@ result=result[1:9,-2]
 ```
 
 
-```{r}
+```{r include=FALSE}
 DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
@@ -155,7 +146,7 @@ DF
 
 
 
-```{r}
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
     #this adds the effect sizes to the plot+
@@ -192,7 +183,7 @@ p
 ```
 
 
-```{r}
+```{r include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -218,8 +209,8 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## results: abtypes categories
-```{r}
+## forest plot
+```{r echo=FALSE}
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
@@ -264,18 +255,18 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
 ```
 
-
-```{r}
-
-count(df)
-# 99%percentile
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
-
+cutoff
+```{r echo=FALSE}
 outlier=quantile(df$total_ab,0.9999,na.rm=T)
 outlier
+```
+
+excluded patient number
+```{r echo=FALSE}
 
 
 df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
@@ -285,7 +276,6 @@ df$outlier=ifelse(df$total_ab>outlier,1,0)
 df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
 
 df=df%>%filter(exclude.controls != 1)
-count(df)
 
 # remove whole subclass (case outlier)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
@@ -299,7 +289,7 @@ count(df)
 
 
 
-```{r}
+```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
@@ -323,8 +313,8 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 
-
-```{r}
+## model summary
+```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
@@ -335,7 +325,7 @@ vif(mod)
 ```
 
 
-```{r}
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
 result
@@ -344,7 +334,7 @@ result=result[1:12,-2]
 ```
 
 
-```{r}
+```{r include=FALSE}
 DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
@@ -386,7 +376,7 @@ DF
 
 
 
-```{r}
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
 #this adds the effect sizes to the plot
@@ -446,7 +436,7 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## results: continuous abtypes 
+## forest plot
 ```{r}
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
@@ -492,17 +482,18 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
 ```
 
-
-```{r}
-
-# 99%percentile
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
-
+cutoff
+```{r echo=FALSE}
 outlier=quantile(df$total_ab,0.99,na.rm=T)
 outlier
+```
+
+excluded patient number
+```{r echo=FALSE}
 
 
 df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
@@ -512,7 +503,6 @@ df$outlier=ifelse(df$total_ab>outlier,1,0)
 df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
 
 df=df%>%filter(exclude.controls != 1)
-count(df)
 
 # remove whole subclass (case outlier)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
@@ -521,11 +511,12 @@ df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 count(df)
 
+
 ```
 
 
 
-```{r}
+```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
@@ -549,8 +540,8 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 
-
-```{r}
+## model summary
+```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
@@ -561,7 +552,7 @@ vif(mod)
 ```
 
 
-```{r}
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
 result
@@ -570,7 +561,7 @@ result=result[1:12,-2]
 ```
 
 
-```{r}
+```{r include=FALSE}
 DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
@@ -612,7 +603,7 @@ DF
 
 
 
-```{r}
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
 #this adds the effect sizes to the plot
@@ -672,17 +663,16 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## results: continuous abtypes 
+## forest plot
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
 
 
 # remove outlier(90% percentile)
-
 ```{r include=FALSE}
 # import data
 rm(list=ls())
@@ -716,17 +706,18 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 
 ```
 
-
-```{r}
-
-# 99%percentile
-df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
-
+cutoff
+```{r echo=FALSE}
 outlier=quantile(df$total_ab,0.9,na.rm=T)
 outlier
+```
+
+excluded patient number
+```{r echo=FALSE}
 
 
 df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
@@ -736,7 +727,6 @@ df$outlier=ifelse(df$total_ab>outlier,1,0)
 df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
 
 df=df%>%filter(exclude.controls != 1)
-count(df)
 
 # remove whole subclass (case outlier)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
@@ -750,7 +740,7 @@ count(df)
 
 
 
-```{r}
+```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
@@ -774,8 +764,8 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 
-
-```{r}
+## model summary
+```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
@@ -786,7 +776,7 @@ vif(mod)
 ```
 
 
-```{r}
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
 result
@@ -795,7 +785,7 @@ result=result[1:12,-2]
 ```
 
 
-```{r}
+```{r include=FALSE}
 DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
@@ -837,7 +827,7 @@ DF
 
 
 
-```{r}
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 
 #this adds the effect sizes to the plot
@@ -897,14 +887,9 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## results: continuous abtypes 
+## forest plot
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
-
-
-
-
-
