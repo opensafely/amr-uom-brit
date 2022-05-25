@@ -1929,7 +1929,7 @@ actions:
 
   lrti_appro_model:  
     run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_appro_model.Rmd", output_dir = "output/report")'
-    needs: [describe_lrti_var_2019_process]
+    needs: [describe_lrti_var_process]
     outputs:
       moderately_sensitive:
         html: output/report/lrti_appro_model.html

@@ -122,7 +122,7 @@ df_input$ethnicity_6 <- as.factor(df_input$ethnicity_6)
 df <- select(df_input, patient_id, patient_index_date, age, sex, ethnicity,imd, 
              practice, region, charlsonGrp, ethnicity_6) 
 rm(df_input)
-write_csv(df, here::here("output", "prepared_var_2019.csv"))
+write_csv(df, here::here("output", "prepared_var_2020.csv"))
 rm(df_input)
 # generate data table 
 dttable <- select(df, age, sex, ethnicity, imd , 
