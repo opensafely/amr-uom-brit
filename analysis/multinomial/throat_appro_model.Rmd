@@ -94,8 +94,8 @@ t2
 ```{r}
 outcome=testing$outcome
 k=3
-p <- predict(fit.multinomial , newdata = testing,type="response")
-LP <- predict(fit.multinomial, newdata = testing)
+p <- predict(m1 , newdata = testing,type="response")
+LP <- predict(m1, newdata = testing)
 r=1
 estimates=FALSE
 dfr=2
