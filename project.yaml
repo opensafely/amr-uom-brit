@@ -1933,3 +1933,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/lrti_appro_model.html
+
+  describe_throat_var_process: 
+    run: r:latest analysis/multinomial/throat_var.R
+    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
+    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    outputs:
+      moderately_sensitive:
+        table: output/throat_count.csv
+      highly_sensitive:
+        cohort: output/throat_outcome.csv
