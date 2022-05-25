@@ -10,6 +10,7 @@ output:
 ---
 
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -21,13 +22,14 @@ require("gtsummary")
 ```
 
 
-#  group ab level
 
-```{r}
+
+```{r include=FALSE}
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
+# group ab level
 df <- read_rds(here::here("output","matched_outcome.rds"))
-df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
+df=df%>% select("case","subclass","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions)
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
@@ -37,9 +39,9 @@ df$ab_types=ifelse(df$ab_types==0,NA,df$ab_types)
 ```
 
 
-## frequency
-```{r}
 
+```{r include=FALSE}
+# frequency
 df0=df%>%select("case","total_ab")%>%filter(case==0)
 freq0=data.frame(table(df0$case,df0$total_ab))
 freq0$cumulative_percentage= 100*cumsum(freq0$Freq)/sum(freq0$Freq)
@@ -52,19 +54,17 @@ colnames(freq1)<-c("case","total_ab","freq","cum_%")
 
 ```
 
-### case
-```{r}
-freq1
-```
 
-### control
 ```{r}
+### case
+freq1
+### control
 freq0
 ```
 
 
-## quintile 
-```{r}
+```{r include=FALSE}
+## quintile cutoff
 quantile(df$total_ab,0.2,na.rm=T)
 quantile(df$total_ab,0.4,na.rm=T)
 quantile(df$total_ab,0.6,na.rm=T)
@@ -72,7 +72,8 @@ quantile(df$total_ab,0.8,na.rm=T)
 ```
 
 
-# antibiotics by case/control
+# antibiotics exposures
+0=control, 1=case
 
 ```{r}
 
@@ -94,8 +95,8 @@ table1
 ```
 
 
-# Antibiotics 
-```{r}
+# antibiotics levels
+```{r include=FALSE}
 df00=df%>%select("case","total_ab" ,"level")%>%filter(case==0)
 
 df01=df%>%select("case","total_ab" ,"level")%>%filter(case==1)
@@ -104,8 +105,8 @@ df01=df%>%select("case","total_ab" ,"level")%>%filter(case==1)
 
 
 
-## case
-```{r}
+### case
+```{r echo=FALSE}
 # case
 l1=rbind(summary(df01[df01$level==0,]$total_ab),
         summary(df01[df01$level==1,]$total_ab),
@@ -121,8 +122,8 @@ rownames(l1)<-c("level0","level1","level2","level3","level4","level5")
 l1
 ```
 
-## control
-```{r}
+### control
+```{r echo=FALSE}
 
 # control
 l0=rbind(summary(df00[df00$level==0,]$total_ab),
@@ -143,3 +144,6 @@ l0
 
 
 ```
+
+
+
