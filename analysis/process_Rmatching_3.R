@@ -272,7 +272,7 @@ df$cerebrovascular_disease_comor=df$cardiovascular_comor #correct name
 
 comor=c("cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
 df$Charlson=rowSums(df[comor])
-write_rds(df[comor], here::here("output", "comor17.rds"))
+write_rds(df[comor], here::here("output", "comor17_3.rds"))
 
 #df= df[!names(df)%in%comor]
 
