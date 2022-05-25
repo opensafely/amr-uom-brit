@@ -1897,6 +1897,26 @@ actions:
       highly_sensitive:
         cohort: output/prepared_var_2019.csv
 
+  describe_prepare_var_2020_process: 
+    run: r:latest analysis/multinomial/prepare_var_2020.R
+    needs: [extract_variables_2020]
+    outputs:
+      moderately_sensitive:
+        table1: output/prepare_var_count_2020.csv
+        table2: output/blt_var_2020.csv
+      highly_sensitive:
+        cohort: output/prepared_var_2020.csv
+
+  describe_prepare_var_2021_process: 
+    run: r:latest analysis/multinomial/prepare_var_2021.R
+    needs: [extract_variables_2021]
+    outputs:
+      moderately_sensitive:
+        table1: output/prepare_var_count_2021.csv
+        table2: output/blt_var_2021.csv
+      highly_sensitive:
+        cohort: output/prepared_var_2021.csv
+
   describe_lrti_var_2019_process: 
     run: r:latest analysis/multinomial/lrti_var_2019.R
     needs: [describe_prepare_var_2019_process,describe_cleaning_process_2]
