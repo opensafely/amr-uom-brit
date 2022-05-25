@@ -22,11 +22,11 @@ require("gtsummary")
 
 
 
-# group ab level
 
-```{r}
+```{r include=FALSE}
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
+# group ab level
 df <- read_rds(here::here("output","matched_outcome.rds"))
 df=df%>% select("case","subclass","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
@@ -38,9 +38,9 @@ df$ab_types=ifelse(df$ab_types==0,NA,df$ab_types)
 ```
 
 
-## frequency
-```{r}
 
+```{r include=FALSE}
+# frequency
 df0=df%>%select("case","total_ab")%>%filter(case==0)
 freq0=data.frame(table(df0$case,df0$total_ab))
 freq0$cumulative_percentage= 100*cumsum(freq0$Freq)/sum(freq0$Freq)
@@ -53,19 +53,17 @@ colnames(freq1)<-c("case","total_ab","freq","cum_%")
 
 ```
 
-### case
-```{r}
-freq1
-```
 
-### control
 ```{r}
+### case
+freq1
+### control
 freq0
 ```
 
 
-## quintile 
-```{r}
+```{r include=FALSE}
+## quintile cutoff
 quantile(df$total_ab,0.2,na.rm=T)
 quantile(df$total_ab,0.4,na.rm=T)
 quantile(df$total_ab,0.6,na.rm=T)
@@ -73,8 +71,8 @@ quantile(df$total_ab,0.8,na.rm=T)
 ```
 
 
-# all data
-## antibiotics by case/control
+# antibiotics exposures
+0=control, 1=case
 
 ```{r}
 
@@ -96,8 +94,8 @@ table1
 ```
 
 
-## Antibiotics 
-```{r}
+# antibiotics levels
+```{r include=FALSE}
 df00=df%>%select("case","total_ab" ,"level")%>%filter(case==0)
 
 df01=df%>%select("case","total_ab" ,"level")%>%filter(case==1)
@@ -107,7 +105,7 @@ df01=df%>%select("case","total_ab" ,"level")%>%filter(case==1)
 
 
 ### case
-```{r}
+```{r echo=FALSE}
 # case
 l1=rbind(summary(df01[df01$level==0,]$total_ab),
         summary(df01[df01$level==1,]$total_ab),
@@ -124,7 +122,7 @@ l1
 ```
 
 ### control
-```{r}
+```{r echo=FALSE}
 
 # control
 l0=rbind(summary(df00[df00$level==0,]$total_ab),
@@ -147,104 +145,4 @@ l0
 ```
 
 
-
-
-# remove outlier
-
-```{r}
-
-
-# 99%percentile
-outlier=quantile(df$total_ab,0.99,na.rm=T)
-
-
-df$outlier=ifelse(df$total_ab>outlier,1,0)
-
-# remove control outlier
-df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
-
-df=df%>%filter(exclude.controls != 1)
-
-
-# remove whole subclass (case outlier)
-df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
-df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
-df=df%>%filter(exclude.subclass !=1)
-
-
-
-```
-
-# antibiotics by case/control
-
-```{r}
-
-#df0=df0%>%select("stp")
-
-table1 <- 
-  tbl_summary(
-    df,
-    by = case, 
-    type = c("total_ab","ab_prescriptions","broad_ab_prescriptions", "lastABtime","ab_types") ~ "continuous2",
-  #  statistic = list(all_continuous() ~ "{median} ({IQR})",
-   #                  all_categorical() ~ "{n}  ({p}%)"),
-    digits = all_continuous() ~ 2,
-  ) %>%
-  modify_header(label = "**Variable**") %>% # update the column header
-  bold_labels() 
-
-table1
-```
-
-
-
-## Antibiotics 
-```{r}
-df00=df%>%select("case","total_ab" ,"level")%>%filter(case==0)
-
-df01=df%>%select("case","total_ab" ,"level")%>%filter(case==1)
-
-```
-
-
-
-### case
-```{r}
-# case
-l1=rbind(summary(df01[df01$level==0,]$total_ab),
-        summary(df01[df01$level==1,]$total_ab),
-        summary(df01[df01$level==2,]$total_ab),
-        summary(df01[df01$level==3,]$total_ab),
-        summary(df01[df01$level==4,]$total_ab),
-        summary(df01[df01$level==5,]$total_ab))
-l1=data.frame(l1)
-
-l1=l1%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
-
-rownames(l1)<-c("level0","level1","level2","level3","level4","level5")
-l1
-```
-
-### control
-```{r}
-
-# control
-l0=rbind(summary(df00[df00$level==0,]$total_ab),
-        summary(df00[df00$level==1,]$total_ab),
-        summary(df00[df00$level==2,]$total_ab),
-        summary(df00[df00$level==3,]$total_ab),
-        summary(df00[df00$level==4,]$total_ab),
-        summary(df00[df00$level==5,]$total_ab))
-
-l0=data.frame(l0)
-
-l0=l0%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
-
-rownames(l0)<-c("level0","level1","level2","level3","level4","level5")
-
-
-l0
-
-
-```
 
