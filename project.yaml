@@ -99,6 +99,22 @@ actions:
         rds2: output/unmatched_patients_3.rds
         csv: output/matched_patients_id_3.csv
 
+  process_Rmatching_3: # add variables 
+    run: r:latest analysis/process_Rmatching_3.R
+    needs: [extract_variables,matching]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_3.rds
+        rds1: output/abtype79_3.rds
+        rds2: output/comor17_3.rds
+
+  model_abtype_3: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_abtype_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching_3]
+    outputs:
+      moderately_sensitive:
+        html: output/model_abtype_3.html
+
   # matching2: # matching with replacement # died any
   #   run: r:latest -e 'rmarkdown::render("analysis/matching2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
   #   needs: [process_1]
