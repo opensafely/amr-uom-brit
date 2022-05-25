@@ -1,5 +1,5 @@
 ---
-title: "table 2_describe ab"
+title: "table3 describe ab"
 output: 
   html_document:
    toc: true
@@ -28,7 +28,7 @@ require("gtsummary")
 
 # group ab level
 df <- read_rds(here::here("output","matched_outcome.rds"))
-df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
+df=df%>% select("case","total_ab","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions)
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
