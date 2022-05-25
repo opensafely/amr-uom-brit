@@ -1943,3 +1943,10 @@ actions:
         table: output/throat_count.csv
       highly_sensitive:
         cohort: output/throat_outcome.csv
+
+  throat_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/throat_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_throat_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/throat_appro_model.html
