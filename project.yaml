@@ -88,7 +88,7 @@ actions:
 
   # test 1:3 matching
 
-    matching_3: # matching with replacement # died covid
+  matching_3: # matching with replacement # died covid
     run: r:latest -e 'rmarkdown::render("analysis/matching_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1]
     outputs:
