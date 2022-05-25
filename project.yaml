@@ -1917,18 +1917,19 @@ actions:
       highly_sensitive:
         cohort: output/prepared_var_2021.csv
 
-  describe_lrti_var_2019_process: 
-    run: r:latest analysis/multinomial/lrti_var_2019.R
-    needs: [describe_prepare_var_2019_process,describe_cleaning_process_2]
+  describe_lrti_var_process: 
+    run: r:latest analysis/multinomial/lrti_var.R
+    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
+    describe_prepare_var_2021_process,describe_cleaning_process_2]
     outputs:
       moderately_sensitive:
-        table: output/lrti_count_2019.csv
+        table: output/lrti_count.csv
       highly_sensitive:
-        cohort: output/lrti_outcome_2019.csv
+        cohort: output/lrti_outcome.csv
 
-  lrti_appro_model_2019:  
-    run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_appro_model_2019.Rmd", output_dir = "output/report")'
+  lrti_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_appro_model.Rmd", output_dir = "output/report")'
     needs: [describe_lrti_var_2019_process]
     outputs:
       moderately_sensitive:
-        html: output/report/lrti_appro_model_2019.html
+        html: output/report/lrti_appro_model.html
