@@ -21,9 +21,9 @@ library(tidyr)
 all_files <- list.files(here::here("output"), pattern = "mon_overall_")
 outcomes <- stringr::str_remove_all(all_files, c("mon_overall_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("All prescription","Cold","COPD","Cough",
+                                           "outcome_name" = (c("All prescription","Cold","Cough",
                                                                "LRTI","Otitis externa","Otitis media",
-                                                               "Sinusitis","Sore throat","URTI","UTI"))
+                                                               "Sore throat","UTI"))
 )
 bkg_colour <- "gray99"
 
