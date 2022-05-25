@@ -29,32 +29,28 @@ library("here")
 ```{r}
 DF <- read_csv(here::here("output","lrti_outcome_2019.csv"))
 DF <- DF %>% filter (age>3)
-DF <- DF %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
-                                              age>=16 & age<=44 ~ "16-44",
-                                              age>=45 & age<=64 ~ "45-64",
-                                              age>=65 ~ "65+"))
-DF$outcome <- as.factor(DF$outcome)
 DF$outcome <- as.factor(DF$outcome)
 DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
 DF$imd <- as.factor(DF$imd)
 DF$region <- as.factor(DF$region)
 DF$charlsonGrp <- as.factor(DF$charlsonGrp)
-DF$age_group <- as.factor(DF$age_group)
-DF$age_group <- relevel(DF$age_group, ref = "16-44")
+DF$ab12b4 <- as.factor(DF$ab12b4)
 DF$outcome <- relevel(DF$outcome, ref = "1")
 DF$ethnicity_6 <- relevel(DF$ethnicity_6, ref = "White")
 DF$imd <- relevel(DF$imd, ref = "1")
 DF$region <- relevel(DF$region, ref = "East")
 DF$charlsonGrp <- relevel(DF$charlsonGrp, ref = "zero")
-DF <- DF %>% dplyr::select(outcome,age_group,sex,ethnicity_6,region,charlsonGrp,imd)
+DF$ab12b4 <- relevel(DF$ab12b4, ref = "0")
+DF <- DF %>% dplyr::select(outcome,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
 DF <- DF %>% filter (DF$sex=="M"|DF$sex=="F")
 DF <- DF %>% filter (!is.na(outcome))
 DF <- DF %>% filter (!is.na(ethnicity_6))
 DF <- DF %>% filter (!is.na(imd))
 DF <- DF %>% filter (!is.na(region))
 DF <- DF %>% filter (!is.na(charlsonGrp))
-DF <- DF %>% filter (!is.na(age_group))
+DF <- DF %>% filter (!is.na(age))
 DF <- DF %>% filter (!is.na(sex))
+DF <- DF %>% filter (!is.na(ab12b4))
 ```
 
 ```{r}
@@ -69,13 +65,13 @@ training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
 ### use training dataset to develop the model
-m0 <- multinom(outcome ~ age_group + sex ,data = training)
+m0 <- multinom(outcome ~ age + sex ,data = training)
 m1 <- multinom(outcome ~.,data = training)
 fit.multinomial <- vgam(outcome ~., family = multinomial(ref = "1"), data = training)
 ```
 
 ```{r}
-summary(m1)
+anova(m0,m1)
 ```
 
 ```{r}
