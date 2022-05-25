@@ -61,8 +61,6 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 # all data
-
-## frequency table
 ```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
@@ -276,7 +274,6 @@ df$outlier=ifelse(df$total_ab>outlier,1,0)
 df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
 
 df=df%>%filter(exclude.controls != 1)
-count(df)
 
 # remove whole subclass (case outlier)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
@@ -314,7 +311,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 
 ```
 
-
+## model summary
 ```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
@@ -325,7 +322,6 @@ vif(mod)
 
 ```
 
-## model summary
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
@@ -443,7 +439,7 @@ tab2 <- table_base+
 
 ## forest plots
 
-```{r include=FALSE}
+```{r echo=FALSE}
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
@@ -507,7 +503,6 @@ df$outlier=ifelse(df$total_ab>outlier,1,0)
 df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
 
 df=df%>%filter(exclude.controls != 1)
-count(df)
 
 # remove whole subclass (case outlier)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
@@ -545,7 +540,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 
 ```
 
-
+## model summary
 ```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
@@ -556,7 +551,6 @@ vif(mod)
 
 ```
 
-## model summary
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
@@ -672,9 +666,9 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plots
+## forest plot
 
-```{r include=FALSE}
+```{r echo=FALSE}
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
@@ -739,7 +733,6 @@ df$outlier=ifelse(df$total_ab>outlier,1,0)
 df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
 
 df=df%>%filter(exclude.controls != 1)
-count(df)
 
 # remove whole subclass (case outlier)
 df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
@@ -777,6 +770,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 
 ```
 
+## model summary
 
 ```{r echo=FALSE}
 
@@ -788,7 +782,6 @@ vif(mod)
 
 ```
 
-## model summary
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
@@ -904,9 +897,9 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plots
+## forest plot
 
-```{r include=FALSE}
+```{r echo=FALSE}
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
