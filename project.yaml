@@ -84,7 +84,21 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_abtype.html
-        
+
+
+  # test 1:3 matching
+
+    matching_3: # matching with replacement # died covid
+    run: r:latest -e 'rmarkdown::render("analysis/matching_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_1]
+    outputs:
+      moderately_sensitive:
+        html: output/matching_3.html
+      highly_sensitive: 
+        rds1: output/matched_patients_3.rds
+        rds2: output/unmatched_patients_3.rds
+        csv: output/matched_patients_id_3.csv
+
   # matching2: # matching with replacement # died any
   #   run: r:latest -e 'rmarkdown::render("analysis/matching2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
   #   needs: [process_1]
