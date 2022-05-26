@@ -3,7 +3,7 @@ from codelists import *
 from datetime import datetime, timedelta
 
 def generate_ab_variables_6w(index_date_variable):
-    ab_variables  = dict(
+    ab_variables_6w  = dict(
          ## ab types:79
   Rx_6w_Amikacin=patients.with_these_medications(codes_ab_type_Amikacin,between=[f'{index_date_variable}- 41 days', f'{index_date_variable}'],returning='number_of_matches_in_period',
   return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
@@ -210,7 +210,6 @@ def generate_ab_variables_6w(index_date_variable):
         },
     ),
 
-    ## time difference
 
   )
     return ab_variables_6w
