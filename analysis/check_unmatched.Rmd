@@ -31,7 +31,7 @@ df=df%>%select( "case","age" ,"sex"  ,"stp")
 
 ```{r}
 df=df%>%group_by(subclass)%>%mutate(matches=n()-1)
-df$matches=as.numeric(df$matches)
+df$matches=as.integer(df$matches)
 
 range(df$matches)
 ```
