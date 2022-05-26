@@ -119,6 +119,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_outcome_6w.csv
+  
+  process_Rmatching_6w: # add variables 
+    run: r:latest analysis/process_Rmatching_6w.R
+    needs: [extract_variables_6w,matching,process_Rmatching]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_6w.rds
           #### addintional check for 6 weeks exclusion
 
 
