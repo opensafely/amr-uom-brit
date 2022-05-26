@@ -39,7 +39,7 @@ range(df$matches)
 ## matches=1
 ```{r}
 
-df1=df%>%filter(matches==1)
+df1=df%>%filter(matches==1L)
 
 table <- 
   tbl_summary(
