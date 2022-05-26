@@ -42,6 +42,13 @@ actions:
         rds1: output/matched_patients.rds
         rds2: output/unmatched_cases.rds
         csv: output/matched_patients_id.csv
+        
+  check_unmatched:
+    run: r:latest -e 'rmarkdown::render("analysis/check_unmatched.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_unmatched.html
 
   extract_variables: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
