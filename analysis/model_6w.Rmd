@@ -53,12 +53,17 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-
 df$lastABtime=as.numeric(df$lastABtime)
 
+df$total_ab_6w=ifelse(is.na(df$total_ab_6w),0,df$total_ab_6w)
 df$total_ab_6w=as.numeric(df$total_ab_6w)
+
+df$ab_6w=ifelse(is.na(df$ab_6w),0,df$ab_6w)
 df$ab_6w=as.factor(df$ab_6w)
+
+df$ab_types_6w=ifelse(is.na(df$ab_types_6w),0,df$ab_types_6w)
 df$ab_types_6w=as.numeric(df$ab_types_6w)
+
 df$lastABtime_6w=as.numeric(df$lastABtime_6w)
 
 
