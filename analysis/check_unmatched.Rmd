@@ -1,0 +1,272 @@
+---
+title: " matching result"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(kableExtra)
+library('tidyverse')
+require("gtsummary")
+library("ggplot2")
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+# patients within subclass
+```{r}
+df <- read_rds(here::here("output","matched_patients.rds"))
+#df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
+df=df%>%select( "case","age" ,"sex"  ,"stp" ,"subclass" ) 
+df$case=as.factor(df$case)
+```
+
+```{r}
+df=df%>%group_by(subclass)%>%mutate(matches=n()-1)
+df$matches=as.numeric(df$matches)
+
+range(df$matches)
+```
+
+## matches=1
+```{r}
+
+df1=df%>%filter(matches==1)
+
+table <- 
+  tbl_summary(
+    df1,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+ggplot(df1, aes(x=age, group=case, fill=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+## matches=2
+```{r}
+
+df2=df%>%filter(matches==2)
+
+table <- 
+  tbl_summary(
+    df2,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+ggplot(df2, aes(x=age, group=case, fill=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+## matches=3
+```{r}
+
+df3=df%>%filter(matches==3)
+
+table <- 
+  tbl_summary(
+    df3,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+ggplot(df3, aes(x=age, group=case, fill=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+
+## matches=4
+```{r}
+
+df4=df%>%filter(matches==4)
+
+table <- 
+  tbl_summary(
+    df4,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+ggplot(df4, aes(x=age, group=case, fill=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+
+## matches=5
+```{r}
+
+df5=df%>%filter(matches==5)
+
+table <- 
+  tbl_summary(
+    df5,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+ggplot(df5, aes(x=age, group=case, fill=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+
+## matches=6
+```{r}
+
+df6=df%>%filter(matches==6)
+
+table <- 
+  tbl_summary(
+    df6,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+ggplot(df6, aes(x=age, group=case, fill=case)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+# patients without controls
+
+```{r include=FALSE}
+# import data
+
+df1 <- read_rds(here::here("output","matched_patients.rds"))
+#df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
+df1=df1%>%select( "case","age" ,"sex"  ,"stp" ) 
+df1=subset(df1,case==1)
+df1$matched="1"
+
+df2 <- read_rds(here::here("output","unmatched_patients.rds"))
+#df2= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/unmatched_patients.rds")
+df2=df2%>%select( "case","age" ,"sex"  ,"stp" ) 
+df2=subset(df2,case==1)
+df2$matched="0"
+
+df=rbind(df1,df2)
+
+```
+
+
+```{r include=FALSE}
+num1=count(df[df$matched=="1",])
+num2=count(df[df$matched=="0",])
+```
+
+#### Matcthed case (1): **count:`r num1`**
+#### non-matcthed case (0): **count:`r num2`**
+
+***
+
+
+
+
+```{r}
+
+#df0=df0%>%select("stp")
+
+table <- 
+  tbl_summary(
+    df,
+    by = matched, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+    digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table
+```
+
+
+```{r  echo=FALSE }
+df$matched=as.factor(df$matched)
+ggplot(df, aes(x=age, fill=matched, color=matched)) +
+  geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+```
+
+
