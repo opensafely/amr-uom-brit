@@ -93,7 +93,7 @@ actions:
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_subgroup.html
+        html: output/model_subgroup.html 
 
   # abtype modeling
   model_abtype: 
@@ -102,6 +102,14 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_abtype.html
+
+  model_time: # adjust for last AB time
+    run: r:latest -e 'rmarkdown::render("analysis/model_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model.html
+  
         ################# check ok###########
 
   process_2: # died any cause
