@@ -122,8 +122,13 @@ df=df%>%mutate(ab_qn_type=
                            level=="3" &  ab_types>=3 ~ "6",
                            level=="4" &  ab_types==1 ~ "7",
                            level=="4" &  ab_types==2 ~ "8",
-                           level=="4" &  ab_types>=3 ~ "9"
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
                           ))
+
 
 #summary(df[df$ab_qn_type=="0",]$total_ab)
 #summary(df[df$ab_qn_type=="1",]$total_ab)
@@ -161,7 +166,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type1"
@@ -173,10 +178,13 @@ DF[6,1]="level3, type3"
 DF[7,1]="level4, type1"
 DF[8,1]="level4, type2"
 DF[9,1]="level4, type3"
+DF[10,1]="level5, type1"
+DF[11,1]="level5, type2"
+DF[12,1]="level5, type3"
 
 
- Index = rep(1:9) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3")
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level5, type1","level5, type2","level5, type3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -187,8 +195,7 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
-```
+DF```
 
 
 
@@ -280,8 +287,13 @@ df=df%>%mutate(ab_qn_type=
                            level=="3" &  ab_types>=3 ~ "6",
                            level=="4" &  ab_types==1 ~ "7",
                            level=="4" &  ab_types==2 ~ "8",
-                           level=="4" &  ab_types>=3 ~ "9"
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
                           ))
+
 
 #summary(df[df$ab_qn_type=="0",]$total_ab)
 #summary(df[df$ab_qn_type=="1",]$total_ab)
@@ -319,7 +331,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type1"
@@ -331,10 +343,13 @@ DF[6,1]="level3, type3"
 DF[7,1]="level4, type1"
 DF[8,1]="level4, type2"
 DF[9,1]="level4, type3"
+DF[10,1]="level5, type1"
+DF[11,1]="level5, type2"
+DF[12,1]="level5, type3"
 
 
- Index = rep(1:9) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3")
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level5, type1","level5, type2","level5, type3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -345,8 +360,7 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
-```
+DF```
 
 
 
@@ -438,8 +452,13 @@ df=df%>%mutate(ab_qn_type=
                            level=="3" &  ab_types>=3 ~ "6",
                            level=="4" &  ab_types==1 ~ "7",
                            level=="4" &  ab_types==2 ~ "8",
-                           level=="4" &  ab_types>=3 ~ "9"
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
                           ))
+
 
 #summary(df[df$ab_qn_type=="0",]$total_ab)
 #summary(df[df$ab_qn_type=="1",]$total_ab)
@@ -477,7 +496,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type1"
@@ -489,10 +508,13 @@ DF[6,1]="level3, type3"
 DF[7,1]="level4, type1"
 DF[8,1]="level4, type2"
 DF[9,1]="level4, type3"
+DF[10,1]="level5, type1"
+DF[11,1]="level5, type2"
+DF[12,1]="level5, type3"
 
 
- Index = rep(1:9) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3")
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level5, type1","level5, type2","level5, type3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -503,8 +525,7 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
-```
+DF```
 
 
 
@@ -594,8 +615,13 @@ df=df%>%mutate(ab_qn_type=
                            level=="3" &  ab_types>=3 ~ "6",
                            level=="4" &  ab_types==1 ~ "7",
                            level=="4" &  ab_types==2 ~ "8",
-                           level=="4" &  ab_types>=3 ~ "9"
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
                           ))
+
 
 #summary(df[df$ab_qn_type=="0",]$total_ab)
 #summary(df[df$ab_qn_type=="1",]$total_ab)
@@ -633,7 +659,7 @@ DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="level1, type1"
@@ -645,10 +671,13 @@ DF[6,1]="level3, type3"
 DF[7,1]="level4, type1"
 DF[8,1]="level4, type2"
 DF[9,1]="level4, type3"
+DF[10,1]="level5, type1"
+DF[11,1]="level5, type2"
+DF[12,1]="level5, type3"
 
 
- Index = rep(1:9) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3")
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level5, type1","level5, type2","level5, type3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -659,8 +688,7 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
-```
+DF```
 
 
 
