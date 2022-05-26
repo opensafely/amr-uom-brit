@@ -201,7 +201,9 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF```
+DF
+
+```
 
 
 
@@ -366,7 +368,8 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF```
+DF
+```
 
 
 
@@ -531,7 +534,8 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF```
+DF
+```
 
 
 
@@ -694,7 +698,8 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF```
+DF
+```
 
 
 
