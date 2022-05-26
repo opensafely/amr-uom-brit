@@ -30,11 +30,12 @@ df$case=as.factor(df$case)
 
 ```{r}
 df=df%>%group_by(subclass)%>%mutate(matches=n()-1)
-df$matches=as.integer(df$matches)
+
+df$matches=as.character(df$matches)
 
 range(df$matches)
-df=df%>%select( "case","age" ,"sex"  ,"stp") 
 
+df=df[,-1]
 ```
 
 ## matches=1
