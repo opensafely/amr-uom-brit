@@ -23,18 +23,18 @@ options(knitr.table.format="html")
 # patients within subclass
 ```{r}
 df <- read_rds(here::here("output","matched_patients.rds"))
-#df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
-df=df%>%select( "case","age" ,"sex"  ,"stp" ,"subclass" ) 
+#df= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
+df=df%>%select("case","age" ,"sex"  ,"stp" ,"subclass" ) 
 df$case=as.factor(df$case)
 ```
 
 ```{r}
 df=df%>%group_by(subclass)%>%mutate(matches=n()-1)
-df$matches=as.numeric(df$matches)
+df$matches=as.character(df$matches)
 
 range(df$matches)
 
-df=df%>%select( "case","age" ,"sex"  ,"stp" ) 
+df=df[,-1]
 ```
 
 ## matches=1
