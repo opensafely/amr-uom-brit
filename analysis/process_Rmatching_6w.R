@@ -13,19 +13,7 @@ library('lubridate')
 setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # extracted dataset after matching
-DF1=read_csv("input_outcome_6w.csv")
-
-## add variables to extracted cohort:"subclass","case", 
-DF2 <- read_rds("matched_patients.rds")
-
-#DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
-DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
-
-#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=T)
-rm(DF1,DF2)
-
-
+df=read_csv("input_outcome_6w.csv")
 
 
 ######## antibiotics exposure ##########
@@ -69,7 +57,7 @@ df$lastABtime_6w=ifelse(is.na(df$lastABtime_6w),0,df$lastABtime_6w)
 # df$br_ab_qn=quintile(df$broad_ab_prescriptions)
 
 
-df3 <- read_rds("matched_outcome.rds")
+df2 <- read_rds("matched_outcome.rds")
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-DF=merge(df,df3,by=c("patient_id","sex","stp","patient_index_date"),all=T)
+DF=merge(df,df2,by=c("patient_id","sex","stp","patient_index_date"),all=T)
 write_rds(DF, here::here("output", "matched_outcome_6w.rds"))
