@@ -108,9 +108,19 @@ actions:
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model.html
+        html: output/model_time.html
   
         ################# check ok###########
+
+        #### addintional check for 6 weeks exclusion
+  extract_variables_6w: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_6w
+    needs: [matching]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_6w.csv
+          #### addintional check for 6 weeks exclusion
+
 
   process_2: # died any cause
     run: r:latest analysis/process_2.R
