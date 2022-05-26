@@ -26,6 +26,7 @@ df <- read_rds(here::here("output","matched_patients.rds"))
 #df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
 df=df%>%select( "case","age" ,"sex"  ,"stp" ,"subclass" ) 
 df$case=as.factor(df$case)
+df=df%>%select( "case","age" ,"sex"  ,"stp") 
 ```
 
 ```{r}
