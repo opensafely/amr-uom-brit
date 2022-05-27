@@ -109,6 +109,8 @@ table1
 df1 <- read_rds(here::here("output","matched_outcome.rds"))
 df1=df1%>% group_by(case,subclass)%>% sample_n(1)
 
+df1$subclass=NULL
+
 df1=df1%>% select("case","wave","age","age_cat","region")
 
 

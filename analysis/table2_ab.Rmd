@@ -151,6 +151,7 @@ l0
 df <- read_rds(here::here("output","matched_outcome.rds"))
 df=df%>% group_by(case,subclass)%>% sample_n(1)
 
+df$subclass=NULL
 df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions)
