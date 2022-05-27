@@ -1,6 +1,12 @@
 ---
 title: "table 1"
-output: html_document
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
 ---
 
 
@@ -15,24 +21,22 @@ require("gtsummary")
 ```
 
 
-# compare study cohort before and after matching
+ compare study cohort before and after matching
 
 
 ```{r}
 
-#df1=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_icu_death.csv")
+#df1=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_hosp.csv")
 #df2=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/control_covid_infection.csv")
-df1 <- read.csv(here::here("output","case_covid_icu_death.csv"))
-df1$case=1
-df2 <- read.csv(here::here("output","control_covid_hosp.csv"))
-df2$case=0
+df1 <- read.csv(here::here("output","case_covid_hosp.csv"))
+df2 <- read.csv(here::here("output","control_covid_infection.csv"))
 
 df0=rbind(df1,df2)
 df0$wave=ifelse(df0$patient_index_date >= as.Date("2021-05-01"),"3", 
                ifelse(df0$patient_index_date >= as.Date("2020-09-01"),"2", 
                       ifelse(df0$patient_index_date >= as.Date("2020-02-01"),"1","0")))
 
-df0=df0%>% select("case","wave","sex","age","region")
+df0=df0%>% select("case","wave","age","region")
 
 
 df0$age_cat=ifelse(df0$age<30,"18-29",
@@ -47,7 +51,7 @@ df0$age_cat <- factor(df0$age_cat, levels=c("18-29","30-39","40-49","50-59","60-
 ```
 
 
-## unmatched
+# unmatched
 ```{r}
 
 #df0=df0%>%select("stp")
@@ -67,13 +71,13 @@ table
 ```
 
 
-## matched
-
+# matched
+## all patinets
 ```{r}
 #df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
 df1 <- read_rds(here::here("output","matched_outcome.rds"))
-df1=df1%>% select("case","wave","sex","age","age_cat","region")
+df1=df1%>% select("case","wave","age","age_cat","region")
 
 
 ```
@@ -97,3 +101,33 @@ table1
 ```
 
 
+## randomly pick 1 control in subclass
+
+```{r}
+#df1=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+
+df1 <- read_rds(here::here("output","matched_outcome.rds"))
+df1=df1%>% group_by(case,subclass)%>% sample_n(1)
+
+df1=df1%>% select("case","wave","age","age_cat","region")
+
+
+```
+
+```{r}
+
+#df0=df0%>%select("stp")
+
+table1 <- 
+  tbl_summary(
+    df1,
+    by = case, 
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n}  ({p}%)"),
+      digits = all_continuous() ~ 2,
+  ) %>%
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels() 
+
+table1
+```
