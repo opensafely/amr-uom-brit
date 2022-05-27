@@ -34,13 +34,13 @@ df$matches=as.character(df$matches)
 
 range(df$matches)
 
-df=df[,-1]
+df=df[,-5] # remove subclass
 ```
 
 ## matches=1
 ```{r}
 
-df1=df%>%filter(matches==1)
+df1=df%>%filter(matches=="1")
 
 table <- 
   tbl_summary(
@@ -68,7 +68,7 @@ ggplot(df1, aes(x=age, group=case, fill=case)) +
 ## matches=2
 ```{r}
 
-df2=df%>%filter(matches==2)
+df2=df%>%filter(matches=="2")
 
 table <- 
   tbl_summary(
@@ -96,7 +96,7 @@ ggplot(df2, aes(x=age, group=case, fill=case)) +
 ## matches=3
 ```{r}
 
-df3=df%>%filter(matches==3)
+df3=df%>%filter(matches=="3")
 
 table <- 
   tbl_summary(
@@ -125,7 +125,7 @@ ggplot(df3, aes(x=age, group=case, fill=case)) +
 ## matches=4
 ```{r}
 
-df4=df%>%filter(matches==4)
+df4=df%>%filter(matches=="4")
 
 table <- 
   tbl_summary(
@@ -154,7 +154,7 @@ ggplot(df4, aes(x=age, group=case, fill=case)) +
 ## matches=5
 ```{r}
 
-df5=df%>%filter(matches==5)
+df5=df%>%filter(matches=="5")
 
 table <- 
   tbl_summary(
@@ -183,7 +183,7 @@ ggplot(df5, aes(x=age, group=case, fill=case)) +
 ## matches=6
 ```{r}
 
-df6=df%>%filter(matches==6)
+df6=df%>%filter(matches=="6")
 
 table <- 
   tbl_summary(
