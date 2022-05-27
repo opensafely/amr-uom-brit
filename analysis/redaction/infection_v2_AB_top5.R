@@ -58,7 +58,7 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.1$percentage=df.1$count/df.1$total
+##df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
@@ -84,7 +84,7 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+#df.0$percentage=df.0$count/df.0$total
 
 
 ## csv check for plot
@@ -98,6 +98,7 @@ df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
+df$percentage=df$count/df$total
 
 
 write_csv(df, here::here("output","redacted_v2", "AB_uti_check_top5.csv"))
@@ -235,7 +236,7 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.1$percentage=df.1$count/df.1$total
+##df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
@@ -261,7 +262,7 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+#df.0$percentage=df.0$count/df.0$total
 
 
 ## csv check for plot
@@ -275,6 +276,8 @@ df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
+df$percentage=df$count/df$total
+
 write_csv(df, here::here("output","redacted_v2", "AB_lrti_check_top5.csv"))
 
 
@@ -411,7 +414,7 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.1$percentage=df.1$count/df.1$total
+#df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
@@ -437,7 +440,7 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+#df.0$percentage=df.0$count/df.0$total
 
 
 ## csv check for plot
@@ -450,6 +453,8 @@ df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
+df$percentage=df$count/df$total
+
 write_csv(df, here::here("output","redacted_v2", "AB_urti_check_top5.csv"))
 
 
@@ -585,7 +590,7 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.1$percentage=df.1$count/df.1$total
+#df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
@@ -611,7 +616,8 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+#df.0$percentage=df.0$count/df.0$total
+
 
 
 ## csv check for plot
@@ -625,6 +631,8 @@ df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
+df$percentage=df$count/df$total
+
 write_csv(df, here::here("output","redacted_v2", "AB_sinusitis_check_top5.csv"))
 
 
@@ -763,7 +771,7 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.1$percentage=df.1$count/df.1$total
+#df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
@@ -789,7 +797,8 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+#df.0$percentage=df.0$count/df.0$total
+
 
 
 ## csv check for plot
@@ -803,6 +812,8 @@ df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
+df$percentage=df$count/df$total
+
 write_csv(df, here::here("output","redacted_v2", "AB_ot_externa_check_top5.csv"))
 
 df.1=df%>%filter(prevalent==1)
@@ -935,7 +946,7 @@ df.1$type <- factor(df.1$type, levels=c(DF.top10.1$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.1=df.1%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.1$percentage=df.1$count/df.1$total
+#df.1$percentage=df.1$count/df.1$total
 
 ##select incident cases
 # calculate ab types
@@ -961,7 +972,8 @@ df.0$type <- factor(df.0$type, levels=c(DF.top10.0$abtype,"Others","No_antibioti
 
 # consultation with AB 
 df.0=df.0%>%group_by(date,type)%>%summarise(count=sum(count),total=mean(total))
-df.0$percentage=df.0$count/df.0$total
+#df.0$percentage=df.0$count/df.0$total
+
 
 
 ## csv check for plot
@@ -975,6 +987,8 @@ df$raw_count=df$count
 df$raw_total=df$total
 df$count=ifelse(df$count<=5,5, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
+df$percentage=df$count/df$total
+
 write_csv(df, here::here("output","redacted_v2", "AB_otmedia_check_top5.csv"))
 
 
