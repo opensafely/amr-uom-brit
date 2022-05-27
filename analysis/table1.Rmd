@@ -26,10 +26,12 @@ require("gtsummary")
 
 ```{r}
 
-#df1=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_hosp.csv")
-#df2=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/control_covid_infection.csv")
-df1 <- read.csv(here::here("output","case_covid_hosp.csv"))
-df2 <- read.csv(here::here("output","control_covid_infection.csv"))
+#df1=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_icu_death.csv")
+#df2=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/control_covid_hosp.csv")
+df1 <- read.csv(here::here("output","case_covid_icu_death.csv"))
+df1$case=1
+df2 <- read.csv(here::here("output","control_covid_hosp.csv"))
+df2$case=0
 
 df0=rbind(df1,df2)
 df0$wave=ifelse(df0$patient_index_date >= as.Date("2021-05-01"),"3", 
