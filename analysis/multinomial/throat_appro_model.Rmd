@@ -66,7 +66,8 @@ training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
 ### use training dataset to develop the model
-m1 <- vgam(outcome ~.,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+m1 <- vgam(outcome ~ rcs(age, knots = 5) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+
 summaryvglm(m1)
 ```
 
@@ -268,6 +269,7 @@ cbind(aaa,bbb)
 ```{r}
 #Estimates of PDI and its components
 testing$outcome <- as.numeric(testing$outcome)
+p <- predict(m1 , newdata = testing,type="response")
 df.p <- as.data.frame(p)
 head(df.p)
 ```
