@@ -22,6 +22,8 @@ library("VGAM")
 library("bayesm")
 library("finalfit")
 library("here")
+library("rms")
+library("pROC")
 
 ```
 
@@ -68,11 +70,20 @@ m1 <- vgam(outcome ~.,  family = multinomial(parallel = FALSE, refLevel = 1), da
 summaryvglm(m1)
 ```
 
+
+
+
+
 ```{r}
 ###relative risk ratio ###
 exp(coefficients(m1,matrix=TRUE))
 ```
 
+```{r}
+m0.1 <- multinom(outcome ~ age + sex , data =training)
+m0.2 <- multinom(outcome ~ rcs(age, knots = 5) + sex , data =training)
+anova(m0.1, m0.2)
+```
 
 
 ```{r}
@@ -261,10 +272,7 @@ df.p <- as.data.frame(p)
 head(df.p)
 ```
 
-```{r}
-data <- as.data.frame(cbind(testing$outcome,df.p))
-names(data) <- c("outcome","p1","p2","p3")
-```
+
 
 
 
