@@ -258,7 +258,7 @@ cbind(aaa,bbb)
 #Estimates of PDI and its components
 testing$outcome <- as.numeric(testing$outcome)
 df.p <- as.data.frame(p)
-View(head(df.p))
+head(df.p)
 ```
 
 ```{r}
