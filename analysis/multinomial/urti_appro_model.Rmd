@@ -86,6 +86,9 @@ m0.2 <- multinom(outcome ~ rcs(age, knots = 5) + sex , data =training)
 anova(m0.1, m0.2)
 ```
 
+```{r}
+quantile(testing$age, probs = c(.05, .275,.5, .725,.95))
+```
 
 ```{r}
 ### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
@@ -176,7 +179,7 @@ cbind(aaa,bbb)
     a = smoothpar
     points(smooth.spline(p, fitted(fitp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}
   # legend
-  legende <- c(paste("outcome ", i, sep = ""))
+  legende <- c(paste( i, sep = ""))
   legend(x=0.6, y=(0.2),col=(1+i),lty =1,legend=legende)
   title(main = "Parametric calibration plot")
   par(new=F)} 
