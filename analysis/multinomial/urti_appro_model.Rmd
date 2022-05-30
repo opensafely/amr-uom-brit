@@ -66,7 +66,7 @@ training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
 ### use training dataset to develop the model
-m1 <- vgam(outcome ~ rcs(age, knots = 5) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+m1 <- vgam(outcome ~ age + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 
 summaryvglm(m1)
 ```
