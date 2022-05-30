@@ -1,0 +1,478 @@
+---
+title: "otmedia_appro_model"
+author: "Billy"
+date: "30/05/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+
+```{r}
+library("dplyr")
+library("tidyverse")
+library("lubridate")
+library("foreign")
+library("nnet")
+library("ggplot2")
+library("VGAM")
+library("bayesm")
+library("finalfit")
+library("here")
+library("rms")
+library("pROC")
+
+```
+
+```{r}
+DF <- read_csv(here::here("output","otmedia_outcome.csv"))
+DF <- DF %>% filter (age>3)
+DF$outcome <- as.factor(DF$outcome)
+DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
+DF$imd <- as.factor(DF$imd)
+DF$region <- as.factor(DF$region)
+DF$charlsonGrp <- as.factor(DF$charlsonGrp)
+DF$ab12b4 <- as.factor(DF$ab12b4)
+DF$outcome <- relevel(DF$outcome, ref = "1")
+DF$ethnicity_6 <- relevel(DF$ethnicity_6, ref = "White")
+DF$imd <- relevel(DF$imd, ref = "1")
+DF$region <- relevel(DF$region, ref = "East")
+DF$charlsonGrp <- relevel(DF$charlsonGrp, ref = "zero")
+DF$ab12b4 <- relevel(DF$ab12b4, ref = "0")
+DF <- DF %>% dplyr::select(outcome,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
+DF <- DF %>% filter (DF$sex=="M"|DF$sex=="F")
+DF <- DF %>% filter (!is.na(outcome))
+DF <- DF %>% filter (!is.na(ethnicity_6))
+DF <- DF %>% filter (!is.na(imd))
+DF <- DF %>% filter (!is.na(region))
+DF <- DF %>% filter (!is.na(charlsonGrp))
+DF <- DF %>% filter (!is.na(age))
+DF <- DF %>% filter (!is.na(sex))
+DF <- DF %>% filter (!is.na(ab12b4))
+```
+
+```{r}
+
+# Data Partition 
+set.seed(777)
+ind <- sample(2,nrow(DF),
+              replace = TRUE,
+              prob = c(0.75,0.25))
+
+training <- DF[ind==1,]
+testing <- DF[ind==2,]
+
+### use training dataset to develop the model
+m1 <- vgam(outcome ~ rcs(age, knots = 5) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+
+summaryvglm(m1)
+```
+
+
+
+
+
+```{r}
+###relative risk ratio ###
+exp(coefficients(m1,matrix=TRUE))
+```
+
+```{r}
+m0.1 <- multinom(outcome ~ age + sex , data =training)
+m0.2 <- multinom(outcome ~ rcs(age, knots = 5) + sex , data =training)
+anova(m0.1, m0.2)
+```
+
+
+```{r}
+### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
+# columns for  table
+colsfortab <- colnames(training)
+training %>% summary_factorlist(explanatory = colsfortab) -> t1
+t1
+```
+
+```{r}
+testing %>% summary_factorlist(explanatory = colsfortab) -> t2
+t2
+```
+
+
+### Parametric nominal calibration plot for the validation data of the ovarian tumor case study for each outcome category separately ((a)–(c)) and overall (d).
+
+```{r}
+outcome=testing$outcome
+k=3
+p <- predict(m1 , newdata = testing,type="response")
+LP <- predict(m1, newdata = testing)
+r=1
+estimates=FALSE
+dfr=2
+plotoverall=TRUE
+datapoints=TRUE
+smoothing=TRUE
+smoothpar=1
+intercept=FALSE
+slope=FALSE
+test=FALSE
+  # probabilities
+  probs <- split(p,col(p))    
+  
+  # linear predictors necessary for non-parametric calibration plot - give a name to each linear predictor 
+  # seperately
+  lps <- split(LP,col(LP))
+  for(i in 1:(k-1)){assign(paste("lp", i, sep = ""),unlist(lps[[i]]))}
+aaa <- length(LP[,1])
+bbb <- length(outcome)
+cbind(aaa,bbb)
+```
+
+
+```{r}
+  ###############################################
+  # parametric logistic recalibration framework 
+  # cf. section 2.2.1.                          
+  ###############################################
+  
+  # reference category r
+  # LP = matrix with linear predictors
+
+
+  fitp<-vglm(outcome~LP,family=multinomial(refLevel=r))
+  if(isTRUE(estimates)){est<-coefficients(fitp)
+  names(est) <- paste('EST',names(est),sep='.')}
+  
+```
+
+
+
+
+
+```{r}
+  
+  fitnp<-vgam(outcome~s(lp1,df=dfr)+s(lp2,df=dfr),family=multinomial(refLevel=r))
+  
+  
+  ###############################################                  
+  # Separate (non-)parametric calibration plots
+  ###############################################
+  
+  
+  par(mfrow=c(ceiling(k/2),2))
+  for(i in 1:k){p <- unlist(probs[[i]])
+  if(isTRUE(smoothing)){color<-'grey'}else{color<-1+i}
+ 
+  matplot(p,fitted(fitp)[,i],type="p",pch=i,col=color,lwd=1,ylab="",xlab="",xlim=0:1,ylim=0:1)
+  par(new=T)
+  ref <- rbind(c(0,0),c(1,1))
+  matplot(ref,ref,type="l",col=1,lwd=2,ylab="Observed proportions",xlab="Predicted probabilities",xlim=0:1,ylim=0:1)
+  # smoother for calibration plots 
+  ##################################
+  # a = smoothing parameter
+  if(isTRUE(smoothing)){
+    a = smoothpar
+    points(smooth.spline(p, fitted(fitp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}
+  # legend
+  legende <- c(paste("outcome ", i, sep = ""))
+  legend(x=0.6, y=(0.2),col=(1+i),lty =1,legend=legende)
+  title(main = "Parametric calibration plot")
+  par(new=F)} 
+```
+
+
+```{r}
+  
+  # non-parametric calibration plot 
+  # cf. section 2.2.2.              
+  ###################################
+  
+  par(mfrow=c(ceiling(k/2),2))
+  for(i in 1:k){p <- unlist(probs[[i]])
+  if(isTRUE(smoothing)){color<-'grey'}else{color<-1+i}
+  plot2 <- matplot(p,fitted(fitnp)[,i],type="p",pch=i,col=color,lwd=1,ylab="",xlab="",xlim=0:1,ylim=0:1)
+  par(new=T)
+  ref <- rbind(c(0,0),c(1,1))
+  matplot(ref,ref,type="l",col=1,lwd=2,ylab="Observed proportions",xlab="Predicted probabilities",xlim=0:1,ylim=0:1)
+  # smoother for calibration plots 
+  ##################################
+  # a = smoothing parameter
+  if(isTRUE(smoothing)){
+    a = smoothpar
+    points(smooth.spline(p, fitted(fitnp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}
+  # legend
+  legende <- c(paste("cat ", i, sep = ""))
+  legend(x=0.6, y=(0.2),col=(1+i),lty =1,legend=legende)
+  title(main = "Non-parametric calibration plot")
+  par(new=F)}
+  
+```
+
+
+
+```{r}
+  if(isTRUE(plotoverall)){
+    
+    
+    # parametric calibration plot 
+    # cf. section 2.2.2.          
+    ###############################
+    
+    if(isTRUE(datapoints)){for(i in 1:k){p <- unlist(probs[[i]])
+    plot3 <- matplot(p,fitted(fitp)[,i],type="p",pch=i,col=(1+i),lwd=1,ylab="",xlab="",xlim=0:1,ylim=0:1)
+    par(new=T)}}
+    ref <- rbind(c(0,0),c(1,1))
+    matplot(ref,ref,type="l",col=1,lwd=2,ylab="Observed proportions",xlab="Predicted probabilities",xlim=0:1,ylim=0:1)
+    # smoother for calibration plots 
+    ##################################
+    # a = smoothing parameter
+    if(isTRUE(smoothing)){
+      a = smoothpar
+      for(i in 1:k){p <- unlist(probs[[i]])
+      points(smooth.spline(p, fitted(fitp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}}
+    # legend
+    for(i in 1:k){if(i <= 2){legende <- c("cat 1","cat 2")}
+      if(i > 2){legende <- c(legende,paste("cat ", i, sep = ""))}}
+    legend(x=0.7, y=(0.20+(k-3)*0.05),col=2:(k+1),lty =1,legend=legende)
+    title(main = "Parametric calibration plot")
+    par(new=F)
+    
+    # non-parametric calibration plot 
+    # cf. section 2.2.2.              
+    ###################################
+    
+    
+    if(isTRUE(datapoints)){for(i in 1:k){p <- unlist(probs[[i]])
+    plot4 <- matplot(p,fitted(fitnp)[,i],type="p",pch=i,col=(1+i),lwd=1,ylab="",xlab="",xlim=0:1,ylim=0:1)
+    par(new=T)}}
+    ref <- rbind(c(0,0),c(1,1))
+    matplot(ref,ref,type="l",col=1,lwd=2,ylab="Observed proportions",xlab="Predicted  probabilities",xlim=0:1,ylim=0:1)
+    # smoother for calibration plots 
+    ##################################
+    # a = smoothing parameter
+    if(isTRUE(smoothing)){a = smoothpar
+    for(i in 1:k){p <- unlist(probs[[i]])
+    points(smooth.spline(p, fitted(fitnp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}}
+    # legend
+    for(i in 1:k){if(i <= 2){legende <- c("cat 1","cat 2")}
+      if(i > 2){legende <- c(legende,paste("cat ", i, sep = ""))}}
+    legend(x=0.7, y=(0.20+(k-3)*0.05),col=2:(k+1),lty =1,legend=legende)
+    title(main = "Non-parametric calibration plot")
+    par(new=F)}
+```
+
+
+### Discrimination
+### polytomous discrimination index  
+```{r}
+#Estimates of PDI and its components
+testing$outcome <- as.numeric(testing$outcome)
+p <- predict(m1 , newdata = testing,type="response")
+df.p <- as.data.frame(p)
+head(df.p)
+data <- (cbind(testing$outcome,df.p))
+```
+
+
+```{r}
+names(data) <- c("outcome","p1","p2","p3")
+pdiest<-function(data){
+  
+  y<-data$outcome
+  ymin<-min(y)
+  ymax<-max(y)
+  noutcome<-ymax-ymin
+  p<-prod(table(y))
+  pdi<-c()
+  
+  for (i in 1:(noutcome+1)){
+    
+    predprob<-data[,(i+1)]  #READ predicted probabilities for level i
+    t0<-table(predprob,y)   #CALCULATE frequencies of predicted probabilities for level i by outcome
+    
+    dim1<-dim(t0)[1]
+    dim2<-dim(t0)[2]
+    t<-cbind(t0[,i],t0[,-i]) #REORDER columns
+    restrictt<- if (noutcome == 1){matrix(t[,2:(noutcome+1)],ncol=1)} else {t[,2:(noutcome+1)] } #REMOVE first column of t
+    
+    c<-apply(restrictt,2,cumsum) #CALCULATE cumulative frequencies of predicted probabilities for level i by outcome
+    cnew<- if (noutcome == 1) {rbind(rep(0,noutcome),matrix(c[1:(dim(c)[1]-1),],ncol=))} else {rbind(rep(0,noutcome),c[1:(dim(c)[1]-1),])} #INTRODUCE a row of zeros at the begining of c
+    
+    mat<-c()                     #MATRIX of 0s and 1s of dimension 2^(noutcome) x noutcome
+    for (j in 1:noutcome){
+      mat0<-cbind(mat,0)
+      mat1<-cbind(mat,1)
+      mat<-rbind(mat0,mat1)}
+    
+    r<-0
+    for (k in 1:dim(mat)[1]){
+      dt<-t(apply(restrictt, 1, function(x) mat[k,]*x))
+      dcnew<-t(apply(cnew, 1, function(x) (1-mat[k,])*x))
+      dfinal<-if (noutcome == 1) {cbind(t[,1],t(dt+dcnew))} else {cbind(t[,1],dt+dcnew)} #TAKE all combinations of frequencies and cumulative frequencies
+      r<-r+sum(apply(dfinal,1,prod))/(1+sum(mat[k,]))}                                   #MULTIPLYIES across rows
+    
+    r<-r/p     #PDI component for outcome i
+    pdi<-rbind(pdi,r)
+  }
+  pdi<-rbind(mean(pdi),pdi)
+  pdi}
+
+#Estimates and bootstrap 95% confidence intervals for PDI and its components
+pdifunction<-function(data,nbs){
+  #PDI estimate
+  estimate<-pdiest(data)
+  #BOOTSTRAP
+  samplesize<-dim(data)[1]
+  for (i in 1:nbs)
+  {vec<-sample.int(samplesize,size=samplesize, replace=TRUE)
+  mydatabs<-data[vec,]
+  if (i<2) {pdibs<-pdiest(mydatabs)
+  } else {
+    pdibs<-cbind(pdibs,pdiest(mydatabs))
+  }
+  }
+  
+  stderr <- sqrt(apply(pdibs, 1, var))
+  lowerci<- pmax(0, estimate - 1.96*stderr)
+  upperci<- pmin(1, estimate + 1.96*stderr)
+  
+  estci<-cbind(estimate, lowerci, upperci)
+  estci
+}
+```
+
+```{r}
+pdiest(data)
+```
+#Estimates and bootstrap 95% confidence intervals for PDI and its components
+```{r}
+pdifunction(data,5)
+```
+
+
+
+
+###"In one study's opinion, the pairwise approach is superior to the 1-versus-rest approach"
+###"1-versus-rest approach"
+###"1 vs rest"
+```{r}
+testing <- testing %>% 
+  mutate(reoutcome1 = ifelse(outcome == 1 , 1, 0))
+# Obtain the c statistic / AUC
+c1 <- roc(testing$reoutcome1~df.p$`1`,ci=TRUE)
+c1
+```
+# Plot the ROC curve
+
+```{r}
+plot(roc(testing$reoutcome1,df.p$`1`))
+```
+
+# "2 vs rest"
+```{r}
+testing <- testing %>% 
+  mutate(reoutcome2 = ifelse(outcome == 2 , 1, 0))
+# Obtain the c statistic / AUC
+c1 <- roc(testing$reoutcome2~df.p$`2`,ci=TRUE)
+c1
+```
+
+# Plot the ROC curve
+
+```{r}
+plot(roc(testing$reoutcome2,df.p$`2`))
+```
+
+# "3 vs rest"
+
+```{r}
+testing <- testing %>% 
+  mutate(reoutcome3 = ifelse(outcome == 3 , 1, 0))
+# Obtain the c statistic / AUC
+c1 <- roc(testing$reoutcome3~df.p$`3`,ci=TRUE)
+c1
+```
+
+# Plot the ROC curve
+
+```{r}
+plot(roc(testing$reoutcome3,df.p$`3`))
+```
+
+
+### "the pairwise approach "
+#"1 vs 2"
+
+```{r}
+testing_1 <- testing %>% 
+  filter(outcome ==1|outcome==2) %>% 
+  mutate(reoutcome = ifelse(outcome == 1 , 1, 0))
+
+order1 <- testing$outcome ==1|testing$outcome==2
+df.p$reoutcome1<- df.p$`1`/(df.p$`1`+df.p$`2`)
+df.p1 <- df.p[order1,]
+# Obtain the c statistic / AUC
+c1 <- roc(testing_1$reoutcome~df.p1$reoutcome1,ci=TRUE)
+c1
+```
+
+# Plot the ROC curve
+```{r}
+plot(roc(testing_1$reoutcome,df.p1$reoutcome1))
+```
+
+
+#"1 vs 3"
+```{r}
+testing_2 <- testing %>% 
+  filter(outcome ==1|outcome==3) %>% 
+  mutate(reoutcome = ifelse(outcome == 1 , 1, 0))
+order2 <- testing$outcome ==1|testing$outcome==3
+df.p$reoutcome2 <- df.p$`1`/(df.p$`1`+df.p$`3`)
+df.p2 <- df.p[order2,]
+
+# Obtain the c statistic / AUC
+c1 <- roc(testing_2$reoutcome~df.p2$reoutcome2,ci=TRUE)
+c1
+```
+
+# Plot the ROC curve
+```{r}
+plot(roc(testing_2$reoutcome,df.p2$reoutcome2))
+```
+
+
+#"2 vs 3"
+```{r}
+testing_3 <- testing %>% 
+  filter(outcome ==2|outcome==3) %>% 
+  mutate(reoutcome = ifelse(outcome == 3 , 1, 0))
+order3 <- testing$outcome ==2|testing$outcome==3
+df.p$reoutcome3 <- df.p$`3`/(df.p$`2`+df.p$`3`)
+df.p3 <- df.p[order3,]
+# Obtain the c statistic / AUC
+c1 <- roc(testing_3$reoutcome~df.p3$reoutcome3,ci=TRUE)
+c1
+```
+
+# Plot the ROC curve
+```{r}
+plot(roc(testing_3$reoutcome,df.p3$reoutcome3))
+```
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+

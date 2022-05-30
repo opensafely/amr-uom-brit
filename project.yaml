@@ -1964,3 +1964,52 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/throat_appro_model.html
+
+  urti_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/urti_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/urti_appro_model.html
+
+  sinusitis_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/sinusitis_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/sinusitis_appro_model.html
+
+  ot_externa_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/ot_externa_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/ot_externa_appro_model.html
+
+  otmedia_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/otmedia_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/otmedia_appro_model.html
+
+  copd_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/copd_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/copd_appro_model.html
+
+  cough_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/cough_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/cough_appro_model.html
+
+  pneumonia_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/pneumonia_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/pneumonia_appro_model.html
