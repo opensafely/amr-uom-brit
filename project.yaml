@@ -1934,19 +1934,33 @@ actions:
       moderately_sensitive:
         html: output/report/lrti_appro_model.html
 
-  describe_throat_var_process: 
-    run: r:latest analysis/multinomial/throat_var.R
+  describe_predict_model_var_process: 
+    run: r:latest analysis/multinomial/predict_model_var.R
     needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
     describe_prepare_var_2021_process,describe_cleaning_process_2]
     outputs:
       moderately_sensitive:
-        table: output/throat_count.csv
+        table1: output/throat_count.csv
+        table2: output/urti_count.csv
+        table3: output/sinusitis_count.csv
+        table4: output/ot_externa_count.csv
+        table5: output/otmedia_count.csv
+        table6: output/copd_count.csv
+        table7: output/cough_count.csv
+        table8: output/pneumonia_count.csv
       highly_sensitive:
-        cohort: output/throat_outcome.csv
+        cohort1: output/throat_outcome.csv
+        cohort2: output/urti_outcome.csv
+        cohort3: output/sinusitis_outcome.csv
+        cohort4: output/ot_externa_outcome.csv
+        cohort5: output/otmedia_outcome.csv
+        cohort6: output/copd_outcome.csv
+        cohort7: output/cough_outcome.csv
+        cohort8: output/pneumonia_outcome.csv
 
   throat_appro_model:  
     run: r:latest -e 'rmarkdown::render("analysis/multinomial/throat_appro_model.Rmd", output_dir = "output/report")'
-    needs: [describe_throat_var_process]
+    needs: [describe_predict_model_var_process]
     outputs:
       moderately_sensitive:
         html: output/report/throat_appro_model.html
