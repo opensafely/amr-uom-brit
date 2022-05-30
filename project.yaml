@@ -2013,3 +2013,12 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/pneumonia_appro_model.html
+
+  describe_cohort_3_var_process: 
+    run: r:latest analysis/multinomial/cohort_3_var.R
+    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
+    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    outputs:
+      moderately_sensitive:
+        table1: output/repeat_overall_tab.csv
+        table2: output/repeat_incident_tab.csv
