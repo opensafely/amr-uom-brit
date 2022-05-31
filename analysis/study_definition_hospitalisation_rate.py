@@ -144,6 +144,17 @@ study = StudyDefinition(
         return_expectations={"int": {"distribution": "normal", "mean": 6, "stddev": 3}, "incidence": 0.6},
     ),
 
+    admitted_binary = patients.admitted_to_hospital(
+    #    with_these_diagnoses = hospitalisation_infection_related,
+       with_these_primary_diagnoses = hospitalisation_infection_related,
+       returning="binary_flag",
+    #    date_format="YYYY-MM-DD",
+       between=["index_date", "last_day_of_month(index_date)"],
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.3},
+        return_expectations={"int": {"distribution": "normal", "mean": 6, "stddev": 3}, "incidence": 0.6},
+    ),    
+
     admitted_date = patients.admitted_to_hospital(
     #    with_these_diagnoses = hospitalisation_infection_related,
        with_these_primary_diagnoses = hospitalisation_infection_related,
@@ -279,7 +290,32 @@ measures = [
         denominator="population",
         group_by=['gp_cons_admitted_binary', 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
-    ),         
+    ),     
+
+
+    Measure(
+        id="hosp_rate_binary",
+        numerator="admitted_binary",
+        denominator="population",
+        group_by=['sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),
+
+    Measure(
+        id="hosp_rate_sex_binary",
+        numerator="admitted_binary",
+        denominator="population",
+        group_by=["sex", 'sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),
+
+    Measure(
+        id="hosp_rate_age_cat_binary",
+        numerator="admitted_binary",
+        denominator="population",
+        group_by=['age_cat', 'sgss_gp_cov_admitted_binary'],
+        small_number_suppression=True,
+    ),    
     
     # Measure(
     #     id="hosp_admission_by_stp",
