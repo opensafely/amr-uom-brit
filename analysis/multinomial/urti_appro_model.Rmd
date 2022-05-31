@@ -65,22 +65,16 @@ ind <- sample(2,nrow(DF),
 training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
-```
-
-```{r}
-age5_spline <- rcs(training$age,knots = 5)
-```
-
-```{r}
-attributes(age5_spline)$parms
-```
-
-```{r}
 ### use training dataset to develop the model
-m1 <- vgam(outcome ~ age5_spline + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+m1 <- vgam(outcome ~ rcs(age, knots = 5) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 
 summaryvglm(m1)
 ```
+
+```{r}
+attributes(training$age, knots = 5)$parms
+```
+
 
 ```{r}
 ###relative risk ratio ###
