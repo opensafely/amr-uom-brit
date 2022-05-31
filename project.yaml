@@ -1852,12 +1852,12 @@ actions:
         table2: output/mon_overall_forest_B_table.csv
         table3: output/mon_overall_forest_C_table.csv
 
-  extract_variables: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic
-    needs: [describe_cleaning_process_3]
+  extract_variables_extra_2019: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_extra_2019
+    needs: [describe_cleaning_process_2019]
     outputs:
       highly_sensitive:
-        cohort: output/input_demographic.csv
+        cohort: output/input_extra_2019.csv
 
   extract_variables_2019: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic_2019
