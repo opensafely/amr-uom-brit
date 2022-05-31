@@ -65,30 +65,28 @@ ind <- sample(2,nrow(DF),
 training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
+```
+
+```{r}
+age5_spline <- rcs(training$age,knots = 5)
+```
+
+```{r}
+attributes(age5_spline)$parms
+```
+
+```{r}
 ### use training dataset to develop the model
-m1 <- vgam(outcome ~ age + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+m1 <- vgam(outcome ~ age5_spline + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 
 summaryvglm(m1)
 ```
-
-
-
-
 
 ```{r}
 ###relative risk ratio ###
 exp(coefficients(m1,matrix=TRUE))
 ```
 
-```{r}
-m0.1 <- multinom(outcome ~ age + sex , data =training)
-m0.2 <- multinom(outcome ~ rcs(age, knots = 5) + sex , data =training)
-anova(m0.1, m0.2)
-```
-
-```{r}
-quantile(testing$age, probs = c(.05, .275,.5, .725,.95))
-```
 
 ```{r}
 ### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
