@@ -1859,6 +1859,20 @@ actions:
       highly_sensitive:
         cohort: output/input_extra_2019.csv
 
+  extract_variables_extra_2020: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_extra_2020
+    needs: [describe_cleaning_process_2020]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_extra_2020.csv
+
+  extract_variables_extra_2021: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_extra_2021
+    needs: [describe_cleaning_process_2021]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_extra_2021.csv
+
   extract_variables_2019: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_demographic_2019
     needs: [describe_cleaning_process_2019]
