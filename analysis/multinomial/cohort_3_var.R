@@ -32,6 +32,10 @@ df$charlsonGrp <- as.factor(df$charlsonGrp)
 df$ab12b4 <- as.factor(df$ab12b4)
 df <- df %>% dplyr::select(incidental,infection,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
 df <- df %>% filter (df$sex=="M"|df$sex=="F")
+df <- df %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
+                                          age>=16 & age<=44 ~ "16-44",
+                                          age>=45 & age<=64 ~ "45-64",
+                                          age>=65 ~ "65+"))
 
 ### Table 1. Description and descriptive statistics
 # columns for  table
@@ -42,14 +46,6 @@ write_csv(t1, here::here("output", "repeat_overall_tab.csv"))
 
 df1 <- df %>% filter(incidental==1) 
 rm(df)
-
-df1$ethnicity_6 <- as.factor(df1$ethnicity_6)
-df1$imd <- as.factor(df1$imd)
-df1$region <- as.factor(df1$region)
-df1$charlsonGrp <- as.factor(df1$charlsonGrp)
-df1$ab12b4 <- as.factor(df1$ab12b4)
-df1 <- df1 %>% dplyr::select(infection,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
-df1 <- df1 %>% filter (df1$sex=="M"|df1$sex=="F")
 
 ### Table 1. Description and descriptive statistics
 # columns for  table
