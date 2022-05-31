@@ -29,7 +29,7 @@ df$imd <- as.factor(df$imd)
 df$region <- as.factor(df$region)
 df$charlsonGrp <- as.factor(df$charlsonGrp)
 df$ab12b4 <- as.factor(df$ab12b4)
-df <- df %>% dplyr::select(incidental,infection,type,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4,date)
+df <- df %>% dplyr::select(patient_id,incidental,infection,type,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4,date)
 df <- df %>% filter (df$sex=="M"|df$sex=="F")
 df <- df %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
                                           age>=16 & age<=44 ~ "16-44",
