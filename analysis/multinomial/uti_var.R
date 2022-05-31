@@ -33,11 +33,11 @@ rm(DF,df2)
 ### outcome 3: repeat
 
 
-utitype <- c("amoxicillin", "ampicillin", "cefaclor", "cefadroxil", "cefalexin",
- "cefazolin", "cefixime", "cefoxitin", "cefprozil", "cefradine", "ceftazidime",
-  "ceftriaxone", "cefuroxime", "ceftazidime", "ceftriaxone", "chloramphenicol",
-   "co-amoxiclav", "fosfomycin", "levofloxacin", "norfloxacin", "ofloxacin", "pivampicillin", "trimethoprim",
-    "nitrofurantoin" )
+utitype <- c("Amoxicillin", "Ampicillin", "Cefaclor", "Cefadroxil", "Cefalexin",
+ "Cefazolin", "Cefixime", "Cefoxitin", "Cefprozil", "Cefradine", "Ceftazidime",
+  "Ceftriaxone", "Cefuroxime", "Ceftazidime", "Ceftriaxone", "Chloramphenicol",
+   "Co-amoxiclav", "Fosfomycin", "Levofloxacin", "Norfloxacin", "Ofloxacin", "Pivampicillin", "Trimethoprim",
+    "Nitrofurantoin" )
 
 df1 <- df %>% filter(incidental==1) %>% filter(infection== "UTI")
 df1 <- df1 %>% mutate(outcome = case_when(df1$repeat_ab==0 & df1$type %in% utitype ~ 1,
