@@ -27,23 +27,23 @@ actions:
         figures: output/hospitalisation_rate/*
 
   
-  study_definition_hospitalisation_rate_hxdx:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate_hxdx --index-date-range "2019-01-01 to 2022-02-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input*.csv.gz
+  # study_definition_hospitalisation_rate_hxdx:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_rate_hxdx --index-date-range "2019-01-01 to 2022-02-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/measures/input*.csv.gz
 
-  generate_measures_hxdx:
-    run: cohortextractor:latest generate_measures --study-definition study_definition_hospitalisation_rate_hxdx --skip-existing --output-dir=output/measures
-    needs: [study_definition_hospitalisation_rate_hxdx]
-    outputs:
-      moderately_sensitive:
-        measure_csv: output/measures/measur_*.csv
+  # generate_measures_hxdx:
+  #   run: cohortextractor:latest generate_measures --study-definition study_definition_hospitalisation_rate_hxdx --skip-existing --output-dir=output/measures
+  #   needs: [study_definition_hospitalisation_rate_hxdx]
+  #   outputs:
+  #     moderately_sensitive:
+  #       measure_csv: output/measures/measur_*.csv
 
-  generate_notebook_hospitalisation_rate_hxdx:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate_hxdx.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate_hxdx --ExecutePreprocessor.timeout=86400
-    needs: [generate_measures_hxdx]
-    outputs:
-      moderately_sensitive:
-        notebook: output/hospitalisation_rate_hxdx/hospitalisation_rate_hxdx.html 
-        figures: output/hospitalisation_rate_hxdx/*
+  # generate_notebook_hospitalisation_rate_hxdx:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_rate_hxdx.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_rate_hxdx --ExecutePreprocessor.timeout=86400
+  #   needs: [generate_measures_hxdx]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/hospitalisation_rate_hxdx/hospitalisation_rate_hxdx.html 
+  #       figures: output/hospitalisation_rate_hxdx/*
