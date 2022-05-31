@@ -66,13 +66,13 @@ training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
 ### use training dataset to develop the model
-m1 <- vgam(outcome ~ rcs(age, knots = 5) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
-
+Knots.manual <- rcspline.eval(training$age, nk = 5, knots.only = TRUE)
+m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 summaryvglm(m1)
 ```
 
 ```{r}
-attributes(training$age, knots = 5)$parms
+attributes(rcs(training$age, Knots.manual))$parms
 ```
 
 
