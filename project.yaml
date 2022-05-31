@@ -2035,3 +2035,20 @@ actions:
         table4: output/cohort_1_blt_2020.csv
         table5: output/cohort_1_overall_blt_2021.csv
         table6: output/cohort_1_blt_2021.csv
+
+  describe_uti_var_process: 
+    run: r:latest analysis/multinomial/uti_var.R
+    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
+    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    outputs:
+      moderately_sensitive:
+        table: output/uti_count.csv
+      highly_sensitive:
+        cohort: output/uti_outcome.csv
+
+  uti_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/uti_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_uti_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/uti_appro_model.html
