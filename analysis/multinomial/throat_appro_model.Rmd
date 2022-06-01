@@ -35,7 +35,7 @@ DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
 DF$imd <- as.factor(DF$imd)
 DF$region <- as.factor(DF$region)
 DF$charlsonGrp <- as.factor(DF$charlsonGrp)
-DF$ab12b4 <- as.factor(DF$ab12b4)
+DF$ab12b4 <- as.factor(DF$ab12b4)                                            
 DF$outcome <- relevel(DF$outcome, ref = "1")
 DF$ethnicity_6 <- relevel(DF$ethnicity_6, ref = "White")
 DF$imd <- relevel(DF$imd, ref = "1")
@@ -66,24 +66,19 @@ training <- DF[ind==1,]
 testing <- DF[ind==2,]
 
 ### use training dataset to develop the model
-m1 <- vgam(outcome ~ rcs(age, knots = 5) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4, family = multinomial(parallel = FALSE, refLevel = 1), data =training)
-
+Knots.manual <- rcspline.eval(training$age, nk = 5, knots.only = TRUE)
+m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 summaryvglm(m1)
 ```
 
-
-
+```{r}
+attributes(rcs(training$age, Knots.manual))$parms
+```
 
 
 ```{r}
 ###relative risk ratio ###
 exp(coefficients(m1,matrix=TRUE))
-```
-
-```{r}
-m0.1 <- multinom(outcome ~ age + sex , data =training)
-m0.2 <- multinom(outcome ~ rcs(age, knots = 5) + sex , data =training)
-anova(m0.1, m0.2)
 ```
 
 
@@ -109,15 +104,15 @@ k=3
 p <- predict(m1 , newdata = testing,type="response")
 LP <- predict(m1, newdata = testing)
 r=1
-estimates=FALSE
+estimates=TRUE
 dfr=2
 plotoverall=TRUE
 datapoints=TRUE
 smoothing=TRUE
 smoothpar=1
-intercept=FALSE
-slope=FALSE
-test=FALSE
+intercept=TRUE
+slope=TRUE
+test=TRUE
   # probabilities
   probs <- split(p,col(p))    
   
@@ -176,7 +171,7 @@ cbind(aaa,bbb)
     a = smoothpar
     points(smooth.spline(p, fitted(fitp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}
   # legend
-  legende <- c(paste("outcome ", i, sep = ""))
+  legende <- c(paste( i, sep = ""))
   legend(x=0.6, y=(0.2),col=(1+i),lty =1,legend=legende)
   title(main = "Parametric calibration plot")
   par(new=F)} 
@@ -203,7 +198,7 @@ cbind(aaa,bbb)
     a = smoothpar
     points(smooth.spline(p, fitted(fitnp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}
   # legend
-  legende <- c(paste("cat ", i, sep = ""))
+  legende <- c(paste(i, sep = ""))
   legend(x=0.6, y=(0.2),col=(1+i),lty =1,legend=legende)
   title(main = "Non-parametric calibration plot")
   par(new=F)}
@@ -233,8 +228,8 @@ cbind(aaa,bbb)
       for(i in 1:k){p <- unlist(probs[[i]])
       points(smooth.spline(p, fitted(fitp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}}
     # legend
-    for(i in 1:k){if(i <= 2){legende <- c("cat 1","cat 2")}
-      if(i > 2){legende <- c(legende,paste("cat ", i, sep = ""))}}
+    for(i in 1:k){if(i <= 2){legende <- c("1","2")}
+      if(i > 2){legende <- c(legende,paste(i, sep = ""))}}
     legend(x=0.7, y=(0.20+(k-3)*0.05),col=2:(k+1),lty =1,legend=legende)
     title(main = "Parametric calibration plot")
     par(new=F)
@@ -256,12 +251,115 @@ cbind(aaa,bbb)
     for(i in 1:k){p <- unlist(probs[[i]])
     points(smooth.spline(p, fitted(fitnp)[,i],spar=a), type="l", col=(1+i), lwd = 4)}}
     # legend
-    for(i in 1:k){if(i <= 2){legende <- c("cat 1","cat 2")}
-      if(i > 2){legende <- c(legende,paste("cat ", i, sep = ""))}}
+    for(i in 1:k){if(i <= 2){legende <- c("1","2")}
+      if(i > 2){legende <- c(legende,paste( i, sep = ""))}}
     legend(x=0.7, y=(0.20+(k-3)*0.05),col=2:(k+1),lty =1,legend=legende)
     title(main = "Non-parametric calibration plot")
     par(new=F)}
 ```
+
+```{r}
+  ########################################
+  # estimation of calibration intercepts 
+  # cf. section 2.2.3. and 2.2.4.        
+  ########################################
+  
+  if(isTRUE(intercept)){int<-vgam(outcome~1,offset=LP,family=multinomial(refLevel=r))
+  coeffint<-coefficients(int)
+  se<-sqrt(diag(vcov(int)))
+  ci1i <- cbind(LL1 = coeffint[1] - qnorm(0.975) * se[1], UL1 = coeffint[1] + qnorm(0.975) * se[1])
+  ci2i <- cbind(LL2 = coeffint[2] - qnorm(0.975) * se[2], UL2 = coeffint[2] + qnorm(0.975) * se[2])
+  estint <- c(coeffint[1],ci1i,coeffint[2],ci2i)
+  names(estint) <- paste('CALINT',c('int1','LLint1','ULint1','int2','LLint2','ULint2'),sep='.')}
+  
+  
+  ####################################
+  # estimation of calibration slopes 
+  # cf. section 2.2.3. and 2.2.4.    
+  ####################################
+  
+  # we used constraints to fix some coefficients to zero as appropriate
+  # for k outcome categories this code should be changed to:
+  # i <- diag(k-1)
+  # i2 <- cbind(c(1,rep(0,k-2)))
+  # i3 <- cbind(c(0,1,rep(0,k-1)))
+  # i4 <- cbind(c(0,0,1,rep(0,k-2)))
+  # ... (ij <- cbind(c(rep(0,j-2),1,rep(0,k-j)))
+  # ik <- cbind(c(rep(0,k-2),1))
+  # clist<-list("(Intercept)"=i,"lp1"=i2,"lp2"=i3,...,"lpk-1"=ik)
+  # slopes<-vgam(outcome~lp1+lp2+...+lpk-1,family=multinomial(refLevel=r),constraints=clist)
+  
+  if(isTRUE(slope)){i<-diag(k-1)
+  i2<-rbind(1,0)
+  i3<-rbind(0,1)
+  clist<-list("(Intercept)"=i,"lp1"=i2,"lp2"=i3)
+  slopes<-vgam(outcome~lp1+lp2,family=multinomial(refLevel=r),constraints=clist)
+  coeffslopes<-coefficients(slopes)[k:length(coefficients(slopes))]
+  se<-sqrt(diag(vcov(slopes)))
+  ci1s <- cbind(LL1 = coeffslopes[1] - qnorm(0.975) * se[3], UL1 = coeffslopes[1] + qnorm(0.975) * se[3])
+  ci2s <- cbind(LL2 = coeffslopes[2] - qnorm(0.975) * se[4], UL2 = coeffslopes[2] + qnorm(0.975) * se[4])
+  estslopes <- c(coeffslopes[1],ci1s,coeffslopes[2],ci2s)
+  names(estslopes) <- paste('CALSLOPES',c('lp1','LLlp1','ULlp1','lp2','LLlp2','ULlp2'),sep='.')}
+  
+  
+  #################################
+  # calibration testing          
+  # cf. section 2.2.3. and 2.2.4. 
+  #################################
+  
+  # this code requires the bayesm library developed by Peter Rossi
+  
+  if(isTRUE(test)){
+    
+    # -2 log-likelihood of model without adaptations
+    # for k outcome categories this code should be changed to:
+    # alphas <- rep(0,k-1) #(i.e. all intercepts zero)
+    # beta1 <- c(1,rep(0,k-2)) #(i.e. first linear predictor for first equation)
+    # beta2 <- c(0,1,rep(0,k-3)) #(i.e. second linear predictor for second equation)      
+    # betaj <- c(rep(0,j-1),1,rep(0,k-1-j)) #(i.e. jth linear predictor for jth equation)
+    # betak <- c(rep(0,k-2),1) #(i.e. kth linear predictor for kth equation)
+    # parametersk <- c(alphas, beta1, beta2, ..., betak)
+    
+    parametersk <- c(0,0,1,0,0,1) #c(alpha1,alpha2,b22,b23,b32,b33)
+    Xdk=LP
+    x <- createX(p=k,na=0,nd=k-1,Xa=NULL,Xd=Xdk,INT=TRUE,DIFF=FALSE,base=1)
+    deviancewithout <- -2*llmnl(parametersk,outcome,x)
+    names(deviancewithout)<-c('original deviance')
+    
+    devint <- deviance(int)
+    names(devint)<-c('intercept deviance')
+    devslopes <- deviance(slopes)
+    names(devslopes)<-c('slopes deviance')
+    
+    # overall calibration (i.e. calibration intercepts and slopes) 
+    ################################################################
+    
+    poverall<- pchisq(deviancewithout - devslopes, df = 2*(k-1), lower.tail = FALSE)
+    
+    # calibration intercepts 
+    ##########################
+    
+    pint<- pchisq(deviancewithout - devint, df = k-1, lower.tail = FALSE)
+    
+    # calibration slopes 
+    ######################
+    
+    pslopes<- pchisq(devint - devslopes, df = k-1, lower.tail = FALSE)
+    names(poverall)<-c('p overall')
+    names(pint)<-c('p int')
+    names(pslopes)<-c('p slopes')}
+  
+  # Printing of results
+  # The probabilities of calibration intercepts and slopes are only shown when the hypothesis of perfect 
+  # calibration is rejected.
+  
+  results<-list(if(isTRUE(estimates)){est}else{'Not requested'},if(isTRUE(intercept)){estint}else{'Not requested'},if(isTRUE(slope)){estslopes}else{'Not requested'},if(isTRUE(test)){c(deviancewithout,devint,devslopes)}else{'Not requested'},if(isTRUE(test)){c(poverall,if(poverall<0.05){c(pint,pslopes)})}else{'Not requested'})
+  names(results)<-c("Coefficients of parametric recalibration framework","Calibration Intercepts with 95% CI","Calibration Slopes with 95% CI","Deviances","P-values")
+  n <- 1:5
+  selection <- c(isTRUE(estimates),isTRUE(intercept),isTRUE(slope),isTRUE(test),isTRUE(test))
+  results[n[selection]]
+```
+
 
 
 ### Discrimination
