@@ -2093,8 +2093,8 @@ actions:
         table2: output/figure_sex_strata_table.csv
         table3: output/figure_region_strata_table.csv
 
-  describe_descriptive_figure_2_process: 
-    run: r:latest analysis/description/figure_2.R
+  describe_descriptive_repeat_figure_process: 
+    run: r:latest analysis/description/repeat_figure.R
     needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
     describe_prepare_var_2021_process,describe_cleaning_process_2]
     outputs:
