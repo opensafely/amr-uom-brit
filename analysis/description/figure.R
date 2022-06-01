@@ -83,7 +83,7 @@ bkg_colour <- "white"
 figure_age_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(age_group), col = factor(age_group), fill = factor(age_group))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
-  scale_x_date(date_labels = "%b", breaks = "1 year") +
+  scale_x_date(date_labels = "%Y", breaks = "1 year") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
   labs(x = "Date", y = "% of broad-sepctrum prescription", title = "", colour = "Age", fill = "Age") +
@@ -103,6 +103,7 @@ ggsave(
   plot= figure_age_strata,
   filename="figure_age_strata.jpeg", path=here::here("output"),
 )  
+write_csv(df.model, here::here("output", "figure_age_strata_table.csv"))
 rm(df.broad_total,df.all,df.model)
 
 ### Broad spectrum by sex
@@ -133,7 +134,7 @@ bkg_colour <- "white"
 figure_sex_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(sex), col = factor(sex), fill = factor(sex))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
-  scale_x_date(date_labels = "%b", breaks = "1 year") +
+  scale_x_date(date_labels = "%Y", breaks = "1 year") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
   labs(x = "Date", y = "% of broad-sepctrum prescription", title = "", colour = "Gender", fill = "Gender") +
@@ -153,3 +154,55 @@ ggsave(
   plot= figure_sex_strata,
   filename="figure_sex_strata.jpeg", path=here::here("output"),
 )  
+write_csv(df.model, here::here("output", "figure_sex_strata_table.csv"))
+rm(df.broad_total,df.all,df.model)
+### Broad spectrum by region
+
+df.broad_total <- df.broad %>% group_by(time,region) %>% summarise(
+  numOutcome = n(),
+)
+
+df.all <-  df %>% group_by(time,region) %>% summarise(
+  numEligible = n(),
+)
+df.model <- merge(df.broad_total,df.all,by=c("time","region"))
+
+df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
+                                                time>=13 & time<=24 ~ time-12,
+                                                time>=24 & time<=36 ~ time-24,
+                                                time>36 ~ time-36)) %>% 
+  mutate(year = case_when(time>=1 & time<=12 ~ 2019,
+                          time>=13 & time<=24 ~ 2020,
+                          time>=24 & time<=36 ~ 2021,
+                          time>36 ~ 2022)) %>% 
+  mutate(day = 1)
+df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
+
+df.model <- df.model %>% mutate(value = numOutcome/numEligible)
+
+bkg_colour <- "white"
+figure_region_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +
+  geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
+  geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
+  scale_x_date(date_labels = "%Y", breaks = "1 year") +
+  geom_vline(xintercept = c(start_covid, 
+                            covid_adjustment_period_from), col = 1, lwd = 1)+
+  labs(x = "Date", y = "% of broad-sepctrum prescription", title = "", colour = "Region", fill = "Region") +
+  theme_classic()  +
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 12),
+        axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 12),
+        legend.position = "top",
+        strip.background = element_rect(fill = "grey", colour =  NA),
+        strip.text = element_text(size = 12, hjust = 0)) 
+
+figure_region_strata
+
+ggsave(
+  plot= figure_region_strata,
+  filename="figure_region_strata.jpeg", path=here::here("output"),
+)  
+write_csv(df.model, here::here("output", "figure_region_strata_table.csv"))
+
