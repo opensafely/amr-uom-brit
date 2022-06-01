@@ -2036,6 +2036,9 @@ actions:
       moderately_sensitive:
         table1: output/repeat_overall_tab.csv
         table2: output/repeat_incident_tab.csv
+        table3: output/cohort_2_count.csv
+        table4: output/cohort_3_count.csv
+
 
   describe_cohort_1_var_process: 
     run: r:latest analysis/itsmodel/cohort_1_var.R
@@ -2043,6 +2046,7 @@ actions:
     describe_prepare_var_2021_process,describe_cleaning_process_2]
     outputs:
       moderately_sensitive:
+        table7: output/cohort_1_count.csv
         table1: output/cohort_1_overall_blt_2019.csv
         table2: output/cohort_1_blt_2019.csv
         table3: output/cohort_1_overall_blt_2020.csv
