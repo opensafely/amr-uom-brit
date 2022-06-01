@@ -178,9 +178,10 @@ df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
 df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
+df.model_remove_na <- df.model %>% filter(!is.na(region))
 
 bkg_colour <- "white"
-figure_region_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +
+figure_region_strata <- ggplot(df.model_remove_na, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
   scale_x_date(date_labels = "%Y", breaks = "1 year") +
