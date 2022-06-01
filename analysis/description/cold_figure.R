@@ -79,13 +79,13 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
 bkg_colour <- "white"
-figure_cold <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(infection), col = factor(infection), fill = factor(infection))) +
+figure_cold <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value)) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
   scale_x_date(date_labels = "%Y", breaks = "1 year") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
-  labs(x = "Date", y = "% of repeat prescription", title = "", colour = "indication", fill = "indication") +
+  labs(x = "Date", y = "% of repeat prescription", title = "") +
   theme_classic()  +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
