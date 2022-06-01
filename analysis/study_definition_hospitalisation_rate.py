@@ -272,7 +272,7 @@ measures = [
         id="hosp_rate_age_cat",
         numerator="admitted",
         denominator="population",
-        group_by=['age_cat'], # , 'sgss_gp_cov_admitted_binary']
+        group_by=['age_cat'], # 'sgss_gp_cov_admitted_binary']
         small_number_suppression=True,
     ),
 
@@ -305,7 +305,7 @@ measures = [
         id="hosp_rate_sex_binary",
         numerator="admitted_binary",
         denominator="population",
-        group_by=["sex"]#, 'sgss_gp_cov_admitted_binary'],
+        group_by=["sex"],# 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),
 
@@ -313,7 +313,7 @@ measures = [
         id="hosp_rate_age_cat_binary",
         numerator="admitted_binary",
         denominator="population",
-        group_by=['age_cat']#, 'sgss_gp_cov_admitted_binary'],
+        group_by=['age_cat'],# 'sgss_gp_cov_admitted_binary'],
         small_number_suppression=True,
     ),    
     
