@@ -16,13 +16,24 @@ DF <- readRDS("cleaned_indication_ab.rds")
 DF$date <- as.Date(DF$date)
 DF <- DF %>% filter(date <= as.Date("2021-12-31"))
 DF <- DF %>% filter(age > 3)
+DF1 <- DF %>% filter(date <= as.Date("2019-12-31") & date >= as.Date("2019-01-01"))
+DF2 <- DF %>% filter(date <= as.Date("2020-12-31") & date >= as.Date("2020-01-01"))
+DF3 <- DF %>% filter(date <= as.Date("2021-12-31") & date >= as.Date("2021-01-01"))
+
 setwd(here::here("output"))
 df2.1 <- read_csv("prepared_var_2019.csv") %>% select(-c(age,sex))
 df2.2 <- read_csv("prepared_var_2020.csv") %>% select(-c(age,sex))
 df2.3 <- read_csv("prepared_var_2021.csv") %>% select(-c(age,sex))
-df2 <- rbind(df2.1,df2.2,df2.3)
-df <- merge(DF,df2,by=c("patient_id"))
-rm(DF,df2)
+
+df1 <- merge(DF1,df2.1,by=c("patient_id"))
+rm(DF1,df2.1)
+df2 <- merge(DF2,df2.2,by=c("patient_id"))
+rm(DF2,df2.2)
+df3 <- merge(DF3,df2.3,by=c("patient_id"))
+rm(DF3,df2.3)
+
+df <- rbind(df1,df2,df3)
+rm(df1,df2,df3)
 
 
 
@@ -168,6 +179,44 @@ num_record <- length(df1$patient_id)
 overall_counts <- as.data.frame(cbind(num_record, num_pats, num_pracs))
 write_csv(overall_counts, here::here("output", "pneumonia_count.csv"))
 rm(num_record, num_pats, num_pracs,overall_counts,df1)  
+
+
+### lrti
+
+lrtitype <- c("Amoxicillin", "Doxycycline", "Clarithromycin", "Azithromycin", "Erythromycin",
+              "Levofloxacin", "Co-amoxiclav", "Ofloxacin", "Moxifloxacin", "Ciprofloxacin")
+
+df1 <- df %>% filter(incidental==1) %>% filter(infection== "LRTI")
+df1 <- df1 %>% mutate(outcome = case_when(df1$repeat_ab==0 & df1$type %in% lrtitype ~ 1,
+                          df1$repeat_ab==0 & df1$type %in% lrtitype == FALSE ~ 2,
+                          df1$repeat_ab==1  ~ 3))
+write_csv(df1, here::here("output", "lrti_outcome.csv"))
+num_pats <- length(unique(df1$patient_id))
+num_pracs <- length(unique(df1$practice))
+num_record <- length(df1$patient_id)
+
+overall_counts <- as.data.frame(cbind(num_record, num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "lrti_count.csv"))
+rm(num_record, num_pats, num_pracs,overall_counts,df1)  
+### uti
+
+utitype <- c("Amoxicillin", "Ampicillin", "Cefaclor", "Cefadroxil", "Cefalexin",
+ "Cefazolin", "Cefixime", "Cefoxitin", "Cefprozil", "Cefradine", "Ceftazidime",
+  "Ceftriaxone", "Cefuroxime", "Ceftazidime", "Ceftriaxone", "Chloramphenicol",
+   "Co-amoxiclav", "Fosfomycin", "Levofloxacin", "Norfloxacin", "Ofloxacin", "Pivampicillin", "Trimethoprim",
+    "Nitrofurantoin" )
+
+df1 <- df %>% filter(incidental==1) %>% filter(infection== "UTI")
+df1 <- df1 %>% mutate(outcome = case_when(df1$repeat_ab==0 & df1$type %in% utitype ~ 1,
+                          df1$repeat_ab==0 & df1$type %in% utitype == FALSE ~ 2,
+                          df1$repeat_ab==1  ~ 3))
+write_csv(df1, here::here("output", "uti_outcome.csv"))
+num_pats <- length(unique(df1$patient_id))
+num_pracs <- length(unique(df1$practice))
+num_record <- length(df1$patient_id)
+
+overall_counts <- as.data.frame(cbind(num_record, num_pats, num_pracs))
+write_csv(overall_counts, here::here("output", "uti_count.csv"))
 
 
 

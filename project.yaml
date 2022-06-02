@@ -1931,22 +1931,8 @@ actions:
       highly_sensitive:
         cohort: output/prepared_var_2021.csv
 
-  describe_lrti_var_process: 
-    run: r:latest analysis/multinomial/lrti_var.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
-    outputs:
-      moderately_sensitive:
-        table: output/lrti_count.csv
-      highly_sensitive:
-        cohort: output/lrti_outcome.csv
 
-  lrti_appro_model:  
-    run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_appro_model.Rmd", output_dir = "output/report")'
-    needs: [describe_lrti_var_process]
-    outputs:
-      moderately_sensitive:
-        html: output/report/lrti_appro_model.html
+######## multinomial #########
 
   describe_predict_model_var_process: 
     run: r:latest analysis/multinomial/predict_model_var.R
@@ -1962,6 +1948,8 @@ actions:
         table6: output/copd_count.csv
         table7: output/cough_count.csv
         table8: output/pneumonia_count.csv
+        table9: output/lrti_count.csv
+        table10: output/uti_count.csv
       highly_sensitive:
         cohort1: output/throat_outcome.csv
         cohort2: output/urti_outcome.csv
@@ -1971,6 +1959,8 @@ actions:
         cohort6: output/copd_outcome.csv
         cohort7: output/cough_outcome.csv
         cohort8: output/pneumonia_outcome.csv
+        cohort9: output/lrti_outcome.csv
+        cohort10: output/uti_outcome.csv
 
   throat_appro_model:  
     run: r:latest -e 'rmarkdown::render("analysis/multinomial/throat_appro_model.Rmd", output_dir = "output/report")'
@@ -2028,6 +2018,20 @@ actions:
       moderately_sensitive:
         html: output/report/pneumonia_appro_model.html
 
+  uti_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/uti_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/uti_appro_model.html
+
+  lrti_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/lrti_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/lrti_appro_model.html
+
   describe_cohort_3_var_process: 
     run: r:latest analysis/multinomial/cohort_3_var.R
     needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
@@ -2053,23 +2057,6 @@ actions:
         table4: output/cohort_1_blt_2020.csv
         table5: output/cohort_1_overall_blt_2021.csv
         table6: output/cohort_1_blt_2021.csv
-
-  describe_uti_var_process: 
-    run: r:latest analysis/multinomial/uti_var.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
-    outputs:
-      moderately_sensitive:
-        table: output/uti_count.csv
-      highly_sensitive:
-        cohort: output/uti_outcome.csv
-
-  uti_appro_model:  
-    run: r:latest -e 'rmarkdown::render("analysis/multinomial/uti_appro_model.Rmd", output_dir = "output/report")'
-    needs: [describe_uti_var_process]
-    outputs:
-      moderately_sensitive:
-        html: output/report/uti_appro_model.html
 
   describe_descriptive_figure_process: 
     run: r:latest analysis/description/figure.R
