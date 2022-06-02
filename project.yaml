@@ -2092,3 +2092,11 @@ actions:
       moderately_sensitive:
         figure1: output/figure_cold_repeat.jpeg
         table1: output/figure_cold_repeat_table.csv
+
+  describe_cohort_1_rds:
+    run: r:latest analysis/description/var_rds_prepare.R
+    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
+    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/cohort_1.rds
