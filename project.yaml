@@ -2058,10 +2058,17 @@ actions:
         table5: output/cohort_1_overall_blt_2021.csv
         table6: output/cohort_1_blt_2021.csv
 
-  describe_descriptive_figure_process: 
-    run: r:latest analysis/description/figure.R
+  describe_cohort_1_rds:
+    run: r:latest analysis/description/var_rds_prepare.R
     needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
     describe_prepare_var_2021_process,describe_cleaning_process_2]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/cohort_1.rds
+
+  describe_descriptive_figure_process: 
+    run: r:latest analysis/description/figure.R
+    needs: [describe_cohort_1_rds]
     outputs:
       moderately_sensitive:
         figure1: output/figure_age_strata.jpeg
@@ -2073,8 +2080,7 @@ actions:
 
   describe_descriptive_repeat_figure_process: 
     run: r:latest analysis/description/repeat_figure.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    needs: [describe_cohort_1_rds]
     outputs:
       moderately_sensitive:
         figure1: output/figure_2_age_strata.jpeg
@@ -2086,17 +2092,8 @@ actions:
 
   describe_descriptive_cold_figure_process: 
     run: r:latest analysis/description/cold_figure.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    needs: [describe_cohort_1_rds]
     outputs:
       moderately_sensitive:
         figure1: output/figure_cold_repeat.jpeg
         table1: output/figure_cold_repeat_table.csv
-
-  describe_cohort_1_rds:
-    run: r:latest analysis/description/var_rds_prepare.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
-    outputs:
-       highly_sensitive:
-        rds1: output/measures/cohort_1.rds
