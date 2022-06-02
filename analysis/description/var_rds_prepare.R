@@ -47,4 +47,5 @@ df <- df %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
                                           age>=45 & age<=64 ~ "45-64",
                                           age>=65 ~ "65+"))
 
+setwd(here::here("output", "measures"))
 saveRDS(df, "cohort_1.rds")
