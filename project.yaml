@@ -2097,3 +2097,11 @@ actions:
       moderately_sensitive:
         figure1: output/figure_cold_repeat.jpeg
         table1: output/figure_cold_repeat_table.csv
+
+  describe_its_repeat_var_process: 
+    run: r:latest analysis/description/its_repeat_var.R
+    needs: [describe_cohort_1_rds]
+    outputs:
+      moderately_sensitive:
+        table1: output/dt_repeat_overall.csv
+        table2: output/dt_repeat_incidental.csv
