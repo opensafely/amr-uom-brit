@@ -18,18 +18,16 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "dt_incidental_")
-outcomes <- stringr::str_remove_all(all_files, c("dt_incidental_|.csv"))
+all_files <- list.files(here::here("output"), pattern = "dt_repeat_")
+outcomes <- stringr::str_remove_all(all_files, c("dt_repeat_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("Cold","COPD","Cough",
-                                                               "LRTI","Otitis externa","Otitis media",
-                                                               "Sinusitis","Sore throat","URTI","UTI"))
+                                           "outcome_name" = (c("Overall","Incident"))
 )
 bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("dt_incidental_", outcomes[ii], ".csv")))
+  load_file <- read.csv(here::here("output", paste0("dt_repeat_", outcomes[ii], ".csv")))
   assign(outcomes[ii], load_file)
 }
 
@@ -169,7 +167,7 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  write_csv(main_plot_data, here::here("output", "its_broad_incident_predicted_data_table.csv"))
+  write_csv(main_plot_data, here::here("output", "its_repeat_compare_predicted_table.csv"))
   main_plot_data$monPlot <- as.Date(main_plot_data$monPlot)
   plot1 <- ggplot(main_plot_data, aes(x = monPlot, y = pc_broad, group = outcome_name)) +
     # the data
@@ -183,7 +181,7 @@ its_function <- function(outcomes_vec = outcomes,
     facet_wrap(~outcome_name, scales = "free", ncol = 4) +
     geom_vline(xintercept = c(as.Date(abline_min), 
                               as.Date(abline_max)), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
-    labs(x = "", y = "% of broad-spectrum prescription", title = "A") +
+    labs(x = "", y = "% of repeat prescription", title = "A") +
     theme_classic() +
     theme(axis.title = element_text(size =16), 
           axis.text.x = element_text(angle = 60, hjust = 1, size = 12),
@@ -203,7 +201,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1
   ggsave(
     plot= plot1,
-    filename="its_broad_incident_predicted.jpeg", path=here::here("output"),
+    filename="its_repeat_compare_predicted.jpeg", path=here::here("output"),
   )    
 
 		# Forest plot of interaction terms ------------------------------------------------------
@@ -214,7 +212,7 @@ its_function <- function(outcomes_vec = outcomes,
 		
 		# changes the names of outcomes to full names
 		interaction_tbl_data$outcome_name <- factor(interaction_tbl_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
-    write_csv(interaction_tbl_data, here::here("output", "its_broad_incident_recovery_data_table.csv"))
+    write_csv(interaction_tbl_data, here::here("output", "its_repeat_compare_recovery_table.csv"))
   
 		# forest plot of estiamtes
 		fp2 <- ggplot(data=interaction_tbl_data, aes(x=outcome_name, y=Est, ymin=lci, ymax=uci)) +
@@ -243,7 +241,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp2
   ggsave(
     plot= fp2,
-    filename="forest_broad_incident_B.jpeg", path=here::here("output"),
+    filename="forest_repeat_compare_C.jpeg", path=here::here("output"),
   )  
 
 
@@ -256,7 +254,7 @@ its_function <- function(outcomes_vec = outcomes,
   # changes the names of outcomes to full names
   forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
-  write_csv(forest_plot_df, here::here("output", "its_broad_incident_changes_data_table.csv"))
+  write_csv(forest_plot_df, here::here("output", "its_repeat_compare_changes_table.csv"))
   
   
   forest_plot_df <- forest_plot_df %>%
@@ -289,21 +287,12 @@ its_function <- function(outcomes_vec = outcomes,
   fp
   ggsave(
     plot= fp,
-    filename="forest_broad_incident_A.jpeg", path=here::here("output"),
+    filename="forest_repeat_compare_B.jpeg", path=here::here("output"),
   )  
 
-		layout = "
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			BBBCCC
-			BBBCCC
-		"
   ggsave(
-    plot= 		plot1 + fp + fp2 + 
-			plot_layout(design = layout) ,
-    filename="conbined_broad_incident.jpeg", path=here::here("output"),
+    plot= 	 fp + fp2 ,
+    filename="forest_repeat_compare_BC.jpeg", path=here::here("output"),
   ) 
 
 }    
