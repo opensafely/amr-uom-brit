@@ -2093,7 +2093,7 @@ actions:
         table1: output/dt_repeat_overall.csv
         table2: output/dt_repeat_incidental.csv
 
-  describe_ITS_broad_incident:
+  describe_ITS_repeat_compare:
     run: r:latest analysis/itsmodel/ITS_repeat_compare.R
     needs: [describe_its_repeat_var_process]
     outputs:
