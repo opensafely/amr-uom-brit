@@ -52,6 +52,9 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
+df.model$numOutcome <- round(df.model$numOutcome, digits = -1)
+df.model$numEligible <- round(df.model$numEligible, digits = -1)
+
 bkg_colour <- "white"
 figure_age_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(age_group), col = factor(age_group), fill = factor(age_group))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
@@ -104,6 +107,9 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
+df.model$numOutcome <- round(df.model$numOutcome, digits = -1)
+df.model$numEligible <- round(df.model$numEligible, digits = -1)
+
 bkg_colour <- "white"
 figure_sex_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(sex), col = factor(sex), fill = factor(sex))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
@@ -155,6 +161,9 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 df.model_remove_na <- df.model %>% filter(!is.na(region))
+
+df.model$numOutcome <- round(df.model$numOutcome, digits = -1)
+df.model$numEligible <- round(df.model$numEligible, digits = -1)
 
 bkg_colour <- "white"
 figure_region_strata <- ggplot(df.model_remove_na, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +

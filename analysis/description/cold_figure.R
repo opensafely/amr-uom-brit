@@ -53,6 +53,9 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
+df.model$numOutcome <- round(df.model$numOutcome, digits = -1)
+df.model$numEligible <- round(df.model$numEligible, digits = -1)
+
 bkg_colour <- "white"
 figure_cold <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value)) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
