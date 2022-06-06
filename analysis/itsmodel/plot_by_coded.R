@@ -13,7 +13,7 @@ df1_overall_sameday <- df1 %>% group_by(monPlot,sameday_ab) %>% summarise(
   numEligible = sum(numEligible)
 ) %>% mutate (value = numOutcome/numEligible) 
 
-df1_overall_sameday$sameday_ab <- ifelse(df1_overall_sameday$sameday_ab==1,"coded","uncoded")
+df1_overall_sameday$sameday_ab <- ifelse(df1_overall_sameday$sameday_ab==1,"with infection","without infection")
 
 
 plot_sameday <- ggplot(df1_overall_sameday, aes(x=monPlot, y=value ,group=sameday_ab,color=sameday_ab))+
@@ -50,7 +50,7 @@ df1_Incidental_sameday <- df1 %>% filter(incidental == 1) %>%
   numEligible = sum(numEligible)
 ) %>% mutate (value = numOutcome/numEligible) 
 
-df1_Incidental_sameday$sameday_ab <- ifelse(df1_Incidental_sameday$sameday_ab==1,"coded","uncoded")
+df1_Incidental_sameday$sameday_ab <- ifelse(df1_Incidental_sameday$sameday_ab==1,"with infection","without infection")
 
 
 plot_sameday <- ggplot(df1_Incidental_sameday, aes(x=monPlot, y=value ,group=sameday_ab,color=sameday_ab))+
@@ -86,7 +86,7 @@ df2_overall_sameday <- df2 %>% group_by(monPlot,sameday_ab) %>% summarise(
   numEligible = sum(numEligible)
 ) %>% mutate (value = numOutcome/numEligible) 
 
-df2_overall_sameday$sameday_ab <- ifelse(df2_overall_sameday$sameday_ab==1,"coded","uncoded")
+df2_overall_sameday$sameday_ab <- ifelse(df2_overall_sameday$sameday_ab==1,"with infection","without infection")
 
 
 plot_sameday <- ggplot(df2_overall_sameday, aes(x=monPlot, y=value ,group=sameday_ab,color=sameday_ab))+
@@ -123,7 +123,7 @@ df2_Incidental_sameday <- df2 %>% filter(incidental == 1) %>%
     numEligible = sum(numEligible)
   ) %>% mutate (value = numOutcome/numEligible) 
 
-df2_Incidental_sameday$sameday_ab <- ifelse(df2_Incidental_sameday$sameday_ab==1,"coded","uncoded")
+df2_Incidental_sameday$sameday_ab <- ifelse(df2_Incidental_sameday$sameday_ab==1,"with infection","without infection")
 
 
 plot_sameday <- ggplot(df2_Incidental_sameday, aes(x=monPlot, y=value ,group=sameday_ab,color=sameday_ab))+
