@@ -118,6 +118,8 @@ df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
 
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
+
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -154,7 +156,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -191,7 +193,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -228,7 +230,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -265,7 +267,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -302,7 +304,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -339,7 +341,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -376,7 +378,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
@@ -413,7 +415,7 @@ df.broad <- df %>% filter(type %in% broadtype )
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(
   numOutcome = n(),
 )
-
+df.broad_total$numOutcome <- ifelse(df.broad_total$numOutcome<=10,round(df.broad_total$numOutcome),df.broad_total$numOutcome)
 df.all <-  df %>% group_by(time) %>% summarise(
   numEligible = n(),
 )
