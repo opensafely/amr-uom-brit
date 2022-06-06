@@ -169,6 +169,10 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
+  main_plot_data$numOutcome <- round(main_plot_data$numOutcome, digits = -1)
+  main_plot_data$numEligible <- round(main_plot_data$numEligible, digits = -1)
+
+
   write_csv(main_plot_data, here::here("output", "mon_overall_predicted_table.csv"))
   main_plot_data$monPlot <- as.Date(main_plot_data$monPlot)
   plot1 <- ggplot(main_plot_data, aes(x = monPlot, y = pc_broad, group = outcome_name)) +

@@ -13,6 +13,9 @@ df1_overall_sameday <- df1 %>% group_by(monPlot,sameday_ab) %>% summarise(
   numEligible = sum(numEligible)
 ) %>% mutate (value = numOutcome/numEligible) 
 
+df1_overall_sameday$numOutcome <- round(df1_overall_sameday$numOutcome, digits = -1)
+df1_overall_sameday$numEligible <- round(df1_overall_sameday$numEligible, digits = -1)
+
 df1_overall_sameday$sameday_ab <- ifelse(df1_overall_sameday$sameday_ab==1,"with infection","without infection")
 
 
@@ -50,6 +53,9 @@ df1_Incidental_sameday <- df1 %>% filter(incidental == 1) %>%
   numEligible = sum(numEligible)
 ) %>% mutate (value = numOutcome/numEligible) 
 
+df1_Incidental_sameday$numOutcome <- round(df1_Incidental_sameday$numOutcome, digits = -1)
+df1_Incidental_sameday$numEligible <- round(df1_Incidental_sameday$numEligible, digits = -1)
+
 df1_Incidental_sameday$sameday_ab <- ifelse(df1_Incidental_sameday$sameday_ab==1,"with infection","without infection")
 
 
@@ -85,6 +91,9 @@ df2_overall_sameday <- df2 %>% group_by(monPlot,sameday_ab) %>% summarise(
   numOutcome = sum(numOutcome),
   numEligible = sum(numEligible)
 ) %>% mutate (value = numOutcome/numEligible) 
+
+df2_overall_sameday$numOutcome <- round(df2_overall_sameday$numOutcome, digits = -1)
+df2_overall_sameday$numEligible <- round(df2_overall_sameday$numEligible, digits = -1)
 
 df2_overall_sameday$sameday_ab <- ifelse(df2_overall_sameday$sameday_ab==1,"with infection","without infection")
 
@@ -122,6 +131,9 @@ df2_Incidental_sameday <- df2 %>% filter(incidental == 1) %>%
     numOutcome = sum(numOutcome),
     numEligible = sum(numEligible)
   ) %>% mutate (value = numOutcome/numEligible) 
+
+df2_Incidental_sameday$numOutcome <- round(df2_Incidental_sameday$numOutcome, digits = -1)
+df2_Incidental_sameday$numEligible <- round(df2_Incidental_sameday$numEligible, digits = -1)
 
 df2_Incidental_sameday$sameday_ab <- ifelse(df2_Incidental_sameday$sameday_ab==1,"with infection","without infection")
 
