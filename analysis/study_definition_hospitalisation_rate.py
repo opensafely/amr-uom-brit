@@ -228,11 +228,12 @@ study = StudyDefinition(
 
 measures = [
 
+    # # hospital admission data as number of matches
     # Measure(
     #     id="hosp_rate",
     #     numerator="admitted",
     #     denominator="population",
-    #     # group_by=["sex", 'age_cat'],
+    #     # group_by=['sgss_gp_cov_admitted_binary'],
     #     small_number_suppression=True,
     # ),
 
@@ -240,7 +241,7 @@ measures = [
     #     id="hosp_rate_sex",
     #     numerator="admitted",
     #     denominator="population",
-    #     group_by=["sex"],
+    #     group_by=["sex"], # , 'sgss_gp_cov_admitted_binary'
     #     small_number_suppression=True,
     # ),
 
@@ -248,51 +249,28 @@ measures = [
     #     id="hosp_rate_age_cat",
     #     numerator="admitted",
     #     denominator="population",
-    #     group_by=['age_cat'],
+    #     group_by=['age_cat'], # 'sgss_gp_cov_admitted_binary']
     #     small_number_suppression=True,
     # ),
 
-    Measure(
-        id="hosp_rate",
-        numerator="admitted",
-        denominator="population",
-        # group_by=['sgss_gp_cov_admitted_binary'],
-        small_number_suppression=True,
-    ),
-
-    Measure(
-        id="hosp_rate_sex",
-        numerator="admitted",
-        denominator="population",
-        group_by=["sex"], # , 'sgss_gp_cov_admitted_binary'
-        small_number_suppression=True,
-    ),
-
-    Measure(
-        id="hosp_rate_age_cat",
-        numerator="admitted",
-        denominator="population",
-        group_by=['age_cat'], # 'sgss_gp_cov_admitted_binary']
-        small_number_suppression=True,
-    ),
-
-    Measure(
-        id="hosp_rate_cat",
-        numerator="admitted",
-        denominator="population",
-        group_by=['admitted_cat'], # , 'sgss_gp_cov_admitted_binary']
-        small_number_suppression=True,
-    ),
+    # Measure(
+    #     id="hosp_rate_cat",
+    #     numerator="admitted",
+    #     denominator="population",
+    #     group_by=['admitted_cat'], # , 'sgss_gp_cov_admitted_binary']
+    #     small_number_suppression=True,
+    # ),
     
-    Measure(
-        id="hosp_rate_gp",
-        numerator="admitted",
-        denominator="population",
-        group_by=['gp_cons_admitted_binary'], #, 'sgss_gp_cov_admitted_binary']
-        small_number_suppression=True,
-    ),     
+    # Measure(
+    #     id="hosp_rate_gp",
+    #     numerator="admitted",
+    #     denominator="population",
+    #     group_by=['gp_cons_admitted_binary'], #, 'sgss_gp_cov_admitted_binary']
+    #     small_number_suppression=True,
+    # ),     
+    
 
-
+    # hospital admission data as binary_flag
     Measure(
         id="hosp_rate_binary",
         numerator="admitted_binary",
