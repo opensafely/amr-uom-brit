@@ -169,8 +169,9 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  main_plot_data$numOutcome <- round(main_plot_data$numOutcome, digits = -1)
-  main_plot_data$numEligible <- round(main_plot_data$numEligible, digits = -1)
+  main_plot_data$pc_broad <- round(main_plot_data$pc_broad,digits = 1)
+  main_plot_data$numOutcome <- plyr::round_any(main_plot_data$numOutcome, 5)
+  main_plot_data$numEligible <- plyr::round_any(main_plot_data$numEligible, 5)
 
 
   write_csv(main_plot_data, here::here("output", "mon_overall_predicted_table.csv"))
