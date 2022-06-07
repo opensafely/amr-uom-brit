@@ -53,8 +53,9 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
-df.model$numOutcome <- round(df.model$numOutcome, digits = -1)
-df.model$numEligible <- round(df.model$numEligible, digits = -1)
+df.model$value <- round(df.model$value,digits = 3)
+df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
+df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 bkg_colour <- "white"
 figure_cold <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value)) +
