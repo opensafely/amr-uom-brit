@@ -81,6 +81,11 @@ attributes(rcs(training$age, Knots.manual))$parms
 exp(coefficients(m1,matrix=TRUE))
 ```
 
+```{r}
+###relative risk ratio 95% CI ###
+exp(confintvglm(m1,matrix=TRUE))
+```
+
 
 ```{r}
 ### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
