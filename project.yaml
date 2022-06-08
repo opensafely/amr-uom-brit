@@ -432,6 +432,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/consultation_model_ITS2_combined_plot.html
+        csv: output/report/consultation_ITS_plot_indicetnt.csv
+
   
   consultation_model_ITS2_combined_recovery: # overall, incident, prevalent
     run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined_recovery.rmd", output_dir = "output/report")'

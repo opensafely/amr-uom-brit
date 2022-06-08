@@ -277,9 +277,6 @@ DF$indic=factor(DF$indic, levels = c("all","UTI","URTI","LRTI","sinusitis","otit
 ```
 
 
-
-
-## combined 
 ```{r}
 
 
@@ -360,6 +357,7 @@ DF=df
 DF$indic=ifelse(DF$indic=="all indications","all",DF$indic)
 DF$indic=factor(DF$indic, levels = c("all","UTI","URTI","LRTI","sinusitis","otitis externa","otitis media"))
 
+write.csv(DF,here::here("output","report","consultation_ITS_plot_indicetnt.csv"))
 
 ```
 
