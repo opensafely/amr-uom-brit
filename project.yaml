@@ -17,11 +17,11 @@ actions:
       highly_sensitive:
         cohort: output/hospitalisation_data/input_hospitalisation.csv.gz
 
-  generate_study_population_bmi:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_bmi --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/hospitalisation_data/input_bmi.csv.gz
+  # generate_study_population_bmi:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_bmi --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/hospitalisation_data/input_bmi.csv.gz
 
   # generate_study_population_hospitalisation_2:
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation --index-date-range "2019-04-01 to 2019-06-01 by month" --output-dir=output/hospitalisation_data --output-format=csv.gz
