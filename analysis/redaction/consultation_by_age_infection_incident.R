@@ -408,7 +408,17 @@ write.csv(df2,here::here("output","redacted","consultation_rate_incident.csv"))
 
 df$year=format(df$date,"%Y")
 df$month_rate=df$counts/df$total.pop*1000
-df=df%>%group_by(year,indic)%>%summarise(rate_year=mean(month_rate),total.counts=sum(counts))
+
+df$counts_round=round(df$counts/5)*5
+df$total.pop_round=round(df$total.pop/5)*5
+df$month_rate_round=df$counts_round/df$total.pop_round*1000
+
+
+
+df=df%>%group_by(year,indic)%>%
+summarise(rate_year=mean(month_rate),total.counts=sum(counts),
+          rate_year_round=mean(month_rate_round),total.counts_round=sum(counts_round)
+)
 write.csv(df,here::here("output","redacted","consultation_rate_incident_year.csv"))
 
 
