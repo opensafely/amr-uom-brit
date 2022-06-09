@@ -1925,8 +1925,9 @@ actions:
 
   describe_predict_model_var_process: 
     run: r:latest analysis/multinomial/predict_model_var.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    needs: [describe_prepare_var_2019_process,describe_prepare_var_2019_extra_process,describe_prepare_var_2020_process,
+    describe_prepare_var_2020_extra_process,describe_prepare_var_2021_process,describe_prepare_var_2021_extra_process,
+    describe_cleaning_process_2]
     outputs:
       moderately_sensitive:
         table1: output/throat_count.csv
