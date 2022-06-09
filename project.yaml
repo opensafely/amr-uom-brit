@@ -2107,3 +2107,30 @@ actions:
         table2: output/its_repeat_compare_changes_table.csv
         table3: output/its_repeat_compare_recovery_table.csv
         plot4: output/forest_repeat_compare_BC.jpeg
+
+  describe_prepare_var_2019_extra_process: 
+    run: r:latest analysis/multinomial/prepare_var_2019_extra.R
+    needs: [extract_variables_extra_2019]
+    outputs:
+      moderately_sensitive:
+        table2: output/var_extra_blt_2019.csv
+      highly_sensitive:
+        cohort: output/prepared_var_extra_2019.csv
+
+  describe_prepare_var_2020_extra_process: 
+    run: r:latest analysis/multinomial/prepare_var_2020_extra.R
+    needs: [extract_variables_extra_2020]
+    outputs:
+      moderately_sensitive:
+        table2: output/var_extra_blt_2020.csv
+      highly_sensitive:
+        cohort: output/prepared_var_extra_2020.csv
+
+  describe_prepare_var_2021_extra_process: 
+    run: r:latest analysis/multinomial/prepare_var_2021_extra.R
+    needs: [extract_variables_extra_2021]
+    outputs:
+      moderately_sensitive:
+        table2: output/var_extra_blt_2021.csv
+      highly_sensitive:
+        cohort: output/prepared_var_extra_2021.csv
