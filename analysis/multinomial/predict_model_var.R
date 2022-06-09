@@ -113,7 +113,7 @@ rm(num_record, num_pats, num_pracs,overall_counts,df1)
 
 ### otitis media
 
-otmediatype <- c("Amoxicillin", "Erythromycin", "Clarithromycin")
+otmediatype <- c("Amoxicillin", "Erythromycin", "Clarithromycin", "Co-amoxiclav")
 
 df1 <- df %>% filter(incidental==1) %>% filter(infection== "Otitis media")
 df1 <- df1 %>% mutate(outcome = case_when(df1$repeat_ab==0 & df1$type %in% otmediatype ~ 1,
