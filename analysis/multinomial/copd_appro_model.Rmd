@@ -75,6 +75,10 @@ summaryvglm(m1)
 attributes(rcs(training$age, Knots.manual))$parms
 ```
 
+```{r}
+### coefficients 95% CI ###
+confintvglm(m1,matrix=TRUE)
+```
 
 ```{r}
 ###relative risk ratio ###
