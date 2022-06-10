@@ -35,14 +35,18 @@ DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
 DF$imd <- as.factor(DF$imd)
 DF$region <- as.factor(DF$region)
 DF$charlsonGrp <- as.factor(DF$charlsonGrp)
-DF$ab12b4 <- as.factor(DF$ab12b4)                                            
+DF$ab12b4 <- as.factor(DF$ab12b4)
+DF$bmi_cat <- as.factor(DF$bmi_cat)    
+DF$smoking_cat_3 <- as.factor(DF$smoking_cat_3)                                                  
 DF$outcome <- relevel(DF$outcome, ref = "1")
 DF$ethnicity_6 <- relevel(DF$ethnicity_6, ref = "White")
 DF$imd <- relevel(DF$imd, ref = "1")
 DF$region <- relevel(DF$region, ref = "East")
 DF$charlsonGrp <- relevel(DF$charlsonGrp, ref = "zero")
 DF$ab12b4 <- relevel(DF$ab12b4, ref = "0")
-DF <- DF %>% dplyr::select(outcome,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
+DF$bmi_cat <- relevel(DF$bmi_cat, ref = "healthy weight")
+DF$smoking_cat_3 <- relevel(DF$smoking_cat_3, ref = "never")
+DF <- DF %>% dplyr::select(outcome,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4,bmi_cat,smoking_cat_3, hospital_counts)
 DF <- DF %>% filter (DF$sex=="M"|DF$sex=="F")
 DF <- DF %>% filter (!is.na(outcome))
 DF <- DF %>% filter (!is.na(ethnicity_6))
@@ -52,6 +56,9 @@ DF <- DF %>% filter (!is.na(charlsonGrp))
 DF <- DF %>% filter (!is.na(age))
 DF <- DF %>% filter (!is.na(sex))
 DF <- DF %>% filter (!is.na(ab12b4))
+DF <- DF %>% filter (!is.na(bmi_cat))
+DF <- DF %>% filter (!is.na(smoking_cat_3))
+DF <- DF %>% ifelse(is.na(hospital_counts),0,hospital_counts)
 ```
 
 ```{r}
@@ -67,7 +74,7 @@ testing <- DF[ind==2,]
 
 ### use training dataset to develop the model
 Knots.manual <- rcspline.eval(training$age, nk = 5, knots.only = TRUE)
-m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
+m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4 + bmi_cat + smoking_cat_3 + hospital_counts,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 summaryvglm(m1)
 ```
 
