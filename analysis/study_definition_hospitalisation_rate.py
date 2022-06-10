@@ -55,6 +55,7 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        AND
         NOT sgss_pos_covid_admitted_binary
         """,
 
@@ -92,7 +93,7 @@ study = StudyDefinition(
             returning="binary_flag",
             # date_format="YYYY-MM-DD",
             return_expectations={"incidence": 0.5},
-    ),
+            ),
 
     ),
 
