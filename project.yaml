@@ -49,3 +49,12 @@ actions:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_urti/hospitalisation_prediction_urti.html 
         figures: output/hospitalisation_prediction_urti/*
+
+  generate_notebook_hospitalisation_prediction_lrti:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_lrti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_lrti --ExecutePreprocessor.timeout=86400
+    # needs: [generate_study_population_hospitalisation_lrti,generate_study_population_bmi]
+    needs: [generate_study_population_hospitalisation_lrti]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction_lrti/hospitalisation_prediction_lrti.html 
+        figures: output/hospitalisation_prediction_lrti/*
