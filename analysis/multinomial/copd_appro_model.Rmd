@@ -57,7 +57,7 @@ DF <- DF %>% filter (!is.na(sex))
 DF <- DF %>% filter (!is.na(ab12b4))
 DF <- DF %>% filter (!is.na(bmi_cat))
 DF <- DF %>% filter (!is.na(smoking_cat_3))
-DF <- DF %>% ifelse(is.na(DF$hospital_counts),0,DF$hospital_counts)
+DF$hospital_counts <- ifelse(is.na(DF$hospital_counts),0,DF$hospital_counts)
 ```
 
 ```{r}
