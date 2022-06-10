@@ -26,6 +26,9 @@ library("rms")
 library("pROC")
 
 ```
+
+```{r}
+DF <- read_csv(here::here("output","copd_outcome.csv"))
 DF <- DF %>% filter (age>3)
 DF$outcome <- as.factor(DF$outcome)
 DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
