@@ -55,6 +55,7 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        NOT sgss_pos_covid_admitted_binary
         """,
 
         has_died=patients.died_from_any_cause(
@@ -72,6 +73,26 @@ study = StudyDefinition(
             end_date="index_date",
             return_expectations={"incidence": 0.95},
         ),
+
+        admitted_date = patients.admitted_to_hospital(
+            #    with_these_diagnoses = hospitalisation_infection_related,
+            with_these_primary_diagnoses = hospitalisation_infection_related,
+            returning="date_admitted",
+            date_format="YYYY-MM-DD",
+            between=["index_date", "last_day_of_month(index_date)"],
+            find_first_match_in_period=True,
+            return_expectations={"incidence": 0.3},
+            ),
+
+        sgss_pos_covid_admitted_binary = patients.with_test_result_in_sgss(
+            pathogen="SARS-CoV-2",
+            test_result="positive",
+            between=["admitted_date - 30 days", "admitted_date + 7 days"],#"admitted_date - 42 days", "admitted_date + 7 days"],
+            find_first_match_in_period=True,
+            returning="binary_flag",
+            # date_format="YYYY-MM-DD",
+            return_expectations={"incidence": 0.5},
+    ),
 
     ),
 
@@ -155,15 +176,15 @@ study = StudyDefinition(
         return_expectations={"int": {"distribution": "normal", "mean": 6, "stddev": 3}, "incidence": 0.6},
     ),    
 
-    admitted_date = patients.admitted_to_hospital(
-    #    with_these_diagnoses = hospitalisation_infection_related,
-       with_these_primary_diagnoses = hospitalisation_infection_related,
-       returning="date_admitted",
-       date_format="YYYY-MM-DD",
-       between=["index_date", "last_day_of_month(index_date)"],
-       find_first_match_in_period=True,
-       return_expectations={"incidence": 0.3},
-    ),
+    # admitted_date = patients.admitted_to_hospital(
+    # #    with_these_diagnoses = hospitalisation_infection_related,
+    #    with_these_primary_diagnoses = hospitalisation_infection_related,
+    #    returning="date_admitted",
+    #    date_format="YYYY-MM-DD",
+    #    between=["index_date", "last_day_of_month(index_date)"],
+    #    find_first_match_in_period=True,
+    #    return_expectations={"incidence": 0.3},
+    # ),
 
     # admitted_cat = patients.admitted_to_hospital(
     #     # with_these_diagnoses = hospitalisation_infection_related,
@@ -189,40 +210,41 @@ study = StudyDefinition(
     ),
 
     gp_cons_admitted_binary = patients.with_gp_consultations(
-        between=["admitted_date - 5 days", "admitted_date - 1 day"],
+        between=["index_date - 7 days", "last_day_of_month(index_date)"],
+        # between=["admitted_date - 5 days", "admitted_date - 1 day"],
         returning="binary_flag",
         return_expectations={"incidence": 0.5},
     ),
 
-    ## Covid positive test result during hospital admission related to urti - BINARY
-    sgss_pos_covid_admitted_binary = patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        between=["admitted_date - 42 days", "admitted_date + 7 days"],
-        find_first_match_in_period=True,
-        returning="binary_flag",
-        # date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.5},
-    ),
+    # ## Covid positive test result during hospital admission related to urti - BINARY
+    # sgss_pos_covid_admitted_binary = patients.with_test_result_in_sgss(
+    #     pathogen="SARS-CoV-2",
+    #     test_result="positive",
+    #     between=["last_day_of_month(index_date) - 30 days", "last_day_of_month(index_date) + 7 days"],#"admitted_date - 42 days", "admitted_date + 7 days"],
+    #     find_first_match_in_period=True,
+    #     returning="binary_flag",
+    #     # date_format="YYYY-MM-DD",
+    #     return_expectations={"incidence": 0.5},
+    # ),
 
-    ## Covid diagnosis during hospital admission related to urti - BINARY
-    gp_covid_date_admitted_binary = patients.with_these_clinical_events(
-        any_primary_care_code,
-        returning="binary_flag",
-        between=["admitted_date - 42 days", "admitted_date + 7 days"],
-        find_first_match_in_period=True,
-        # date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.5},
-        # return_expectations={"date":{"earliest":index_date}, "rate": "exponential_increase", "incidence": 0.5},
-    ),
+    # ## Covid diagnosis during hospital admission related to urti - BINARY
+    # gp_covid_date_admitted_binary = patients.with_these_clinical_events(
+    #     any_primary_care_code,
+    #     returning="binary_flag",
+    #     between=["admitted_date - 42 days", "admitted_date + 7 days"],
+    #     find_first_match_in_period=True,
+    #     # date_format="YYYY-MM-DD",
+    #     return_expectations={"incidence": 0.5},
+    #     # return_expectations={"date":{"earliest":index_date}, "rate": "exponential_increase", "incidence": 0.5},
+    # ),
 
-    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx - BINARY
-    sgss_gp_cov_admitted_binary = patients.satisfying(
-        """
-        sgss_pos_covid_admitted_binary OR
-        gp_covid_date_admitted_binary
-        """,
-    ),
+    # ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after urti dx - BINARY
+    # sgss_gp_cov_admitted_binary = patients.satisfying(
+    #     """
+    #     sgss_pos_covid_admitted_binary OR
+    #     gp_covid_date_admitted_binary
+    #     """,
+    # ),
 
 )
 
@@ -258,7 +280,7 @@ measures = [
         numerator="admitted",
         denominator="population",
         group_by=['admitted_cat'], # , 'sgss_gp_cov_admitted_binary']
-        small_number_suppression=True,
+        # small_number_suppression=True,
     ),
     
     Measure(
@@ -266,7 +288,7 @@ measures = [
         numerator="admitted",
         denominator="population",
         group_by=['gp_cons_admitted_binary'], #, 'sgss_gp_cov_admitted_binary']
-        small_number_suppression=True,
+        # small_number_suppression=True,
     ),     
     
 
@@ -276,7 +298,7 @@ measures = [
         numerator="admitted_binary",
         denominator="population",
         # group_by=['sgss_gp_cov_admitted_binary'],
-        small_number_suppression=True,
+        # small_number_suppression=True,
     ),
 
     Measure(
@@ -284,7 +306,7 @@ measures = [
         numerator="admitted_binary",
         denominator="population",
         group_by=["sex"],# 'sgss_gp_cov_admitted_binary'],
-        small_number_suppression=True,
+        # small_number_suppression=True,
     ),
 
     Measure(
@@ -292,7 +314,7 @@ measures = [
         numerator="admitted_binary",
         denominator="population",
         group_by=['age_cat'],# 'sgss_gp_cov_admitted_binary'],
-        small_number_suppression=True,
+        # small_number_suppression=True,
     ),    
     
     # Measure(
