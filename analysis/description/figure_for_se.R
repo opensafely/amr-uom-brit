@@ -68,7 +68,6 @@ p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) +
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white")+
   labs(
     title = "Broad-spectrum percentage_1",
     caption = "National lockdown time in grey background. ",
@@ -122,7 +121,6 @@ p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) +
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white")+
   labs(
     title = "Broad-spectrum percentage_2",
     caption = "National lockdown time in grey background. ",
@@ -176,7 +174,6 @@ p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) +
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_col(color="white")+
   labs(
     title = "Broad-spectrum percentage_3",
     caption = "National lockdown time in grey background. ",
@@ -185,6 +182,7 @@ p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) +
   )+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
+
 
 ggsave(
   plot= p_1,
