@@ -63,6 +63,8 @@ df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 
 p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) + 
+  geom_line(color = "coral2", size = 0.5)+ 
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.15, by = 0.0025))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -115,6 +117,8 @@ df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 
 p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) + 
+  geom_line(color = "coral2", size = 0.5)+ 
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.15, by = 0.0025))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -167,6 +171,8 @@ df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 
 p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) + 
+  geom_line(color = "coral2", size = 0.5)+ 
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.15, by = 0.0025))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+

@@ -2153,3 +2153,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort1: output/ten_infection_outcome.csv
+
+  overall_appro_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/multinomial/overall_appro_model.Rmd", output_dir = "output/report")'
+    needs: [describe_predict_model_overall_var_process]
+    outputs:
+      moderately_sensitive:
+        html: output/report/overall_appro_model.html
