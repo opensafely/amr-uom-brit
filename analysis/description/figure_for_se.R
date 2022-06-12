@@ -25,7 +25,7 @@ broadtype_2 <- c("Ampicillin","Co-amoxiclav","Moxifloxacin","Cefaclor","Cefadrox
                "Doripenem","Ertapenem", "Cilastatin","Cefamandole","Levofloxacin" , 
                "Meropenem" ,"Nalidixic acid","Norfloxacin", "Ofloxacin","Cefpodoxime","Cefepime")
 
-broadtype_3 <- c("Co-amoxiclav","Cefaclor","Cefadroxil","Cefixime","Cefotaxime","Ceftriaxone","Ceftazidime"
+broadtype_3 <- c("Co-amoxiclav","Cefaclor","Cefadroxil","Cefixime","Cefotaxime","Ceftriaxone","Ceftazidime",
                "Cefuroxime", "Cefalexin","Cefradine","Ciprofloxacin","Ofloxacin","Levofloxacin","Moxifloxacin")
 
 
