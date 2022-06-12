@@ -30,6 +30,9 @@ broadtype_3 <- c("Co-amoxiclav","Cefaclor","Cefadroxil","Cefixime","Cefotaxime",
 
 
 ### Broad spectrum 1
+df$cal_year <- year(df$date)
+df$cal_mon <- month(df$date)
+df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
 
 df.broad <- df %>% filter(type %in% broadtype_1 ) 
 df.broad_total <- df.broad %>% group_by(time) %>% summarise(

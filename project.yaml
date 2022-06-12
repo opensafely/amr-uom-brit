@@ -2146,3 +2146,10 @@ actions:
         table1: output/figure_broad_1_table.csv
         table2: output/figure_broad_2_table.csv
         table3: output/figure_broad_3_table.csv
+
+  describe_predict_model_overall_var_process: 
+    run: r:latest analysis/multinomial/predict_model_overall_var.R
+    needs: [describe_cohort_1_rds]
+    outputs:
+      highly_sensitive:
+        cohort1: output/ten_infection_outcome.csv
