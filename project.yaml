@@ -124,6 +124,13 @@ actions:
       moderately_sensitive:
         html: output/model_disease.html
   
+  model_wave: # separate wave
+    run: r:latest -e 'rmarkdown::render("analysis/model_wave.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_wave.html
+  
         ################# check ok###########
 
         #### addintional check for 6 weeks exclusion
