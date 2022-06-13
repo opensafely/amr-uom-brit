@@ -168,7 +168,7 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  main_plot_data$pc_broad <- round(main_plot_data$pc_broad,digits = 1)
+  main_plot_data$pc_broad <- round(main_plot_data$pc_broad,digits = 3)
   main_plot_data$numOutcome <- plyr::round_any(main_plot_data$numOutcome, 5)
   main_plot_data$numEligible <- plyr::round_any(main_plot_data$numEligible, 5)
 
