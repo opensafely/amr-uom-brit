@@ -22,8 +22,7 @@ all_files <- list.files(here::here("output"), pattern = "mon_overall_")
 outcomes <- stringr::str_remove_all(all_files, c("mon_overall_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
                                            "outcome_name" = (c("All prescription","Cold","Cough",
-                                                               "LRTI","Otitis externa","Otitis media",
-                                                               "Sore throat","UTI"))
+                                                               "LRTI","Otitis media","UTI"))
 )
 bkg_colour <- "gray99"
 
@@ -185,7 +184,7 @@ its_function <- function(outcomes_vec = outcomes,
     geom_line(aes(y = predicted_vals), col = 4, lty = 2) +
     geom_ribbon(aes(ymin = lci, ymax=uci), fill = alpha(4,0.4), lty = 0) +
     ### format the plot
-    facet_wrap(~outcome_name, scales = "free", ncol = 4) +
+    facet_wrap(~outcome_name, scales = "free", ncol = 3) +
     geom_vline(xintercept = c(as.Date(abline_min), 
                               as.Date(abline_max)), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
     labs(x = "", y = "", title = "A") +
