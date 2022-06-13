@@ -63,7 +63,7 @@ df$lastABtime=as.numeric(df$lastABtime)
 ```
 
 ```{r}
-df=df%>%filter(wave==1)
+df=df%>%filter(wave=="1")
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 vif(mod1)
@@ -302,7 +302,7 @@ df$lastABtime=as.numeric(df$lastABtime)
 
 
 ```{r}
-df=df%>%filter(wave==2)
+df=df%>%filter(wave=="2")
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 vif(mod1)
@@ -541,7 +541,7 @@ df$lastABtime=as.numeric(df$lastABtime)
 
 
 ```{r}
-df=df%>%filter(wave==2)
+df=df%>%filter(wave=="2")
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 vif(mod1)
