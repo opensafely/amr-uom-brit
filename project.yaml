@@ -116,6 +116,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_time.html
+
+  model_disease: # adjust for individual
+    run: r:latest -e 'rmarkdown::render("analysis/model_disease.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_disease.html
   
         ################# check ok###########
 
