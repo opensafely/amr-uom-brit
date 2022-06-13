@@ -274,24 +274,7 @@ measures = [
     #     denominator="population",
     #     group_by=['age_cat'], # 'sgss_gp_cov_admitted_binary']
     #     small_number_suppression=True,
-    # ),
-
-    Measure(
-        id="hosp_rate_cat",
-        numerator="admitted",
-        denominator="population",
-        group_by=['admitted_cat'], # , 'sgss_gp_cov_admitted_binary']
-        # small_number_suppression=True,
-    ),
-    
-    Measure(
-        id="hosp_rate_gp",
-        numerator="admitted",
-        denominator="population",
-        group_by=['gp_cons_admitted_binary'], #, 'sgss_gp_cov_admitted_binary']
-        # small_number_suppression=True,
-    ),     
-    
+    # ),    
 
     # hospital admission data as binary_flag
     Measure(
@@ -315,6 +298,22 @@ measures = [
         numerator="admitted_binary",
         denominator="population",
         group_by=['age_cat'],# 'sgss_gp_cov_admitted_binary'],
+        # small_number_suppression=True,
+    ),
+
+    Measure(
+        id="hosp_rate_cat",
+        numerator="admitted_binary",
+        denominator="population",
+        group_by=['admitted_cat'], # , 'sgss_gp_cov_admitted_binary']
+        # small_number_suppression=True,
+    ),
+    
+    Measure(
+        id="hosp_rate_gp",
+        numerator="admitted_binary",
+        denominator="population",
+        group_by=['gp_cons_admitted_binary'], #, 'sgss_gp_cov_admitted_binary']
         # small_number_suppression=True,
     ),    
     
