@@ -57,7 +57,7 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
-df.model$value <- round(df.model$value,digits = 3)
+df.model$value <- round(df.model$value,digits = 4)
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
 df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
@@ -110,14 +110,14 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
-df.model$value <- round(df.model$value,digits = 3)
+df.model$value <- round(df.model$value,digits = 4)
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
 df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 
 p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) + 
   geom_line(color = "coral2", size = 0.5)+ 
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.15, by = 0.0025))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.05, by = 0.0005))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -163,14 +163,14 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
-df.model$value <- round(df.model$value,digits = 3)
+df.model$value <- round(df.model$value,digits = 4)
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
 df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 
 p_1 <- ggplot(df.model, aes(y=value, x=monPlot)) + 
   geom_line(color = "coral2", size = 0.5)+ 
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.15, by = 0.0025))+
+  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.05, by = 0.0005))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
