@@ -87,6 +87,15 @@ vif(mod3)
 
 
 # forest plots
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
 ```{r include=FALSE}
 # outcome
 df$case=as.numeric(df$case) #1/0
@@ -94,9 +103,7 @@ df$case=as.numeric(df$case) #1/0
 df$subclass=as.factor(df$subclass)#pair id
 
 df$level=as.character(df$level) #category
-df$level=ifelse(df$level=="3","2",
-                ifelse(df$level=="4","3",
-                       ifelse(df$level=="5","4",df$level)))
+
 df$ab_types=as.numeric(df$ab_types) 
 
 
@@ -208,6 +215,7 @@ geom_point(color="black")+
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
 
     
 #adds the CIs
