@@ -1820,13 +1820,13 @@ actions:
         table2: output/mon_overall_cold.csv
         table3: output/mon_overall_cough.csv
         #table4: output/mon_overall_copd.csv
-        table5: output/mon_overall_throat.csv
+        #table5: output/mon_overall_throat.csv
         table6: output/mon_overall_uti.csv
         table7: output/mon_overall_lrti.csv
         #table8: output/mon_overall_urti.csv
         #table9: output/mon_overall_sinusitis.csv
         table10: output/mon_overall_ot_media.csv
-        table11: output/mon_overall_ot_externa.csv
+        #table11: output/mon_overall_ot_externa.csv
 
   describe_ITS_model_broad_mon_overall:
     run: r:latest analysis/itsmodel/ITS_broad_mon_overall.R
