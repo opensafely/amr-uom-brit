@@ -251,31 +251,6 @@ study = StudyDefinition(
 
 measures = [
 
-    # # hospital admission data as number of matches
-    # Measure(
-    #     id="hosp_rate",
-    #     numerator="admitted",
-    #     denominator="population",
-    #     # group_by=['sgss_gp_cov_admitted_binary'],
-    #     small_number_suppression=True,
-    # ),
-
-    # Measure(
-    #     id="hosp_rate_sex",
-    #     numerator="admitted",
-    #     denominator="population",
-    #     group_by=["sex"], # , 'sgss_gp_cov_admitted_binary'
-    #     small_number_suppression=True,
-    # ),
-
-    # Measure(
-    #     id="hosp_rate_age_cat",
-    #     numerator="admitted",
-    #     denominator="population",
-    #     group_by=['age_cat'], # 'sgss_gp_cov_admitted_binary']
-    #     small_number_suppression=True,
-    # ),    
-
     # hospital admission data as binary_flag
     Measure(
         id="hosp_rate_binary",
@@ -317,18 +292,4 @@ measures = [
         # small_number_suppression=True,
     ),    
     
-    # Measure(
-    #     id="hosp_admission_by_stp",
-    #     numerator="admitted_binary",
-    #     denominator="population",
-    #     group_by="stp",
-    # ),    
-
-    # Measure(
-    #     id="death_by_stp",
-    #     numerator="died",
-    #     denominator="population",
-    #     group_by="stp",
-    #     small_number_suppression=True,
-    # ),
 ]
