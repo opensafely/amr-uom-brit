@@ -75,7 +75,9 @@ study = StudyDefinition(
         ),
 
         has_outcome=patients.admitted_to_hospital(
-            with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+            with_these_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+        #                with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+
             on_or_after="index_date",
         ),
 
