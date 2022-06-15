@@ -2035,8 +2035,7 @@ actions:
 
   describe_cohort_1_var_process: 
     run: r:latest analysis/itsmodel/cohort_1_var.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    needs: [describe_cohort_1_rds]
     outputs:
       moderately_sensitive:
         table7: output/cohort_1_count.csv
