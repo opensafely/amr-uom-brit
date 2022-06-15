@@ -62,7 +62,7 @@ df$wave=as.factor(df$wave)
 ```
 
 ```{r}
-df=df%>%filter(wave=="1")
+#df=df%>%filter(wave=="1")
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 ```
