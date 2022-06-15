@@ -96,7 +96,7 @@ df=rbind(df.0,df.1)
 # redacted
 df$raw_count=df$count
 df$raw_total=df$total
-df$count=ifelse(df$count<=5,5, df$count)
+df$count=ifelse(df$count<=6,6, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 df$percentage=df$count/df$total
 
@@ -274,7 +274,7 @@ df=rbind(df.0,df.1)
 # redacted
 df$raw_count=df$count
 df$raw_total=df$total
-df$count=ifelse(df$count<=5,5, df$count)
+df$count=ifelse(df$count<=6,6, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 df$percentage=df$count/df$total
 
@@ -451,7 +451,7 @@ df=rbind(df.0,df.1)
 # redacted
 df$raw_count=df$count
 df$raw_total=df$total
-df$count=ifelse(df$count<=5,5, df$count)
+df$count=ifelse(df$count<=6,6, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 df$percentage=df$count/df$total
 
@@ -629,7 +629,7 @@ df=rbind(df.0,df.1)
 # redacted
 df$raw_count=df$count
 df$raw_total=df$total
-df$count=ifelse(df$count<=5,5, df$count)
+df$count=ifelse(df$count<=6,6, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 df$percentage=df$count/df$total
 
@@ -810,7 +810,7 @@ df=rbind(df.0,df.1)
 # redacted
 df$raw_count=df$count
 df$raw_total=df$total
-df$count=ifelse(df$count<=5,5, df$count)
+df$count=ifelse(df$count<=6,6, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 df$percentage=df$count/df$total
 
@@ -985,7 +985,7 @@ df=rbind(df.0,df.1)
 # redacted
 df$raw_count=df$count
 df$raw_total=df$total
-df$count=ifelse(df$count<=5,5, df$count)
+df$count=ifelse(df$count<=6,6, df$count)
 df=df%>%group_by(date,prevalent)%>%mutate(total=sum(count))
 df$percentage=df$count/df$total
 
