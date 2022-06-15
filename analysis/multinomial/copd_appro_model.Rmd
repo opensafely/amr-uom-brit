@@ -11,7 +11,7 @@ knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library("dplyr")
 library("tidyverse")
 library("lubridate")

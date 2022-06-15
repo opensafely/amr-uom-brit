@@ -11,7 +11,7 @@ knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library("dplyr")
 library("tidyverse")
 library("lubridate")
@@ -27,7 +27,7 @@ library("pROC")
 
 ```
 
-```{r}
+```{r echo=FALSE}
 DF <- read_csv(here::here("output","ot_externa_outcome.csv"))
 DF <- DF %>% filter (age>3)
 DF$outcome <- as.factor(DF$outcome)
@@ -54,7 +54,8 @@ DF <- DF %>% filter (!is.na(sex))
 DF <- DF %>% filter (!is.na(ab12b4))
 ```
 
-```{r}
+## model summary
+```{r echo=FALSE}
 
 # Data Partition 
 set.seed(777)
@@ -70,36 +71,37 @@ Knots.manual <- rcspline.eval(training$age, nk = 5, knots.only = TRUE)
 m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 summaryvglm(m1)
 ```
-
-```{r}
+## Age cut-off value
+```{r echo=FALSE}
 attributes(rcs(training$age, Knots.manual))$parms
 ```
-
-```{r}
+## coefficients 95% CI 
+```{r echo=FALSE}
 ### coefficients 95% CI ###
 confintvglm(m1,matrix=TRUE)
 ```
-
-```{r}
+##relative risk ratio 
+```{r echo=FALSE}
 ###relative risk ratio ###
 exp(coefficients(m1,matrix=TRUE))
 ```
 
-```{r}
+##relative risk ratio 95% CI 
+```{r echo=FALSE}
 ###relative risk ratio 95% CI ###
 exp(confintvglm(m1,matrix=TRUE))
 ```
 
-
-```{r}
+## Training dataset summary
+```{r echo=FALSE}
 ### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
 # columns for  table
 colsfortab <- colnames(training)
 training %>% summary_factorlist(explanatory = colsfortab) -> t1
 t1
 ```
-
-```{r}
+## Testing dataset summary
+```{r echo=FALSE}
 testing %>% summary_factorlist(explanatory = colsfortab) -> t2
 t2
 ```
@@ -107,7 +109,7 @@ t2
 
 ### Parametric nominal calibration plot for the validation data of the ovarian tumor case study for each outcome category separately ((a)–(c)) and overall (d).
 
-```{r}
+```{r echo=FALSE}
 outcome=testing$outcome
 k=3
 p <- predict(m1 , newdata = testing,type="response")
@@ -135,7 +137,7 @@ cbind(aaa,bbb)
 ```
 
 
-```{r}
+```{r echo=FALSE}
   ###############################################
   # parametric logistic recalibration framework 
   # cf. section 2.2.1.                          
@@ -155,7 +157,7 @@ cbind(aaa,bbb)
 
 
 
-```{r}
+```{r echo=FALSE}
   
   fitnp<-vgam(outcome~s(lp1,df=dfr)+s(lp2,df=dfr),family=multinomial(refLevel=r))
   
@@ -187,7 +189,7 @@ cbind(aaa,bbb)
 ```
 
 
-```{r}
+```{r echo=FALSE}
   
   # non-parametric calibration plot 
   # cf. section 2.2.2.              
@@ -216,7 +218,7 @@ cbind(aaa,bbb)
 
 
 
-```{r}
+```{r echo=FALSE}
   if(isTRUE(plotoverall)){
     
     
@@ -267,7 +269,7 @@ cbind(aaa,bbb)
     par(new=F)}
 ```
 
-```{r}
+```{r echo=FALSE}
   ########################################
   # estimation of calibration intercepts 
   # cf. section 2.2.3. and 2.2.4.        
@@ -373,7 +375,7 @@ cbind(aaa,bbb)
 
 ### Discrimination
 ### polytomous discrimination index  
-```{r}
+```{r echo=FALSE}
 #Estimates of PDI and its components
 testing$outcome <- as.numeric(testing$outcome)
 p <- predict(m1 , newdata = testing,type="response")
@@ -383,7 +385,7 @@ data <- (cbind(testing$outcome,df.p))
 ```
 
 
-```{r}
+```{r echo=FALSE}
 names(data) <- c("outcome","p1","p2","p3")
 pdiest<-function(data){
   
@@ -450,11 +452,11 @@ pdifunction<-function(data,nbs){
 }
 ```
 
-```{r}
+```{r echo=FALSE}
 pdiest(data)
 ```
 #Estimates and bootstrap 95% confidence intervals for PDI and its components
-```{r}
+```{r echo=FALSE}
 pdifunction(data,5)
 ```
 
@@ -464,7 +466,7 @@ pdifunction(data,5)
 ###"In one study's opinion, the pairwise approach is superior to the 1-versus-rest approach"
 ###"1-versus-rest approach"
 ###"1 vs rest"
-```{r}
+```{r echo=FALSE}
 testing <- testing %>% 
   mutate(reoutcome1 = ifelse(outcome == 1 , 1, 0))
 # Obtain the c statistic / AUC
@@ -473,12 +475,12 @@ c1
 ```
 # Plot the ROC curve
 
-```{r}
+```{r echo=FALSE}
 plot(roc(testing$reoutcome1,df.p$`1`))
 ```
 
 # "2 vs rest"
-```{r}
+```{r echo=FALSE}
 testing <- testing %>% 
   mutate(reoutcome2 = ifelse(outcome == 2 , 1, 0))
 # Obtain the c statistic / AUC
@@ -488,13 +490,13 @@ c1
 
 # Plot the ROC curve
 
-```{r}
+```{r echo=FALSE}
 plot(roc(testing$reoutcome2,df.p$`2`))
 ```
 
 # "3 vs rest"
 
-```{r}
+```{r echo=FALSE}
 testing <- testing %>% 
   mutate(reoutcome3 = ifelse(outcome == 3 , 1, 0))
 # Obtain the c statistic / AUC
@@ -504,7 +506,7 @@ c1
 
 # Plot the ROC curve
 
-```{r}
+```{r echo=FALSE}
 plot(roc(testing$reoutcome3,df.p$`3`))
 ```
 
@@ -512,7 +514,7 @@ plot(roc(testing$reoutcome3,df.p$`3`))
 ### "the pairwise approach "
 #"1 vs 2"
 
-```{r}
+```{r echo=FALSE}
 testing_1 <- testing %>% 
   filter(outcome ==1|outcome==2) %>% 
   mutate(reoutcome = ifelse(outcome == 1 , 1, 0))
@@ -526,13 +528,13 @@ c1
 ```
 
 # Plot the ROC curve
-```{r}
+```{r echo=FALSE}
 plot(roc(testing_1$reoutcome,df.p1$reoutcome1))
 ```
 
 
 #"1 vs 3"
-```{r}
+```{r echo=FALSE}
 testing_2 <- testing %>% 
   filter(outcome ==1|outcome==3) %>% 
   mutate(reoutcome = ifelse(outcome == 1 , 1, 0))
@@ -546,13 +548,13 @@ c1
 ```
 
 # Plot the ROC curve
-```{r}
+```{r echo=FALSE}
 plot(roc(testing_2$reoutcome,df.p2$reoutcome2))
 ```
 
 
 #"2 vs 3"
-```{r}
+```{r echo=FALSE}
 testing_3 <- testing %>% 
   filter(outcome ==2|outcome==3) %>% 
   mutate(reoutcome = ifelse(outcome == 3 , 1, 0))
@@ -565,7 +567,7 @@ c1
 ```
 
 # Plot the ROC curve
-```{r}
+```{r echo=FALSE}
 plot(roc(testing_3$reoutcome,df.p3$reoutcome3))
 ```
 
