@@ -62,7 +62,7 @@ df$wave=as.factor(df$wave)
 ```
 
 ```{r}
-#df=df%>%filter(wave=="1")
+df=df%>%filter(wave=="2")
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 ```
@@ -71,8 +71,8 @@ summary(mod1)
 ## adjusted model
 ```{r}
  
-#mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
-#summary(mod3)
+mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod3)
 
 ```
 
