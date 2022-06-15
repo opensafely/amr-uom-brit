@@ -81,6 +81,9 @@ ggsave(
   plot= figure_cold,
   filename="figure_cold_repeat.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_cold_repeat_table.csv"))
 rm(df.broad_total,df.all,df.model)
 

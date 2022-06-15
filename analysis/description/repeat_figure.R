@@ -81,6 +81,9 @@ ggsave(
   plot= figure_age_strata,
   filename="figure_2_age_strata.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_2_age_strata_table.csv"))
 rm(df.broad_total,df.all,df.model)
 
@@ -138,6 +141,9 @@ ggsave(
   plot= figure_sex_strata,
   filename="figure_2_sex_strata.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_2_sex_strata_table.csv"))
 rm(df.broad_total,df.all,df.model)
 ### Repeat by region
@@ -195,5 +201,8 @@ ggsave(
   plot= figure_region_strata,
   filename="figure_2_region_strata.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_2_region_strata_table.csv"))
 

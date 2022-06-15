@@ -81,6 +81,9 @@ ggsave(
   plot= p_1,
   filename="figure_broad_1.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_broad_1_table.csv"))
 rm(df.broad_total,df.all,df.model,df.broad)
 
@@ -134,6 +137,9 @@ ggsave(
   plot= p_1,
   filename="figure_broad_2.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_broad_2_table.csv"))
 rm(df.broad_total,df.all,df.model,df.broad)
 
@@ -188,5 +194,8 @@ ggsave(
   plot= p_1,
   filename="figure_broad_3.jpeg", path=here::here("output"),
 )  
+
+df.model$value <- df.model$numOutcome/df.model$numEligible
+
 write_csv(df.model, here::here("output", "figure_broad_3_table.csv"))
 rm(df.broad_total,df.all,df.model,df.broad)
