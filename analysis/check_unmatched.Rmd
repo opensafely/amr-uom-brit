@@ -282,10 +282,10 @@ df1$age=ifelse(df1$age>=top95,NA,df1$age)
 
 df0=df%>%filter(matched==0)
 top5=quantile(df0$age, 0.025,na.rm=T)
-df$age=ifelse(df0$age>=top5,NA,df0$age)
+df0$age=ifelse(df0$age>=top5,NA,df0$age)
 
 top95=quantile(df0$age, 0.975,na.rm=T)
-df$age=ifelse(df0$age>=top95,NA,df0$age)
+df0$age=ifelse(df0$age>=top95,NA,df0$age)
 
 df=rbind(df1,df0)
 
