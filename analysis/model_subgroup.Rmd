@@ -146,6 +146,7 @@ vif(mod1)
 # age group 18-39
 ```{r}
 df=DF%>%filter(age_grp=="1")
+count(df)
 ```
 
 ## ab level
@@ -171,8 +172,11 @@ vif(mod1)
  
 mod1=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df,method="approximate")
 summary(mod1)
-vif(mod1)
+#vif(mod1)
 ```
+
+
+
 
 # age group 40-59
 ```{r}
