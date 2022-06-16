@@ -139,7 +139,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:9,-2]
+result=result[1:12,-2]
 ```
 
 
@@ -374,7 +374,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:9,-2]
+result=result[1:12,-2]
 ```
 
 
@@ -603,7 +603,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:9,-2]
+result=result[1:12,-2]
 ```
 
 
