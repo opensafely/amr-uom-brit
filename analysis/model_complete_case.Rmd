@@ -1,0 +1,896 @@
+---
+title: "antibiotic types model"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+library(gridExtra)
+
+```
+
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r include=FALSE}
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+df$level=ifelse(df$level=="3","2",
+                ifelse(df$level=="4","3",
+                       ifelse(df$level=="5","4",df$level)))
+df$ab_types=as.numeric(df$ab_types) 
+
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+```
+
+
+# all data
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(level=="0" & ab_types==0 ~ "0",
+                           level=="1" & ab_types==1 ~ "1",
+                           level=="2" &  ab_types==1 ~ "2",
+                           level=="2" &  ab_types==2 ~ "3",
+                           level=="3" &  ab_types==1 ~ "4",
+                           level=="3" &  ab_types==2 ~ "5",
+                           level=="3" &  ab_types>=3 ~ "6",
+                           level=="4" &  ab_types==1 ~ "7",
+                           level=="4" &  ab_types==2 ~ "8",
+                           level=="4" &  ab_types>=3 ~ "9"
+                          ))
+
+#summary(df[df$ab_qn_type=="0",]$total_ab)
+#summary(df[df$ab_qn_type=="1",]$total_ab)
+
+df$ab_qn_type=as.factor(df$ab_qn_type)
+#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
+
+
+#table(df$ab_qn_type)
+```
+
+## model summary
+```{r echo=FALSE}
+
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+
+result
+
+result=result[1:9,-2]
+```
+
+
+```{r include=FALSE}
+DF=result
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="level1, type1"
+DF[2,1]="level2, type1"
+DF[3,1]="level2, type2"
+DF[4,1]="level3, type1"
+DF[5,1]="level3, type2"
+DF[6,1]="level3, type3"
+DF[7,1]="level4, type1"
+DF[8,1]="level4, type2"
+DF[9,1]="level4, type3"
+
+
+ Index = rep(1:9) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3")
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+
+```{r include=FALSE}
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+
+    #this adds the effect sizes to the plot+
+geom_point(color="black")+ 
+  
+    
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+
+    
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black", linetype="dashed")+
+
+#thematic stuff
+theme_classic()+ 
+  
+scale_x_continuous(breaks=seq(1.0,2.2,0.2))+
+
+xlim(0.8, 2.2)+
+theme(text=element_text(size=14, color="black"),
+      plot.subtitle =element_text(size=12,hjust=0.05),
+      panel.spacing = unit(1, "lines"),
+      plot.title.position = "plot")+
+  
+
+labs(
+      subtitle = "Antibiotics",
+    x="",
+    y=""
+  )
+p
+```
+
+
+```{r include=FALSE}
+table_base <- ggplot(DF, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+## forest plot
+```{r echo=FALSE}
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
+
+
+# remove outlier(99.99% percentile)
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+df$level=ifelse(df$level=="3","2",
+                ifelse(df$level=="4","3",
+                       ifelse(df$level=="5","4",df$level)))
+df$ab_types=as.numeric(df$ab_types) 
+
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+
+```
+
+cutoff
+```{r echo=FALSE}
+outlier=quantile(df$total_ab,0.9999,na.rm=T)
+outlier
+```
+
+excluded patient number
+```{r echo=FALSE}
+
+
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
+df$outlier=ifelse(df$total_ab>outlier,1,0)
+
+# remove control outlier
+df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case outlier)
+df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+
+
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(level=="0" & ab_types==0 ~ "0",
+                           level=="1" & ab_types==1 ~ "1",
+                           level=="2" &  ab_types==1 ~ "2",
+                           level=="2" &  ab_types==2 ~ "3",
+                           level=="3" &  ab_types==1 ~ "4",
+                           level=="3" &  ab_types==2 ~ "5",
+                           level=="3" &  ab_types==3 ~ "6",
+                           level=="3" &  ab_types==4 ~ "7",
+                           level=="4" &  ab_types==1 ~ "8",
+                           level=="4" &  ab_types==2 ~ "9",
+                           level=="4" &  ab_types==3 ~ "10",
+                           level=="4" &  ab_types==4 ~ "11",
+                           level=="4" &  ab_types>=5 ~ "12"))
+
+
+df$ab_qn_type=as.factor(df$ab_qn_type)
+#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
+
+```
+
+
+## model summary
+```{r echo=FALSE}
+
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+
+result
+
+result=result[1:12,-2]
+```
+
+
+```{r include=FALSE}
+DF=result
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="level1, type1"
+DF[2,1]="level2, type1"
+DF[3,1]="level2, type2"
+DF[4,1]="level3, type1"
+DF[5,1]="level3, type2"
+DF[6,1]="level3, type3"
+DF[7,1]="level3, type4"
+DF[8,1]="level4, type1"
+DF[9,1]="level4, type2"
+DF[10,1]="level4, type3"
+DF[11,1]="level4, type4"
+DF[12,1]="level4, type5"
+
+
+
+
+
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level3, type4","level4, type1","level4, type2","level4, type3","level4, type4","level4, type5")
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+
+```{r include=FALSE}
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 7.5,fill="grey80", alpha=0.5)+
+
+
+  
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black", linetype="dashed")+
+
+#thematic stuff
+theme_classic()+ 
+  #xlim(0, 4)+
+theme(text=element_text(size=14, color="black"),
+      plot.subtitle =element_text(size=12,hjust=0.05),
+      panel.spacing = unit(1, "lines"),
+      plot.title.position = "plot")+
+  
+
+labs(
+      subtitle = "Antibiotics",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r}
+table_base <- ggplot(DF, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+## forest plot
+```{r}
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
+
+
+# remove outlier(99% percentile)
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+df$level=ifelse(df$level=="3","2",
+                ifelse(df$level=="4","3",
+                       ifelse(df$level=="5","4",df$level)))
+df$ab_types=as.numeric(df$ab_types) 
+
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+
+```
+
+cutoff
+```{r echo=FALSE}
+outlier=quantile(df$total_ab,0.99,na.rm=T)
+outlier
+```
+
+excluded patient number
+```{r echo=FALSE}
+
+
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
+df$outlier=ifelse(df$total_ab>outlier,1,0)
+
+# remove control outlier
+df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case outlier)
+df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+
+
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(level=="0" & ab_types==0 ~ "0",
+                           level=="1" & ab_types==1 ~ "1",
+                           level=="2" &  ab_types==1 ~ "2",
+                           level=="2" &  ab_types==2 ~ "3",
+                           level=="3" &  ab_types==1 ~ "4",
+                           level=="3" &  ab_types==2 ~ "5",
+                           level=="3" &  ab_types==3 ~ "6",
+                           level=="3" &  ab_types==4 ~ "7",
+                           level=="4" &  ab_types==1 ~ "8",
+                           level=="4" &  ab_types==2 ~ "9",
+                           level=="4" &  ab_types==3 ~ "10",
+                           level=="4" &  ab_types==4 ~ "11",
+                           level=="4" &  ab_types>=5 ~ "12"))
+
+
+df$ab_qn_type=as.factor(df$ab_qn_type)
+#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
+
+```
+
+
+## model summary
+```{r echo=FALSE}
+
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+
+result
+
+result=result[1:12,-2]
+```
+
+
+```{r include=FALSE}
+DF=result
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="level1, type1"
+DF[2,1]="level2, type1"
+DF[3,1]="level2, type2"
+DF[4,1]="level3, type1"
+DF[5,1]="level3, type2"
+DF[6,1]="level3, type3"
+DF[7,1]="level3, type4"
+DF[8,1]="level4, type1"
+DF[9,1]="level4, type2"
+DF[10,1]="level4, type3"
+DF[11,1]="level4, type4"
+DF[12,1]="level4, type5"
+
+
+
+
+
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level3, type4","level4, type1","level4, type2","level4, type3","level4, type4","level4, type5")
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+
+```{r include=FALSE}
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 7.5,fill="grey80", alpha=0.5)+
+
+
+  
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black", linetype="dashed")+
+
+#thematic stuff
+theme_classic()+ 
+  #xlim(0, 4)+
+theme(text=element_text(size=14, color="black"),
+      plot.subtitle =element_text(size=12,hjust=0.05),
+      panel.spacing = unit(1, "lines"),
+      plot.title.position = "plot")+
+  
+
+labs(
+      subtitle = "Antibiotics",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r}
+table_base <- ggplot(DF, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+## forest plot
+```{r}
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
+# remove outlier(90% percentile)
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+df$level=ifelse(df$level=="3","2",
+                ifelse(df$level=="4","3",
+                       ifelse(df$level=="5","4",df$level)))
+df$ab_types=as.numeric(df$ab_types) 
+
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
+
+```
+
+cutoff
+```{r echo=FALSE}
+outlier=quantile(df$total_ab,0.9,na.rm=T)
+outlier
+```
+
+excluded patient number
+```{r echo=FALSE}
+
+
+df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab)
+df$outlier=ifelse(df$total_ab>outlier,1,0)
+
+# remove control outlier
+df$exclude.controls=ifelse(df$case==0 & df$outlier==1,1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case outlier)
+df$exclude.case=ifelse(df$case==1 & df$outlier==1,1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+
+
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(level=="0" & ab_types==0 ~ "0",
+                           level=="1" & ab_types==1 ~ "1",
+                           level=="2" &  ab_types==1 ~ "2",
+                           level=="2" &  ab_types==2 ~ "3",
+                           level=="3" &  ab_types==1 ~ "4",
+                           level=="3" &  ab_types==2 ~ "5",
+                           level=="3" &  ab_types==3 ~ "6",
+                           level=="3" &  ab_types==4 ~ "7",
+                           level=="4" &  ab_types==1 ~ "8",
+                           level=="4" &  ab_types==2 ~ "9",
+                           level=="4" &  ab_types==3 ~ "10",
+                           level=="4" &  ab_types==4 ~ "11",
+                           level=="4" &  ab_types>=5 ~ "12"))
+
+
+df$ab_qn_type=as.factor(df$ab_qn_type)
+#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
+
+```
+
+
+## model summary
+```{r echo=FALSE}
+
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+           #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+
+result
+
+result=result[1:12,-2]
+```
+
+
+```{r include=FALSE}
+DF=result
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="level1, type1"
+DF[2,1]="level2, type1"
+DF[3,1]="level2, type2"
+DF[4,1]="level3, type1"
+DF[5,1]="level3, type2"
+DF[6,1]="level3, type3"
+DF[7,1]="level3, type4"
+DF[8,1]="level4, type1"
+DF[9,1]="level4, type2"
+DF[10,1]="level4, type3"
+DF[11,1]="level4, type4"
+DF[12,1]="level4, type5"
+
+
+
+
+
+ Index = rep(1:12) ## This provides an order to the data
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level3, type4","level4, type1","level4, type2","level4, type3","level4, type4","level4, type5")
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+
+```{r include=FALSE}
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 7.5,fill="grey80", alpha=0.5)+
+
+
+  
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black", linetype="dashed")+
+
+#thematic stuff
+theme_classic()+ 
+  #xlim(0, 4)+
+theme(text=element_text(size=14, color="black"),
+      plot.subtitle =element_text(size=12,hjust=0.05),
+      panel.spacing = unit(1, "lines"),
+      plot.title.position = "plot")+
+  
+
+labs(
+      subtitle = "Antibiotics",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r}
+table_base <- ggplot(DF, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+## forest plot
+```{r}
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```

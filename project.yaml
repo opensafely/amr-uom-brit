@@ -134,6 +134,13 @@ actions:
       moderately_sensitive:
         html: output/model_wave.html
   
+  model_complete_case: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_complete_case.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_complete_case.html
+  
 
         #### addintional check for 6 weeks exclusion
   extract_variables_6w: 
