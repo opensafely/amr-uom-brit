@@ -275,17 +275,13 @@ ggplot(df, aes(x=age, fill=matched, color=matched)) +
 
 df1=df%>%filter(matched==1)
 top5=quantile(df1$age, 0.025,na.rm=T)
-df1$age=ifelse(df1$age>=top5,NA,df1$age)
-
 top95=quantile(df1$age, 0.975,na.rm=T)
-df1$age=ifelse(df1$age>=top95,NA,df1$age)
+df1=df1%>%filter(age>top5 & age<top95)
 
 df0=df%>%filter(matched==0)
 top5=quantile(df0$age, 0.025,na.rm=T)
-df0$age=ifelse(df0$age>=top5,NA,df0$age)
-
 top95=quantile(df0$age, 0.975,na.rm=T)
-df0$age=ifelse(df0$age>=top95,NA,df0$age)
+df0=df0%>%filter(age>top5 & age<top95)
 
 df=rbind(df1,df0)
 
@@ -294,7 +290,7 @@ ggplot(df, aes(x=age, fill=matched, color=matched)) +
   geom_density(alpha=0.5)+
   scale_x_continuous(breaks = seq(0, 110, by=10))
 
-table(df$age,df$case)
+table(df$age,df$matched)
 
 ```
 
