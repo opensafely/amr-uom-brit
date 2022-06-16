@@ -259,7 +259,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 
-# wave 1
+# wave 2
 ## crude model
 ```{r include=FALSE}
 # import data
@@ -310,6 +310,12 @@ summary(mod3)
 
 ```
 
+```{r}
+ 
+mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+summary(mod3)
+
+```
 forest plot
 ```{r include=FALSE}
 # outcome
@@ -488,7 +494,9 @@ lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
-# wave 1
+
+
+# wave 3
 ## crude model
 ```{r include=FALSE}
 # import data
@@ -590,7 +598,7 @@ df=df%>%mutate(ab_qn_type=
 ## forest plot_ model summary
 ```{r echo=FALSE}
 
-mod=clogit(case ~ ab_qn_type + lastABtime+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df,method="approximate")
+mod=clogit(case ~ ab_qn_type + lastABtime+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
 sum.mod=summary(mod)
 sum.mod
@@ -667,7 +675,7 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
 #thematic stuff
 theme_classic()+ 
 
-scale_x_continuous(breaks=seq(1.0,2.2,0.2))+
+scale_x_continuous(breaks=seq(0,2.4,0.2))+
 
 xlim(0.8, 2.2)+
 theme(text=element_text(size=14, color="black"),
