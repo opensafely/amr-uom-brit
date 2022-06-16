@@ -120,6 +120,14 @@ summary(mod3)
 
 ```
 
+## adjusted model-approximately
+```{r}
+ 
+mod4=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method=c("exact","approximate"))
+summary(mod4)
+
+```
+
 forest plot
 ```{r include=FALSE}
 # outcome
