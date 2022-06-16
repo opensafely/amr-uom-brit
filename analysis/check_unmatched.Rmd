@@ -265,18 +265,36 @@ table
 ```{r  echo=FALSE }
 df$matched=as.factor(df$matched)
 
-top5=quantile(df$age, 0.05,na.rm=T)
-df$age=ifelse(df$age>=top5,NA,df$age)
-
-top95=quantile(df$age, 0.95,na.rm=T)
-df$age=ifelse(df$age>=top95,NA,df$age)
 
 ggplot(df, aes(x=age, fill=matched, color=matched)) +
  # geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
   geom_density(alpha=0.5)+
   scale_x_continuous(breaks = seq(0, 110, by=10))
 
-DF=table(df$age,df$case)
+
+
+df1=df%>%filter(matched==1)
+top5=quantile(df1$age, 0.025,na.rm=T)
+df1$age=ifelse(df1$age>=top5,NA,df1$age)
+
+top95=quantile(df1$age, 0.975,na.rm=T)
+df1$age=ifelse(df1$age>=top95,NA,df1$age)
+
+df0=df%>%filter(matched==0)
+top5=quantile(df0$age, 0.025,na.rm=T)
+df$age=ifelse(df0$age>=top5,NA,df0$age)
+
+top95=quantile(df0$age, 0.975,na.rm=T)
+df$age=ifelse(df0$age>=top95,NA,df0$age)
+
+df=rbind(df1,df0)
+
+ggplot(df, aes(x=age, fill=matched, color=matched)) +
+ # geom_histogram(aes(y=..density..), position="identity", alpha=0.5,bins=30)+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(breaks = seq(0, 110, by=10))
+
+table(df$age,df$case)
 
 ```
 
