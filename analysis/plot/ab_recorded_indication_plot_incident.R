@@ -75,7 +75,9 @@ first_mon=format(min(dat$date),"%m-%Y")
 last_mon= format(max(dat$date),"%m-%Y")
 
 # reorder
-dat$infection <- factor(dat$infection, levels=c("LRTI","Otitis_externa","Otitis_media","Sinusitis","URTI","UTI","Other_infection","Uncoded"))
+#dat$infection <- factor(dat$infection, levels=c("Covid","LRTI","Otitis_externa","Otitis_media","Sinusitis","URTI","UTI","Other_infection","Uncoded"))
+dat=dat%>%filter(infection != "UTI") # remove UTI for analysis
+dat$infection <- factor(dat$infection, levels=c("Covid","LRTI","Otitis_externa","Otitis_media","Sinusitis","URTI","Other_infection","Uncoded"))
 
 
 # # plot
