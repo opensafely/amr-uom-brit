@@ -157,9 +157,9 @@ vif(mod1)
 
 ```{r}
  
-mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df,method="approximate")
+mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method="approximate")
 summary(mod3)
-vif(mod3)
+#vif(mod3)
 
 ```
 
@@ -194,7 +194,7 @@ mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vacc
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
 sum.mod
-vif(mod)
+#vif(mod)
 
 ```
 
