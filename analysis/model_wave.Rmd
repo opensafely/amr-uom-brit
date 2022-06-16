@@ -123,7 +123,28 @@ summary(mod3)
 ## adjusted model-approximately
 ```{r}
  
-mod4=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method=c("exact","approximate"))
+mod4=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method="approximate")
+summary(mod4)
+
+```
+
+```{r}
+ 
+mod4=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method="exact")
+summary(mod4)
+
+```
+
+```{r}
+ 
+mod4=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method= "efron")
+summary(mod4)
+
+```
+
+```{r}
+ 
+mod4=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df, method= "breslow")
 summary(mod4)
 
 ```

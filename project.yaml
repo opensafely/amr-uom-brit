@@ -95,13 +95,6 @@ actions:
       moderately_sensitive:
         html: output/model.html
 
-  model_subgroup: # by age and sex 
-    run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_subgroup.html 
-
   # abtype modeling
   model_abtype: 
     run: r:latest -e 'rmarkdown::render("analysis/model_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -109,6 +102,16 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_abtype.html
+
+         
+ ################# sensitivity analysis ###########
+
+  model_subgroup: # by age and sex 
+    run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_subgroup.html 
 
   model_time: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -131,7 +134,6 @@ actions:
       moderately_sensitive:
         html: output/model_wave.html
   
-        ################# check ok###########
 
         #### addintional check for 6 weeks exclusion
   extract_variables_6w: 
