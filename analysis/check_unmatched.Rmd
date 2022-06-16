@@ -276,10 +276,10 @@ table
 ```{r}
 df$matched=as.factor(df$matched)
 
-top5=qunatile(df$age, 0.05)
+top5=quantile(df$age, 0.05)
 df$age=ifelse(df$age>=top5,NA,df$age)
 
-top95=qunatile(df$age, 0.95)
+top95=quantile(df$age, 0.95)
 df$age=ifelse(df$age>=top95,NA,df$age)
 
 ggplot(df, aes(x=age, fill=matched, color=matched)) +
