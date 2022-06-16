@@ -91,6 +91,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_abtype.html
+
+  model_complete_case: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_complete_case.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_complete_case.html
         ################# check ok###########
 
 
