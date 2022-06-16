@@ -153,6 +153,7 @@ summary(mod3)
 
 ```
 
+# all data
 ```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
@@ -162,19 +163,21 @@ df=df%>%mutate(ab_qn_type=
                            level=="2" &  ab_types==2 ~ "3",
                            level=="3" &  ab_types==1 ~ "4",
                            level=="3" &  ab_types==2 ~ "5",
-                           level=="3" &  ab_types==3 ~ "6",
-                           level=="3" &  ab_types==4 ~ "7",
-                           level=="4" &  ab_types==1 ~ "8",
-                           level=="4" &  ab_types==2 ~ "9",
-                           level=="4" &  ab_types==3 ~ "10",
-                           level=="4" &  ab_types==4 ~ "11",
-                           level=="4" &  ab_types>=5 ~ "12"))
+                           level=="3" &  ab_types>=3 ~ "6",
+                           level=="4" &  ab_types==1 ~ "7",
+                           level=="4" &  ab_types==2 ~ "8",
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
+                          ))
 
 
-df$ab_qn_type=as.factor(df$ab_qn_type)
-#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
-
+#table(df$level,df$ab_types)
 ```
+
+
 
 
 ## adjusted model_abtype
@@ -212,19 +215,16 @@ DF[3,1]="level2, type2"
 DF[4,1]="level3, type1"
 DF[5,1]="level3, type2"
 DF[6,1]="level3, type3"
-DF[7,1]="level3, type4"
-DF[8,1]="level4, type1"
-DF[9,1]="level4, type2"
-DF[10,1]="level4, type3"
-DF[11,1]="level4, type4"
-DF[12,1]="level4, type5"
-
-
-
+DF[7,1]="level4, type1"
+DF[8,1]="level4, type2"
+DF[9,1]="level4, type3"
+DF[10,1]="level5, type1"
+DF[11,1]="level5, type2"
+DF[12,1]="level5, type3"
 
 
  Index = rep(1:12) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level3, type4","level4, type1","level4, type2","level4, type3","level4, type4","level4, type5")
+  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level5, type1","level5, type2","level5, type3")
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
@@ -247,10 +247,10 @@ p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+
 geom_point(color="black")+ 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 7.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = Inf,fill="grey80", alpha=0.5)+
 
-
-  
+    
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
@@ -259,6 +259,9 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
 
 #thematic stuff
 theme_classic()+ 
+
+scale_x_continuous(breaks=seq(1.0,1.8,0.2))+
+
   #xlim(0, 4)+
 theme(text=element_text(size=14, color="black"),
       plot.subtitle =element_text(size=12,hjust=0.05),
@@ -274,7 +277,7 @@ labs(
 p
 ```
 
-```{r}
+```{r include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -303,10 +306,8 @@ tab2 <- table_base+
 ## forest plot
 ```{r}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
-
-
 
 
