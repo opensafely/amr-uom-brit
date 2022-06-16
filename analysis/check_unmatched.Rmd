@@ -271,6 +271,8 @@ ggplot(df, aes(x=age, fill=matched, color=matched)) +
   geom_density(alpha=0.5)+
   scale_x_continuous(breaks = seq(0, 110, by=10))
 
+table(df$age,df$matched)
+
 
 
 df1=df%>%filter(matched==1)
