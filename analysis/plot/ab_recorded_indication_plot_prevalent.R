@@ -156,7 +156,7 @@ ggsave(
 
 ggsave(
   plot= abtype_bar_2,
-  filename="ab_recorded_incident_bar_2.jpeg", path=here::here("output"),
+  filename="ab_recorded_prevalent_bar_2.jpeg", path=here::here("output"),
 )
 
 write_csv(dat, here::here("output", "ab_recorded_prevalent.csv"))
