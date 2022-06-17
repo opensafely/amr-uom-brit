@@ -705,6 +705,7 @@ actions:
        moderately_sensitive:
         plot1: output/ab_recorded_incident_bar.jpeg
         plot2: output/ab_recorded_incident_line.jpeg
+        plot3: output/ab_recorded_incident_bar_2.jpeg
         csv: output/ab_recorded_incident.csv
 
   describe_ab_recoded_indication_plot_prevalent: 
@@ -714,6 +715,7 @@ actions:
        moderately_sensitive:
         plot1: output/ab_recorded_prevalent_bar.jpeg
         plot2: output/ab_recorded_prevalent_line.jpeg
+        plot3: output/ab_recorded_incident_bar_2.jpeg
         csv: output/ab_recorded_prevalent.csv
 
   ab_recoded_indication_ITS2_plot: # overall, incident, prevalent

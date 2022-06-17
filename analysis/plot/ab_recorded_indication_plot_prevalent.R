@@ -125,6 +125,25 @@ lineplot<- ggplot(dat, aes(x=date, y=count,group=infection,color=infection))+
   scale_color_manual(values =  c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 
 
+# # plot
+abtype_bar_2 <- ggplot(dat,aes(x=date, y=count, fill=infection)) + 
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_bar(position="stack", stat="identity")+
+  labs(
+    fill = "Infections",
+    title = "Incident antibiotic prescriptions with an infection code recorded",
+    subtitle = paste(first_mon,"-",last_mon),
+    caption = "Grey shading represents national lockdown time. ",
+    y = "counts",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_fill_manual(values = c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
+
 
 ggsave(
   plot= abtype_bar,
@@ -134,6 +153,11 @@ ggsave(
   plot= lineplot,
   filename="ab_recorded_prevalent_line.jpeg", path=here::here("output"),
 ) 
+
+ggsave(
+  plot= abtype_bar_2,
+  filename="ab_recorded_incident_bar_2.jpeg", path=here::here("output"),
+)
 
 write_csv(dat, here::here("output", "ab_recorded_prevalent.csv"))
 
