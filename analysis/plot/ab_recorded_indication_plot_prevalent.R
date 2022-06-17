@@ -51,6 +51,9 @@ for (i in seq_along(Files)){
   
   # recode empty value
   dat$infection=ifelse(dat$infection=="","uncoded",dat$infection)
+  #remove uti
+  dat=dat%>%filter(infection != "UTI") # remove UTI for analysis
+  
   
   # summarise ab counts for infection
   dat=dat%>%group_by(date,infection)%>%summarise(count=n())
@@ -76,7 +79,6 @@ last_mon= format(max(dat$date),"%m-%Y")
 
 # reorder
 #dat$infection <- factor(dat$infection, levels=c("Covid","LRTI","Otitis_externa","Otitis_media","Sinusitis","URTI","UTI","Other_infection","Uncoded"))
-dat=dat%>%filter(infection != "UTI") # remove UTI for analysis
 dat$infection <- factor(dat$infection, levels=c("Covid","LRTI","Otitis_externa","Otitis_media","Sinusitis","URTI","Other_infection","Uncoded"))
 
 
