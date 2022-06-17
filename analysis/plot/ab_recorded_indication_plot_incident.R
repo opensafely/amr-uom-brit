@@ -58,6 +58,9 @@ for (i in seq_along(Files)){
   
   # summarise ab counts for infection
   dat=dat%>%group_by(date,infection)%>%summarise(count=n())
+  #round ~5
+  dat$count=round(dat$count/5)*5
+  
   # total antibiotics count per month
   dat=dat%>%group_by(date)%>%mutate(total=sum(count))
   # percentage
