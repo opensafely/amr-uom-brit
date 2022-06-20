@@ -50,3 +50,6 @@ user/yayang/charlson16_peptic_ulcer/36562fe8
 user/yayang/charlson17_peripheral_vascular/68751652
 user/yayang/antibiotics_indications/69efab76
 user/BillyZhongUOM/broad_spectrum_op/70090cf7
+
+user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9
+user/yayang/codes_ab_type_nitrofurantoincsv/56b72f70
