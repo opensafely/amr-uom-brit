@@ -2161,3 +2161,14 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/report/overall_appro_model.html
+
+##### check trimethoprim/nitrofurantonin
+  describe_uti_ab_check: 
+    run: r:latest analysis/plot/uti_ab_check.R
+    needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3] # transfrom & define all variables
+    outputs:
+       moderately_sensitive:
+        plot1: output/uti_ab_check_bar.jpeg
+        plot2: output/uti_ab_check_line.jpeg
+        plot3: output/uti_ab_check_2.jpeg
+        csv: output/uti_ab_check.csv
