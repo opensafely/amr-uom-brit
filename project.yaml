@@ -2170,5 +2170,5 @@ actions:
        moderately_sensitive:
         plot1: output/uti_ab_check_bar.jpeg
         plot2: output/uti_ab_check_line.jpeg
-        plot3: output/uti_ab_check_2.jpeg
+        plot3: output/uti_ab_check_bar_2.jpeg
         csv: output/uti_ab_check.csv
