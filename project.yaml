@@ -2163,6 +2163,15 @@ actions:
         html: output/report/overall_appro_model.html
 
 ##### check trimethoprim/nitrofurantonin
+
+
+  generate_study_population_uti_ab_check:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_uti_ab_check --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_uti_ab_check_*.csv.gz
+
+
   describe_uti_ab_check: 
     run: r:latest analysis/plot/uti_ab_check.R
     needs: [describe_ab_type_process_1,describe_ab_type_process_2,describe_ab_type_process_3] # transfrom & define all variables
