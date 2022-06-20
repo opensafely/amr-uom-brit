@@ -58,6 +58,8 @@ dat=dat%>% filter(cal_YM != last.date)
 
 dat$value=dat$count/dat$total
 
+dat=dat%>%arrange(cal_YM)
+
 # # plot
 abtype_bar <- ggplot(dat,aes(x=cal_YM, y=value, fill=type)) + 
 #  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
