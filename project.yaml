@@ -94,3 +94,11 @@ actions:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_otmedia/hospitalisation_prediction_otmedia.html 
         figures: output/hospitalisation_prediction_otmedia/*
+
+  generate_notebook_hosp_plots:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hosp_plots.ipynb --execute --to html --output-dir=/workspace/output/hosp_plots --ExecutePreprocessor.timeout=86400
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction/hosp_plots.html 
+        figures: output/hospitalisation_prediction/*
