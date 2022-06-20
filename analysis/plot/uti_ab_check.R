@@ -48,7 +48,7 @@ dat=bind_rows(temp)
 rm(temp,dat.sum,i,Files)
 
 # group by month
-dat$cal_YM=format(dat$date,"%m-%Y")
+dat$cal_YM=format(dat$date,"%Y-%m")
 dat=dat%>%group_by(cal_YM,type)%>%summarise(count=sum(count),total=sum(total))
 
 # remove last month data
