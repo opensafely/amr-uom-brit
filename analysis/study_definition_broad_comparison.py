@@ -31,7 +31,7 @@ from codelists import *
 from datetime import datetime
 
 start_date = "2019-01-01"
-end_date = datetime.today().strftime('%Y-%m-%d')
+end_date = "2021-12-31"
 
 ## Define study population and variables
 study = StudyDefinition(
@@ -153,17 +153,9 @@ study = StudyDefinition(
         },
     ),
 
-    ## Broad spectrum antibiotics
-    broad_spectrum_brit=patients.with_these_medications(
-        broad_spectrum_antibiotics_codes,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
 
-    broad_spectrum_op=patients.with_these_medications(
-        broad_spectrum_antibiotics_op,
+    broad_spect_op=patients.with_these_medications(
+        broad_spec_op,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
