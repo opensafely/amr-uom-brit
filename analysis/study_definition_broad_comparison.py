@@ -174,14 +174,14 @@ measures = [
 
     ## Broad spectrum antibiotics
     Measure(id="broad_op_proportion",
-            numerator="broad_spectrum_op",
+            numerator="broad_spect_op",
             denominator="antibacterial_brit",
             group_by=["practice"]
             ),
 
     ## Broad spectrum antibiotics
     Measure(id="broad_op_proportion_age_sex",
-            numerator="broad_spectrum_op",
+            numerator="broad_spect_op",
             denominator="antibacterial_brit",
             group_by=["practice",'sex','age_cat']
             ),
