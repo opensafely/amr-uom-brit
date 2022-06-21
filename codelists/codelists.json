@@ -311,6 +311,36 @@
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/broad_spectrum_op/70090cf7/",
       "downloaded_at": "2022-04-01 10:27:58.005781Z",
       "sha": "daf7bd501c0f90e2469521ad48971595675544f0"
+    },
+    "user-yayang-codes_ab_type_trimethoprimcsv.csv": {
+      "id": "user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9/",
+      "downloaded_at": "2022-06-21 16:23:22.581167Z",
+      "sha": "2aeffeea4db5c63937622a596ff5cc9dd888ea1a"
+    },
+    "user-yayang-codes_ab_type_nitrofurantoincsv.csv": {
+      "id": "user/yayang/codes_ab_type_nitrofurantoincsv/56b72f70",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nitrofurantoincsv/56b72f70/",
+      "downloaded_at": "2022-06-21 16:23:22.730931Z",
+      "sha": "64017f7918b0c9e25ccdf6ce9290882c5a5f8a83"
+    },
+    "user-yayang-trimethoprim_op.csv": {
+      "id": "user/yayang/trimethoprim_op/496907fa",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/trimethoprim_op/496907fa/",
+      "downloaded_at": "2022-06-21 16:36:54.844463Z",
+      "sha": "4cad0585b02dee3b7deab0bd60705de93746173a"
+    },
+    "user-yayang-nitrofurantoin_op.csv": {
+      "id": "user/yayang/nitrofurantoin_op/62787b2f",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/nitrofurantoin_op/62787b2f/",
+      "downloaded_at": "2022-06-21 16:36:54.978071Z",
+      "sha": "f0573d031c6c6b51dd7c90eecb3fd5e17d49aaab"
+    },
+    "user-BillyZhongUOM-broad_spec_op_codelist.csv": {
+      "id": "user/BillyZhongUOM/broad_spec_op_codelist/46b64804",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/broad_spec_op_codelist/46b64804/",
+      "downloaded_at": "2022-06-21 16:23:22.905252Z",
+      "sha": "c0918b22202e342414ee91a82cff3b715652df0d"
     }
   }
 }

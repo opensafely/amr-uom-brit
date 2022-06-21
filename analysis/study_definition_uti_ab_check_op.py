@@ -1,7 +1,7 @@
-
 ######################################
 
-# This script provides two broad-spectrum codelist to compare the broad prescription percentage
+# This script provides the formal specification of the study data that will be extracted from
+# the OpenSAFELY database.
 
 ######################################
 
@@ -31,7 +31,7 @@ from codelists import *
 from datetime import datetime
 
 start_date = "2019-01-01"
-end_date = "2021-12-31"
+end_date = datetime.today().strftime('%Y-%m-%d')
 
 ## Define study population and variables
 study = StudyDefinition(
@@ -75,9 +75,7 @@ study = StudyDefinition(
         ),
 
     ),
-
-    ########## patient demographics to group_by for measures:
-    ### Age
+        ### Age
     age=patients.age_as_of(
         "index_date",
         return_expectations={
@@ -86,44 +84,7 @@ study = StudyDefinition(
             "incidence": 0.001
         },
     ),
-
-    ### Age categories
-
-    ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
-    age_cat=patients.categorised_as(
-        {
-            "0":"DEFAULT",
-            "0-4": """ age >= 0 AND age < 5""",
-            "5-14": """ age >= 5 AND age < 15""",
-            "15-24": """ age >= 15 AND age < 25""",
-            "25-34": """ age >= 25 AND age < 35""",
-            "35-44": """ age >= 35 AND age < 45""",
-            "45-54": """ age >= 45 AND age < 55""",
-            "55-64": """ age >= 55 AND age < 65""",
-            "65-74": """ age >= 65 AND age < 75""",
-            "75+": """ age >= 75 AND age < 120""",
-        },
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0": 0,
-                    "0-4": 0.12, 
-                    "5-14": 0.11,
-                    "15-24": 0.11,
-                    "25-34": 0.11,
-                    "35-44": 0.11,
-                    "45-54": 0.11,
-                    "55-64": 0.11,
-                    "65-74": 0.11,
-                    "75+": 0.11,
-                }
-            },
-        },
-    ),
-
-    
-    ### Sex
+        ### Sex
     sex=patients.sex(
         return_expectations={
             "rate": "universal",
@@ -131,20 +92,18 @@ study = StudyDefinition(
         }
     ),
 
-
-    ### Practice
-    practice=patients.registered_practice_as_of(
-        "index_date",
-        returning="pseudo_id",
-        return_expectations={"int": {"distribution": "normal",
-                                     "mean": 25, "stddev": 5}, "incidence": 1}
+    Trimethoprim=patients.with_these_medications(
+        codes_ab_type_Trimethoprim_op,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },
     ),
 
-      
-
-    ## all antibacterials from BRIT (dmd codes)
-    antibacterial_brit=patients.with_these_medications(
-        antibacterials_codes_brit,
+    Nitrofurantoin=patients.with_these_medications(
+        codes_ab_type_Nitrofurantoin_op,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -154,35 +113,15 @@ study = StudyDefinition(
     ),
 
 
-    broad_spect_op=patients.with_these_medications(
-        broad_spec_op,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "poisson", "mean": 3, "stddev": 1}, "incidence": 0.5}
-    ),
-
-
-
-
 )
-
-# --- DEFINE MEASURES ---
-
 
 measures = [
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_op_proportion",
-            numerator="broad_spect_op",
-            denominator="antibacterial_brit",
-            group_by=["practice"]
+    # antibiotic rx rate
+    Measure(id="ratio_op",
+            numerator="Trimethoprim",
+            denominator="Nitrofurantoin",
+            group_by="population",
             ),
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_op_proportion_age_sex",
-            numerator="broad_spect_op",
-            denominator="antibacterial_brit",
-            group_by=["practice",'sex','age_cat']
-            ),
 ]
