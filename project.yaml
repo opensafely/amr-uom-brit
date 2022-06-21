@@ -2211,3 +2211,13 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_ratio_*.csv
+
+  describe_uti_ab_check_2_op: 
+    run: r:latest analysis/plot/uti_ab_check_2_op.R
+    needs: [generate_measures_uti_ab_check_op] # transfrom & define all variables
+    outputs:
+       moderately_sensitive:
+        plot1: output/uti_ab_ratio_check_line_op.jpeg
+        plot2: output/uti_ab_ratio_check_line2_op.jpeg
+        plot3: output/uti_ab_ratio_check_line3_op.jpeg
+        csv: output/uti_ab_ratio_check_op.csv
