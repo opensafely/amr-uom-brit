@@ -2196,4 +2196,5 @@ actions:
        moderately_sensitive:
         plot1: output/uti_ab_ratio_check_line.jpeg
         plot2: output/uti_ab_ratio_check_line2.jpeg
+        plot3: output/uti_ab_ratio_check_line3.jpeg
         csv: output/uti_ab_ratio_check.csv

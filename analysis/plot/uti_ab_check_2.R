@@ -80,6 +80,7 @@ temp <- vector("list", length(Files))
      geom_line()+
      theme(legend.position = "bottom",legend.title =element_blank())+
      labs(
+       title = "Trimethoprim/Nitrofurantoin",
        caption = "Grey shading represents national lockdown time. ",
        y = "ratio",
        x=""
@@ -93,9 +94,9 @@ lineplot2<- ggplot(dat, aes(x=date))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(y=Nitrofurantoin))+
-  geom_line(aes(y=Trimethoprim))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
+    title = "Nitrofurantoin",
     caption = "Grey shading represents national lockdown time. ",
     y = "items",
     x=""
@@ -105,7 +106,20 @@ lineplot2<- ggplot(dat, aes(x=date))+
 #  scale_y_continuous(labels = scales::percent)+
  # scale_shape_manual(values = c(rep(1:8))) +
   #scale_color_manual(values =  c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
-
+## # line graph-percent
+lineplot3<- ggplot(dat, aes(x=date))+
+  annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line(aes(y=Trimethoprim))+
+  theme(legend.position = "bottom",legend.title =element_blank())+
+  labs(
+    title = "Trimethoprim",
+    caption = "Grey shading represents national lockdown time. ",
+    y = "items",
+    x=""
+  )+
+  theme(axis.text.x=element_text(angle=60,hjust=1))
 
 
 ggsave(
@@ -120,6 +134,12 @@ ggsave(
   filename="uti_ab_ratio_check_line2.jpeg", path=here::here("output"),
 ) 
 
+
+
+ggsave(
+  plot= lineplot3,
+  filename="uti_ab_ratio_check_line3.jpeg", path=here::here("output"),
+) 
 write_csv(dat, here::here("output", "uti_ab_ratio_check.csv"))
 
 
