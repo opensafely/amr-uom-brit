@@ -2187,3 +2187,13 @@ actions:
         plot2: output/uti_ab_check_line.jpeg
         plot3: output/uti_ab_check_bar_2.jpeg
         csv: output/uti_ab_check.csv
+
+
+  describe_uti_ab_check_2: 
+    run: r:latest analysis/plot/uti_ab_check_2.R
+    needs: [generate_measures_uti_ab_check] # transfrom & define all variables
+    outputs:
+       moderately_sensitive:
+        plot1: output/uti_ab_ratio_check_line.jpeg
+        plot2: output/uti_ab_ratio_check_line2.jpeg
+        csv: output/uti_ab_ratio_check.csv

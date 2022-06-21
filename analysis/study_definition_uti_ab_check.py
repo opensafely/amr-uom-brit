@@ -121,6 +121,7 @@ measures = [
     Measure(id="ratio",
             numerator="Trimethoprim",
             denominator="Nitrofurantoin",
+            group_by="population",
             ),
 
 ]
