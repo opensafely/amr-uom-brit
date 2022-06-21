@@ -472,4 +472,4 @@ codes_ab_type_Nitrofurantoin_op= codelist_from_csv('codelists/user-yayang-nitrof
 
 
 
-broad_spec_op= codelist_from_csv('codelists/user-BillyZhongUOM-broad_spec_op_codelist.csv', system ='snomed',column ='dmd_id')
+broad_spec_op= codelist_from_csv('codelists/user-BillyZhongUOM-broad_spec_op_codelist.csv', system ='snomed',column ='dmd')
