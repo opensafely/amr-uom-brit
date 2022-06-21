@@ -60,7 +60,7 @@ setwd(here::here("output", "measures"))
 
 # dat=dat%>%arrange(cal_YM)
 date= seq(as.Date("2019-01-01"), as.Date("2022-06-01"), "month")
-Files = list.files(pattern="measure_ratio_", full.names = FALSE)
+Files = list.files(pattern="measure_ratio_op", full.names = FALSE)
 temp <- vector("list", length(Files))
 
  for (i in seq_along(Files)){

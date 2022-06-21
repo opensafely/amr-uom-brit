@@ -118,7 +118,7 @@ study = StudyDefinition(
 measures = [
 
     # antibiotic rx rate
-    Measure(id="ratio",
+    Measure(id="ratio_op",
             numerator="Trimethoprim",
             denominator="Nitrofurantoin",
             group_by="population",
