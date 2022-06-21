@@ -2198,3 +2198,16 @@ actions:
         plot2: output/uti_ab_ratio_check_line2.jpeg
         plot3: output/uti_ab_ratio_check_line3.jpeg
         csv: output/uti_ab_ratio_check.csv
+
+  generate_study_population_uti_ab_check_op:  #open prescribing
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_uti_ab_check_op --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_uti_ab_check_*.csv.gz
+
+  generate_measures_uti_ab_check_op:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_uti_ab_check_op --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_uti_ab_check]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_ratio_*.csv
