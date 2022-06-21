@@ -2148,6 +2148,18 @@ actions:
         table2: output/figure_broad_2_table.csv
         table3: output/figure_broad_3_table.csv
 
+  describe_descriptive_figure_for_se_65_process: 
+    run: r:latest analysis/description/figure_for_se_65.R
+    needs: [describe_cohort_1_rds]
+    outputs:
+      moderately_sensitive:
+        figure1: output/figure_broad_65_1.jpeg
+        figure2: output/figure_broad_65_2.jpeg
+        figure3: output/figure_broad_65_3.jpeg
+        table1: output/figure_broad_65_1_table.csv
+        table2: output/figure_broad_65_2_table.csv
+        table3: output/figure_broad_65_3_table.csv
+
   describe_predict_model_overall_var_process: 
     run: r:latest analysis/multinomial/predict_model_overall_var.R
     needs: [describe_cohort_1_rds]
