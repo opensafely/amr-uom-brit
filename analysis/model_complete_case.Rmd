@@ -164,6 +164,81 @@ df <- read_rds(here::here("output","matched_outcome.rds"))
 
 ```
 
+ethnicity
+excluded patient number
+```{r echo=FALSE}
+
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$ethnicity_6=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$ethnicity_6=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+BMI
+excluded patient number
+```{r echo=FALSE}
+
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$bmi_cat=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$bmi_cat=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+Smoking
+excluded patient number
+```{r echo=FALSE}
+
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$smoking_cat_3=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$smoking_cat_3=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
+
+IMD
+excluded patient number
+```{r echo=FALSE}
+
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$imd=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$imd=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+count(df)
+
+
+```
  
 ```{r include=FALSE}
 # outcome
