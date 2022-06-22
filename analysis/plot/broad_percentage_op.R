@@ -7,8 +7,8 @@ df1 <- read_csv(
   col_types = cols_only(
     practice = col_integer(),
     # Outcomes
-    broad_spect_op  = col_integer(),
-    antibacterial_brit = col_integer(),
+    broad_spect_op  = col_double(),
+    antibacterial_brit = col_double(),
     value = col_double(),
     
     # Date
