@@ -138,13 +138,13 @@ study = StudyDefinition(
 
 measures = [
 
-    Measure(id="br_19",
+    Measure(id="uti_ab_check_19_br",
             numerator="Trimethoprim",
             denominator="all",
             group_by="population",
             ),
             
-    Measure(id="op_19",
+    Measure(id="uti_ab_check_19_op",
             numerator="Trimethoprim_op",
             denominator="all_op",
             group_by="population",
