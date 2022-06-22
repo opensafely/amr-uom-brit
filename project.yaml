@@ -2240,3 +2240,26 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/region.html
+
+  generate_study_population_uti_ab_check_oc:  #openCodelit
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_uti_ab_check_oc --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_uti_ab_check_oc_*.csv.gz
+
+  generate_measures_uti_ab_check_oc:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_uti_ab_check_oc --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_uti_ab_check_oc]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_ratio_oc_*.csv
+
+  describe_uti_ab_check_2_oc: 
+    run: r:latest analysis/plot/uti_ab_check_2_oc.R
+    needs: [generate_measures_uti_ab_check_oc] # transfrom & define all variables
+    outputs:
+       moderately_sensitive:
+        plot1: output/uti_ab_ratio_check_line_oc.jpeg
+        plot2: output/uti_ab_ratio_check_line2_oc.jpeg
+        plot3: output/uti_ab_ratio_check_line3_oc.jpeg
+        csv: output/uti_ab_ratio_check_oc.csv

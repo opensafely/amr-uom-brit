@@ -469,6 +469,8 @@ codes_ab_type_Trimethoprim= codelist_from_csv('codelists/user-yayang-codes_ab_ty
 codes_ab_type_Nitrofurantoin= codelist_from_csv('codelists/user-yayang-codes_ab_type_nitrofurantoincsv.csv', system ='snomed',column ='dmd_id')
 codes_ab_type_Trimethoprim_op= codelist_from_csv('codelists/user-yayang-trimethoprim_op.csv', system ='snomed',column ='dmd')
 codes_ab_type_Nitrofurantoin_op= codelist_from_csv('codelists/user-yayang-nitrofurantoin_op.csv', system ='snomed',column ='dmd')
+codes_ab_type_Trimethoprim_oc= codelist_from_csv('codelists/opensafely-trimethoprim.csv', system ='snomed',column ='dmd_id')
+codes_ab_type_nuro_trim_oc= codelist_from_csv('codelists/opensafely-trimethoprim-and-nitrofurantoin.csv', system ='snomed',column ='dmd_id')
 
 
 

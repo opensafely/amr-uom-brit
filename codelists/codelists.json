@@ -336,6 +336,18 @@
       "downloaded_at": "2022-06-21 16:36:54.978071Z",
       "sha": "f0573d031c6c6b51dd7c90eecb3fd5e17d49aaab"
     },
+    "opensafely-trimethoprim.csv": {
+      "id": "opensafely/trimethoprim/0c0d1f0e",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/trimethoprim/0c0d1f0e/",
+      "downloaded_at": "2022-06-22 11:56:07.951431Z",
+      "sha": "cceecec83823c8663c40aaaf0c5158fded8a21ec"
+    },
+    "opensafely-trimethoprim-and-nitrofurantoin.csv": {
+      "id": "opensafely/trimethoprim-and-nitrofurantoin/251c9243",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/trimethoprim-and-nitrofurantoin/251c9243/",
+      "downloaded_at": "2022-06-22 11:56:08.034911Z",
+      "sha": "4af6569869550c9daaf0c24f07941fcdc4d3daf1"
+    },
     "user-BillyZhongUOM-broad_spec_op_codelist.csv": {
       "id": "user/BillyZhongUOM/broad_spec_op_codelist/46b64804",
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/broad_spec_op_codelist/46b64804/",
