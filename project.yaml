@@ -100,5 +100,5 @@ actions:
     needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
     outputs:
       moderately_sensitive:
-        notebook: output/hospitalisation_prediction/hosp_plots.html 
-        figures: output/hospitalisation_prediction/*
+        notebook: output/hosp_plots/hosp_plots.html 
+        figures: output/hosp_plots/*
