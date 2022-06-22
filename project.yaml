@@ -2233,3 +2233,10 @@ actions:
         plot2: output/uti_ab_ratio_check_line2_op.jpeg
         plot3: output/uti_ab_ratio_check_line3_op.jpeg
         csv: output/uti_ab_ratio_check_op.csv
+
+  describe_region: # check region & age
+    run: r:latest -e 'rmarkdown::render("analysis/region.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        html: output/region.html
