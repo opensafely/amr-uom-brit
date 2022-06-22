@@ -124,23 +124,23 @@ lineplot3<- ggplot(dat, aes(x=date))+
 
 ggsave(
   plot= lineplot,
-  filename="uti_ab_ratio_check_line.jpeg", path=here::here("output"),
+  filename="uti_ab_ratio_check_line_op.jpeg", path=here::here("output"),
 )
 
 
 
 ggsave(
   plot= lineplot2,
-  filename="uti_ab_ratio_check_line2.jpeg", path=here::here("output"),
+  filename="uti_ab_ratio_check_line2_op.jpeg", path=here::here("output"),
 ) 
 
 
 
 ggsave(
   plot= lineplot3,
-  filename="uti_ab_ratio_check_line3.jpeg", path=here::here("output"),
+  filename="uti_ab_ratio_check_line3_op.jpeg", path=here::here("output"),
 ) 
-write_csv(dat, here::here("output", "uti_ab_ratio_check.csv"))
+write_csv(dat, here::here("output", "uti_ab_ratio_check_op.csv"))
 
 
 
