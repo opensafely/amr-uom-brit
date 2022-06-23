@@ -93,10 +93,10 @@ lineplot2<- ggplot(dat, aes(x=date))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(y=Trim_Nirto))+
+  geom_line(aes(y=Trim_Nirto-Trimethoprim))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
-    title = "Trimethoprim+Nitrofurantoin",
+    title = "Trimethoprim",
     caption = "Grey shading represents national lockdown time. ",
     y = "items",
     x=""
@@ -107,6 +107,7 @@ lineplot2<- ggplot(dat, aes(x=date))+
  # scale_shape_manual(values = c(rep(1:8))) +
   #scale_color_manual(values =  c("red","goldenrod2","green3","forestgreen","deepskyblue","darkorchid1","darkblue","azure4"))
 ## # line graph-percent
+
 lineplot3<- ggplot(dat, aes(x=date))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
