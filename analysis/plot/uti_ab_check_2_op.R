@@ -73,14 +73,14 @@ temp <- vector("list", length(Files))
    dat=bind_rows(temp)
    
    ## # line graph-percent
-   lineplot<- ggplot(dat, aes(x=date,y=value))+
+   lineplot<- ggplot(dat, aes(x=date,y=Trimethoprim/(Trimethoprim+Nitrofurantoin)))+
      annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
      annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
      annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
      geom_line()+
      theme(legend.position = "bottom",legend.title =element_blank())+
      labs(
-       title = "Trimethoprim/Nitrofurantoin",
+       title = "Trimethoprim/(Trimethoprim+Nitrofurantoin)",
        caption = "Grey shading represents national lockdown time. ",
        y = "ratio",
        x=""
