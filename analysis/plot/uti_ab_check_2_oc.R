@@ -96,7 +96,7 @@ lineplot2<- ggplot(dat, aes(x=date))+
   geom_line(aes(y=Trim_Nirto-Trimethoprim))+
   theme(legend.position = "bottom",legend.title =element_blank())+
   labs(
-    title = "Trimethoprim",
+    title = "Nitrofurantoin",
     caption = "Grey shading represents national lockdown time. ",
     y = "items",
     x=""
