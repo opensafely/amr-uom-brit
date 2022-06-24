@@ -29,3 +29,28 @@ df_ab <- df %>% group_by(sex,age_group) %>% summarise(
 
 write_csv(df_ab, here::here("output", "age_sex_ab_check.csv"))
 
+
+df.19 <- df %>% filter(date <= as.Date("2019-12-31")& date >= as.Date("2019-01-01"))
+
+df_ab <- df.19 %>% group_by(sex,age_group) %>% summarise(
+  numOutcome = n(),
+)
+
+write_csv(df_ab, here::here("output", "age_sex_ab_check_2020.csv"))
+
+df.20 <- df %>% filter(date <= as.Date("2020-12-31")& date >= as.Date("2020-01-01"))
+
+df_ab <- df.20 %>% group_by(sex,age_group) %>% summarise(
+  numOutcome = n(),
+)
+
+write_csv(df_ab, here::here("output", "age_sex_ab_check_2020.csv"))
+
+df.21 <- df %>% filter(date <= as.Date("2021-12-31")& date >= as.Date("2021-01-01"))
+
+df_ab <- df.21 %>% group_by(sex,age_group) %>% summarise(
+  numOutcome = n(),
+)
+
+write_csv(df_ab, here::here("output", "age_sex_ab_check_2021.csv"))
+
