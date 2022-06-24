@@ -74,7 +74,7 @@ df.20 <- df.20 %>% dplyr::select(incidental,infection,type,repeat_ab,age_group,s
 # columns for  table
 colsfortab <- colnames(df.20)
 df.20 %>% summary_factorlist(explanatory = colsfortab) -> t2
-write_csv(t2, here::here("output", "cohort_1_record_2020.csv.csv"))
+write_csv(t2, here::here("output", "cohort_1_record_2020.csv"))
 rm(df.20)
 ### 2021
 ## accept same patient record
@@ -96,5 +96,5 @@ df.21 <- df.21 %>% dplyr::select(incidental,infection,type,repeat_ab,age_group,s
 # columns for  table
 colsfortab <- colnames(df.21)
 df.21 %>% summary_factorlist(explanatory = colsfortab) -> t3
-write_csv(t2, here::here("output", "cohort_1_record_2021.csv.csv"))
+write_csv(t2, here::here("output", "cohort_1_record_2021.csv"))
 
