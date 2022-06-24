@@ -2291,3 +2291,10 @@ actions:
         table6: output/count_record_2020.csv
         table7: output/cohort_1_record_2021.csv
         table8: output/count_record_2021.csv
+
+  describe_age_sex_ab_check_process: 
+    run: r:latest analysis/description/age_sex_ab_check.R
+    needs: [describe_cohort_1_rds]
+    outputs:
+      moderately_sensitive:
+        table1: output/age_sex_ab_check.csv
