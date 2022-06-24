@@ -22,7 +22,7 @@ require("gtsummary")
 
 df1 <- read_csv(here::here("output","measures","input_2019-01-01.csv.gz"))
 
-df1=df1%>% select("region","age_cat")
+df1=df1%>% select("region","age_cat","age","sex")
 
 
 
@@ -53,7 +53,7 @@ table1
 
 df1 <- read_csv(here::here("output","measures","input_2020-01-01.csv.gz"))
 
-df1=df1%>% select("region","age_cat")
+df1=df1%>% select("region","age_cat","age","sex")
 
 
 
