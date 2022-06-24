@@ -36,7 +36,7 @@ df_ab <- df.19 %>% group_by(sex,age_group) %>% summarise(
   numOutcome = n(),
 )
 
-write_csv(df_ab, here::here("output", "age_sex_ab_check_2020.csv"))
+write_csv(df_ab, here::here("output", "age_sex_ab_check_2019.csv"))
 
 df.20 <- df %>% filter(date <= as.Date("2020-12-31")& date >= as.Date("2020-01-01"))
 
