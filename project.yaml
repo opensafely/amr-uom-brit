@@ -2278,7 +2278,7 @@ actions:
       moderately_sensitive:
         measure_csv1: output/measures/measure_uti_ab_check_19_*.csv
 
-  describe_cohort_1_var_process: 
+  describe_cohort_1_repeat_check_process: 
     run: r:latest analysis/description/cohort_1_repeat_check.R
     needs: [describe_cohort_1_rds]
     outputs:
