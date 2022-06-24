@@ -1,0 +1,113 @@
+---
+title: "TPP region"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+```
+
+
+# Jan 2019
+
+```{r}
+#df1=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_2019-01-01.csv.gz")
+
+df1 <- read_csv(here::here("output","measures","input_2019-01-01.csv.gz"))
+
+df1=df1%>% select("region","age","sex")
+
+
+
+```
+
+```{r}
+table(df1$sex)
+mean(df1$age)
+median(df1$age)
+
+median(df1[df1$region=="East",]$age)
+median(df1[df1$region=="East Midlands",]$age)
+median(df1[df1$region=="London",]$age)
+median(df1[df1$region=="North East",]$age)
+median(df1[df1$region=="North West",]$age)
+median(df1[df1$region=="South East",]$age)
+median(df1[df1$region=="South West",]$age)
+median(df1[df1$region=="West Midlands",]$age)
+median(df1[df1$region=="Yorkshire and The Humber",]$age)
+
+```
+
+
+
+# Jan 2020
+
+```{r}
+#df1=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_2019-01-01.csv.gz")
+
+df1 <- read_csv(here::here("output","measures","input_2020-01-01.csv.gz"))
+
+df1=df1%>% select("region","age","sex")
+
+
+
+```
+
+```{r}
+
+table(df1$sex)
+mean(df1$age)
+median(df1$age)
+
+median(df1[df1$region=="East",]$age)
+median(df1[df1$region=="East Midlands",]$age)
+median(df1[df1$region=="London",]$age)
+median(df1[df1$region=="North East",]$age)
+median(df1[df1$region=="North West",]$age)
+median(df1[df1$region=="South East",]$age)
+median(df1[df1$region=="South West",]$age)
+median(df1[df1$region=="West Midlands",]$age)
+median(df1[df1$region=="Yorkshire and The Humber",]$age)
+
+```
+
+
+
+# Jan 2021
+
+```{r}
+#df1=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_2019-01-01.csv.gz")
+
+df1 <- read_csv(here::here("output","measures","input_2021-01-01.csv.gz"))
+
+df1=df1%>% select("region","age","sex")
+
+
+
+```
+
+```{r}
+table(df1$sex)
+mean(df1$age)
+median(df1$age)
+
+median(df1[df1$region=="East",]$age)
+median(df1[df1$region=="East Midlands",]$age)
+median(df1[df1$region=="London",]$age)
+median(df1[df1$region=="North East",]$age)
+median(df1[df1$region=="North West",]$age)
+median(df1[df1$region=="South East",]$age)
+median(df1[df1$region=="South West",]$age)
+median(df1[df1$region=="West Midlands",]$age)
+median(df1[df1$region=="Yorkshire and The Humber",]$age)
+
+```
+
+
