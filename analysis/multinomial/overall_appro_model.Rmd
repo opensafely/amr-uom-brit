@@ -77,6 +77,44 @@ summaryvglm(m1)
 ```{r echo=FALSE}
 attributes(rcs(training$age, Knots.manual))$parms
 ```
+
+## Age RRR 
+```{r echo=FALSE}
+title_1 <- c("outcome", "age", "sex", "ethnicity_6", "region", "charlsonGrp", 
+             "imd", "ab12b4")
+age_1 <- c(1,10,"F","White","East","zero",1,0)
+age_2 <- c(1,20,"F","White","East","zero",1,0)
+age_3 <- c(1,30,"F","White","East","zero",1,0)
+age_4 <- c(1,40,"F","White","East","zero",1,0)
+age_5 <- c(1,50,"F","White","East","zero",1,0)
+age_6 <- c(1,60,"F","White","East","zero",1,0)
+age_7 <- c(1,70,"F","White","East","zero",1,0)
+age_8 <- c(1,80,"F","White","East","zero",1,0)
+
+age_dt <- as.data.frame(rbind(age_1,age_2,age_3,age_4,age_5,age_6,age_7,age_8))
+colnames(age_dt) <- title_1
+
+age_dt$outcome <- as.factor(age_dt$outcome)
+age_dt$ethnicity_6 <- as.factor(age_dt$ethnicity_6)
+age_dt$imd <- as.factor(age_dt$imd)
+age_dt$region <- as.factor(age_dt$region)
+age_dt$charlsonGrp <- as.factor(age_dt$charlsonGrp)
+age_dt$ab12b4 <- as.factor(age_dt$ab12b4)
+age_dt$age <- as.numeric(age_dt$age)
+
+age_LP <- predict(m1, newdata = age_dt)
+
+plp <- exp(age_LP)
+plp <- as.data.frame(plp)
+plp$age <- c(10,20,30,40,50,60,70,80)
+
+plp$RRR2_1 <- plp$`log(mu[,2]/mu[,1])`/plp$`log(mu[,2]/mu[,1])`[plp$age==10]
+plp$RRR3_1 <- plp$`log(mu[,3]/mu[,1])`/plp$`log(mu[,3]/mu[,1])`[plp$age==10]
+
+head(plp,8)
+```
+
+
 ## coefficients 95% CI 
 ```{r echo=FALSE}
 ### coefficients 95% CI ###
