@@ -410,6 +410,47 @@ cbind(aaa,bbb)
   results[n[selection]]
 ```
 
+### ggplot calibration plot
+```{r echo=FALSE}
+
+p <- predict(m1 , newdata = testing,type="response")
+
+  dat.calib.flex.mlr_1 <- as.data.frame(cbind(fitted(fitp)[,1],p[,1]))
+  names(dat.calib.flex.mlr_1) <- c("obs","pred")
+  dat.calib.flex.mlr_1$outcome.cat <- "p1"
+  
+  dat.calib.flex.mlr_2 <- as.data.frame(cbind(fitted(fitp)[,2],p[,2]))
+  names(dat.calib.flex.mlr_2) <- c("obs","pred")
+  dat.calib.flex.mlr_2$outcome.cat <- "p2"
+  
+  dat.calib.flex.mlr_3 <- as.data.frame(cbind(fitted(fitp)[,3],p[,3]))
+  names(dat.calib.flex.mlr_3) <- c("obs","pred")
+  dat.calib.flex.mlr_3$outcome.cat <- "p3"
+  
+  dat.calib.flex.mlr <- rbind(dat.calib.flex.mlr_1,dat.calib.flex.mlr_2,dat.calib.flex.mlr_3)
+  dat.calib.flex.mlr$anal.meth <- "LRTI"
+    
+  ### Now lets make a ggplot
+  plot.calib.flex.mlr <- ggplot(dat.calib.flex.mlr, aes(x = pred, y = obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 0.5, color = "red") +
+    xlab("Predicted") + ylab("Observed") +
+    xlim(0, 1)+ylim(0, 1)+
+    facet_grid(anal.meth ~ outcome.cat)
+  plot.calib.flex.mlr
+
+```
+
+
+```{r echo=FALSE}
+  pred_prob_inappro <- p[,2]
+  quantile(pred_prob_inappro, c(0, .25,.5,.75,1)) 
+```
+
+```{r echo=FALSE}
+  pred_prob_repeat <- p[,3]
+  quantile(pred_prob_repeat, c(0, .25,.5,.75,1)) 
+```
 
 
 ### Discrimination
@@ -422,7 +463,6 @@ df.p <- as.data.frame(p)
 head(df.p)
 data <- (cbind(testing$outcome,df.p))
 ```
-
 
 ```{r echo=FALSE}
 names(data) <- c("outcome","p1","p2","p3")
