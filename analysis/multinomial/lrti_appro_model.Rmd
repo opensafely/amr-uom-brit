@@ -430,6 +430,10 @@ p <- predict(m1 , newdata = testing,type="response")
   dat.calib.flex.mlr <- rbind(dat.calib.flex.mlr_1,dat.calib.flex.mlr_2,dat.calib.flex.mlr_3)
   dat.calib.flex.mlr$anal.meth <- "LRTI"
     
+  ### Randomly pick 1000 sample.
+  set.seed(777)
+  calib.sample <- dat.calib.flex.mlr[sample(nrow(dat.calib.flex.mlr), 1000), ]
+
   ### Now lets make a ggplot
   plot.calib.flex.mlr <- ggplot(dat.calib.flex.mlr, aes(x = pred, y = obs)) +
     geom_abline(intercept = 0, slope = 1) +
@@ -440,6 +444,19 @@ p <- predict(m1 , newdata = testing,type="response")
   plot.calib.flex.mlr
 
 ```
+
+### 1000 sample
+
+```{r echo=FALSE}
+  plot.calib.flex.mlr <- ggplot(calib.sample, aes(x = pred, y = obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 0.5, color = "red") +
+    xlab("Predicted") + ylab("Observed") +
+    xlim(0, 1)+ylim(0, 1)+
+    facet_grid(anal.meth ~ outcome.cat)
+  plot.calib.flex.mlr
+```
+
 
 ### inapproprate risk
 ```{r echo=FALSE}
