@@ -427,7 +427,7 @@ p <- predict(m1 , newdata = testing,type="response")
   dat.calib.flex.mlr_3$outcome.cat <- "p3"
   
   dat.calib.flex.mlr <- rbind(dat.calib.flex.mlr_1,dat.calib.flex.mlr_2,dat.calib.flex.mlr_3)
-  dat.calib.flex.mlr$anal.meth <- "LRTI"
+  dat.calib.flex.mlr$anal.meth <- "Sinusitis"
     
   ### Randomly pick 1000 sample.
   set.seed(777)
