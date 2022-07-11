@@ -2025,14 +2025,15 @@ actions:
 
   describe_cohort_3_var_process: 
     run: r:latest analysis/multinomial/cohort_3_var.R
-    needs: [describe_prepare_var_2019_process,describe_prepare_var_2020_process,
-    describe_prepare_var_2021_process,describe_cleaning_process_2]
+    needs: [describe_cohort_1_rds]
     outputs:
       moderately_sensitive:
         table1: output/repeat_overall_tab.csv
         table2: output/repeat_incident_tab.csv
         table3: output/cohort_2_count.csv
         table4: output/cohort_3_count.csv
+        table5: output/cohort_2_pat_one.csv
+        table6: output/cohort_3_pat_one.csv
 
 
   describe_cohort_1_var_process: 

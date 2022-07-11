@@ -10,45 +10,9 @@ library("finalfit")
 rm(list=ls())
 setwd(here::here("output", "measures"))
 
-DF <- readRDS("cleaned_indication_ab.rds")
-
-# recode
-DF$date <- as.Date(DF$date)
-DF <- DF %>% filter(date <= as.Date("2021-12-31"))
-DF <- DF %>% filter(age > 3)
-DF1 <- DF %>% filter(date <= as.Date("2019-12-31") & date >= as.Date("2019-01-01"))
-DF2 <- DF %>% filter(date <= as.Date("2020-12-31") & date >= as.Date("2020-01-01"))
-DF3 <- DF %>% filter(date <= as.Date("2021-12-31") & date >= as.Date("2021-01-01"))
-
-setwd(here::here("output"))
-df2.1 <- read_csv("prepared_var_2019.csv") %>% select(-c(age,sex))
-df2.2 <- read_csv("prepared_var_2020.csv") %>% select(-c(age,sex))
-df2.3 <- read_csv("prepared_var_2021.csv") %>% select(-c(age,sex))
-
-df1 <- merge(DF1,df2.1,by=c("patient_id"))
-rm(DF1,df2.1)
-df2 <- merge(DF2,df2.2,by=c("patient_id"))
-rm(DF2,df2.2)
-df3 <- merge(DF3,df2.3,by=c("patient_id"))
-rm(DF3,df2.3)
-
-df <- rbind(df1,df2,df3)
-rm(df1,df2,df3)
-
+df <- readRDS("cohort_1.rds")
 
 df <- df %>% filter(!is.na(infection))
-
-df$ethnicity_6 <- as.factor(df$ethnicity_6)
-df$imd <- as.factor(df$imd)
-df$region <- as.factor(df$region)
-df$charlsonGrp <- as.factor(df$charlsonGrp)
-df$ab12b4 <- as.factor(df$ab12b4)
-df <- df %>% dplyr::select(practice,patient_id,incidental,infection,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4,date)
-df <- df %>% filter (df$sex=="M"|df$sex=="F")
-df <- df %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
-                                          age>=16 & age<=44 ~ "16-44",
-                                          age>=45 & age<=64 ~ "45-64",
-                                          age>=65 ~ "65+"))
 
 ### Table 1. Description and descriptive statistics
 # columns for  table
@@ -62,11 +26,24 @@ overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs,n
 write_csv(overall_counts, here::here("output", "cohort_2_count.csv"))
 rm(overall_counts,first_mon, last_mon, num_pats, num_pracs,num_record) 
 
+set.seed(777)
+
+df0_1pat <- df %>% dplyr::group_by(patient_id) %>%
+  dplyr::arrange(date, .group_by=TRUE) %>%
+  sample_n(1)
+
+
 df0 <- df %>% dplyr::select(incidental,infection,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
 
 colsfortab <- colnames(df0)
 df0 %>% summary_factorlist(explanatory = colsfortab) -> t1
 write_csv(t1, here::here("output", "repeat_overall_tab.csv"))
+
+
+df0_1pat <- df0_1pat %>% dplyr::select(age,sex,ethnicity_6,region,charlsonGrp,imd)
+colsfortab0_1pat  <- colnames(df0_1pat)
+df0_1pat %>% summary_factorlist(explanatory = colsfortab0_1pat) -> t0_1
+write_csv(t0_1, here::here("output", "cohort_2_pat_one.csv"))
 
 
 df1 <- df %>% filter(incidental==1) 
@@ -82,6 +59,13 @@ overall_counts <- as.data.frame(cbind(first_mon, last_mon, num_pats, num_pracs,n
 write_csv(overall_counts, here::here("output", "cohort_3_count.csv"))
 rm(overall_counts,first_mon, last_mon, num_pats, num_pracs,num_record) 
 
+set.seed(777)
+
+df1_1pat <- df1 %>% dplyr::group_by(patient_id) %>%
+  dplyr::arrange(date, .group_by=TRUE) %>%
+  sample_n(1)
+
+
 df1 <- df1 %>% dplyr::select(infection,repeat_ab,age,sex,ethnicity_6,region,charlsonGrp,imd,ab12b4)
 
 ### Table 1. Description and descriptive statistics
@@ -89,3 +73,8 @@ df1 <- df1 %>% dplyr::select(infection,repeat_ab,age,sex,ethnicity_6,region,char
 colsfortab <- colnames(df1)
 df1 %>% summary_factorlist(explanatory = colsfortab) -> t2
 write_csv(t2, here::here("output", "repeat_incident_tab.csv"))
+
+df1_1pat <- df1_1pat %>% dplyr::select(age,sex,ethnicity_6,region,charlsonGrp,imd)
+colsfortab1_1pat  <- colnames(df1_1pat)
+df1_1pat %>% summary_factorlist(explanatory = colsfortab1_1pat) -> t1_1
+write_csv(t1_1, here::here("output", "cohort_3_pat_one.csv"))
