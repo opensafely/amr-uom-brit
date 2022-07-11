@@ -457,6 +457,115 @@ p <- predict(m1 , newdata = testing,type="response")
   plot.calib.flex.mlr
 ```
 
+### calibration plot for risk group outcome 1
+```{r echo=FALSE}
+  groups_1 <- cut(dat.calib.flex.mlr_1$pred,breaks=quantile(dat.calib.flex.mlr_1$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_1 <- cbind(dat.calib.flex.mlr_1,groups_1)
+
+  obs <- gpdata_1 %>%
+    group_by(groups_1) %>%
+    summarise(mean.obs = mean(obs, na.rm = TRUE),
+              sd.obs = sd(obs, na.rm = TRUE),
+              n.obs = n()) %>%
+    mutate(se.obs = sd.obs / sqrt(n.obs),
+           lower.ci.obs = mean.obs - qt(1 - (0.05 / 2), n.obs - 1) * se.obs,
+           upper.ci.obs = mean.obs + qt(1 - (0.05 / 2), n.obs - 1) * se.obs)
+  
+  pred <- gpdata_1 %>%
+    group_by(groups_1) %>%
+    summarise(mean.pred = mean(pred, na.rm = TRUE),
+              sd.pred = sd(pred, na.rm = TRUE),
+              n.pred = n()) %>%
+    mutate(se.pred = sd.pred / sqrt(n.pred),
+           lower.ci.pred = mean.pred - qt(1 - (0.05 / 2), n.pred - 1) * se.pred,
+           upper.ci.pred = mean.pred + qt(1 - (0.05 / 2), n.pred - 1) * se.pred)
+  plot.group.1 <- cbind(obs,pred[,-1])
+  
+  
+  plot <- ggplot(plot.group.1, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 0.5, color = "red") +
+    xlab("Predicted") + ylab("Observed") +
+    ylim(0, 1)+
+    geom_errorbar(aes(ymin=lower.ci.obs, 
+                      ymax=upper.ci.obs), width =.005)
+  plot 
+```
+
+
+
+### calibration plot for risk group outcome 2
+```{r echo=FALSE}
+  groups_2 <- cut(dat.calib.flex.mlr_2$pred,breaks=quantile(dat.calib.flex.mlr_2$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_2 <- cbind(dat.calib.flex.mlr_2,groups_2)
+
+  obs <- gpdata_2 %>%
+    group_by(groups_2) %>%
+    summarise(mean.obs = mean(obs, na.rm = TRUE),
+              sd.obs = sd(obs, na.rm = TRUE),
+              n.obs = n()) %>%
+    mutate(se.obs = sd.obs / sqrt(n.obs),
+           lower.ci.obs = mean.obs - qt(1 - (0.05 / 2), n.obs - 1) * se.obs,
+           upper.ci.obs = mean.obs + qt(1 - (0.05 / 2), n.obs - 1) * se.obs)
+  
+  pred <- gpdata_2 %>%
+    group_by(groups_2) %>%
+    summarise(mean.pred = mean(pred, na.rm = TRUE),
+              sd.pred = sd(pred, na.rm = TRUE),
+              n.pred = n()) %>%
+    mutate(se.pred = sd.pred / sqrt(n.pred),
+           lower.ci.pred = mean.pred - qt(1 - (0.05 / 2), n.pred - 1) * se.pred,
+           upper.ci.pred = mean.pred + qt(1 - (0.05 / 2), n.pred - 1) * se.pred)
+  plot.group.2 <- cbind(obs,pred[,-1])
+  
+  
+  plot <- ggplot(plot.group.2, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 0.5, color = "red") +
+    xlab("Predicted") + ylab("Observed") +
+    ylim(0, 1)+
+    geom_errorbar(aes(ymin=lower.ci.obs, 
+                      ymax=upper.ci.obs), width =.005)
+  plot 
+```
+
+
+### calibration plot for risk group outcome 3
+```{r echo=FALSE}
+  groups_3 <- cut(dat.calib.flex.mlr_3$pred,breaks=quantile(dat.calib.flex.mlr_3$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_3 <- cbind(dat.calib.flex.mlr_3,groups_3)
+
+  obs <- gpdata_3 %>%
+    group_by(groups_3) %>%
+    summarise(mean.obs = mean(obs, na.rm = TRUE),
+              sd.obs = sd(obs, na.rm = TRUE),
+              n.obs = n()) %>%
+    mutate(se.obs = sd.obs / sqrt(n.obs),
+           lower.ci.obs = mean.obs - qt(1 - (0.05 / 2), n.obs - 1) * se.obs,
+           upper.ci.obs = mean.obs + qt(1 - (0.05 / 2), n.obs - 1) * se.obs)
+  
+  pred <- gpdata_3 %>%
+    group_by(groups_3) %>%
+    summarise(mean.pred = mean(pred, na.rm = TRUE),
+              sd.pred = sd(pred, na.rm = TRUE),
+              n.pred = n()) %>%
+    mutate(se.pred = sd.pred / sqrt(n.pred),
+           lower.ci.pred = mean.pred - qt(1 - (0.05 / 2), n.pred - 1) * se.pred,
+           upper.ci.pred = mean.pred + qt(1 - (0.05 / 2), n.pred - 1) * se.pred)
+  plot.group.3 <- cbind(obs,pred[,-1])
+  
+  
+  plot <- ggplot(plot.group.3, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 0.5, color = "red") +
+    xlab("Predicted") + ylab("Observed") +
+    ylim(0, 1)+
+    geom_errorbar(aes(ymin=lower.ci.obs, 
+                      ymax=upper.ci.obs), width =.005)
+  plot 
+```
+
+
 
 ### inapproprate risk
 ```{r echo=FALSE}
