@@ -464,15 +464,66 @@ p <- predict(m1 , newdata = testing,type="response")
   calibration_plot(data = dat.calib.flex.mlr_1, obs = "obs", pred = "pred", title = "Calibration plot for p1")
 ```
 
+
+```{r echo=FALSE}
+  groups_1 <- cut(dat.calib.flex.mlr_1$pred,breaks=quantile(dat.calib.flex.mlr_1$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_1 <- cbind(dat.calib.flex.mlr_1,groups_1)
+  gpdata_1 <- gpdata_1 %>% group_by(groups_1) %>% summarise(
+    mean.obs = mean(obs),
+    mean.pred = mean(pred)
+  )
+  
+  
+  plot <- ggplot(gpdata_1, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 1, color = "red") +
+    xlab("Predicted") + ylab("Observed")
+  plot 
+```
+
 ### calibration plot for risk group outcome 2
 ```{r echo=FALSE}
   calibration_plot(data = dat.calib.flex.mlr_2, obs = "obs", pred = "pred", title = "Calibration plot for p2")
 ```
 
+```{r echo=FALSE}
+  groups_2 <- cut(dat.calib.flex.mlr_2$pred,breaks=quantile(dat.calib.flex.mlr_2$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_2 <- cbind(dat.calib.flex.mlr_2,groups_2)
+  gpdata_2<- gpdata_2 %>% group_by(groups_2) %>% summarise(
+    mean.obs = mean(obs),
+    mean.pred = mean(pred)
+  )
+  
+  
+  plot <- ggplot(gpdata_2, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 1, color = "red") +
+    xlab("Predicted") + ylab("Observed")
+  plot 
+```
+
+
 ### calibration plot for risk group outcome 3
 ```{r echo=FALSE}
   calibration_plot(data = dat.calib.flex.mlr_3, obs = "obs", pred = "pred", title = "Calibration plot for p3")
 ```
+
+```{r echo=FALSE}
+  groups_3 <- cut(dat.calib.flex.mlr_3$pred,breaks=quantile(dat.calib.flex.mlr_3$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_3 <- cbind(dat.calib.flex.mlr_3,groups_3)
+  gpdata_3<- gpdata_3 %>% group_by(groups_3) %>% summarise(
+    mean.obs = mean(obs),
+    mean.pred = mean(pred)
+  )
+  
+  
+  plot <- ggplot(gpdata_3, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 1, color = "red") +
+    xlab("Predicted") + ylab("Observed")
+  plot 
+```
+
 
 ### inapproprate risk
 ```{r echo=FALSE}
