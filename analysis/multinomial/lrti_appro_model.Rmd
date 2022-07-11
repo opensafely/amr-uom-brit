@@ -25,6 +25,8 @@ library("finalfit")
 library("here")
 library("rms")
 library("pROC")
+library("predtools")
+library("magrittr")
 
 ```
 
@@ -459,37 +461,17 @@ p <- predict(m1 , newdata = testing,type="response")
 
 ### calibration plot for risk group outcome 1
 ```{r echo=FALSE}
-  groups_1 <- cut(dat.calib.flex.mlr_1$pred,breaks=quantile(dat.calib.flex.mlr_1$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
-  gpdata_1 <- cbind(dat.calib.flex.mlr_1,groups_1)
-  obs <- plyr::ddply(gpdata_1,~groups_1,summarise,mean.obs=mean(obs))
-  exp <- plyr::ddply(gpdata_1,~groups_1,summarise,mean.pred=mean(pred))
-  plot.group.1 <- left_join(obs,exp)
-  plot.group.1$outcome.cat <- "p1"
+  calibration_plot(data = dat.calib.flex.mlr_1, obs = "obs", pred = "pred", title = "Calibration plot for p1")
+```
 
-  groups_2 <- cut(dat.calib.flex.mlr_2$pred,breaks=quantile(dat.calib.flex.mlr_2$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
-  gpdata_2 <- cbind(dat.calib.flex.mlr_2,groups_2)
-  obs <- plyr::ddply(gpdata_1,~groups_2,summarise,mean.obs=mean(obs))
-  exp <- plyr::ddply(gpdata_1,~groups_2,summarise,mean.pred=mean(pred))
-  plot.group.2 <- left_join(obs,exp)
-  plot.group.2$outcome.cat <- "p2"
+### calibration plot for risk group outcome 2
+```{r echo=FALSE}
+  calibration_plot(data = dat.calib.flex.mlr_2, obs = "obs", pred = "pred", title = "Calibration plot for p2")
+```
 
-  groups_3 <- cut(dat.calib.flex.mlr_3$pred,breaks=quantile(dat.calib.flex.mlr_3$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
-  gpdata_3 <- cbind(dat.calib.flex.mlr_3,groups_1)
-  obs <- plyr::ddply(gpdata_3,~groups_3,summarise,mean.obs=mean(obs))
-  exp <- plyr::ddply(gpdata_3,~groups_3,summarise,mean.pred=mean(pred))
-  plot.group.3 <- left_join(obs,exp)
-  plot.group.1$outcome.cat <- "p3"
-
-  plot.group <- rbind(plot.group.1,plot.group.2,plot.group.3)
-  plot.group$anal.meth <- "LRTI"
-
-  plot <- ggplot(plot.group, aes(x = mean.pred, y = mean.obs)) +
-    geom_abline(intercept = 0, slope = 1) +
-    geom_point(size = 1, color = "red") +
-    xlab("Predicted") + ylab("Observed") +
-    facet_grid(anal.meth ~ outcome.cat)
-  plot
-
+### calibration plot for risk group outcome 3
+```{r echo=FALSE}
+  calibration_plot(data = dat.calib.flex.mlr_3, obs = "obs", pred = "pred", title = "Calibration plot for p3")
 ```
 
 ### inapproprate risk
