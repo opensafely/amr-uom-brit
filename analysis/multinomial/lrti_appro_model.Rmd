@@ -537,6 +537,18 @@ p <- predict(m1 , newdata = testing,type="response")
 ```
 
 
+### Discrimination in development cohort
+### polytomous discrimination index  
+```{r echo=FALSE}
+#Estimates of PDI and its components
+training$outcome <- as.numeric(training$outcome)
+p <- predict(m1 , newdata = training,type="response")
+df.p <- as.data.frame(p)
+head(df.p)
+data <- (cbind(training$outcome,df.p))
+```
+
+
 ```{r echo=FALSE}
 names(data) <- c("outcome","p1","p2","p3")
 pdiest<-function(data){
@@ -604,17 +616,6 @@ pdifunction<-function(data,nbs){
 }
 ```
 
-
-### Discrimination Development
-### polytomous discrimination index  
-```{r echo=FALSE}
-#Estimates of PDI and its components
-training$outcome <- as.numeric(training$outcome)
-p <- predict(m1 , newdata = training,type="response")
-df.p <- as.data.frame(p)
-head(df.p)
-data <- (cbind(training$outcome,df.p))
-```
 
 ```{r echo=FALSE}
 pdiest(data)
