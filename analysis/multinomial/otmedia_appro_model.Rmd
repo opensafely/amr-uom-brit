@@ -24,6 +24,8 @@ library("finalfit")
 library("here")
 library("rms")
 library("pROC")
+library("predtools")
+library("magrittr")
 
 ```
 
