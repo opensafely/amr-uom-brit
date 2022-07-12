@@ -456,6 +456,71 @@ p <- predict(m1 , newdata = testing,type="response")
   plot.calib.flex.mlr
 ```
 
+### calibration plot for risk group outcome 1
+```{r echo=FALSE}
+  calibration_plot(data = dat.calib.flex.mlr_1, obs = "obs", pred = "pred", title = "Calibration plot for p1")
+```
+
+
+```{r echo=FALSE}
+  groups_1 <- cut(dat.calib.flex.mlr_1$pred,breaks=quantile(dat.calib.flex.mlr_1$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_1 <- cbind(dat.calib.flex.mlr_1,groups_1)
+  gpdata_1 <- gpdata_1 %>% group_by(groups_1) %>% summarise(
+    mean.obs = mean(obs),
+    mean.pred = mean(pred)
+  )
+  
+  
+  plot <- ggplot(gpdata_1, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 1, color = "red") +
+    xlab("Predicted") + ylab("Observed")
+  plot 
+```
+
+### calibration plot for risk group outcome 2
+```{r echo=FALSE}
+  calibration_plot(data = dat.calib.flex.mlr_2, obs = "obs", pred = "pred", title = "Calibration plot for p2")
+```
+
+```{r echo=FALSE}
+  groups_2 <- cut(dat.calib.flex.mlr_2$pred,breaks=quantile(dat.calib.flex.mlr_2$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_2 <- cbind(dat.calib.flex.mlr_2,groups_2)
+  gpdata_2<- gpdata_2 %>% group_by(groups_2) %>% summarise(
+    mean.obs = mean(obs),
+    mean.pred = mean(pred)
+  )
+  
+  
+  plot <- ggplot(gpdata_2, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 1, color = "red") +
+    xlab("Predicted") + ylab("Observed")
+  plot 
+```
+
+
+### calibration plot for risk group outcome 3
+```{r echo=FALSE}
+  calibration_plot(data = dat.calib.flex.mlr_3, obs = "obs", pred = "pred", title = "Calibration plot for p3")
+```
+
+```{r echo=FALSE}
+  groups_3 <- cut(dat.calib.flex.mlr_3$pred,breaks=quantile(dat.calib.flex.mlr_3$pred, prob = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)),labels=c(1:10),include.lowest=TRUE)
+  gpdata_3 <- cbind(dat.calib.flex.mlr_3,groups_3)
+  gpdata_3<- gpdata_3 %>% group_by(groups_3) %>% summarise(
+    mean.obs = mean(obs),
+    mean.pred = mean(pred)
+  )
+  
+  
+  plot <- ggplot(gpdata_3, aes(x = mean.pred, y = mean.obs)) +
+    geom_abline(intercept = 0, slope = 1) +
+    geom_point(size = 1, color = "red") +
+    xlab("Predicted") + ylab("Observed")
+  plot 
+```
+
 
 ### inapproprate risk
 ```{r echo=FALSE}
@@ -469,16 +534,17 @@ p <- predict(m1 , newdata = testing,type="response")
 ```
 
 
-### Discrimination
+### Discrimination in development cohort
 ### polytomous discrimination index  
 ```{r echo=FALSE}
 #Estimates of PDI and its components
-testing$outcome <- as.numeric(testing$outcome)
-p <- predict(m1 , newdata = testing,type="response")
+training$outcome <- as.numeric(training$outcome)
+p <- predict(m1 , newdata = training,type="response")
 df.p <- as.data.frame(p)
 head(df.p)
-data <- (cbind(testing$outcome,df.p))
+data <- (cbind(training$outcome,df.p))
 ```
+
 
 ```{r echo=FALSE}
 names(data) <- c("outcome","p1","p2","p3")
@@ -547,6 +613,7 @@ pdifunction<-function(data,nbs){
 }
 ```
 
+
 ```{r echo=FALSE}
 pdiest(data)
 ```
@@ -557,52 +624,52 @@ pdifunction(data,5)
 
 
 
-
+### Development cohort
 ###"In one study's opinion, the pairwise approach is superior to the 1-versus-rest approach"
 ###"1-versus-rest approach"
 ###"1 vs rest"
 ```{r echo=FALSE}
-testing <- testing %>% 
+training <- training %>% 
   mutate(reoutcome1 = ifelse(outcome == 1 , 1, 0))
 # Obtain the c statistic / AUC
-c1 <- roc(testing$reoutcome1~df.p$`1`,ci=TRUE)
+c1 <- roc(training$reoutcome1~df.p$`1`,ci=TRUE)
 c1
 ```
 # Plot the ROC curve
 
 ```{r echo=FALSE}
-plot(roc(testing$reoutcome1,df.p$`1`))
+plot(roc(training$reoutcome1,df.p$`1`))
 ```
 
 # "2 vs rest"
 ```{r echo=FALSE}
-testing <- testing %>% 
+training <- training %>% 
   mutate(reoutcome2 = ifelse(outcome == 2 , 1, 0))
 # Obtain the c statistic / AUC
-c1 <- roc(testing$reoutcome2~df.p$`2`,ci=TRUE)
+c1 <- roc(training$reoutcome2~df.p$`2`,ci=TRUE)
 c1
 ```
 
 # Plot the ROC curve
 
 ```{r echo=FALSE}
-plot(roc(testing$reoutcome2,df.p$`2`))
+plot(roc(training$reoutcome2,df.p$`2`))
 ```
 
 # "3 vs rest"
 
 ```{r echo=FALSE}
-testing <- testing %>% 
+training <- training %>% 
   mutate(reoutcome3 = ifelse(outcome == 3 , 1, 0))
 # Obtain the c statistic / AUC
-c1 <- roc(testing$reoutcome3~df.p$`3`,ci=TRUE)
+c1 <- roc(training$reoutcome3~df.p$`3`,ci=TRUE)
 c1
 ```
 
 # Plot the ROC curve
 
 ```{r echo=FALSE}
-plot(roc(testing$reoutcome3,df.p$`3`))
+plot(roc(training$reoutcome3,df.p$`3`))
 ```
 
 
@@ -610,60 +677,60 @@ plot(roc(testing$reoutcome3,df.p$`3`))
 #"1 vs 2"
 
 ```{r echo=FALSE}
-testing_1 <- testing %>% 
+training_1 <- training %>% 
   filter(outcome ==1|outcome==2) %>% 
   mutate(reoutcome = ifelse(outcome == 1 , 1, 0))
 
-order1 <- testing$outcome ==1|testing$outcome==2
+order1 <- training$outcome ==1|training$outcome==2
 df.p$reoutcome1<- df.p$`1`/(df.p$`1`+df.p$`2`)
 df.p1 <- df.p[order1,]
 # Obtain the c statistic / AUC
-c1 <- roc(testing_1$reoutcome~df.p1$reoutcome1,ci=TRUE)
+c1 <- roc(training_1$reoutcome~df.p1$reoutcome1,ci=TRUE)
 c1
 ```
 
 # Plot the ROC curve
 ```{r echo=FALSE}
-plot(roc(testing_1$reoutcome,df.p1$reoutcome1))
+plot(roc(training_1$reoutcome,df.p1$reoutcome1))
 ```
 
 
 #"1 vs 3"
 ```{r echo=FALSE}
-testing_2 <- testing %>% 
+training_2 <- training %>% 
   filter(outcome ==1|outcome==3) %>% 
   mutate(reoutcome = ifelse(outcome == 1 , 1, 0))
-order2 <- testing$outcome ==1|testing$outcome==3
+order2 <- training$outcome ==1|training$outcome==3
 df.p$reoutcome2 <- df.p$`1`/(df.p$`1`+df.p$`3`)
 df.p2 <- df.p[order2,]
 
 # Obtain the c statistic / AUC
-c1 <- roc(testing_2$reoutcome~df.p2$reoutcome2,ci=TRUE)
+c1 <- roc(training_2$reoutcome~df.p2$reoutcome2,ci=TRUE)
 c1
 ```
 
 # Plot the ROC curve
 ```{r echo=FALSE}
-plot(roc(testing_2$reoutcome,df.p2$reoutcome2))
+plot(roc(training_2$reoutcome,df.p2$reoutcome2))
 ```
 
 
 #"2 vs 3"
 ```{r echo=FALSE}
-testing_3 <- testing %>% 
+training_3 <- training %>% 
   filter(outcome ==2|outcome==3) %>% 
   mutate(reoutcome = ifelse(outcome == 3 , 1, 0))
-order3 <- testing$outcome ==2|testing$outcome==3
+order3 <- training$outcome ==2|training$outcome==3
 df.p$reoutcome3 <- df.p$`3`/(df.p$`2`+df.p$`3`)
 df.p3 <- df.p[order3,]
 # Obtain the c statistic / AUC
-c1 <- roc(testing_3$reoutcome~df.p3$reoutcome3,ci=TRUE)
+c1 <- roc(training_3$reoutcome~df.p3$reoutcome3,ci=TRUE)
 c1
 ```
 
 # Plot the ROC curve
 ```{r echo=FALSE}
-plot(roc(testing_3$reoutcome,df.p3$reoutcome3))
+plot(roc(training_3$reoutcome,df.p3$reoutcome3))
 ```
 
   
