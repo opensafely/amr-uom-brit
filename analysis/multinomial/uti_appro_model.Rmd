@@ -11,7 +11,7 @@ knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library("dplyr")
 library("tidyverse")
 library("lubridate")
@@ -29,7 +29,7 @@ library("magrittr")
 
 ```
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 DF <- read_csv(here::here("output","uti_outcome.csv"))
 DF <- DF %>% filter (age>3)
 DF$outcome <- as.factor(DF$outcome)
@@ -57,7 +57,7 @@ DF <- DF %>% filter (!is.na(ab12b4))
 ```
 
 ## model summary
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 # Data Partition 
 set.seed(777)
@@ -74,12 +74,12 @@ m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charl
 summaryvglm(m1)
 ```
 ## Age cut-off value
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 attributes(rcs(training$age, Knots.manual))$parms
 ```
 
 ## Age OR (age = 40 as reference)
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 title_1 <- c("outcome", "age", "sex", "ethnicity_6", "region", "charlsonGrp", 
              "imd", "ab12b4")
 age_1 <- c(1,10,"F","White","East","zero",1,0)
@@ -116,24 +116,24 @@ head(plp,8)
 
 
 ## coefficients 95% CI 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ### coefficients 95% CI ###
 confintvglm(m1,matrix=TRUE)
 ```
 ##relative risk ratio 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ###relative risk ratio ###
 exp(coefficients(m1,matrix=TRUE))
 ```
 
 ##relative risk ratio 95% CI 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ###relative risk ratio 95% CI ###
 exp(confintvglm(m1,matrix=TRUE))
 ```
 
 ## Training dataset summary
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ### Table 1. Description and descriptive statistics for the case studies for each outcome category separately.
 # columns for  table
 colsfortab <- colnames(training)
@@ -141,7 +141,7 @@ training %>% summary_factorlist(explanatory = colsfortab) -> t1
 t1
 ```
 ## Testing dataset summary
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 testing %>% summary_factorlist(explanatory = colsfortab) -> t2
 t2
 ```
@@ -149,7 +149,7 @@ t2
 
 ### Parametric nominal calibration plot for the validation data of the ovarian tumor case study for each outcome category separately ((a)–(c)) and overall (d).
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 outcome=testing$outcome
 k=3
 p <- predict(m1 , newdata = testing,type="response")
@@ -177,7 +177,7 @@ cbind(aaa,bbb)
 ```
 
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
   ###############################################
   # parametric logistic recalibration framework 
   # cf. section 2.2.1.                          
@@ -197,7 +197,7 @@ cbind(aaa,bbb)
 
 
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
   
   fitnp<-vgam(outcome~s(lp1,df=dfr)+s(lp2,df=dfr),family=multinomial(refLevel=r))
   
@@ -229,7 +229,7 @@ cbind(aaa,bbb)
 ```
 
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
   
   # non-parametric calibration plot 
   # cf. section 2.2.2.              
@@ -258,7 +258,7 @@ cbind(aaa,bbb)
 
 
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
   if(isTRUE(plotoverall)){
     
     
@@ -309,7 +309,7 @@ cbind(aaa,bbb)
     par(new=F)}
 ```
 
-```{r echo=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
   ########################################
   # estimation of calibration intercepts 
   # cf. section 2.2.3. and 2.2.4.        
