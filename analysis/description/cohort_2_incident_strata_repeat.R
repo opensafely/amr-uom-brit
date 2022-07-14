@@ -27,14 +27,14 @@ df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
 ### repeat by incident/prevalent (Yes/No)
 
 df.repeat <- df %>% filter(repeat_ab == 1) 
-df.repeat_total <- df.repeat %>% group_by(time,incident) %>% summarise(
+df.repeat_total <- df.repeat %>% group_by(time,incidental) %>% summarise(
   numOutcome = n(),
 )
 
-df.all <-  df %>% group_by(time,incident) %>% summarise(
+df.all <-  df %>% group_by(time,incidental) %>% summarise(
   numEligible = n(),
 )
-df.model <- merge(df.repeat_total,df.all,by=c("time","incident"))
+df.model <- merge(df.repeat_total,df.all,by=c("time","incidental"))
 
 df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
                                                 time>=13 & time<=24 ~ time-12,
@@ -56,13 +56,13 @@ df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
 
 bkg_colour <- "white"
-figure_incident_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(incident), col = factor(incident), fill = factor(incident))) +
+figure_incident_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(incidental), col = factor(incidental), fill = factor(incidental))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
   scale_x_date(date_labels = "%Y", breaks = "1 year") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
-  labs(x = "Date", y = "% of repeat prescription", title = "", colour = "incident", fill = "incident") +
+  labs(x = "Date", y = "% of repeat prescription", title = "", colour = "incidental", fill = "incidental") +
   theme_classic()  +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
