@@ -2317,3 +2317,11 @@ actions:
       moderately_sensitive:
         figure1: output/cohort_1_indication_strata.jpeg
         table1: output/cohort_1_indication_strata_table.csv
+
+  describe_cohort_2_incident_strata_figure_process: 
+    run: r:latest analysis/description/cohort_2_incident_strata_repeat.R
+    needs: [describe_cohort_1_rds]
+    outputs:
+      moderately_sensitive:
+        figure1: output/cohort_2_incident_strata.jpeg
+        table1: output/cohort_2_incident_strata_table.csv
