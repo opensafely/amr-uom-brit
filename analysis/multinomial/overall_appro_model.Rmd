@@ -529,12 +529,12 @@ p <- predict(m1 , newdata = testing,type="response")
 ### inapproprate risk
 ```{r echo=FALSE}
   pred_prob_inappro <- p[,2]
-  quantile(pred_prob_inappro, c(0, .25,.5,.75,1)) 
+  quantile(pred_prob_inappro,c(0,.025,.25,.5,.75,.975,1)) 
 ```
 ### repeat risk
 ```{r echo=FALSE}
   pred_prob_repeat <- p[,3]
-  quantile(pred_prob_repeat, c(0, .25,.5,.75,1)) 
+  quantile(pred_prob_repeat,c(0,.025,.25,.5,.75,.975,1)) 
 ```
 
 
