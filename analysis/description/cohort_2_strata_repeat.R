@@ -11,9 +11,8 @@ rm(list=ls())
 setwd(here::here("output", "measures"))
 
 df <- readRDS("cohort_1.rds")
-
-
-df <- df %>% filter (incidental == 1)
+### filter cohort 2 ###
+df <- df %>% filter(!is.na(infection))
 
 start_covid = as.Date("2020-04-01")
 covid_adjustment_period_from = as.Date("2020-03-01")
@@ -23,7 +22,7 @@ covid_adjustment_period_from = as.Date("2020-03-01")
 df$cal_year <- year(df$date)
 df$cal_mon <- month(df$date)
 df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
-DF <- df
+
 
 ### repeat by age
 
@@ -51,6 +50,7 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
 df.model$value <- round(df.model$value,digits = 3)
+df.model$value <- df.model$value*100
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
 df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
@@ -77,12 +77,12 @@ figure_age_strata
 
 ggsave(
   plot= figure_age_strata,
-  filename="figure_2_age_strata.jpeg", path=here::here("output"),
+  filename="cohort_2_age_strata.jpeg", path=here::here("output"),
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
 
-write_csv(df.model, here::here("output", "figure_2_age_strata_table.csv"))
+write_csv(df.model, here::here("output", "cohort_2_age_strata_table.csv"))
 rm(df.broad_total,df.all,df.model)
 
 ### repeat by sex
@@ -111,6 +111,7 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 
 df.model$value <- round(df.model$value,digits = 3)
+df.model$value <- df.model$value*100
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
 df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
@@ -137,12 +138,12 @@ figure_sex_strata
 
 ggsave(
   plot= figure_sex_strata,
-  filename="figure_2_sex_strata.jpeg", path=here::here("output"),
+  filename="cohort_2_sex_strata.jpeg", path=here::here("output"),
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
 
-write_csv(df.model, here::here("output", "figure_2_sex_strata_table.csv"))
+write_csv(df.model, here::here("output", "cohort_2_sex_strata_table.csv"))
 rm(df.broad_total,df.all,df.model)
 ### Repeat by region
 
@@ -171,6 +172,7 @@ df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 df.model_remove_na <- df.model %>% filter(!is.na(region))
 
 df.model$value <- round(df.model$value,digits = 3)
+df.model$value <- df.model$value*100
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
 df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
 
@@ -197,10 +199,9 @@ figure_region_strata
 
 ggsave(
   plot= figure_region_strata,
-  filename="figure_2_region_strata.jpeg", path=here::here("output"),
+  filename="cohort_2_region_strata.jpeg", path=here::here("output"),
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
 
-write_csv(df.model, here::here("output", "figure_2_region_strata_table.csv"))
-
+write_csv(df.model, here::here("output", "cohort_2_region_strata_table.csv"))
