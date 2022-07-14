@@ -2309,3 +2309,11 @@ actions:
         table2: output/age_sex_ab_check_2019.csv
         table3: output/age_sex_ab_check_2020.csv
         table4: output/age_sex_ab_check_2021.csv
+
+  describe_cohort_1_indication_strata_figure_process: 
+    run: r:latest analysis/description/cohort_1_indication_strata_repeat.R
+    needs: [describe_cohort_1_rds]
+    outputs:
+      moderately_sensitive:
+        figure1: output/cohort_1_indication_strata.jpeg
+        table1: output/cohort_1_indication_strata_table.csv
