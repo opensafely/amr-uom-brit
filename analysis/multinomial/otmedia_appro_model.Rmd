@@ -80,7 +80,20 @@ OR <- m1@coefficients["rcs(age, Knots.manual)age:1"]*rcs1[,1] + m1@coefficients[
 
 plot(rcs1[,1],OR, col = "red")
 ```
+### age plot 2
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+rcs1<- rcs(training$age, Knots.manual)
+OR <- m1@coefficients["rcs(age, Knots.manual)age:1"]*rcs1[,1] + m1@coefficients["rcs(age, Knots.manual)age':1"]*rcs1[,2] + m1@coefficients["rcs(age, Knots.manual)age'':1"]*rcs1[,3] + m1@coefficients["rcs(age, Knots.manual)age''':1"]*rcs1[,4]
 
+plot(rcs1[,1],OR, 
+     las = 1,
+     xlab = "x",
+     ylab = "y",
+     col = "red",
+     xlim = c(min(rcs1[,1]),max(rcs1[,1])),
+     ylim = c(min(OR),max(OR)))
+points(rcs1[,1],OR, pch  = 20, cex = .5)
+```
 
 ## Age cut-off value
 ```{r message=FALSE, warning=FALSE, include=FALSE}
