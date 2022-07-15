@@ -193,7 +193,7 @@ measures = [
             ),
 
     ## Antibiotic Rx rate by TyPE
-    Measure(id="antibiotics_overall_brit_abtype",
+    Measure(id="broad_op_brit_abtype",
             numerator="antibacterial_brit",
             denominator="population",
             group_by=["antibacterial_brit_abtype"]

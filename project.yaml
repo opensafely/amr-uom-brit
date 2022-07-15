@@ -2337,3 +2337,10 @@ actions:
         table1: output/cohort_2_age_strata_table.csv
         table2: output/cohort_2_sex_strata_table.csv
         table3: output/cohort_2_region_strata_table.csv
+
+  describe_TPP_ab_frequency_table: 
+    run: r:latest analysis/xiaomin_ab/TPP_ab_frequency_table.R
+    needs: [generate_measures_broad]
+    outputs:
+      moderately_sensitive:
+        table1: output/TPP_ab_frequency_table.csv
