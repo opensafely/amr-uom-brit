@@ -2344,3 +2344,10 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/TPP_ab_frequency_table.csv
+
+  describe_TPP_broad_percentage: 
+    run: r:latest analysis/xiaomin_ab/TPP_broad_percentage.R
+    needs: [generate_measures_broad]
+    outputs:
+      moderately_sensitive:
+        table1: output/TPP_broad_percentage.jpeg
