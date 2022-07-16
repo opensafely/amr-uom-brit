@@ -34,11 +34,11 @@ df <- read_csv(
 df$cal_year <- year(df$date)
 
 df.all <- df %>% group_by(cal_year) %>% summarise(
-    ab_count = n()
+    ab_count = sum(antibacterial_brit)
 )
 
 df.abtype <- df %>% group_by(cal_year,antibacterial_brit_abtype) %>% summarise(
-    type_count = n()
+    type_count = sum(antibacterial_brit)
 )
 
 df.freq.talbe <- merge(df.abtype,df.all,by = "cal_year")
