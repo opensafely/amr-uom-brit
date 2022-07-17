@@ -73,26 +73,31 @@ Knots.manual <- rcspline.eval(training$age, nk = 5, knots.only = TRUE)
 m1 <- vgam(outcome ~ rcs(age, Knots.manual) + sex + ethnicity_6 + region + charlsonGrp + imd + ab12b4,  family = multinomial(parallel = FALSE, refLevel = 1), data =training)
 summaryvglm(m1)
 ```
-### age plot
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-rcs1<- rcs(seq(10, 90, 0.1), Knots.manual)
-OR <- m1@coefficients["rcs(age, Knots.manual)age:1"]*rcs1[,1] + m1@coefficients["rcs(age, Knots.manual)age':1"]*rcs1[,2] + m1@coefficients["rcs(age, Knots.manual)age'':1"]*rcs1[,3] + m1@coefficients["rcs(age, Knots.manual)age''':1"]*rcs1[,4]
+### age plot model[2]/[1] (from age 10 to 90)
 
-plot(rcs1[,1],OR, col = "red")
-```
-### age plot 2
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-rcs1<- rcs(training$age, Knots.manual)
-OR <- m1@coefficients["rcs(age, Knots.manual)age:1"]*rcs1[,1] + m1@coefficients["rcs(age, Knots.manual)age':1"]*rcs1[,2] + m1@coefficients["rcs(age, Knots.manual)age'':1"]*rcs1[,3] + m1@coefficients["rcs(age, Knots.manual)age''':1"]*rcs1[,4]
+rcs1<- rcs(seq(10, 90, 1), Knots.manual)
+OR1 <- m1@coefficients["rcs(age, Knots.manual)age:1"]*rcs1[,1] + m1@coefficients["rcs(age, Knots.manual)age':1"]*rcs1[,2] + m1@coefficients["rcs(age, Knots.manual)age'':1"]*rcs1[,3] + m1@coefficients["rcs(age, Knots.manual)age''':1"]*rcs1[,4]
+OR2 <- m1@coefficients["rcs(age, Knots.manual)age:2"]*rcs1[,1] + m1@coefficients["rcs(age, Knots.manual)age':2"]*rcs1[,2] + m1@coefficients["rcs(age, Knots.manual)age'':2"]*rcs1[,3] + m1@coefficients["rcs(age, Knots.manual)age''':2"]*rcs1[,4]
 
-plot(rcs1[,1],OR, 
+plot(rcs1[,1],OR1, 
      las = 1,
-     xlab = "x",
-     ylab = "y",
+     xlab = "Age",
+     ylab = "OR",
      col = "red",
      xlim = c(min(rcs1[,1]),max(rcs1[,1])),
-     ylim = c(min(OR),max(OR)))
-points(rcs1[,1],OR, pch  = 20, cex = .5)
+     ylim = c(min(OR1),max(OR1)))
+```
+
+### age plot model[3]/[1] (from age 10 to 90)
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+plot(rcs1[,1],OR2, 
+     las = 1,
+     xlab = "Age",
+     ylab = "OR",
+     col = "red",
+     xlim = c(min(rcs1[,1]),max(rcs1[,1])),
+     ylim = c(min(OR2),max(OR2)))
 ```
 
 ## Age cut-off value
