@@ -199,10 +199,10 @@ measures = [
             group_by=["antibacterial_brit_abtype"]
             ),
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_op_proportion_age_sex",
-            numerator="broad_spect_op",
-            denominator="antibacterial_brit",
-            group_by=["practice",'sex','age_cat']
+    ## Antibiotic Rx rate by TyPE by age
+    Measure(id="broad_op_brit_abtype_age",
+            numerator="antibacterial_brit",
+            denominator="population",
+            group_by=["antibacterial_brit_abtype","age_cat"]
             ),
 ]
