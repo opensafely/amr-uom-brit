@@ -63,7 +63,7 @@ study = StudyDefinition(
     ## all antibacterials from BRIT (dmd codes)
     antibacterial_brit=patients.with_these_medications(
         codes_ab_type_nuro_trim,
-        between=[start_date,end_date],
+        between=["index_date","last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
@@ -73,7 +73,7 @@ study = StudyDefinition(
 
     antibacterial_brit_abtype=patients.with_these_medications(
         codes_ab_type_nuro_trim,
-        between=[start_date, end_date],
+        between=["index_date","last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"FURADANTIN 100MG TABLETS":0.95, "FURADANTIN 25MG/5ML ORAL SUSPENSION":0.05}},
@@ -81,7 +81,13 @@ study = StudyDefinition(
         },
     ),
 
-
+    ### Practice
+    practice=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={"int": {"distribution": "normal",
+                                     "mean": 25, "stddev": 5}, "incidence": 1}
+    ),
 
 
 )

@@ -32,11 +32,11 @@ actions:
           cohort: output/input_sameday_ab.csv.gz
 
   generate_study_population_ab_extraction:
-      run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction --index-date-range "2019-01-01 to 2019-12-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
         --output-format=csv.gz
       outputs:
         highly_sensitive:
-          cohort: output/input_ab_extraction.csv.gz
+          cohort: output/input_ab_extraction_*.csv.gz
 
   generate_study_population_withab:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_withab_cohort 
