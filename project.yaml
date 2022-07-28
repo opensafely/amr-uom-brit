@@ -31,6 +31,13 @@ actions:
         highly_sensitive:
           cohort: output/input_sameday_ab.csv.gz
 
+  generate_study_population_ab_extraction:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_ab_extraction.csv.gz
+
   generate_study_population_withab:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_withab_cohort 
         --output-format=csv.gz
