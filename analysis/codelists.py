@@ -465,8 +465,8 @@ antibiotics_indications= codelist_from_csv(
   category_column="category",
 )
 
-codes_ab_type_Trimethoprim= codelist_from_csv('codelists/user-yayang-codes_ab_type_trimethoprimcsv.csv', system ='snomed',column ='dmd_id')
-codes_ab_type_Nitrofurantoin= codelist_from_csv('codelists/user-yayang-codes_ab_type_nitrofurantoincsv.csv', system ='snomed',column ='dmd_id')
+codes_ab_type_Trimethoprim= codelist_from_csv('codelists/user-yayang-codes_ab_type_trimethoprimcsv.csv', system ='snomed',column ='dmd_id', category_column="dmd_name")
+codes_ab_type_Nitrofurantoin= codelist_from_csv('codelists/user-yayang-codes_ab_type_nitrofurantoincsv.csv', system ='snomed',column ='dmd_id',category_column="dmd_name")
 codes_ab_type_nuro_trim = combine_codelists(codes_ab_type_Trimethoprim,codes_ab_type_Nitrofurantoin)
 
 codes_ab_type_Trimethoprim_op= codelist_from_csv('codelists/user-yayang-trimethoprim_op.csv', system ='snomed',column ='dmd')
