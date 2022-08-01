@@ -74,7 +74,6 @@ Dec_count$mon <- 12
 
 data_plot <- rbind(Jan_count,Feb_count,Mar_count,Apr_count,May_count,Jun_count,Jul_count,Aug_count,Sep_count,Oct_count,Nov_count,Dec_count)
 
-
 write_csv(data_plot, here::here("output", "TPP_ab_month_2019.csv"))
 
 

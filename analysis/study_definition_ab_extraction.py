@@ -81,13 +81,5 @@ study = StudyDefinition(
         },
     ),
 
-    ### Practice
-    practice=patients.registered_practice_as_of(
-        "index_date",
-        returning="pseudo_id",
-        return_expectations={"int": {"distribution": "normal",
-                                     "mean": 25, "stddev": 5}, "incidence": 1}
-    ),
-
 
 )
