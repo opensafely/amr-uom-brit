@@ -75,23 +75,7 @@ Dec_count$mon <- 12
 data_plot <- rbind(Jan_count,Feb_count,Mar_count,Apr_count,May_count,Jun_count,Jul_count,Aug_count,Sep_count,Oct_count,Nov_count,Dec_count)
 
 
-data_plot_Co_TRI <- data_plot %>% filter(antibacterial_brit_abtype==c("CO-TRIMOXAZOLE 160MG/800MG TABLETS","CO-TRIMOXAZOLE 40MG/200MG/5ML ORAL SUSPENSION SUGAR FREE",
-                                                                      "CO-TRIMOXAZOLE 80MG/400MG TABLETS","CO-TRIMOXAZOLE 80MG/400MG/5ML ORAL SUSPENSION",
-                                                                      "CO-TRIMOXAZOLE 80MG/400MG/5ML SOLUTION FOR INFUSION AMPOULES"))
-data_plot_Co_TRI$type <- "Co-Tri"
-data_plot_TRI <- data_plot %>% filter(antibacterial_brit_abtype==c("MONOTRIM 50MG/5ML ORAL SUSPENSION","SEPTRIN FORTE 160MG/800MG TABLETS",
-                                                                      "SEPTRIN PAEDIATRIC 40MG/200MG/5ML ORAL SUSPENSION","TRIMETHOPRIM 100MG TABLETS",
-                                                                      "TRIMETHOPRIM 200MG TABLETS","TRIMETHOPRIM 50MG/5ML ORAL SUSPENSION SUGAR FREE"))
-data_plot_TRI$type <- "Tri"
-data_plot_NIT <- data_plot %>% filter(antibacterial_brit_abtype==c("NITROFURANTOIN 100MG CAPSULES","NITROFURANTOIN 100MG TABLETS",
-                                                                   "NITROFURANTOIN 25MG/5ML ORAL SUSPENSION SUGAR FREE","NITROFURANTOIN 50MG CAPSULES",
-                                                                   "NITROFURANTOIN 50MG TABLETS","GENFURA 100MG TABLETS",
-                                                                   "GENFURA 50MG TABLETS","MACROBID 100MG MODIFIED-RELEASE CAPSULES",
-                                                                   "MACRODANTIN 100MG CAPSULES"))
-data_plot_NIT$type <- "NIT"
-plot <- rbind(data_plot_Co_TRI,data_plot_TRI,data_plot_NIT)
-
-write_csv(plot, here::here("output", "TPP_ab_month_2019.csv"))
+write_csv(data_plot, here::here("output", "TPP_ab_month_2019.csv"))
 
 
 
