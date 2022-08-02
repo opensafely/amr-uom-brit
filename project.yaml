@@ -2373,6 +2373,13 @@ actions:
       moderately_sensitive:
         table1: output/TPP_Trim_Nitro_frequency.csv
 
+  describe_TPP_Trim_Nitro_frequency_condition: 
+    run: r:latest analysis/xiaomin_ab/TPP_ab_frequency_condition.R
+    needs: [generate_study_population_ab_extraction_condition]
+    outputs:
+      moderately_sensitive:
+        table1: output/TPP_Trim_Nitro_frequency_condition.csv
+
 #  describe_TPP_ab_per_mon: 
 #    run: r:latest analysis/xiaomin_ab/TPP_ab_per_mon.R
 #    needs: [generate_study_population_ab_extraction]
