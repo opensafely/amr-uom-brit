@@ -21,7 +21,7 @@ df.abtype <- df %>% group_by(antibacterial_brit_abtype) %>% summarise(
     type_count = sum(antibacterial_brit)
 )
 
-df.abtype $prop <- df.abtype$type_count*100/df.all$ab_count
+df.abtype$prop <- df.abtype$type_count*100/df.all$ab_count
 
 write_csv(df.abtype , here::here("output", "TPP_Trim_Nitro_frequency.csv"))
 
