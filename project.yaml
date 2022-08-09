@@ -45,6 +45,13 @@ actions:
         highly_sensitive:
           cohort: output/input_ab_extraction_condition.csv.gz
 
+  generate_study_population_ab_extraction_new:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction_new 
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_ab_extraction_new.csv.gz
+
   generate_study_population_withab:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_withab_cohort 
         --output-format=csv.gz
@@ -2386,3 +2393,10 @@ actions:
 #    outputs:
 #      moderately_sensitive:
 #        table1: output/TPP_ab_month_2019.csv
+
+  describe_TPP_Trim_Nitro_frequency_new: 
+    run: r:latest analysis/xiaomin_ab/TPP_ab_frequency_new.R
+    needs: [generate_study_population_ab_extraction_new]
+    outputs:
+      moderately_sensitive:
+        table1: output/TPP_Trim_Nitro_frequency_new.csv
