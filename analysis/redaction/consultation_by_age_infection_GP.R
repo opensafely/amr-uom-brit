@@ -454,7 +454,7 @@ df0.sum.yr <- df %>% filter(prevalent==0)%>%
     Q3= quantile(rate, na.rm=TRUE)[4]
     )
 
-df1.sum.yr <- df %>% filter(prevalent==0)%>%
+df1.sum.yr <- df %>% filter(prevalent==1)%>%
   group_by(year,indic)%>%
   summarise(  
     Q1= quantile(rate, na.rm=TRUE)[2],
@@ -466,7 +466,7 @@ df0.sum.yr$prevalent=0
 df1.sum.yr$prevalent=1
 
 DF=rbind(df0.sum.yr,df1.sum.yr)
-
+write.csv(DF,here::here("output","redacted","consultation_GP_rate_yr.csv"))
 
 # #remove counts<=5
 
