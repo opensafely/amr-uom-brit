@@ -689,17 +689,17 @@ ggsave(
  write.csv(df,here::here("output","redacted","consultation_all_GP_check.csv"))
  write.csv(df.sum,here::here("output","redacted","consultation_GP_rate_all.csv"))
  
-#  df$year=format(as.Date(df$date),format="%Y")
-#  df.sum.yr <- df %>% group_by(year,indic) %>%
-#    summarise(
-#      Q1= quantile(rate, na.rm=TRUE)[2],
-#      median= quantile(rate, na.rm=TRUE)[3],
-#      Q3= quantile(rate, na.rm=TRUE)[4])
+  df$year=format(as.Date(df$date),format="%Y")
+  df.sum.yr <- df %>% group_by(year,indic) %>%
+    summarise(
+      Q1= quantile(rate, na.rm=TRUE)[2],
+      median= quantile(rate, na.rm=TRUE)[3],
+      Q3= quantile(rate, na.rm=TRUE)[4])
  
-#  df.sum.yr$prevalent=NA
-#  DF=rbind(DF,df.sum.yr)
+  df.sum.yr$prevalent=NA
+ DF=rbind(DF,df.sum.yr)
  
-#  write.csv(DF,here::here("output","redacted","consultation_GP_rate_yr.csv"))
+  write.csv(DF,here::here("output","redacted","consultation_GP_rate_yr2.csv"))
  
 
 # rm(df,df0,df1)
