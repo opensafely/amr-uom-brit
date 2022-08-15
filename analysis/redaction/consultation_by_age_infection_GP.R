@@ -451,7 +451,8 @@ df0.sum.yr <- df %>% filter(prevalent==0)%>%
   summarise(  
     Q1= quantile(rate, na.rm=TRUE)[2],
     median= quantile(rate, na.rm=TRUE)[3],
-    Q3= quantile(rate, na.rm=TRUE)[4]
+    Q3= quantile(rate, na.rm=TRUE)[4],
+    mean= mean(rate)
     )
 
 df1.sum.yr <- df %>% filter(prevalent==1)%>%
@@ -459,7 +460,8 @@ df1.sum.yr <- df %>% filter(prevalent==1)%>%
   summarise(  
     Q1= quantile(rate, na.rm=TRUE)[2],
     median= quantile(rate, na.rm=TRUE)[3],
-    Q3= quantile(rate, na.rm=TRUE)[4]
+    Q3= quantile(rate, na.rm=TRUE)[4],
+    mean=mean(rate)
 )
 
 df0.sum.yr$prevalent=0
