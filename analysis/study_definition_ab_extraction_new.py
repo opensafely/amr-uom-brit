@@ -52,7 +52,7 @@ study = StudyDefinition(
         """,
 
         has_ab=patients.with_these_medications(
-        codes_ab_type_nuro_trim,
+        codes_ab_type_nuro_trim_op,
         between=[start_date, end_date],
         returning="binary_flag"
         ),
@@ -62,7 +62,7 @@ study = StudyDefinition(
 
 ## all Trim & Nit ABs in 2019 using BRIT (dmd codes)
     ab_trim_nit=patients.with_these_medications(
-        codes_ab_type_nuro_trim,
+        codes_ab_type_nuro_trim_op,
         between=[start_date,end_date],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -74,7 +74,7 @@ study = StudyDefinition(
 
 ## all Trim ABs in 2019 using BRIT (dmd codes)
     ab_trim=patients.with_these_medications(
-        codes_ab_type_Trimethoprim,
+        codes_ab_type_Trimethoprim_op,
         between=[start_date, end_date],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -85,7 +85,7 @@ study = StudyDefinition(
 
 ## all Nitr ABs in 2019 using BRIT (dmd codes)
     ab_nit=patients.with_these_medications(
-        codes_ab_type_Nitrofurantoin,
+        codes_ab_type_Nitrofurantoin_op,
         between=[start_date, end_date],
         returning="number_of_matches_in_period",
         return_expectations={
