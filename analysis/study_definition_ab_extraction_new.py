@@ -72,7 +72,7 @@ study = StudyDefinition(
     ),
 
 
-## all Trim ABs in 2019 using BRIT (dmd codes)
+## all Trim ABs in 2019 using OP
     ab_trim=patients.with_these_medications(
         codes_ab_type_Trimethoprim_op,
         between=[start_date, end_date],
@@ -83,7 +83,7 @@ study = StudyDefinition(
         },
     ),
 
-## all Nitr ABs in 2019 using BRIT (dmd codes)
+## all Nitr ABs in 2019 using OP
     ab_nit=patients.with_these_medications(
         codes_ab_type_Nitrofurantoin_op,
         between=[start_date, end_date],
