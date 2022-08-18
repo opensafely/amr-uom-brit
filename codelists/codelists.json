@@ -39,8 +39,8 @@
     "primis-covid19-vacc-uptake-eth2001.csv": {
       "id": "primis-covid19-vacc-uptake/eth2001/357c1ef8",
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth2001/357c1ef8/",
-      "downloaded_at": "2021-09-28 17:21:55.036689Z",
-      "sha": "36e4eacba898e6ec72da8ff66e8c673bfd9aa8e4"
+      "downloaded_at": "2022-08-18 09:20:39.505450Z",
+      "sha": "2ff9aea91a05f41fe911a885eee50d2494247d58"
     },
     "primis-covid19-vacc-uptake-bmi_stage.csv": {
       "id": "primis-covid19-vacc-uptake/bmi_stage/261252c3",
@@ -353,6 +353,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/broad_spec_op_codelist/46b64804/",
       "downloaded_at": "2022-06-21 16:23:22.905252Z",
       "sha": "c0918b22202e342414ee91a82cff3b715652df0d"
+    },
+    "user-jon_massey-nitrofurantoin-vtm-based-drugs.csv": {
+      "id": "user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8",
+      "url": "https://codelists.opensafely.org/codelist/user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/",
+      "downloaded_at": "2022-08-18 09:20:53.104336Z",
+      "sha": "b35c6447b6456ebf00acbf89c6c53f432500b8c3"
     }
   }
 }

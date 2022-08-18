@@ -83,9 +83,9 @@ study = StudyDefinition(
         },
     ),
 
-## all Nitr ABs in 2019 using OP
+## all Nitr ABs in 2019 using Jon's codelists
     ab_nit=patients.with_these_medications(
-        codes_ab_type_Nitrofurantoin_op,
+        jm_nitrofurantoin,
         between=[start_date, end_date],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -93,7 +93,6 @@ study = StudyDefinition(
             "incidence": 1,
         },
     ),
-
 
 
 )
