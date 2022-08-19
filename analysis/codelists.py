@@ -19,7 +19,7 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 
 ### All antibacterials
 antibacterials_codes = codelist_from_csv(
-    "codelists/opensafely-antibacterials.csv", system="snomed", column="dmd_id"
+    "codelists/opensafely-antibacterials.csv", system="snomed", column="dmd_id", category_column="dmd_name"
 )
 antibacterials_codes_brit = codelist_from_csv(
     "codelists/user-rriefu-antibiotics_dmd.csv", system="snomed", column="dmd_id", category_column="type",

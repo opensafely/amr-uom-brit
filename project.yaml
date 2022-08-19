@@ -52,6 +52,20 @@ actions:
         highly_sensitive:
           cohort: output/input_ab_extraction_new.csv.gz
 
+  generate_study_population_antibiotic_Brit_2019:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotic_Brit_2019
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_antibiotic_Brit_2019.csv.gz          
+
+  generate_study_population_antibiotic_OS_2019:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotic_OS_2019
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_antibiotic_OS_2019.csv.gz   
+
   generate_study_population_withab:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_withab_cohort 
         --output-format=csv.gz
@@ -2401,3 +2415,11 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/TPP_Trim_Nitro_frequency_new.csv
+
+  describe_TPP_ab_Brit_2019_frequency_table: 
+    run: r:latest analysis/xiaomin_ab/TPP_ab_Brit_2019_frequency.R
+    needs: [generate_study_population_antibiotic_Brit_2019]
+    outputs:
+      moderately_sensitive:
+        table1: output/TPP_ab_Brit_2019_frequency.csv
+        table2: output/TPP_ab_Brit_2019_count.csv
