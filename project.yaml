@@ -2517,3 +2517,17 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/TPP_ab_OS_2022_count.csv
+
+#### ab extraction: 2019
+### generate study cohort with the date of each prescriptions
+  generate_study_population_ab_type_2019: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_type_2019 --index-date-range "2019-01-01 to 2019-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_type_2019_*.csv.gz
+
+  generate_study_population_ab_predictor_2019: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_predictor_2019 --index-date-range "2019-01-01 to 2019-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_predictor_2019_*.csv.gz
