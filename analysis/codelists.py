@@ -18,9 +18,12 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 ### The following should be our own codelists in the future
 
 ### All antibacterials
-antibacterials_codes = codelist_from_csv(
-    "codelists/opensafely-antibacterials.csv", system="snomed", column="dmd_id", category_column="dmd_name"
+antibacterials_codes= codelist_from_csv(
+  "codelists/opensafely-antibacterials.csv",
+  system = "snomed",
+  column = "dmd_id"
 )
+
 antibacterials_codes_brit = codelist_from_csv(
     "codelists/user-rriefu-antibiotics_dmd.csv", system="snomed", column="dmd_id", category_column="type",
 )
@@ -487,3 +490,11 @@ jm_nitrofurantoin = codelist_from_csv(
 )
 
 codes_ab_type_nuro_trim_op = combine_codelists(codes_ab_type_Trimethoprim_op,jm_nitrofurantoin)
+
+
+### Broad-spectrum antibiotics
+broad_spectrum_antibiotics_codes = codelist_from_csv(
+  "codelists/opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv",
+  system = "snomed",
+  column = "dmd_id"
+)

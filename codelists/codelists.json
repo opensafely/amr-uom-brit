@@ -1,10 +1,10 @@
 {
   "files": {
     "opensafely-antibacterials.csv": {
-      "id": "opensafely/antibacterials/27089eaa",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/27089eaa/",
-      "downloaded_at": "2021-09-17 13:38:25.538531Z",
-      "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
+      "id": "opensafely/antibacterials/01fff52f",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/01fff52f/",
+      "downloaded_at": "2022-08-22 20:11:12.959326Z",
+      "sha": "56fb312525f167260205d5dfa8dea94e07627429"
     },
     "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
@@ -359,6 +359,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/",
       "downloaded_at": "2022-08-18 09:20:53.104336Z",
       "sha": "b35c6447b6456ebf00acbf89c6c53f432500b8c3"
+    },
+    "opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv": {
+      "id": "opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538/",
+      "downloaded_at": "2022-08-22 20:11:33.676528Z",
+      "sha": "b1118448ed57fb5b2598e642b2235537dd420f1e"
     }
   }
 }

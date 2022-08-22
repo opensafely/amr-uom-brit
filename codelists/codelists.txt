@@ -1,4 +1,4 @@
-opensafely/antibacterials/27089eaa
+opensafely/antibacterials/01fff52f
 opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
 opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
@@ -60,3 +60,4 @@ opensafely/trimethoprim-and-nitrofurantoin/251c9243
 
 user/BillyZhongUOM/broad_spec_op_codelist/46b64804
 user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/
+opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538
