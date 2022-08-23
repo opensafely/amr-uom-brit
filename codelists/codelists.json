@@ -187,10 +187,10 @@
       "sha": "57f75538d842da15d153aea6e41622f562bf0d1e"
     },
     "user-rriefu-antibiotics_dmd.csv": {
-      "id": "user/rriefu/antibiotics_dmd/39845b85",
-      "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/39845b85/",
-      "downloaded_at": "2022-08-23 10:14:17.306221Z",
-      "sha": "421d03975973d074f021bab21f3d7b0a69b21a07"
+      "id": "user/rriefu/antibiotics_dmd/0f7db4fd",
+      "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/0f7db4fd/",
+      "downloaded_at": "2022-08-23 13:39:50.999688Z",
+      "sha": "ad62c6b675f0abc1c152e5dcef4f9dc2c7213b52"
     },
     "user-rriefu-broad-spectrum-antibiotics.csv": {
       "id": "user/rriefu/broad-spectrum-antibiotics/3d9e533e",
