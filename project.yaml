@@ -2531,3 +2531,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_ab_predictor_2019_*.csv.gz
+
+  generate_study_population_antibiotic_Brit_new_2019:
+      run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotic_Brit_new_2019
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_antibiotic_Brit_new_2019.csv.gz  
