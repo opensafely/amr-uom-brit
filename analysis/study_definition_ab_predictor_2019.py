@@ -43,7 +43,7 @@ study = StudyDefinition(
         AND
         registered
         AND
-        (age >=14 AND age <= 110)
+        (age >=4 AND age <= 110)
         AND
         has_follow_up_previous_year
         AND
