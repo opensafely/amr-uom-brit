@@ -48,6 +48,8 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        AND
+        has_ab
         """,
 
         has_died=patients.died_from_any_cause(
@@ -64,6 +66,12 @@ study = StudyDefinition(
             start_date="index_date - 1 year",
             end_date="index_date",
             return_expectations={"incidence": 0.95},
+        ),
+        
+        has_ab=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=[start_date, end_date],
+        returning="binary_flag"
         ),
 
     ),
