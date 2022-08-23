@@ -2538,3 +2538,11 @@ actions:
       outputs:
         highly_sensitive:
           cohort: output/input_antibiotic_Brit_new_2019.csv.gz  
+
+  describe_TPP_ab_Brit_new_2019_frequency_table: 
+    run: r:latest analysis/xiaomin_ab/TPP_ab_Brit_2019_frequency_new.R
+    needs: [generate_study_population_antibiotic_Brit_new_2019]
+    outputs:
+      moderately_sensitive:
+        table1: output/TPP_ab_Brit_new_2019_frequency.csv
+        table2: output/TPP_ab_Brit_new_2019_count.csv
