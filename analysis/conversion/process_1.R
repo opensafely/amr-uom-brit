@@ -1,0 +1,231 @@
+### This script is to transfer patinet/row --> ab_prescription_times/ row
+### every patient has 12 times of ab extraction 
+### variabless include:
+### part 1: patient(id), age, sex, times(1-12), ab_date, ab_indication, ab_type
+### part 2: patient(id), age, sex, times(1-12), ab_date, ab_prevalent, ab_prevalent_infection, ab_repeat, ab_history
+
+library("tidyverse") 
+library('dplyr')
+library('lubridate')
+
+rm(list=ls())
+setwd(here::here("output", "measures"))
+
+### part 1 ### 
+
+# file list
+csvFiles_19 = list.files(pattern="input_ab_type_2019", full.names = FALSE)
+
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+
+# variables
+ab_date_12=paste0("AB_date_",rep(1:12))
+ab_category=paste0("AB_date_",rep(1:12),"_indication")
+ab_type=paste0("Ab_date_",rep(1:12),"_type")
+
+## save 2019 part 1 record
+
+temp <- vector("list", length(csvFiles_19))
+for (i in seq_along(csvFiles_19)){
+  # read in one-month data
+  df <- read_csv((csvFiles_19[i]),
+                 col_types = cols_only(
+                   AB_date_1 = col_date(format = ""),
+                   AB_date_2 = col_date(format = ""),
+                   AB_date_3 = col_date(format = ""),
+                   AB_date_4 = col_date(format = ""),
+                   AB_date_5 = col_date(format = ""),
+                   AB_date_6 = col_date(format = ""),
+                   AB_date_7 = col_date(format = ""),
+                   AB_date_8 = col_date(format = ""),
+                   AB_date_9 = col_date(format = ""),
+                   AB_date_10 = col_date(format = ""),
+                   AB_date_11 = col_date(format = ""),
+                   AB_date_12 = col_date(format = ""),
+                   age = col_integer(),
+                   age_cat = col_character(),
+                   sex = col_character(),
+                   AB_date_1_indication = col_character(),
+                   AB_date_2_indication = col_character(),
+                   AB_date_3_indication = col_character(),
+                   AB_date_4_indication = col_character(),
+                   AB_date_5_indication = col_character(),
+                   AB_date_6_indication = col_character(),
+                   AB_date_7_indication = col_character(),
+                   AB_date_8_indication = col_character(),
+                   AB_date_9_indication = col_character(),
+                   AB_date_10_indication = col_character(),
+                   AB_date_11_indication = col_character(),
+                   AB_date_12_indication = col_character(),
+                   Ab_date_1_type = col_character(),
+                   Ab_date_2_type = col_character(),
+                   Ab_date_3_type = col_character(),
+                   Ab_date_4_type = col_character(),
+                   Ab_date_5_type = col_character(),
+                   Ab_date_6_type = col_character(),
+                   Ab_date_7_type = col_character(),
+                   Ab_date_8_type = col_character(),
+                   Ab_date_9_type = col_character(),
+                   Ab_date_10_type = col_character(),
+                   Ab_date_11_type = col_character(),
+                   Ab_date_12_type = col_character(),
+                   patient_id = col_integer()
+                 ),
+                 na = character())
+  
+  df1=df%>%select(patient_id,age,sex,ab_date_12)
+  colnames(df1)[4:15]=paste0("time",rep(1:12))
+  df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
+  rm(df1)
+  
+  df2=df%>%select(patient_id,age,sex,all_of(ab_type))
+  colnames(df2)[4:15]=paste0("time",rep(1:12))
+  df2.1=df2%>%gather(times,type,paste0("time",rep(1:12)))
+  rm(df2)
+  
+  df3=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df3)[4:15]=paste0("time",rep(1:12))
+  df3.1=df3%>%gather(times,infection,paste0("time",rep(1:12)))
+  rm(df3)
+  
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  
+  DF=DF%>%filter(!is.na(date))
+  DF$Date=date_19[i]
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1)
+  
+}
+
+
+saveRDS(temp, "process_1_part_1.rds")
+rm(temp)
+
+### part 2 ### 
+
+csvFiles_19_2 = list.files(pattern="input_ab_predictor_2019", full.names = FALSE)
+
+# variables
+ab_date_12=paste0("AB_date_",rep(1:12))
+ab_prevalent=paste0("prevalent_AB_date_",rep(1:12))
+ab_prevalent_infection=paste0("prevalent_infection_AB_date_",rep(1:12))
+ab_repeat=paste0("repeat_AB_date_",rep(1:12))
+ab_history=paste0("ab_history_date_",rep(1:12))
+
+## save 2019 part 2 record
+
+temp2 <- vector("list", length(csvFiles_19_2))
+for (i in seq_along(csvFiles_19_2)){
+  # read in one-month data
+  df <- read_csv((csvFiles_19_2[i]),
+                 col_types = cols_only(
+                   AB_date_1 = col_date(format = ""),
+                   AB_date_2 = col_date(format = ""),
+                   AB_date_3 = col_date(format = ""),
+                   AB_date_4 = col_date(format = ""),
+                   AB_date_5 = col_date(format = ""),
+                   AB_date_6 = col_date(format = ""),
+                   AB_date_7 = col_date(format = ""),
+                   AB_date_8 = col_date(format = ""),
+                   AB_date_9 = col_date(format = ""),
+                   AB_date_10 = col_date(format = ""),
+                   AB_date_11 = col_date(format = ""),
+                   AB_date_12 = col_date(format = ""),
+                   age = col_integer(),
+                   age_cat = col_character(),
+                   sex = col_character(),
+                   prevalent_AB_date_1 = col_integer(),
+                   prevalent_AB_date_2 = col_integer(),
+                   prevalent_AB_date_3 = col_integer(),
+                   prevalent_AB_date_4 = col_integer(),
+                   prevalent_AB_date_5 = col_integer(),
+                   prevalent_AB_date_6 = col_integer(),
+                   prevalent_AB_date_7 = col_integer(),
+                   prevalent_AB_date_8 = col_integer(),
+                   prevalent_AB_date_9 = col_integer(),
+                   prevalent_AB_date_10 = col_integer(),
+                   prevalent_AB_date_11 = col_integer(),
+                   prevalent_AB_date_12 = col_integer(),
+                   prevalent_infection_AB_date_1 = col_integer(),
+                   prevalent_infection_AB_date_2 = col_integer(),
+                   prevalent_infection_AB_date_3 = col_integer(),
+                   prevalent_infection_AB_date_4 = col_integer(),
+                   prevalent_infection_AB_date_5 = col_integer(),
+                   prevalent_infection_AB_date_6 = col_integer(),
+                   prevalent_infection_AB_date_7 = col_integer(),
+                   prevalent_infection_AB_date_8 = col_integer(),
+                   prevalent_infection_AB_date_9 = col_integer(),
+                   prevalent_infection_AB_date_10 = col_integer(),
+                   prevalent_infection_AB_date_11 = col_integer(),
+                   prevalent_infection_AB_date_12 = col_integer(),
+                   repeat_AB_date_1 = col_integer(),
+                   repeat_AB_date_2 = col_integer(),
+                   repeat_AB_date_3 = col_integer(),
+                   repeat_AB_date_4 = col_integer(),
+                   repeat_AB_date_5 = col_integer(),
+                   repeat_AB_date_6 = col_integer(),
+                   repeat_AB_date_7 = col_integer(),
+                   repeat_AB_date_8 = col_integer(),
+                   repeat_AB_date_9 = col_integer(),
+                   repeat_AB_date_10 = col_integer(),
+                   repeat_AB_date_11 = col_integer(),
+                   repeat_AB_date_12 = col_integer(),
+                   ab_history_date_1 = col_double(),
+                   ab_history_date_2 = col_double(),
+                   ab_history_date_3 = col_double(),
+                   ab_history_date_4 = col_double(),
+                   ab_history_date_5 = col_double(),
+                   ab_history_date_6 = col_double(),
+                   ab_history_date_7 = col_double(),
+                   ab_history_date_8 = col_double(),
+                   ab_history_date_9 = col_double(),
+                   ab_history_date_10 = col_double(),
+                   ab_history_date_11 = col_double(),
+                   ab_history_date_12 = col_double(),
+                   patient_id = col_integer()
+                 ),
+                 na = character())
+  
+  df1=df%>%select(patient_id,age,sex,ab_date_12)
+  colnames(df1)[4:15]=paste0("time",rep(1:12))
+  df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
+  rm(df1)
+  
+  df2=df%>%select(patient_id,age,sex,all_of(ab_prevalent))
+  colnames(df2)[4:15]=paste0("time",rep(1:12))
+  df2.1=df2%>%gather(times,ab_prevalent,paste0("time",rep(1:12)))
+  rm(df2)
+  
+  df3=df%>%select(patient_id,age,sex,all_of(ab_prevalent_infection))
+  colnames(df3)[4:15]=paste0("time",rep(1:12))
+  df3.1=df3%>%gather(times,ab_prevalent_infection,paste0("time",rep(1:12)))
+  rm(df3)
+  
+  df4=df%>%select(patient_id,age,sex,all_of(ab_repeat))
+  colnames(df4)[4:15]=paste0("time",rep(1:12))
+  df4.1=df4%>%gather(times,ab_repeat,paste0("time",rep(1:12)))
+  rm(df4)
+  
+  df5=df%>%select(patient_id,age,sex,all_of(ab_history))
+  colnames(df5)[4:15]=paste0("time",rep(1:12))
+  df5.1=df5%>%gather(times,ab_history,paste0("time",rep(1:12)))
+  rm(df5)
+  
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df4.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df5.1,by=c("patient_id","age","sex","times"))
+  
+  DF=DF%>%filter(!is.na(date))
+  DF$Date=date_19[i]
+  
+  temp2[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df4.1,df5.1)
+  
+}
+
+saveRDS(temp2, "process_1_part_2.rds")
+rm(temp2)
