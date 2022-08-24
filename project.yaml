@@ -40,6 +40,14 @@ actions:
       moderately_sensitive:
         html: output/check_unmatched.html
   
+
+  extract_variables: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
+    needs: [matching]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome.csv
+
   process_Rmatching: # add variables 
     run: r:latest analysis/process_Rmatching.R
     needs: [extract_variables,matching]
@@ -202,12 +210,7 @@ actions:
   #     moderately_sensitive:
   #       html: output/check_matching2.html
 
-  extract_variables: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
-    needs: [matching]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome.csv
+
 
   # extract_variables2: 
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome2

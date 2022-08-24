@@ -208,7 +208,7 @@ def generate_ab_variables(index_date_variable):
         },
     ),
 
-    ## time difference
+
 
   )
     return ab_variables
