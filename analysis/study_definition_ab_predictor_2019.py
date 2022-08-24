@@ -356,87 +356,196 @@ study = StudyDefinition(
 
     repeat_AB_date_1= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_1 + 1 days", " AB_date_1 + 31 day"],
+        between=["AB_date_1 + 1 day", " AB_date_1 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_2= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_2 + 1 days", " AB_date_2 + 31 day"],
+        between=["AB_date_2 + 1 day", " AB_date_2 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_3= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_3 + 1 days", " AB_date_3 + 31 day"],
+        between=["AB_date_3 + 1 day", " AB_date_3 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_4= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_4 + 1 days", " AB_date_4 + 31 day"],
+        between=["AB_date_4 + 1 day", " AB_date_4 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_5= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_5 + 1 days", " AB_date_5 + 31 day"],
+        between=["AB_date_5 + 1 day", " AB_date_5 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_6= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_6 + 1 days", " AB_date_6 + 31 day"],
+        between=["AB_date_6 + 1 day", " AB_date_6 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_7= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_7 + 1 days", " AB_date_7 + 31 day"],
+        between=["AB_date_7 + 1 day", " AB_date_7 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_8= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_8 + 1 days", " AB_date_8 + 31 day"],
+        between=["AB_date_8 + 1 day", " AB_date_8 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_9= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_9 + 1 days", " AB_date_9 + 31 day"],
+        between=["AB_date_9 + 1 day", " AB_date_9 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_10= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_10 + 1 days", " AB_date_10 + 31 day"],
+        between=["AB_date_10 + 1 day", " AB_date_10 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_11= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_11 + 1 days", " AB_date_11 + 31 day"],
+        between=["AB_date_11 + 1 day", " AB_date_11 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
     repeat_AB_date_12= patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["AB_date_12 + 1 days", " AB_date_12 + 31 day"],
+        between=["AB_date_12 + 1 day", " AB_date_12 + 31 days"],
         returning='binary_flag',
         return_expectations={"incidence": 0.8},
     ),
 
+##### antibiotic prescirbing history in the past 365 days #####
+
+    ab_history_date_1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_1 - 366 days" , "AB_date_1 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_2 - 366 days" , "AB_date_2 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_3 - 366 days" , "AB_date_3 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_4 - 366 days" , "AB_date_4 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_5=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_5 - 366 days" , "AB_date_5 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_6=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_6 - 366 days" , "AB_date_6 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_7=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_7 - 366 days" , "AB_date_7 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_8=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_8 - 366 days" , "AB_date_8 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_9=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_9 - 366 days" , "AB_date_9 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_10=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_10 - 366 days" , "AB_date_10 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_11=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_11 - 366 days" , "AB_date_11 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
+
+    ab_history_date_12=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["AB_date_12 - 366 days" , "AB_date_12 - 1 day"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },),
 
 )
