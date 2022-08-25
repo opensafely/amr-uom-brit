@@ -23,7 +23,7 @@ library('lubridate')
 
 
 # <font color=blue>**variable extraction**</font>
-```{r include=FALSE}
+```{r}
 # extracted dataset after matching
 DF1=read_csv(here::here("output","input_outcome.csv"))
 #DF1=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/input_outcome.csv")
@@ -61,3 +61,14 @@ nrow(df)
 table(df$case)
 ```
 
+
+
+# <font color=blue>**sort variables**</font>
+```{r}
+df<- read_rds(here::here("output","matched_outcome.rds"))
+
+names(df)
+nrow(df)
+
+table(df$case)
+```
