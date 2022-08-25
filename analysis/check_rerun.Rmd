@@ -25,7 +25,7 @@ library('lubridate')
 # <font color=blue>**variable extraction**</font>
 ```{r include=FALSE}
 # extracted dataset after matching
-DF1=read_csv("input_outcome.csv")
+DF1=read_csv(here::here("output","input_outcome.csv"))
 #DF1=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/input_outcome.csv")
 names(DF1)
 nrow(DF1)
@@ -37,7 +37,7 @@ nrow(DF1)
 # <font color=blue>**matched dataset**</font>
 ```{r}
 ## add variables to extracted cohort:"subclass","case", 
-DF2 <- read_rds("matched_patients.rds")
+DF2 <- read_rds(here::here("output","matched_patients.rds"))
 #DF2=readRDS("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 
 names(DF2)
