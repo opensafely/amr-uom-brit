@@ -2562,8 +2562,14 @@ actions:
 
   process_1: 
     run: r:latest analysis/conversion/process_1.R
-    needs: [generate_study_population_ab_type_2019,generate_study_population_ab_predictor_2019]
+    needs: [generate_study_population_ab_type_2019]
     outputs:
        highly_sensitive:
         rds1: output/measures/process_1_part_1.rds
-        rds2: output/measures/process_1_part_2.rds
+
+  process_2: 
+    run: r:latest analysis/conversion/process_2.R
+    needs: [generate_study_population_ab_predictor_2019]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/process_1_part_2.rds
