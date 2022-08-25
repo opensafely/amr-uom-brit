@@ -30,6 +30,7 @@ require("gtsummary")
 # group ab level
 df <- read_rds(here::here("output","matched_outcome.rds"))
 df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
+df$case=as.factor(df$case)
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions)
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
@@ -153,6 +154,8 @@ df=df%>% group_by(case,subclass)%>% sample_n(1)
 
 df$subclass=NULL
 df=df%>% select("case","total_ab","ab_prescriptions","broad_ab_prescriptions" ,"level", "lastABtime","ab_types")
+df$case=as.factor(df$case)
+
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 df$ab_prescriptions=ifelse(df$ab_prescriptions==0,NA,df$ab_prescriptions)
 df$broad_ab_prescriptions=ifelse(df$broad_ab_prescriptions==0,NA,df$broad_ab_prescriptions)
