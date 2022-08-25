@@ -14,10 +14,11 @@ setwd(here::here("output", "measures"))
 ### part 1 ### 
 
 # file list
-csvFiles_21 = list.files(pattern="input_ab_type_2021", full.names = FALSE)
+csvFiles_21 = c("input_ab_type_2021_2021-07-01.csv.gz","input_ab_type_2021_2021-08-01.csv.gz","input_ab_type_2021_2021-09-01.csv.gz",
+                "input_ab_type_2021_2021-10-01.csv.gz","input_ab_type_2021_2021-11-01.csv.gz","input_ab_type_2021_2021-12-01.csv.gz")
 
 # date list
-date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_21= seq(as.Date("2021-07-01"), as.Date("2021-12-01"), "month")
 
 # variables
 ab_date_12=paste0("AB_date_",rep(1:12))
@@ -101,5 +102,5 @@ for (i in seq_along(csvFiles_21)){
 }
 
 
-saveRDS(temp, "process_1_21_part_1.rds")
+saveRDS(temp, "process_1_21_part_2.rds")
 rm(temp)
