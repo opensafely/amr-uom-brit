@@ -211,8 +211,8 @@ df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab) # recode NA to 0
 
 
 ######## confounding variables #########
-## ethnicity
-df$ethnicity=ifelse(df$ethnicity=="","6",df$ethnicity)
+# ethnicity
+df$ethnicity=ifelse(is.na(df$ethnicity),"6",df$ethnicity)
 df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 2  ~ "Mixed",
                                        ethnicity == 3  ~ "South Asian",
