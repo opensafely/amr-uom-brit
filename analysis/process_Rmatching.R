@@ -25,6 +25,8 @@ DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_d
 df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=T)
 rm(DF1,DF2)
 
+df$case=as.factor(df$case)
+
 ######## time ##########
 
 ## wave  
@@ -212,7 +214,7 @@ df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab) # recode NA to 0
 
 ######## confounding variables #########
 # ethnicity
-df$ethnicity=ifelse(is.na(df$ethnicity),"6",df$ethnicity)
+df$ethnicity=ifelse(df$ethnicity!=1|df$ethnicity!=2|df$ethnicity!=3|df$ethnicity!=4|df$ethnicity!=5,"6",df$ethnicity)
 df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 2  ~ "Mixed",
                                        ethnicity == 3  ~ "South Asian",
