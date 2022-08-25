@@ -305,6 +305,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/yayang/nonab/635200b8/",
       "downloaded_at": "2022-03-23 18:13:02.464859Z",
       "sha": "134b96629b2b89127f6a0b0917ecb90f5cf2ed47"
+    },
+    "user-BillyZhongUOM-brit_new_dmd.csv": {
+      "id": "user/BillyZhongUOM/brit_new_dmd/792101bd",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/brit_new_dmd/792101bd/",
+      "downloaded_at": "2022-08-25 09:53:19.030415Z",
+      "sha": "554121b79fc1d6ade21e23be9ddc2e719fe29b68"
     }
   }
 }
