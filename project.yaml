@@ -2676,3 +2676,10 @@ actions:
        moderately_sensitive:
         table1: output/cohort_1_predictor_pat_num_2019.csv
         table2: output/cohort_1_predictor_tab_2019.csv
+
+  generate_study_population_ab_demographic_2019: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_demographic_2019
+    needs: [process_cohort_1_id_extraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_demographic_2019.csv
