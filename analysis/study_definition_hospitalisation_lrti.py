@@ -285,42 +285,7 @@ study = StudyDefinition(
         include_month=True,
     ),
 
-    # ## GP consultations
-    gp_count_1=patients.with_gp_consultations(
-        between=["lrti_date_1 - 12 months", "lrti_date_1"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
 
-    gp_count_2=patients.with_gp_consultations(
-        between=["lrti_date_2 - 12 months", "lrti_date_2"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
-
-    gp_count_3=patients.with_gp_consultations(
-        between=["lrti_date_3 - 12 months", "lrti_date_3"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
-
-    gp_count_4=patients.with_gp_consultations(
-        between=["lrti_date_4 - 12 months", "lrti_date_4"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
 
 
     ### Flu vaccine
@@ -383,49 +348,7 @@ study = StudyDefinition(
     #     },
     # ),
 
-    antibacterial_brit_1=patients.with_these_medications(
-        antibacterials_codes_brit,
-        # between=["index_date", "last_day_of_month(index_date)"],
-        between=["lrti_date_1 - 12 months", "lrti_date_1"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-
-    antibacterial_brit_2=patients.with_these_medications(
-        antibacterials_codes_brit,
-        # between=["index_date", "last_day_of_month(index_date)"],
-        between=["lrti_date_2 - 12 months", "lrti_date_2"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-
-    antibacterial_brit_3=patients.with_these_medications(
-        antibacterials_codes_brit,
-        # between=["index_date", "last_day_of_month(index_date)"],
-        between=["lrti_date_3 - 12 months", "lrti_date_3"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
-
-    antibacterial_brit_4=patients.with_these_medications(
-        antibacterials_codes_brit,
-        # between=["index_date", "last_day_of_month(index_date)"],
-        between=["lrti_date_4 - 12 months", "lrti_date_4"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
+    
 
     # all_meds=patients.with_these_medications(
     #     all_meds_codes,
@@ -1011,6 +934,93 @@ study = StudyDefinition(
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
         return_expectations={"date": {"lrti_date_3": "today()"}},
         ),
+
+
+####################################################################################
+
+# ## count of GP consultations
+    gp_count_1=patients.with_gp_consultations(
+        between=["lrti_date_1 - 12 months", "lrti_date_1"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_2=patients.with_gp_consultations(
+        between=["lrti_date_2 - 12 months", "lrti_date_2"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_3=patients.with_gp_consultations(
+        between=["lrti_date_3 - 12 months", "lrti_date_3"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_4=patients.with_gp_consultations(
+        between=["lrti_date_4 - 12 months", "lrti_date_4"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    # count of abs
+    antibacterial_brit_1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        # between=["index_date", "last_day_of_month(index_date)"],
+        between=["lrti_date_1 - 12 months", "lrti_date_1"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        # between=["index_date", "last_day_of_month(index_date)"],
+        between=["lrti_date_2 - 12 months", "lrti_date_2"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        # between=["index_date", "last_day_of_month(index_date)"],
+        between=["lrti_date_3 - 12 months", "lrti_date_3"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        # between=["index_date", "last_day_of_month(index_date)"],
+        between=["lrti_date_4 - 12 months", "lrti_date_4"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+###################################################################################
 
         ## GP consultations for lrti
     gp_cons_lrti_1=patients.with_gp_consultations(
