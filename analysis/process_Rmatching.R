@@ -41,17 +41,23 @@ df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3",
 df=df%>% select(-"age_cat")
 
            
- df=df%>% mutate(age_cat = case_when(
-            is.na(age) ~ "Unknown",
-            age >= 18 & age < 30 ~  "18-29" ,
-            age >= 30 & age < 40 ~ "30-39" ,
-            age >= 40 & age < 50 ~ "40-49" ,
-            age >= 50 & age < 60 ~  "50-59" ,
-            age >= 60 & age < 70 ~ "60-69",
-            age >= 70 & age < 80 ~ "70-79",
-            age >= 80 & age <= 110 ~ "80+"))
+#  df=df%>% mutate(age_cat = case_when(
+#             is.na(age) ~ "Unknown",
+#             age >= 18 & age < 30 ~  "18-29" ,
+#             age >= 30 & age < 40 ~ "30-39" ,
+#             age >= 40 & age < 50 ~ "40-49" ,
+#             age >= 50 & age < 60 ~  "50-59" ,
+#             age >= 60 & age < 70 ~ "60-69",
+#             age >= 70 & age < 80 ~ "70-79",
+#             age >= 80 & age <= 110 ~ "80+"))
 
-df$age_cat<- as.factor(df$age_cat)
+df0$age_cat=ifelse(df0$age<30,"18-29",
+                   ifelse(df0$age<40,"30-39",
+                          ifelse(df0$age<50,"40-49",
+                                 ifelse(df0$age<60,"50-59",
+                                        ifelse(df0$age<70,"60-69",
+                                               ifelse(df0$age<80,"70-79","80+"))))))
+df0$age_cat <- factor(df0$age_cat, levels=c("18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 ######## antibiotics exposure ##########
