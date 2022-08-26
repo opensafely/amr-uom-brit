@@ -2683,3 +2683,17 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_ab_demographic_2019.csv
+
+  generate_study_population_ab_demographic_2020: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_demographic_2020
+    needs: [process_cohort_1_id_extraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_demographic_2020.csv
+
+  generate_study_population_ab_demographic_2021: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_demographic_2021
+    needs: [process_cohort_1_id_extraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_demographic_2021.csv
