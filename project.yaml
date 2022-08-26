@@ -370,8 +370,6 @@ actions:
       moderately_sensitive:
         html: output/check_exposures_cat_unmatched.html
 
-  
-
   # rerun check
   check_rerun: 
     run: r:latest -e 'rmarkdown::render("analysis/check_rerun.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
