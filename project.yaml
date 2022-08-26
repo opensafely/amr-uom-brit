@@ -2630,9 +2630,13 @@ actions:
 
   process_cohort_1_id_extraction: 
     run: r:latest analysis/conversion/cohort_1_id_extraction.R
-    needs: [process_1_19_1,process_1_19_2]
+    needs: [process_1_19_1,process_1_19_2,process_1_20_1,process_1_20_2,process_1_21_1,process_1_21_2]
     outputs:
        highly_sensitive:
-        talbe1: output/cohort_1_id.csv
+        talbe1: output/cohort_1_id_2019.csv
+        talbe2: output/cohort_1_id_2020.csv
+        talbe3: output/cohort_1_id_2021.csv
        moderately_sensitive:
-        table1: output/cohort_1_pat_num.csv
+        table4: output/cohort_1_pat_num_2019.csv
+        table5: output/cohort_1_pat_num_2020.csv
+        table6: output/cohort_1_pat_num_2021.csv
