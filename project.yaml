@@ -2544,6 +2544,18 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_ab_predictor_2019_*.csv.gz
 
+  generate_study_population_ab_predictor_2020: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_predictor_2020 --index-date-range "2020-01-01 to 2020-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_predictor_2020_*.csv.gz
+
+  generate_study_population_ab_predictor_2021: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_predictor_2021 --index-date-range "2021-01-01 to 2021-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_predictor_2021_*.csv.gz                
+
   generate_study_population_antibiotic_Brit_new_2019:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotic_Brit_new_2019
         --output-format=csv.gz
