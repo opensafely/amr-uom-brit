@@ -2668,3 +2668,11 @@ actions:
         table4: output/cohort_1_pat_num_2019.csv
         table5: output/cohort_1_pat_num_2020.csv
         table6: output/cohort_1_pat_num_2021.csv
+
+  process_cohort_1_predictor_check: 
+    run: r:latest analysis/conversion/cohort_1_predictor_check.R
+    needs: [process_2_19_1,process_2_19_2]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_predictor_pat_num_2019.csv
+        table2: output/cohort_1_predictor_tab_2019.csv
