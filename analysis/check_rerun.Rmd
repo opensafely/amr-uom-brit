@@ -61,6 +61,13 @@ nrow(df)
 table(df$case)
 ```
 
+```{r}
+df=df%>%filter(df$age_cat != "0")
+names(df)
+nrow(df)
+
+table(df$case)
+```
 
 
 # <font color=blue>**sort variables**</font>
