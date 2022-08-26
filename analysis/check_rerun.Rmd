@@ -45,6 +45,27 @@ nrow(DF2)
 
 table(DF2$case)
 
+df=DF2
+
+```{r}
+df=df%>%filter(is.na(patient_id))
+names(df)
+nrow(df)
+table(df$case)
+
+df=DF2
+df=df%>%filter(is.na(case))
+names(df)
+nrow(df)
+table(df$case)
+
+df=DF2
+df=df%>%filter(is.na(patient_index_date))
+names(df)
+nrow(df)
+table(df$case)
+```
+
 ```
 
 # <font color=blue>**merged dataset**</font>
@@ -53,7 +74,7 @@ table(DF2$case)
 DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=T)
+df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"),all.x=T)
 
 names(df)
 nrow(df)
@@ -61,13 +82,7 @@ nrow(df)
 table(df$case)
 ```
 
-```{r}
-df=df%>%filter(df$age_cat != "0")
-names(df)
-nrow(df)
 
-table(df$case)
-```
 
 
 # <font color=blue>**sort variables**</font>
