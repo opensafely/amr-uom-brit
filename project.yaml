@@ -2627,3 +2627,12 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/process_2_19_part_2.rds
+
+  process_cohort_1_id_extraction: 
+    run: r:latest analysis/conversion/cohort_1_id_extraction.R
+    needs: [process_1_19_1,process_1_19_2]
+    outputs:
+       highly_sensitive:
+        talbe1: output/cohort_1_id.csv
+       moderately_sensitive:
+        table1: output/cohort_1_pat_num.csv
