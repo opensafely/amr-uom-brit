@@ -51,13 +51,13 @@ df=df%>% select(-"age_cat")
 #             age >= 70 & age < 80 ~ "70-79",
 #             age >= 80 & age <= 110 ~ "80+"))
 
-df0$age_cat=ifelse(df0$age<30,"18-29",
-                   ifelse(df0$age<40,"30-39",
-                          ifelse(df0$age<50,"40-49",
-                                 ifelse(df0$age<60,"50-59",
-                                        ifelse(df0$age<70,"60-69",
-                                               ifelse(df0$age<80,"70-79","80+"))))))
-df0$age_cat <- factor(df0$age_cat, levels=c("18-29","30-39","40-49","50-59","60-69","70-79","80+"))
+df$age_cat=ifelse(df$age<30,"18-29",
+                   ifelse(df$age<40,"30-39",
+                          ifelse(df$age<50,"40-49",
+                                 ifelse(df$age<60,"50-59",
+                                        ifelse(df$age<70,"60-69",
+                                               ifelse(df$age<80,"70-79","80+"))))))
+df$age_cat <- factor(df$age_cat, levels=c("18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 ######## antibiotics exposure ##########
@@ -233,7 +233,7 @@ df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab) # recode NA to 0
 
 ######## confounding variables #########
 # ethnicity
-df$ethnicity=ifelse(df$ethnicity!=c(1:5),"6",df$ethnicity)
+df$ethnicity=ifelse(df$ethnicity!=c("1:5"),"6",df$ethnicity)
 df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 2  ~ "Mixed",
                                        ethnicity == 3  ~ "South Asian",
