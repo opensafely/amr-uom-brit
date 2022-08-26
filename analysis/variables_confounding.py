@@ -27,7 +27,7 @@ def generate_confounding_variables(index_date_variable):
             "50-59": """ age >= 50 AND age < 60""",
             "60-69": """ age >= 60 AND age < 70""",
             "70-79": """ age >= 70 AND age < 80""",
-            "80+": """ age >= 80 AND age < 110""",
+            "80+": """ age >= 80 AND age <= 110""",
         },
         return_expectations={
             "rate": "universal",

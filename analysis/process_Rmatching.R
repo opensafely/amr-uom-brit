@@ -22,7 +22,7 @@ DF2 <- read_rds("matched_patients.rds")
 DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=T)
+df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"),all.x=T)
 rm(DF1,DF2)
 
 df$case=as.factor(df$case)
@@ -36,9 +36,22 @@ df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3",
 
 ####### matching variables ########
 ## age
-df=df%>%filter(df$age_cat != "0")
-df$age_cat <- factor(df$age_cat, levels=c( "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
+#df=df%>%filter(df$age_cat != "0")
+#df$age_cat <- factor(df$age_cat, levels=c( "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
+df=df%>% select(-"age_cat")
 
+           
+ df=df%>% mutate(age_cat = case_when(
+            is.na(age) ~ "Unknown",
+            age >= 18 & age < 30 ~  "18-29" ,
+            age >= 30 & age < 40 ~ "30-39" ,
+            age >= 40 & age < 50 ~ "40-49" ,
+            age >= 50 & age < 60 ~  "50-59" ,
+            age >= 60 & age < 70 ~ "60-69",
+            age >= 70 & age < 80 ~ "70-79",
+            age >= 80 & age <= 110 ~ "80+"))
+
+df$age_cat<- as.factor(df$age_cat)
 
 
 ######## antibiotics exposure ##########
