@@ -2760,3 +2760,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_ab_type_OS_2021_*.csv.gz 
+
+  process_ab_type_OS: 
+    run: r:latest analysis/conversion/process_ab_type_OS.R
+    needs: [generate_study_population_ab_type_OS_2021]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/process_ab_type_OS.rds
