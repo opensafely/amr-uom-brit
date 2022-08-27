@@ -10,7 +10,7 @@ library("finalfit")
 
 setwd(here::here("output"))
 
-DF <- readRDS("cohort_1_dataframe.rds")
+DF <- readRDS("cohort_1_dataframe_2019.rds")
 
 # generate data table 
 dttable <- select(DF, age, sex, imd, region, charlsonGrp,ethnicity_6) 

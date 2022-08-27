@@ -7,8 +7,8 @@ rm(list=ls())
 setwd(here::here("output", "measures"))
 
 ### import ab_type ###
-df1 <- readRDS("process_1_19_part_1.rds")
-df2 <- readRDS("process_1_19_part_2.rds")
+df1 <- readRDS("process_1_21_part_1.rds")
+df2 <- readRDS("process_1_21_part_2.rds")
 df1 <- bind_rows(df1)
 df2 <- bind_rows(df2)
 DF <- rbind(df1,df2)
@@ -36,8 +36,8 @@ DF$indication <- ifelse(is.na(DF$infection),0,1)
 
 ### import ab_predictor ###
 
-df1 <- readRDS("process_2_19_part_1.rds")
-df2 <- readRDS("process_2_19_part_2.rds")
+df1 <- readRDS("process_2_21_part_1.rds")
+df2 <- readRDS("process_2_21_part_2.rds")
 df1 <- bind_rows(df1)
 df2 <- bind_rows(df2)
 DF2 <- rbind(df1,df2)
@@ -52,7 +52,7 @@ rm(DF2)
 
 setwd(here::here("output"))
 
-df_input <- read_csv("input_ab_demographic_2019.csv",
+df_input <- read_csv("input_ab_demographic_2021.csv",
                col_types = cols_only(
                  patient_id = col_integer(),
                  patient_index_date = col_date(format = ""),
@@ -154,4 +154,4 @@ DF <- merge(DF,df,by="patient_id")
 DF <- DF %>% filter(!is.na(region), .keep_all= TRUE)
 DF <- DF %>% filter(!imd == "0", .keep_all= TRUE)
 
-saveRDS(DF, "cohort_1_dataframe_2019.rds")
+saveRDS(DF, "cohort_1_dataframe_2021.rds")
