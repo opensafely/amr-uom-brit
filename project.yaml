@@ -2747,3 +2747,10 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/cohort_1_baseline_table_2021.csv
+
+  process_cohort_1_type_check: 
+    run: r:latest analysis/conversion/cohort_1_type_check.R
+    needs: [process_1_19_1,process_1_19_2]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_type_check.csv
