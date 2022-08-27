@@ -2705,6 +2705,13 @@ actions:
        highly_sensitive:
         rds1: output/cohort_1_dataframe_2019.rds
 
+  process_cohort_1_combine_2020: 
+    run: r:latest analysis/conversion/cohort_1_combine_2020.R
+    needs: [process_1_20_1,process_1_20_2,process_2_20_1,process_2_20_2,generate_study_population_ab_demographic_2020]
+    outputs:
+       highly_sensitive:
+        rds1: output/cohort_1_dataframe_2020.rds
+
   process_cohort_1_combine_2021: 
     run: r:latest analysis/conversion/cohort_1_combine_2021.R
     needs: [process_1_21_1,process_1_21_2,process_2_21_1,process_2_21_2,generate_study_population_ab_demographic_2021]
@@ -2718,6 +2725,13 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/cohort_1_baseline_table_2019.csv
+
+  process_cohort_1_baseline_table_2020: 
+    run: r:latest analysis/descriptive/cohort_1_baseline_table_2020.R
+    needs: [process_cohort_1_combine_2020]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_baseline_table_2020.csv
 
   process_cohort_1_baseline_table_2021: 
     run: r:latest analysis/descriptive/cohort_1_baseline_table_2021.R
