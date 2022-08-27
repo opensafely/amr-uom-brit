@@ -1,4 +1,4 @@
-####   This script is to extract the id in cohort 1 in 2019 ####
+
 
 library("dplyr")
 library("tidyverse")
