@@ -2754,3 +2754,9 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/cohort_1_type_check.csv
+
+  generate_study_population_ab_type_OS_2021: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_type_OS_2021 --index-date-range "2021-01-01 to 2021-03-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_type_OS_2021_*.csv.gz 

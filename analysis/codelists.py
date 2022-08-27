@@ -29,6 +29,9 @@ antibacterials_codes_brit = codelist_from_csv(
     "codelists/user-BillyZhongUOM-brit_new_dmd.csv", system="snomed", column="dmd_id", category_column="type",
 )
 
+os_dmd_antibiotics = codelist_from_csv(
+    "codelists/user-rriefu-antibiotics_dmd.csv", system="snomed", column="dmd_id", category_column="type",
+)
 
 ### broad antibacterials
 broad_spectrum_antibiotics_codes = codelist_from_csv(
