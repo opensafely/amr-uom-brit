@@ -133,20 +133,25 @@ df_input$imd <- ifelse(is.na(df_input$imd),"0",df_input$imd)
 df_input$imd <- as.factor(df_input$imd)
 
 ## ethnicity
-df_input$ethnicity=ifelse(is.na(df_input$ethnicity),"6",df_input$ethnicity)
+df_input$ethnicity=ifelse(is.na(df_input$ethnicity),"0",df_input$ethnicity)
 df_input <- df_input %>% 
   mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                  ethnicity == 2 ~ "Mixed",
                                  ethnicity == 3 ~ "Asian or Asian British",
                                  ethnicity == 4 ~ "Black or Black British",
                                  ethnicity == 5 ~ "Other Ethnic Groups",
-                                 ethnicity == 6 ~ "Unknown"))
+                                 ethnicity == 0 ~ "Unknown"))
 df_input$ethnicity_6 <- as.factor(df_input$ethnicity_6)
 
+## region: replace "" with NA
+df_input$region[df_input$region == ""] <- NA
 
 ## select variables for cohort 1
 df <- select(df_input,patient_id,ethnicity,imd,region,charlsonGrp,ethnicity_6,practice) 
-
 DF <- merge(DF,df,by="patient_id")
+
+## exclude the record with missing region & imd
+DF <- DF %>% filter(!is.na(region), .keep_all= TRUE)
+DF <- DF %>% filter(!imd == "0", .keep_all= TRUE)
 
 saveRDS(DF, "cohort_1_dataframe.rds")
