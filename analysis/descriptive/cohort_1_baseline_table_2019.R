@@ -13,7 +13,7 @@ setwd(here::here("output"))
 DF <- readRDS("cohort_1_dataframe.rds")
 
 # generate data table 
-dttable <- select(DF, age, sex, imd, region, charlsonGrp,ethnicity,ethnicity_6) 
+dttable <- select(DF, age, sex, imd, region, charlsonGrp,ethnicity_6) 
 
 
 dttable <- dttable %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
@@ -23,7 +23,7 @@ dttable <- dttable %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
 
 dttable$ethnicity <- as.factor(dttable$ethnicity)                                                     
 
-dttable <- select(dttable, age_group, sex, imd ,region, charlsonGrp, ethnicity, ethnicity_6) 
+dttable <- select(dttable, age_group, sex, imd ,region, charlsonGrp, ethnicity_6) 
 
 # columns for baseline table
 colsfortab <- colnames(dttable)
