@@ -2718,3 +2718,10 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/cohort_1_baseline_table_2019.csv
+
+  process_cohort_1_baseline_table_2021: 
+    run: r:latest analysis/descriptive/cohort_1_baseline_table_2021.R
+    needs: [process_cohort_1_combine_2021]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_baseline_table_2021.csv
