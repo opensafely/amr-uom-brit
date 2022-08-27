@@ -21,7 +21,7 @@ dttable <- dttable %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
                                           age>=45 & age<=64 ~ "45-64",
                                           age>=65 ~ "65+"))                 
 
-dttable <- select(dttable, age_group, sex, imd ,region, charlsonGrp, ethnicity_6) 
+dttable <- select(dttable, age_group, sex, imd ,region, charlsonGrp, ethnicity, ethnicity_6) 
 
 # columns for baseline table
 colsfortab <- colnames(dttable)

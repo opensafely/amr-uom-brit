@@ -136,16 +136,16 @@ df_input$imd <- as.factor(df_input$imd)
 df_input$ethnicity=ifelse(is.na(df_input$ethnicity),"6",df_input$ethnicity)
 df_input <- df_input %>% 
   mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
-                                 ethnicity == 2  ~ "Mixed",
-                                 ethnicity == 3  ~ "Asian or Asian British",
-                                 ethnicity == 4  ~ "Black or Black British",
-                                 ethnicity == 5  ~ "Other Ethnic Groups",
-                                 ethnicity == 6   ~ "Unknown"))
+                                 ethnicity == 2 ~ "Mixed",
+                                 ethnicity == 3 ~ "Asian or Asian British",
+                                 ethnicity == 4 ~ "Black or Black British",
+                                 ethnicity == 5 ~ "Other Ethnic Groups",
+                                 ethnicity == 6 ~ "Unknown"))
 df_input$ethnicity_6 <- as.factor(df_input$ethnicity_6)
 
 
 ## select variables for cohort 1
-df <- select(df_input,patient_id,imd,region,charlsonGrp,ethnicity_6,practice) 
+df <- select(df_input,patient_id,ethnicity,imd,region,charlsonGrp,ethnicity_6,practice) 
 
 DF <- merge(DF,df,by="patient_id")
 
