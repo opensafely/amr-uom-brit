@@ -2724,7 +2724,15 @@ actions:
     needs: [process_cohort_1_combine_2019]
     outputs:
        moderately_sensitive:
-        table1: output/cohort_1_baseline_table_2019.csv
+        table1: output/cohort_1_2019_overallcount.csv
+        table2: output/cohort_1_baseline_table_2019.csv
+
+  process_cohort_1_baseline_table_2019_pat_one: 
+    run: r:latest analysis/descriptive/cohort_1_baseline_table_2019_pat_one.R
+    needs: [process_cohort_1_combine_2019]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_baseline_2019_pat_one.csv
 
   process_cohort_1_baseline_table_2020: 
     run: r:latest analysis/descriptive/cohort_1_baseline_table_2020.R
