@@ -2704,3 +2704,10 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/cohort_1_dataframe.rds
+
+  process_cohort_1_baseline_table_2019: 
+    run: r:latest analysis/descriptive/cohort_1_baseline_table_2019.R
+    needs: [process_cohort_1_combine_2019]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_baseline_table_2019.csv
