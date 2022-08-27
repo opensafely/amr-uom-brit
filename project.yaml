@@ -2767,3 +2767,10 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/process_ab_type_OS.rds
+
+  process_ab_type_OS_check: 
+    run: r:latest analysis/conversion/ab_type_OS_check.R
+    needs: [process_ab_type_OS]
+    outputs:
+       moderately_sensitive:
+        table1: output/ab_type_OS_check.csv
