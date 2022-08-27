@@ -19,7 +19,9 @@ dttable <- select(DF, age, sex, imd, region, charlsonGrp,ethnicity,ethnicity_6)
 dttable <- dttable %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
                                           age>=16 & age<=44 ~ "16-44",
                                           age>=45 & age<=64 ~ "45-64",
-                                          age>=65 ~ "65+"))                 
+                                          age>=65 ~ "65+"))  
+
+dttable$ethnicity <- as.factor(dttable$ethnicity)                                                     
 
 dttable <- select(dttable, age_group, sex, imd ,region, charlsonGrp, ethnicity, ethnicity_6) 
 
