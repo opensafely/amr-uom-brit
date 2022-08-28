@@ -25,9 +25,6 @@ DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_d
 df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=F)
 rm(DF1,DF2)
 
-df=df%>%group_by(subclass)%>%mutate(case_filter= sum(case))
-df=df%>%filter(case!= 0)
-df=df%>%ungroup(subclass)
 
 ######## time ##########
 
@@ -216,7 +213,7 @@ df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab) # recode NA to 0
 
 ######## confounding variables #########
 ## ethnicity
-df$ethnicity=ifelse(is.na(df$ethnicity),"6",df$ethnicity)
+#df$ethnicity=ifelse(is.na(df$ethnicity),"6",df$ethnicity)
 df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 2  ~ "Mixed",
                                        ethnicity == 3  ~ "South Asian",
