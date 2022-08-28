@@ -310,26 +310,7 @@ def generate_confounding_variables(index_date_variable):
         """,
     ),
 
-     ## flu vaccine as a read code 
-    flu_vaccine_clinical=patients.with_these_clinical_events(
-        flu_clinical_given_codes,
-        ignore_days_where_these_codes_occur=flu_clinical_not_given_codes,
-        between=[f'{index_date_variable}- 12 months', f'{index_date_variable}'],  
-        returning="binary_flag",
-        return_first_date_in_period=True,
-        include_month=True,
-        return_expectations={
-            "date": {"earliest": "index_date - 6 months", "latest": "index_date"}
-        },
-    ),
-    ## flu vaccine any of the above 
-    flu_vaccine=patients.satisfying(
-        """
-        flu_vaccine_tpp OR
-        flu_vaccine_med OR
-        flu_vaccine_clinical
-        """,
-    ),
+
 
     ### First COVID vaccination medication code (any)
     covrx1_dat=patients.with_tpp_vaccination_record(
