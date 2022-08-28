@@ -48,8 +48,6 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
-        AND
-        has_ab
         """,
 
         has_died=patients.died_from_any_cause(
@@ -67,13 +65,6 @@ study = StudyDefinition(
             end_date="index_date",
             return_expectations={"incidence": 0.95},
         ),
-        
-        has_ab=patients.with_these_medications(
-        os_dmd_antibiotics,
-        between=[start_date, end_date],
-        returning="binary_flag"
-        ),
-
     ),
 
     ########## patient demographics to group_by for measures:
