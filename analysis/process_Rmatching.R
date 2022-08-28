@@ -25,7 +25,9 @@ DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_d
 df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"),all=F)
 rm(DF1,DF2)
 
-df$case=as.factor(df$case)
+df=df%>%group_by(subclass)%>%mutate(keep=sum(as.numeric(case)))
+df=df%>%filter(keep==1)
+df=df%>%ungroup(subclass)
 
 ######## time ##########
 
