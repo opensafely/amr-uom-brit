@@ -22,7 +22,7 @@ DF2 <- read_rds("matched_patients.rds")
 DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=F)
+df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"))
 rm(DF1,DF2)
 
 
