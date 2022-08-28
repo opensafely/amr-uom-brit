@@ -25,6 +25,10 @@ DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_d
 df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=F)
 rm(DF1,DF2)
 
+df=df%>%group_by(subclass)%>%mutate(case_filter= sum(case))
+df=df%>%filter(case!= 0)
+df=df%>%ungroup(subclass)
+
 ######## time ##########
 
 ## wave  
