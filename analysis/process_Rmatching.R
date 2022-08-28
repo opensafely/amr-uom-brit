@@ -34,9 +34,15 @@ df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3",
 
 ####### matching variables ########
 ## age
-df=df%>%filter(df$age_cat != "0")
-df$age_cat <- factor(df$age_cat, levels=c( "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
+df=df%>% select(-"age_cat")
 
+df$age_cat=ifelse(df$age<30,"18-29",
+                   ifelse(df$age<40,"30-39",
+                          ifelse(df$age<50,"40-49",
+                                 ifelse(df$age<60,"50-59",
+                                        ifelse(df$age<70,"60-69",
+                                               ifelse(df$age<80,"70-79","80+"))))))
+df$age_cat <- factor(df$age_cat, levels=c("18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 
 
 ######## antibiotics exposure ##########
