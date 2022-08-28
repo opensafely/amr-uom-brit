@@ -22,7 +22,7 @@ DF2 <- read_rds("matched_patients.rds")
 DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=T)
+df=merge(DF1,DF2,by=c("patient_id","sex","stp","patient_index_date"),all=F)
 rm(DF1,DF2)
 
 ######## time ##########
@@ -218,7 +218,7 @@ df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 3  ~ "South Asian",
                                        ethnicity == 4  ~ "Black",
                                        ethnicity == 5  ~ "Other",
-                                       ethnicity == 6   ~ "Unknown"))
+                                       ethnicity == 0   ~ "Unknown"))
 df$ethnicity_6=as.factor(df$ethnicity_6)
 df$ethnicity_6 <- factor(df$ethnicity_6, levels=c("White", "South Asian","Black","Mixed","Other","Unknown"))
 
