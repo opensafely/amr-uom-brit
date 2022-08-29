@@ -2782,6 +2782,13 @@ actions:
       moderately_sensitive:
         html: output/ab_type_check.html
 
+  check_date:
+    run: r:latest -e 'rmarkdown::render("analysis/conversion/check_date.Rmd", output_dir = "output")'
+    needs: [generate_study_population_ab_type_OS_2021]
+    outputs:
+      moderately_sensitive:
+        html: output/check_date.html
+
 
   generate_study_population_ab_type_OS_new_2021: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_type_OS_new_2021 --index-date-range "2021-01-01 to 2021-01-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
