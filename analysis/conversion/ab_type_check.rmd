@@ -28,28 +28,54 @@ df = read.csv(here::here("output","measures","input_ab_type_2019_2019-01-01.csv.
 #df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_2019_2019-01-01.csv.gz")
 
 names(df)
+```
 
-# ab date
+# ab date ==""
 
-
+```{r message=FALSE}
 for (i in 1:12){
 print(sum(df[,i]==""))
 }
 
-sum(is.na(df[,1]))
+```
+
+# is.na (ab date)
+```{r message=FALSE}
+for (i in 1:12){
+print(sum(is.na(df[,i])))}
 
 
-# AB_date_indication
+```
+
+# AB_date_indication ==""
+```{r message=FALSE}
+
 for (i in 16:27){
 print(sum(df[,i]==""))
 }
+```
+
+# is.na (AB_date_indication)
+```{r message=FALSE}
+for (i in  16:27){
+print(sum(is.na(df[,i])))}
 
 
-# AB_date_type
+```
+
+
+# AB_date_type=="
+```{r message=FALSE}
 for (i in 28:39){
 print(sum(df[,i]==""))
 }
 ```
 
+# is.na (AB_date_type)
+```{r message=FALSE}
+for (i in  28:39){
+print(sum(is.na(df[,i])))}
 
+
+```
 
