@@ -44,21 +44,21 @@ length(unique(as.factor(df$patient_id)))
 # ab date ==""
 
 ```{r }
-for (i in 1:12){
+for (i in 6:17){
 print(sum(df[,i]==""))
 }
 
 
-table(as.Date(df[,1],origin="1960-01-01"))
-table(as.Date(df[,12],origin="1960-01-01"))
+table(as.Date(df[,6],origin="1960-01-01"))
+table(as.Date(df[,17],origin="1960-01-01"))
 
-sum(df[,5]==""&df[,6]!="")
+sum(df[,6]==""&df[,7]!="")
 
 ```
 
 # is.na (ab date)
 ```{r}
-for (i in 1:12){
+for (i in 6:17){
 print(sum(is.na(df[,i])))}
 
 
@@ -67,18 +67,18 @@ print(sum(is.na(df[,i])))}
 # AB_date_indication ==""
 ```{r }
 
-for (i in 16:27){
+for (i in 18:29){
 print(sum(df[,i]==""))
 }
 
 
-table(df[,16])
-table(df[,19])
+table(df[,18])
+table(df[,29])
 ```
 
 # is.na (AB_date_indication)
 ```{r }
-for (i in  16:27){
+for (i in  18:29){
 print(sum(is.na(df[,i])))}
 
 
@@ -87,18 +87,18 @@ print(sum(is.na(df[,i])))}
 
 # AB_date_type=="
 ```{r }
-for (i in 28:39){
+for (i in 30:41){
 print(sum(df[,i]==""))
 }
 
 
-table(df[,28])
-table(df[,31])
+table(df[,30])
+table(df[,41])
 ```
 
 # is.na (AB_date_type)
 ```{r }
-for (i in  28:39){
+for (i in  30:41){
 print(sum(is.na(df[,i])))}
 
 
