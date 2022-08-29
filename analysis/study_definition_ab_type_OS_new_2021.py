@@ -263,152 +263,159 @@ study = StudyDefinition(
         },           
     ),
 
-##### indication fit on AB date 1-12
+# ##### indication fit on AB date 1-12
 
-    AB_date_1_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_1_date", "AB_1_date"],
-        return_expectations={
-           "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_2_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_2_date", "AB_2_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_3_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_3_date", "AB_3_date"],
-        return_expectations={
-           "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_4_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_4_date", "AB_4_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_5_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_5_date", "AB_5_date"], 
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_6_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_6_date", "AB_6_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_7_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_7_date", "AB_7_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_8_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_8_date", "AB_8_date"],
-        return_expectations={
-           "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_9_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_9_date", "AB_9_date"], 
-        return_expectations={
-           "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_10_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_10_date", "AB_10_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_11_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_11_date", "AB_11_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_12_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_12_date", "AB_12_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
+#     AB_date_1_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_1_date", "AB_1_date"],
+#         return_expectations={
+#            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+#     AB_date_2_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_2_date", "AB_2_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+#     AB_date_3_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_3_date", "AB_3_date"],
+#         return_expectations={
+#            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+#     AB_date_4_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_4_date", "AB_4_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+#     AB_date_5_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_5_date", "AB_5_date"], 
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+
+#     AB_date_6_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_6_date", "AB_6_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+
+#     AB_date_7_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_7_date", "AB_7_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+
+#     AB_date_8_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_8_date", "AB_8_date"],
+#         return_expectations={
+#            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+
+#     AB_date_9_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_9_date", "AB_9_date"], 
+#         return_expectations={
+#            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+
+#     AB_date_10_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_10_date", "AB_10_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+
+#     AB_date_11_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",      
+#         between=["AB_11_date", "AB_11_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
+            
+#     AB_date_12_indication=patients.with_these_clinical_events(
+#         antibiotics_indications,
+#         find_first_match_in_period = True,
+#         returning="category",
+#         between=["AB_12_date", "AB_12_date"],
+#         return_expectations={
+#             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
+#             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
+#             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
+#             "urti":0.1, "uti":0.1,}},
+#             "incidence": 0.8,},
+#             ),
 
 #### ab type
 
