@@ -107,45 +107,6 @@ study = StudyDefinition(
         },    
     ),
 
-    AB_2=patients.with_these_medications(
-        antibacterials_codes_brit,
-        find_first_match_in_period=True,
-        include_date_of_match = True,
-        between=["AB_1_date + 1 day ", "last_day_of_month(index_date)"],
-        date_format="YYYY-MM-DD",   
-        returning="category",
-        return_expectations={
-            "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
-            "incidence": 0.99,
-        },    
-    ),
-
-    AB_3=patients.with_these_medications(
-        antibacterials_codes_brit,
-        find_first_match_in_period=True,
-        include_date_of_match = True,
-        between=["AB_2_date + 1 day", "last_day_of_month(index_date)"],
-        date_format="YYYY-MM-DD",   
-        returning="category",
-        return_expectations={
-            "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
-            "incidence": 0.99,
-        },    
-    ),
-
-    AB_4=patients.with_these_medications(
-        antibacterials_codes_brit,
-        find_first_match_in_period=True,
-        include_date_of_match = True,
-        between=["AB_3_date + 1 day", "last_day_of_month(index_date)"],
-        date_format="YYYY-MM-DD",
-        returning="category",
-        return_expectations={
-            "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
-            "incidence": 0.99,
-        },       
-    ),
-
 
 
 ##### indication fit on AB date 1-12
@@ -157,42 +118,6 @@ study = StudyDefinition(
         between=["AB_1_date", "AB_1_date"],
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_2_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_2_date", "AB_2_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_3_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_3_date", "AB_3_date"],
-        return_expectations={
-           "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
-            "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
-            "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
-            "urti":0.1, "uti":0.1,}},
-            "incidence": 0.8,},
-            ),
-    AB_date_4_indication=patients.with_these_clinical_events(
-        antibiotics_indications,
-        find_first_match_in_period = True,
-        returning='category',
-        between=["AB_4_date", "AB_4_date"],
-        return_expectations={
-            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
             "renal":0.05, "sepsis":0.05, "sinusits":0.1, "throat":0.05,
             "urti":0.1, "uti":0.1,}},
