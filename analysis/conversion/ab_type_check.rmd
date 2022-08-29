@@ -24,8 +24,9 @@ library("tidyverse")
 ```
 
 ```{r message=FALSE}
-df = read.csv(here::here("output","measures","input_ab_type_2019_2019-01-01.csv.gz"))
+df = read.csv(here::here("output","measures","input_ab_type_OS_2021_2021-01-01.csv.gz"))
 #df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_2019_2019-01-01.csv.gz")
+
 
 names(df)
 ```

@@ -2777,7 +2777,7 @@ actions:
   
   ab_type_check:
     run: r:latest -e 'rmarkdown::render("analysis/conversion/ab_type_check.rmd", output_dir = "output")'
-    needs: [generate_study_population_ab_type_2019]
+    needs: [generate_study_population_ab_type_OS_2021]
     outputs:
       moderately_sensitive:
         html: output/ab_type_check.html
