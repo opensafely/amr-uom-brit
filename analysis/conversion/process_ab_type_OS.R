@@ -14,11 +14,8 @@ setwd(here::here("output", "measures"))
 ### part 1 ### 
 
 # file list
-csvFiles_21 = c("input_ab_type_OS_2021_2021-01-01.csv.gz","input_ab_type_OS_2021_2021-02-01.csv.gz",
-                  "input_ab_type_OS_2021_2021-03-01.csv.gz")
+csvFiles_21 = c("input_ab_type_OS_2021_2021-01-01.csv.gz")
 
-# date list
-date_21= seq(as.Date("2021-01-01"), as.Date("2021-03-01"), "month")
 # variables
 ab_date_12=paste0("AB_date_",rep(1:12))
 ab_category=paste0("AB_date_",rep(1:12),"_indication")
@@ -97,7 +94,6 @@ for (i in seq_along(csvFiles_21)){
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
   
   DF=DF%>%filter(!is.na(date))
-  DF$Date=date_21[i]
   
   temp[[i]] <- DF
   rm(DF,df1.1,df2.1,df3.1)

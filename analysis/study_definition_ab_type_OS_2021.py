@@ -23,7 +23,7 @@ from codelists import *
 from datetime import datetime
 
 start_date = "2021-01-01"
-end_date = "2021-03-31"
+end_date = "2021-01-31"
 
 ## Define study population and variables
 study = StudyDefinition(
@@ -96,7 +96,7 @@ study = StudyDefinition(
 
     ## all antibacterials from BRIT (dmd codes)
     antibacterial_brit=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="number_of_matches_in_period",
         return_expectations={
@@ -108,7 +108,7 @@ study = StudyDefinition(
 ######## all antibacterials from BRIT (dmd codes)
 ##### antibiotics date- 12 times per month 
     AB_date_1=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -116,7 +116,7 @@ study = StudyDefinition(
     ),
 
     AB_date_2=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_1 + 1 day ", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -124,7 +124,7 @@ study = StudyDefinition(
     ),
 
     AB_date_3=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_2 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -132,7 +132,7 @@ study = StudyDefinition(
     ),
 
     AB_date_4=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_3 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -140,7 +140,7 @@ study = StudyDefinition(
     ),
 
     AB_date_5=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_4 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -148,7 +148,7 @@ study = StudyDefinition(
     ),
 
     AB_date_6=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_5 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -156,7 +156,7 @@ study = StudyDefinition(
     ),
 
     AB_date_7=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_6 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -164,7 +164,7 @@ study = StudyDefinition(
     ),
 
     AB_date_8=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_7 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -172,7 +172,7 @@ study = StudyDefinition(
     ),
 
     AB_date_9=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_8 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -180,7 +180,7 @@ study = StudyDefinition(
     ),
 
     AB_date_10=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_9 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -188,7 +188,7 @@ study = StudyDefinition(
     ),
 
      AB_date_11=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_10 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -196,7 +196,7 @@ study = StudyDefinition(
     ),
 
      AB_date_12=patients.with_these_medications(
-        os_dmd_antibiotics,
+        antibacterials_codes_brit,
         returning='date',
         between=["AB_date_11 + 1 day", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
@@ -208,7 +208,7 @@ study = StudyDefinition(
     AB_date_1_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_1", "AB_date_1"], 
+        between=["index_date", "last_day_of_month(index_date)"],
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -219,7 +219,7 @@ study = StudyDefinition(
     AB_date_2_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_2", "AB_date_2"], 
+        between=["AB_date_1 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -230,7 +230,7 @@ study = StudyDefinition(
     AB_date_3_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_3", "AB_date_3"], 
+        between=["AB_date_2 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -241,7 +241,7 @@ study = StudyDefinition(
     AB_date_4_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_4", "AB_date_4"], 
+        between=["AB_date_3 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -252,7 +252,7 @@ study = StudyDefinition(
     AB_date_5_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_5", "AB_date_5"], 
+        between=["AB_date_4 + 1 day", "last_day_of_month(index_date)"], 
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -263,7 +263,7 @@ study = StudyDefinition(
     AB_date_6_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_6", "AB_date_6"], 
+        between=["AB_date_5 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -274,7 +274,7 @@ study = StudyDefinition(
     AB_date_7_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_7", "AB_date_7"], 
+        between=["AB_date_6 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -285,7 +285,7 @@ study = StudyDefinition(
     AB_date_8_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_8", "AB_date_8"], 
+        between=["AB_date_7 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -296,7 +296,7 @@ study = StudyDefinition(
     AB_date_9_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_9", "AB_date_9"], 
+        between=["AB_date_8 + 1 day", "last_day_of_month(index_date)"], 
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -307,7 +307,7 @@ study = StudyDefinition(
     AB_date_10_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_10", "AB_date_10"], 
+        between=["AB_date_9 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -318,7 +318,7 @@ study = StudyDefinition(
     AB_date_11_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_11", "AB_date_11"], 
+        between=["AB_date_10 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -329,7 +329,7 @@ study = StudyDefinition(
     AB_date_12_indication=patients.with_these_clinical_events(
         antibiotics_indications,
         returning='category',
-        between=["AB_date_12", "AB_date_12"], 
+        between=["AB_date_11 + 1 day", "last_day_of_month(index_date)"],
         return_expectations={
             "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
@@ -342,7 +342,7 @@ study = StudyDefinition(
 
     Ab_date_1_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_1", "AB_date_1"],
+        between=["index_date", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -351,7 +351,7 @@ study = StudyDefinition(
     ),
     Ab_date_2_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_2", "AB_date_2"],
+        between=["AB_date_1 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
          return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -360,7 +360,7 @@ study = StudyDefinition(
     ),
     Ab_date_3_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_3", "AB_date_3"],
+        between=["AB_date_2 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -369,7 +369,7 @@ study = StudyDefinition(
     ),
     Ab_date_4_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_4", "AB_date_4"],
+        between=["AB_date_3 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
           return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -378,7 +378,7 @@ study = StudyDefinition(
     ),
     Ab_date_5_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_5", "AB_date_5"],
+        between=["AB_date_4 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -387,7 +387,7 @@ study = StudyDefinition(
     ),
     Ab_date_6_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_6", "AB_date_6"],
+        between=["AB_date_5 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -396,7 +396,7 @@ study = StudyDefinition(
     ),
     Ab_date_7_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_7", "AB_date_7"],
+        between=["AB_date_6 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
          return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -405,7 +405,7 @@ study = StudyDefinition(
     ),
     Ab_date_8_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_8", "AB_date_8"],
+        between=["AB_date_7 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
          return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -414,7 +414,7 @@ study = StudyDefinition(
     ),
     Ab_date_9_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_9", "AB_date_9"],
+        between=["AB_date_8 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -423,7 +423,7 @@ study = StudyDefinition(
     ),
     Ab_date_10_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_10", "AB_date_10"],
+        between=["AB_date_9 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -432,7 +432,7 @@ study = StudyDefinition(
     ),
     Ab_date_11_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_11", "AB_date_11"],
+        between=["AB_date_10 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
@@ -441,7 +441,7 @@ study = StudyDefinition(
     ),
     Ab_date_12_type=patients.with_these_medications(
         os_dmd_antibiotics,
-        between=["AB_date_12", "AB_date_12"],
+        between=["AB_date_11 + 1 day", "last_day_of_month(index_date)"],
         returning="category",
         return_expectations={
             "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
