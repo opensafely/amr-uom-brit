@@ -15,10 +15,8 @@ knitr::opts_knit$set(root.dir = '/workspace')
 library("data.table")
 library("dplyr")
 library("tidyverse")
-df = read.csv(here::here("output","measures","input_ab_type_OS_2021_2021-01-01.csv.gz"))
+df = read.csv(here::here("output","measures","input_ab_type_OS_2021_keep_2021-01-01.csv.gz"))
 
-df <- df %>% filter(antibacterial_brit !=0)
-df <- df %>% filter(!is.na(antibacterial_brit))
 head(df,10)
 
 ```
