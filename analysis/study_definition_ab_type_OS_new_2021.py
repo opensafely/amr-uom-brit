@@ -109,7 +109,7 @@ study = StudyDefinition(
 ##### antibiotics date- 12 times per month 
     AB_1=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["index_date", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",
@@ -122,7 +122,7 @@ study = StudyDefinition(
 
     AB_2=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_1_date + 1 day ", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",   
@@ -135,7 +135,7 @@ study = StudyDefinition(
 
     AB_3=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_2_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",   
@@ -148,7 +148,7 @@ study = StudyDefinition(
 
     AB_4=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_3_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",
@@ -161,7 +161,7 @@ study = StudyDefinition(
 
     AB_5=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_4_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",
@@ -174,7 +174,7 @@ study = StudyDefinition(
 
     AB_6=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_5_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",    
@@ -187,7 +187,7 @@ study = StudyDefinition(
 
     AB_7=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_6_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",   
@@ -200,7 +200,7 @@ study = StudyDefinition(
 
     AB_8=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_7_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",   
@@ -213,7 +213,7 @@ study = StudyDefinition(
 
     AB_9=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_8_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",    
@@ -226,7 +226,7 @@ study = StudyDefinition(
 
     AB_10=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_9_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD", 
@@ -239,7 +239,7 @@ study = StudyDefinition(
 
      AB_11=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_10_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD", 
@@ -252,7 +252,7 @@ study = StudyDefinition(
 
      AB_12=patients.with_these_medications(
         antibacterials_codes_brit,
-        return_first_date_in_period = True,
+        find_first_match_in_period=True,
         include_date_of_match = True,
         between=["AB_11_date + 1 day", "last_day_of_month(index_date)"],
         date_format="YYYY-MM-DD",    
