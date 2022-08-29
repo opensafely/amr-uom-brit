@@ -38,6 +38,9 @@ for (i in 1:12){
 print(sum(df[,i]==""))
 }
 
+head(df[,1])
+tail(df[,1])
+
 ```
 
 # is.na (ab date)
@@ -54,6 +57,9 @@ print(sum(is.na(df[,i])))}
 for (i in 16:27){
 print(sum(df[,i]==""))
 }
+
+head(df[,16])
+tail(df[,16])
 ```
 
 # is.na (AB_date_indication)
@@ -70,6 +76,9 @@ print(sum(is.na(df[,i])))}
 for (i in 28:39){
 print(sum(df[,i]==""))
 }
+
+head(df[,28])
+tail(df[,28])
 ```
 
 # is.na (AB_date_type)
