@@ -2775,14 +2775,12 @@ actions:
        moderately_sensitive:
         table1: output/ab_type_OS_check.csv
   
-
-
   ab_type_check:
-    run: r:latest -e 'rmarkdown::render("analysis/coversion/ab_type_check.rmd", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/conversion/ab_type_check.rmd", output_dir = "output")'
     needs: [generate_study_population_ab_type_2019]
     outputs:
       moderately_sensitive:
-        html: output/report/ab_type_check.html
+        html: output/ab_type_check.html
 
 
   

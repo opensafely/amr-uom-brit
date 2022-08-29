@@ -1,5 +1,5 @@
 ---
-title: "check ab type and date "
+title: "check type"
 output: 
   html_document:
    toc: true
@@ -14,17 +14,13 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
-# overall
 
 ```{r message=FALSE}
-#library("ggplot2")
+
 library("data.table")
 library("dplyr")
 library("tidyverse")
-#library("MASS")
-#library("ggpubr")
-#library(modelsummary)
-#library("gtsummary")
+
 ```
 
 ```{r message=FALSE}
@@ -34,10 +30,13 @@ df = read.csv(here::here("output","measures","input_ab_type_2019_2019-01-01.csv.
 names(df)
 
 # ab date
+
+
 for (i in 1:12){
 print(sum(df[,i]==""))
 }
 
+sum(is.na(df[,1]))
 
 
 # AB_date_indication
