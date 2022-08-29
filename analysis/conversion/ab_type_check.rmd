@@ -49,8 +49,8 @@ print(sum(df[,i]==""))
 }
 
 
-table(as.Date(df[,6],origin="1960-01-01"))
-table(as.Date(df[,17],origin="1960-01-01"))
+#table(as.Date(df[,6],origin="1960-01-01"))
+#table(as.Date(df[,17],origin="1960-01-01"))
 
 sum(df[,6]==""&df[,7]!="")
 
@@ -73,7 +73,7 @@ print(sum(df[,i]==""))
 
 
 table(df[,18])
-table(df[,29])
+#table(df[,29])
 ```
 
 # is.na (AB_date_indication)
@@ -93,7 +93,7 @@ print(sum(df[,i]==""))
 
 
 table(df[,30])
-table(df[,41])
+#table(df[,41])
 ```
 
 # is.na (AB_date_type)
