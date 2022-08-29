@@ -23,9 +23,9 @@ library("tidyverse")
 
 ```
 
-```{r message=FALSE}
+```{r }
 df = read.csv(here::here("output","measures","input_ab_type_OS_2021_2021-01-01.csv.gz"))
-#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_2019_2019-01-01.csv.gz")
+#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_OS_2021_2021-01-01.csv.gz")
 
 
 names(df)
@@ -43,18 +43,19 @@ length(unique(as.factor(df$patient_id)))
 
 # ab date ==""
 
-```{r message=FALSE}
+```{r }
 for (i in 1:12){
 print(sum(df[,i]==""))
 }
 
 
-table(df[,1])
+table(as.Date(df[,1]))
+table(as.Date(df[,12]))
 
 ```
 
 # is.na (ab date)
-```{r message=FALSE}
+```{r}
 for (i in 1:12){
 print(sum(is.na(df[,i])))}
 
@@ -62,7 +63,7 @@ print(sum(is.na(df[,i])))}
 ```
 
 # AB_date_indication ==""
-```{r message=FALSE}
+```{r }
 
 for (i in 16:27){
 print(sum(df[,i]==""))
@@ -70,10 +71,11 @@ print(sum(df[,i]==""))
 
 
 table(df[,16])
+table(df[,19])
 ```
 
 # is.na (AB_date_indication)
-```{r message=FALSE}
+```{r }
 for (i in  16:27){
 print(sum(is.na(df[,i])))}
 
@@ -82,17 +84,18 @@ print(sum(is.na(df[,i])))}
 
 
 # AB_date_type=="
-```{r message=FALSE}
+```{r }
 for (i in 28:39){
 print(sum(df[,i]==""))
 }
 
 
 table(df[,28])
+table(df[,31])
 ```
 
 # is.na (AB_date_type)
-```{r message=FALSE}
+```{r }
 for (i in  28:39){
 print(sum(is.na(df[,i])))}
 
