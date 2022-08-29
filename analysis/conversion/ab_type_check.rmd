@@ -1,0 +1,56 @@
+---
+title: "check ab type and date "
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+# overall
+
+```{r message=FALSE}
+#library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+#library("MASS")
+#library("ggpubr")
+#library(modelsummary)
+#library("gtsummary")
+```
+
+```{r message=FALSE}
+df = read.csv(here::here("output","measures","input_ab_type_2019_2019-01-01.csv.gz"))
+#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_2019_2019-01-01.csv.gz")
+
+names(df)
+
+# ab date
+for (i in 1:12){
+print(sum(df[,i]==""))
+}
+
+
+
+# AB_date_indication
+for (i in 16:27){
+print(sum(df[,i]==""))
+}
+
+
+# AB_date_type
+for (i in 28:39){
+print(sum(df[,i]==""))
+}
+```
+
+
+
