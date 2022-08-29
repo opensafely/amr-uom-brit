@@ -49,8 +49,8 @@ print(sum(df[,i]==""))
 }
 
 
-table(as.Date(df[,1]))
-table(as.Date(df[,12]))
+table(as.Date(df[,1],origin="1960-01-01"))
+table(as.Date(df[,12],origin="1960-01-01"))
 
 ```
 
