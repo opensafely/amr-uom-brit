@@ -125,5 +125,12 @@ study = StudyDefinition(
             "urti":0.1, "uti":0.1,}},
             "incidence": 0.8,},
             ),
+
+    AB_date_1_indication_binary=patients.with_these_clinical_events(
+        antibiotics_indications,
+        between=["AB_1_date", "AB_1_date"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.8},
+            ),
 )
 

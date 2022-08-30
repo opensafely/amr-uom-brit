@@ -34,5 +34,9 @@ sum(is.na(df$AB_date_1_indication))
 ```
 
 ```{r}
+sum(df$AB_date_1_indication_binary==0)
+```
+
+```{r}
 head(df,20)
 ```
