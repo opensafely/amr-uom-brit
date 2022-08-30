@@ -1,0 +1,38 @@
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+
+```{r}
+library("data.table")
+library("dplyr")
+library("tidyverse")
+df = read.csv(here::here("output","measures","input_ab_type_OS_2021_keep_2021-01-01.csv.gz"))
+df$AB_1_date[df$AB_1_date == ""] <- NA
+df$AB_1[df$AB_1 == ""] <- NA
+df$AB_date_1_indication[df$AB_date_1_indication == ""] <- NA
+```
+
+
+```{r}
+length(df$AB_1_date)
+```
+
+```{r}
+sum(is.na(df$AB_1_date))
+```
+
+```{r}
+sum(is.na(df$AB_1))
+```
+
+```{r}
+sum(is.na(df$AB_date_1_indication))
+```
+
+```{r}
+head(df,20)
+```

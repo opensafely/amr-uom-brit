@@ -2794,3 +2794,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_date.html
+
+  check_indication:
+    run: r:latest -e 'rmarkdown::render("analysis/conversion/check_indication.Rmd", output_dir = "output")'
+    needs: [generate_study_population_ab_type_OS_2021]
+    outputs:
+      moderately_sensitive:
+        html: output/check_indication.html
