@@ -2801,3 +2801,9 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_indication.html
+
+  generate_study_population_infection_type_test_2021: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_type_test_2021 --index-date-range "2021-01-01 to 2021-01-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_type_test_2021_*.csv.gz 
