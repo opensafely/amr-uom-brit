@@ -45,8 +45,52 @@ sum(!is.na(df$Infect_3_date))
 sum(!is.na(df$Infect_4_date))
 ```
 
+```{r}
+ab_date_12=paste0("Infect_",rep(1:4),"_date")
+infection_type=paste0("Infect_",rep(1:4))
+
+df1=df%>%select(patient_id,age,sex,all_of(ab_date_12))
+colnames(df1)[4:7]=paste0("time",rep(1:4))
+df1.1=df1%>%gather(times,date,paste0("time",rep(1:4)))
+rm(df1)
+
+df2=df%>%select(patient_id,age,sex,all_of(infection_type))
+colnames(df2)[4:7]=paste0("time",rep(1:4))
+df2.1=df2%>%gather(times,type,paste0("time",rep(1:4)))
+rm(df2)
+
+DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+DF=DF%>%select(patient_id,date,type)
+```
+
+```{r}
+df = read.csv(here::here("output","measures","input_ab_type_OS_2021_keep_2021-01-01.csv.gz"))
+ab_date_12=paste0("AB_",rep(1:4),"_date")
+ab_type=paste0("AB_",rep(1:4))
+
+df1=df%>%select(patient_id,age,sex,all_of(ab_date_12))
+colnames(df1)[4:7]=paste0("time",rep(1:4))
+df1.1=df1%>%gather(times,date,paste0("time",rep(1:4)))
+rm(df1)
+
+df2=df%>%select(patient_id,age,sex,all_of(ab_type))
+colnames(df2)[4:7]=paste0("time",rep(1:4))
+df2.1=df2%>%gather(times,ab_type,paste0("time",rep(1:4)))
+rm(df2)
+DF2=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+
+
+```
+
+```{r}
+DF_all <- left_join(DF2,DF,by=c("patient_id","date"))
+```
+
+```{r}
+sum(is.na(DF_all$type))
+```
 
 
 ```{r}
-head(df,20)
+head(DF_all,20)
 ```

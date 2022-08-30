@@ -2810,7 +2810,7 @@ actions:
 
   check_indication_type:
     run: r:latest -e 'rmarkdown::render("analysis/conversion/check_indication_type.Rmd", output_dir = "output")'
-    needs: [generate_study_population_infection_type_test_2021]
+    needs: [generate_study_population_infection_type_test_2021,generate_study_population_ab_type_OS_2021]
     outputs:
       moderately_sensitive:
         html: output/check_indication_type.html
