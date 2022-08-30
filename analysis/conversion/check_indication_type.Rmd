@@ -64,7 +64,7 @@ DF=DF%>%select(patient_id,date,type)
 ```
 
 ```{r}
-df = read.csv(here::here("output","measures","input_ab_type_OS_new_2021_2021-01-01.csv.gz"))
+df = read.csv(here::here("output","measures","input_ab_type_OS_2021_keep_2021-01-01.csv.gz"))
 ab_date_12=paste0("AB_",rep(1:4),"_date")
 ab_type=paste0("AB_",rep(1:4))
 
