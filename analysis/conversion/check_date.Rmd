@@ -23,9 +23,9 @@ df$AB_1[df$AB_1 == ""] <- NA
 ```
 
 ```{r}
-length(is.na(df$AB_1_date))
+sum(is.na(df$AB_1_date))
 ```
 
 ```{r}
-length(is.na(df$AB_1))
+sum(is.na(df$AB_1))
 ```
