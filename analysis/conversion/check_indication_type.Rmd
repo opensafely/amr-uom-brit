@@ -83,7 +83,7 @@ DF2=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
 ```
 
 ```{r}
-DF_all <- left_join(DF2,DF,by=("patient_id","date"))
+DF_all <- left_join(DF2,DF,by=c("patient_id","date"))
 ```
 
 ```{r}
