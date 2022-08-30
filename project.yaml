@@ -2790,7 +2790,7 @@ actions:
         html: output/ab_type_check.html
 
   generate_study_population_ab_type_OS_new_2021: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_type_OS_new_2021 --index-date-range "2021-01-01 to 2021-01-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_ab_type_OS_new_2021 --index-date-range "2021-01-01 to 2021-01-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_ab_type_OS_new_2021_*.csv.gz 
