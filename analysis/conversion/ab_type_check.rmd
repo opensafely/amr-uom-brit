@@ -44,7 +44,7 @@ length(unique(as.factor(df$patient_id)))
 # ab date == ""
 
 ```{r }
-for (i in 1:12){
+for (i in 1:2){
   
   date=paste0("AB_",i,"_date")
   
@@ -58,7 +58,7 @@ print(sum(df[,date]==""))
 # AB_date_indication ==""
 ```{r }
 
-for (i in 1:12){
+for (i in 1:2){
   indic=paste0("AB_date_",i,"_indication")
   
 print(sum(df[,indic]==""))
@@ -74,7 +74,7 @@ table(df[,"AB_date_1_indication"])
 
 # AB_date_type=="
 ```{r }
-for (i in 1:12){
+for (i in 1:2){
   type=paste0("AB_",i)
 print(sum(df[,type]==""))
 }
