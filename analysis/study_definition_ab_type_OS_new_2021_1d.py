@@ -269,7 +269,7 @@ study = StudyDefinition(
         antibiotics_indications,
         find_first_match_in_period = True,
         returning="category",      
-        between=["AB_1_date - 1 day", "AB_1_date + 1 day"],
+        between=["AB_1_date", "AB_1_date + 1 day"],
         return_expectations={
            "category": {"ratios": {"asthma":0.05, "cold":0.05, "copd":0.05, "cough":0.05,
             "lrti":0.1, "ot_externa":0.1, "otmedia":0.1, "pneumonia":0.05,
