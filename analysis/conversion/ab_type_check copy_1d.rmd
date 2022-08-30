@@ -1,0 +1,87 @@
+---
+title: "check type"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+
+```{r message=FALSE}
+
+library("data.table")
+library("dplyr")
+library("tidyverse")
+
+```
+
+```{r }
+df = read.csv(here::here("output","measures","input_ab_type_OS_new_2021_2021-01-01.csv.gz"))
+#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_OS_new_2021_2021-01-01.csv.gz")
+
+
+names(df)
+```
+
+# row number
+```{r}
+nrow(df)
+```
+
+# patient number
+```{r}
+length(unique(as.factor(df$patient_id)))
+```
+
+# ab date == ""
+
+```{r }
+for (i in 1:1){
+  
+  date=paste0("AB_",i,"_date")
+  
+print(sum(df[,date]==""))
+}
+
+
+```
+
+
+# AB_date_indication ==""
+```{r }
+
+for (i in 1:1){
+  indic=paste0("AB_date_",i,"_indication")
+  
+print(sum(df[,indic]==""))
+}
+
+
+table(df[,"AB_date_1_indication"])
+#table(df[,29])
+```
+
+
+
+
+# AB_date_type=="
+```{r }
+for (i in 1:1){
+  type=paste0("AB_",i)
+print(sum(df[,type]==""))
+}
+
+
+table(df[,"AB_1"])
+#table(df[,41])
+```
+
+
