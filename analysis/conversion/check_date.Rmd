@@ -31,5 +31,5 @@ sum(is.na(df$AB_1))
 ```
 
 ```{r}
-head(df)
+head(df,20)
 ```
