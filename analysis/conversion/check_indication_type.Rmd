@@ -87,7 +87,18 @@ DF_all <- left_join(DF2,DF,by=c("patient_id","date"))
 ```
 
 ```{r}
-sum(is.na(DF_all$type))
+DF_all$date[df$date == ""] <- NA
+DF_all=DF_all%>%filter(!is.na(date))
+```
+
+### same day infection
+```{r}
+sum(!is.na(DF_all$type))
+```
+
+### record number
+```{r}
+length(DF_all$date)
 ```
 
 
