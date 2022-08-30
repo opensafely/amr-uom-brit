@@ -14,28 +14,89 @@ df = read.csv(here::here("output","measures","input_ab_type_OS_2021_keep_2021-01
 df$AB_1_date[df$AB_1_date == ""] <- NA
 df$AB_1[df$AB_1 == ""] <- NA
 df$AB_date_1_indication[df$AB_date_1_indication == ""] <- NA
+df$AB_2_date[df$AB_2_date == ""] <- NA
+df$AB_2[df$AB_2 == ""] <- NA
+df$AB_date_2_indication[df$AB_date_2_indication == ""] <- NA
+df$AB_3_date[df$AB_3_date == ""] <- NA
+df$AB_3[df$AB_3 == ""] <- NA
+df$AB_date_3_indication[df$AB_date_3_indication == ""] <- NA
+df$AB_4_date[df$AB_4_date == ""] <- NA
+df$AB_4[df$AB_4 == ""] <- NA
+df$AB_date_4_indication[df$AB_date_4_indication == ""] <- NA
 ```
 
-
+### patient number
 ```{r}
 length(df$AB_1_date)
 ```
-
+### date 1 prescription
 ```{r}
-sum(is.na(df$AB_1_date))
+sum(!is.na(df$AB_1_date))
 ```
-
+### date 1 prescription type
 ```{r}
-sum(is.na(df$AB_1))
+sum(!is.na(df$AB_1))
 ```
-
+### date 1 indication
 ```{r}
-sum(is.na(df$AB_date_1_indication))
+sum(!is.na(df$AB_date_1_indication))
 ```
-
+### date 1 indication binary
 ```{r}
 sum(df$AB_date_1_indication_binary==0)
 ```
+
+### date 2 prescription
+```{r}
+sum(!is.na(df$AB_2_date))
+```
+### date 2 prescription type
+```{r}
+sum(!is.na(df$AB_2))
+```
+### date 2 indication
+```{r}
+sum(!is.na(df$AB_date_2_indication))
+```
+### date 2 indication binary
+```{r}
+sum(df$AB_date_2_indication_binary==0)
+```
+
+### date 3 prescription
+```{r}
+sum(!is.na(df$AB_3_date))
+```
+### date 3 prescription type
+```{r}
+sum(!is.na(df$AB_3))
+```
+### date 3 indication
+```{r}
+sum(!is.na(df$AB_date_3_indication))
+```
+### date 3 indication binary
+```{r}
+sum(df$AB_date_3_indication_binary==0)
+```
+
+### date 4 prescription
+```{r}
+sum(!is.na(df$AB_4_date))
+```
+### date 4 prescription type
+```{r}
+sum(!is.na(df$AB_4))
+```
+### date 4 indication
+```{r}
+sum(!is.na(df$AB_date_4_indication))
+```
+### date 4 indication binary
+```{r}
+sum(df$AB_date_4_indication_binary==0)
+```
+
 
 ```{r}
 head(df,20)
