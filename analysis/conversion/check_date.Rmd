@@ -15,9 +15,17 @@ knitr::opts_knit$set(root.dir = '/workspace')
 library("data.table")
 library("dplyr")
 library("tidyverse")
-df = read.csv(here::here("output","measures","input_ab_type_OS_2021_keep_2021-01-01.csv.gz"))
-
-head(df,10)
+df = read.csv(here::here("output","measures","input_ab_type_OS_new_2021_2021-01-01.csv.gz"))
+df=df%>%filter(antibacterial_brit !=0)
+df$AB_1_date[df$AB_1_date == ""] <- NA
+df$AB_1[df$AB_1 == ""] <- NA
 
 ```
 
+```{r}
+length(is.na(df$AB_1_date))
+```
+
+```{r}
+length(is.na(df$AB_1))
+```
