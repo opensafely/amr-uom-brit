@@ -22,11 +22,11 @@ DF2 <- read_rds("matched_patients.rds")
 DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
 
 #df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"))
+df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"),all=T)
 rm(DF1,DF2)
-df=df%>%group_by(subclass)%>%mutate(keep=sum(as.numeric(case)))
-df=df%>%filter(keep==1)
-df=df%>%ungroup(subclass)
+# df=df%>%group_by(subclass)%>%mutate(keep=sum(as.numeric(case)))
+# df=df%>%filter(keep==1)
+# df=df%>%ungroup(subclass)
 
 ######## time ##########
 
