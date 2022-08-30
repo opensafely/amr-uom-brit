@@ -44,12 +44,15 @@ length(unique(as.factor(df$patient_id)))
 # ab date == ""
 
 ```{r }
-for (i in 1:2){
+#for (i in 1:2){
   
-  date=paste0("AB_",i,"_date")
+ # date=paste0("AB_",i,"_date")
   
-print(sum(df[,date]==""))
-}
+#print(sum(df[,date]==""))
+#}
+
+print(sum(df[,"AB_1_date"]==""))
+print(sum(df[,"AB_2_date"]==""))
 
 
 ```
@@ -58,11 +61,14 @@ print(sum(df[,date]==""))
 # AB_date_indication ==""
 ```{r }
 
-for (i in 1:2){
-  indic=paste0("AB_date_",i,"_indication")
+#for (i in 1:2){
+ # indic=paste0("AB_date_",i,"_indication")
   
-print(sum(df[,indic]==""))
-}
+#print(sum(df[,indic]==""))
+#}
+print(sum(df[,"AB_date_1_indication"]==""))
+print(sum(df[,"AB_date_2_indication"]==""))
+
 
 
 table(df[,"AB_date_1_indication"])
@@ -74,10 +80,13 @@ table(df[,"AB_date_1_indication"])
 
 # AB_date_type=="
 ```{r }
-for (i in 1:2){
-  type=paste0("AB_",i)
-print(sum(df[,type]==""))
-}
+#for (i in 1:2){
+ # type=paste0("AB_",i)
+#print(sum(df[,type]==""))
+#}
+print(sum(df[,"AB_1"]==""))
+
+print(sum(df[,"AB_2"]==""))
 
 
 table(df[,"AB_1"])
