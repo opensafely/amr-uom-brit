@@ -29,3 +29,7 @@ sum(is.na(df$AB_1_date))
 ```{r}
 sum(is.na(df$AB_1))
 ```
+
+```{r}
+head(df)
+```
