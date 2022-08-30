@@ -2814,3 +2814,15 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_indication_type.html
+
+  generate_study_population_ab_type_2021_new_extraction: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_type_2021_new_extraction --index-date-range "2021-01-01 to 2021-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_type_2021_new_extraction_*.csv.gz 
+
+  generate_study_population_ab_infection_2021_new_extraction: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_infection_2021_new_extraction --index-date-range "2021-01-01 to 2021-12-31" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_ab_infection_2021_new_extraction_*.csv.gz 
