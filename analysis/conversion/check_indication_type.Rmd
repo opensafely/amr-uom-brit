@@ -1,0 +1,52 @@
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+
+```{r}
+library("data.table")
+library("dplyr")
+library("tidyverse")
+df = read.csv(here::here("output","measures","input_infection_type_test_2021_2021-01-01.csv.gz"))
+df$Infect_1_date[df$Infect_1_date == ""] <- NA
+df$Infect_1[df$Infect_1 == ""] <- NA
+df$Infect_2_date[df$Infect_2_date == ""] <- NA
+df$Infect_2[df$Infect_2 == ""] <- NA
+df$Infect_3_date[df$Infect_3_date == ""] <- NA
+df$Infect_3[df$Infect_3 == ""] <- NA
+df$Infect_4_date[df$Infect_4_date == ""] <- NA
+df$Infect_4[df$Infect_4 == ""] <- NA
+```
+
+### infection patient number
+```{r}
+length(df$patient_id)
+```
+### date 1 infection
+```{r}
+sum(!is.na(df$Infect_1_date))
+```
+
+### date 2 infection
+```{r}
+sum(!is.na(df$Infect_2_date))
+```
+
+### date 3 infection
+```{r}
+sum(!is.na(df$Infect_3_date))
+```
+
+### date 4 infection
+```{r}
+sum(!is.na(df$Infect_4_date))
+```
+
+
+
+```{r}
+head(df,20)
+```
