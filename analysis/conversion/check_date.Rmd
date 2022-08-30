@@ -16,7 +16,6 @@ library("data.table")
 library("dplyr")
 library("tidyverse")
 df = read.csv(here::here("output","measures","input_ab_type_OS_new_2021_2021-01-01.csv.gz"))
-df=df%>%filter(antibacterial_brit !=0)
 df$AB_1_date[df$AB_1_date == ""] <- NA
 df$AB_1[df$AB_1 == ""] <- NA
 
