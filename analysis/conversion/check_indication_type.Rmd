@@ -101,7 +101,3 @@ sum(!is.na(DF_all$type))
 length(DF_all$date)
 ```
 
-
-```{r}
-head(DF_all,20)
-```
