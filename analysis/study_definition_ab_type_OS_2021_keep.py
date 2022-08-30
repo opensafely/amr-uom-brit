@@ -48,6 +48,8 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        AND
+        has_ab
         """,
 
         has_died=patients.died_from_any_cause(
