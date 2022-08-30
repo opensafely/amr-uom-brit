@@ -120,18 +120,18 @@ study = StudyDefinition(
         },    
     ),
 
-    AB_2=patients.with_these_medications(
-        antibacterials_codes_brit,
-        find_first_match_in_period=True,
-        include_date_of_match = True,
-        between=["AB_1_date + 1 day ", "last_day_of_month(index_date)"],
-        date_format="YYYY-MM-DD",   
-        returning="category",
-        return_expectations={
-            "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
-            "incidence": 0.99,
-        },    
-    ),
+    # AB_2=patients.with_these_medications(
+    #     antibacterials_codes_brit,
+    #     find_first_match_in_period=True,
+    #     include_date_of_match = True,
+    #     between=["AB_1_date + 1 day ", "last_day_of_month(index_date)"],
+    #     date_format="YYYY-MM-DD",   
+    #     returning="category",
+    #     return_expectations={
+    #         "category": {"ratios": {"Amoxicillin":0.25, "Nitrofurantoin":0.25, "Trimethoprim":0.25, "Phenoxymethylpenicillin":0.25}},
+    #         "incidence": 0.99,
+    #     },    
+    # ),
 
     # AB_3=patients.with_these_medications(
     #     antibacterials_codes_brit,
