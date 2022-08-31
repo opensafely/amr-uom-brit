@@ -68,7 +68,7 @@ df.0=df%>%
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
 df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
-df.1=df.1%>%filter(as.Date(patient_index_date) <= as.Date("2021-12-31"))
+df.1=df.1%>%filter(as.Date(patient_index_date,origin="1970-01-01") <= as.Date("2021-12-31"))
 
 
 
