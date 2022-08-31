@@ -31,3 +31,11 @@ actions:
       outputs:
         highly_sensitive:
           cohort: output/input_patient_characteristics_2021.csv.gz
+
+  table_1: 
+    run: r:latest analysis/table_1.R
+    needs: [generate_study_population_patient_characteristics_2019]
+    outputs:
+       moderately_sensitive:
+        table1: output/table1_2019_overallcount.csv
+        table2: output/table1_2019.csv
