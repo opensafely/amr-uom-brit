@@ -84,9 +84,7 @@ df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 df.0$case=0
 df.1$case=1
 
-df.0$patient_index_date=as.Date(df.0$patient_index_date,origin="1970-01-01")
-df.1$patient_index_date=as.Date(df.1$patient_index_date,origin="1970-01-01")
-df=rbind(df.1,df.0)
+df=rbind.data.frame(df.1,df.0)
 
 # keep earlist covid positive date
 df=df%>%
