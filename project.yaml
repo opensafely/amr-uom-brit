@@ -1592,7 +1592,7 @@ actions:
         csv4: output/redacted_v2/AB_sinusitis_check_top5.csv
         csv5: output/redacted_v2/AB_ot_externa_check_top5.csv
         csv6: output/redacted_v2/AB_otmedia_check_top5.csv
-        csv7: output/redacted_v2/AB_top5.csv
+       # csv7: output/redacted_v2/AB_top5.csv
 
   describe_broad_proportion_measure:   
     run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'

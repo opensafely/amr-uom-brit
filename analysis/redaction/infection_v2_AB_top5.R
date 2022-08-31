@@ -159,32 +159,32 @@ ggsave(
   plot= lineplot,
   filename="AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
-### tables
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+# ### tables
+# # define covid date
+# breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+# df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+# df=df%>% filter(covid==1 | covid==3)
+# df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+# df$covid <- factor(df$covid, levels=c("0","1"))
 
-# define seasons
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df.table.1=df%>%
-  group_by(covid,season,prevalent,type)%>%
-  summarise(count=sum(count))%>%
-  mutate(indic="uti")
+# # define seasons
+# df$month=format(df$date,"%m")
+# df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                                    month=="06"|month=="07"|month=="08" ~ "summer",
+#                                    month=="09"|month=="10"|month=="11" ~ "autumn",
+#                                    month=="12"|month=="01"|month=="02" ~ "winter"))
+# df.table.1=df%>%
+#   group_by(covid,season,prevalent,type)%>%
+#   summarise(count=sum(count))%>%
+#   mutate(indic="uti")
 
-df.table.1=df.table.1%>%
-  group_by(covid,season,prevalent)%>%
-  mutate(total=sum(count), percentage=count/total)
+# df.table.1=df.table.1%>%
+#   group_by(covid,season,prevalent)%>%
+#   mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
@@ -337,32 +337,32 @@ ggsave(
   plot= lineplot,
   filename="AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
-### tables
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+# ### tables
+# # define covid date
+# breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+# df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+# df=df%>% filter(covid==1 | covid==3)
+# df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+# df$covid <- factor(df$covid, levels=c("0","1"))
 
-# define seasons
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df.table.2=df%>%
-  group_by(covid,season,prevalent,type)%>%
-  summarise(count=sum(count))%>%
-  mutate(indic="lrti")
+# # define seasons
+# df$month=format(df$date,"%m")
+# df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                                    month=="06"|month=="07"|month=="08" ~ "summer",
+#                                    month=="09"|month=="10"|month=="11" ~ "autumn",
+#                                    month=="12"|month=="01"|month=="02" ~ "winter"))
+# df.table.2=df%>%
+#   group_by(covid,season,prevalent,type)%>%
+#   summarise(count=sum(count))%>%
+#   mutate(indic="lrti")
 
-df.table.2=df.table.2%>%
-  group_by(covid,season,prevalent)%>%
-  mutate(total=sum(count), percentage=count/total)
+# df.table.2=df.table.2%>%
+#   group_by(covid,season,prevalent)%>%
+#   mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
@@ -514,32 +514,32 @@ ggsave(
   plot= lineplot,
   filename="AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
-### tables
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+# ### tables
+# # define covid date
+# breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+# df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+# df=df%>% filter(covid==1 | covid==3)
+# df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+# df$covid <- factor(df$covid, levels=c("0","1"))
 
-# define seasons
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df.table.3=df%>%
-  group_by(covid,season,prevalent,type)%>%
-  summarise(count=sum(count))%>%
-  mutate(indic="urti")
+# # define seasons
+# df$month=format(df$date,"%m")
+# df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                                    month=="06"|month=="07"|month=="08" ~ "summer",
+#                                    month=="09"|month=="10"|month=="11" ~ "autumn",
+#                                    month=="12"|month=="01"|month=="02" ~ "winter"))
+# df.table.3=df%>%
+#   group_by(covid,season,prevalent,type)%>%
+#   summarise(count=sum(count))%>%
+#   mutate(indic="urti")
 
-df.table.3=df.table.3%>%
-  group_by(covid,season,prevalent)%>%
-  mutate(total=sum(count), percentage=count/total)
+# df.table.3=df.table.3%>%
+#   group_by(covid,season,prevalent)%>%
+#   mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
@@ -692,32 +692,32 @@ ggsave(
   plot= lineplot,
   filename="AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
 
-### tables
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+# ### tables
+# # define covid date
+# breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+# df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+# df=df%>% filter(covid==1 | covid==3)
+# df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+# df$covid <- factor(df$covid, levels=c("0","1"))
 
-# define seasons
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df.table.4=df%>%
-  group_by(covid,season,prevalent,type)%>%
-  summarise(count=sum(count))%>%
-  mutate(indic="sinusitis")
+# # define seasons
+# df$month=format(df$date,"%m")
+# df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                                    month=="06"|month=="07"|month=="08" ~ "summer",
+#                                    month=="09"|month=="10"|month=="11" ~ "autumn",
+#                                    month=="12"|month=="01"|month=="02" ~ "winter"))
+# df.table.4=df%>%
+#   group_by(covid,season,prevalent,type)%>%
+#   summarise(count=sum(count))%>%
+#   mutate(indic="sinusitis")
 
-df.table.4=df.table.4%>%
-  group_by(covid,season,prevalent)%>%
-  mutate(total=sum(count), percentage=count/total)
+# df.table.4=df.table.4%>%
+#   group_by(covid,season,prevalent)%>%
+#   mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
@@ -871,32 +871,32 @@ ggsave(
   plot= lineplot,
   filename="AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
 
-### tables
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+# ### tables
+# # define covid date
+# breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+# df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+# df=df%>% filter(covid==1 | covid==3)
+# df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+# df$covid <- factor(df$covid, levels=c("0","1"))
 
-# define seasons
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df.table.5=df%>%
-  group_by(covid,season,prevalent,type)%>%
-  summarise(count=sum(count))%>%
-  mutate(indic="ot_externa")
+# # define seasons
+# df$month=format(df$date,"%m")
+# df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                                    month=="06"|month=="07"|month=="08" ~ "summer",
+#                                    month=="09"|month=="10"|month=="11" ~ "autumn",
+#                                    month=="12"|month=="01"|month=="02" ~ "winter"))
+# df.table.5=df%>%
+#   group_by(covid,season,prevalent,type)%>%
+#   summarise(count=sum(count))%>%
+#   mutate(indic="ot_externa")
 
-df.table.5=df.table.5%>%
-  group_by(covid,season,prevalent)%>%
-  mutate(total=sum(count), percentage=count/total)
+# df.table.5=df.table.5%>%
+#   group_by(covid,season,prevalent)%>%
+#   mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
@@ -1047,39 +1047,39 @@ ggsave(
   plot= lineplot,
   filename="AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
 
-### tables
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+# ### tables
+# # define covid date
+# breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
+#             as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
+#             max(df$date)) # NA exclusion
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
+# df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
 
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
+# df=df%>% filter(covid==1 | covid==3)
+# df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
+# df$covid <- factor(df$covid, levels=c("0","1"))
 
-# define seasons
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df.table.6=df%>%
-  group_by(covid,season,prevalent,type)%>%
-  summarise(count=sum(count))%>%
-  mutate(indic="otmedia")
+# # define seasons
+# df$month=format(df$date,"%m")
+# df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
+#                                    month=="06"|month=="07"|month=="08" ~ "summer",
+#                                    month=="09"|month=="10"|month=="11" ~ "autumn",
+#                                    month=="12"|month=="01"|month=="02" ~ "winter"))
+# df.table.6=df%>%
+#   group_by(covid,season,prevalent,type)%>%
+#   summarise(count=sum(count))%>%
+#   mutate(indic="otmedia")
 
-df.table.6=df.table.6%>%
-  group_by(covid,season,prevalent)%>%
-  mutate(total=sum(count), percentage=count/total)
+# df.table.6=df.table.6%>%
+#   group_by(covid,season,prevalent)%>%
+#   mutate(total=sum(count), percentage=count/total)
 
 rm(df,df.0,df.1,lineplot,lineplot.0,lineplot.1)
 
 
-#### combine table
-df.table=rbind(df.table.1,df.table.2,df.table.3,df.table.4,df.table.5,df.table.6)
-write_csv(df.table, here::here("output","redacted_v2", "AB_top5.csv"))
+# #### combine table
+# df.table=rbind(df.table.1,df.table.2,df.table.3,df.table.4,df.table.5,df.table.6)
+# write_csv(df.table, here::here("output","redacted_v2", "AB_top5.csv"))
 
 
 
