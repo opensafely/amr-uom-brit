@@ -42,7 +42,7 @@ actions:
   
 
   extract_variables: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome
     needs: [matching]
     outputs:
       highly_sensitive:
