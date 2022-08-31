@@ -5,3 +5,29 @@ expectations:
 
 actions:
 
+  generate_study_population_patient_characteristics_2019:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_patient_characteristics_2019
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_patient_characteristics_2019.csv.gz
+
+  generate_study_population_patient_characteristics_2020:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_patient_characteristics_2020
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_patient_characteristics_2020.csv.gz
+
+  generate_study_population_patient_characteristics_2021:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_patient_characteristics_2021
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_patient_characteristics_2021.csv.gz

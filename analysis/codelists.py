@@ -33,6 +33,13 @@ os_dmd_antibiotics = codelist_from_csv(
     "codelists/user-rriefu-antibiotics_dmd.csv", system="snomed", column="dmd_id", category_column="type",
 )
 
+broad_spectrum_codes= codelist_from_csv(
+  "codelists/opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv",
+  system = "snomed",
+  column = "dmd_id"
+)
+
+
 ### broad antibacterials
 broad_spectrum_antibiotics_codes = codelist_from_csv(
     "codelists/user-rriefu-broad-spectrum-antibiotics.csv", system="snomed", column="dmd_id", category_column="type",

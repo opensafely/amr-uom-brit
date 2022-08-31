@@ -12,8 +12,8 @@ from codelists import *
 
 # DEFINE STUDY TIME #
 from datetime import datetime
-start_date = "2019-01-01"
-end_date = "2021-12-31"
+start_date = "2020-01-01"
+end_date = "2020-12-31"
 
 ## Define study population and variables
 study = StudyDefinition(
@@ -60,7 +60,7 @@ study = StudyDefinition(
 
         has_ab=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[start_date,end_date],
         returning="binary_flag"
         ),
     ),
@@ -170,7 +170,7 @@ study = StudyDefinition(
             "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
         },
         index_of_multiple_deprivation=patients.address_as_of(
-            "patient_index_date",
+            "index_date",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         ),
@@ -193,7 +193,7 @@ study = StudyDefinition(
     Tested_for_covid_event=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="any",
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[start_date,end_date],
         returning = "binary_flag",
         return_expectations={"incidence": 0.5},
     ),
@@ -201,48 +201,9 @@ study = StudyDefinition(
     Positive_test_event=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[start_date,end_date],
         returning = "binary_flag",
         return_expectations={"incidence": 0.5},
     ),
 
-    Tested_for_covid_date=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="any",
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "index_date"},
-            "rate" : "exponential_increase"
-        },
-    ),
-    
-    Positive_test_date=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="positive",
-        between=["index_date", "last_day_of_month(index_date)"],
-        find_first_match_in_period=True,
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "index_date"},
-            "rate" : "exponential_increase"
-        },
-    ),
-
-    ## Same day antibiotic prescribed binary
-
-    AB_given_14D_window=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["Positive_test_date - 14 days","Positive_test_date + 14 days"],
-        returning="binary_flag",
-        return_expectations={"incidence":0.3,},
-    ),
-
-    AB_given_14D_window=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["Positive_test_date - 14 days","Positive_test_date + 14 days"],
-        returning="binary_flag",
-        return_expectations={"incidence":0.3,},
-    ),
+)
