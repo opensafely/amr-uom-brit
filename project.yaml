@@ -2871,5 +2871,5 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/number_check.csv
-        table1: output/number_check_normal.csv
-        table1: output/frequency_check_2021.csv
+        table2: output/number_check_normal.csv
+        table3: output/frequency_check_2021.csv
