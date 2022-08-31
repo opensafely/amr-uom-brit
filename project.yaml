@@ -2864,3 +2864,12 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_2021_ab.html
+
+  2021_ab_num_check: 
+    run: r:latest analysis/conversion/2021_ab_num_check.R
+    needs: [process_2_21_1,process_2_21_2,generate_study_population_ab_type_2021]
+    outputs:
+       moderately_sensitive:
+        table1: output/number_check.csv
+        table1: output/number_check_normal.csv
+        table1: output/frequency_check_2021.csv
