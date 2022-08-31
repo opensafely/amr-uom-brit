@@ -32,39 +32,7 @@ ab_type=paste0("AB_",rep(1:12))
 temp <- vector("list", length(csvFiles))
 for (i in seq_along(csvFiles)){
   # read in one-month data
-  df <- read_csv((csvFiles[i]),
-                 col_types = cols_only(
-                   AB_1_date = col_date(format = ""),
-                   AB_2_date = col_date(format = ""),
-                   AB_3_date = col_date(format = ""),
-                   AB_4_date = col_date(format = ""),
-                   AB_5_date = col_date(format = ""),
-                   AB_6_date = col_date(format = ""),
-                   AB_7_date = col_date(format = ""),
-                   AB_8_date = col_date(format = ""),
-                   AB_9_date = col_date(format = ""),
-                   AB_10_date = col_date(format = ""),
-                   AB_11_date = col_date(format = ""),
-                   AB_12_date = col_date(format = ""),
-                   age = col_integer(),
-                   sex = col_character(),
-                   practice = col_integer(),
-                   AB_1 = col_character(),
-                   AB_2 = col_character(),
-                   AB_3 = col_character(),
-                   AB_4 = col_character(),
-                   AB_5 = col_character(),
-                   AB_6 = col_character(),
-                   AB_7 = col_character(),
-                   AB_8 = col_character(),
-                   AB_9 = col_character(),
-                   AB_10 = col_character(),
-                   AB_11 = col_character(),
-                   AB_12 = col_character(),
-                   patient_id = col_integer()
-                 ),
-                 na = character())
-
+  df <- read_csv(csvFiles[i])
   df1=df%>%select(patient_id,age,sex,all_of(ab_date_12))
   colnames(df1)[4:15]=paste0("time",rep(1:12))
   df1.1=df1%>%gather(times,date,paste0("time",rep(1:12)))
@@ -105,30 +73,7 @@ infection_type=paste0("Infect_",rep(1:8))
 temp <- vector("list", length(csvFiles))
 for (i in seq_along(csvFiles)){
   # read in one-month data
-  df <- read_csv((csvFiles[i]),
-                 col_types = cols_only(
-                   Infect_1_date = col_date(format = ""),
-                   Infect_2_date = col_date(format = ""),
-                   Infect_3_date = col_date(format = ""),
-                   Infect_4_date = col_date(format = ""),
-                   Infect_5_date = col_date(format = ""),
-                   Infect_6_date = col_date(format = ""),
-                   Infect_7_date = col_date(format = ""),
-                   Infect_8_date = col_date(format = ""),
-                   age = col_integer(),
-                   sex = col_character(),
-                   practice = col_integer(),
-                   Infect_1 = col_character(),
-                   Infect_2 = col_character(),
-                   Infect_3 = col_character(),
-                   Infect_4 = col_character(),
-                   Infect_5 = col_character(),
-                   Infect_6 = col_character(),
-                   Infect_7 = col_character(),
-                   Infect_8 = col_character(),
-                   patient_id = col_integer()
-                 ),
-                 na = character())
+  df <- read_csv(csvFiles[i])
 
   df1=df%>%select(patient_id,age,sex,all_of(ab_date_12))
   colnames(df1)[4:11]=paste0("time",rep(1:8))
