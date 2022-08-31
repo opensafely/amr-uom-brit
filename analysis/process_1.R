@@ -67,7 +67,7 @@ df.0=df%>%
 ## definition _2
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
 df.1 <- read_csv(here::here("output", "input_covid_admission.csv"),na="")
-df.1=df.1%>%filter(as.Date(patient_index_date,origin="1970-01-01") <= as.Date("2021-12-31",origin="1970-01-01"))
+df.1=df.1%>%filter(as.Date(patient_index_date) <= as.Date("2021-12-31"))
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
 
 
@@ -83,6 +83,9 @@ df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 
 df.0$case=0
 df.1$case=1
+
+df.0$patient_index_date=as.Date(df.0$patient_index_date,origin="1970-01-01")
+df.1$patient_index_date=as.Date(df.1$patient_index_date,origin="1970-01-01")
 df=rbind(df.1,df.0)
 
 # keep earlist covid positive date
