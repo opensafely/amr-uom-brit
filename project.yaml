@@ -1445,71 +1445,71 @@ actions:
         rds5: output/measures/abtype_ot_externa.rds
         rds6: output/measures/abtype_otmedia.rds
 
-  describe_infection_abtype_plot: #  incident+prevalent
-    run: r:latest analysis/plot/infection_abtype.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/abtype_uti.jpeg
-        plot2: output/abtype_lrti.jpeg
-        plot3: output/abtype_urti.jpeg
-        plot4: output/abtype_sinusitis.jpeg
-        plot5: output/abtype_ot_externa.jpeg
-        plot6: output/abtype_otmedia.jpeg
-        csv1: output/abtype_uti.csv
-        csv2: output/abtype_lrti.csv
-        csv3: output/abtype_urti.csv
-        csv4: output/abtype_sinusitis.csv
-        csv5: output/abtype_ot_externa.csv
-        csv6: output/abtype_otmedia.csv
+  # describe_infection_abtype_plot: #  incident+prevalent
+  #   run: r:latest analysis/plot/infection_abtype.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/abtype_uti.jpeg
+  #       plot2: output/abtype_lrti.jpeg
+  #       plot3: output/abtype_urti.jpeg
+  #       plot4: output/abtype_sinusitis.jpeg
+  #       plot5: output/abtype_ot_externa.jpeg
+  #       plot6: output/abtype_otmedia.jpeg
+  #       csv1: output/abtype_uti.csv
+  #       csv2: output/abtype_lrti.csv
+  #       csv3: output/abtype_urti.csv
+  #       csv4: output/abtype_sinusitis.csv
+  #       csv5: output/abtype_ot_externa.csv
+  #       csv6: output/abtype_otmedia.csv
        
-  describe_infection_abtype_plot_redacted: #  incident+prevalent
-    run: r:latest analysis/redaction/infection_abtype.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted/abtype_uti.jpeg
-        plot2: output/redacted/abtype_lrti.jpeg
-        plot3: output/redacted/abtype_urti.jpeg
-        plot4: output/redacted/abtype_sinusitis.jpeg
-        plot5: output/redacted/abtype_ot_externa.jpeg
-        plot6: output/redacted/abtype_otmedia.jpeg
-        csv1: output/redacted/abtype_uti_check.csv
-        csv2: output/redacted/abtype_lrti_check.csv
-        csv3: output/redacted/abtype_urti_check.csv
-        csv4: output/redacted/abtype_sinusitis_check.csv
-        csv5: output/redacted/abtype_ot_externa_check.csv
-        csv6: output/redacted/abtype_otmedia_check.csv
-        csv7: output/redacted/abtype_uti.csv
-        csv8: output/redacted/abtype_lrti.csv
-        csv9: output/redacted/abtype_urti.csv
-        csv10: output/redacted/abtype_sinusitis.csv
-        csv11: output/redacted/abtype_ot_externa.csv
-        csv12: output/redacted/abtype_otmedia.csv
+  # describe_infection_abtype_plot_redacted: #  incident+prevalent
+  #   run: r:latest analysis/redaction/infection_abtype.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted/abtype_uti.jpeg
+  #       plot2: output/redacted/abtype_lrti.jpeg
+  #       plot3: output/redacted/abtype_urti.jpeg
+  #       plot4: output/redacted/abtype_sinusitis.jpeg
+  #       plot5: output/redacted/abtype_ot_externa.jpeg
+  #       plot6: output/redacted/abtype_otmedia.jpeg
+  #       csv1: output/redacted/abtype_uti_check.csv
+  #       csv2: output/redacted/abtype_lrti_check.csv
+  #       csv3: output/redacted/abtype_urti_check.csv
+  #       csv4: output/redacted/abtype_sinusitis_check.csv
+  #       csv5: output/redacted/abtype_ot_externa_check.csv
+  #       csv6: output/redacted/abtype_otmedia_check.csv
+  #       csv7: output/redacted/abtype_uti.csv
+  #       csv8: output/redacted/abtype_lrti.csv
+  #       csv9: output/redacted/abtype_urti.csv
+  #       csv10: output/redacted/abtype_sinusitis.csv
+  #       csv11: output/redacted/abtype_ot_externa.csv
+  #       csv12: output/redacted/abtype_otmedia.csv
 
-  describe_infection_abtype_plot_count: #  output raw counts
-    run: r:latest analysis/redaction/infection_abtype_counts.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted/count_abtype_uti.jpeg
-        plot2: output/redacted/count_abtype_lrti.jpeg
-        plot3: output/redacted/count_abtype_urti.jpeg
-        plot4: output/redacted/count_abtype_sinusitis.jpeg
-        plot5: output/redacted/count_abtype_ot_externa.jpeg
-        plot6: output/redacted/count_abtype_otmedia.jpeg
-        csv1: output/redacted/count_abtype_uti_check.csv
-        csv2: output/redacted/count_abtype_lrti_check.csv
-        csv3: output/redacted/count_abtype_urti_check.csv
-        csv4: output/redacted/count_abtype_sinusitis_check.csv
-        csv5: output/redacted/count_abtype_ot_externa_check.csv
-        csv6: output/redacted/count_abtype_otmedia_check.csv
-        csv7: output/redacted/count_abtype_uti.csv
-        csv8: output/redacted/count_abtype_lrti.csv
-        csv9: output/redacted/count_abtype_urti.csv
-        csv10: output/redacted/count_abtype_sinusitis.csv
-        csv11: output/redacted/count_abtype_ot_externa.csv
-        csv12: output/redacted/count_abtype_otmedia.csv
+  # describe_infection_abtype_plot_count: #  output raw counts
+  #   run: r:latest analysis/redaction/infection_abtype_counts.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted/count_abtype_uti.jpeg
+  #       plot2: output/redacted/count_abtype_lrti.jpeg
+  #       plot3: output/redacted/count_abtype_urti.jpeg
+  #       plot4: output/redacted/count_abtype_sinusitis.jpeg
+  #       plot5: output/redacted/count_abtype_ot_externa.jpeg
+  #       plot6: output/redacted/count_abtype_otmedia.jpeg
+  #       csv1: output/redacted/count_abtype_uti_check.csv
+  #       csv2: output/redacted/count_abtype_lrti_check.csv
+  #       csv3: output/redacted/count_abtype_urti_check.csv
+  #       csv4: output/redacted/count_abtype_sinusitis_check.csv
+  #       csv5: output/redacted/count_abtype_ot_externa_check.csv
+  #       csv6: output/redacted/count_abtype_otmedia_check.csv
+  #       csv7: output/redacted/count_abtype_uti.csv
+  #       csv8: output/redacted/count_abtype_lrti.csv
+  #       csv9: output/redacted/count_abtype_urti.csv
+  #       csv10: output/redacted/count_abtype_sinusitis.csv
+  #       csv11: output/redacted/count_abtype_ot_externa.csv
+  #       csv12: output/redacted/count_abtype_otmedia.csv
 
   describe_infection_noAB_plot: #  percentage
     run: r:latest analysis/redaction/infection_v2_noAB.R
@@ -1530,24 +1530,24 @@ actions:
         csv6: output/redacted_v2/noAB_otmedia_check.csv
         csv7: output/redacted_v2/noAB.csv
 
-  describe_infection_AB_plot: #  percentage
-    run: r:latest analysis/redaction/infection_v2_AB.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti.jpeg
-        plot2: output/redacted_v2/AB_lrti.jpeg
-        plot3: output/redacted_v2/AB_urti.jpeg
-        plot4: output/redacted_v2/AB_sinusitis.jpeg
-        plot5: output/redacted_v2/AB_ot_externa.jpeg
-        plot6: output/redacted_v2/AB_otmedia.jpeg
-        csv1: output/redacted_v2/AB_uti_check.csv
-        csv2: output/redacted_v2/AB_lrti_check.csv
-        csv3: output/redacted_v2/AB_urti_check.csv
-        csv4: output/redacted_v2/AB_sinusitis_check.csv
-        csv5: output/redacted_v2/AB_ot_externa_check.csv
-        csv6: output/redacted_v2/AB_otmedia_check.csv
-        csv7: output/redacted_v2/AB.csv
+  # describe_infection_AB_plot: #  percentage
+  #   run: r:latest analysis/redaction/infection_v2_AB.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted_v2/AB_uti.jpeg
+  #       plot2: output/redacted_v2/AB_lrti.jpeg
+  #       plot3: output/redacted_v2/AB_urti.jpeg
+  #       plot4: output/redacted_v2/AB_sinusitis.jpeg
+  #       plot5: output/redacted_v2/AB_ot_externa.jpeg
+  #       plot6: output/redacted_v2/AB_otmedia.jpeg
+  #       csv1: output/redacted_v2/AB_uti_check.csv
+  #       csv2: output/redacted_v2/AB_lrti_check.csv
+  #       csv3: output/redacted_v2/AB_urti_check.csv
+  #       csv4: output/redacted_v2/AB_sinusitis_check.csv
+  #       csv5: output/redacted_v2/AB_ot_externa_check.csv
+  #       csv6: output/redacted_v2/AB_otmedia_check.csv
+  #       csv7: output/redacted_v2/AB.csv
 
   infection_ab_ITS2_plot: 
     run: r:latest -e 'rmarkdown::render("analysis/model/infection_ab_ITS2_plot.rmd", output_dir = "output/report")'
