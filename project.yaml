@@ -2857,3 +2857,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_ab_infection_2021_new_extraction_*.csv.gz 
+
+  check_2021_ab:
+    run: r:latest -e 'rmarkdown::render("analysis/conversion/check_2021_ab.Rmd", output_dir = "output")'
+    needs: [generate_study_population_ab_type_2021_new_extraction,generate_study_population_ab_infection_2021_new_extraction]
+    outputs:
+      moderately_sensitive:
+        html: output/check_2021_ab.html
