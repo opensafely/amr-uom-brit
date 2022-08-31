@@ -70,7 +70,7 @@ study = StudyDefinition(
         
         has_ab=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=[start_date, end_date],
+        between=["index_date", "last_day_of_month(index_date)"],
         returning="binary_flag"
         ),
 
