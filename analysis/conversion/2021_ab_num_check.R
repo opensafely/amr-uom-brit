@@ -1,7 +1,10 @@
-
-library("dplyr")
-library("tidyverse")
-library("lubridate")
+library("tidyverse") 
+library('plyr')
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
 library("finalfit")
 
 rm(list=ls())
@@ -14,9 +17,6 @@ df2 <- bind_rows(df2)
 DF <- rbind(df1,df2)
 rm(df1,df2)
 DF <- select(DF,patient_id,date,ab_prevalent,ab_prevalent_infection, ab_repeat, ab_history)
-
-DF$date[DF$date == ""] <- NA
-DF=DF%>%filter(!is.na(date))
 
 num_record <- as.data.frame(length(DF$date))
 write_csv(num_record, here::here("output", "number_check.csv"))
@@ -101,21 +101,20 @@ for (i in seq_along(csvFiles)){
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
   
-  DF=DF%>%filter(!is.na(date))
-
-  DF$date[DF$date == ""] <- NA
-  DF=DF%>%filter(!is.na(date))
-  
+  temp[[i]] <- DF
 }
 
 DF_ab <- bind_rows(temp)
+DF_ab$date[DF_ab$date == ""] <- NA
+DF_ab=DF_ab%>%filter(!is.na(date))
+
 num_record <- as.data.frame(length(DF_ab$date))
 write_csv(num_record, here::here("output", "number_check_normal.csv"))
 
+DF_ab$infection[DF_ab$infection == ""] <- NA
+DF_ab <- select(DF_ab,type,infection)
 
-dttable <- select(DF_ab,type,infection)
-
-colsfortab <- colnames(dttable)
-dttable %>% summary_factorlist(explanatory = colsfortab) -> t
+colsfortab <- colnames(DF_ab)
+DF_ab %>% summary_factorlist(explanatory = colsfortab) -> t
 
 write_csv(t, here::here("output", "frequency_check_2021.csv"))
