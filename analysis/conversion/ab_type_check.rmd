@@ -24,7 +24,7 @@ library("tidyverse")
 ```
 
 ```{r }
-df = read.csv(here::here("output","measures","input_ab_type_OS_new_2021_2021-01-01.csv.gz"))
+df = read_csv(here::here("output","measures","input_ab_type_OS_new_2021_2021-01-01.csv.gz"),na = "")
 #df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures/input_ab_type_OS_new_2021_2021-01-01.csv.gz")
 
 
@@ -53,6 +53,13 @@ length(unique(as.factor(df$patient_id)))
 
 print(sum(df[,"AB_1_date"]==""))
 print(sum(df[,"AB_2_date"]==""))
+
+#for (i in 1:2){
+  
+ # date=paste0("AB_",i,"_date")
+  
+#print(sum(is.na(df[,date])))
+#}
 
 
 ```
