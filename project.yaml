@@ -1428,7 +1428,7 @@ actions:
   #       csv: output/ab_recorded_indication.csv
 
   generate_study_population_infection_abtype: # for ab types plot
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_abtype --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort  --with-end-date-fix --study-definition study_definition_infection_abtype --index-date-range "2019-01-01 to 2019-02-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_infection_abtype_*.csv.gz
@@ -1556,24 +1556,24 @@ actions:
       moderately_sensitive:
         html: output/report/infection_ab_ITS2_plot.html
 
-  describe_infection_AB_plot_top3: #  percentage
-    run: r:latest analysis/redaction/infection_v2_AB_top3.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti_top3.jpeg
-        plot2: output/redacted_v2/AB_lrti_top3.jpeg
-        plot3: output/redacted_v2/AB_urti_top3.jpeg
-        plot4: output/redacted_v2/AB_sinusitis_top3.jpeg
-        plot5: output/redacted_v2/AB_ot_externa_top3.jpeg
-        plot6: output/redacted_v2/AB_otmedia_top3.jpeg
-        csv1: output/redacted_v2/AB_uti_check_top3.csv
-        csv2: output/redacted_v2/AB_lrti_check_top3.csv
-        csv3: output/redacted_v2/AB_urti_check_top3.csv
-        csv4: output/redacted_v2/AB_sinusitis_check_top3.csv
-        csv5: output/redacted_v2/AB_ot_externa_check_top3.csv
-        csv6: output/redacted_v2/AB_otmedia_check_top3.csv
-        csv7: output/redacted_v2/AB_top3.csv
+  # describe_infection_AB_plot_top3: #  percentage
+  #   run: r:latest analysis/redaction/infection_v2_AB_top3.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted_v2/AB_uti_top3.jpeg
+  #       plot2: output/redacted_v2/AB_lrti_top3.jpeg
+  #       plot3: output/redacted_v2/AB_urti_top3.jpeg
+  #       plot4: output/redacted_v2/AB_sinusitis_top3.jpeg
+  #       plot5: output/redacted_v2/AB_ot_externa_top3.jpeg
+  #       plot6: output/redacted_v2/AB_otmedia_top3.jpeg
+  #       csv1: output/redacted_v2/AB_uti_check_top3.csv
+  #       csv2: output/redacted_v2/AB_lrti_check_top3.csv
+  #       csv3: output/redacted_v2/AB_urti_check_top3.csv
+  #       csv4: output/redacted_v2/AB_sinusitis_check_top3.csv
+  #       csv5: output/redacted_v2/AB_ot_externa_check_top3.csv
+  #       csv6: output/redacted_v2/AB_otmedia_check_top3.csv
+  #       csv7: output/redacted_v2/AB_top3.csv
 
   describe_infection_AB_plot_top5: #  percentage
     run: r:latest analysis/redaction/infection_v2_AB_top5.R
