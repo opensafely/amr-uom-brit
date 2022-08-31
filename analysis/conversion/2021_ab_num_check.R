@@ -22,11 +22,12 @@ num_record <- as.data.frame(length(DF$date))
 write_csv(num_record, here::here("output", "number_check.csv"))
 
 
-rm(list=ls())
-setwd(here::here("output"))
 
 # file list
-csvFiles = list.files(pattern="input_ab_type_2021_2021", full.names = FALSE)
+csvFiles = c("input_ab_type_2021_2021-01-01.csv.gz","input_ab_type_2021_2021-02-01.csv.gz","input_ab_type_2021_2021-03-01.csv.gz",
+"input_ab_type_2021_2021-04-01.csv.gz","input_ab_type_2021_2021-05-01.csv.gz","input_ab_type_2021_2021-06-01.csv.gz",
+"input_ab_type_2021_2021-07-01.csv.gz","input_ab_type_2021_2021-08-01.csv.gz","input_ab_type_2021_2021-09-01.csv.gz",
+"input_ab_type_2021_2021-10-01.csv.gz","input_ab_type_2021_2021-11-01.csv.gz","input_ab_type_2021_2021-12-01.csv.gz")
 
 # variables
 ab_date_12=paste0("AB_date_",rep(1:12))
@@ -62,7 +63,6 @@ for (i in seq_along(csvFiles)){
 }
 
 DF_ab <- bind_rows(temp)
-DF_ab$date[DF_ab$date == ""] <- NA
 DF_ab=DF_ab%>%filter(!is.na(date))
 
 num_record <- as.data.frame(length(DF_ab$date))
