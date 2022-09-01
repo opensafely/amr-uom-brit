@@ -2809,7 +2809,7 @@ actions:
 
   process_cohort_1_id_extraction: 
     run: r:latest analysis/conversion/cohort_1_id_extraction.R
-    needs: [process_1_2019,process_1_2020,process_1_2021]
+    needs: [process_1_2019]
     outputs:
        highly_sensitive:
         talbe1: output/cohort_1_id_2019.csv
