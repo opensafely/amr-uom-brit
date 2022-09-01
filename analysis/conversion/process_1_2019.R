@@ -21,18 +21,18 @@ ab_type=paste0("Ab_date_",rep(1:12),"_type")
 # read columns
 col_spec <-cols_only( patient_id = col_integer(),
                       
-                   AB_date_1 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_2 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_3 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_4 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_5 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_6 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_7 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_8 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_9 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_10 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_11 = col_date(format = "YYYY-MM-DD"),
-                   AB_date_12 = col_date(format = "YYYY-MM-DD"),
+                   AB_date_1 = col_date(format = ""),
+                   AB_date_2 = col_date(format = ""),
+                   AB_date_3 = col_date(format = ""),
+                   AB_date_4 = col_date(format = ""),
+                   AB_date_5 = col_date(format = ""),
+                   AB_date_6 = col_date(format = ""),
+                   AB_date_7 = col_date(format = ""),
+                   AB_date_8 = col_date(format = ""),
+                   AB_date_9 = col_date(format = ""),
+                   AB_date_10 = col_date(format = ""),
+                   AB_date_11 = col_date(format = ""),
+                   AB_date_12 = col_date(format = ""),
 
                    AB_date_1_indication = col_character(),
                    AB_date_2_indication = col_character(),
@@ -69,7 +69,7 @@ col_spec <-cols_only( patient_id = col_integer(),
 temp <- vector("list", length(csvFiles))
 for (i in seq_along(csvFiles)){
   df <- read_csv(csvFiles[i],
-                 col_types = col_spec, na="")
+                 col_types = col_spec)
   
   df1=df%>%select(patient_id,age,sex,ab_date_12)
   colnames(df1)[4:15]=paste0("time",rep(1:12))
