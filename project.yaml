@@ -716,7 +716,7 @@ actions:
   #       plot: output/same_day_ab_prop_line_gp.jpeg
 
   generate_study_population_antibiotics: #  Antibiotics_recorded_01
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort  --with-end-date-fix --study-definition study_definition_antibiotics --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_antibiotics_*.csv.gz
@@ -749,21 +749,21 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_infection_all_pre_*.csv.gz
 
-  generate_study_population_antibiotics_covid: #  Ab for covid
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_antibiotics_covid_*.csv.gz
+  # generate_study_population_antibiotics_covid: #  Ab for covid
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/measures/input_antibiotics_covid_*.csv.gz
 
-  describe_ab_recoded_covid_process:
-    run: r:latest analysis/process/ab_covid_transform.R
-    needs: [generate_study_population_antibiotics_covid]
-    outputs:
-       highly_sensitive:
-        rds1: output/measures/recorded_ab_covid_2019.rds
-        rds2: output/measures/recorded_ab_covid_2020.rds
-        rds3: output/measures/recorded_ab_covid_2021.rds
-       # rds4: output/measures/recorded_ab_covid_2022.rds
+  # describe_ab_recoded_covid_process:
+  #   run: r:latest analysis/process/ab_covid_transform.R
+  #   needs: [generate_study_population_antibiotics_covid]
+  #   outputs:
+  #      highly_sensitive:
+  #       rds1: output/measures/recorded_ab_covid_2019.rds
+  #       rds2: output/measures/recorded_ab_covid_2020.rds
+  #       rds3: output/measures/recorded_ab_covid_2021.rds
+  #      # rds4: output/measures/recorded_ab_covid_2022.rds
 
 # used describe_ab_recoded_broad_process instead
   # describe_ab_recoded_indication_process: #  Antibiotics_recorded_02: generate prescription-level dataset 
@@ -803,41 +803,41 @@ actions:
       moderately_sensitive:
         html: output/report/ab_recoded_indication_ITS2_plot.html
 
-  describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
-    run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
-    needs: [describe_ab_recoded_covid_process] 
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_incident_bar.jpeg
-        plot2: output/ab_recorded_covid_incident_line.jpeg
-        csv: output/ab_recorded_covid_incident.csv
+  # describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
+  #   run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
+  #   needs: [describe_ab_recoded_covid_process] 
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/ab_recorded_covid_incident_bar.jpeg
+  #       plot2: output/ab_recorded_covid_incident_line.jpeg
+  #       csv: output/ab_recorded_covid_incident.csv
 
-  describe_ab_recoded_covid_plot_prevalent: 
-    run: r:latest analysis/plot/ab_recorded_covid_plot_prevalent.R
-    needs: [describe_ab_recoded_covid_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_prevalent_bar.jpeg
-        plot2: output/ab_recorded_covid_prevalent_line.jpeg
-        csv: output/ab_recorded_covid_prevalent.csv
+  # describe_ab_recoded_covid_plot_prevalent: 
+  #   run: r:latest analysis/plot/ab_recorded_covid_plot_prevalent.R
+  #   needs: [describe_ab_recoded_covid_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/ab_recorded_covid_prevalent_bar.jpeg
+  #       plot2: output/ab_recorded_covid_prevalent_line.jpeg
+  #       csv: output/ab_recorded_covid_prevalent.csv
   
-  describe_ab_recoded_covid_all_plot_incident: # combind all indication and covid
-    run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_incident.R
-    needs: [describe_ab_recoded_covid_plot_incident,describe_ab_recoded_indication_plot_incident] 
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_indication_incident_bar.jpeg
-        plot2: output/ab_recorded_covid_indication_incident_line.jpeg
-        csv: output/ab_recorded_covid_indication_incident.csv
+  # describe_ab_recoded_covid_all_plot_incident: # combind all indication and covid
+  #   run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_incident.R
+  #   needs: [describe_ab_recoded_covid_plot_incident,describe_ab_recoded_indication_plot_incident] 
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/ab_recorded_covid_indication_incident_bar.jpeg
+  #       plot2: output/ab_recorded_covid_indication_incident_line.jpeg
+  #       csv: output/ab_recorded_covid_indication_incident.csv
   
-  describe_ab_recoded_covid_all_plot_prevalent: 
-    run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_prevalent.R
-    needs: [describe_ab_recoded_covid_plot_prevalent,describe_ab_recoded_indication_plot_prevalent] 
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_indication_prevalent_bar.jpeg
-        plot2: output/ab_recorded_covid_indication_prevalent_line.jpeg
-        csv: output/ab_recorded_covid_indication_prevalent.csv
+  # describe_ab_recoded_covid_all_plot_prevalent: 
+  #   run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_prevalent.R
+  #   needs: [describe_ab_recoded_covid_plot_prevalent,describe_ab_recoded_indication_plot_prevalent] 
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/ab_recorded_covid_indication_prevalent_bar.jpeg
+  #       plot2: output/ab_recorded_covid_indication_prevalent_line.jpeg
+  #       csv: output/ab_recorded_covid_indication_prevalent.csv
 
   describe_ab_recoded_broad_process:
     run: r:latest analysis/process/broad_transform.R
