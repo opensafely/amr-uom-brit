@@ -1,11 +1,5 @@
 {
   "files": {
-    "opensafely-antibacterials.csv": {
-      "id": "opensafely/antibacterials/27089eaa",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/27089eaa/",
-      "downloaded_at": "2021-09-17 13:38:25.538531Z",
-      "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
-    },
     "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
@@ -451,478 +445,478 @@
       "sha": "f0b93b0054d673e8dcfbeba8fea0cd54239f0725"
     },
     "user-yayang-codes_ab_type_amikacincsv.csv": {
-      "id": "user/yayang/codes_ab_type_amikacincsv/7e8681a9",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_amikacincsv/7e8681a9/",
-      "downloaded_at": "2022-08-24 13:12:57.293582Z",
-      "sha": "dfefbaca70b0724b9fbd3d127872f7281e3517ca"
+      "id": "user/yayang/codes_ab_type_amikacincsv/1541da32",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_amikacincsv/1541da32/",
+      "downloaded_at": "2022-09-01 10:50:35.539320Z",
+      "sha": "24b7f8bdf4a6c826804cc50b5749f6b846c43d70"
     },
     "user-yayang-codes_ab_type_amoxicillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_amoxicillincsv/65770e74",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_amoxicillincsv/65770e74/",
-      "downloaded_at": "2022-08-24 13:12:57.454088Z",
-      "sha": "08f287023f422aceb152662b81a179d79e1d5c3c"
+      "id": "user/yayang/codes_ab_type_amoxicillincsv/7c3266fc",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_amoxicillincsv/7c3266fc/",
+      "downloaded_at": "2022-09-01 10:50:35.700324Z",
+      "sha": "a8c067eef6f4fd87711941cd533811ac49f11544"
     },
     "user-yayang-codes_ab_type_ampicillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_ampicillincsv/4c679b3f",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ampicillincsv/4c679b3f/",
-      "downloaded_at": "2022-08-24 13:12:57.607393Z",
-      "sha": "a3f2a0a9e13481aac6db48138c8aa621b081a4a4"
+      "id": "user/yayang/codes_ab_type_ampicillincsv/6322f3c7",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ampicillincsv/6322f3c7/",
+      "downloaded_at": "2022-09-01 10:50:35.852151Z",
+      "sha": "68601b2c87700e902b5b68b1c90ffee4f2826a6d"
     },
     "user-yayang-codes_ab_type_azithromycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_azithromycincsv/3358280a",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_azithromycincsv/3358280a/",
-      "downloaded_at": "2022-08-24 13:12:57.736793Z",
-      "sha": "90e7bfa71e145d8e88f232ae985a867fbc6172f1"
+      "id": "user/yayang/codes_ab_type_azithromycincsv/4a138092",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_azithromycincsv/4a138092/",
+      "downloaded_at": "2022-09-01 10:50:36.013252Z",
+      "sha": "17f6891a5514a7d7adb6b5aaa7095ce4b2cc89bf"
     },
     "user-yayang-codes_ab_type_aztreonamcsv.csv": {
-      "id": "user/yayang/codes_ab_type_aztreonamcsv/1a48b4d5",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_aztreonamcsv/1a48b4d5/",
+      "id": "user/yayang/codes_ab_type_aztreonamcsv/31040d5d",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_aztreonamcsv/31040d5d/",
       "downloaded_at": "2022-08-24 13:12:57.871249Z",
       "sha": "007a319ac0679f04e2f7f46e51421a3c889e8e09"
     },
     "user-yayang-codes_ab_type_benzylpenicillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_benzylpenicillincsv/013941a0",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_benzylpenicillincsv/013941a0/",
-      "downloaded_at": "2022-08-24 13:12:58.021773Z",
-      "sha": "e1b7516889b87e6dae1d54857f2aa1cd38f0effc"
+      "id": "user/yayang/codes_ab_type_benzylpenicillincsv/17f49a28",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_benzylpenicillincsv/17f49a28/",
+      "downloaded_at": "2022-09-01 10:50:36.248468Z",
+      "sha": "d5c7c4a697b59c128c389d12289baa451c976d6d"
     },
     "user-yayang-codes_ab_type_cefaclorcsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefaclorcsv/6829ce6a",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefaclorcsv/6829ce6a/",
-      "downloaded_at": "2022-08-24 13:12:58.164569Z",
-      "sha": "b97f5c8919b96616882af6a7fc814bcb58a2624a"
+      "id": "user/yayang/codes_ab_type_cefaclorcsv/7ee526f2",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefaclorcsv/7ee526f2/",
+      "downloaded_at": "2022-09-01 10:50:36.371074Z",
+      "sha": "22c54d8204f771fcc811bc96bb56d91dde35eab4"
     },
     "user-yayang-codes_ab_type_cefadroxilcsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefadroxilcsv/4f1a5b35",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefadroxilcsv/4f1a5b35/",
-      "downloaded_at": "2022-08-24 13:12:58.292801Z",
-      "sha": "d1ff3b1b2526f3cf395cc79cea536a40c6a2a52f"
+      "id": "user/yayang/codes_ab_type_cefadroxilcsv/65d5b3bd",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefadroxilcsv/65d5b3bd/",
+      "downloaded_at": "2022-09-01 10:50:36.506633Z",
+      "sha": "e7ddde19efdff605daef2309b9424ca7533debac"
     },
     "user-yayang-codes_ab_type_cefalexincsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefalexincsv/360ae800",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefalexincsv/360ae800/",
-      "downloaded_at": "2022-08-24 13:12:58.445643Z",
-      "sha": "e4018ca2b772fdc3ae40b478e8cfacc4fede159b"
+      "id": "user/yayang/codes_ab_type_cefalexincsv/4cc64088",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefalexincsv/4cc64088/",
+      "downloaded_at": "2022-09-01 10:50:36.650862Z",
+      "sha": "a7b185efc83333a1ef4ea8d557076525ceb7ff79"
     },
     "user-yayang-codes_ab_type_cefamandolecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefamandolecsv/1cfb74cb",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefamandolecsv/1cfb74cb/",
+      "id": "user/yayang/codes_ab_type_cefamandolecsv/33b6cd53",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefamandolecsv/33b6cd53/",
       "downloaded_at": "2022-08-24 13:12:58.585939Z",
       "sha": "901e06e808d6f431084eb539625fc394a9cc0621"
     },
     "user-yayang-codes_ab_type_cefazolincsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefazolincsv/03ec0196",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefazolincsv/03ec0196/",
+      "id": "user/yayang/codes_ab_type_cefazolincsv/1aa75a1e",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefazolincsv/1aa75a1e/",
       "downloaded_at": "2022-08-24 13:12:58.786616Z",
       "sha": "a3c2e7b1ebcf7b736ac3572b0b4932b02791cd39"
     },
     "user-yayang-codes_ab_type_cefepimecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefepimecsv/6adc8e60",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefepimecsv/6adc8e60/",
+      "id": "user/yayang/codes_ab_type_cefepimecsv/0197e6e9",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefepimecsv/0197e6e9/",
       "downloaded_at": "2022-08-24 13:12:58.910084Z",
       "sha": "729591c2998158805fba1405bf5bfb2ac917d72d"
     },
     "user-yayang-codes_ab_type_cefiximecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefiximecsv/51cd1b2b",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefiximecsv/51cd1b2b/",
-      "downloaded_at": "2022-08-24 13:12:59.050413Z",
-      "sha": "668a26670b614ec82754d89effa930ede5e76b02"
+      "id": "user/yayang/codes_ab_type_cefiximecsv/688873b3",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefiximecsv/688873b3/",
+      "downloaded_at": "2022-09-01 10:50:37.076797Z",
+      "sha": "7bb75bf7f0f156ff4ec123bd910f420d9e695faf"
     },
     "user-yayang-codes_ab_type_cefotaximecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefotaximecsv/38bda7f6",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefotaximecsv/38bda7f6/",
-      "downloaded_at": "2022-08-24 13:12:59.194527Z",
-      "sha": "b68da2aac05124e0999f5def34d0f20cb2be1748"
+      "id": "user/yayang/codes_ab_type_cefotaximecsv/4f79007e",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefotaximecsv/4f79007e/",
+      "downloaded_at": "2022-09-01 10:50:37.186183Z",
+      "sha": "3c9a2deb6499e0f8428cd4a5eadda7e8124369d8"
     },
     "user-yayang-codes_ab_type_cefoxitincsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefoxitincsv/1fae34c1",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefoxitincsv/1fae34c1/",
-      "downloaded_at": "2022-08-24 13:12:59.344464Z",
-      "sha": "4392dd83c5746ccca0c4d608ec62b751bcab426f"
+      "id": "user/yayang/codes_ab_type_cefoxitincsv/36698d49",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefoxitincsv/36698d49/",
+      "downloaded_at": "2022-09-01 10:50:37.319950Z",
+      "sha": "a4983dc2ff1de1e3fc0e1e9f7265faa5feccab27"
     },
     "user-yayang-codes_ab_type_cefpiromecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefpiromecsv/069ec18c",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefpiromecsv/069ec18c/",
+      "id": "user/yayang/codes_ab_type_cefpiromecsv/1d5a1a14",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefpiromecsv/1d5a1a14/",
       "downloaded_at": "2022-08-24 13:12:59.528380Z",
       "sha": "a9311d0c4aa7dc3ceaff9f20938881ed8cc1362a"
     },
     "user-yayang-codes_ab_type_cefpodoximecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefpodoximecsv/6d8f4e56",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefpodoximecsv/6d8f4e56/",
+      "id": "user/yayang/codes_ab_type_cefpodoximecsv/6b3b33a9",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefpodoximecsv/6b3b33a9/",
       "downloaded_at": "2022-08-24 13:12:59.657478Z",
       "sha": "1f92594830a73f29ffa9dea2320ff899d68f96f6"
     },
     "user-yayang-codes_ab_type_cefprozilcsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefprozilcsv/547fdb21",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefprozilcsv/547fdb21/",
+      "id": "user/yayang/codes_ab_type_cefprozilcsv/522bc074",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefprozilcsv/522bc074/",
       "downloaded_at": "2022-08-24 13:12:59.835782Z",
       "sha": "1fc76ab101d60a21a8248d8f09321106abef8983"
     },
     "user-yayang-codes_ab_type_cefradinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefradinecsv/3b7067ec",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefradinecsv/3b7067ec/",
-      "downloaded_at": "2022-08-24 13:12:59.976100Z",
-      "sha": "2b7e3229541feacd60e315b6ae75d179dd7e8772"
+      "id": "user/yayang/codes_ab_type_cefradinecsv/391c4d3f",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefradinecsv/391c4d3f/",
+      "downloaded_at": "2022-09-01 10:50:37.850559Z",
+      "sha": "04f62f2fa60c1dcb85c29c1c04b80e11598c250c"
     },
     "user-yayang-codes_ab_type_ceftazidimecsv.csv": {
-      "id": "user/yayang/codes_ab_type_ceftazidimecsv/2260f4b7",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ceftazidimecsv/2260f4b7/",
-      "downloaded_at": "2022-08-24 13:13:00.138976Z",
-      "sha": "9175983bfd85a2ed8a36f5694c4fe191f484817a"
+      "id": "user/yayang/codes_ab_type_ceftazidimecsv/200cda0a",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ceftazidimecsv/200cda0a/",
+      "downloaded_at": "2022-09-01 10:50:37.988365Z",
+      "sha": "7a21afd3eb61f14d916cc79da5a618ea07dbcc96"
     },
     "user-yayang-codes_ab_type_ceftriaxonecsv.csv": {
-      "id": "user/yayang/codes_ab_type_ceftriaxonecsv/09518182",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ceftriaxonecsv/09518182/",
-      "downloaded_at": "2022-08-24 13:13:00.273772Z",
-      "sha": "b4847799f4105932f5f542291d15e5b9636916fa"
+      "id": "user/yayang/codes_ab_type_ceftriaxonecsv/06fd66d5",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ceftriaxonecsv/06fd66d5/",
+      "downloaded_at": "2022-09-01 10:50:38.125173Z",
+      "sha": "7b491b168ea7e035164ab5bf4bae7a03c8a8ec1d"
     },
     "user-yayang-codes_ab_type_cefuroximecsv.csv": {
-      "id": "user/yayang/codes_ab_type_cefuroximecsv/70420e4c",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefuroximecsv/70420e4c/",
-      "downloaded_at": "2022-08-24 13:13:00.392899Z",
-      "sha": "626d2ee3c260b0c049bbfe25a8052e0898e8589d"
+      "id": "user/yayang/codes_ab_type_cefuroximecsv/6dedf39f",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cefuroximecsv/6dedf39f/",
+      "downloaded_at": "2022-09-01 10:50:38.253363Z",
+      "sha": "86bc6e528b77af8027fdafcc9ee25d08debb5004"
     },
     "user-yayang-codes_ab_type_chloramphenicolcsv.csv": {
-      "id": "user/yayang/codes_ab_type_chloramphenicolcsv/57329b17",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_chloramphenicolcsv/57329b17/",
-      "downloaded_at": "2022-08-24 13:13:00.537519Z",
-      "sha": "99fad3e5314bd7b445d218498061050292e446c0"
+      "id": "user/yayang/codes_ab_type_chloramphenicolcsv/54de806a",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_chloramphenicolcsv/54de806a/",
+      "downloaded_at": "2022-09-01 10:50:38.378201Z",
+      "sha": "a21f722a85413becc7415b88dba5122576027226"
     },
     "user-yayang-codes_ab_type_cilastatincsv.csv": {
-      "id": "user/yayang/codes_ab_type_cilastatincsv/2513b4ad",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cilastatincsv/2513b4ad/",
-      "downloaded_at": "2022-08-24 13:13:00.705476Z",
-      "sha": "cf9d65f786068805204b189e6a76d6b2dcff768a"
+      "id": "user/yayang/codes_ab_type_cilastatincsv/3bcf0d35",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_cilastatincsv/3bcf0d35/",
+      "downloaded_at": "2022-09-01 10:50:38.506532Z",
+      "sha": "1a4283c54b2e601dde2d66a461a3e50aac803b31"
     },
     "user-yayang-codes_ab_type_ciprofloxacincsv.csv": {
-      "id": "user/yayang/codes_ab_type_ciprofloxacincsv/0c044178",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ciprofloxacincsv/0c044178/",
-      "downloaded_at": "2022-08-24 13:13:00.842287Z",
-      "sha": "2735098a48cb00adf23e8562aa59c9258635e79d"
+      "id": "user/yayang/codes_ab_type_ciprofloxacincsv/22bf9a00",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ciprofloxacincsv/22bf9a00/",
+      "downloaded_at": "2022-09-01 10:50:38.738316Z",
+      "sha": "88dd25b39c68595ac0e6521f2e58753bccdf564f"
     },
     "user-yayang-codes_ab_type_clarithromycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_clarithromycincsv/72f4ce42",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_clarithromycincsv/72f4ce42/",
-      "downloaded_at": "2022-08-24 13:13:01.015729Z",
-      "sha": "c1d042829428219dc05c8bc3f178a9a6c7beb660"
+      "id": "user/yayang/codes_ab_type_clarithromycincsv/09b026cb",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_clarithromycincsv/09b026cb/",
+      "downloaded_at": "2022-09-01 10:50:38.872488Z",
+      "sha": "7f251b2d67fe80c261b0c7eb0964d8a538850390"
     },
     "user-yayang-codes_ab_type_clindamycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_clindamycincsv/59e55b0d",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_clindamycincsv/59e55b0d/",
-      "downloaded_at": "2022-08-24 13:13:01.165517Z",
-      "sha": "f5fb4bd46106791a3420b4d7345fe694fe5de45e"
+      "id": "user/yayang/codes_ab_type_clindamycincsv/70a0b395",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_clindamycincsv/70a0b395/",
+      "downloaded_at": "2022-09-01 10:50:39.008010Z",
+      "sha": "dc138d9b510cc578fe30eeeb82ef3ef88a1ecee9"
     },
     "user-yayang-codes_ab_type_co-amoxiclavcsv.csv": {
-      "id": "user/yayang/codes_ab_type_co-amoxiclavcsv/40d5e7d8",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_co-amoxiclavcsv/40d5e7d8/",
-      "downloaded_at": "2022-08-24 13:13:01.290177Z",
-      "sha": "fd75b661e7115be6e86ffc03df1b9214e6d891fc"
+      "id": "user/yayang/codes_ab_type_co-amoxiclavcsv/57914060",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_co-amoxiclavcsv/57914060/",
+      "downloaded_at": "2022-09-01 10:50:39.142500Z",
+      "sha": "b9e20f9a11076a24c2c7874f9b38b11b0e4974d3"
     },
     "user-yayang-codes_ab_type_co-fluampicilcsv.csv": {
-      "id": "user/yayang/codes_ab_type_co-fluampicilcsv/27c674a3",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_co-fluampicilcsv/27c674a3/",
-      "downloaded_at": "2022-08-24 13:13:01.416158Z",
-      "sha": "fb11d11c9a070fa09ee1c3ee8697c31eaec22fe9"
+      "id": "user/yayang/codes_ab_type_co-fluampicilcsv/3e81cd2b",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_co-fluampicilcsv/3e81cd2b/",
+      "downloaded_at": "2022-09-01 10:50:39.278298Z",
+      "sha": "3a6ea56d15a8e17350f3f3f26246fd20431556dd"
     },
     "user-yayang-codes_ab_type_colistimethatecsv.csv": {
-      "id": "user/yayang/codes_ab_type_colistimethatecsv/75a78e38",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_colistimethatecsv/75a78e38/",
-      "downloaded_at": "2022-08-24 13:13:01.563757Z",
-      "sha": "e9e1cdc30db1e94181c5feb0f87f23651c0c778f"
+      "id": "user/yayang/codes_ab_type_colistimethatecsv/257259f6",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_colistimethatecsv/257259f6/",
+      "downloaded_at": "2022-09-01 10:50:39.415156Z",
+      "sha": "69f903487d8074e00cef68119e54847080d0dc1d"
     },
     "user-yayang-codes_ab_type_dalbavancincsv.csv": {
-      "id": "user/yayang/codes_ab_type_dalbavancincsv/5c981b03",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_dalbavancincsv/5c981b03/",
+      "id": "user/yayang/codes_ab_type_dalbavancincsv/0c62e6c1",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_dalbavancincsv/0c62e6c1/",
       "downloaded_at": "2022-08-24 13:13:01.705408Z",
       "sha": "bd3686c4e016235374b8209601d339aaf96f04e9"
     },
     "user-yayang-codes_ab_type_dalfopristincsv.csv": {
-      "id": "user/yayang/codes_ab_type_dalfopristincsv/2a793499",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_dalfopristincsv/2a793499/",
+      "id": "user/yayang/codes_ab_type_dalfopristincsv/5a440056",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_dalfopristincsv/5a440056/",
       "downloaded_at": "2022-08-24 13:13:01.835861Z",
       "sha": "03d30488174cc78ab57c75e1a556bb040a79072f"
     },
     "user-yayang-codes_ab_type_daptomycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_daptomycincsv/1169c164",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_daptomycincsv/1169c164/",
-      "downloaded_at": "2022-08-24 13:13:02.066863Z",
-      "sha": "bfaa457a094fa4f9e587cb44974badfb379fe5ac"
+      "id": "user/yayang/codes_ab_type_daptomycincsv/41348d21",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_daptomycincsv/41348d21/",
+      "downloaded_at": "2022-09-01 10:50:39.821900Z",
+      "sha": "9fe9ab2ff09508a1f2c6fb3735b8b112bbe525c3"
     },
     "user-yayang-codes_ab_type_demeclocyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_demeclocyclinecsv/785a4e2e",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_demeclocyclinecsv/785a4e2e/",
-      "downloaded_at": "2022-08-24 13:13:02.214532Z",
-      "sha": "c1adddb3f0057a8eb62d7512db8635194d76b851"
+      "id": "user/yayang/codes_ab_type_demeclocyclinecsv/282519ec",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_demeclocyclinecsv/282519ec/",
+      "downloaded_at": "2022-09-01 10:50:39.963162Z",
+      "sha": "54c900977ec2ab2e6e632f40cfed20eeb527d267"
     },
     "user-yayang-codes_ab_type_doripenemcsv.csv": {
-      "id": "user/yayang/codes_ab_type_doripenemcsv/5f4adaf9",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_doripenemcsv/5f4adaf9/",
+      "id": "user/yayang/codes_ab_type_doripenemcsv/0f15a6b7",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_doripenemcsv/0f15a6b7/",
       "downloaded_at": "2022-08-24 13:13:02.374146Z",
       "sha": "1e7daa9631dc6217e68759c60d7ae72f24f0d611"
     },
     "user-yayang-codes_ab_type_doxycyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_doxycyclinecsv/463b67c4",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_doxycyclinecsv/463b67c4/",
-      "downloaded_at": "2022-08-24 13:13:02.509880Z",
-      "sha": "ee8ac2409489d4232231a0eea3bd51722850b2b6"
+      "id": "user/yayang/codes_ab_type_doxycyclinecsv/76063381",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_doxycyclinecsv/76063381/",
+      "downloaded_at": "2022-09-01 10:50:40.216767Z",
+      "sha": "8cfdd274e9700a81769ee45c368c610b3dd7ed16"
     },
     "user-yayang-codes_ab_type_ertapenemcsv.csv": {
-      "id": "user/yayang/codes_ab_type_ertapenemcsv/2d2bf48f",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ertapenemcsv/2d2bf48f/",
-      "downloaded_at": "2022-08-24 13:13:02.670909Z",
-      "sha": "cae19c9cbdb68d49cf76734b160bcd4a457565f6"
+      "id": "user/yayang/codes_ab_type_ertapenemcsv/5cf6c04c",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ertapenemcsv/5cf6c04c/",
+      "downloaded_at": "2022-09-01 10:50:40.343090Z",
+      "sha": "b4dd27b908eb04133f0bb35a81841e22045da5bb"
     },
     "user-yayang-codes_ab_type_erythromycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_erythromycincsv/141c815a",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_erythromycincsv/141c815a/",
-      "downloaded_at": "2022-08-24 13:13:02.800691Z",
-      "sha": "00ea4de0205f72f51f2455ad00018eff30c1e73b"
+      "id": "user/yayang/codes_ab_type_erythromycincsv/43e74d17",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_erythromycincsv/43e74d17/",
+      "downloaded_at": "2022-09-01 10:50:40.455297Z",
+      "sha": "16a41dabf510268d35f2952ff940439df68ae7f5"
     },
     "user-yayang-codes_ab_type_fidaxomicincsv.csv": {
-      "id": "user/yayang/codes_ab_type_fidaxomicincsv/7b0d0e24",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_fidaxomicincsv/7b0d0e24/",
+      "id": "user/yayang/codes_ab_type_fidaxomicincsv/2ad7d9e2",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_fidaxomicincsv/2ad7d9e2/",
       "downloaded_at": "2022-08-24 13:13:02.969199Z",
       "sha": "3e57e5e088a8e3afd3b7979f419b22942b1a0844"
     },
     "user-yayang-codes_ab_type_flucloxacillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_flucloxacillincsv/61fd9aef",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_flucloxacillincsv/61fd9aef/",
-      "downloaded_at": "2022-08-24 13:13:03.110245Z",
-      "sha": "8fe5a706c1b3b0339b047b11c4fb26a97ec346af"
+      "id": "user/yayang/codes_ab_type_flucloxacillincsv/11c866ad",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_flucloxacillincsv/11c866ad/",
+      "downloaded_at": "2022-09-01 10:50:40.723318Z",
+      "sha": "99f84d8d8092e2bfd4f4d16fd5fd0153cae79d8f"
     },
     "user-yayang-codes_ab_type_fosfomycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_fosfomycincsv/48ee27ba",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_fosfomycincsv/48ee27ba/",
-      "downloaded_at": "2022-08-24 13:13:03.330192Z",
-      "sha": "198ad54dcf454231d1ac4f45a950ebe490f4d1c5"
+      "id": "user/yayang/codes_ab_type_fosfomycincsv/78b8f377",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_fosfomycincsv/78b8f377/",
+      "downloaded_at": "2022-09-01 10:50:40.831920Z",
+      "sha": "71922359ad77043c4a94bd9cc8ded5f152ce902a"
     },
     "user-yayang-codes_ab_type_fusidatecsv.csv": {
-      "id": "user/yayang/codes_ab_type_fusidatecsv/2fdeb485",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_fusidatecsv/2fdeb485/",
-      "downloaded_at": "2022-08-24 13:13:03.473190Z",
-      "sha": "30f8b5094bf111f5b3aa95c9641a44261baccccf"
+      "id": "user/yayang/codes_ab_type_fusidatecsv/5fa98042",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_fusidatecsv/5fa98042/",
+      "downloaded_at": "2022-09-01 10:50:40.961834Z",
+      "sha": "8110857b1eb6d3fd34f08ac23d00f11c4cd82065"
     },
     "user-yayang-codes_ab_type_gentamicincsv.csv": {
-      "id": "user/yayang/codes_ab_type_gentamicincsv/16cf4150",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_gentamicincsv/16cf4150/",
-      "downloaded_at": "2022-08-24 13:13:03.613138Z",
-      "sha": "490b46de1a53527c38ffc01d5eb5e34b5aca88cb"
+      "id": "user/yayang/codes_ab_type_gentamicincsv/469a0d0d",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_gentamicincsv/469a0d0d/",
+      "downloaded_at": "2022-09-01 10:50:41.095817Z",
+      "sha": "eb04ad8ea8ad3b5006c27e284648d9089cd830b9"
     },
     "user-yayang-codes_ab_type_levofloxacincsv.csv": {
-      "id": "user/yayang/codes_ab_type_levofloxacincsv/7dbfce1a",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_levofloxacincsv/7dbfce1a/",
-      "downloaded_at": "2022-08-24 13:13:03.760370Z",
-      "sha": "8dddc2d2cef37713296850e12ea14278d4098309"
+      "id": "user/yayang/codes_ab_type_levofloxacincsv/2d8a99d8",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_levofloxacincsv/2d8a99d8/",
+      "downloaded_at": "2022-09-01 10:50:41.239707Z",
+      "sha": "b0e24b14bcf6e13bcac129ba1d2589bd1c43e79f"
     },
     "user-yayang-codes_ab_type_linezolidcsv.csv": {
-      "id": "user/yayang/codes_ab_type_linezolidcsv/64b05ae5",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_linezolidcsv/64b05ae5/",
-      "downloaded_at": "2022-08-24 13:13:03.917667Z",
-      "sha": "be50aec375b2de34c26fbb8a7ca805dbef1446ab"
+      "id": "user/yayang/codes_ab_type_linezolidcsv/147b26a3",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_linezolidcsv/147b26a3/",
+      "downloaded_at": "2022-09-01 10:50:41.363934Z",
+      "sha": "072fc7636bc4b1226fad0aaec2a028343383c432"
     },
     "user-yayang-codes_ab_type_lymecyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_lymecyclinecsv/4ba0e7b0",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_lymecyclinecsv/4ba0e7b0/",
-      "downloaded_at": "2022-08-24 13:13:04.055687Z",
-      "sha": "56e063402677e70a8c91795c3ae3a6df13c989dc"
+      "id": "user/yayang/codes_ab_type_lymecyclinecsv/7b6bb36d",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_lymecyclinecsv/7b6bb36d/",
+      "downloaded_at": "2022-09-01 10:50:41.498298Z",
+      "sha": "196f01be9c40f6970d7525c0fd7a26202f129b65"
     },
     "user-yayang-codes_ab_type_meropenemcsv.csv": {
-      "id": "user/yayang/codes_ab_type_meropenemcsv/3291747b",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_meropenemcsv/3291747b/",
-      "downloaded_at": "2022-08-24 13:13:04.189963Z",
-      "sha": "a92186a3a79884270e74435e06de9a623b8be099"
+      "id": "user/yayang/codes_ab_type_meropenemcsv/625c4038",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_meropenemcsv/625c4038/",
+      "downloaded_at": "2022-09-01 10:50:41.620832Z",
+      "sha": "5e3fbc136b0a84b7022f10d51b549f75b2af2793"
     },
     "user-yayang-codes_ab_type_methenaminecsv.csv": {
-      "id": "user/yayang/codes_ab_type_methenaminecsv/19820146",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_methenaminecsv/19820146/",
-      "downloaded_at": "2022-08-24 13:13:04.339124Z",
-      "sha": "7241e67488b7c29b3436011de2ea1fd08a233c7f"
+      "id": "user/yayang/codes_ab_type_methenaminecsv/494ccd03",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_methenaminecsv/494ccd03/",
+      "downloaded_at": "2022-09-01 10:50:42.008847Z",
+      "sha": "ba5b16ba705040137f2e2e75f2fc21f99302635f"
     },
     "user-yayang-codes_ab_type_metronidazolecsv.csv": {
-      "id": "user/yayang/codes_ab_type_metronidazolecsv/00728e11",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_metronidazolecsv/00728e11/",
-      "downloaded_at": "2022-08-24 13:13:04.466033Z",
-      "sha": "4aaaa5408a44e9c732da12978bd0210172391414"
+      "id": "user/yayang/codes_ab_type_metronidazolecsv/303d59ce",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_metronidazolecsv/303d59ce/",
+      "downloaded_at": "2022-09-01 10:50:42.158533Z",
+      "sha": "629c3adab153780719e338c9092626ca055fedb4"
     },
     "user-yayang-codes_ab_type_minocyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_minocyclinecsv/67631adb",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_minocyclinecsv/67631adb/",
-      "downloaded_at": "2022-08-24 13:13:04.591837Z",
-      "sha": "25d06d020efcd3e91dc1800db339427d0637f043"
+      "id": "user/yayang/codes_ab_type_minocyclinecsv/7e1e7363",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_minocyclinecsv/7e1e7363/",
+      "downloaded_at": "2022-09-01 10:50:42.299680Z",
+      "sha": "476f1b00066d355abad4cb5347f97c8e69c726ac"
     },
     "user-yayang-codes_ab_type_moxifloxacincsv.csv": {
-      "id": "user/yayang/codes_ab_type_moxifloxacincsv/4e53a7a6",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_moxifloxacincsv/4e53a7a6/",
-      "downloaded_at": "2022-08-24 13:13:04.726311Z",
-      "sha": "bcb607a45e0244c8342cb58339b33b87c112a738"
+      "id": "user/yayang/codes_ab_type_moxifloxacincsv/650f002e",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_moxifloxacincsv/650f002e/",
+      "downloaded_at": "2022-09-01 10:50:42.412109Z",
+      "sha": "9522ca23e8dbfa6fa901e1b3b3f50934a60427af"
     },
     "user-yayang-codes_ab_type_nalidixic-acidcsv.csv": {
-      "id": "user/yayang/codes_ab_type_nalidixic-acidcsv/35443471",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nalidixic-acidcsv/35443471/",
-      "downloaded_at": "2022-08-24 13:13:04.857822Z",
-      "sha": "1a7ece05595541b9a1793d4d8474e5444acb4ec5"
+      "id": "user/yayang/codes_ab_type_nalidixic-acidcsv/4bff8cf9",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nalidixic-acidcsv/4bff8cf9/",
+      "downloaded_at": "2022-09-01 10:50:42.557499Z",
+      "sha": "dfe6e42a69e9ff7045771380986bcfd8b9aa426a"
     },
     "user-yayang-codes_ab_type_neomycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_neomycincsv/1c34c13c",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_neomycincsv/1c34c13c/",
-      "downloaded_at": "2022-08-24 13:13:04.973184Z",
-      "sha": "dfbec929f0c5044eb982d6fe6d791e27477f76a9"
+      "id": "user/yayang/codes_ab_type_neomycincsv/32f019c4",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_neomycincsv/32f019c4/",
+      "downloaded_at": "2022-09-01 10:50:42.669190Z",
+      "sha": "d7e67cf1e1c1110b348256b0f33e3fc2e0ff12f7"
     },
     "user-yayang-codes_ab_type_netilmicincsv.csv": {
-      "id": "user/yayang/codes_ab_type_netilmicincsv/03254e07",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_netilmicincsv/03254e07/",
+      "id": "user/yayang/codes_ab_type_netilmicincsv/19e0a68f",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_netilmicincsv/19e0a68f/",
       "downloaded_at": "2022-08-24 13:13:05.108403Z",
       "sha": "9631bf10ce5faa3cbd55d436b971564720707ff6"
     },
     "user-yayang-codes_ab_type_nitazoxanidcsv.csv": {
-      "id": "user/yayang/codes_ab_type_nitazoxanidcsv/6a15dad1",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nitazoxanidcsv/6a15dad1/",
+      "id": "user/yayang/codes_ab_type_nitazoxanidcsv/00d1335a",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nitazoxanidcsv/00d1335a/",
       "downloaded_at": "2022-08-24 13:13:05.400177Z",
       "sha": "7ff498aafd636616f0415cd09189d260221172ef"
     },
     "user-yayang-codes_ab_type_nitrofurantoincsv.csv": {
-      "id": "user/yayang/codes_ab_type_nitrofurantoincsv/5106679c",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nitrofurantoincsv/5106679c/",
-      "downloaded_at": "2022-08-24 13:13:05.539982Z",
-      "sha": "1093e82840a1885b97b674594ce04e09904167f8"
+      "id": "user/yayang/codes_ab_type_nitrofurantoincsv/67c1c024",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nitrofurantoincsv/67c1c024/",
+      "downloaded_at": "2022-09-01 10:50:43.047944Z",
+      "sha": "d2260368b6a75dca3af56641b0f2d5ed5de5706b"
     },
     "user-yayang-codes_ab_type_norfloxacincsv.csv": {
-      "id": "user/yayang/codes_ab_type_norfloxacincsv/37f6f467",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_norfloxacincsv/37f6f467/",
-      "downloaded_at": "2022-08-24 13:13:05.786848Z",
-      "sha": "bc6eb67fa8dbd571772aa6525c7df38ad1f804bc"
+      "id": "user/yayang/codes_ab_type_norfloxacincsv/4eb24cef",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_norfloxacincsv/4eb24cef/",
+      "downloaded_at": "2022-09-01 10:50:43.178871Z",
+      "sha": "18b51ca6e8437c47583f453a54c8567d5af2dff0"
     },
     "user-yayang-codes_ab_type_ofloxacincsv.csv": {
-      "id": "user/yayang/codes_ab_type_ofloxacincsv/1ee78132",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ofloxacincsv/1ee78132/",
-      "downloaded_at": "2022-08-24 13:13:05.925292Z",
-      "sha": "26b9190100c474d09e56c72d3c2cae7102a5b95c"
+      "id": "user/yayang/codes_ab_type_ofloxacincsv/35a2d9ba",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ofloxacincsv/35a2d9ba/",
+      "downloaded_at": "2022-09-01 10:50:43.323236Z",
+      "sha": "b7abe0c6aa2f42ec4e67611b029989fb5a5b9389"
     },
     "user-yayang-codes_ab_type_oxytetracyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_oxytetracyclinecsv/05d80dfd",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_oxytetracyclinecsv/05d80dfd/",
-      "downloaded_at": "2022-08-24 13:13:06.079308Z",
-      "sha": "2caec0eb3c21136f286967b945fafb14cc03a1ed"
+      "id": "user/yayang/codes_ab_type_oxytetracyclinecsv/1c936685",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_oxytetracyclinecsv/1c936685/",
+      "downloaded_at": "2022-09-01 10:50:43.455777Z",
+      "sha": "5299040f8302c73a0bec1c64f0bd2b3f0343d57c"
     },
     "user-yayang-codes_ab_type_phenoxymethylpenicillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_phenoxymethylpenicillincsv/6cc89ac7",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_phenoxymethylpenicillincsv/6cc89ac7/",
-      "downloaded_at": "2022-08-24 13:13:06.221454Z",
-      "sha": "d56f56aa2b99fcfddb1aa60809b7e8dcaab2e760"
+      "id": "user/yayang/codes_ab_type_phenoxymethylpenicillincsv/0383f350",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_phenoxymethylpenicillincsv/0383f350/",
+      "downloaded_at": "2022-09-01 10:50:43.602379Z",
+      "sha": "91e878d9ba5331892e04172407d6b1bd2dbced18"
     },
     "user-yayang-codes_ab_type_piperacillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_piperacillincsv/53b92792",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_piperacillincsv/53b92792/",
-      "downloaded_at": "2022-08-24 13:13:06.361607Z",
-      "sha": "db115b551fee72cb8969418ffd2c2e730efea888"
+      "id": "user/yayang/codes_ab_type_piperacillincsv/6a74801a",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_piperacillincsv/6a74801a/",
+      "downloaded_at": "2022-09-01 10:50:43.759882Z",
+      "sha": "795f8a08d41a36d73f48ffc8bf5ff4a1bea29335"
     },
     "user-yayang-codes_ab_type_pivmecillinamcsv.csv": {
-      "id": "user/yayang/codes_ab_type_pivmecillinamcsv/3aa9b45d",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_pivmecillinamcsv/3aa9b45d/",
-      "downloaded_at": "2022-08-24 13:13:06.526710Z",
-      "sha": "8c20710a5c7d999a0f80582bb487009870d2ec91"
+      "id": "user/yayang/codes_ab_type_pivmecillinamcsv/51650ce5",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_pivmecillinamcsv/51650ce5/",
+      "downloaded_at": "2022-09-01 10:50:43.941555Z",
+      "sha": "5ffad8b132845015429813fded035670db48967d"
     },
     "user-yayang-codes_ab_type_pristinamycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_pristinamycincsv/219a4128",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_pristinamycincsv/219a4128/",
-      "downloaded_at": "2022-08-24 13:13:06.698627Z",
-      "sha": "d007849480e5f47215023ce3f0102805760e6e0d"
+      "id": "user/yayang/codes_ab_type_pristinamycincsv/385599b0",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_pristinamycincsv/385599b0/",
+      "downloaded_at": "2022-09-01 10:50:44.067621Z",
+      "sha": "98218facafcbbba17fd31f1c9e9bfd5492e05210"
     },
     "user-yayang-codes_ab_type_rifaximincsv.csv": {
-      "id": "user/yayang/codes_ab_type_rifaximincsv/088acdf3",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_rifaximincsv/088acdf3/",
-      "downloaded_at": "2022-08-24 13:13:06.861049Z",
-      "sha": "92bb73d338aec129024cf17f66d959b1c1b209df"
+      "id": "user/yayang/codes_ab_type_rifaximincsv/1f46267b",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_rifaximincsv/1f46267b/",
+      "downloaded_at": "2022-09-01 10:50:44.188001Z",
+      "sha": "590f7b01af68792cac1e0a53ae8ee9991ee26e73"
     },
     "user-yayang-codes_ab_type_sulfadiazinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_sulfadiazinecsv/6f7b5abd",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_sulfadiazinecsv/6f7b5abd/",
-      "downloaded_at": "2022-08-24 13:13:07.093624Z",
-      "sha": "b66364779f7c2f93e1c3a9ca8ecbc9a7e9a48401"
+      "id": "user/yayang/codes_ab_type_sulfadiazinecsv/0636b346",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_sulfadiazinecsv/0636b346/",
+      "downloaded_at": "2022-09-01 10:50:44.349780Z",
+      "sha": "cb166f5c4b29d1304243751f3140e9c814f45c15"
     },
     "user-yayang-codes_ab_type_sulfamethoxazolecsv.csv": {
-      "id": "user/yayang/codes_ab_type_sulfamethoxazolecsv/566be788",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_sulfamethoxazolecsv/566be788/",
-      "downloaded_at": "2022-08-24 13:13:07.240584Z",
-      "sha": "a7b1b8c892f43f58bdfd80367c70c01b66243e8f"
+      "id": "user/yayang/codes_ab_type_sulfamethoxazolecsv/6d274010",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_sulfamethoxazolecsv/6d274010/",
+      "downloaded_at": "2022-09-01 10:50:44.469346Z",
+      "sha": "62204ca740ee71b646151ed89fec208fc56df84f"
     },
     "user-yayang-codes_ab_type_sulfapyridinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_sulfapyridinecsv/3d5c7453",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_sulfapyridinecsv/3d5c7453/",
-      "downloaded_at": "2022-08-24 13:13:07.397946Z",
-      "sha": "967b8708c204526445d9f355c76137dbcdb6b627"
+      "id": "user/yayang/codes_ab_type_sulfapyridinecsv/5417ccdb",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_sulfapyridinecsv/5417ccdb/",
+      "downloaded_at": "2022-09-01 10:50:44.604122Z",
+      "sha": "b886878f725a5832c9d4892fde038ca1a27083e0"
     },
     "user-yayang-codes_ab_type_taurolidincsv.csv": {
-      "id": "user/yayang/codes_ab_type_taurolidincsv/244d011e",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_taurolidincsv/244d011e/",
-      "downloaded_at": "2022-08-24 13:13:07.544481Z",
-      "sha": "d5656e3ede1d2f4be27cce32f207d7f07fd98828"
+      "id": "user/yayang/codes_ab_type_taurolidincsv/3b0859a6",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_taurolidincsv/3b0859a6/",
+      "downloaded_at": "2022-09-01 10:50:44.729397Z",
+      "sha": "675c6f33ea91c7613ffd164e66107572c152950e"
     },
     "user-yayang-codes_ab_type_tedizolidcsv.csv": {
-      "id": "user/yayang/codes_ab_type_tedizolidcsv/0b3d8de9",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tedizolidcsv/0b3d8de9/",
+      "id": "user/yayang/codes_ab_type_tedizolidcsv/21f8e671",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tedizolidcsv/21f8e671/",
       "downloaded_at": "2022-08-24 13:13:07.669745Z",
       "sha": "8f869f60b11cda224183c16b29e9ffce6a4711ec"
     },
     "user-yayang-codes_ab_type_teicoplanincsv.csv": {
-      "id": "user/yayang/codes_ab_type_teicoplanincsv/722e1ab3",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_teicoplanincsv/722e1ab3/",
-      "downloaded_at": "2022-08-24 13:13:07.832347Z",
-      "sha": "c17bb7f1013cd580edb94f961ad7870da5f03e43"
+      "id": "user/yayang/codes_ab_type_teicoplanincsv/08e9733c",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_teicoplanincsv/08e9733c/",
+      "downloaded_at": "2022-09-01 10:50:45.014593Z",
+      "sha": "76c32f0f8b4addfe2fd98ac6bc1cd15d30ace498"
     },
     "user-yayang-codes_ab_type_telithromycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_telithromycincsv/591ea77e",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_telithromycincsv/591ea77e/",
-      "downloaded_at": "2022-08-24 13:13:07.997132Z",
-      "sha": "f1d69ae94febdedd502946f77e8d9197be723e9b"
+      "id": "user/yayang/codes_ab_type_telithromycincsv/6fda0006",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_telithromycincsv/6fda0006/",
+      "downloaded_at": "2022-09-01 10:50:45.195017Z",
+      "sha": "76c32f0f8b4addfe2fd98ac6bc1cd15d30ace498"
     },
     "user-yayang-codes_ab_type_temocillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_temocillincsv/400f3449",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_temocillincsv/400f3449/",
-      "downloaded_at": "2022-08-24 13:13:08.151685Z",
-      "sha": "77869e34cd618038ff561e42e4f650ea065839d8"
+      "id": "user/yayang/codes_ab_type_temocillincsv/2cb088e8",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_temocillincsv/2cb088e8/",
+      "downloaded_at": "2022-09-01 10:50:45.329927Z",
+      "sha": "13901ed62aef349f423c4e92c9831a1e36c7f8dd"
     },
     "user-yayang-codes_ab_type_tetracyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_tetracyclinecsv/26ffc114",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tetracyclinecsv/26ffc114/",
-      "downloaded_at": "2022-08-24 13:13:08.368480Z",
-      "sha": "8a6d431a0878fa9f2c20d7e871fa06c57a75b84f"
+      "id": "user/yayang/codes_ab_type_tetracyclinecsv/56ca8cd1",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tetracyclinecsv/56ca8cd1/",
+      "downloaded_at": "2022-09-01 10:50:45.482832Z",
+      "sha": "efa16ca807af46c29b5045606a96b949b59ff0d4"
     },
     "user-yayang-codes_ab_type_ticarcillincsv.csv": {
-      "id": "user/yayang/codes_ab_type_ticarcillincsv/0df04ddf",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ticarcillincsv/0df04ddf/",
+      "id": "user/yayang/codes_ab_type_ticarcillincsv/3dbb199c",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_ticarcillincsv/3dbb199c/",
       "downloaded_at": "2022-08-24 13:13:08.526068Z",
       "sha": "785cfcb2e3671c08e9751dd3cd7bfc80aed7b0b0"
     },
     "user-yayang-codes_ab_type_tigecyclinecsv.csv": {
-      "id": "user/yayang/codes_ab_type_tigecyclinecsv/74e0daa9",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tigecyclinecsv/74e0daa9/",
+      "id": "user/yayang/codes_ab_type_tigecyclinecsv/24aba667",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tigecyclinecsv/24aba667/",
       "downloaded_at": "2022-08-24 13:13:08.671825Z",
       "sha": "bc89d116ae11d87c086f35c7c22c97440af54314"
     },
     "user-yayang-codes_ab_type_tinidazolecsv.csv": {
-      "id": "user/yayang/codes_ab_type_tinidazolecsv/5bd16774",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tinidazolecsv/5bd16774/",
+      "id": "user/yayang/codes_ab_type_tinidazolecsv/0b9c3332",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tinidazolecsv/0b9c3332/",
       "downloaded_at": "2022-08-24 13:13:08.847491Z",
       "sha": "96ded5d576e19fbb5e1f90f8578bfef11e68b92d"
     },
     "user-yayang-codes_ab_type_tobramycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_tobramycincsv/42c1f43f",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tobramycincsv/42c1f43f/",
-      "downloaded_at": "2022-08-24 13:13:09.010421Z",
-      "sha": "a53ef8381387d3491d12ba395d73fbd126435f7c"
+      "id": "user/yayang/codes_ab_type_tobramycincsv/728cbffc",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_tobramycincsv/728cbffc/",
+      "downloaded_at": "2022-09-01 10:50:46.022279Z",
+      "sha": "1f8bdd6c400f883e10f05a2704fc0eca35345608"
     },
     "user-yayang-codes_ab_type_trimethoprimcsv.csv": {
-      "id": "user/yayang/codes_ab_type_trimethoprimcsv/29b2810a",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_trimethoprimcsv/29b2810a/",
-      "downloaded_at": "2022-08-24 13:13:09.285676Z",
-      "sha": "def0343bd8bc30df112b59795574e0f0fde3a4fe"
+      "id": "user/yayang/codes_ab_type_trimethoprimcsv/597d4cc7",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_trimethoprimcsv/597d4cc7/",
+      "downloaded_at": "2022-09-01 10:50:46.131300Z",
+      "sha": "6c77883f9c3bee1c117ddcdec5715e5c099f416c"
     },
     "user-yayang-codes_ab_type_vancomycincsv.csv": {
-      "id": "user/yayang/codes_ab_type_vancomycincsv/10a30dd5",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_vancomycincsv/10a30dd5/",
-      "downloaded_at": "2022-08-24 13:13:09.470887Z",
-      "sha": "a599fc5b7235098c7ba5586301bd0a2a84a339aa"
+      "id": "user/yayang/codes_ab_type_vancomycincsv/406dd992",
+      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_vancomycincsv/406dd992/",
+      "downloaded_at": "2022-09-01 10:50:46.248198Z",
+      "sha": "b9d7d319fd28a019bf69ac37b3f115a7c111ec2f"
     },
     "user-yayang-charlson01_cancer.csv": {
       "id": "user/yayang/charlson01_cancer/796c49a5",
