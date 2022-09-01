@@ -55,3 +55,15 @@ actions:
        moderately_sensitive:
         table1: output/table1_2021_overallcount.csv
         table2: output/table1_2021.csv
+
+  generate_study_population:
+    run: cohortextractor:latest generate_cohort
+      --with-end-date-fix
+      --study-definition study_definition 
+      --index-date-range "2019-01-01 to 2021-12-31 by month" 
+      --skip-existing 
+      --output-dir=output/measures 
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_*.csv.gz

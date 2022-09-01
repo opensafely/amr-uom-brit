@@ -149,45 +149,47 @@ study = StudyDefinition(
          },
     ),
     
-
-    ethnicity=patients.with_ethnicity_from_sus(
-    returning="group_6",
-    use_most_frequent_code=True,
-    return_expectations={
-            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
-            "incidence": 0.75,
+    ## antibiotic use
+    antibiotic_count=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
         },
     ),
 
-    # index of multiple deprivation, estimate of SES based on patient post code 
-	imd=patients.categorised_as(
-        {
-            "0": "DEFAULT",
-            "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
-            "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
-            "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
-            "4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
-            "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
-        },
-        index_of_multiple_deprivation=patients.address_as_of(
-            "patient_index_date",
-            returning="index_of_multiple_deprivation",
-            round_to_nearest=100,
-        ),
+    antibiotic_type=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="category",
         return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "0": 0.05,
-                    "1": 0.19,
-                    "2": 0.19,
-                    "3": 0.19,
-                    "4": 0.19,
-                    "5": 0.19,
-                }
-            },
+            "category": {"ratios": {"Amikacin":0.05, "Amoxicillin":0.1, "Azithromycin":0.04, "Cefaclor":0.05,
+            "Co-amoxiclav":0.05, "Co-fluampicil":0.05, "Metronidazole":0.05, "Nitrofurantoin":0.05,
+            "Norfloxacin":0.05, "Trimethoprim":0.05, "Linezolid":0.05, "Doxycycline":0.05,
+            "Lymecycline":0.05, "Levofloxacin":0.05, "Clarithromycin":0.03, "Cefamandole":0.05, 
+            "Gentamicin":0.05, "Ceftazidime":0.05, "Fosfomycin":0.03, "Flucloxacillin":0.05}},
+            "incidence": 0.99,
         },
-    ),   
+    ),
+
+    ## Broad spectrum antibiotics(co-amoxiclav-cephalosporins-and-quinolones)
+    broad_ab_count=patients.with_these_medications(
+        broad_spectrum_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "poisson", "mean": 3, "stddev": 1}, "incidence": 0.5}
+    ),
+
+    broad_ab_binary=patients.with_these_medications(
+        broad_spectrum_codes,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.1,},
+    ),
 
     ## Covid positive test result-SGSS
     Tested_for_covid_event=patients.with_test_result_in_sgss(
@@ -204,18 +206,6 @@ study = StudyDefinition(
         between=["index_date", "last_day_of_month(index_date)"],
         returning = "binary_flag",
         return_expectations={"incidence": 0.5},
-    ),
-
-    Tested_for_covid_date=patients.with_test_result_in_sgss(
-        pathogen="SARS-CoV-2",
-        test_result="any",
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {"earliest" : "index_date"},
-            "rate" : "exponential_increase"
-        },
     ),
     
     Positive_test_date=patients.with_test_result_in_sgss(
@@ -240,9 +230,4 @@ study = StudyDefinition(
         return_expectations={"incidence":0.3,},
     ),
 
-    AB_given_14D_window=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["Positive_test_date - 14 days","Positive_test_date + 14 days"],
-        returning="binary_flag",
-        return_expectations={"incidence":0.3,},
-    ),
+)
