@@ -10,12 +10,7 @@ setwd(here::here("output", "measures"))
 
 ### id extraction 2019 ###
 
-df1 <- readRDS("process_1_19_part_1.rds")
-df2 <- readRDS("process_1_19_part_2.rds")
-df1 <- bind_rows(df1)
-df2 <- bind_rows(df2)
-DF <- rbind(df1,df2)
-rm(df1,df2)
+DF <- readRDS("process_1_2019.rds")
 
 # recode
 DF$date <- as.Date(DF$date)
@@ -31,12 +26,7 @@ rm(DF,overall_counts)
 
 ### id extraction 2020 ###
 
-df1 <- readRDS("process_1_20_part_1.rds")
-df2 <- readRDS("process_1_20_part_2.rds")
-df1 <- bind_rows(df1)
-df2 <- bind_rows(df2)
-DF <- rbind(df1,df2)
-rm(df1,df2)
+DF <- readRDS("process_1_2020.rds")
 
 # recode
 DF$date <- as.Date(DF$date)
@@ -52,12 +42,7 @@ rm(DF,overall_counts)
 
 ### id extraction 2021 ###
 
-df1 <- readRDS("process_1_21_part_1.rds")
-df2 <- readRDS("process_1_21_part_2.rds")
-df1 <- bind_rows(df1)
-df2 <- bind_rows(df2)
-DF <- rbind(df1,df2)
-rm(df1,df2)
+DF <- readRDS("process_1_2021.rds")
 
 # recode
 DF$date <- as.Date(DF$date)
