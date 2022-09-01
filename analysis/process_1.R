@@ -15,7 +15,7 @@ library('lubridate')
 #### COVID INFECTION
 
 # impoprt data
-df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"),na="")
+df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
 df1=df1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 # filter SGSS (exclude SGSS+admission, SGSS+death)
@@ -29,7 +29,7 @@ df1=df1%>%
 
 
 
-df2<- read_csv(here::here("output", "input_covid_primarycare.csv"),na="")
+df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
 df2=df2%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
@@ -66,10 +66,10 @@ df.0=df%>%
 
 ## definition _2
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
-df.1 <- read_csv(here::here("output", "input_covid_admission.csv"),na="")
-df.1=df.1%>%filter(as.Date(patient_index_date) <= as.Date("2021-12-31"))
-df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
+df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1=df.1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
+df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
 
 
 df.1=df.1%>%filter(
@@ -83,8 +83,7 @@ df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 
 df.0$case=0
 df.1$case=1
-
-df=rbind.data.frame(df.1,df.0)
+df=rbind(df.1,df.0)
 
 # keep earlist covid positive date
 df=df%>%
