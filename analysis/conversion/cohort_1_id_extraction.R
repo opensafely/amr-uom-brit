@@ -13,6 +13,7 @@ setwd(here::here("output", "measures"))
 DF <- readRDS("process_1_2019.rds")
 
 # recode
+DF$date <- as.Date(DF$date)
 DF <- DF %>% select(patient_id, "patient_index_date" = date)
 num_records <- length(DF$patient_id)
 num_pats <- length(unique(DF$patient_id))
@@ -28,6 +29,7 @@ rm(DF,overall_counts)
 DF <- readRDS("process_1_2020.rds")
 
 # recode
+DF$date <- as.Date(DF$date)
 DF <- DF %>% select(patient_id, "patient_index_date" = date)
 num_records <- length(DF$patient_id)
 num_pats <- length(unique(DF$patient_id))
@@ -43,6 +45,7 @@ rm(DF,overall_counts)
 DF <- readRDS("process_1_2021.rds")
 
 # recode
+DF$date <- as.Date(DF$date)
 DF <- DF %>% select(patient_id, "patient_index_date" = date)
 num_records <- length(DF$patient_id)
 num_pats <- length(unique(DF$patient_id))
