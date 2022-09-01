@@ -2915,3 +2915,13 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/process_2_2021.rds
+
+  cohort_1_ab_infection: 
+    run: r:latest analysis/descriptive/cohort_1_ab_infection.R
+    needs: [process_1_2019,process_1_2020,process_1_2021]
+    outputs:
+       moderately_sensitive:
+        table1: output/frequency_2019.csv
+        table2: output/frequency_2020.csv
+        table3: output/frequency_2021.csv
+        table4: output/frequency_all.csv
