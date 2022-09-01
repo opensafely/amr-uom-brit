@@ -48,7 +48,7 @@ DF=data.frame()
 for (i in 1:79){
 
 DF[i,1]=names(dat[i])
-DF[i,2]=dat[,i]
+DF[i,2]=sum(dat[,i])
 
   }
 DF$percent=DF[,2]/sum(DF$V2)*100
