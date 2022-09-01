@@ -38,6 +38,21 @@ df <- read_rds(here::here("output","matched_outcome.rds"))
 ```
 
 
+# total ab
+```{r}
+sum(df$total_ab)
+dat=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+names(dat)
+
+for (i in 1:79){
+print(sum(dat[,i]))}
+
+
+```
+
+
+
+
 # AB quintile by total ab
 
 ```{r}
