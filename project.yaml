@@ -2813,12 +2813,12 @@ actions:
     outputs:
        highly_sensitive:
         talbe1: output/cohort_1_id_2019.csv
-        # talbe2: output/cohort_1_id_2020.csv
-        # talbe3: output/cohort_1_id_2021.csv
+        talbe2: output/cohort_1_id_2020.csv
+        talbe3: output/cohort_1_id_2021.csv
        moderately_sensitive:
         table4: output/cohort_1_pat_num_2019.csv
-        # table5: output/cohort_1_pat_num_2020.csv
-        # table6: output/cohort_1_pat_num_2021.csv
+        table5: output/cohort_1_pat_num_2020.csv
+        table6: output/cohort_1_pat_num_2021.csv
 
   generate_study_population_ab_demographic_2019: 
     run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_ab_demographic_2019
