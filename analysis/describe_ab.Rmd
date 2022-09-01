@@ -44,10 +44,16 @@ sum(df$total_ab)
 dat <- read_rds(here::here("output","abtype79.rds"))
 names(dat)
 
+DF=data.frame()
 for (i in 1:79){
-print(sum(dat[,i]))}
 
+DF[i,1]=names(dat[i])
+DF[i,2]=dat[,i]
 
+  }
+DF$percent=DF[,2]/sum(DF$V2)*100
+
+DF
 ```
 
 
