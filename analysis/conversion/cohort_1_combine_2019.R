@@ -1,18 +1,18 @@
 ####   This script is to combine ab_type & ab_predictor & ab_demographic ####
-library("dplyr")
-library("tidyverse")
-library("lubridate")
+library("tidyverse") 
+library('plyr')
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
 
 rm(list=ls())
 setwd(here::here("output", "measures"))
 
 ### import ab_type ###
-df1 <- readRDS("process_1_19_part_1.rds")
-df2 <- readRDS("process_1_19_part_2.rds")
-df1 <- bind_rows(df1)
-df2 <- bind_rows(df2)
-DF <- rbind(df1,df2)
-rm(df1,df2)
+DF <- readRDS("process_1_2019.rds")
 
 #### recode ab_type and creat indication (sameday infection = 1/no infection = 0) ###
 
@@ -36,17 +36,17 @@ DF$indication <- ifelse(is.na(DF$infection),0,1)
 
 ### import ab_predictor ###
 
-df1 <- readRDS("process_2_19_part_1.rds")
-df2 <- readRDS("process_2_19_part_2.rds")
-df1 <- bind_rows(df1)
-df2 <- bind_rows(df2)
-DF2 <- rbind(df1,df2)
-rm(df1,df2)
+# df1 <- readRDS("process_2_19_part_1.rds")
+# df2 <- readRDS("process_2_19_part_2.rds")
+# df1 <- bind_rows(df1)
+# df2 <- bind_rows(df2)
+# DF2 <- rbind(df1,df2)
+# rm(df1,df2)
 
-DF2 <- select(DF2,patient_id,date,ab_prevalent,ab_prevalent_infection, ab_repeat, ab_history)
+# DF2 <- select(DF2,patient_id,date,ab_prevalent,ab_prevalent_infection, ab_repeat, ab_history)
 
-DF <- merge(DF,DF2,by=c("patient_id","date"))
-rm(DF2)
+# DF <- merge(DF,DF2,by=c("patient_id","date"))
+# rm(DF2)
 
 ### import ab_demographic ###
 
@@ -150,8 +150,15 @@ df_input$region[df_input$region == ""] <- NA
 df <- select(df_input,patient_id,ethnicity,imd,region,charlsonGrp,ethnicity_6,practice) 
 DF <- merge(DF,df,by="patient_id")
 
-## exclude the record with missing region & imd
-DF <- DF %>% filter(!is.na(region), .keep_all= TRUE)
-DF <- DF %>% filter(!imd == "0", .keep_all= TRUE)
+# ## exclude the record with missing region & imd
+# DF <- DF %>% filter(!is.na(region), .keep_all= TRUE)
+# DF <- DF %>% filter(!imd == "0", .keep_all= TRUE)
+
+DF_check <- select(DF,type,infection,indication,age,sex,ethnicity_6,imd,region,charlsonGrp)
+
+colsfortab <- colnames(DF_check)
+DF_check %>% summary_factorlist(explanatory = colsfortab) -> t
+
+write_csv(t, here::here("output", "2019_baseline_talbe_check.csv"))
 
 saveRDS(DF, "cohort_1_dataframe_2019.rds")
