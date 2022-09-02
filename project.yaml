@@ -77,3 +77,10 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+
+  figure_1A: 
+    run: r:latest analysis/figure_1A.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_1A.jpeg
