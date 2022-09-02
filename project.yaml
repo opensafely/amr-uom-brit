@@ -230,6 +230,7 @@ actions:
         baseline_overall: output/overall_counts_blt.csv
         baseline_table: output/blt_one_random_obs_perpat.csv
 
+####### 2019 baseline table
   describe_baseline_table_split_2019:
     run: r:latest analysis/tables/baseline_table_2019.R
     needs: [describe_basic_record_process]
@@ -240,6 +241,20 @@ actions:
       highly_sensitive:
         cohort: output/measures/id_2019.csv
 
+  extract_covrx_2019:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2019
+    needs: [describe_baseline_table_split_2019]
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_covrx_2019.csv 
+  
+  describe_covrx_2019:
+    run: r:latest analysis/tables/covrx_2019.R
+    needs: [extract_covrx_2019]
+    outputs:
+      moderately_sensitive:
+        number: output/covrx_2019.txt
+####### 2019 baseline table
 
   describe_baseline_table_split_2020:
     run: r:latest analysis/tables/baseline_table_2020.R
