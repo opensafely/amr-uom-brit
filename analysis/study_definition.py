@@ -231,3 +231,37 @@ study = StudyDefinition(
     ),
 
 )
+
+measures = [
+###  Monthly total number of antibiotic items ###   
+    Measure(
+        id="antibiotic_items",
+        numerator="antibiotic_count",
+        denominator="population",
+        group_by="population",
+    ),
+
+###  Monthly total number of antibiotic items STAR-PU adjust ###   
+    Measure(
+        id="antibiotic_items_STAR-PU",
+        numerator="antibiotic_count",
+        denominator="population",
+        group_by=["age_cat", "sex"],
+    ),
+
+###  Monthly total number of antibiotic items ###   
+    Measure(
+        id="broad-spectrum-ratio",
+        numerator="broad_ab_count",
+        denominator="antibiotic_count",
+        group_by="population",
+    ),
+
+###  Monthly number of patients tested positive for SARS-CoV-2 ###   
+    Measure(
+        id="covid-case",
+        numerator="Tested_for_covid_event",
+        denominator="population",
+        group_by=["population"],
+    ),
+]
