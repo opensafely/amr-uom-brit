@@ -186,3 +186,11 @@ colsfortab <- colnames(bltab_vars)
 bltab_vars %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
 write_csv(t, here::here("output", "blt_one_random_obs_perpat_2019.csv"))
+
+
+
+
+## matching variable for covrx extraction
+DF=df_one_pat%>%select(patient_id, date)
+write_csv(DF, here::here("output","measures", "id_2019.csv"))
+

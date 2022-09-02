@@ -9,7 +9,7 @@ actions:
     run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/measures/input_*.csv.gz
+        cohort: output/measures/input_*.csv.gz 
 
   generate_study_population_broad_comparison:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_broad_comparison --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -237,6 +237,9 @@ actions:
       moderately_sensitive:
         baseline_overall_2019: output/overall_counts_blt_2019.csv
         baseline_table_2019: output/blt_one_random_obs_perpat_2019.csv
+      highly_sensitive:
+        cohort: output/measures/id_2019.csv
+
 
   describe_baseline_table_split_2020:
     run: r:latest analysis/tables/baseline_table_2020.R
