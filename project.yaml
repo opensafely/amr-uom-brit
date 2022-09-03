@@ -128,3 +128,17 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/abtype_2019.rds
+
+  conversion_abtype_2020: 
+    run: r:latest analysis/conversion_abtype_2020.R
+    needs: [generate_study_population_ab_type_2020]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/abtype_2020.rds
+
+  conversion_abtype_2021: 
+    run: r:latest analysis/conversion_abtype_2021.R
+    needs: [generate_study_population_ab_type_2021]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/abtype_2021.rds
