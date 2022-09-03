@@ -37,7 +37,7 @@ DF$indication <- ifelse(is.na(DF$infection),0,1)
 ### import ab_predictor ###
 
 DF2 <- readRDS("process_2_2020.rds")
-
+DF2 <- bind_rows(DF2)
 DF2 <- dplyr::select(DF2,patient_id,date,ab_prevalent,ab_prevalent_infection, ab_repeat, ab_history)
 
 DF <- merge(DF,DF2,by=c("patient_id","date"))
