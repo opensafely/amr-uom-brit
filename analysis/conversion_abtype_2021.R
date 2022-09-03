@@ -96,4 +96,4 @@ DF_ab=DF_ab%>%filter(!is.na(date))
 DF_ab$infection[DF_ab$infection == ""] <- NA
 
 
-saveRDS(DF_ab, "abtype_2019.rds")
+saveRDS(DF_ab, "abtype_2021.rds")
