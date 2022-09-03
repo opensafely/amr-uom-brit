@@ -2597,27 +2597,6 @@ actions:
   #       table1: output/cohort_1_predictor_pat_num_2019.csv
   #       table2: output/cohort_1_predictor_tab_2019.csv
 
-  # process_cohort_1_combine_2019: 
-  #   run: r:latest analysis/conversion/cohort_1_combine_2019.R
-  #   needs: [process_1_19_1,process_1_19_2,process_2_19_1,process_2_19_2,generate_study_population_ab_demographic_2019]
-  #   outputs:
-  #      highly_sensitive:
-  #       rds1: output/cohort_1_dataframe_2019.rds
-
-  # process_cohort_1_combine_2020: 
-  #   run: r:latest analysis/conversion/cohort_1_combine_2020.R
-  #   needs: [process_1_20_1,process_1_20_2,process_2_20_1,process_2_20_2,generate_study_population_ab_demographic_2020]
-  #   outputs:
-  #      highly_sensitive:
-  #       rds1: output/cohort_1_dataframe_2020.rds
-
-  # process_cohort_1_combine_2021: 
-  #   run: r:latest analysis/conversion/cohort_1_combine_2021.R
-  #   needs: [process_1_21_1,process_1_21_2,process_2_21_1,process_2_21_2,generate_study_population_ab_demographic_2021]
-  #   outputs:
-  #      highly_sensitive:
-  #       rds1: output/cohort_1_dataframe_2021.rds
-
   # process_cohort_1_baseline_table_2019: 
   #   run: r:latest analysis/descriptive/cohort_1_baseline_table_2019.R
   #   needs: [process_cohort_1_combine_2019]
@@ -2841,14 +2820,32 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_demographic_2021.csv
 
-  process_cohort_1_combine_2019: 
-    run: r:latest analysis/conversion/cohort_1_combine_2019.R
-    needs: [process_1_2019,generate_study_population_ab_demographic_2019]
+  # process_cohort_1_combine_2019: 
+  #   run: r:latest analysis/conversion/cohort_1_combine_2019.R
+  #   needs: [process_1_2019,process_2_2019,generate_study_population_ab_demographic_2019]
+  #   outputs:
+  #      highly_sensitive:
+  #       rds1: output/cohort_1_dataframe_2019.rds
+  #      moderately_sensitive:
+  #       table1: output/2019_baseline_talbe_check.csv
+
+  process_cohort_1_combine_2020: 
+    run: r:latest analysis/conversion/cohort_1_combine_2020.R
+    needs: [process_1_2020,process_2_2020,generate_study_population_ab_demographic_2020]
     outputs:
        highly_sensitive:
-        rds1: output/cohort_1_dataframe_2019.rds
+        rds1: output/combined_c1_2020.rds
        moderately_sensitive:
-        table1: output/2019_baseline_talbe_check.csv
+        table1: output/combined_c1_2020_chekc.csv
+
+  # process_cohort_1_combine_2021: 
+  #   run: r:latest analysis/conversion/cohort_1_combine_2021.R
+  #   needs: [process_1_2021,process_2_2021,generate_study_population_ab_demographic_2021]
+  #   outputs:
+  #      highly_sensitive:
+  #       rds1: output/combined_c1_2021.rds
+  #      moderately_sensitive:
+  #       table1: output/combined_c1_2021_chekc.csv
 
   cohort_1_table_1: 
     run: r:latest analysis/conversion/table_1.R
