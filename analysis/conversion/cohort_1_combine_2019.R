@@ -36,17 +36,32 @@ DF$indication <- ifelse(is.na(DF$infection),0,1)
 
 ### import ab_predictor ###
 
-# df1 <- readRDS("process_2_19_part_1.rds")
-# df2 <- readRDS("process_2_19_part_2.rds")
-# df1 <- bind_rows(df1)
-# df2 <- bind_rows(df2)
-# DF2 <- rbind(df1,df2)
-# rm(df1,df2)
+DF2 <- readRDS("process_2_2019.rds")
+DF2 <- bind_rows(DF2)
+DF2 <- dplyr::select(DF2,patient_id,date,ab_prevalent,ab_prevalent_infection, ab_repeat, ab_history)
 
-# DF2 <- select(DF2,patient_id,date,ab_prevalent,ab_prevalent_infection, ab_repeat, ab_history)
+DF <- merge(DF,DF2,by=c("patient_id","date"))
+rm(DF2)
 
-# DF <- merge(DF,DF2,by=c("patient_id","date"))
-# rm(DF2)
+### recode the varaibles so far ###
+
+DF$indication <- as.factor(DF$indication)
+DF$ab_prevalent <- as.factor(DF$ab_prevalent)
+DF$ab_prevalent_infection <- as.factor(DF$ab_prevalent_infection)
+DF$ab_repeat <- as.factor(DF$ab_repeat)
+DF$ab_history <- ifelse(is.na(DF$ab_history),0,DF$ab_history)
+DF<- DF %>% 
+  mutate(antibiotics_12mb4 = case_when(ab_history >=3 ~ "3+",
+                             ab_history == 2  ~ "2",
+                             ab_history == 1  ~ "1",
+                             ab_history == 0  ~ "0"))
+DF$antibiotics_12mb4<- as.factor(DF$antibiotics_12mb4)
+
+DF <- DF %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
+                                          age>=16 & age<=44 ~ "16-44",
+                                          age>=45 & age<=64 ~ "45-64",
+                                          age>=65 ~ "65+"))  
+
 
 ### import ab_demographic ###
 
@@ -148,17 +163,15 @@ df_input$region[df_input$region == ""] <- NA
 
 ## select variables for cohort 1
 df <- select(df_input,patient_id,ethnicity,imd,region,charlsonGrp,ethnicity_6,practice) 
-DF <- merge(DF,df,by="patient_id")
 
-# ## exclude the record with missing region & imd
-# DF <- DF %>% filter(!is.na(region), .keep_all= TRUE)
-# DF <- DF %>% filter(!imd == "0", .keep_all= TRUE)
+DF <- left_join(DF,df, by = "patient_id")
 
-DF_check <- select(DF,type,infection,indication,age,sex,ethnicity_6,imd,region,charlsonGrp)
+saveRDS(DF, "combined_c1_2019.rds")
+
+DF_check <- select(DF,type,infection,indication,age_group,sex,ab_prevalent,ab_prevalent_infection,ab_repeat,
+antibiotics_12mb4,ethnicity_6,imd,region,charlsonGrp)
 
 colsfortab <- colnames(DF_check)
 DF_check %>% summary_factorlist(explanatory = colsfortab) -> t
 
-write_csv(t, here::here("output", "2019_baseline_talbe_check.csv"))
-
-saveRDS(DF, "cohort_1_dataframe_2019.rds")
+write_csv(t, here::here("output", "combined_c1_2019_check.csv"))
