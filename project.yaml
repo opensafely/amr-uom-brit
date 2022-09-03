@@ -2597,35 +2597,6 @@ actions:
   #       table1: output/cohort_1_predictor_pat_num_2019.csv
   #       table2: output/cohort_1_predictor_tab_2019.csv
 
-  # process_cohort_1_baseline_table_2019: 
-  #   run: r:latest analysis/descriptive/cohort_1_baseline_table_2019.R
-  #   needs: [process_cohort_1_combine_2019]
-  #   outputs:
-  #      moderately_sensitive:
-  #       table1: output/cohort_1_2019_overallcount.csv
-  #       table2: output/cohort_1_baseline_table_2019.csv
-
-  # process_cohort_1_baseline_table_2019_pat_one: 
-  #   run: r:latest analysis/descriptive/cohort_1_baseline_table_2019_pat_one.R
-  #   needs: [process_cohort_1_combine_2019]
-  #   outputs:
-  #      moderately_sensitive:
-  #       table1: output/cohort_1_baseline_2019_pat_one.csv
-
-  # process_cohort_1_baseline_table_2020: 
-  #   run: r:latest analysis/descriptive/cohort_1_baseline_table_2020.R
-  #   needs: [process_cohort_1_combine_2020]
-  #   outputs:
-  #      moderately_sensitive:
-  #       table1: output/cohort_1_baseline_table_2020.csv
-
-  # process_cohort_1_baseline_table_2021: 
-  #   run: r:latest analysis/descriptive/cohort_1_baseline_table_2021.R
-  #   needs: [process_cohort_1_combine_2021]
-  #   outputs:
-  #      moderately_sensitive:
-  #       table1: output/cohort_1_baseline_table_2021.csv
-
   # process_cohort_1_type_check: 
   #   run: r:latest analysis/conversion/cohort_1_type_check.R
   #   needs: [process_1_19_1,process_1_19_2]
@@ -2858,3 +2829,13 @@ actions:
         rds1: output/combined_c1_2021.rds
        moderately_sensitive:
         table1: output/combined_c1_2021_check.csv
+
+  process_cohort_1_baseline_table_pat_one: 
+    run: r:latest analysis/descriptive/cohort_1_baseline_table_pat_one.R
+    needs: [process_cohort_1_combine_2019,process_cohort_1_combine_2020,process_cohort_1_combine_2021]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_1_baseline_2019_pat_one.csv
+        table2: output/cohort_1_baseline_2020_pat_one.csv
+        table3: output/cohort_1_baseline_2021_pat_one.csv
+        table4: output/cohort_1_baseline_all.csv
