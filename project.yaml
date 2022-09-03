@@ -2839,3 +2839,11 @@ actions:
         table2: output/cohort_1_baseline_2020_pat_one.csv
         table3: output/cohort_1_baseline_2021_pat_one.csv
         table4: output/cohort_1_baseline_all.csv
+
+  process_cohort_preparation: 
+    run: r:latest analysis/conversion/cohort_preparation.R
+    needs: [process_cohort_1_combine_2019,process_cohort_1_combine_2020,process_cohort_1_combine_2021]
+    outputs:
+       highly_sensitive:
+        rds1: output/cohort1.rds
+        rds2: output/cohort2.rds
