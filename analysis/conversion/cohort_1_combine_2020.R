@@ -65,6 +65,8 @@ DF <- DF %>% mutate(age_group = case_when(age>3 & age<=15 ~ "<16",
 
 ### import ab_demographic ###
 
+setwd(here::here("output"))
+
 DF3 <- readRDS("demographic_2020.rds")
 
 DF <- left_join(DF,DF3, by = "patient_id")
