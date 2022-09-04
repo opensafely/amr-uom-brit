@@ -2856,3 +2856,15 @@ actions:
         table1: output/Figure3_age_table.csv
         table2: output/Figure3_sex_table.csv
         table3: output/Figure3_region_table.csv
+
+  FigureS2: 
+    run: r:latest analysis/descriptive/FigureS2.R
+    needs: [process_cohort_preparation]
+    outputs:
+      moderately_sensitive:
+        figure1: output/FigureS2_age.jpeg
+        figure2: output/FigureS2_sex.jpeg
+        figure3: output/FigureS2_region.jpeg
+        table1: output/FigureS2_age_table.csv
+        table2: output/FigureS2_sex_table.csv
+        table3: output/FigureS2_region_table.csv
