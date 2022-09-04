@@ -72,7 +72,7 @@ rm(df0_1pat.21,dttable)
 ###################################################################################################
 DF <- bind_rows(df.19,df.20,df.21)
 
-dttable <- select(DF,age_group,sex,imd,region,charlsonGrp,ethnicity_6)
+dttable <- select(DF,age_group,sex,imd,region,charlsonGrp,ethnicity_6,ab_repeat,antibiotics_12mb4)
 
 # columns for baseline table
 colsfortab <- colnames(dttable)
@@ -90,7 +90,7 @@ df0_1pat.all <- DF %>% dplyr::group_by(patient_id) %>%
   sample_n(1)
 
 # generate data table 
-dttable <- select(df0_1pat.21,age_group,sex,imd,region,charlsonGrp,ethnicity_6)
+dttable <- select(df0_1pat.all,age_group,sex,imd,region,charlsonGrp,ethnicity_6)
 
 # columns for baseline table
 colsfortab <- colnames(dttable)

@@ -2848,3 +2848,11 @@ actions:
        highly_sensitive:
         rds1: output/cohort1.rds
         rds2: output/cohort2.rds
+
+  process_cohort_2_baseline_table: 
+    run: r:latest analysis/descriptive/cohort_2_baseline_table.R
+    needs: [process_cohort_preparation]
+    outputs:
+       moderately_sensitive:
+        table1: output/cohort_2_baseline_all.csv
+        table2: output/cohort_2_baseline_all_pat_one.csv
