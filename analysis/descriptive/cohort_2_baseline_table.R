@@ -11,8 +11,8 @@ library("finalfit")
 setwd(here::here("output"))
 
 DF <- readRDS("cohort2.rds")
-
-dttable <- select(DF,age_group,sex,imd,region,charlsonGrp,ethnicity_6,ab_repeat,ab_prevalent,ab_prevalent_infection,antibiotics_12mb4)
+DF$incident_prevalent <- ifelse(DF$ab_prevalent == 0 & DF$ab_prevalent_infection == 0,"incident","prevalent")
+dttable <- select(DF,age_group,sex,imd,region,charlsonGrp,ethnicity_6,ab_repeat,incident_prevalent,ab_prevalent,ab_prevalent_infection,antibiotics_12mb4)
 
 # columns for baseline table
 colsfortab <- colnames(dttable)

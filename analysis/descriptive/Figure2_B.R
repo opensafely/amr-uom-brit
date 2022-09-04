@@ -25,7 +25,7 @@ df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
 
 ### repeat by incident/prevalent (Yes/No)
 
-df$incident_prevalent <- ifelse(ab_prevalent == 0 & ab_prevalent_infection == 0,"incident","prevalent")
+df$incident_prevalent <- ifelse(df$ab_prevalent == 0 & df$ab_prevalent_infection == 0,"incident","prevalent")
 
 df.repeat <- df %>% filter(ab_repeat == 1) 
 df.repeat_total <- df.repeat %>% group_by(time,incident_prevalent) %>% summarise(
