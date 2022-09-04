@@ -170,7 +170,7 @@ df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d
 
 df.model <- df.model %>% mutate(value = numOutcome/numEligible)
 df.model_remove_na <- df.model %>% filter(!is.na(region))
-
+df.model_remove_na$value <- df.model_remove_na$value*100
 df.model$value <- round(df.model$value,digits = 3)
 df.model$value <- df.model$value*100
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
