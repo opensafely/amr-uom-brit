@@ -2837,13 +2837,13 @@ actions:
         figure1: output/Figure2_A.jpeg
         table1: output/Figure2_A_table.csv
 
-  # describe_cohort_2_incident_strata_figure_process: 
-  #   run: r:latest analysis/description/cohort_2_incident_strata_repeat.R
-  #   needs: [describe_cohort_1_rds]
-  #   outputs:
-  #     moderately_sensitive:
-  #       figure1: output/cohort_2_incident_strata.jpeg
-  #       table1: output/cohort_2_incident_strata_table.csv
+  Figure2_B: 
+    run: r:latest analysis/descriptive/Figure2_B.R
+    needs: [process_cohort_preparation]
+    outputs:
+      moderately_sensitive:
+        figure1: output/Figure2_B.jpeg
+        table1: output/Figure2_B_table.csv
 
   # describe_cohort_2_strata_figure_process: 
   #   run: r:latest analysis/description/cohort_2_strata_repeat.R
