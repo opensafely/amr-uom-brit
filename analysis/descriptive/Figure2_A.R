@@ -24,9 +24,7 @@ df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
 
 ### repeat by indication (Yes/No)
 
-df$indication=recode(df$indication,
-                    1 ="coded",
-                    0 ="uncoded")
+df$indication=ifelse(df$indication=="1","coded","uncoded")
 
 df.repeat <- df %>% filter(ab_repeat == 1) 
 df.repeat_total <- df.repeat %>% group_by(time,indication) %>% summarise(
