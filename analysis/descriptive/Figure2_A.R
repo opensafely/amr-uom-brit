@@ -8,15 +8,15 @@ library("ggpubr")
 library("finalfit")
 
 rm(list=ls())
-setwd(here::here("output", "measures"))
+setwd(here::here("output"))
 
-df <- readRDS("cohort_1.rds")
+df <- readRDS("cohort1.rds")
 
 
 start_covid = as.Date("2020-04-01")
 covid_adjustment_period_from = as.Date("2020-03-01")
 
-###  Prepare the data frame for Interrupted time-series analysis  ###
+###  Prepare the data frame for the figure  ###
 ###  Transfer df into numOutcome / numEligible  version
 df$cal_year <- year(df$date)
 df$cal_mon <- month(df$date)
@@ -24,9 +24,11 @@ df$time <- as.numeric(df$cal_mon+(df$cal_year-2019)*12)
 
 ### repeat by indication (Yes/No)
 
-df$indication <- ifelse(is.na(df$infection),"uncoded","coded")
+df$indication=recode(df$indication,
+                    1 ="coded",
+                    0 ="uncoded")
 
-df.repeat <- df %>% filter(repeat_ab == 1) 
+df.repeat <- df %>% filter(ab_repeat == 1) 
 df.repeat_total <- df.repeat %>% group_by(time,indication) %>% summarise(
   numOutcome = n(),
 )
@@ -59,7 +61,7 @@ bkg_colour <- "white"
 figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(indication), col = factor(indication), fill = factor(indication))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   geom_line(aes(x = monPlot, y = value), lwd = 1.2)+ 
-  scale_x_date(date_labels = "%Y", breaks = "1 year") +
+  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
   labs(x = "Date", y = "% of repeat prescription", title = "", colour = "Indication", fill = "Indication") +
@@ -71,17 +73,18 @@ figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = 
         legend.title = element_text(size = 12),
         legend.position = "top",
         strip.background = element_rect(fill = "grey", colour =  NA),
-        strip.text = element_text(size = 12, hjust = 0)) 
+        strip.text = element_text(size = 12, hjust = 0)) +
+  theme(axis.text.x=element_text(angle=60,hjust=1))
 
 figure_indication_strata
 
 ggsave(
-  plot= figure_indication_strata,
-  filename="cohort_1_indication_strata.jpeg", path=here::here("output"),
+  plot= figure_indication_strata, width = 12, height = 6, dpi = 640,
+  filename="Figure2_A.jpeg", path=here::here("output"),
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
 
-write_csv(df.model, here::here("output", "cohort_1_indication_strata_table.csv"))
+write_csv(df.model, here::here("output", "Figure2_A_table.csv"))
 rm(df.broad_total,df.all,df.model)
 

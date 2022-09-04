@@ -2388,34 +2388,6 @@ actions:
         table3: output/age_sex_ab_check_2020.csv
         table4: output/age_sex_ab_check_2021.csv
 
-  describe_cohort_1_indication_strata_figure_process: 
-    run: r:latest analysis/description/cohort_1_indication_strata_repeat.R
-    needs: [describe_cohort_1_rds]
-    outputs:
-      moderately_sensitive:
-        figure1: output/cohort_1_indication_strata.jpeg
-        table1: output/cohort_1_indication_strata_table.csv
-
-  describe_cohort_2_incident_strata_figure_process: 
-    run: r:latest analysis/description/cohort_2_incident_strata_repeat.R
-    needs: [describe_cohort_1_rds]
-    outputs:
-      moderately_sensitive:
-        figure1: output/cohort_2_incident_strata.jpeg
-        table1: output/cohort_2_incident_strata_table.csv
-
-  describe_cohort_2_strata_figure_process: 
-    run: r:latest analysis/description/cohort_2_strata_repeat.R
-    needs: [describe_cohort_1_rds]
-    outputs:
-      moderately_sensitive:
-        figure1: output/cohort_2_age_strata.jpeg
-        figure2: output/cohort_2_sex_strata.jpeg
-        figure3: output/cohort_2_region_strata.jpeg
-        table1: output/cohort_2_age_strata_table.csv
-        table2: output/cohort_2_sex_strata_table.csv
-        table3: output/cohort_2_region_strata_table.csv
-
   describe_TPP_ab_frequency_table: 
     run: r:latest analysis/xiaomin_ab/TPP_ab_frequency_table.R
     needs: [generate_measures_broad]
@@ -2856,3 +2828,31 @@ actions:
        moderately_sensitive:
         table1: output/cohort_2_baseline_all.csv
         table2: output/cohort_2_baseline_all_pat_one.csv
+
+  Figure2_A: 
+    run: r:latest analysis/descriptive/Figure2_A.R
+    needs: [process_cohort_preparation]
+    outputs:
+      moderately_sensitive:
+        figure1: output/Figure2_A.jpeg
+        table1: output/Figure2_A_table.csv
+
+  # describe_cohort_2_incident_strata_figure_process: 
+  #   run: r:latest analysis/description/cohort_2_incident_strata_repeat.R
+  #   needs: [describe_cohort_1_rds]
+  #   outputs:
+  #     moderately_sensitive:
+  #       figure1: output/cohort_2_incident_strata.jpeg
+  #       table1: output/cohort_2_incident_strata_table.csv
+
+  # describe_cohort_2_strata_figure_process: 
+  #   run: r:latest analysis/description/cohort_2_strata_repeat.R
+  #   needs: [describe_cohort_1_rds]
+  #   outputs:
+  #     moderately_sensitive:
+  #       figure1: output/cohort_2_age_strata.jpeg
+  #       figure2: output/cohort_2_sex_strata.jpeg
+  #       figure3: output/cohort_2_region_strata.jpeg
+  #       table1: output/cohort_2_age_strata_table.csv
+  #       table2: output/cohort_2_sex_strata_table.csv
+  #       table3: output/cohort_2_region_strata_table.csv
