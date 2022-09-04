@@ -2970,3 +2970,73 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/uti_model.html
+
+  overall_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/overall_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/overall_model_knot5.html
+
+  throat_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/throat_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/throat_model_knot5.html
+
+  copd_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/copd_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/copd_model_knot5.html
+
+  cough_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/cough_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/cough_model_knot5.html
+
+  lrti_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/lrti_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/lrti_model_knot5.html
+
+  otitis_externa_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/otitis_externa_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/otitis_externa_model_knot5.html
+
+  otitis_media_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/otitis_media_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/otitis_media_model_knot5.html
+
+  sinusitis_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/sinusitis_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/sinusitis_model_knot5.html
+
+  urti_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/urti_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/urti_model_knot5.html
+
+  uti_model_knot5:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model_knot5/uti_model_knot5.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/uti_model_knot5.html
