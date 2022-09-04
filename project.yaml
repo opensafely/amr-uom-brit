@@ -2868,3 +2868,12 @@ actions:
         table1: output/FigureS2_age_table.csv
         table2: output/FigureS2_sex_table.csv
         table3: output/FigureS2_region_table.csv
+
+  model_preparation: 
+    run: r:latest analysis/descriptive/model_preparation.R
+    needs: [process_cohort_preparation]
+    outputs:
+      highly_sensitive:
+        cohort1: output/model_preparation.csv
+      moderately_sensitive:
+        cohort2: output/model_preparation_table.csv
