@@ -2879,8 +2879,8 @@ actions:
         cohort2: output/model_preparation_table.csv
 
   throat_model:  
-    run: r:latest -e 'rmarkdown::render("analysis/new_model/throat_model.Rmd", output_dir = "output/report")'
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/throat_model.Rmd", output_dir = "output")'
     needs: [model_preparation]
     outputs:
       moderately_sensitive:
-        html: output/report/throat_model.html
+        html: output/throat_model.html
