@@ -116,12 +116,14 @@ age_dt <- as.data.frame(rbind(age_1,age_2,age_3,age_4,age_5,age_6,age_7,age_8))
 colnames(age_dt) <- title_1
 
 age_dt$outcome <- as.factor(age_dt$outcome)
+age_dt$age <- as.numeric(age_dt$age)
+age_dt$sex <- as.factor(age_dt$sex)
 age_dt$ethnicity_6 <- as.factor(age_dt$ethnicity_6)
-age_dt$imd <- as.factor(age_dt$imd)
 age_dt$region <- as.factor(age_dt$region)
 age_dt$charlsonGrp <- as.factor(age_dt$charlsonGrp)
-age_dt$ab12b4 <- as.factor(age_dt$ab12b4)
-age_dt$age <- as.numeric(age_dt$age)
+age_dt$imd <- as.factor(age_dt$imd)
+age_dt$incident_prevalent <- as.factor(age_dt$incident_prevalent)
+age_dt$ab12b4 <- as.factor(age_dt$antibiotics_12mb4)
 
 age_LP <- predict(m1, newdata = age_dt)
 
