@@ -113,7 +113,7 @@ df10 <- df10 %>% mutate(outcome = case_when(df10$ab_repeat==0 & df10$type %in% u
                           df10$ab_repeat==0 & df10$type %in% utitype == FALSE ~ 2,
                           df10$ab_repeat==1  ~ 3))
 
-DF <- rbind(df1,df2,df3,df4,df5,df6,df6,df8,df9,df10)
+DF <- rbind(df1,df2,df3,df4,df5,df6,df7,df8,df9,df10)
 DF$incident_prevalent <- as.factor(DF$incident_prevalent)
 DF$outcome <- as.factor(DF$outcome)
 DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
@@ -143,10 +143,17 @@ DF <- DF %>% filter (!is.na(incident_prevalent))
 write_csv(DF, here::here("output", "model_preparation.csv"))
 
 
-
 # generate data table in All level #
 DF_all_frequency <- DF %>% group_by(infection,incident_prevalent,outcome) %>% summarise(
   numOutcome = n(),
 )
 
+DF_all_count <- DF %>% group_by(infection,incident_prevalent) %>% summarise(
+  numEligible = n(),
+)
+DF_all_frequency <- merge(DF_all_frequency,DF_all_count,by=c("infection","incident_prevalent"))
+
+DF_all_frequency$percentage <- DF_all_frequency$numOutcome*100/DF_all_frequency$numEligible
+
 write_csv(DF_all_frequency, here::here("output", "model_preparation_table.csv"))
+
