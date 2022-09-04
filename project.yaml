@@ -2878,9 +2878,79 @@ actions:
       moderately_sensitive:
         table1: output/model_preparation_table.csv
 
+  overall_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/overall_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/overall_model.html
+
   throat_model:  
     run: r:latest -e 'rmarkdown::render("analysis/new_model/throat_model.Rmd", output_dir = "output")'
     needs: [model_preparation]
     outputs:
       moderately_sensitive:
         html: output/throat_model.html
+
+  copd_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/copd_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/copd_model.html
+
+  cough_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/cough_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/cough_model.html
+
+  lrti_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/lrti_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/lrti_model.html
+
+  otitis_externa_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/otitis_externa_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/otitis_externa_model.html
+
+  otitis_media_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/otitis_media_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/otitis_media_model.html
+
+  pneumonia_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/pneumonia_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/pneumonia_model.html
+
+  sinusitis_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/sinusitis_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/sinusitis_model.html
+
+  urti_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/urti_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/urti_model.html
+
+  uti_model:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/uti_model.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/uti_model.html

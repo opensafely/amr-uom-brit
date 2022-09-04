@@ -1,4 +1,4 @@
-### Sore throat model ###
+### COPD model ###
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -26,7 +26,7 @@ library("magrittr")
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 DF <- read_csv(here::here("output","model_preparation.csv"))
-DF <- DF %>% filter(infection== "Sore throat")
+DF <- DF %>% filter(infection== "COPD")
 DF$incident_prevalent <- as.factor(DF$incident_prevalent)
 DF$outcome <- as.factor(DF$outcome)
 DF$ethnicity_6 <- as.factor(DF$ethnicity_6)
@@ -471,7 +471,7 @@ p <- predict(m1 , newdata = testing,type="response")
   dat.calib.flex.mlr_3$outcome.cat <- "p3"
   
   dat.calib.flex.mlr <- rbind(dat.calib.flex.mlr_1,dat.calib.flex.mlr_2,dat.calib.flex.mlr_3)
-  dat.calib.flex.mlr$anal.meth <- "Sore throat"
+  dat.calib.flex.mlr$anal.meth <- "COPD"
     
 
   ### Now lets make a ggplot
