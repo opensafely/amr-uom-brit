@@ -2878,6 +2878,22 @@ actions:
       moderately_sensitive:
         table1: output/model_preparation_table.csv
 
+  model_preparation_check: 
+    run: r:latest analysis/descriptive/model_preparation_check.R
+    needs: [process_cohort_preparation]
+    outputs:
+      moderately_sensitive:
+        table1: output/throat_ab_frequency.csv
+        table2: output/urti_ab_frequency.csv
+        table3: output/sinusitis_ab_frequency.csv
+        table4: output/ot_externa_ab_frequency.csv
+        table5: output/ot_media_ab_frequency.csv
+        table6: output/copd_ab_frequency.csv
+        table7: output/cough_ab_frequency.csv
+        table8: output/pneumonia_ab_frequency.csv
+        table9: output/lrti_ab_frequency.csv
+        table10: output/uti_ab_frequency.csv
+
   overall_model:  
     run: r:latest -e 'rmarkdown::render("analysis/new_model/overall_model.Rmd", output_dir = "output")'
     needs: [model_preparation]
