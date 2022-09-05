@@ -774,7 +774,7 @@ actions:
 
   describe_ab_recoded_indication_process: #  Antibiotics_recorded_02: generate prescription-level dataset 
     run: r:latest analysis/process/ab_recorded_indication_transform.R
-    needs: [generate_study_population_ab]
+    needs: [generate_study_population_antibiotics]
     outputs:
        highly_sensitive:
         rds1: output/measures/recorded_ab_2019.rds
@@ -784,7 +784,7 @@ actions:
 
   describe_ab_recoded_indication_plot_incident: 
     run: r:latest analysis/plot/ab_recorded_indication_plot_incident.R
-    needs: [describe_ab_recoded_indication_process] # transfrom & define all variables
+    needs: [describe_ab_recoded_broad_process] # transfrom & define all variables
     outputs:
        moderately_sensitive:
         plot1: output/ab_recorded_incident_bar.jpeg
