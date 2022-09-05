@@ -42,8 +42,8 @@ def generate_covid_variables(index_date_variable):
  ## HOSPITAL ADMISSION
     covid_admission_date=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
-        with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
-        #with_these_diagnoses=covid_codelist,  # not only primary diagnosis
+        #with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+        with_these_diagnoses=covid_codelist,  # not only primary diagnosis
         on_or_before=f'{index_date_variable} - 1 day',
         find_last_match_in_period=True,  
         date_format="YYYY-MM-DD",  
@@ -54,7 +54,7 @@ def generate_covid_variables(index_date_variable):
     covid_admission_discharge_date=patients.admitted_to_hospital(
         returning= "date_discharged" , 
         #with_these_diagnoses=covid_codelist, 
-        with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+        with_these_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
         on_or_after="covid_admission_date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",
@@ -64,7 +64,7 @@ def generate_covid_variables(index_date_variable):
 
     icu_days=patients.admitted_to_hospital(
         with_these_diagnoses=covid_codelist,
-        between=["covid_admission_date" , "covid_admission_date + 3 months"],       # admitted to icu in one month 
+        between=["covid_admission_date" , "covid_admission_date + 1 month"],       # admitted to icu in one month 
         returning="days_in_critical_care",
         find_first_match_in_period=True,
         return_expectations={
@@ -146,8 +146,8 @@ def generate_covid_variables(index_date_variable):
 
     covid_admission_date_after=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
-        with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
-        between=[f'{index_date_variable}' , f'{index_date_variable} +  3 months'],        
+        with_these_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+        between=[f'{index_date_variable}' , f'{index_date_variable} +  1 month'],        
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.25},
@@ -155,7 +155,7 @@ def generate_covid_variables(index_date_variable):
 
     ## died (CPNS: all in-hospital covid-related deaths)
     died_date_cpns_after=patients.with_death_recorded_in_cpns(
-        between=[f'{index_date_variable}' , f'{index_date_variable} +   3 months'],        
+        between=[f'{index_date_variable}' , f'{index_date_variable} +   1 month'],        
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"},
@@ -165,7 +165,7 @@ def generate_covid_variables(index_date_variable):
 
     died_date_ons_covid_after=patients.with_these_codes_on_death_certificate(
         covid_codelist,
-        between=[f'{index_date_variable}' , f'{index_date_variable} +  3 months'],        
+        between=[f'{index_date_variable}' , f'{index_date_variable} +  1 month'],        
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=True,
@@ -181,7 +181,7 @@ def generate_covid_variables(index_date_variable):
     SGSS_positive_test_date_before=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        on_or_before=f'{index_date_variable} -  3 months',      
+        on_or_before=f'{index_date_variable} -  1 month',      
         returning="date",
         date_format="YYYY-MM-DD",
                 return_expectations={"date": {"earliest": "2020-03-01"},
@@ -192,7 +192,7 @@ def generate_covid_variables(index_date_variable):
     primary_care_covid_date_before=patients.with_these_clinical_events(
         any_primary_care_code,        
         returning="date",
-        on_or_before=f'{index_date_variable} -  3 months',      
+        on_or_before=f'{index_date_variable} -  1 month',      
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"},
         "rate" : "exponential_increase",
@@ -203,7 +203,7 @@ def generate_covid_variables(index_date_variable):
     covid_admission_date_before=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
         with_these_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
-        on_or_before=f'{index_date_variable} -  3 months',      
+        on_or_before=f'{index_date_variable} -  1 month',      
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-03-01"},
         "rate" : "exponential_increase",
@@ -212,7 +212,7 @@ def generate_covid_variables(index_date_variable):
 
     ## died (CPNS: all in-hospital covid-related deaths)
     died_date_cpns_before=patients.with_death_recorded_in_cpns(
-        on_or_before=f'{index_date_variable} -  3 months',      
+        on_or_before=f'{index_date_variable} -  1 month',      
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"},
@@ -222,7 +222,7 @@ def generate_covid_variables(index_date_variable):
 
     died_date_ons_covid_before=patients.with_these_codes_on_death_certificate(
         covid_codelist,
-        on_or_before=f'{index_date_variable} -  3 months',      
+        on_or_before=f'{index_date_variable} -  1 month',      
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         match_only_underlying_cause=False,
