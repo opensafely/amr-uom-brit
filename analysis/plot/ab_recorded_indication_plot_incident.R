@@ -12,7 +12,7 @@ setwd(here::here("output", "measures"))
 
 
 # file list
-Files = list.files(pattern="recorded_ab_broad_20", full.names = FALSE)
+Files = list.files(pattern="recorded_ab_20", full.names = FALSE)
 temp <- vector("list", length(Files))
 
 for (i in seq_along(Files)){

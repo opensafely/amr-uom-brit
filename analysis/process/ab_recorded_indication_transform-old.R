@@ -22,10 +22,10 @@ setwd(here::here("output", "measures"))
 
 
 # file list
-csvFiles_19 = list.files(pattern="input_ab_2019", full.names = FALSE)
-csvFiles_20 = list.files(pattern="input_ab_2020", full.names = FALSE)
-csvFiles_21 = list.files(pattern="input_ab_2021", full.names = FALSE)
-csvFiles_22 = list.files(pattern="input_ab_2022", full.names = FALSE)
+csvFiles_19 = list.files(pattern="input_antibiotics_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_antibiotics_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_antibiotics_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_antibiotics_2022", full.names = FALSE)
 
 
 # date list
@@ -41,49 +41,7 @@ ab_category=paste0("AB_date_",rep(1:12),"_indication")
 indications=c("uti","lrti","urti","sinusits","otmedia","ot_externa","asthma","cold","cough","copd","pneumonia","renal","sepsis","throat","uncoded")
 ab_date_12=paste0("AB_date_",rep(1:12))
 
-# read columns
-col_spec <-cols_only( patient_id = 'd',
 
-                   AB_date_1 = 'c',
-                   AB_date_2 = 'c',
-                   AB_date_3 = 'c',
-                   AB_date_4 = 'c',
-                   AB_date_5 = 'c',
-                   AB_date_6 = 'c',
-                   AB_date_7 = 'c',
-                   AB_date_8 = 'c',
-                   AB_date_9 = 'c',
-                   AB_date_10 = 'c',
-                   AB_date_11 = 'c',
-                   AB_date_12 = 'c',
-                   AB_date_1_indication = 'c',
-                   AB_date_2_indication = 'c',
-                   AB_date_3_indication = 'c',
-                   AB_date_4_indication = 'c',
-                   AB_date_5_indication = 'c',
-                   AB_date_6_indication = 'c',
-                   AB_date_7_indication = 'c',
-                   AB_date_8_indication = 'c',
-                   AB_date_9_indication = 'c',
-                   AB_date_10_indication = 'c',
-                   AB_date_11_indication = 'c',
-                   AB_date_12_indication = 'c',
-                   prevalent_AB_date_1  ='d',
-                   prevalent_AB_date_2  ='d',
-                   prevalent_AB_date_3  ='d',
-                   prevalent_AB_date_4  ='d',
-                   prevalent_AB_date_5  ='d',
-                   prevalent_AB_date_6  ='d',
-                   prevalent_AB_date_7  ='d',
-                   prevalent_AB_date_8  ='d',
-                   prevalent_AB_date_9  ='d',
-                   prevalent_AB_date_10 ='d',
-                   prevalent_AB_date_11  ='d',
-                   prevalent_AB_date_12 ='d',
-                      age = 'd',
-                      sex = 'c',
-                    antibacterial_brit="d"
-                     )
 
 
 
@@ -92,8 +50,7 @@ col_spec <-cols_only( patient_id = 'd',
 temp <- vector("list", length(csvFiles_19))
 for (i in seq_along(csvFiles_19)){
   # read in one-month data
-  df <- read_csv(csvFiles_19[i], 
-  col_types= col_spec, na="")
+  df <- read_csv(csvFiles_19[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -153,9 +110,7 @@ rm(temp)
 temp <- vector("list", length(csvFiles_20))
 for (i in seq_along(csvFiles_20)){
   # read in one-month data
-  df <- read_csv(csvFiles_20[i],
-    col_types= col_spec, na="")
-
+  df <- read_csv(csvFiles_20[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -208,7 +163,7 @@ rm(temp)
 temp <- vector("list", length(csvFiles_21))
 for (i in seq_along(csvFiles_21)){
   # read in one-month data
-  df <- read_csv(csvFiles_21[i],  col_types= col_spec, na="")
+  df <- read_csv(csvFiles_21[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
@@ -265,8 +220,7 @@ rm(temp)
 temp <- vector("list", length(csvFiles_22))
 for (i in seq_along(csvFiles_22)){
   # read in one-month data
-  df <- read_csv(csvFiles_22[i],  col_types= col_spec, na="")
-
+  df <- read_csv(csvFiles_22[i])
   
   # filter all antibiotics users
   df=df%>%filter(antibacterial_brit !=0)
