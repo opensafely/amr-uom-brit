@@ -68,7 +68,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_19[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -116,7 +116,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_20[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -161,7 +161,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_21[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -207,7 +207,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_22[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -302,7 +302,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_19[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -350,7 +350,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_20[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -395,7 +395,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_21[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -441,7 +441,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_22[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -541,7 +541,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_19[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -589,7 +589,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_20[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -634,7 +634,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_21[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -680,7 +680,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_22[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -775,7 +775,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_19[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -823,7 +823,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_20[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -868,7 +868,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_21[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -914,7 +914,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_22[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1010,7 +1010,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_19[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1058,7 +1058,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_20[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1103,7 +1103,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_21[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1149,7 +1149,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_22[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1244,7 +1244,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_19[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1292,7 +1292,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_20[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1337,7 +1337,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_21[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1383,7 +1383,7 @@
   
 # #   # read in one-month data
 # #   df <- read_csv(csvFiles_22[i],
-# #                  col_types = col_spec)
+# #                  col_types = col_spec, na="")
   
 # #   #### patient/row --> infection consultqtion/row
   
@@ -1506,7 +1506,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="", na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1560,7 +1560,7 @@ for (i in seq_along(csvFiles_20)){
   
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="", na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1608,7 +1608,7 @@ for (i in seq_along(csvFiles_21)){
   
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="", na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1657,7 +1657,7 @@ for (i in seq_along(csvFiles_22)){
   
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="", na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1761,7 +1761,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="", na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1815,7 +1815,7 @@ for (i in seq_along(csvFiles_20)){
   
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="", na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1863,7 +1863,7 @@ for (i in seq_along(csvFiles_21)){
   
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1912,7 +1912,7 @@ for (i in seq_along(csvFiles_22)){
   
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2018,7 +2018,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2072,7 +2072,7 @@ for (i in seq_along(csvFiles_20)){
   
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2120,7 +2120,7 @@ for (i in seq_along(csvFiles_21)){
   
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2169,7 +2169,7 @@ for (i in seq_along(csvFiles_22)){
   
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2273,7 +2273,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2327,7 +2327,7 @@ for (i in seq_along(csvFiles_20)){
   
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2375,7 +2375,7 @@ for (i in seq_along(csvFiles_21)){
   
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2424,7 +2424,7 @@ for (i in seq_along(csvFiles_22)){
   
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2528,7 +2528,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2582,7 +2582,7 @@ for (i in seq_along(csvFiles_20)){
   
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2630,7 +2630,7 @@ for (i in seq_along(csvFiles_21)){
   
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2679,7 +2679,7 @@ for (i in seq_along(csvFiles_22)){
   
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2783,7 +2783,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2837,7 +2837,7 @@ for (i in seq_along(csvFiles_20)){
   
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2885,7 +2885,7 @@ for (i in seq_along(csvFiles_21)){
   
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
@@ -2934,7 +2934,7 @@ for (i in seq_along(csvFiles_22)){
   
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
-                 col_types = col_spec)
+                 col_types = col_spec, na="")
   
   #### patient/row --> infection consultqtion/row
   
