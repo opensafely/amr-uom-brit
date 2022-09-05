@@ -838,7 +838,7 @@ actions:
        # rds4: output/measures/recorded_ab_covid_2022.rds
 
   generate_study_population_ab: #  Antibiotics_recorded_01
-    run: cohortextractor:latest generate_cohort  --with-end-date-fix --study-definition study_definition_ab --index-date-range "2019-01-01 to 2019-02-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    run: cohortextractor:latest generate_cohort  --with-end-date-fix --study-definition study_definition_ab --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
         cohort: output/measures/input_ab_*.csv.gz
