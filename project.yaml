@@ -291,7 +291,7 @@ actions:
         baseline_overall_2021: output/overall_counts_blt_2021.csv
         baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
       highly_sensitive:
-        cohort: output/measures/input_covrx_2021.csv 
+        cohort: output/measures/id_2021.csv
   
   extract_covrx_2021:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2021
@@ -317,7 +317,7 @@ actions:
         baseline_overall_2022: output/overall_counts_blt_2022.csv
         baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
       highly_sensitive:
-        cohort: output/measures/input_covrx_2022.csv 
+        cohort: output/measures/id_2022.csv
   
   extract_covrx_2022:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2022
@@ -326,7 +326,7 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_covrx_2022.csv 
   
-  describe_covrx_2020:
+  describe_covrx_2022:
     run: r:latest analysis/tables/covrx_2022.R
     needs: [extract_covrx_2022]
     outputs:
