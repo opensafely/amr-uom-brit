@@ -292,7 +292,20 @@ actions:
         baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
       highly_sensitive:
         cohort: output/measures/input_covrx_2021.csv 
-
+  
+  extract_covrx_2021:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2021
+    needs: [describe_baseline_table_split_2021]
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_covrx_2021.csv 
+  
+  describe_covrx_2021:
+    run: r:latest analysis/tables/covrx_2021.R
+    needs: [extract_covrx_2021]
+    outputs:
+      moderately_sensitive:
+        number: output/covrx_2021.txt
 
 ####### 2022 baseline table
 
@@ -305,7 +318,22 @@ actions:
         baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
       highly_sensitive:
         cohort: output/measures/input_covrx_2022.csv 
+  
+  extract_covrx_2022:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2022
+    needs: [describe_baseline_table_split_2022]
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_covrx_2022.csv 
+  
+  describe_covrx_2020:
+    run: r:latest analysis/tables/covrx_2022.R
+    needs: [extract_covrx_2022]
+    outputs:
+      moderately_sensitive:
+        number: output/covrx_2022.txt
 
+##
   describe_service_eval_covid_check:
     run: r:latest analysis/tables/baseline_table_covid_check.R
     needs: [generate_study_population_covidcheck]
@@ -313,7 +341,7 @@ actions:
       moderately_sensitive:
         baseline_covidcheck: output/overall_covid.csv
         blt_covidcheck: output/blt_covid_check.csv
-
+  
   # describe_consultation_rate:
   #   run: r:latest analysis/plot/incident_consultation_age_stacked_barchart.R
   #   needs: [generate_measures]
