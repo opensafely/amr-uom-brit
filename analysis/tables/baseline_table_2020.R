@@ -44,7 +44,7 @@ rm(overall_counts)
 ## in the study period to generate baseline table for service evaluation
 df<-df_input
 df_one_pat <- df %>% dplyr::group_by(patient_id) %>%
-  dplyr::arrange(date, .group_by=TRUE) %>%
+  #dplyr::arrange(date, .group_by=TRUE) %>%
   sample_n(1)
 
 ## clear environment to make more space on server...? 
