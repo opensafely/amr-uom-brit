@@ -1506,7 +1506,7 @@ for (i in seq_along(csvFiles_19)){
   
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
-                 col_types = col_spec, na="")
+                 col_types = col_spec)
   
   #### patient/row --> infection consultqtion/row
   
@@ -1530,7 +1530,8 @@ for (i in seq_along(csvFiles_19)){
   # merge
   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
+  
+  DF <- DF %>% mutate_all(na_if,"")  
   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
   # create date column
