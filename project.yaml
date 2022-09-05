@@ -254,8 +254,9 @@ actions:
     outputs:
       moderately_sensitive:
         number: output/covrx_2019.txt
-####### 2019 baseline table
 
+
+####### 2020 baseline table
   describe_baseline_table_split_2020:
     run: r:latest analysis/tables/baseline_table_2020.R
     needs: [describe_basic_record_process]
@@ -263,6 +264,24 @@ actions:
       moderately_sensitive:
         baseline_overall_2020: output/overall_counts_blt_2020.csv
         baseline_table_2020: output/blt_one_random_obs_perpat_2020.csv
+      highly_sensitive:
+        cohort: output/measures/id_2020.csv
+  
+  extract_covrx_2020:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2020
+    needs: [describe_baseline_table_split_2020]
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_covrx_2020.csv 
+  
+  describe_covrx_2020:
+    run: r:latest analysis/tables/covrx_2020.R
+    needs: [extract_covrx_2020]
+    outputs:
+      moderately_sensitive:
+        number: output/covrx_2020.txt
+
+####### 2021 baseline table
 
   describe_baseline_table_split_2021:
     run: r:latest analysis/tables/baseline_table_2021.R
@@ -271,7 +290,12 @@ actions:
       moderately_sensitive:
         baseline_overall_2021: output/overall_counts_blt_2021.csv
         baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
-    
+      highly_sensitive:
+        cohort: output/measures/input_covrx_2021.csv 
+
+
+####### 2022 baseline table
+
   describe_baseline_table_split_2022:
     run: r:latest analysis/tables/baseline_table_2022.R
     needs: [describe_basic_record_process]
@@ -279,6 +303,8 @@ actions:
       moderately_sensitive:
         baseline_overall_2022: output/overall_counts_blt_2022.csv
         baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
+      highly_sensitive:
+        cohort: output/measures/input_covrx_2022.csv 
 
   describe_service_eval_covid_check:
     run: r:latest analysis/tables/baseline_table_covid_check.R
