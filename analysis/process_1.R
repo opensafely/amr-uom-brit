@@ -15,7 +15,7 @@ library('lubridate')
 #### COVID INFECTION
 
 # impoprt data
-df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
+df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"),na="")
 df1=df1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 # filter SGSS (exclude SGSS+admission, SGSS+death)
@@ -29,7 +29,7 @@ df1=df1%>%
 
 
 
-df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
+df2<- read_csv(here::here("output", "input_covid_primarycare.csv"),na="")
 df2=df2%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
@@ -40,7 +40,7 @@ df2=df2%>%
          is.na(died_date_ons_covid))
 
 
-df=rbind(df1,df2)
+df=bind_rows(df1,df2)
 
 # keep earlist covid infection date
 df=df%>%
@@ -66,7 +66,7 @@ df.0=df%>%
 
 ## definition _2
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
-df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1 <- read_csv(here::here("output", "input_covid_admission.csv"),na="")
 df.1=df.1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
