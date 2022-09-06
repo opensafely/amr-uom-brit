@@ -273,13 +273,20 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/measures/input_covrx_2020.csv 
-  
-  describe_covrx_2020:
-    run: r:latest analysis/tables/covrx_2020.R
-    needs: [extract_covrx_2020]
+    # check
+  describe_covrx_2020: 
+    run: r:latest -e 'rmarkdown::render("analysis/process/covrx_check_2020.rmd", output_dir = "output/report")'
+    needs: [extract_covrx_2021]
     outputs:
       moderately_sensitive:
-        number: output/covrx_2020.txt
+        html: output/report/covrx_check_2020.html
+
+  # describe_covrx_2020:
+  #   run: r:latest analysis/tables/covrx_2020.R
+  #   needs: [extract_covrx_2020]
+  #   outputs:
+  #     moderately_sensitive:
+  #       number: output/covrx_2020.txt
 
 ####### 2021 baseline table
 
