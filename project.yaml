@@ -78,6 +78,18 @@ actions:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
 
+  generate_study_population_covid:
+    run: cohortextractor:latest generate_cohort
+      --with-end-date-fix
+      --study-definition study_definition_covid 
+      --index-date-range "2019-01-01 to 2021-12-31 by month" 
+      --skip-existing 
+      --output-dir=output/measures 
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_covid_*.csv.gz
+
   figure_1A: 
     run: r:latest analysis/figure_1A.R
     needs: [generate_measures]
