@@ -21,7 +21,7 @@ from cohortextractor import (
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
 
-#from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, lrti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_lrti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
+#from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, sinusitis_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_sinusitis_urti_uti_hospitalisation_codes#, flu_vaccine_codes
 
 from codelists import *
 
@@ -57,6 +57,8 @@ study = StudyDefinition(
         has_follow_up_previous_year
         AND
         (sex = "M" OR sex = "F")
+        AND
+        has_sinusitis
         """,
 
         has_died=patients.died_from_any_cause(
@@ -73,6 +75,12 @@ study = StudyDefinition(
             start_date="index_date - 1 year",
             end_date="index_date",
             return_expectations={"incidence": 0.95},
+        ),
+        
+        has_sinusitis=patients.with_these_clinical_events(
+        sinusitis_codes,
+        between=[start_date,end_date],
+        returning="binary_flag",
         ),
 
     ),
@@ -344,27 +352,29 @@ study = StudyDefinition(
 
     ########## antibacterials
 
-    ## all antibacterials from BRIT (dmd codes)
-    antibacterial_brit=patients.with_these_medications(
-        antibacterials_codes_brit,
-        # between=["index_date", "last_day_of_month(index_date)"],
-        between=["index_date - 12 months", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
+    # ## all antibacterials from BRIT (dmd codes)
+    # antibacterial_brit=patients.with_these_medications(
+    #     antibacterials_codes_brit,
+    #     # between=["index_date", "last_day_of_month(index_date)"],
+    #     between=["index_date - 12 months", "last_day_of_month(index_date)"],
+    #     returning="number_of_matches_in_period",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+    #         "incidence": 0.5,
+    #     },
+    # ),
 
-    all_meds=patients.with_these_medications(
-        all_meds_codes,
-        between=["index_date - 12 months", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
-        },
-    ),
+    
+
+    # all_meds=patients.with_these_medications(
+    #     all_meds_codes,
+    #     between=["index_date - 12 months", "last_day_of_month(index_date)"],
+    #     returning="number_of_matches_in_period",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+    #         "incidence": 0.5,
+    #     },
+    # ),
 
     # # all meds except antibiotics (dmd codes) 
     # antibacterial_brit_one_month=patients.with_these_medications(
@@ -409,7 +419,7 @@ study = StudyDefinition(
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1}, "incidence":0.1}
     ),
 
-    # hospitalisation with diagnosis of lrti, urti, or uti
+    # hospitalisation with diagnosis of sinusitis, urti, or uti
     admitted_date=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
@@ -559,13 +569,12 @@ study = StudyDefinition(
         },
     ),
 
-    ########## patient infection events to group_by for measures #############
-    ######################################################## sinusitis
+    ################################################### sinusitis
     sinusitis_date_1=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
-        between=["index_date", "today"],
-        # on_or_after='index_date',
+        # between=["index_date", "today"],
+        on_or_after='index_date',
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "today()"}},
@@ -578,7 +587,7 @@ study = StudyDefinition(
         between=["sinusitis_date_1 + 1 day", "today"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-        return_expectations={"date": {"index_date + 3 days": "today()"}},
+        return_expectations={"date": {"sinusitis_date_1": "today()"}},
         ),
 
     sinusitis_date_3=patients.with_these_clinical_events(
@@ -588,61 +597,700 @@ study = StudyDefinition(
         between=["sinusitis_date_2 + 1 day", "today"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-        return_expectations={"date": {"index_date": "today()"}},
+        return_expectations={"date": {"sinusitis_date_2": "today()"}},
         ),
 
     sinusitis_date_4=patients.with_these_clinical_events(
         sinusitis_codes,
         returning='date',
-        # on_or_after='sinusitis_date_3 + 3 days',
         between=["sinusitis_date_3 + 1 day", "today"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-        return_expectations={"date": {"index_date": "today()"}},
+        return_expectations={"date": {"sinusitis_date_3": "today()"}},
         ),
 
-        ## GP consultations for sinusitis
-    gp_cons_sinusitis_1=patients.with_gp_consultations(
-        # sinusitis_codes,
-        # returning='date',
-        between=["sinusitis_date_1", "sinusitis_date_1"],
-        #returning='binary_flag',
+    sinusitis_date_5=patients.with_these_clinical_events(
+        sinusitis_codes,
         returning='date',
-        date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        between=["sinusitis_date_4 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_4": "today()"}},
+        ),
+
+    sinusitis_date_6=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_5 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_5": "today()"}},
+        ),
+
+    sinusitis_date_7=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_6 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_6": "today()"}},
+        ),
+
+    sinusitis_date_8=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_7 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_7": "today()"}},
+        ),
+
+    sinusitis_date_9=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_8 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_8": "today()"}},
+        ),
+
+    sinusitis_date_10=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_9 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_9": "today()"}},
+        ),
+
+    sinusitis_date_11=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_10 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_10": "today()"}},
+        ),
+
+    sinusitis_date_12=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_11 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_11": "today()"}},
+        ),
+
+    sinusitis_date_13=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_12 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_12": "today()"}},
+        ),
+
+    sinusitis_date_14=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_13 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_13": "today()"}},
+        ),
+
+    sinusitis_date_15=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_14 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_14": "today()"}},
+        ),
+
+    sinusitis_date_16=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_15 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_15": "today()"}},
+        ),
+
+    sinusitis_date_17=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_16 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_16": "today()"}},
+        ),
+
+    sinusitis_date_18=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_17 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_17": "today()"}},
+        ),
+
+    sinusitis_date_19=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_18 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_18": "today()"}},
+        ),
+
+    sinusitis_date_20=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning='date',
+        between=["sinusitis_date_19 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"sinusitis_date_19": "today()"}},
+        ),
+
+
+####################################################################################
+
+# ## count of GP consultations
+    gp_count_1=patients.with_gp_consultations(
+        between=["sinusitis_date_1 - 12 months", "sinusitis_date_1"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
     ),
 
-    gp_cons_sinusitis_2=patients.with_gp_consultations(
-        between=["sinusitis_date_2", "sinusitis_date_2"],
-        #returning='binary_flag',
-        returning='date',
-        date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    gp_count_2=patients.with_gp_consultations(
+        between=["sinusitis_date_2 - 12 months", "sinusitis_date_2"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
     ),
 
-    gp_cons_sinusitis_3=patients.with_gp_consultations(
-        between=["sinusitis_date_3", "sinusitis_date_3"],
-        #returning='binary_flag',
-        returning='date',
-        date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    gp_count_3=patients.with_gp_consultations(
+        between=["sinusitis_date_3 - 12 months", "sinusitis_date_3"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
     ),
 
-    gp_cons_sinusitis_4=patients.with_gp_consultations(
-        between=["sinusitis_date_4", "sinusitis_date_4"],
-        #returning='binary_flag',
-        returning='date',
-        date_format="YYYY-MM-DD",
-        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+    gp_count_4=patients.with_gp_consultations(
+        between=["sinusitis_date_4 - 12 months", "sinusitis_date_4"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
     ),
+
+    gp_count_5=patients.with_gp_consultations(
+        between=["sinusitis_date_5 - 12 months", "sinusitis_date_5"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_6=patients.with_gp_consultations(
+        between=["sinusitis_date_6 - 12 months", "sinusitis_date_6"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_7=patients.with_gp_consultations(
+        between=["sinusitis_date_7 - 12 months", "sinusitis_date_7"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_8=patients.with_gp_consultations(
+        between=["sinusitis_date_8 - 12 months", "sinusitis_date_8"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_9=patients.with_gp_consultations(
+        between=["sinusitis_date_9 - 12 months", "sinusitis_date_9"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_10=patients.with_gp_consultations(
+        between=["sinusitis_date_10 - 12 months", "sinusitis_date_10"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_11=patients.with_gp_consultations(
+        between=["sinusitis_date_11 - 12 months", "sinusitis_date_11"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_12=patients.with_gp_consultations(
+        between=["sinusitis_date_12 - 12 months", "sinusitis_date_12"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_13=patients.with_gp_consultations(
+        between=["sinusitis_date_13 - 12 months", "sinusitis_date_13"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_14=patients.with_gp_consultations(
+        between=["sinusitis_date_14 - 12 months", "sinusitis_date_14"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_15=patients.with_gp_consultations(
+        between=["sinusitis_date_15 - 12 months", "sinusitis_date_15"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_16=patients.with_gp_consultations(
+        between=["sinusitis_date_16 - 12 months", "sinusitis_date_16"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_17=patients.with_gp_consultations(
+        between=["sinusitis_date_17 - 12 months", "sinusitis_date_17"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_18=patients.with_gp_consultations(
+        between=["sinusitis_date_18 - 12 months", "sinusitis_date_18"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_19=patients.with_gp_consultations(
+        between=["sinusitis_date_19 - 12 months", "sinusitis_date_19"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+    gp_count_20=patients.with_gp_consultations(
+        between=["sinusitis_date_20 - 12 months", "sinusitis_date_20"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+            "incidence": 0.6,
+        },
+    ),
+
+
+
+    # count of abs
+    antibacterial_brit_1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_1 - 12 months", "sinusitis_date_1"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_2 - 12 months", "sinusitis_date_2"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_3 - 12 months", "sinusitis_date_3"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_4 - 12 months", "sinusitis_date_4"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_5=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_5 - 12 months", "sinusitis_date_5"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_6=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_6 - 12 months", "sinusitis_date_6"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_7=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_7 - 12 months", "sinusitis_date_7"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_8=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_8 - 12 months", "sinusitis_date_8"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_9=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_9 - 12 months", "sinusitis_date_9"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_10=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_10 - 12 months", "sinusitis_date_10"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_11=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_11 - 12 months", "sinusitis_date_11"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_12=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_12 - 12 months", "sinusitis_date_12"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_13=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_13 - 12 months", "sinusitis_date_13"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_14=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_14 - 12 months", "sinusitis_date_14"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_15=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_15 - 12 months", "sinusitis_date_15"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_16=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_16 - 12 months", "sinusitis_date_16"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_17=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_17 - 12 months", "sinusitis_date_17"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_18=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_18 - 12 months", "sinusitis_date_18"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_19=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_19 - 12 months", "sinusitis_date_19"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibacterial_brit_20=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["sinusitis_date_20 - 12 months", "sinusitis_date_20"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+
+###################################################################################
+
+# ## GP consultations for sinusitis
+#     gp_cons_sinusitis_1=patients.with_gp_consultations(
+#         between=["sinusitis_date_1 - 1 day", "sinusitis_date_1 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_2=patients.with_gp_consultations(
+#         between=["sinusitis_date_2 - 1 day", "sinusitis_date_2 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_3=patients.with_gp_consultations(
+#         between=["sinusitis_date_3 - 1 day", "sinusitis_date_3 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_4=patients.with_gp_consultations(
+#         between=["sinusitis_date_4 - 1 day", "sinusitis_date_4 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_5=patients.with_gp_consultations(
+#         between=["sinusitis_date_5 - 1 day", "sinusitis_date_5 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_6=patients.with_gp_consultations(
+#         between=["sinusitis_date_6 - 1 day", "sinusitis_date_6 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_7=patients.with_gp_consultations(
+#         between=["sinusitis_date_7 - 1 day", "sinusitis_date_7 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_8=patients.with_gp_consultations(
+#         between=["sinusitis_date_8 - 1 day", "sinusitis_date_8 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_9=patients.with_gp_consultations(
+#         between=["sinusitis_date_9 - 1 day", "sinusitis_date_9 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_10=patients.with_gp_consultations(
+#         between=["sinusitis_date_10 - 1 day", "sinusitis_date_10 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#         ## GP consultations for sinusitis
+#     gp_cons_sinusitis_11=patients.with_gp_consultations(
+#         between=["sinusitis_date_11 - 1 day", "sinusitis_date_11 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_12=patients.with_gp_consultations(
+#         between=["sinusitis_date_12 - 1 day", "sinusitis_date_12 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_13=patients.with_gp_consultations(
+#         between=["sinusitis_date_13 - 1 day", "sinusitis_date_13 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_14=patients.with_gp_consultations(
+#         between=["sinusitis_date_14 - 1 day", "sinusitis_date_14 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_15=patients.with_gp_consultations(
+#         between=["sinusitis_date_15 - 1 day", "sinusitis_date_15 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_16=patients.with_gp_consultations(
+#         between=["sinusitis_date_16 - 1 day", "sinusitis_date_16 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_17=patients.with_gp_consultations(
+#         between=["sinusitis_date_17 - 1 day", "sinusitis_date_17 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_18=patients.with_gp_consultations(
+#         between=["sinusitis_date_18 - 1 day", "sinusitis_date_18 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_19=patients.with_gp_consultations(
+#         between=["sinusitis_date_19 - 1 day", "sinusitis_date_19 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
+#     gp_cons_sinusitis_20=patients.with_gp_consultations(
+#         between=["sinusitis_date_20 - 1 day", "sinusitis_date_20 + 1 day"],
+#         returning='date',
+#         date_format="YYYY-MM-DD",
+#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+#     ),
+
 
     #  incidence 
     incdt_sinusitis_date_1=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        # returning="date",
-        # date_format="YYYY-MM-DD",
-        between=["gp_cons_sinusitis_1 - 42 days", "gp_cons_sinusitis_1 - 1 day"], #["sinusitis_date_1 - 42 days", "sinusitis_date_1"]
+        between=["sinusitis_date_1 - 42 days", "sinusitis_date_1 - 1 day"], #["sinusitis_date_1 - 42 days", "sinusitis_date_1"]
         find_first_match_in_period=True,
         # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
@@ -651,42 +1299,163 @@ study = StudyDefinition(
     incdt_sinusitis_date_2=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        # returning="date",
-        # date_format="YYYY-MM-DD",
-        between=["gp_cons_sinusitis_2 - 42 days", "gp_cons_sinusitis_2 - 1 day"], #["sinusitis_date_2 - 42 days", "sinusitis_date_2"]
+        between=["sinusitis_date_2 - 42 days", "sinusitis_date_2 - 1 day"],
         find_first_match_in_period=True,
-        # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
     ),
 
     incdt_sinusitis_date_3=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        # returning="date",
-        # date_format="YYYY-MM-DD",
-        between=["gp_cons_sinusitis_3 - 42 days", "gp_cons_sinusitis_3 - 1 day"], #["sinusitis_date_3 - 42 days", "sinusitis_date_3"]
+        between=["sinusitis_date_3 - 42 days", "sinusitis_date_3 - 1 day"], 
         find_first_match_in_period=True,
-        # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
     ),
 
     incdt_sinusitis_date_4=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        # returning="date",
-        # date_format="YYYY-MM-DD",
-        between=["gp_cons_sinusitis_4 - 42 days", "gp_cons_sinusitis_4 - 1 day"], #["sinusitis_date_4 - 42 days", "sinusitis_date_4"]
+        between=["sinusitis_date_4 - 42 days", "sinusitis_date_4 - 1 day"], 
         find_first_match_in_period=True,
-        # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
     ),
+
+    incdt_sinusitis_date_5=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_5 - 42 days", "sinusitis_date_5 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_6=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_6 - 42 days", "sinusitis_date_6 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_7=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_7 - 42 days", "sinusitis_date_7 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_8=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_8 - 42 days", "sinusitis_date_8 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_9=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_9 - 42 days", "sinusitis_date_9 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_10=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_10 - 42 days", "sinusitis_date_10 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_11=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_11 - 42 days", "sinusitis_date_1 - 11 day"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_12=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_12 - 42 days", "sinusitis_date_12 - 1 day"],
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_13=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_13 - 42 days", "sinusitis_date_13 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_14=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_14 - 42 days", "sinusitis_date_14 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_15=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_15 - 42 days", "sinusitis_date_15 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_16=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_16 - 42 days", "sinusitis_date_16 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_17=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_17 - 42 days", "sinusitis_date_17 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_18=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_18 - 42 days", "sinusitis_date_18 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_19=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_19 - 42 days", "sinusitis_date_19 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+    incdt_sinusitis_date_20=patients.with_these_clinical_events(
+        sinusitis_codes,
+        returning="binary_flag",
+        between=["sinusitis_date_20 - 42 days", "sinusitis_date_20 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
+
+
 
 ## hospitalisation with incident OR prevalent sinusitis
     admitted_sinusitis_date_1=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_sinusitis_1", "gp_cons_sinusitis_1 + 30 days"], #["sinusitis_date_1", "sinusitis_date_1 + 30 days"]
+       between=["sinusitis_date_1", "sinusitis_date_1 + 30 days"], #["sinusitis_date_1", "sinusitis_date_1 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -695,7 +1464,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_sinusitis_2", "gp_cons_sinusitis_2 + 30 days"], #["sinusitis_date_2", "sinusitis_date_2 + 30 days"]
+       between=["sinusitis_date_2", "sinusitis_date_2 + 30 days"], #["sinusitis_date_2", "sinusitis_date_2 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -704,7 +1473,7 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_sinusitis_3", "gp_cons_sinusitis_3 + 30 days"], #["sinusitis_date_3", "sinusitis_date_3 + 30 days"]
+       between=["sinusitis_date_3", "sinusitis_date_3 + 30 days"], #["sinusitis_date_3", "sinusitis_date_3 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
@@ -713,16 +1482,163 @@ study = StudyDefinition(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
        date_format="YYYY-MM-DD",
-       between=["gp_cons_sinusitis_4", "gp_cons_sinusitis_4 + 30 days"], #["sinusitis_date_4", "sinusitis_date_4 + 30 days"]
+       between=["sinusitis_date_4", "sinusitis_date_4 + 30 days"], #["sinusitis_date_4", "sinusitis_date_4 + 30 days"]
        find_first_match_in_period=True,
        return_expectations={"incidence": 0.3},
     ),
+
+    admitted_sinusitis_date_5=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_5", "sinusitis_date_5 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_6=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_6", "sinusitis_date_6 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_7=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_7", "sinusitis_date_7 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_8=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_8", "sinusitis_date_8 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_9=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_9", "sinusitis_date_9 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_10=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_10", "sinusitis_date_10 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_11=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_11", "sinusitis_date_11 + 30 days"], 
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_12=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_12", "sinusitis_date_12 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_13=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_13", "sinusitis_date_13 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_14=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_14", "sinusitis_date_14 + 30 days"], 
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_15=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_15", "sinusitis_date_15 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_16=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_16", "sinusitis_date_16 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_17=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_17", "sinusitis_date_17 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_18=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_18", "sinusitis_date_18 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_19=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_19", "sinusitis_date_19 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+    admitted_sinusitis_date_20=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["sinusitis_date_20", "sinusitis_date_20 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
+
+
+
 
     ## Covid positive test result during hospital admission related to sinusitis
     sgss_pos_covid_date_sinusitis_1=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["gp_cons_sinusitis_1 - 90 days", "gp_cons_sinusitis_1 + 30 days"],
+        between=["sinusitis_date_1 - 90 days", "sinusitis_date_1 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -733,7 +1649,7 @@ study = StudyDefinition(
     gp_covid_date_sinusitis_1=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["gp_cons_sinusitis_1 - 90 days", "gp_cons_sinusitis_1 + 30 days"],
+        between=["sinusitis_date_1 - 90 days", "sinusitis_date_1 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -751,7 +1667,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_sinusitis_2=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["gp_cons_sinusitis_2 - 90 days", "gp_cons_sinusitis_2 + 30 days"],
+        between=["sinusitis_date_2 - 90 days", "sinusitis_date_2 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -762,7 +1678,7 @@ study = StudyDefinition(
     gp_covid_date_sinusitis_2=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["gp_cons_sinusitis_2 - 90 days", "gp_cons_sinusitis_2 + 30 days"],
+        between=["sinusitis_date_2 - 90 days", "sinusitis_date_2 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -776,11 +1692,11 @@ study = StudyDefinition(
         """,
     ),
 
-    ## Covid positive test result
+    ## Covid positive test result 3
     sgss_pos_covid_date_sinusitis_3=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["gp_cons_sinusitis_3 - 90 days", "gp_cons_sinusitis_3 + 30 days"],
+        between=["sinusitis_date_3 - 90 days", "sinusitis_date_3 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -791,7 +1707,7 @@ study = StudyDefinition(
     gp_covid_date_sinusitis_3=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["gp_cons_sinusitis_3 - 90 days", "gp_cons_sinusitis_3 + 30 days"],
+        between=["sinusitis_date_3 - 90 days", "sinusitis_date_3 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -809,7 +1725,7 @@ study = StudyDefinition(
     sgss_pos_covid_date_sinusitis_4=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["gp_cons_sinusitis_4 - 90 days", "gp_cons_sinusitis_4 + 30 days"],
+        between=["sinusitis_date_4 - 90 days", "sinusitis_date_4 + 30 days"],
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
@@ -820,7 +1736,7 @@ study = StudyDefinition(
     gp_covid_date_sinusitis_4=patients.with_these_clinical_events(
         any_primary_care_code,
         returning="date",
-        between=["gp_cons_sinusitis_4 - 90 days", "gp_cons_sinusitis_4 + 30 days"],
+        between=["sinusitis_date_4 - 90 days", "sinusitis_date_4 + 30 days"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
@@ -834,7 +1750,488 @@ study = StudyDefinition(
         """,
     ),
 
-        #numbers of antibiotic prescribed for this infection 
+########################################
+    ## Covid positive test result 5
+    sgss_pos_covid_date_sinusitis_5=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_5 - 90 days", "sinusitis_date_5 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_5=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_5 - 90 days", "sinusitis_date_5 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_5=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_5 OR
+        gp_covid_date_sinusitis_5
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 6
+    sgss_pos_covid_date_sinusitis_6=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_6 - 90 days", "sinusitis_date_6 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_6=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_6 - 90 days", "sinusitis_date_6 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_6=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_6 OR
+        gp_covid_date_sinusitis_6
+        """,
+    ),
+########################################
+    ## Covid positive test result 7
+    sgss_pos_covid_date_sinusitis_7=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_7 - 90 days", "sinusitis_date_7 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_7=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_7 - 90 days", "sinusitis_date_7 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_7=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_7 OR
+        gp_covid_date_sinusitis_7
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 8
+    sgss_pos_covid_date_sinusitis_8=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_8 - 90 days", "sinusitis_date_8 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_8=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_8 - 90 days", "sinusitis_date_8 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_8=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_8 OR
+        gp_covid_date_sinusitis_8
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 9
+    sgss_pos_covid_date_sinusitis_9=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_9 - 90 days", "sinusitis_date_9 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_9=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_9 - 90 days", "sinusitis_date_9 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_9=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_9 OR
+        gp_covid_date_sinusitis_9
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 10
+    sgss_pos_covid_date_sinusitis_10=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_10 - 90 days", "sinusitis_date_10 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_10=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_10 - 90 days", "sinusitis_date_10 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_10=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_10 OR
+        gp_covid_date_sinusitis_10
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 11
+    sgss_pos_covid_date_sinusitis_11=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_11 - 90 days", "sinusitis_date_11 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_11=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_11 - 90 days", "sinusitis_date_11 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_11=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_11 OR
+        gp_covid_date_sinusitis_11
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 12
+    sgss_pos_covid_date_sinusitis_12=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_12 - 90 days", "sinusitis_date_12 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_12=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_12 - 90 days", "sinusitis_date_12 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_12=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_12 OR
+        gp_covid_date_sinusitis_12
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 13
+    sgss_pos_covid_date_sinusitis_13=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_13 - 90 days", "sinusitis_date_13 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_13=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_13 - 90 days", "sinusitis_date_13 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_13=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_13 OR
+        gp_covid_date_sinusitis_13
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 14
+    sgss_pos_covid_date_sinusitis_14=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_14 - 90 days", "sinusitis_date_14 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_14=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_14 - 90 days", "sinusitis_date_14 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_14=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_14 OR
+        gp_covid_date_sinusitis_14
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 15
+    sgss_pos_covid_date_sinusitis_15=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_15 - 90 days", "sinusitis_date_15 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_15=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_15 - 90 days", "sinusitis_date_15 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_15=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_15 OR
+        gp_covid_date_sinusitis_15
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 16
+    sgss_pos_covid_date_sinusitis_16=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_16 - 90 days", "sinusitis_date_16 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_16=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_16 - 90 days", "sinusitis_date_16 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_16=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_16 OR
+        gp_covid_date_sinusitis_16
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 17
+    sgss_pos_covid_date_sinusitis_17=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_17 - 90 days", "sinusitis_date_17 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_17=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_17 - 90 days", "sinusitis_date_17 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_17=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_17 OR
+        gp_covid_date_sinusitis_17
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 18
+    sgss_pos_covid_date_sinusitis_18=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_18 - 90 days", "sinusitis_date_18 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_18=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_18 - 90 days", "sinusitis_date_18 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_18=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_18 OR
+        gp_covid_date_sinusitis_18
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 19
+    sgss_pos_covid_date_sinusitis_19=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_19 - 90 days", "sinusitis_date_19 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_19=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_19 - 90 days", "sinusitis_date_19 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_19=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_19 OR
+        gp_covid_date_sinusitis_19
+        """,
+    ),
+
+########################################
+    ## Covid positive test result 20
+    sgss_pos_covid_date_sinusitis_20=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["sinusitis_date_20 - 90 days", "sinusitis_date_20 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
+
+    ## Covid diagnosis
+    gp_covid_date_sinusitis_20=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["sinusitis_date_20 - 90 days", "sinusitis_date_20 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
+
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after sinusitis dx 
+    sgss_gp_cov_sinusitis_date_20=patients.satisfying(
+        """
+        sgss_pos_covid_date_sinusitis_20 OR
+        gp_covid_date_sinusitis_20
+        """,
+    ),
+
+
+
+    #numbers of antibiotic prescribed for this infection 
     sinusitis_ab_count_1 = patients.with_these_medications(
         antibacterials_codes_brit,
         between=['sinusitis_date_1','sinusitis_date_1 + 7 days'],
@@ -868,33 +2265,161 @@ study = StudyDefinition(
         ),
 
     ## GP consultations for sinusitis resulted in antibiotics
-    gp_cons_sinusitis_ab_1=patients.with_these_medications(
+    sinusitis_ab_date_1=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=['gp_cons_sinusitis_1','gp_cons_sinusitis_1 + 5 days'],
+        between=['sinusitis_date_1','sinusitis_date_1 + 5 days'],
         returning='date',
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
         ),
 
-    gp_cons_sinusitis_ab_2=patients.with_these_medications(
+    sinusitis_ab_date_2=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=['gp_cons_sinusitis_2','gp_cons_sinusitis_2 + 5 days'],
+        between=['sinusitis_date_2','sinusitis_date_2 + 5 days'],
         returning='date',
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
         ),
 
-    gp_cons_sinusitis_ab_3=patients.with_these_medications(
+    sinusitis_ab_date_3=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=['gp_cons_sinusitis_3','gp_cons_sinusitis_3 + 5 days'],
+        between=['sinusitis_date_3','sinusitis_date_3 + 5 days'],
         returning='date',
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
         ),
 
-    gp_cons_sinusitis_ab_4=patients.with_these_medications(
+    sinusitis_ab_date_4=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=['gp_cons_sinusitis_4','gp_cons_sinusitis_4 + 5 days'],
+        between=['sinusitis_date_4','sinusitis_date_4 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_5=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_5','sinusitis_date_5 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_6=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_6','sinusitis_date_6 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_7=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_7','sinusitis_date_7 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_8=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_8','sinusitis_date_8 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_9=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_9','sinusitis_date_9 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_10=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_10','sinusitis_date_10 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_11=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_11','sinusitis_date_11 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_12=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_12','sinusitis_date_12 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_13=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_13','sinusitis_date_13 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_14=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_14','sinusitis_date_14 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_15=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_15','sinusitis_date_15 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_16=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_16','sinusitis_date_16 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_17=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_17','sinusitis_date_17 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_18=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_18','sinusitis_date_18 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_19=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_19','sinusitis_date_19 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
+
+    sinusitis_ab_date_20=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['sinusitis_date_20','sinusitis_date_20 + 5 days'],
         returning='date',
         date_format="YYYY-MM-DD",
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
