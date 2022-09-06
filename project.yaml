@@ -90,6 +90,16 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_covid_*.csv.gz
 
+  generate_measures_covid:
+    run: cohortextractor:latest generate_measures 
+      --study-definition study_definition_covid 
+      --skip-existing 
+      --output-dir=output/measures
+    needs: [generate_study_population_covid]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_allpopulation_*.csv
+
   figure_1A: 
     run: r:latest analysis/figure_1A.R
     needs: [generate_measures]
