@@ -1,0 +1,149 @@
+---
+title: "AB check"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+```{r}
+library("tidyverse") 
+library('dplyr')#conflict with plyr; load after plyr
+library('lubridate')
+
+rm(list=ls())
+
+#setwd(here::here("output", "measures"))
+
+# file list
+csvFiles_20 = list.files(path=here::here("output","measures"),pattern="input_antibiotics_2020", full.names = FALSE)
+
+# date list
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+
+col=paste0("AB_date_",rep(1:12),"_count")
+
+
+
+
+
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
+  df <- read_csv(here::here("output","measures",(csvFiles_20[i])))
+  
+  df=df[col]
+  df$date=date_20[i]
+  
+  df$AB_date_1_count=ifelse(df$AB_date_1_count == 0,NA,df$AB_date_1_count)
+    df$AB_date_2_count=ifelse(df$AB_date_2_count == 0,NA,df$AB_date_2_count)
+  df$AB_date_3_count=ifelse(df$AB_date_3_count == 0,NA,df$AB_date_3_count)
+      df$AB_date_4_count=ifelse(df$AB_date_4_count == 0,NA,df$AB_date_4_count)
+        df$AB_date_5_count=ifelse(df$AB_date_5_count == 0,NA,df$AB_date_5_count)
+  df$AB_date_6_count=ifelse(df$AB_date_6_count == 0,NA,df$AB_date_6_count)
+  df$AB_date_7_count=ifelse(df$AB_date_7_count == 0,NA,df$AB_date_7_count)
+  df$AB_date_8_count=ifelse(df$AB_date_8_count == 0,NA,df$AB_date_8_count)
+  df$AB_date_9_count=ifelse(df$AB_date_9_count == 0,NA,df$AB_date_9_count)
+  df$AB_date_10_count=ifelse(df$AB_date_10_count == 0,NA,df$AB_date_10_count)
+  df$AB_date_11_count=ifelse(df$AB_date_11_count == 0,NA,df$AB_date_11_count)
+  df$AB_date_12_count=ifelse(df$AB_date_12_count == 0,NA,df$AB_date_12_count)
+
+                
+  
+  temp[[i]] <-df}
+
+DF=bind_rows(temp)
+rm(temp,df)
+
+
+```
+
+# AB_date_1_count
+```{r}
+DF$AB_date_1_count=as.factor(DF$AB_date_1_count)
+table(DF$AB_date_1_count)
+round(prop.table(table(DF$AB_date_1_count), )*100,2)
+```
+
+# AB_date_2_count
+```{r}
+DF$AB_date_2_count=as.factor(DF$AB_date_2_count)
+table(DF$AB_date_2_count)
+round(prop.table(table(DF$AB_date_2_count), )*100,2)
+```
+
+# AB_date_3_count
+```{r}
+DF$AB_date_3_count=as.factor(DF$AB_date_3_count)
+table(DF$AB_date_3_count)
+round(prop.table(table(DF$AB_date_3_count), )*100,2)
+```
+# AB_date_4_count
+```{r}
+DF$AB_date_4_count=as.factor(DF$AB_date_4_count)
+table(DF$AB_date_4_count)
+round(prop.table(table(DF$AB_date_4_count), )*100,2)
+```
+# AB_date_5_count
+```{r}
+DF$AB_date_5_count=as.factor(DF$AB_date_5_count)
+table(DF$AB_date_5_count)
+round(prop.table(table(DF$AB_date_5_count), )*100,2)
+```
+
+# AB_date_6_count
+```{r}
+DF$AB_date_6_count=as.factor(DF$AB_date_6_count)
+table(DF$AB_date_6_count)
+round(prop.table(table(DF$AB_date_6_count), )*100,2)
+```
+
+# AB_date_7_count
+```{r}
+DF$AB_date_7_count=as.factor(DF$AB_date_7_count)
+table(DF$AB_date_7_count)
+round(prop.table(table(DF$AB_date_7_count), )*100,2)
+```
+
+# AB_date_8_count
+```{r}
+DF$AB_date_8_count=as.factor(DF$AB_date_8_count)
+table(DF$AB_date_8_count)
+round(prop.table(table(DF$AB_date_8_count), )*100,2)
+```
+
+# AB_date_9_count
+```{r}
+DF$AB_date_9_count=as.factor(DF$AB_date_9_count)
+table(DF$AB_date_9_count)
+round(prop.table(table(DF$AB_date_9_count), )*100,2)
+```
+
+# AB_date_10_count
+```{r}
+DF$AB_date_10_count=as.factor(DF$AB_date_10_count)
+table(DF$AB_date_10_count)
+round(prop.table(table(DF$AB_date_10_count), )*100,2)
+```
+
+# AB_date_11_count
+```{r}
+DF$AB_date_11_count=as.factor(DF$AB_date_11_count)
+table(DF$AB_date_11_count)
+round(prop.table(table(DF$AB_date_11_count), )*100,2)
+```
+# AB_date_12_count
+```{r}
+DF$AB_date_12_count=as.factor(DF$AB_date_12_count)
+table(DF$AB_date_12_count)
+round(prop.table(table(DF$AB_date_12_count), )*100,2)
+```
+
