@@ -246,7 +246,7 @@ measures = [
         id="weekly_antibiotic_items_STAR-PU",
         numerator="antibiotic_count",
         denominator="population",
-        group_by=["age_cat", "sex"],
+        group_by=["practice","age_cat", "sex"],
     ),
 
 ###  Monthly total number of antibiotic items ###   
