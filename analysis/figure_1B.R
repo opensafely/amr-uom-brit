@@ -76,18 +76,18 @@ train_sec <- function(primary, secondary, na.rm = TRUE) {
 }
 
 sec <- with(df, train_sec(c(0, max(starpurate)),
-                          c(0, max(Positive_test_event))))
+                          c(0, max(Positive_test_event/1000))))
 
 
 
-p <- ggplot(df, aes(x=date, y=sec$fwd(Positive_test_event))) +
+p <- ggplot(df, aes(x=date, y=sec$fwd(Positive_test_event/1000))) +
   geom_rect(aes(xmin=lockdown_1_start, xmax=lockdown_1_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_rect(aes(xmin=lockdown_2_start, xmax=lockdown_2_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_rect(aes(xmin=lockdown_3_start, xmax=lockdown_3_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_bar(stat="identity", color="#BA6A16", fill="#BA6A16", width=15) +
   geom_line(aes(y = starpurate), colour = "#0F5DC9",size = 0.8) +
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  scale_y_continuous(sec.axis = sec_axis(~sec$rev(.), name = "Number of cases tested positive for SARS-Cov-2"))+
+  scale_y_continuous(sec.axis = sec_axis(~sec$rev(.), name = "Number of cases tested positive for SARS-Cov-2 (Thousands)"))+
   labs(x = "", y = "STAR-PU adjusted antibiotic items per 1000 patient") +
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
