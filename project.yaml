@@ -114,6 +114,15 @@ actions:
        moderately_sensitive:
         plot1: output/figure_1B.jpeg
 
+  figure_2: 
+    run: r:latest analysis/figure_2.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_2.1.jpeg
+        plot2: output/figure_2.2.jpeg
+        plot3: output/figure_2.3.jpeg
+
   generate_study_population_weekly:
     run: cohortextractor:latest generate_cohort
       --with-end-date-fix
