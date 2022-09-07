@@ -146,6 +146,6 @@ measures = [
         id="allpopulation_population_count",
         numerator="Positive_test_event",
         denominator="population",
-        group_by=["practice","age_cat","sex"],
+        group_by=["age_cat","sex"],
     ),
 ]
