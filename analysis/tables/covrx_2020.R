@@ -22,7 +22,7 @@ setwd(here::here("output", "measures"))
 ### read data  ###
 ### use new synthesised .rds files for faster loading
 
-df <- read_csv('input_covrx_2020.csv', na = c("", "NA"))
+df <- read.csv('input_covrx_2020.csv', na.strings = "")
 
 
 # ## Any covid vaccine
