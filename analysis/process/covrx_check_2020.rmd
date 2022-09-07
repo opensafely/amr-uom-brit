@@ -19,7 +19,7 @@ library("tidyverse")
 library('dplyr')#conflict with plyr; load after plyr
 library('lubridate')
 
-DF=read.csv(here::here("output","measures"),"input_covrx_2021.csv",na.strings = "")
+DF=read.csv(here::here("output","measures","input_covrx_2021.csv"),na.strings = "")
 
 ```
 
