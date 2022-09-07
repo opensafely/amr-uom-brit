@@ -107,12 +107,12 @@ actions:
        moderately_sensitive:
         plot1: output/figure_1A.jpeg
 
-  figure_2: 
-    run: r:latest analysis/figure_2.R
+  figure_1B: 
+    run: r:latest analysis/figure_1B.R
     needs: [generate_measures,generate_measures_covid]
     outputs:
        moderately_sensitive:
-        plot1: output/figure_2.jpeg
+        plot1: output/figure_1B.jpeg
 
   generate_study_population_weekly:
     run: cohortextractor:latest generate_cohort

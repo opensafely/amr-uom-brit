@@ -264,4 +264,28 @@ measures = [
         denominator="population",
         group_by=["population"],
     ),
+
+###  Monthly broad-spectrum-ratio stratified ###   
+    Measure(
+        id="broad-spectrum-ratio_age",
+        numerator="broad_ab_count",
+        denominator="antibiotic_count",
+        group_by="age_cat",
+    ),
+
+    Measure(
+        id="broad-spectrum-ratio_sex",
+        numerator="broad_ab_count",
+        denominator="antibiotic_count",
+        group_by="sex",
+    ),
+
+    Measure(
+        id="broad-spectrum-ratio_region",
+        numerator="broad_ab_count",
+        denominator="antibiotic_count",
+        group_by="region",
+    ),
+
+
 ]

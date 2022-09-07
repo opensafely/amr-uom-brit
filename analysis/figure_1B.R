@@ -93,5 +93,5 @@ p <- ggplot(df, aes(x=date, y=sec$fwd(Positive_test_event))) +
   theme(axis.text.x=element_text(angle=60,hjust=1))
 
 ggsave(p, width = 12, height = 6, dpi = 640,
-       filename="figure_2.jpeg", path=here::here("output"),
+       filename="figure_1B.jpeg", path=here::here("output"),
 )  
