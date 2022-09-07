@@ -209,3 +209,11 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/abtype_2021.rds
+
+  figure_2B: 
+    run: r:latest analysis/figure_2B.R
+    needs: [conversion_abtype_2019,conversion_abtype_2020,conversion_abtype_2021]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_2B.jpeg
+
