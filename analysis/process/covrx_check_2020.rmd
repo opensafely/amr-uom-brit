@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = '/workspace')
 ```
 
-```{r}
+```{r echo=TRUE}
 library("tidyverse") 
 library('dplyr')#conflict with plyr; load after plyr
 library('lubridate')
@@ -34,7 +34,7 @@ sum(is.na(DF$covrx2_dat))
 sum(DF$covrx2_dat=="")
 ```
 
-```{r}
+```{r echo=TRUE}
 DF$covrx_1=ifelse(!is.na(DF$covrx1_dat),1,0)
 DF$covrx_2=ifelse(!is.na(DF$covrx2_dat),1,0)
 DF$covrx=ifelse(DF$covrx_1+DF$covrx_2 >0,1,0)
