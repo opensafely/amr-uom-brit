@@ -49,6 +49,8 @@ df.plot <- df1 %>% group_by(date,age_cat) %>% summarise(braod_count = sum(broad_
                                                         ab_count = sum(antibiotic_count))%>%
   mutate(value = braod_count/ab_count)
 
+df.plot <- df.plot %>% filter(!age_cat == 0)
+
 figure_age_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(age_cat), col = factor(age_cat), fill = factor(age_cat))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -103,6 +105,8 @@ figure_sex_strata
 
 df3 <- read_csv("measure_broad-spectrum-ratio_region.csv",
                 col_types = col_spec3)
+
+df3 <- df3 %>% filter(!is.na(region))
 
 figure_region_strata <- ggplot(df3, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
