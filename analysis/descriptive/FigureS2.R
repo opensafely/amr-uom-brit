@@ -80,6 +80,7 @@ ggsave(
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
+df.model$value <- round(df.model$value,digits = 3)
 
 write_csv(df.model, here::here("output", "FigureS2_age_table.csv"))
 rm(df.broad_total,df.all,df.model)
@@ -142,6 +143,7 @@ ggsave(
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
+df.model$value <- round(df.model$value,digits = 3)
 
 write_csv(df.model, here::here("output", "FigureS2_sex_table.csv"))
 rm(df.broad_total,df.all,df.model)
