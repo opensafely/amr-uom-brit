@@ -60,7 +60,7 @@ figure_age_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
-  labs(x = "Date", y = "% of repeat prescription", title = "", colour = "Age", fill = "Age") +
+  labs(x = "", y = "% of repeat prescription", title = "", colour = "Age", fill = "Age") +
   theme_classic()  +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
@@ -122,7 +122,7 @@ figure_sex_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
-  labs(x = "Date", y = "% of repeat prescription", title = "", colour = "Gender", fill = "Gender") +
+  labs(x = "", y = "% of repeat prescription", title = "", colour = "Gender", fill = "Gender") +
   theme_classic()  +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
@@ -184,7 +184,7 @@ figure_region_strata <- ggplot(df.model_remove_na, aes(x = as.Date("2019-01-01")
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
   geom_vline(xintercept = c(start_covid, 
                             covid_adjustment_period_from), col = 1, lwd = 1)+
-  labs(x = "Date", y = "% of repeat prescription", title = "", colour = "Region", fill = "Region") +
+  labs(x = "", y = "% of repeat prescription", title = "", colour = "Region", fill = "Region") +
   theme_classic()  +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
@@ -204,5 +204,6 @@ ggsave(
 )  
 
 df.model$value <- df.model$numOutcome/df.model$numEligible
+df.model$value <- round(df.model$value,digits = 3)
 
 write_csv(df.model, here::here("output", "FigureS2_region_table.csv"))
