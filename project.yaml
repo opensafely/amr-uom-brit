@@ -232,5 +232,5 @@ actions:
         table8: output/mon_sinusitis.csv
         table9: output/mon_ot_media.csv
         table10: output/mon_ot_externa.csv
-        table11: output/mon_overall.csv
+        table11: output/mon_all.csv
 
