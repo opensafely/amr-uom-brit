@@ -48,7 +48,6 @@ covid_adjustment_period_from = as.Date("2020-03-01")
 
 df_raw$cal_year <- year(df_raw$date)
 df_raw$cal_mon <- month(df_raw$date)
-
 df_raw$time <- as.numeric(df_raw$cal_mon+(df_raw$cal_year-2019)*12)
 
 
@@ -425,4 +424,26 @@ df <- read_csv("measure_broad-spectrum-ratio.csv",
 
 names(df) <- c("numOutcome","numEligible","monPlot")
 
-write_csv(df, here::here("output", "mon_all.csv"))
+df.model <- df %>%
+  mutate(pre_covid = ifelse(monPlot < covid_adjustment_period_from , 1, 0),
+         during_covid = ifelse(monPlot >= start_covid , 1, 0)) %>%
+  mutate(covid = ifelse(pre_covid == 1 , 0,
+                        ifelse (during_covid == 1, 1,
+                                NA)))
+
+
+df.model$cal_year <- year(df.model$monPlot)
+df.model$cal_mon <- month(df.model$monPlot)
+
+df.model$time <- as.numeric(df.model$cal_mon+(df.model$cal_year-2019)*12)
+df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
+                                                time>=13 & time<=24 ~ time-12,
+                                                time>=24 & time<=36 ~ time-24,
+                                                time>36 ~ time-36)) %>% 
+  mutate(year = case_when(time>=1 & time<=12 ~ 2019,
+                          time>=13 & time<=24 ~ 2020,
+                          time>=24 & time<=36 ~ 2021,
+                          time>36 ~ 2022)) %>% 
+  mutate(day = 1) 
+
+write_csv(df.model, here::here("output", "mon_all.csv"))

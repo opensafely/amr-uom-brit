@@ -18,16 +18,18 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "df_mon_model_")
-outcomes <- stringr::str_remove_all(all_files, c("df_mon_model_|.csv"))
+all_files <- list.files(here::here("output"), pattern = "mon_")
+outcomes <- stringr::str_remove_all(all_files, c("mon_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("Overall","Overall-18+"))
+                                           "outcome_name" = (c("Overall","Cold","COPD",
+                                           "Cough","LRTI","Otitis externa","Otitis media",
+                                           "Sinusitis","Sore throat","URTI","UTI"))
 )
 bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
 for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("df_mon_model_", outcomes[ii], ".csv")))
+  load_file <- read.csv(here::here("output", paste0("mon_", outcomes[ii], ".csv")))
   assign(outcomes[ii], load_file)
 }
 
@@ -167,22 +169,26 @@ its_function <- function(outcomes_vec = outcomes,
     abline_max <- start_covid
   }
   
-  write_csv(main_plot_data, here::here("output", "its_main_plot_data_overall_monthly.csv"))
+  main_plot_data$pc_broad <- round(main_plot_data$pc_broad,digits = 3)
+  main_plot_data$numOutcome <- plyr::round_any(main_plot_data$numOutcome, 5)
+  main_plot_data$numEligible <- plyr::round_any(main_plot_data$numEligible, 5)
+
+
+  write_csv(main_plot_data, here::here("output", "mon_overall_predicted_table.csv"))
   main_plot_data$monPlot <- as.Date(main_plot_data$monPlot)
   plot1 <- ggplot(main_plot_data, aes(x = monPlot, y = pc_broad, group = outcome_name)) +
     # the data
     geom_line(col = "gray60") +
     ### the probability if therer was no Covid
     geom_line(data = main_plot_data, aes(y = probline_noCov), col = 2, lty = 2) +
-    geom_ribbon(data = main_plot_data, aes(ymin = lci_noCov, ymax=uci_noCov), fill = alpha(2,0.4), lty = 0) +
     ### probability with model (inc. std. error)
     geom_line(aes(y = predicted_vals), col = 4, lty = 2) +
     geom_ribbon(aes(ymin = lci, ymax=uci), fill = alpha(4,0.4), lty = 0) +
     ### format the plot
-    facet_wrap(~outcome_name, scales = "free", ncol = 4) +
+    facet_wrap(~outcome_name, scales = "free", ncol = 3) +
     geom_vline(xintercept = c(as.Date(abline_min), 
                               as.Date(abline_max)), col = 1, lwd = 1) + # 2020-04-05 is first week/data After lockdown gap
-    labs(x = "", y = "% of broad-spectrum prescription", title = "A") +
+    labs(x = "", y = "", title = "A") +
     theme_classic() +
     theme(axis.title = element_text(size =16), 
           axis.text.x = element_text(angle = 60, hjust = 1, size = 12),
@@ -202,7 +208,7 @@ its_function <- function(outcomes_vec = outcomes,
   plot1
   ggsave(
     plot= plot1,
-    filename="predicted_plot_overall_monthly.jpeg", path=here::here("output"),
+    filename="mon_overall_predicted_plot.jpeg", path=here::here("output"),
   )    
 
 		# Forest plot of interaction terms ------------------------------------------------------
@@ -213,7 +219,7 @@ its_function <- function(outcomes_vec = outcomes,
 		
 		# changes the names of outcomes to full names
 		interaction_tbl_data$outcome_name <- factor(interaction_tbl_data$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
-    write_csv(interaction_tbl_data, here::here("output", "its_main_INTORs_overall_monthly.csv"))
+    write_csv(interaction_tbl_data, here::here("output", "mon_overall_forest_C_table.csv"))
   
 		# forest plot of estiamtes
 		fp2 <- ggplot(data=interaction_tbl_data, aes(x=outcome_name, y=Est, ymin=lci, ymax=uci)) +
@@ -242,7 +248,7 @@ its_function <- function(outcomes_vec = outcomes,
   fp2
   ggsave(
     plot= fp2,
-    filename="forest_plot_broad_overall_monthly_A.jpeg", path=here::here("output"),
+    filename="mon_overall_forest_C.jpeg", path=here::here("output"),
   )  
 
 
@@ -255,7 +261,7 @@ its_function <- function(outcomes_vec = outcomes,
   # changes the names of outcomes to full names
   forest_plot_df$outcome_name <- factor(forest_plot_df$outcome_name, levels = outcome_of_interest_namematch$outcome_name)
   # export table of results for the appendix 
-  write_csv(forest_plot_df, here::here("output", "its_main_ORs_overall_monthly.csv"))
+  write_csv(forest_plot_df, here::here("output", "mon_overall_forest_B_table.csv"))
   
   
   forest_plot_df <- forest_plot_df %>%
@@ -288,21 +294,12 @@ its_function <- function(outcomes_vec = outcomes,
   fp
   ggsave(
     plot= fp,
-    filename="forest_plot_broad_overall_monthly_B.jpeg", path=here::here("output"),
+    filename="mon_overall_forest_B.jpeg", path=here::here("output"),
   )  
 
-		layout = "
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			AAAAAA
-			BBBCCC
-			BBBCCC
-		"
   ggsave(
-    plot= 		plot1 + fp + fp2 + 
-			plot_layout(design = layout) ,
-    filename="all_plot_monthly.jpeg", path=here::here("output"),
+    plot= 	 fp + fp2 ,
+    filename="mon_overall_combined.jpeg", path=here::here("output"),
   ) 
 
 }    

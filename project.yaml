@@ -234,3 +234,15 @@ actions:
         table10: output/mon_ot_externa.csv
         table11: output/mon_all.csv
 
+  describe_ITS_model_broad_mon_overall:
+    run: r:latest analysis/itsmodel/ITS_model_monthly.R
+    needs: [ITS_var]
+    outputs:
+        moderately_sensitive:
+          plot1: output/mon_overall_predicted_plot.jpeg
+          plot2: output/mon_overall_forest_C.jpeg
+          plot3: output/mon_overall_forest_B.jpeg
+          plot4: output/mon_overall_combined.jpeg
+          table1: output/mon_overall_predicted_table.csv
+          table2: output/mon_overall_forest_B_table.csv
+          table3: output/mon_overall_forest_C_table.csv
