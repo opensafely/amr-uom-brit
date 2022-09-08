@@ -217,3 +217,20 @@ actions:
        moderately_sensitive:
         plot1: output/figure_2B.jpeg
 
+  ITS_var: 
+    run: r:latest analysis/ITS_var.R
+    needs: [conversion_abtype_2019,conversion_abtype_2020,conversion_abtype_2021,generate_measures]
+    outputs:
+       moderately_sensitive:
+        table1: output/mon_uti.csv
+        table2: output/mon_cold.csv
+        table3: output/mon_cough.csv
+        table4: output/mon_copd.csv
+        table5: output/mon_throat.csv
+        table6: output/mon_lrti.csv
+        table7: output/mon_urti.csv
+        table8: output/mon_sinusitis.csv
+        table9: output/mon_ot_media.csv
+        table10: output/mon_ot_externa.csv
+        table11: output/mon_overall.csv
+
