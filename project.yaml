@@ -25,11 +25,11 @@ actions:
           cohort: output/input_covidcheck_2.csv.gz
 
   generate_study_population_samedayab:
-      run: cohortextractor:latest generate_cohort --study-definition study_definition_sameday_ab 
-        --output-format=csv.gz
+      run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_sameday_ab --index-date-range "2019-01-01 to 2022-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
+
       outputs:
         highly_sensitive:
-          cohort: output/input_sameday_ab.csv.gz
+          cohort: output/measures/input_sameday_ab_*.csv.gz
 
   generate_study_population_ab_extraction:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction 
