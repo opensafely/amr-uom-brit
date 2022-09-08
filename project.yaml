@@ -246,3 +246,34 @@ actions:
           table1: output/mon_overall_predicted_table.csv
           table2: output/mon_overall_forest_B_table.csv
           table3: output/mon_overall_forest_C_table.csv
+
+  ITS_var_weekly: 
+    run: r:latest analysis/ITS_var_weekly.R
+    needs: [conversion_abtype_2019,conversion_abtype_2020,conversion_abtype_2021,generate_measures_weekly]
+    outputs:
+       moderately_sensitive:
+        table1: output/week_uti.csv
+        table2: output/week_cold.csv
+        table3: output/week_cough.csv
+        table4: output/week_copd.csv
+        table5: output/week_throat.csv
+        table6: output/week_lrti.csv
+        table7: output/week_urti.csv
+        table8: output/week_sinusitis.csv
+        table9: output/week_ot_media.csv
+        table10: output/week_ot_externa.csv
+        table11: output/week_all.csv
+
+  describe_ITS_model_broad_week_overall:
+    run: r:latest analysis/itsmodel/ITS_model_weekly.R
+    needs: [ITS_var_weekly]
+    outputs:
+        moderately_sensitive:
+          plot1: output/week_overall_predicted_plot.jpeg
+          plot2: output/week_overall_forest_C.jpeg
+          plot3: output/week_overall_forest_B.jpeg
+          plot4: output/week_overall_combined.jpeg
+          table1: output/week_overall_predicted_table.csv
+          table2: output/week_overall_forest_B_table.csv
+          table3: output/week_overall_forest_C_table.csv
+
