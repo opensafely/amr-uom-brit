@@ -170,3 +170,21 @@ study = StudyDefinition(
 
 
 )
+
+measures = [
+
+    # antibiotic rx rate
+    Measure(id="samedayab_sgss",
+            numerator="ab_given_sameday",
+            denominator="positive_test_event",
+            group_by=["population"]
+            ),
+    
+    ## Antibiotic Rx rate by TyPE
+    Measure(id="samedayab_gp",
+            numerator="gp_ab_given_sameday",
+            denominator="pg_positive_test_event",
+            group_by=["population"]
+            ),
+
+]

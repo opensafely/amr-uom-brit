@@ -31,6 +31,21 @@ actions:
         highly_sensitive:
           cohort: output/measures/input_sameday_ab_*.csv.gz
 
+  generate_measures_samedayab:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_sameday_ab --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_samedayab]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_samedayab_*.csv
+
+  describe_same_day_ab:
+    run: r:latest analysis/plot/same_day_covid_ab.R
+    needs: [generate_measures_samedayab]
+    outputs:
+       moderately_sensitive:
+        plot1: output/same_day_ab_prop_line_sgss.jpeg
+        plot2: output/same_day_ab_prop_line_gp.jpeg
+
   generate_study_population_ab_extraction:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction 
         --output-format=csv.gz
@@ -728,24 +743,6 @@ actions:
   #      moderately_sensitive:
   #       plot1: output/abtype_all_Rx.jpeg
   #       plot2: output/abtype_all_Rx_percent.jpeg
-
-  describe_same_day_ab:
-    run: r:latest analysis/plot/same_day_covid_ab.R
-    needs: [generate_study_population_samedayab]
-    outputs:
-       moderately_sensitive:
-        table1: output/sameday_positive_1_sgss.csv
-        table2: output/sameday_positive_2_sgss.csv
-        table3: output/sameday_ab_1_sgss.csv
-        table4: output/sameday_ab_2_sgss.csv
-        table5: output/sameday_positive_1_gp.csv
-        table6: output/sameday_positive_2_gp.csv
-        table7: output/sameday_ab_1_gp.csv
-        table8: output/sameday_ab_2_gp.csv
-        table9: output/same_day_ab_prop_line_sgss_table.csv
-        table10: output/same_day_ab_prop_line_gp_table.csv
-        plot1: output/same_day_ab_prop_line_sgss.jpeg
-        plot2: output/same_day_ab_prop_line_gp.jpeg
 
   describe_broad_by_region:
     run: r:latest analysis/plot/broad_percentage_by_region.R
