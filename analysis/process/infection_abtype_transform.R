@@ -1,13 +1,3 @@
-
-
-
-
-### This script is to transger patinet/row --> infection_consultation_times/ row
-### every patient has 4 times of ab extraction 
-### variabless include:
-### patient(id), age, sex, times(1-4), prevalent(1/0),ab type,  
-
-
 ## Import libraries---
 library("tidyverse") 
 #library("ggplot2")
@@ -79,7 +69,7 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec )
-  
+  df <- df %>% mutate_all(na_if,"")
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
@@ -133,6 +123,7 @@ for (i in seq_along(csvFiles_20)){
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -181,6 +172,7 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -230,6 +222,7 @@ for (i in seq_along(csvFiles_22)){
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -334,6 +327,7 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -388,6 +382,7 @@ for (i in seq_along(csvFiles_20)){
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -436,6 +431,7 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -485,6 +481,7 @@ for (i in seq_along(csvFiles_22)){
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -591,6 +588,7 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -645,6 +643,7 @@ for (i in seq_along(csvFiles_20)){
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -693,6 +692,7 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -742,6 +742,7 @@ for (i in seq_along(csvFiles_22)){
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -846,6 +847,7 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -900,6 +902,7 @@ for (i in seq_along(csvFiles_20)){
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -948,6 +951,7 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -997,6 +1001,7 @@ for (i in seq_along(csvFiles_22)){
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1101,6 +1106,7 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1155,6 +1161,7 @@ for (i in seq_along(csvFiles_20)){
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1203,6 +1210,7 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1252,6 +1260,7 @@ for (i in seq_along(csvFiles_22)){
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1356,6 +1365,7 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1410,6 +1420,7 @@ for (i in seq_along(csvFiles_20)){
   # read in one-month data
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1458,6 +1469,7 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
   #### patient/row --> infection consultqtion/row
   
@@ -1507,8 +1519,6 @@ for (i in seq_along(csvFiles_22)){
   # read in one-month data
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec )
-  
-  # replace blank with NA
   df <- df %>% mutate_all(na_if,"")
 
   #### patient/row --> infection consultqtion/row
@@ -1556,7 +1566,6 @@ DF=c(DF_19,DF_20,DF_21,DF_22)
 saveRDS(DF,"abtype_otmedia.rds")
 
 rm(list=ls())
-
 
 
 
