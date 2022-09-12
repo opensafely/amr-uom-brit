@@ -144,10 +144,10 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_uti_date_3 ='d',
                       hx_ab_uti_date_4 ='d',
                       
-                      uti_date_1 = 'D',
-                      uti_date_2 = 'D',
-                      uti_date_3 = 'D',
-                      uti_date_4 = 'D',
+                      uti_date_1 = 'c',
+                      uti_date_2 = 'c',
+                      uti_date_3 = 'c',
+                      uti_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
