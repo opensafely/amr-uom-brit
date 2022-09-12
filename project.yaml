@@ -1709,7 +1709,7 @@ actions:
 
   describe_ab_check_2020: 
     run: r:latest -e 'rmarkdown::render("analysis/process/ab_check_2020.rmd", output_dir = "output/report")'
-    needs: [generate_study_population_antibiotics]
+    needs: [generate_study_population_infection_abtype]
     outputs:
       moderately_sensitive:
         html: output/report/ab_check_2020.html
