@@ -23,7 +23,7 @@ csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FAL
 csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
-
+csvFiles_22=csvFiles_22[-9]
 
 # date list
 date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
@@ -278,7 +278,7 @@ csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FAL
 csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
-
+csvFiles_22=csvFiles_22[-9]
 
 # date list
 date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
@@ -539,6 +539,7 @@ csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FAL
 csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+csvFiles_22=csvFiles_22[-9]
 
 
 # date list
@@ -798,6 +799,7 @@ csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FAL
 csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+csvFiles_22=csvFiles_22[-9]
 
 
 # date list
@@ -1057,6 +1059,7 @@ csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FAL
 csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+csvFiles_22=csvFiles_22[-9]
 
 
 # date list
@@ -1316,6 +1319,7 @@ csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FAL
 csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
 csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
 csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+csvFiles_22=csvFiles_22[-9]
 
 
 # date list
