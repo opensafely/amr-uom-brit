@@ -166,15 +166,23 @@ col_spec <-cols_only( patient_id = 'd',
   
   count(df)
   # filter all antibiotics users
-  df1=df%>%filter(!is.na(uti_date_1))
-  count(df1)
+
+  sum(is.na(df$uti_date_1))
   
-  df2=df%>%filter(uti_date_1=="")
-  count(df2)
+sum(df$uti_date_1!="")
+
+  df <- read_csv(here::here("output","measures","input_infection_abtype_2019-01-01.csv.gz"),
+                 col_types = col_spec,na="")
+  #### patient/row --> infection consultqtion/row
   
   length(unique(as.factor(df$patient_id)))
+  
+  count(df)
+  # filter all antibiotics users
 
-  rm(df1,df2)
+  sum(is.na(df$uti_date_1))
+  
+sum(df$uti_date_1!="")
   
 
 
