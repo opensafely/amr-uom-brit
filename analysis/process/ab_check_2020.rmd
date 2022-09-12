@@ -63,7 +63,7 @@ col_spec <-cols_only( patient_id = 'd',
 # transform dataset & create list 2019
 i=1
   # read in one-month data
-  df <- read_csv(here::here("output","measures",csvFiles_19[i)],
+  df <- read_csv(here::here("output","measures","input_infection_abtype_2019-01-01.csv.gz"),
                  col_types = col_spec, na="" )
   #### patient/row --> infection consultqtion/row
   
