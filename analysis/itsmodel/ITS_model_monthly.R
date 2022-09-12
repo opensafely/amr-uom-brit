@@ -47,7 +47,7 @@ its_function <- function(outcomes_vec = outcomes,
     ### confidence intervals for the coefficients
     ci.exp(binom_model1)
     binom_lagres <- lag(residuals(binom_model1)) %>% as.numeric()
-    res1 <- residuals(binom_model1,type="deviance")
+    res1 <- residuals(binom_model1,type="pearson")
     
     ## manipulate data so output looks cleaner
     model_data <- df_outcome %>% 

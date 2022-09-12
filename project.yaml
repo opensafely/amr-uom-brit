@@ -276,11 +276,3 @@ actions:
           table1: output/week_overall_predicted_table.csv
           table2: output/week_overall_forest_B_table.csv
           table3: output/week_overall_forest_C_table.csv
-
-  describe_ITS_model_monthly_all_uti:
-    run: r:latest analysis/itsmodel/ITS_model_monthly_all_uti.R
-    needs: [ITS_var]
-    outputs:
-        moderately_sensitive:
-          plot1: output/predicted_line.jpeg
-          table1: output/predicted_line_table.csv
