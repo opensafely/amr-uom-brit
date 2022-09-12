@@ -77,12 +77,12 @@ round_tbl[c(4:5),"percent_0"]=round_tbl[c(4:5),3]/sum(round_tbl[c(4:5),3])*100
 round_tbl[c(4:5),"percent_1"]=round_tbl[c(4:5),4]/sum(round_tbl[c(4:5),4])*100
 
 #age_cat
-round_tbl[c(7:15),"percent_0"]=round_tbl[c(7:15),3]/sum(round_tbl[c(7:15),3])*100
-round_tbl[c(7:15),"percent_1"]=round_tbl[c(7:15),4]/sum(round_tbl[c(7:15),4])*100
+round_tbl[c(7:13),"percent_0"]=round_tbl[c(7:13),3]/sum(round_tbl[c(7:13),3])*100
+round_tbl[c(7:13),"percent_1"]=round_tbl[c(7:13),4]/sum(round_tbl[c(7:13),4])*100
 
 # region 
-round_tbl[c(16:24),"percent_0"]=round_tbl[c(16:24),3]/sum(round_tbl[c(16:24),3])*100
-round_tbl[c(16:24),"percent_1"]=round_tbl[c(16:24),4]/sum(round_tbl[c(16:24),4])*100
+round_tbl[c(14:22),"percent_0"]=round_tbl[c(14:22),3]/sum(round_tbl[c(14:22),3])*100
+round_tbl[c(14:22),"percent_1"]=round_tbl[c(14:22),4]/sum(round_tbl[c(14:22),4])*100
 
 # age 
 round_tbl[6,c(3:4)]=tbl[6,c(3:4)]
@@ -125,12 +125,12 @@ round_tbl[c(4:5),"percent_0"]=round_tbl[c(4:5),3]/sum(round_tbl[c(4:5),3])*100
 round_tbl[c(4:5),"percent_1"]=round_tbl[c(4:5),4]/sum(round_tbl[c(4:5),4])*100
 
 #age_cat
-round_tbl[c(7:15),"percent_0"]=round_tbl[c(7:15),3]/sum(round_tbl[c(7:15),3])*100
-round_tbl[c(7:15),"percent_1"]=round_tbl[c(7:15),4]/sum(round_tbl[c(7:15),4])*100
+round_tbl[c(7:13),"percent_0"]=round_tbl[c(7:13),3]/sum(round_tbl[c(7:13),3])*100
+round_tbl[c(7:13),"percent_1"]=round_tbl[c(7:13),4]/sum(round_tbl[c(7:13),4])*100
 
 # region 
-round_tbl[c(16:24),"percent_0"]=round_tbl[c(16:24),3]/sum(round_tbl[c(16:24),3])*100
-round_tbl[c(16:24),"percent_1"]=round_tbl[c(16:24),4]/sum(round_tbl[c(16:24),4])*100
+round_tbl[c(14:22),"percent_0"]=round_tbl[c(14:22),3]/sum(round_tbl[c(14:22),3])*100
+round_tbl[c(14:22),"percent_1"]=round_tbl[c(14:22),4]/sum(round_tbl[c(14:22),4])*100
 
 # age 
 round_tbl[6,c(3:4)]=tbl[6,c(3:4)]
@@ -176,12 +176,12 @@ round_tbl[c(4:5),"percent_0"]=round_tbl[c(4:5),3]/sum(round_tbl[c(4:5),3])*100
 round_tbl[c(4:5),"percent_1"]=round_tbl[c(4:5),4]/sum(round_tbl[c(4:5),4])*100
 
 #age_cat
-round_tbl[c(7:15),"percent_0"]=round_tbl[c(7:15),3]/sum(round_tbl[c(7:15),3])*100
-round_tbl[c(7:15),"percent_1"]=round_tbl[c(7:15),4]/sum(round_tbl[c(7:15),4])*100
+round_tbl[c(7:13),"percent_0"]=round_tbl[c(7:13),3]/sum(round_tbl[c(7:13),3])*100
+round_tbl[c(7:13),"percent_1"]=round_tbl[c(7:13),4]/sum(round_tbl[c(7:13),4])*100
 
 # region 
-round_tbl[c(16:24),"percent_0"]=round_tbl[c(16:24),3]/sum(round_tbl[c(16:24),3])*100
-round_tbl[c(16:24),"percent_1"]=round_tbl[c(16:24),4]/sum(round_tbl[c(16:24),4])*100
+round_tbl[c(14:22),"percent_0"]=round_tbl[c(14:22),3]/sum(round_tbl[c(14:22),3])*100
+round_tbl[c(14:22),"percent_1"]=round_tbl[c(14:22),4]/sum(round_tbl[c(14:22),4])*100
 
 # age 
 round_tbl[6,c(3:4)]=tbl[6,c(3:4)]
