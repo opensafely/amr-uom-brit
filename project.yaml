@@ -1520,11 +1520,11 @@ actions:
     outputs:
        highly_sensitive:
         rds1: output/measures/abtype_uti.rds
-        # rds2: output/measures/abtype_lrti.rds
-        # rds3: output/measures/abtype_urti.rds
-        # rds4: output/measures/abtype_sinusitis.rds
-        # rds5: output/measures/abtype_ot_externa.rds
-        # rds6: output/measures/abtype_otmedia.rds
+        rds2: output/measures/abtype_lrti.rds
+        rds3: output/measures/abtype_urti.rds
+        rds4: output/measures/abtype_sinusitis.rds
+        rds5: output/measures/abtype_ot_externa.rds
+        rds6: output/measures/abtype_otmedia.rds
 
   describe_infection_abtype_plot: #  incident+prevalent
     run: r:latest analysis/plot/infection_abtype.R
