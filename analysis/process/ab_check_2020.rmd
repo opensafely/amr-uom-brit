@@ -107,3 +107,79 @@ i=1
 
 ```
 
+
+
+
+
+
+
+
+```{r echo=TRUE}
+
+rm(list=ls())
+
+#setwd(here::here("output", "measures"))
+
+# file list
+
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+
+# variables names list
+prevalent_check=paste0("hx_ab_uti_date_",rep(1:4))#prevalent check
+ab_category=paste0("uti_abtype",rep(1:4))#ab type
+infec_date=paste0("uti_date_",rep(1:4)) #infection records
+
+
+# read columns
+col_spec <-cols_only( patient_id = 'd',
+                    
+                      uti_abtype1 = 'c',
+                      uti_abtype2 = 'c',
+                      uti_abtype3 = 'c',
+                      uti_abtype4 = 'c',
+                      
+                      hx_ab_uti_date_1 ='d',
+                      hx_ab_uti_date_2 ='d',
+                      hx_ab_uti_date_3 ='d',
+                      hx_ab_uti_date_4 ='d',
+                      
+                      uti_date_1 = 'D',
+                      uti_date_2 = 'D',
+                      uti_date_3 = 'D',
+                      uti_date_4 = 'D',
+                      
+                      age = 'd',
+                      sex = 'c'
+                     )
+                    
+
+
+
+# transform dataset & create list 2019
+  # read in one-month data
+  df <- read_csv(here::here("output","measures","input_infection_abtype_2019-01-01.csv.gz"),
+                 col_types = col_spec)
+  #### patient/row --> infection consultqtion/row
+  
+  length(unique(as.factor(df$patient_id)))
+  
+  count(df)
+  # filter all antibiotics users
+  df1=df%>%filter(!is.na(uti_date_1))
+  count(df1)
+  
+  df2=df%>%filter(uti_date_1=="")
+  count(df2)
+  
+  length(unique(as.factor(df$patient_id)))
+
+  rm(df1,df2)
+  
+
+
+
+
+
+
+```
