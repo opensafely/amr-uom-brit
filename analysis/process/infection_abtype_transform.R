@@ -50,10 +50,10 @@ col_spec <-cols_only( patient_id = 'd',
                       hx_ab_uti_date_3 ='d',
                       hx_ab_uti_date_4 ='d',
                       
-                      uti_date_1 = 'D',
-                      uti_date_2 = 'D',
-                      uti_date_3 = 'D',
-                      uti_date_4 = 'D',
+                      uti_date_1 = 'c',
+                      uti_date_2 = 'c',
+                      uti_date_3 = 'c',
+                      uti_date_4 = 'c',
                       
                       age = 'd',
                       sex = 'c'
@@ -69,12 +69,8 @@ for (i in seq_along(csvFiles_19)){
   # read in one-month data
   df <- read_csv(csvFiles_19[i],
                  col_types = col_spec, na="" )
-  #### patient/row --> infection consultqtion/row
-  
-  # filter all antibiotics users
-  df=df%>%filter(!is.na(uti_date_1))
-  
-  
+  #### patient/row --> infection consultqtion/row\
+
   # prevalent_AB_date
   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
   colnames(df1)[4:7]=paste0("time",rep(1:4))
@@ -127,7 +123,6 @@ for (i in seq_along(csvFiles_20)){
   df <- read_csv(csvFiles_20[i],
                  col_types = col_spec , na="")
 
-  df=df%>%filter(!is.na(uti_date_1))
   
   #### patient/row --> infection consultqtion/row
   
@@ -176,7 +171,6 @@ for (i in seq_along(csvFiles_21)){
   # read in one-month data
   df <- read_csv(csvFiles_21[i],
                  col_types = col_spec,na="" )
-  df=df%>%filter(!is.na(uti_date_1))
   
   #### patient/row --> infection consultqtion/row
   
@@ -227,7 +221,6 @@ for (i in seq_along(csvFiles_22)){
   df <- read_csv(csvFiles_22[i],
                  col_types = col_spec, na="" )
 
-  df=df%>%filter(!is.na(uti_date_1))
   #### patient/row --> infection consultqtion/row
   
   # prevalent_AB_date
@@ -277,1299 +270,1299 @@ rm(list=ls())
 
 
 
-# # # # # ################# Lrti
+################# Lrti
 
 
-# # # # # # file list
-# # # # # csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
-# # # # # csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
-# # # # # csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
-# # # # # csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+# file list
+csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
 
 
-# # # # # # date list
-# # # # # date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
-# # # # # date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
-# # # # # date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
-# # # # # date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 
-# # # # # # variables names list
-# # # # # prevalent_check=paste0("hx_ab_lrti_date_",rep(1:4))#prevalent check
-# # # # # ab_category=paste0("lrti_abtype",rep(1:4))#ab type
-# # # # # infec_date=paste0("lrti_date_",rep(1:4)) #infection records
+# variables names list
+prevalent_check=paste0("hx_ab_lrti_date_",rep(1:4))#prevalent check
+ab_category=paste0("lrti_abtype",rep(1:4))#ab type
+infec_date=paste0("lrti_date_",rep(1:4)) #infection records
 
 
-# # # # # # read columns
-# # # # # col_spec <-cols_only( patient_id = 'd',
+# read columns
+col_spec <-cols_only( patient_id = 'd',
                     
-# # # # #                       lrti_abtype1 = 'c',
-# # # # #                       lrti_abtype2 = 'c',
-# # # # #                       lrti_abtype3 = 'c',
-# # # # #                       lrti_abtype4 = 'c',
+                      lrti_abtype1 = 'c',
+                      lrti_abtype2 = 'c',
+                      lrti_abtype3 = 'c',
+                      lrti_abtype4 = 'c',
                       
-# # # # #                       hx_ab_lrti_date_1 ='d',
-# # # # #                       hx_ab_lrti_date_2 ='d',
-# # # # #                       hx_ab_lrti_date_3 ='d',
-# # # # #                       hx_ab_lrti_date_4 ='d',
+                      hx_ab_lrti_date_1 ='d',
+                      hx_ab_lrti_date_2 ='d',
+                      hx_ab_lrti_date_3 ='d',
+                      hx_ab_lrti_date_4 ='d',
                       
-# # # # #                       lrti_date_1 = 'c',
-# # # # #                       lrti_date_2 = 'c',
-# # # # #                       lrti_date_3 = 'c',
-# # # # #                       lrti_date_4 = 'c',
+                      lrti_date_1 = 'c',
+                      lrti_date_2 = 'c',
+                      lrti_date_3 = 'c',
+                      lrti_date_4 = 'c',
                       
-# # # # #                       age = 'd',
-# # # # #                       sex = 'c'
-# # # # #                      )
-                    
-
-
-# # # # # # transform dataset & create list 2019
-# # # # # temp <- vector("list", length(csvFiles_19))
-
-# # # # # for (i in seq_along(csvFiles_19)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_19[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_19[i]
-  
-# # # # #   # exclude observation without AB prescription date
-# # # # #   #DF=DF%>%filter(!is.na(date))
-# # # # #   #DF$date=as.Date(DF$date,origin="1970-01-01")
-  
-  
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_19=temp
-# # # # # rm(temp)
-
-
-
-
-# # # # # # transform dataset & create list 2020
-# # # # # temp <- vector("list", length(csvFiles_20))
-
-# # # # # for (i in seq_along(csvFiles_20)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_20[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_20[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_20=temp
-# # # # # rm(temp)
-
-# # # # # # transform dataset & create list 2021
-# # # # # temp <- vector("list", length(csvFiles_21))
-
-# # # # # for (i in seq_along(csvFiles_21)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_21[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_21[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_21=temp
-# # # # # rm(temp)
-
-
-# # # # # # transform dataset & create list 2022
-# # # # # temp <- vector("list", length(csvFiles_22))
-
-# # # # # for (i in seq_along(csvFiles_22)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_22[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_22[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_22=temp
-# # # # # rm(temp)
-
-# # # # # DF=c(DF_19,DF_20,DF_21,DF_22)
-
-
-# # # # # saveRDS(DF,"abtype_lrti.rds")
-
-# # # # # rm(list=ls())
-
-
-
-
-
-
-# # # # # ################# Urti
-
-
-# # # # # # file list
-# # # # # csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
-# # # # # csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
-# # # # # csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
-# # # # # csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
-
-
-# # # # # # date list
-# # # # # date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
-# # # # # date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
-# # # # # date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
-# # # # # date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
-
-# # # # # # variables names list
-# # # # # prevalent_check=paste0("hx_ab_urti_date_",rep(1:4))#prevalent check
-# # # # # ab_category=paste0("urti_abtype",rep(1:4))#ab type
-# # # # # infec_date=paste0("urti_date_",rep(1:4)) #infection records
-
-
-# # # # # # read columns
-# # # # # col_spec <-cols_only( patient_id = 'd',
-                    
-# # # # #                       urti_abtype1 = 'c',
-# # # # #                       urti_abtype2 = 'c',
-# # # # #                       urti_abtype3 = 'c',
-# # # # #                       urti_abtype4 = 'c',
-                      
-# # # # #                       hx_ab_urti_date_1 ='d',
-# # # # #                       hx_ab_urti_date_2 ='d',
-# # # # #                       hx_ab_urti_date_3 ='d',
-# # # # #                       hx_ab_urti_date_4 ='d',
-                      
-# # # # #                       urti_date_1 = 'c',
-# # # # #                       urti_date_2 = 'c',
-# # # # #                       urti_date_3 = 'c',
-# # # # #                       urti_date_4 = 'c',
-                      
-# # # # #                       age = 'd',
-# # # # #                       sex = 'c'
-# # # # #                      )
+                      age = 'd',
+                      sex = 'c'
+                     )
                     
 
 
-# # # # # # transform dataset & create list 2019
-# # # # # temp <- vector("list", length(csvFiles_19))
+# transform dataset & create list 2019
+temp <- vector("list", length(csvFiles_19))
 
-# # # # # for (i in seq_along(csvFiles_19)){
+for (i in seq_along(csvFiles_19)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_19[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_19[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
-# # # # #   #### patient/row --> infection consultqtion/row
+  #### patient/row --> infection consultqtion/row
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
   
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
   
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
   
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # create date column
-# # # # #   DF$date=date_19[i]
+  # create date column
+  DF$date=date_19[i]
   
-# # # # #   # exclude observation without AB prescription date
-# # # # #   #DF=DF%>%filter(!is.na(date))
-# # # # #   #DF$date=as.Date(DF$date,origin="1970-01-01")
+  # exclude observation without AB prescription date
+  #DF=DF%>%filter(!is.na(date))
+  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
   
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_19=temp
-# # # # # rm(temp)
-
-
+DF_19=temp
+rm(temp)
 
 
-# # # # # # transform dataset & create list 2020
-# # # # # temp <- vector("list", length(csvFiles_20))
 
-# # # # # for (i in seq_along(csvFiles_20)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_20[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+# transform dataset & create list 2020
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
   
-# # # # #   # create date column
-# # # # #   DF$date=date_20[i]
+  # read in one-month data
+  df <- read_csv(csvFiles_20[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_20[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_20=temp
-# # # # # rm(temp)
+DF_20=temp
+rm(temp)
 
-# # # # # # transform dataset & create list 2021
-# # # # # temp <- vector("list", length(csvFiles_21))
+# transform dataset & create list 2021
+temp <- vector("list", length(csvFiles_21))
 
-# # # # # for (i in seq_along(csvFiles_21)){
+for (i in seq_along(csvFiles_21)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_21[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_21[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
-# # # # #   #### patient/row --> infection consultqtion/row
+  #### patient/row --> infection consultqtion/row
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
   
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
   
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
   
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # create date column
-# # # # #   DF$date=date_21[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_21=temp
-# # # # # rm(temp)
-
-
-# # # # # # transform dataset & create list 2022
-# # # # # temp <- vector("list", length(csvFiles_22))
-
-# # # # # for (i in seq_along(csvFiles_22)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_22[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_22[i]
+  # create date column
+  DF$date=date_21[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_22=temp
-# # # # # rm(temp)
-
-# # # # # DF=c(DF_19,DF_20,DF_21,DF_22)
+DF_21=temp
+rm(temp)
 
 
-# # # # # saveRDS(DF,"abtype_urti.rds")
+# transform dataset & create list 2022
+temp <- vector("list", length(csvFiles_22))
 
-# # # # # rm(list=ls())
+for (i in seq_along(csvFiles_22)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_22[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_22[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_22=temp
+rm(temp)
+
+DF=c(DF_19,DF_20,DF_21,DF_22)
+
+
+saveRDS(DF,"abtype_lrti.rds")
+
+rm(list=ls())
 
 
 
 
-# # # # # ################# Sinusitis
 
 
-# # # # # # file list
-# # # # # csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
-# # # # # csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
-# # # # # csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
-# # # # # csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+################# Urti
 
 
-# # # # # # date list
-# # # # # date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
-# # # # # date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
-# # # # # date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
-# # # # # date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
-
-# # # # # # variables names list
-# # # # # prevalent_check=paste0("hx_ab_sinusitis_date_",rep(1:4))#prevalent check
-# # # # # ab_category=paste0("sinusitis_abtype",rep(1:4))#ab type
-# # # # # infec_date=paste0("sinusitis_date_",rep(1:4)) #infection records
+# file list
+csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
 
 
-# # # # # # read columns
-# # # # # col_spec <-cols_only( patient_id = 'd',
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
+
+# variables names list
+prevalent_check=paste0("hx_ab_urti_date_",rep(1:4))#prevalent check
+ab_category=paste0("urti_abtype",rep(1:4))#ab type
+infec_date=paste0("urti_date_",rep(1:4)) #infection records
+
+
+# read columns
+col_spec <-cols_only( patient_id = 'd',
                     
-# # # # #                       sinusitis_abtype1 = 'c',
-# # # # #                       sinusitis_abtype2 = 'c',
-# # # # #                       sinusitis_abtype3 = 'c',
-# # # # #                       sinusitis_abtype4 = 'c',
+                      urti_abtype1 = 'c',
+                      urti_abtype2 = 'c',
+                      urti_abtype3 = 'c',
+                      urti_abtype4 = 'c',
                       
-# # # # #                       hx_ab_sinusitis_date_1 ='d',
-# # # # #                       hx_ab_sinusitis_date_2 ='d',
-# # # # #                       hx_ab_sinusitis_date_3 ='d',
-# # # # #                       hx_ab_sinusitis_date_4 ='d',
+                      hx_ab_urti_date_1 ='d',
+                      hx_ab_urti_date_2 ='d',
+                      hx_ab_urti_date_3 ='d',
+                      hx_ab_urti_date_4 ='d',
                       
-# # # # #                       sinusitis_date_1 = 'c',
-# # # # #                       sinusitis_date_2 = 'c',
-# # # # #                       sinusitis_date_3 = 'c',
-# # # # #                       sinusitis_date_4 = 'c',
+                      urti_date_1 = 'c',
+                      urti_date_2 = 'c',
+                      urti_date_3 = 'c',
+                      urti_date_4 = 'c',
                       
-# # # # #                       age = 'd',
-# # # # #                       sex = 'c'
-# # # # #                      )
-                    
-
-
-# # # # # # transform dataset & create list 2019
-# # # # # temp <- vector("list", length(csvFiles_19))
-
-# # # # # for (i in seq_along(csvFiles_19)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_19[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_19[i]
-  
-# # # # #   # exclude observation without AB prescription date
-# # # # #   #DF=DF%>%filter(!is.na(date))
-# # # # #   #DF$date=as.Date(DF$date,origin="1970-01-01")
-  
-  
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_19=temp
-# # # # # rm(temp)
-
-
-
-
-# # # # # # transform dataset & create list 2020
-# # # # # temp <- vector("list", length(csvFiles_20))
-
-# # # # # for (i in seq_along(csvFiles_20)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_20[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_20[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_20=temp
-# # # # # rm(temp)
-
-# # # # # # transform dataset & create list 2021
-# # # # # temp <- vector("list", length(csvFiles_21))
-
-# # # # # for (i in seq_along(csvFiles_21)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_21[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_21[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_21=temp
-# # # # # rm(temp)
-
-
-# # # # # # transform dataset & create list 2022
-# # # # # temp <- vector("list", length(csvFiles_22))
-
-# # # # # for (i in seq_along(csvFiles_22)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_22[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_22[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_22=temp
-# # # # # rm(temp)
-
-# # # # # DF=c(DF_19,DF_20,DF_21,DF_22)
-
-
-# # # # # saveRDS(DF,"abtype_sinusitis.rds")
-
-# # # # # rm(list=ls())
-
-
-
-
-# # # # # ################# Ot_externa
-
-
-# # # # # # file list
-# # # # # csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
-# # # # # csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
-# # # # # csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
-# # # # # csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
-
-
-# # # # # # date list
-# # # # # date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
-# # # # # date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
-# # # # # date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
-# # # # # date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
-
-# # # # # # variables names list
-# # # # # prevalent_check=paste0("hx_ab_ot_externa_date_",rep(1:4))#prevalent check
-# # # # # ab_category=paste0("ot_externa_abtype",rep(1:4))#ab type
-# # # # # infec_date=paste0("ot_externa_date_",rep(1:4)) #infection records
-
-
-# # # # # # read columns
-# # # # # col_spec <-cols_only( patient_id = 'd',
-                    
-# # # # #                       ot_externa_abtype1 = 'c',
-# # # # #                       ot_externa_abtype2 = 'c',
-# # # # #                       ot_externa_abtype3 = 'c',
-# # # # #                       ot_externa_abtype4 = 'c',
-                      
-# # # # #                       hx_ab_ot_externa_date_1 ='d',
-# # # # #                       hx_ab_ot_externa_date_2 ='d',
-# # # # #                       hx_ab_ot_externa_date_3 ='d',
-# # # # #                       hx_ab_ot_externa_date_4 ='d',
-                      
-# # # # #                       ot_externa_date_1 = 'c',
-# # # # #                       ot_externa_date_2 = 'c',
-# # # # #                       ot_externa_date_3 = 'c',
-# # # # #                       ot_externa_date_4 = 'c',
-                      
-# # # # #                       age = 'd',
-# # # # #                       sex = 'c'
-# # # # #                      )
+                      age = 'd',
+                      sex = 'c'
+                     )
                     
 
 
-# # # # # # transform dataset & create list 2019
-# # # # # temp <- vector("list", length(csvFiles_19))
+# transform dataset & create list 2019
+temp <- vector("list", length(csvFiles_19))
 
-# # # # # for (i in seq_along(csvFiles_19)){
+for (i in seq_along(csvFiles_19)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_19[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_19[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
-# # # # #   #### patient/row --> infection consultqtion/row
+  #### patient/row --> infection consultqtion/row
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
   
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
   
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
   
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # create date column
-# # # # #   DF$date=date_19[i]
+  # create date column
+  DF$date=date_19[i]
   
-# # # # #   # exclude observation without AB prescription date
-# # # # #   #DF=DF%>%filter(!is.na(date))
-# # # # #   #DF$date=as.Date(DF$date,origin="1970-01-01")
+  # exclude observation without AB prescription date
+  #DF=DF%>%filter(!is.na(date))
+  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
   
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_19=temp
-# # # # # rm(temp)
-
-
+DF_19=temp
+rm(temp)
 
 
-# # # # # # transform dataset & create list 2020
-# # # # # temp <- vector("list", length(csvFiles_20))
 
-# # # # # for (i in seq_along(csvFiles_20)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_20[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+# transform dataset & create list 2020
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
   
-# # # # #   # create date column
-# # # # #   DF$date=date_20[i]
+  # read in one-month data
+  df <- read_csv(csvFiles_20[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_20[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_20=temp
-# # # # # rm(temp)
+DF_20=temp
+rm(temp)
 
-# # # # # # transform dataset & create list 2021
-# # # # # temp <- vector("list", length(csvFiles_21))
+# transform dataset & create list 2021
+temp <- vector("list", length(csvFiles_21))
 
-# # # # # for (i in seq_along(csvFiles_21)){
+for (i in seq_along(csvFiles_21)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_21[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_21[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
-# # # # #   #### patient/row --> infection consultqtion/row
+  #### patient/row --> infection consultqtion/row
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
   
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
   
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
   
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # create date column
-# # # # #   DF$date=date_21[i]
-  
-  
- 
-  
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
-  
-# # # # # }
-
-# # # # # DF_21=temp
-# # # # # rm(temp)
-
-
-# # # # # # transform dataset & create list 2022
-# # # # # temp <- vector("list", length(csvFiles_22))
-
-# # # # # for (i in seq_along(csvFiles_22)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_22[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_22[i]
+  # create date column
+  DF$date=date_21[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_22=temp
-# # # # # rm(temp)
-
-# # # # # DF=c(DF_19,DF_20,DF_21,DF_22)
+DF_21=temp
+rm(temp)
 
 
-# # # # # saveRDS(DF,"abtype_ot_externa.rds")
+# transform dataset & create list 2022
+temp <- vector("list", length(csvFiles_22))
 
-# # # # # rm(list=ls())
+for (i in seq_along(csvFiles_22)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_22[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_22[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_22=temp
+rm(temp)
+
+DF=c(DF_19,DF_20,DF_21,DF_22)
+
+
+saveRDS(DF,"abtype_urti.rds")
+
+rm(list=ls())
 
 
 
 
-# # # # # ################# Otmedia
+################# Sinusitis
 
 
-# # # # # # file list
-# # # # # csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
-# # # # # csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
-# # # # # csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
-# # # # # csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+# file list
+csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
 
 
-# # # # # # date list
-# # # # # date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
-# # # # # date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
-# # # # # date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
-# # # # # date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
 
-# # # # # # variables names list
-# # # # # prevalent_check=paste0("hx_ab_otmedia_date_",rep(1:4))#prevalent check
-# # # # # ab_category=paste0("otmedia_abtype",rep(1:4))#ab type
-# # # # # infec_date=paste0("otmedia_date_",rep(1:4)) #infection records
+# variables names list
+prevalent_check=paste0("hx_ab_sinusitis_date_",rep(1:4))#prevalent check
+ab_category=paste0("sinusitis_abtype",rep(1:4))#ab type
+infec_date=paste0("sinusitis_date_",rep(1:4)) #infection records
 
 
-# # # # # # read columns
-# # # # # col_spec <-cols_only( patient_id = 'd',
+# read columns
+col_spec <-cols_only( patient_id = 'd',
                     
-# # # # #                       otmedia_abtype1 = 'c',
-# # # # #                       otmedia_abtype2 = 'c',
-# # # # #                       otmedia_abtype3 = 'c',
-# # # # #                       otmedia_abtype4 = 'c',
+                      sinusitis_abtype1 = 'c',
+                      sinusitis_abtype2 = 'c',
+                      sinusitis_abtype3 = 'c',
+                      sinusitis_abtype4 = 'c',
                       
-# # # # #                       hx_ab_otmedia_date_1 ='d',
-# # # # #                       hx_ab_otmedia_date_2 ='d',
-# # # # #                       hx_ab_otmedia_date_3 ='d',
-# # # # #                       hx_ab_otmedia_date_4 ='d',
+                      hx_ab_sinusitis_date_1 ='d',
+                      hx_ab_sinusitis_date_2 ='d',
+                      hx_ab_sinusitis_date_3 ='d',
+                      hx_ab_sinusitis_date_4 ='d',
                       
-# # # # #                       otmedia_date_1 = 'c',
-# # # # #                       otmedia_date_2 = 'c',
-# # # # #                       otmedia_date_3 = 'c',
-# # # # #                       otmedia_date_4 = 'c',
+                      sinusitis_date_1 = 'c',
+                      sinusitis_date_2 = 'c',
+                      sinusitis_date_3 = 'c',
+                      sinusitis_date_4 = 'c',
                       
-# # # # #                       age = 'd',
-# # # # #                       sex = 'c'
-# # # # #                      )
+                      age = 'd',
+                      sex = 'c'
+                     )
                     
 
 
-# # # # # # transform dataset & create list 2019
-# # # # # temp <- vector("list", length(csvFiles_19))
+# transform dataset & create list 2019
+temp <- vector("list", length(csvFiles_19))
 
-# # # # # for (i in seq_along(csvFiles_19)){
+for (i in seq_along(csvFiles_19)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_19[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_19[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
-# # # # #   #### patient/row --> infection consultqtion/row
+  #### patient/row --> infection consultqtion/row
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
   
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
   
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
   
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # create date column
-# # # # #   DF$date=date_19[i]
+  # create date column
+  DF$date=date_19[i]
   
-# # # # #   # exclude observation without AB prescription date
-# # # # #   #DF=DF%>%filter(!is.na(date))
-# # # # #   #DF$date=as.Date(DF$date,origin="1970-01-01")
+  # exclude observation without AB prescription date
+  #DF=DF%>%filter(!is.na(date))
+  #DF$date=as.Date(DF$date,origin="1970-01-01")
   
   
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_19=temp
-# # # # # rm(temp)
-
-
+DF_19=temp
+rm(temp)
 
 
-# # # # # # transform dataset & create list 2020
-# # # # # temp <- vector("list", length(csvFiles_20))
 
-# # # # # for (i in seq_along(csvFiles_20)){
-  
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_20[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
-  
-# # # # #   #### patient/row --> infection consultqtion/row
-  
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+# transform dataset & create list 2020
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
   
-# # # # #   # create date column
-# # # # #   DF$date=date_20[i]
+  # read in one-month data
+  df <- read_csv(csvFiles_20[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_20[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_20=temp
-# # # # # rm(temp)
+DF_20=temp
+rm(temp)
 
-# # # # # # transform dataset & create list 2021
-# # # # # temp <- vector("list", length(csvFiles_21))
+# transform dataset & create list 2021
+temp <- vector("list", length(csvFiles_21))
 
-# # # # # for (i in seq_along(csvFiles_21)){
+for (i in seq_along(csvFiles_21)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_21[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_21[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
   
-# # # # #   #### patient/row --> infection consultqtion/row
+  #### patient/row --> infection consultqtion/row
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
   
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
   
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
   
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # create date column
-# # # # #   DF$date=date_21[i]
+  # create date column
+  DF$date=date_21[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_21=temp
-# # # # # rm(temp)
+DF_21=temp
+rm(temp)
 
 
-# # # # # # transform dataset & create list 2022
-# # # # # temp <- vector("list", length(csvFiles_22))
+# transform dataset & create list 2022
+temp <- vector("list", length(csvFiles_22))
 
-# # # # # for (i in seq_along(csvFiles_22)){
+for (i in seq_along(csvFiles_22)){
   
-# # # # #   # read in one-month data
-# # # # #   df <- read_csv(csvFiles_22[i],
-# # # # #                  col_types = col_spec )
-# # # # #   df <- df %>% mutate_all(na_if,"")
+  # read in one-month data
+  df <- read_csv(csvFiles_22[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
 
-# # # # #   #### patient/row --> infection consultqtion/row
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
   
-# # # # #   # prevalent_AB_date
-# # # # #   df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
-# # # # #   colnames(df1)[4:7]=paste0("time",rep(1:4))
-# # # # #   df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
-# # # # #   rm(df1)
-  
-# # # # #   # ab_category 
-# # # # #   df2=df%>%select(patient_id,age,sex,all_of(ab_category))
-# # # # #   colnames(df2)[4:7]=paste0("time",rep(1:4))
-# # # # #   df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
-# # # # #   rm(df2)
-  
-# # # # #   # infection date
-# # # # #   df3=df%>%select(patient_id,age,sex,all_of(infec_date))
-# # # # #   colnames(df3)[4:7]=paste0("time",rep(1:4))
-# # # # #   df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
-  
-# # # # #   # merge
-# # # # #   DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
-# # # # #   DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
-
-# # # # #   DF=DF%>%filter(!is.na(date)) # has infection date means has infection
-  
-# # # # #   # create date column
-# # # # #   DF$date=date_22[i]
+  # create date column
+  DF$date=date_22[i]
   
   
  
   
-# # # # #   temp[[i]] <- DF
-# # # # #   rm(DF,df1.1,df2.1,df3.1,df)
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
   
-# # # # # }
+}
 
-# # # # # DF_22=temp
-# # # # # rm(temp)
+DF_22=temp
+rm(temp)
 
-# # # # # DF=c(DF_19,DF_20,DF_21,DF_22)
+DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-# # # # # saveRDS(DF,"abtype_otmedia.rds")
+saveRDS(DF,"abtype_sinusitis.rds")
 
-# # # # # rm(list=ls())
+rm(list=ls())
+
+
+
+
+################# Ot_externa
+
+
+# file list
+csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+
+
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
+
+# variables names list
+prevalent_check=paste0("hx_ab_ot_externa_date_",rep(1:4))#prevalent check
+ab_category=paste0("ot_externa_abtype",rep(1:4))#ab type
+infec_date=paste0("ot_externa_date_",rep(1:4)) #infection records
+
+
+# read columns
+col_spec <-cols_only( patient_id = 'd',
+                    
+                      ot_externa_abtype1 = 'c',
+                      ot_externa_abtype2 = 'c',
+                      ot_externa_abtype3 = 'c',
+                      ot_externa_abtype4 = 'c',
+                      
+                      hx_ab_ot_externa_date_1 ='d',
+                      hx_ab_ot_externa_date_2 ='d',
+                      hx_ab_ot_externa_date_3 ='d',
+                      hx_ab_ot_externa_date_4 ='d',
+                      
+                      ot_externa_date_1 = 'c',
+                      ot_externa_date_2 = 'c',
+                      ot_externa_date_3 = 'c',
+                      ot_externa_date_4 = 'c',
+                      
+                      age = 'd',
+                      sex = 'c'
+                     )
+                    
+
+
+# transform dataset & create list 2019
+temp <- vector("list", length(csvFiles_19))
+
+for (i in seq_along(csvFiles_19)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_19[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_19[i]
+  
+  # exclude observation without AB prescription date
+  #DF=DF%>%filter(!is.na(date))
+  #DF$date=as.Date(DF$date,origin="1970-01-01")
+  
+  
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_19=temp
+rm(temp)
+
+
+
+
+# transform dataset & create list 2020
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_20[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_20[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_20=temp
+rm(temp)
+
+# transform dataset & create list 2021
+temp <- vector("list", length(csvFiles_21))
+
+for (i in seq_along(csvFiles_21)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_21[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_21[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_21=temp
+rm(temp)
+
+
+# transform dataset & create list 2022
+temp <- vector("list", length(csvFiles_22))
+
+for (i in seq_along(csvFiles_22)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_22[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_22[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_22=temp
+rm(temp)
+
+DF=c(DF_19,DF_20,DF_21,DF_22)
+
+
+saveRDS(DF,"abtype_ot_externa.rds")
+
+rm(list=ls())
+
+
+
+
+################# Otmedia
+
+
+# file list
+csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+
+
+# date list
+date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
+date_20= seq(as.Date("2020-01-01"), as.Date("2020-12-01"), "month")
+date_21= seq(as.Date("2021-01-01"), as.Date("2021-12-01"), "month")
+date_22= seq(as.Date("2022-01-01"), as.Date("2022-12-01"), "month")
+
+# variables names list
+prevalent_check=paste0("hx_ab_otmedia_date_",rep(1:4))#prevalent check
+ab_category=paste0("otmedia_abtype",rep(1:4))#ab type
+infec_date=paste0("otmedia_date_",rep(1:4)) #infection records
+
+
+# read columns
+col_spec <-cols_only( patient_id = 'd',
+                    
+                      otmedia_abtype1 = 'c',
+                      otmedia_abtype2 = 'c',
+                      otmedia_abtype3 = 'c',
+                      otmedia_abtype4 = 'c',
+                      
+                      hx_ab_otmedia_date_1 ='d',
+                      hx_ab_otmedia_date_2 ='d',
+                      hx_ab_otmedia_date_3 ='d',
+                      hx_ab_otmedia_date_4 ='d',
+                      
+                      otmedia_date_1 = 'c',
+                      otmedia_date_2 = 'c',
+                      otmedia_date_3 = 'c',
+                      otmedia_date_4 = 'c',
+                      
+                      age = 'd',
+                      sex = 'c'
+                     )
+                    
+
+
+# transform dataset & create list 2019
+temp <- vector("list", length(csvFiles_19))
+
+for (i in seq_along(csvFiles_19)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_19[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_19[i]
+  
+  # exclude observation without AB prescription date
+  #DF=DF%>%filter(!is.na(date))
+  #DF$date=as.Date(DF$date,origin="1970-01-01")
+  
+  
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_19=temp
+rm(temp)
+
+
+
+
+# transform dataset & create list 2020
+temp <- vector("list", length(csvFiles_20))
+
+for (i in seq_along(csvFiles_20)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_20[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_20[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_20=temp
+rm(temp)
+
+# transform dataset & create list 2021
+temp <- vector("list", length(csvFiles_21))
+
+for (i in seq_along(csvFiles_21)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_21[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+  
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_21[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_21=temp
+rm(temp)
+
+
+# transform dataset & create list 2022
+temp <- vector("list", length(csvFiles_22))
+
+for (i in seq_along(csvFiles_22)){
+  
+  # read in one-month data
+  df <- read_csv(csvFiles_22[i],
+                 col_types = col_spec )
+  df <- df %>% mutate_all(na_if,"")
+
+  #### patient/row --> infection consultqtion/row
+  
+  # prevalent_AB_date
+  df1=df%>%select(patient_id,age,sex,all_of(prevalent_check))
+  colnames(df1)[4:7]=paste0("time",rep(1:4))
+  df1.1=df1%>%gather(times,prevalent,paste0("time",rep(1:4)))
+  rm(df1)
+  
+  # ab_category 
+  df2=df%>%select(patient_id,age,sex,all_of(ab_category))
+  colnames(df2)[4:7]=paste0("time",rep(1:4))
+  df2.1=df2%>%gather(times,abtype,paste0("time",rep(1:4)))
+  rm(df2)
+  
+  # infection date
+  df3=df%>%select(patient_id,age,sex,all_of(infec_date))
+  colnames(df3)[4:7]=paste0("time",rep(1:4))
+  df3.1=df3%>%gather(times,date,paste0("time",rep(1:4)))
+  
+  # merge
+  DF=merge(df1.1,df2.1,by=c("patient_id","age","sex","times"))
+  DF=merge(DF,df3.1,by=c("patient_id","age","sex","times"))
+
+  DF=DF%>%filter(!is.na(date)) # has infection date means has infection
+  
+  # create date column
+  DF$date=date_22[i]
+  
+  
+ 
+  
+  temp[[i]] <- DF
+  rm(DF,df1.1,df2.1,df3.1,df)
+  
+}
+
+DF_22=temp
+rm(temp)
+
+DF=c(DF_19,DF_20,DF_21,DF_22)
+
+
+saveRDS(DF,"abtype_otmedia.rds")
+
+rm(list=ls())
 
 
 
