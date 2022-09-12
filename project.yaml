@@ -74,16 +74,17 @@ actions:
       moderately_sensitive:
         html: output/table1.html
  
-  table1_round: # add variables 
+  table1_round: 
     run: r:latest analysis/table1.R
     needs: [process_1,process_Rmatching]
     outputs:
       moderately_sensitive:
-        cohort1: output/matched_outcome.rds
-        cohort2: output/matched_outcome_check.rds # filter died $ de-regist again
-        rds1: output/abtype79.rds
-        rds2: output/comor17.rds
-  
+        csv1: output/table1_unmatched.csv
+        csv2: output/table1_matched.csv
+        csv3: output/table1_random.csv
+
+
+
 
   table2: # confounders
     run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
