@@ -22,7 +22,7 @@ setwd(here::here("output"))
 ####### before matching ########
 
 # case
-df1 <- read.csv("case_covid_icu_death.cs")
+df1 <- read.csv("case_covid_icu_death.csv")
 df1$case=1
 
 # control
