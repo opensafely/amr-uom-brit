@@ -1661,12 +1661,18 @@ actions:
     needs: [describe_infection_abtype_process]
     outputs:
        moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti_top5.jpeg
-        plot2: output/redacted_v2/AB_lrti_top5.jpeg
-        plot3: output/redacted_v2/AB_urti_top5.jpeg
-        plot4: output/redacted_v2/AB_sinusitis_top5.jpeg
-        plot5: output/redacted_v2/AB_ot_externa_top5.jpeg
-        plot6: output/redacted_v2/AB_otmedia_top5.jpeg
+        plot1.1: output/redacted_v2/prevalent_AB_uti_top5.jpeg
+        plot1.2: output/redacted_v2/incident_AB_uti_top5.jpeg
+        plot2.1: output/redacted_v2/prevalent_AB_lrti_top5.jpeg
+        plot2.2: output/redacted_v2/incident_AB_lrti_top5.jpeg
+        plot3.1: output/redacted_v2/prevalent_AB_urti_top5.jpeg
+        plot3.2: output/redacted_v2/incident_AB_urti_top5.jpeg
+        plot4.1: output/redacted_v2/prevalent_AB_sinusitis_top5.jpeg
+        plot4.2: output/redacted_v2/incident_AB_sinusitis_top5.jpeg
+        plot5.1: output/redacted_v2/prevalent_AB_ot_externa_top5.jpeg
+        plot5.2: output/redacted_v2/incident_AB_ot_externa_top5.jpeg
+        plot6.1: output/redacted_v2/prevalent_AB_otmedia_top5.jpeg
+        plot6.2: output/redacted_v2/incident_AB_otmedia_top5.jpeg
         csv1: output/redacted_v2/AB_uti_check_top5.csv
         csv2: output/redacted_v2/AB_lrti_check_top5.csv
         csv3: output/redacted_v2/AB_urti_check_top5.csv

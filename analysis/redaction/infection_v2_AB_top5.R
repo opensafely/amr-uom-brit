@@ -66,7 +66,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
-# top 3 ab
+# top 5 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
@@ -122,7 +122,12 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("UTI")
+
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 # incident
 lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
@@ -139,25 +144,32 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
-lineplot=ggarrange(lineplot.0, lineplot.1, 
-                   labels = c("A", "B"),
-                   nrow = 2)
-
-lineplot=annotate_figure(lineplot,
-                         top = text_grob(" ", face = "bold", size = 14),
-                         bottom = text_grob("A= incident cases; B= prevalent cases.
-                                   Grey shading represents national lockdown time.", 
-                                            hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - UTI       ",
-                                         first_mon," - ",last_mon),
-                         left = text_grob("", rot = 90),
-)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("UTI")
 
 ggsave(
-  plot= lineplot,
-  filename="AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
+  plot= lineplot.0,
+  filename="incident_AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
+
+
+
+#lineplot=ggarrange(lineplot.0, lineplot.1, 
+#                   labels = c("A", "B"),
+ #                  nrow = 2)
+
+#lineplot=annotate_figure(lineplot,
+#                         top = text_grob(" ", face = "bold", size = 14),
+#                         bottom = text_grob("A= incident cases; B= prevalent cases.
+#                                    Grey shading represents national lockdown time.", 
+#                                             hjust = 1, x = 1, size = 10),
+#                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - UTI       ",
+#                                         first_mon," - ",last_mon),
+#                         left = text_grob("", rot = 90),
+#)
+
+#ggsave(
+#  plot= lineplot,
+#  filename="AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -218,7 +230,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
-# top 3 ab
+# top 5 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
@@ -300,7 +312,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("LRTI")
+
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
+
 
 # incident
 lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
@@ -317,25 +335,19 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+ggtitle("LRTI")
+
+ggsave(
+  plot= lineplot.0,
+  filename="incident_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
+
 
 lineplot=ggarrange(lineplot.0, lineplot.1, 
                    labels = c("A", "B"),
                    nrow = 2)
 
-lineplot=annotate_figure(lineplot,
-                         top = text_grob(" ", face = "bold", size = 14),
-                         bottom = text_grob("A= incident cases; B= prevalent cases.
-                                   Grey shading represents national lockdown time.", 
-                                            hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - LRTI       ",
-                                         first_mon," - ",last_mon),
-                         left = text_grob("", rot = 90),
-)
 
-ggsave(
-  plot= lineplot,
-  filename="AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 ### tables
 # define covid date
@@ -422,7 +434,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
-# top 3 ab
+# top 5 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
@@ -477,7 +489,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("URTI")
+
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
+
 
 # incident
 lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
@@ -494,25 +512,14 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
-lineplot=ggarrange(lineplot.0, lineplot.1, 
-                   labels = c("A", "B"),
-                   nrow = 2)
-
-lineplot=annotate_figure(lineplot,
-                         top = text_grob(" ", face = "bold", size = 14),
-                         bottom = text_grob("A= incident cases; B= prevalent cases.
-                                   Grey shading represents national lockdown time.", 
-                                            hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - URTI       ",
-                                         first_mon," - ",last_mon),
-                         left = text_grob("", rot = 90),
-)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("URTI")
 
 ggsave(
-  plot= lineplot,
-  filename="AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
+  plot= lineplot.0,
+  filename="incident_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
+
+
 
 ### tables
 # define covid date
@@ -572,7 +579,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
-# top 3 ab
+# top 5 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
@@ -655,7 +662,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("Sinusitis")
+
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
+
 
 # incident
 lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
@@ -672,25 +685,15 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
-lineplot=ggarrange(lineplot.0, lineplot.1, 
-                   labels = c("A", "B"),
-                   nrow = 2)
-
-lineplot=annotate_figure(lineplot,
-                         top = text_grob(" ", face = "bold", size = 14),
-                         bottom = text_grob("A= incident cases; B= prevalent cases.
-                                   Grey shading represents national lockdown time.", 
-                                            hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - sinusitis       ",
-                                         first_mon," - ",last_mon),
-                         left = text_grob("", rot = 90),
-)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("Sinusitis")
 
 ggsave(
-  plot= lineplot,
-  filename="AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
+  plot= lineplot.0,
+  filename="incident_AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
+
+
+
 
 ### tables
 # define covid date
@@ -753,7 +756,7 @@ df.1=df%>%filter(prevalent==1)%>%group_by(date)%>%mutate(total=n())
 df.1=df.1%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
-# top 3 ab
+# top 5 ab
 DF.top10.1=df.1%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
@@ -834,7 +837,14 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("Otitis externa")
+
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
+
+
 
 # incident
 lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
@@ -851,25 +861,14 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
-lineplot=ggarrange(lineplot.0, lineplot.1, 
-                   labels = c("A", "B"),
-                   nrow = 2)
-
-lineplot=annotate_figure(lineplot,
-                         top = text_grob(" ", face = "bold", size = 14),
-                         bottom = text_grob("A= incident cases; B= prevalent cases.
-                                   Grey shading represents national lockdown time.", 
-                                            hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - otitis externa       ",
-                                         first_mon," - ",last_mon),
-                         left = text_grob("", rot = 90),
-)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("Otitis externa")
 
 ggsave(
-  plot= lineplot,
-  filename="AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
+  plot= lineplot.0,
+  filename="incident_AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
+
+
 
 ### tables
 # define covid date
@@ -954,7 +953,7 @@ df.0=df%>%filter(prevalent==0)%>%group_by(date)%>%mutate(total=n())
 df.0=df.0%>%group_by(date,abtype)%>%summarise(count=n(),total=mean(total))
 
 
-# top 3 ab
+# top 5 ab
 DF.top10.0=df.0%>%
   group_by(abtype)%>%
   summarise(count=sum(count))%>% 
@@ -1010,7 +1009,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("Otitis media")
+
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
+
 
 # incident
 lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
@@ -1027,25 +1032,15 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
-  scale_y_continuous(labels = scales::percent)
-
-lineplot=ggarrange(lineplot.0, lineplot.1, 
-                   labels = c("A", "B"),
-                   nrow = 2)
-
-lineplot=annotate_figure(lineplot,
-                         top = text_grob(" ", face = "bold", size = 14),
-                         bottom = text_grob("A= incident cases; B= prevalent cases.
-                                   Grey shading represents national lockdown time.", 
-                                            hjust = 1, x = 1, size = 10),
-                         fig.lab =paste0("Top 5 antibiotic prescriptions issued - otitis media       ",
-                                         first_mon," - ",last_mon),
-                         left = text_grob("", rot = 90),
-)
+  scale_y_continuous(labels = scales::percent)+
+  ggtitle("Otitis media")
 
 ggsave(
-  plot= lineplot,
-  filename="AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
+  plot= lineplot.0,
+  filename="incident_AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
+
+
+
 
 ### tables
 # define covid date
