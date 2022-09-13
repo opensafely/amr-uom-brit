@@ -291,3 +291,10 @@ actions:
     outputs:
         moderately_sensitive:
           plot1: output/mon_overall_predicted_rest.jpeg
+
+  Poisson_model_table:
+    run: r:latest analysis/itsmodel/Poisson_model_table.R
+    needs: [ITS_var]
+    outputs:
+        moderately_sensitive:
+          plot1: output/table2.csv
