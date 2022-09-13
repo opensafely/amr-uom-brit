@@ -66,7 +66,7 @@ measurestar <- starpu %>%
  # mutate(starpu_month=sum(advalue,na.rm=TRUE),  ##sum of practice STARPU adjusted prescribing rate
  #        starpu_month_1000=(starpu_month)*1000) ##sum * 1000, for 1000 registered patients
 
-measurstarpu2=measurestar%>%
+measurstarpu=measurestar%>%
   group_by(date, practice)%>%
   summarise(starpu_month=sum(advalue,na.rm=TRUE),  ##sum of practice STARPU adjusted prescribing rate
          starpu_month_1000=(starpu_month)*1000) ##sum * 1000, for 1000 registered patients
