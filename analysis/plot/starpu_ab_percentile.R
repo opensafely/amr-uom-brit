@@ -40,7 +40,8 @@ last_mon <- (format(max(starpu$date), "%m-%Y"))
 num_uniq_prac <- as.numeric(dim(table((starpu$practice))))
 
                                         
-measurestar <- starpu %>% group_by(date, practice) %>%
+measurestar <- starpu %>% 
+  #group_by(date, practice) %>%
   mutate(advalue= case_when(age_cat=="0-4" ~ value*0.8,
                             age_cat =="5-14"& sex=="M"~value*0.3,
                             age_cat =="5-14"& sex=="F"~value*0.4,
@@ -60,9 +61,14 @@ measurestar <- starpu %>% group_by(date, practice) %>%
                             age_cat =="75+"& sex=="F"~value*1.3,
                             TRUE ~ 0))
 
-measurstarpu=measurestar%>%
-  group_by(date, practice, .groups=T)%>%
-  mutate(starpu_month=sum(advalue,na.rm=TRUE),  ##sum of practice STARPU adjusted prescribing rate
+#measurstarpu=measurestar%>%
+ # group_by(date, practice, .groups=T)%>%
+ # mutate(starpu_month=sum(advalue,na.rm=TRUE),  ##sum of practice STARPU adjusted prescribing rate
+ #        starpu_month_1000=(starpu_month)*1000) ##sum * 1000, for 1000 registered patients
+
+measurstarpu2=measurestar%>%
+  group_by(date, practice)%>%
+  summarise(starpu_month=sum(advalue,na.rm=TRUE),  ##sum of practice STARPU adjusted prescribing rate
          starpu_month_1000=(starpu_month)*1000) ##sum * 1000, for 1000 registered patients
 
 ## quintiles
