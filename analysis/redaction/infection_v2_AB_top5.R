@@ -113,19 +113,19 @@ lineplot.1.uti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("UTI")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))        
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))        
 
 #ggsave(
  # plot= lineplot.1,
@@ -137,19 +137,19 @@ lineplot.0.uti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("UTI")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))      
 
 #ggsave(
  # plot= lineplot.0,
@@ -307,19 +307,19 @@ lineplot.1.lrti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("LRTI")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))   
 
 #ggsave(
 #  plot= lineplot.1,
@@ -332,20 +332,19 @@ lineplot.0.lrti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
-ggtitle("LRTI")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
-
+  ggtitle("LRTI")+
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))   
 #ggsave(
 #  plot= lineplot.0,
  # filename="incident_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
@@ -485,19 +484,19 @@ lineplot.1.urti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("URTI")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))       
 
 #ggsave(
  # plot= lineplot.1,
@@ -510,20 +509,19 @@ lineplot.0.urti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("URTI")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
-
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))   
 #ggsave(
  # plot= lineplot.0,
  # filename="incident_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
@@ -662,19 +660,19 @@ lineplot.1.sin<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Sinusitis")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))   
 
 #ggsave(
  # plot= lineplot.1,
@@ -687,19 +685,19 @@ lineplot.0.sin<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Sinusitis")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))        
 
 #ggsave(
 #  plot= lineplot.0,
@@ -841,19 +839,19 @@ lineplot.1.oe<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis externa")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))     
 
 #ggsave(
  # plot= lineplot.1,
@@ -867,19 +865,19 @@ lineplot.0.oe<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis externa")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))   
 
 #ggsave(
  # plot= lineplot.0,
@@ -1017,19 +1015,19 @@ lineplot.1.om<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis media")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))     
 
 #ggsave(
 #  plot= lineplot.1,
@@ -1042,19 +1040,19 @@ lineplot.0.om<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(linetype=type))+
-  geom_point(aes(shape=type))+
+  geom_point(aes(shape=type),size=0.5)+
   theme(legend.position = "right",legend.title =element_blank())+
   scale_shape_manual(values = c(rep(1:11))) +
-  scale_color_manual(values = c("coral2","deeppink3","darkred","darkviolet","brown3","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
+  scale_color_manual(values = c("coral2","deeppink3","darkred","blue","green4","goldenrod2","blue3","green3","forestgreen","dodgerblue","black"))+
   labs(
     y = "" ,
     x="")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
+  scale_x_date(date_labels = "%m-%Y", date_breaks = "2 month")+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis media")+
-  theme(text = element_text(size = 5))+
-  theme(plot.title = element_text(size = 8))      
+  theme(text = element_text(size = 8))+
+  theme(plot.title = element_text(size = 7))   
 
 #ggsave(
  # plot= lineplot.0,
