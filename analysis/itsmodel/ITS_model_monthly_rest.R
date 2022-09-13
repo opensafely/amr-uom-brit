@@ -18,10 +18,11 @@ library(dplyr)
 library(tidyr)
 ###  import data  ###
 
-all_files <- list.files(here::here("output"), pattern = "mon_")
-outcomes <- stringr::str_remove_all(all_files, c("mon_|.csv"))
-outcome_of_interest_namematch <- bind_cols("outcome" = c("cold","cough","copd","lrti","ot_externa",
-                                           "ot_media","sinsitis","throat","URTI"), 
+
+outcomes <- c("cold","copd","cough","lrti","ot_externa",
+                                           "ot_media","throat","sinusitis","urti")
+outcome_of_interest_namematch <- bind_cols("outcome" = c("cold","copd","cough","lrti","ot_externa",
+                                           "ot_media","throat","sinusitis","urti"), 
                                            "outcome_name" = (c("Cold","COPD",
                                            "Cough","LRTI","Otitis externa","Otitis media",
                                            "Sinusitis","Sore throat","URTI"))
@@ -29,9 +30,9 @@ outcome_of_interest_namematch <- bind_cols("outcome" = c("cold","cough","copd","
 bkg_colour <- "gray99"
 
 # load data ---------------------------------------------------------------
-for(ii in 1:length(outcomes)){
-  load_file <- read.csv(here::here("output", paste0("mon_", outcomes[ii], ".csv")))
-  assign(outcomes[ii], load_file)
+for(i in 1:length(outcomes)){
+  load_file <- read.csv(here::here("output", paste0("mon_", outcomes[i], ".csv")))
+  assign(outcomes[i], load_file)
 }
 
 its_function <- function(outcomes_vec = outcomes,
