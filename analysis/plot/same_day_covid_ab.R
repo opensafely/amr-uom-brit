@@ -16,7 +16,10 @@ df.gp <- read_csv("measure_samedayab_gp.csv",
 
 
 ### Sgss same day ab
-
+df.sgss <- df.sgss %>% filter(date >=as.Date("2020-03-01"))
+df.gp  <- df.gp  %>% filter(date >=as.Date("2020-03-01"))
+df.sgss <- df.sgss %>% filter(date <=as.Date("2022-01-01"))
+df.gp  <- df.gp  %>% filter(date <=as.Date("2022-01-01"))
 
 first_mon=format(min(df.sgss$date),"%m-%Y")
 last_mon= format(max(df.sgss$date),"%m-%Y")
@@ -25,7 +28,6 @@ last_mon= format(max(df.sgss$date),"%m-%Y")
 
 plot <-ggplot(data = df.sgss, aes(x = date, y = value*100))+
   geom_line(color = "coral2", size = 0.5)+ 
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.05, by = 0.005))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -51,7 +53,6 @@ last_mon= format(max(df.gp$date),"%m-%Y")
 
 plot <-ggplot(data = df.gp, aes(x = date, y = value*100))+
   geom_line(color = "coral2", size = 0.5)+ 
-  scale_y_continuous(labels = scales::percent,breaks=seq(0, 0.05, by = 0.005))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
