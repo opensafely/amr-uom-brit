@@ -46,6 +46,7 @@ df=rbind(df1,df2,df3,df4,df5,df6)
 # seasons
 df$date=as.Date(df$date)
 df$month= format(df$date,"%m")
+
 df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
                                    month=="06"|month=="07"|month=="08" ~ "summer",
                                    month=="09"|month=="10"|month=="11" ~ "autumn",
@@ -71,7 +72,7 @@ df=df%>% group_by(covid)%>%mutate(time.since=1:n())
 df$time.since <- ifelse(df$covid==0,0,df$time.since)
 
 # %
-df$value=df$percentage
+df$value=1-df$percentage
 
 DF.all=df
 rm(df)
