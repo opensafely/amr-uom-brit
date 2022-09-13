@@ -39,6 +39,8 @@ first_mon <- (format(min(starpu$date), "%m-%Y"))
 last_mon <- (format(max(starpu$date), "%m-%Y"))
 num_uniq_prac <- as.numeric(dim(table((starpu$practice))))
 
+starpu=starpu%>%group_by(date,practice)%>%mutate(total=sum(population))
+starpu$value=starpu$antibacterial_brit/starpu$total
                                         
 measurestar <- starpu %>% 
   #group_by(date, practice) %>%
