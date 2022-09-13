@@ -73,6 +73,6 @@ plot2 <- ggplot(uti_plot, aes(x = monPlot, y = pc_broad)) +
 plot2
 
 ggsave(
-  plot= plot1, width = 8, height = 6, dpi = 640,
+  plot= plot2, width = 8, height = 6, dpi = 640,
   filename="UTI_predicted.jpeg", path=here::here("output"),
 )    

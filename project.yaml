@@ -284,3 +284,10 @@ actions:
         moderately_sensitive:
           plot1: output/overall_predicted.jpeg
           plot2: output/UTI_predicted.jpeg
+
+  ITS_model_monthly_rest:
+    run: r:latest analysis/itsmodel/ITS_model_monthly_rest.R
+    needs: [ITS_var]
+    outputs:
+        moderately_sensitive:
+          plot1: output/mon_overall_predicted_rest.jpeg
