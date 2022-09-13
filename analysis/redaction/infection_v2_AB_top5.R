@@ -123,7 +123,9 @@ lineplot.1.uti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("UTI")
+  ggtitle("UTI")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))        
 
 #ggsave(
  # plot= lineplot.1,
@@ -145,7 +147,9 @@ lineplot.0.uti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("UTI")
+  ggtitle("UTI")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.0,
@@ -313,7 +317,9 @@ lineplot.1.lrti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("LRTI")
+  ggtitle("LRTI")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
 #  plot= lineplot.1,
@@ -336,7 +342,9 @@ lineplot.0.lrti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-ggtitle("LRTI")
+ggtitle("LRTI")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
 #  plot= lineplot.0,
@@ -487,7 +495,9 @@ lineplot.1.urti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("URTI")
+  ggtitle("URTI")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.1,
@@ -510,7 +520,9 @@ lineplot.0.urti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("URTI")
+  ggtitle("URTI")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.0,
@@ -660,7 +672,9 @@ lineplot.1.sin<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("Sinusitis")
+  ggtitle("Sinusitis")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.1,
@@ -683,7 +697,9 @@ lineplot.0.sin<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("Sinusitis")
+  ggtitle("Sinusitis")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
 #  plot= lineplot.0,
@@ -835,7 +851,9 @@ lineplot.1.oe<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("Otitis externa")
+  ggtitle("Otitis externa")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.1,
@@ -859,7 +877,9 @@ lineplot.0.oe<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("Otitis externa")
+  ggtitle("Otitis externa")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.0,
@@ -1007,7 +1027,9 @@ lineplot.1.om<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("Otitis media")
+  ggtitle("Otitis media")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
 #  plot= lineplot.1,
@@ -1030,7 +1052,9 @@ lineplot.0.om<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
   scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")+
   scale_y_continuous(labels = scales::percent)+
-  ggtitle("Otitis media")
+  ggtitle("Otitis media")+
+  theme(text = element_text(size = 5))+
+  theme(plot.title = element_text(size = 8))      
 
 #ggsave(
  # plot= lineplot.0,
