@@ -1,5 +1,5 @@
 ---
-title: "ITS - infections without issued antibiotics % "
+title: "ITS - infections with issued antibiotics % "
 output: 
   html_document:
    toc: true
@@ -72,7 +72,8 @@ df=df%>% group_by(covid)%>%mutate(time.since=1:n())
 df$time.since <- ifelse(df$covid==0,0,df$time.since)
 
 # %
-df$value=1-df$percentage
+df$value=1-df$percentage # calculate indication with ab
+df$count= df$total-df$count
 
 DF.all=df
 rm(df)
@@ -164,7 +165,7 @@ DF1.exp
 
 ## result- ITS Plot
 
-Incident UTI consultations without antibiotics 
+Incident UTI consultations with antibiotics 
 ```{r}
 
 df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -190,7 +191,7 @@ ggplot(df1, aes(x=date, y=value, group=covid)) +
 ```
 
 
-Incident URTI consultations without antibiotics 
+Incident URTI consultations with antibiotics 
 ```{r}
 
 df2 <- cbind(df2, "resp" = predict(m2.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -215,7 +216,7 @@ ggplot(df2, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Incident LRTI consultations without antibiotics 
+Incident LRTI consultations with antibiotics 
 ```{r}
 
 df3 <- cbind(df3, "resp" = predict(m3.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -240,7 +241,7 @@ ggplot(df3, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Incident Sinusitis consultations without antibiotics 
+Incident Sinusitis consultations with antibiotics 
 ```{r}
 
 df4 <- cbind(df4, "resp" = predict(m4.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -265,7 +266,7 @@ ggplot(df4, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Incident Otitis externa consultations without antibiotics 
+Incident Otitis externa consultations with antibiotics 
 ```{r}
 
 df5 <- cbind(df5, "resp" = predict(m5.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -290,7 +291,7 @@ ggplot(df5, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Incident Otitis media consultations without antibiotics 
+Incident Otitis media consultations with antibiotics 
 
 ```{r}
 
@@ -402,7 +403,7 @@ DF2.exp
 
 ## result- ITS Plot
 
-Prevalent UTI consultations without antibiotics 
+Prevalent UTI consultations with antibiotics 
 ```{r}
 
 df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -428,7 +429,7 @@ ggplot(df1, aes(x=date, y=value, group=covid)) +
 ```
 
 
-Prevalent URTI consultations without antibiotics 
+Prevalent URTI consultations with antibiotics 
 ```{r}
 
 df2 <- cbind(df2, "resp" = predict(m2.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -453,7 +454,7 @@ ggplot(df2, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Prevalent LRTI consultations without antibiotics 
+Prevalent LRTI consultations with antibiotics 
 ```{r}
 
 df3 <- cbind(df3, "resp" = predict(m3.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -478,7 +479,7 @@ ggplot(df3, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Prevalent Sinusitis consultations without antibiotics 
+Prevalent Sinusitis consultations with antibiotics 
 ```{r}
 
 df4 <- cbind(df4, "resp" = predict(m4.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -503,7 +504,7 @@ ggplot(df4, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Prevalent Otitis externa consultations without antibiotics 
+Prevalent Otitis externa consultations with antibiotics 
 ```{r}
 
 df5 <- cbind(df5, "resp" = predict(m5.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -528,7 +529,7 @@ ggplot(df5, aes(x=date, y=value, group=covid)) +
 
 ```
 
-Prevalent Otitis media consultations without antibiotics 
+Prevalent Otitis media consultations with antibiotics 
 
 ```{r}
 
@@ -675,7 +676,7 @@ DF3.exp
 
 ## result- ITS Plot
 
- UTI consultations without antibiotics 
+ UTI consultations with antibiotics 
 ```{r}
 
 df1 <- cbind(df1, "resp" = predict(m1.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -701,7 +702,7 @@ ggplot(df1, aes(x=date, y=value, group=covid)) +
 ```
 
 
- URTI consultations without antibiotics 
+ URTI consultations with antibiotics 
 ```{r}
 
 df2 <- cbind(df2, "resp" = predict(m2.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -726,7 +727,7 @@ ggplot(df2, aes(x=date, y=value, group=covid)) +
 
 ```
 
- LRTI consultations without antibiotics 
+ LRTI consultations with antibiotics 
 ```{r}
 
 df3 <- cbind(df3, "resp" = predict(m3.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -751,7 +752,7 @@ ggplot(df3, aes(x=date, y=value, group=covid)) +
 
 ```
 
- Sinusitis consultations without antibiotics 
+ Sinusitis consultations with antibiotics 
 ```{r}
 
 df4 <- cbind(df4, "resp" = predict(m4.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -776,7 +777,7 @@ ggplot(df4, aes(x=date, y=value, group=covid)) +
 
 ```
 
- Otitis externa consultations without antibiotics 
+ Otitis externa consultations with antibiotics 
 ```{r}
 
 df5 <- cbind(df5, "resp" = predict(m5.1, type = "response", se.fit = TRUE)[1:2])#select fit & se.fit
@@ -801,7 +802,7 @@ ggplot(df5, aes(x=date, y=value, group=covid)) +
 
 ```
 
- Otitis media consultations without antibiotics 
+ Otitis media consultations with antibiotics 
 
 ```{r}
 
