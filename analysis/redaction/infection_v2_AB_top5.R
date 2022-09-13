@@ -108,7 +108,7 @@ df.0=df%>%filter(prevalent==0)
 
 ### line graph
 # prevalent
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.1.uti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -125,12 +125,12 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("UTI")
 
-ggsave(
-  plot= lineplot.1,
-  filename="prevalent_AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.1,
+ # filename="prevalent_AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 # incident
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.0.uti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -147,9 +147,9 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("UTI")
 
-ggsave(
-  plot= lineplot.0,
-  filename="incident_AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.0,
+ # filename="incident_AB_uti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 
@@ -298,7 +298,7 @@ df.0=df%>%filter(prevalent==0)
 
 ### line graph
 # prevalent
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.1.lrti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -315,13 +315,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("LRTI")
 
-ggsave(
-  plot= lineplot.1,
-  filename="prevalent_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+#  plot= lineplot.1,
+ # filename="prevalent_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 # incident
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.0.lrti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -338,14 +338,11 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
 ggtitle("LRTI")
 
-ggsave(
-  plot= lineplot.0,
-  filename="incident_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+#  plot= lineplot.0,
+ # filename="incident_AB_lrti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
-lineplot=ggarrange(lineplot.0, lineplot.1, 
-                   labels = c("A", "B"),
-                   nrow = 2)
 
 
 
@@ -475,7 +472,7 @@ df.1=df%>%filter(prevalent==1)
 df.0=df%>%filter(prevalent==0)
 ### line graph
 # prevalent
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.1.urti<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -492,13 +489,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("URTI")
 
-ggsave(
-  plot= lineplot.1,
-  filename="prevalent_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.1,
+ # filename="prevalent_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 # incident
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.0.urti<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -515,9 +512,9 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("URTI")
 
-ggsave(
-  plot= lineplot.0,
-  filename="incident_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.0,
+ # filename="incident_AB_urti_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 
@@ -648,7 +645,7 @@ df.0=df%>%filter(prevalent==0)
 
 ### line graph
 # prevalent
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.1.sin<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -665,13 +662,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Sinusitis")
 
-ggsave(
-  plot= lineplot.1,
-  filename="prevalent_AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.1,
+ # filename="prevalent_AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 # incident
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.0.sin<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -688,9 +685,9 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Sinusitis")
 
-ggsave(
-  plot= lineplot.0,
-  filename="incident_AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+#  plot= lineplot.0,
+#  filename="incident_AB_sinusitis_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 
@@ -823,7 +820,7 @@ df.1=df%>%filter(prevalent==1)
 df.0=df%>%filter(prevalent==0)
 ### line graph
 # prevalent
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.1.oe<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -840,14 +837,14 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis externa")
 
-ggsave(
-  plot= lineplot.1,
-  filename="prevalent_AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.1,
+ # filename="prevalent_AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 
 # incident
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.0.oe<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -864,9 +861,9 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis externa")
 
-ggsave(
-  plot= lineplot.0,
-  filename="incident_AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.0,
+ # filename="incident_AB_ot_externa_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 
@@ -995,7 +992,7 @@ df.1=df%>%filter(prevalent==1)
 df.0=df%>%filter(prevalent==0)
 ### line graph
 # prevalent
-lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.1.om<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -1012,13 +1009,13 @@ lineplot.1<- ggplot(df.1, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis media")
 
-ggsave(
-  plot= lineplot.1,
-  filename="prevalent_AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+#  plot= lineplot.1,
+ # filename="prevalent_AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 # incident
-lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
+lineplot.0.om<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   annotate(geom = "rect", xmin = as.Date("2021-01-01"),xmax = as.Date("2021-04-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -1035,9 +1032,9 @@ lineplot.0<- ggplot(df.0, aes(x=date, y=percentage, group=type,color=type))+
   scale_y_continuous(labels = scales::percent)+
   ggtitle("Otitis media")
 
-ggsave(
-  plot= lineplot.0,
-  filename="incident_AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
+#ggsave(
+ # plot= lineplot.0,
+ # filename="incident_AB_otmedia_top5.jpeg", path=here::here("output","redacted_v2")) 
 
 
 
@@ -1077,10 +1074,17 @@ df.table=rbind(df.table.1,df.table.2,df.table.3,df.table.4,df.table.5,df.table.6
 write_csv(df.table, here::here("output","redacted_v2", "AB_top5.csv"))
 
 
+lineplot.0=ggarrange(lineplot.0.urti, lineplot.0.lrti,lineplot.0.oe,lineplot.0.om,lineplot.0.uti,lineplot.0.sin,
+                  nrow = 3, ncol=2)
 
 
+lineplot.1=ggarrange(lineplot.1.urti, lineplot.1.lrti,lineplot.1.oe,lineplot.1.om,lineplot.1.uti,lineplot.1.sin,
+                     nrow = 3, ncol=2)
 
 
-
-
-
+ggsave(
+ plot= lineplot.0,
+filename="incident_AB_top5.jpeg", path=here::here("output","redacted_v2")) 
+ggsave(
+  plot= lineplot.1,
+  filename="prevalent_AB_top5.jpeg", path=here::here("output","redacted_v2")) 
