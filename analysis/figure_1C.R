@@ -10,7 +10,7 @@ setwd(here::here("output", "measures"))
 
 col_spec <-cols_only(  broad_ab_binary = col_number(),
                        AB_given_14D_window = col_number(),
-                       Tested_for_covid_event = col_number(),
+                       Positive_test_event = col_number(),
                        value = col_number(),
                        date = col_date(format = "")
 )
@@ -34,8 +34,8 @@ df <- df %>% filter(date >=as.Date("2020-03-01"))
 df.allab <- df %>%
   group_by(date)%>%
   summarise(AB_given_14D_window=sum(AB_given_14D_window,na.rm=TRUE),
-            Tested_for_covid_event=sum(Tested_for_covid_event,na.rm=TRUE)) %>%
-  mutate(value = round(AB_given_14D_window/Tested_for_covid_event,digits = 3))
+            Positive_test_event=sum(Positive_test_event,na.rm=TRUE)) %>%
+  mutate(value = round(AB_given_14D_window/Positive_test_event,digits = 3))
 
 df.broad <- df %>% filter(broad_ab_binary == 1) 
 df.broad <- df.broad[,-1]

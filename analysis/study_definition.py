@@ -290,7 +290,7 @@ measures = [
     Measure(
         id="14D_window_ab",
         numerator="AB_given_14D_window",
-        denominator="Tested_for_covid_event",
+        denominator="Positive_test_event",
         group_by="broad_ab_binary",
     ),
 
