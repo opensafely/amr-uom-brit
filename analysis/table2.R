@@ -74,8 +74,8 @@ round_tbl[c(21:26),"percent_1"]=round_tbl[c(21:26),4]/sum(round_tbl[c(21:26),4])
 # care home, covid & flu vaccine
 
 # commodities- 17 conditions
-round_tbl[c(27:47),"percent_0"]=round_tbl[c(27:47),3]/contr.num
-round_tbl[c(27:47),"percent_1"]=round_tbl[c(27:47),4]/case.num
+round_tbl[c(27:66),"percent_0"]=round_tbl[c(27:66),3]/contr.num
+round_tbl[c(27:66),"percent_1"]=round_tbl[c(27:66),4]/case.num
 
 write.csv(round_tbl,"table2_matched.csv")
 
@@ -137,7 +137,7 @@ round_tbl[c(21:26),"percent_1"]=round_tbl[c(21:26),4]/sum(round_tbl[c(21:26),4])
 # care home, covid & flu vaccine
 
 # commodities- 17 conditions
-round_tbl[c(27:47),"percent_0"]=round_tbl[c(27:47),3]/contr.num
-round_tbl[c(27:47),"percent_1"]=round_tbl[c(27:47),4]/case.num
+round_tbl[c(27:66),"percent_0"]=round_tbl[c(27:66),3]/contr.num
+round_tbl[c(27:66),"percent_1"]=round_tbl[c(27:66),4]/case.num
 
 write.csv(round_tbl,"table2_random.csv")

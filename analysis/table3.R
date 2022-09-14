@@ -23,6 +23,7 @@ setwd(here::here("output"))
 ####### ab level count ########
 DF=readRDS("matched_outcome.rds")
 DF=DF%>%dplyr::select("case","total_ab","level","ab_types")
+DF$level=as.factor(DF$level)
 DF$case=as.factor(DF$case)
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
@@ -64,6 +65,9 @@ rm(list=ls())
 rm(list=ls())
 
 df=readRDS("matched_outcome.rds")
+df$level=as.factor(df$level)
+df$case=as.factor(df$case)
+
 df00=df%>%dplyr::select("case","total_ab" ,"level")%>%dplyr::filter(case==0)
 df01=df%>%dplyr::select("case","total_ab" ,"level")%>%dplyr::filter(case==1)
 
