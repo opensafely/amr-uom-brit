@@ -83,15 +83,20 @@ actions:
         csv2: output/table1_matched.csv
         csv3: output/table1_random.csv
 
-
-
-
   table2: # confounders
     run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/table2.html
+
+  table2_round: 
+    run: r:latest analysis/table2.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table2_matched.csv
+        csv3: output/table2_random.csv
 
   table2_ab: # ab
     run: r:latest -e 'rmarkdown::render("analysis/table2_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
