@@ -104,6 +104,14 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/table2_ab.html
+  
+  table3_round: 
+    run: r:latest analysis/table3.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table3.csv
+        csv3: output/table3_ab.csv
 
   model: 
     run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
