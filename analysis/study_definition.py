@@ -230,6 +230,12 @@ study = StudyDefinition(
         return_expectations={"incidence":0.3,},
     ),
 
+    Broad_given_14D_window=patients.with_these_medications(
+        broad_spectrum_codes,
+        between=["Positive_test_date - 14 days","Positive_test_date + 14 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.3,},
+    ),
 )
 
 measures = [
@@ -291,7 +297,14 @@ measures = [
         id="14D_window_ab",
         numerator="AB_given_14D_window",
         denominator="Positive_test_event",
-        group_by="broad_ab_binary",
+        group_by="population",
+    ),
+
+        Measure(
+        id="14D_window_broad",
+        numerator="Broad_given_14D_window",
+        denominator="Positive_test_event",
+        group_by="population",
     ),
 
 ]
