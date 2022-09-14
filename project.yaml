@@ -114,6 +114,14 @@ actions:
        moderately_sensitive:
         plot1: output/figure_1B.jpeg
 
+  figure_1C: 
+    run: r:latest analysis/figure_1C.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_1C.jpeg
+
+
   figure_2: 
     run: r:latest analysis/figure_2.R
     needs: [generate_measures]
