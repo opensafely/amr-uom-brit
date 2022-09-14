@@ -1,5 +1,5 @@
 ---
-title: "model"
+title: "conditional logistic regression - antibiotic levles"
 output: 
   html_document:
    toc: true
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages, include=FALSE}
 require('tidyverse')
-require("gtsummary")
+#require("gtsummary")
 require("ggplot2")
 library("survival")
 library(car)
@@ -30,7 +30,7 @@ df <- read_rds(here::here("output","matched_outcome.rds"))
 
 ```
 
-```{r include=FALSE}
+```{r}
 
 # outcome
 df$case=as.numeric(df$case) #1/0
@@ -57,23 +57,30 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```
 
-
 # crude model
 
-```{r echo=FALSE}
+```{r}
 mod1=clogit(case ~ level + strata(subclass), df)
 summary(mod1)
 vif(mod1)
 ```
 
+
 # adjusted model
 
-
-```{r echo=FALSE}
+```{r}
  
 mod3=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 summary(mod3)
 vif(mod3)
 
 ```
+
+
+
+
+
+
+
+
 
