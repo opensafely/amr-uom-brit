@@ -132,11 +132,11 @@ actions:
  ################# sensitivity analysis ###########
 
   model_subgroup: # by age and sex 
-    run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.rtf", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_subgroup.rtf 
+        html: output/model_subgroup.rmd
 
   model_time: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
