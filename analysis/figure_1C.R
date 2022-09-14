@@ -29,7 +29,7 @@ lockdown_3_end = as.Date("2021-03-08")
 df <- read_csv("measure_14D_window_ab.csv",
                col_types = col_spec)
 
-
+df <- df %>% filter(date >=as.Date("2020-03-01"))
 
 df.allab <- df %>%
   group_by(date)%>%
