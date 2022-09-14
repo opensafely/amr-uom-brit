@@ -38,7 +38,7 @@ df.allab <- df %>%
   mutate(value = round(AB_given_14D_window/Positive_test_event,digits = 3))
 
 df.broad <- df %>% group_by(date) %>% 
-  mutate_at (Positive_test_event=sum(Positive_test_event,na.rm=TRUE))
+  mutate(Positive_test_event=sum(Positive_test_event,na.rm=TRUE))
 
 df.broad <- df.broad %>% filter(broad_ab_binary == 1)
 df.broad$value <-  round(df.broad$AB_given_14D_window/df.broad$Positive_test_event,digits = 3)
