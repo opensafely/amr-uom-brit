@@ -50,7 +50,7 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 # level
 round_tbl[c(3:8),"percent_0"]=round_tbl[c(3:8),3]/sum(round_tbl[c(3:8),3])*100
-round_tbl[c(3:8),"percent_1"]=round_tbl[c(3:8),4]/sum(round_tbl[c((3:8),4])*100
+round_tbl[c(3:8),"percent_1"]=round_tbl[c(3:8),4]/sum(round_tbl[c(3:8),4])*100
 
 # continuous variables
 round_tbl[c(1:2),c(3:4)]=tbl[c(1:2),c(3:4)]
