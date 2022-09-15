@@ -121,12 +121,12 @@ actions:
         csv1: output/model_1_crude.csv
         csv3: output/model_1_adjusted.csv
 
-  model: 
-    run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model.html
+  # model: 
+  #   run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model.html
 
   # abtype modeling
   model_abtype: 
