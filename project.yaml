@@ -306,3 +306,47 @@ actions:
     outputs:
         moderately_sensitive:
           plot1: output/table2.csv
+
+  generate_study_population_2020_covid_window:
+    run: cohortextractor:latest generate_cohort
+      --with-end-date-fix
+      --study-definition study_definition_2020_covid_window 
+      --index-date-range "2020-01-01 to 2020-12-31 by month" 
+      --skip-existing 
+      --output-dir=output/measures 
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_2020_covid_window_*.csv.gz
+
+  generate_measures_2020_covid_window:
+    run: cohortextractor:latest generate_measures 
+      --study-definition study_definition_2020_covid_window 
+      --skip-existing 
+      --output-dir=output/measures
+    needs: [generate_study_population_2020_covid_window]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_covid_window_*.csv
+
+  generate_study_population_2021_covid_window:
+    run: cohortextractor:latest generate_cohort
+      --with-end-date-fix
+      --study-definition study_definition_2021_covid_window 
+      --index-date-range "2021-01-01 to 2021-12-31 by month" 
+      --skip-existing 
+      --output-dir=output/measures 
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_2021_covid_window_*.csv.gz
+
+  generate_measures_2021_covid_window:
+    run: cohortextractor:latest generate_measures 
+      --study-definition study_definition_2021_covid_window 
+      --skip-existing 
+      --output-dir=output/measures
+    needs: [generate_study_population_2021_covid_window]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_21_covid_window_*.csv
