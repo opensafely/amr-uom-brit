@@ -119,7 +119,7 @@ actions:
     outputs:
       moderately_sensitive:
         csv1: output/model_1_crude.csv
-        csv3: output/model_1_adjusted.csv
+        csv2: output/model_1_adjusted.csv
 
   # model: 
   #   run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
