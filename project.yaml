@@ -67,12 +67,12 @@ actions:
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
 
-  table1: # compare before & after matching 
-    run: r:latest -e 'rmarkdown::render("analysis/table1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_1,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/table1.html
+  # table1: # compare before & after matching 
+  #   run: r:latest -e 'rmarkdown::render("analysis/table1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_1,process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/table1.html
  
   table1_round: 
     run: r:latest analysis/table1.R
@@ -83,12 +83,12 @@ actions:
         csv2: output/table1_matched.csv
         csv3: output/table1_random.csv
 
-  table2: # confounders
-    run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/table2.html
+  # table2: # confounders
+  #   run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/table2.html
 
   table2_round: 
     run: r:latest analysis/table2.R
@@ -98,12 +98,12 @@ actions:
         csv1: output/table2_matched.csv
         csv3: output/table2_random.csv
 
-  table2_ab: # ab
-    run: r:latest -e 'rmarkdown::render("analysis/table2_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/table2_ab.html
+  # table2_ab: # ab
+  #   run: r:latest -e 'rmarkdown::render("analysis/table2_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/table2_ab.html
   
   table3_round: 
     run: r:latest analysis/table3.R
@@ -112,6 +112,14 @@ actions:
       moderately_sensitive:
         csv1: output/table3.csv
         csv3: output/table3_ab.csv
+
+  model: 
+    run: r:latest analysis/model/model.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/model_1_crude.csv
+        csv3: output/model_1_adjusted.csv
 
   model: 
     run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
