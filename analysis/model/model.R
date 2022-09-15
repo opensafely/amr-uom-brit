@@ -46,8 +46,8 @@ model=df%>%
 model[,c("OR","95%CI","p")]<- str_split_fixed(model[,3], " ",3)
 model=model[,-3]
 
-model[,4]=gsub("[(.*)]"," ",model[,4])
-model[,5]=gsub("[(.*)]"," ",model[,5])
+model[,4]=gsub("[(*)]"," ",model[,4])
+model[,5]=gsub("[(*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
@@ -70,8 +70,8 @@ model=df%>%
 model[,c("OR","95%CI","p")]<- str_split_fixed(model[,3], " ",3)
 model=model[,-3]
 
-model[,4]=gsub("[(.*)]"," ",model[,4])
-model[,5]=gsub("[(.*)]"," ",model[,5])
+model[,4]=gsub("[(*)]"," ",model[,4])
+model[,5]=gsub("[(*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
