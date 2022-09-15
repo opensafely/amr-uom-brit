@@ -44,7 +44,7 @@ model1=df%>%
 
 write.csv(model1,here::here("output","model_1_crude.csv"))
 
-#### crude model
+#### adjusted model
 
 model2=df%>%
   summary_factorlist("case", c("level" ,"CCI" ,"covrx_ever", "bmi_cat", "care_home",  "flu_vaccine", "smoking_cat_3", "imd", "ethnicity_6" ), fit_id = TRUE) %>% 
