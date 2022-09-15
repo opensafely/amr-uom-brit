@@ -42,7 +42,7 @@ model1=df%>%
     last_merge = TRUE
   )%>% select(-c("unit","value"))
 
-write.csv(model1,"model_1_crude.csv")
+write.csv(model1,here::here("output","model_1_crude.csv"))
 
 #### crude model
 
@@ -54,4 +54,4 @@ model2=df%>%
     last_merge = TRUE
   )%>% select(-c("unit","value"))
 
-write.csv(model2,"model_1_adjusted.csv")
+write.csv(model2,here::here("output","model_1_adjusted.csv"))
