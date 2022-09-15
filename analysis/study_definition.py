@@ -300,11 +300,18 @@ measures = [
         group_by="population",
     ),
 
-        Measure(
+    Measure(
         id="14D_window_broad",
         numerator="Broad_given_14D_window",
         denominator="Positive_test_event",
         group_by="population",
     ),
+
+    Measure(
+        id="top5_ab_by_type",
+        numerator="AB_given_14D_window",
+        denominator="Positive_test_event",
+        group_by="antibiotic_type",
+    ),    
 
 ]
