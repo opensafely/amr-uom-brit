@@ -34,7 +34,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 #### crude model
 
-model1=df%>%
+model=df%>%
   summary_factorlist("case", c("level"), fit_id = TRUE) %>% 
   ff_merge(
     survival::clogit(case ~ level + strata(subclass),df) %>% 
@@ -42,7 +42,16 @@ model1=df%>%
     last_merge = TRUE
   )%>% select(-c("unit","value"))
 
-write.csv(model1,here::here("output","model_1_crude.csv"))
+# sort columns
+model[,c("OR","95%CI","p")]<- str_split_fixed(model[,3], " ",3)
+model=model[,-3]
+
+model[,4]=gsub("[(.*)]"," ",model[,4])
+model[,5]=gsub("[(.*)]"," ",model[,5])
+model[,4]=gsub(","," ",model[,4])
+
+
+write.csv(model,here::here("output","model_1_crude.csv"))
 
 #### adjusted model
 
@@ -53,5 +62,14 @@ model2=df%>%
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
+
+# sort columns
+model[,c("OR","95%CI","p")]<- str_split_fixed(model[,3], " ",3)
+model=model[,-3]
+
+model[,4]=gsub("[(.*)]"," ",model[,4])
+model[,5]=gsub("[(.*)]"," ",model[,5])
+model[,4]=gsub(","," ",model[,4])
+
 
 write.csv(model2,here::here("output","model_1_adjusted.csv"))
