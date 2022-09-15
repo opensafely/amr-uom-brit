@@ -53,9 +53,12 @@ model[,4]=gsub(","," ",model[,4])
 
 write.csv(model,here::here("output","model_1_crude.csv"))
 
-#### adjusted model
 
-model2=df%>%
+
+
+#### adjusted model
+rm(model)
+model=df%>%
   summary_factorlist("case", c("level" ,"CCI" ,"covrx_ever", "bmi_cat", "care_home",  "flu_vaccine", "smoking_cat_3", "imd", "ethnicity_6" ), fit_id = TRUE) %>% 
   ff_merge(
     survival::clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
@@ -72,4 +75,4 @@ model[,5]=gsub("[(.*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
-write.csv(model2,here::here("output","model_1_adjusted.csv"))
+write.csv(model,here::here("output","model_1_adjusted.csv"))
