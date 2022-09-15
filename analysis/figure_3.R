@@ -30,11 +30,18 @@ lockdown_3_end = as.Date("2021-03-08")
 
 
 
-df1 <- read_csv("measure_14D_window_ab.csv",
+df1.20 <- read_csv("measure_covid_window_14D_window_ab.csv",
                col_types = col_spec1) %>% filter(date >=as.Date("2020-03-01"))
+df1.21 <- read_csv("measure_21_covid_window_14D_window_ab.csv",
+               col_types = col_spec1)
+df1 <- bind_rows(df1.20,df1.21)
 
-df2 <- read_csv("measure_14D_window_broad.csv",
+df2.20 <- read_csv("measure_covid_window_14D_window_broad.csv",
                col_types = col_spec2) %>% filter(date >=as.Date("2020-03-01"))
+df2.21 <- read_csv("measure_21_covid_window_14D_window_broad.csv",
+               col_types = col_spec2)
+df2 <- bind_rows(df2.20,df2.21)
+
 
 df <- left_join(df1,df2,by = "date")
 df$ab_rate <- round(df$value,digits = 3)
@@ -75,5 +82,5 @@ p
 
 
 ggsave(p, width = 12, height = 6, dpi = 640,
-                   filename="figure_1C.jpeg", path=here::here("output"),
+                   filename="figure_3.jpeg", path=here::here("output"),
             )  
