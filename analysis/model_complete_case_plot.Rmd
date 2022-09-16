@@ -158,7 +158,7 @@ df=df%>%mutate(ab_qn_type=
 
 ```{r include=FALSE}
 
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)#method="approximate"
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df,method="approximate")#
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
 
