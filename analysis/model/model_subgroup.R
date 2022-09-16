@@ -35,13 +35,13 @@ df=df%>%mutate(age_group=case_when(case==1 & age<40 ~1,
                                    case==1 & age>=60 & age<80 ~3,
                                    case==1 & age>=80 ~4))
 df=df%>% group_by(subclass)%>%mutate(age_grp=sum(age_group,na.rm = T))
-DF=df
+data=df
 rm(df)
 
 
 
 ###################### male ################
-df=DF%>%filter(sex=="M")
+df=data%>%filter(sex=="M")
 
 #### ab level summary
 
@@ -110,7 +110,7 @@ write.csv(model,here::here("output","model_3_male_adjusted.csv"))
 
 
 ###################### female ################
-df=DF%>%filter(sex=="F")
+df=data%>%filter(sex=="F")
 
 #### ab level summary
 
@@ -176,7 +176,7 @@ write.csv(model,here::here("output","model_3_female_adjusted.csv"))
 
 
 ###################### age group 1 ################
-df=DF%>%filter(age_grp=="1") #18-39
+df=data%>%filter(age_grp=="1") #18-39
 
 #### ab level summary
 
@@ -241,7 +241,7 @@ write.csv(model,here::here("output","model_3_age1_adjusted.csv"))
 
 
 ###################### age group 2 ################
-df=DF%>%filter(age_grp=="2") #40-59
+df=data%>%filter(age_grp=="2") #40-59
 
 #### ab level summary
 
@@ -308,7 +308,7 @@ write.csv(model,here::here("output","model_3_age2_adjusted.csv"))
 
 
 ###################### age group 3 ################
-df=DF%>%filter(age_grp=="3") #60-79
+df=data%>%filter(age_grp=="3") #60-79
 
 #### ab level summary
 
@@ -375,7 +375,7 @@ write.csv(model,here::here("output","model_3_age3_adjusted.csv"))
 
 
 ###################### age group 4 ################
-df=DF%>%filter(age_grp=="4") #80+
+df=data%>%filter(age_grp=="4") #80+
 
 #### ab level summary
 
