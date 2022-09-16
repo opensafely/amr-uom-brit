@@ -14,6 +14,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+library(gridExtra)
+```
 
 ```{r include=FALSE}
 # import data

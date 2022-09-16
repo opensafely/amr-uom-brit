@@ -208,19 +208,27 @@ actions:
         csv1.1: output/model_disease_adj1.csv
         csv1.2: output/model_disease_adj2.csv 
   
-  model_wave: # separate wave
-    run: r:latest -e 'rmarkdown::render("analysis/model_wave.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  # model_wave: # separate wave
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_wave.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_wave.html
+      
+  model_cca: 
+    run: r:latest analysis/model/model_cca.R
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_wave.html
-  
-  model_complete_case: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_complete_case.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+        csv1.1: output/model_cca_crude.csv
+        csv1.2: output/model_cca_adjusted.csv 
+
+  model_complete_case_plot: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_complete_case_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_complete_case.html
+        html: output/model_complete_case_plot.html
   
 
         #### addintional check for 6 weeks exclusion
