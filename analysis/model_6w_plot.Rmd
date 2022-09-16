@@ -1,5 +1,5 @@
 ---
-title: "conditional logistic regression - antibiotic levles"
+title: "model_adjusted 6weeks antibiotics"
 output: 
   html_document:
    toc: true
@@ -32,7 +32,7 @@ df <- read_rds(here::here("output","matched_outcome_6w.rds"))
 
 ```
 
-```{r}
+```{r include=FALSE}
 
 # outcome
 df$case=as.numeric(df$case) #1/0
@@ -66,59 +66,17 @@ df$ab_types_6w=ifelse(is.na(df$ab_types_6w),0,df$ab_types_6w)
 df$ab_types_6w=as.numeric(df$ab_types_6w)
 
 df$lastABtime_6w=as.numeric(df$lastABtime_6w)
-
-
-```
-
-# crude model
-
-```{r}
-mod1=clogit(case ~ level + strata(subclass), df)
-summary(mod1)
+data=df
+rm(df)
 
 ```
 
 
-
-# adjusted ab_6w
-
-## ab_6w label
-```{r}
-mod1=clogit(case ~ level+ ab_6w + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-```
-
-## ab_6w amount
-```{r}
-mod1=clogit(case ~ level+ total_ab_6w + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-```
-
-## ab_6w types
-```{r}
-mod1=clogit(case ~ level+ ab_types_6w+ strata(subclass), df)
-summary(mod1)
-vif(mod1)
-```
-
-## latest ab time
-```{r}
-mod1=clogit(case ~ level+ lastABtime_6w + strata(subclass), df)
-summary(mod1)
-vif(mod1)
-```
-
-
-
-# adjust all confounders
-
-# ab_6w label
+# ab_6w binary
 
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=data%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
                            level=="1" & ab_types==1 ~ "1",
                            level=="2" &  ab_types==1 ~ "2",
@@ -146,8 +104,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 #table(df$ab_qn_type)
 ```
 
-## model summary
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type + ab_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
@@ -166,9 +123,7 @@ result
 result=result[1:12,-2]
 ```
 
-
 ```{r include=FALSE}
-DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -201,49 +156,62 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
-
 ```
 
 
 
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
-    #this adds the effect sizes to the plot+
+#this adds the effect sizes to the plot
 geom_point(color="black")+ 
-  
-    
+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
 
-    
+
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 #adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
+geom_vline(xintercept=1, color="black")+
 
 #thematic stuff
 theme_classic()+ 
-  
 
-  #xlim(0, 4)+
+
+
 theme(text=element_text(size=14, color="black"),
-      plot.subtitle =element_text(size=12,hjust=0.05),
-      panel.spacing = unit(1, "lines"),
-      plot.title.position = "plot")+
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
   
+    theme(axis.ticks.x = element_blank()) +  
 
 labs(
-      subtitle = "Antibiotics",
+    title = "Antibiotic types",
     x="",
     y=""
   )
-p
-```
 
+```
 
 ```{r include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
@@ -271,12 +239,16 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plot
+
 ```{r echo=FALSE}
+## forest plot
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
+
+
+
 
 
 
@@ -286,7 +258,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=data%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
                            level=="1" & ab_types==1 ~ "1",
                            level=="2" &  ab_types==1 ~ "2",
@@ -314,7 +286,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 #table(df$ab_qn_type)
 ```
 
-## model summary
+
 ```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type +total_ab_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
@@ -334,9 +306,7 @@ result
 result=result[1:12,-2]
 ```
 
-
 ```{r include=FALSE}
-DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -369,48 +339,62 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
 ```
 
 
 
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
-    #this adds the effect sizes to the plot+
+#this adds the effect sizes to the plot
 geom_point(color="black")+ 
-  
-    
+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
 
-    
+
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 #adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
+geom_vline(xintercept=1, color="black")+
 
 #thematic stuff
 theme_classic()+ 
-  
 
-  #xlim(0, 4)+
+
+
 theme(text=element_text(size=14, color="black"),
-      plot.subtitle =element_text(size=12,hjust=0.05),
-      panel.spacing = unit(1, "lines"),
-      plot.title.position = "plot")+
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
   
+    theme(axis.ticks.x = element_blank()) +  
 
 labs(
-      subtitle = "Antibiotics",
+    title = "Antibiotic types",
     x="",
     y=""
   )
-p
-```
 
+```
 
 ```{r include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
@@ -438,12 +422,15 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plot
+
 ```{r echo=FALSE}
+## forest plot
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
+
+
 
 
 
@@ -453,7 +440,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=data%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
                            level=="1" & ab_types==1 ~ "1",
                            level=="2" &  ab_types==1 ~ "2",
@@ -481,7 +468,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 #table(df$ab_qn_type)
 ```
 
-## model summary
+
 ```{r echo=FALSE}
 
 mod=clogit(case ~ ab_qn_type +ab_types_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
@@ -492,7 +479,6 @@ vif(mod)
 
 ```
 
-
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 
@@ -501,9 +487,7 @@ result
 result=result[1:12,-2]
 ```
 
-
 ```{r include=FALSE}
-DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -536,48 +520,62 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
 ```
 
 
 
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
-    #this adds the effect sizes to the plot+
+#this adds the effect sizes to the plot
 geom_point(color="black")+ 
-  
-    
+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
 
-    
+
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 #adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
+geom_vline(xintercept=1, color="black")+
 
 #thematic stuff
 theme_classic()+ 
-  
 
-  #xlim(0, 4)+
+
+
 theme(text=element_text(size=14, color="black"),
-      plot.subtitle =element_text(size=12,hjust=0.05),
-      panel.spacing = unit(1, "lines"),
-      plot.title.position = "plot")+
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
   
+    theme(axis.ticks.x = element_blank()) +  
 
 labs(
-      subtitle = "Antibiotics",
+    title = "Antibiotic types",
     x="",
     y=""
   )
-p
-```
 
+```
 
 ```{r include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
@@ -605,175 +603,11 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
+
+```{r echo=FALSE}
 ## forest plot
-```{r echo=FALSE}
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
-grid.arrange(p, tab1, tab2, layout_matrix = lay)
-```
-
-
-
-# latest ab time
-
-```{r include=FALSE}
-
-df=df%>%mutate(ab_qn_type= 
-                 case_when(level=="0" & ab_types==0 ~ "0",
-                           level=="1" & ab_types==1 ~ "1",
-                           level=="2" &  ab_types==1 ~ "2",
-                           level=="2" &  ab_types==2 ~ "3",
-                           level=="3" &  ab_types==1 ~ "4",
-                           level=="3" &  ab_types==2 ~ "5",
-                           level=="3" &  ab_types>=3 ~ "6",
-                           level=="4" &  ab_types==1 ~ "7",
-                           level=="4" &  ab_types==2 ~ "8",
-                           level=="4" &  ab_types>=3 ~ "9",
-                           level=="5" &  ab_types==1 ~ "10",
-                           level=="5" &  ab_types==2 ~ "11",
-                           level=="5" &  ab_types>=3 ~ "12"
-
-                          ))
-
-
-#summary(df[df$ab_qn_type=="0",]$total_ab)
-#summary(df[df$ab_qn_type=="1",]$total_ab)
-
-df$ab_qn_type=as.factor(df$ab_qn_type)
-#df$ab_qn_type=factor(df$ab_qn_type,levels=c(seq(1:15)))
-
-
-#table(df$ab_qn_type)
-```
-
-## model summary
-```{r echo=FALSE}
-
-mod=clogit(case ~ ab_qn_type + lastABtime_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
-
-sum.mod=summary(mod)
-sum.mod
-vif(mod)
-
-```
-
-
-```{r include=FALSE}
-result=data.frame(sum.mod$conf.int)
-
-result
-
-result=result[1:12,-2]
-```
-
-
-```{r include=FALSE}
-DF=result
-
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12"))
-
-DF=DF%>%arrange(AB_exposure)
-DF[1,1]="level1, type1"
-DF[2,1]="level2, type1"
-DF[3,1]="level2, type2"
-DF[4,1]="level3, type1"
-DF[5,1]="level3, type2"
-DF[6,1]="level3, type3"
-DF[7,1]="level4, type1"
-DF[8,1]="level4, type2"
-DF[9,1]="level4, type3"
-DF[10,1]="level5, type1"
-DF[11,1]="level5, type2"
-DF[12,1]="level5, type3"
-
-
- Index = rep(1:12) ## This provides an order to the data
-  label = c("level1, type1","level2, type1","level2, type2","level3, type1","level3, type2","level3, type3","level4, type1","level4, type2","level4, type3","level5, type1","level5, type2","level5, type3")
-
-names(DF)[2]="OR"
-names(DF)[3]="CI_L"
-names(DF)[4]="CI_U"
-
-DF$CI_L=round(DF$CI_L,digits = 2)
-DF$CI_U=round(DF$CI_U, digits = 2)
-
-DF$CI=paste0(DF$CI_L,",",DF$CI_U)
-
-DF
-```
-
-
-
-```{r include=FALSE}
-p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-
-    #this adds the effect sizes to the plot+
-geom_point(color="black")+ 
-  
-    
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-
-    
-#adds the CIs
-geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
-
-#thematic stuff
-theme_classic()+ 
-  
-
-  #xlim(0, 4)+
-theme(text=element_text(size=14, color="black"),
-      plot.subtitle =element_text(size=12,hjust=0.05),
-      panel.spacing = unit(1, "lines"),
-      plot.title.position = "plot")+
-  
-
-labs(
-      subtitle = "Antibiotics",
-    x="",
-    y=""
-  )
-p
-```
-
-
-```{r include=FALSE}
-table_base <- ggplot(DF, aes(y=label)) +
-  ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=12), 
-        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
-        axis.line = element_blank(),
-        axis.text.y = element_blank(), 
-        axis.ticks = element_blank(),
-        axis.title.y = element_blank(), 
-        legend.position = "none",
-        panel.background = element_blank(), 
-        panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        plot.background = element_blank())
-tab1 <- table_base + 
-  labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
-  ggtitle("OR")
-
-## 95% CI table
-tab2 <- table_base+
-  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
-  ggtitle("95% CI")
-```
-
-## forest plot
-```{r echo=FALSE}
-## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 

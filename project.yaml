@@ -246,12 +246,24 @@ actions:
       highly_sensitive:
         cohort1: output/matched_outcome_6w.rds
   
-  model_6w: # adjust for last AB time
-    run: r:latest -e 'rmarkdown::render("analysis/model_6w.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  model_6w_plot: # adjust for last AB time
+    run: r:latest -e 'rmarkdown::render("analysis/model_6w_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching_6w]
     outputs:
       moderately_sensitive:
-        html: output/model_6w.html
+        html: output/model_6w_plot.html
+
+  model_6w: 
+    run: r:latest analysis/model/model_6w.R
+    needs: [process_Rmatching_6w]
+    outputs:
+      moderately_sensitive:
+        csv1.1: output/model_6w_binary_adj1.csv
+        csv1.2: output/model_6w_total_adj1.csv 
+        csv1.3: output/model_6w_types_adj1.csv
+        csv2.1: output/model_6w_binary_adj2.csv
+        csv2.2: output/model_6w_total_adj2.csv 
+        csv2.3: output/model_6w_types_adj2.csv
 
           #### addintional check for 6 weeks exclusion
 
