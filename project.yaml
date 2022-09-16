@@ -349,3 +349,10 @@ actions:
     outputs:
        moderately_sensitive:
         plot1: output/figure_3.jpeg
+
+  figure_3_2D: 
+    run: r:latest analysis/figure_3_2D.R
+    needs: [generate_measures_2020_covid_window,generate_measures_2021_covid_window]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_3_2D.jpeg
