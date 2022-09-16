@@ -411,7 +411,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 10.5, ymax = 15.5,fill="gr
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 #adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dashed")+
+geom_vline(xintercept=1, color="black")+
 
 #thematic stuff
 theme_classic()+ 
@@ -642,7 +642,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 10.5, ymax = 15.5,fill="gr
   annotate("text", x = 0.6, y =11, label = "Q5")+
   
    geom_text(aes(y = 1:15, x = 0.9, 
-                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n= 3 ","level4, type4"="n>= 4 ","level5, type1"="n= 1 ","level5, type2"="n= 2" ,"level5, type3"="n= 3  ","level5, type4"="n= 4 ","level5, type5"="n>= 5")),
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n= 3 ","level4, type4"="n>= 4 ","level5, type1"="n= 1 ","level5, type2"="n= 2 " ,"level5, type3"="n= 3  ","level5, type4"="n= 4 ","level5, type5"="n>= 5")),
             hjust = "right",
             nudge_y = -.1)+
 
@@ -651,7 +651,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 10.5, ymax = 15.5,fill="gr
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 #adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black", linetype="dotted")+
+geom_vline(xintercept=1, color="black")+
 
 #thematic stuff
 theme_classic()+ 
