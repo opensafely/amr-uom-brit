@@ -178,13 +178,21 @@ actions:
         csv6.2: output/model_3_age4_adjusted.csv   
         csv6.3: output/model_3_age4_ab.csv       
 
-  model_time: # adjust for last AB time
+  model_time_plot: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/model_time.html
 
+  model_time: 
+    run: r:latest analysis/model/model_subgroup.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1.1: output/model_time_adj1.csv
+        csv1.2: output/model_time_adj2.csv 
+       
   model_disease: # adjust for individual
     run: r:latest -e 'rmarkdown::render("analysis/model_disease.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
