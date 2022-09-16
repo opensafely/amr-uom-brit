@@ -1,5 +1,5 @@
 ---
-title: "antibiotic types model"
+title: "Model_antibiotic types"
 output: 
   html_document:
    toc: true
@@ -10,7 +10,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
@@ -98,15 +98,11 @@ sum.mod=summary(mod)
 
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
-
-result
-
-result=result[1:12,-2]
+DF=result[1:12,-2]
 ```
 
 
 ```{r include=FALSE}
-DF=result
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -139,7 +135,6 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
 ```
 
 
@@ -147,8 +142,8 @@ DF
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
-scale_x_continuous(limits = c(0,2.2),breaks = c(1.0,1.5,2.0))+
-scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n≥ 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n≥ 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n≥ 3 ")) +
+scale_x_continuous(limits = c(0.5,2.2),breaks = c(1.0,1.5,2.0))+
+scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
 geom_point(color="black")+ 
@@ -194,7 +189,7 @@ labs(
     x="",
     y=""
   )
-p
+
 ```
 
 ```{r include=FALSE}
@@ -236,7 +231,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 
-# remove AB outlier (99.99% percentile)
+# remove AB outlier (99.99 percentile)
 
 
 ```{r include=FALSE}
@@ -272,15 +267,14 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```
 
-
-cutoff
+remove total antibiotics >= `outlier` 
 ```{r echo=FALSE}
-# 99%percentile
+# 99 percentile
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
-
 outlier=quantile(df$total_ab,0.9999,na.rm=T)
-outlier
+
 ```
+remove total antibiotics >= `outlier` 
 
 excluded patient number
 ```{r echo=FALSE}
