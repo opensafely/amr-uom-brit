@@ -185,6 +185,13 @@ measures = [
     ),    
 
     Measure(
+        id="21_covid_window_2D_top5_ab_by_type",
+        numerator="AB_given_2D_window",
+        denominator="Positive_test_event",
+        group_by="antibiotic_type",
+    ),    
+
+    Measure(
         id="21_covid_window_2D_window_ab",
         numerator="AB_given_2D_window",
         denominator="Positive_test_event",

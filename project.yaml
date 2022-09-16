@@ -363,3 +363,4 @@ actions:
     outputs:
        moderately_sensitive:
         table1: output/ab_type_table.csv
+        table2: output/ab_type_table_2D.csv
