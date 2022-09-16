@@ -129,12 +129,12 @@ actions:
   #       html: output/model.html
 
   # # abtype modeling
-  model_abtype: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  model_2: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_abtype.html
+        html: output/model_2.html
     
   # model_abtype: 
   #   run: r:latest analysis/model/model_abtype.R
