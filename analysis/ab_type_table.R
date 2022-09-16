@@ -51,7 +51,7 @@ df.frequency2 <- df2 %>% group_by(antibiotic_type) %>% summarise(
   n_count = sum(AB_given_2D_window)
 )
 
-all_count <- sum(df$AB_given_2D_window)
+all_count <- sum(df2$AB_given_2D_window)
 
 df.frequency2$prop <- df.frequency2$n_count/all_count
 
