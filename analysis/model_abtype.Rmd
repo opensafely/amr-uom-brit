@@ -385,7 +385,7 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
-scale_x_continuous(limits = c(0.5,2.2),breaks = c(1.0,1.5,2.0))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
@@ -394,16 +394,17 @@ geom_point(color="black")+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-    annotate("text", x = 0, y =1, label = "Q1")+
-    annotate("text", x = 0, y =2.5, label = "Q2")+
-  annotate("text", x = 0, y =5, label = "Q3")+
-  annotate("text", x = 0, y =8, label = "Q4")+
-  annotate("text", x = 0, y =11, label = "Q5")+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
   
-   geom_text(aes(y = 1:15, x = 0.3, 
+   geom_text(aes(y = 1:15, x = 0.9, 
                 label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n= 3 ","level4, type4"="n>= 4 ","level5, type1"="n= 1 ","level5, type2"="n= 2" ,"level5, type3"="n= 3  ","level5, type4"="n= 4 ","level5, type5"="n>= 5")),
             hjust = "right",
             nudge_y = -.1)+
+
 
 
 #adds the CIs
@@ -514,7 +515,7 @@ df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 outlier=quantile(df$total_ab,0.9999,na.rm=T)
 
 ```
-remove total antibiotics >= `outlier` 
+remove total antibiotics >= `r outlier` 
 
 
 ```{r include=FALSE}
@@ -534,7 +535,7 @@ df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 pt=count(df)
 ```
-excluded patient number= `pt` 
+excluded patient number= `r pt` 
 
 ```{r include=FALSE}
 
@@ -625,7 +626,7 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
-scale_x_continuous(limits = c(0.5,2.2),breaks = c(1.0,1.5,2.0))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
@@ -634,13 +635,13 @@ geom_point(color="black")+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-    annotate("text", x = 0, y =1, label = "Q1")+
-    annotate("text", x = 0, y =2.5, label = "Q2")+
-  annotate("text", x = 0, y =5, label = "Q3")+
-  annotate("text", x = 0, y =8, label = "Q4")+
-  annotate("text", x = 0, y =11, label = "Q5")+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
   
-   geom_text(aes(y = 1:15, x = 0.3, 
+   geom_text(aes(y = 1:15, x = 0.9, 
                 label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n= 3 ","level4, type4"="n>= 4 ","level5, type1"="n= 1 ","level5, type2"="n= 2" ,"level5, type3"="n= 3  ","level5, type4"="n= 4 ","level5, type5"="n>= 5")),
             hjust = "right",
             nudge_y = -.1)+
@@ -756,7 +757,7 @@ df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 outlier=quantile(df$total_ab,0.9999,na.rm=T)
 
 ```
-remove total antibiotics >= `outlier` 
+remove total antibiotics >= `r outlier` 
 
 
 ```{r include=FALSE}
@@ -776,7 +777,7 @@ df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 pt=count(df)
 ```
-excluded patient number= `pt` 
+excluded patient number= `r pt` 
 
 ```{r include=FALSE}
 
@@ -867,7 +868,7 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
-scale_x_continuous(limits = c(0.5,2.2),breaks = c(1.0,1.5,2.0))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
@@ -876,18 +877,16 @@ geom_point(color="black")+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-    annotate("text", x = 0, y =1, label = "Q1")+
-    annotate("text", x = 0, y =2.5, label = "Q2")+
-  annotate("text", x = 0, y =5, label = "Q3")+
-  annotate("text", x = 0, y =8, label = "Q4")+
-  annotate("text", x = 0, y =11, label = "Q5")+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
   
-   geom_text(aes(y = 1:15, x = 0.3, 
+   geom_text(aes(y = 1:15, x = 0.9, 
                 label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n= 3 ","level4, type4"="n>= 4 ","level5, type1"="n= 1 ","level5, type2"="n= 2" ,"level5, type3"="n= 3  ","level5, type4"="n= 4 ","level5, type5"="n>= 5")),
             hjust = "right",
             nudge_y = -.1)+
-
-
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
