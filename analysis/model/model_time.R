@@ -38,7 +38,7 @@ df$lastABtime=as.numeric(df$lastABtime)
 model=df%>%
   summary_factorlist("case", c("level","lastABtime"), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level + strata(subclass),df) %>% 
+    survival::clogit(case ~ level + lastABtime+strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
@@ -62,7 +62,7 @@ rm(model)
 model=df%>%
   summary_factorlist("case", c("level" ,"CCI" ,"covrx_ever", "bmi_cat", "care_home",  "flu_vaccine", "smoking_cat_3", "imd", "ethnicity_6","lastABtime" ), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
+    survival::clogit(case ~ level+ lastABtime+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
