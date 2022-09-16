@@ -32,7 +32,7 @@ write_csv(df.frequency, here::here("output", "ab_type_table.csv"))
 
 
 #### 2 Day ####
-
+setwd(here::here("output", "measures"))
 
 col_spec2 <-cols_only(antibiotic_type = col_character(),
                      AB_given_2D_window = col_number(),
