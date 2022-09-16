@@ -147,12 +147,36 @@ actions:
          
  ################# sensitivity analysis ###########
 
-  model_subgroup: # by age and sex 
-    run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  # model_subgroup: # by age and sex 
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_subgroup.html
+
+  model_subgroup: 
+    run: r:latest analysis/model/model_subgroup.R
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_subgroup.html
+        csv1.1: output/model_3_male_crude.csv
+        csv1.2: output/model_3_male_adjusted.csv 
+        csv1.3: output/model_3_male_ab.csv       
+        csv2.1: output/model_3_female_crude.csv
+        csv2.2: output/model_3_female_adjusted.csv 
+        csv2.3: output/model_3_female_ab.csv       
+        csv3.1: output/model_3_age1_crude.csv
+        csv3.2: output/model_3_age1_adjusted.csv     
+        csv3.3: output/model_3_age1_ab.csv 
+        csv4.1: output/model_3_age2_crude.csv
+        csv4.2: output/model_3_age2_adjusted.csv    
+        csv4.3: output/model_3_age2_ab.csv       
+        csv5.1: output/model_3_age3_crude.csv
+        csv5.2: output/model_3_age3_adjusted.csv 
+        csv5.3: output/model_3_age3_ab.csv       
+        csv6.1: output/model_3_age4_crude.csv
+        csv6.2: output/model_3_age4_adjusted.csv   
+        csv6.3: output/model_3_age4_ab.csv       
 
   model_time: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
