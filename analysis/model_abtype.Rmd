@@ -158,9 +158,9 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="gre
   annotate("text", x = 0, y =11, label = "Q5")+
   
    geom_text(aes(y = 1:12, x = 0.3, 
-                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")),
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 "),
             hjust = "right",
-            nudge_y = -.1)+
+            nudge_y = -.1))+
 
 
 #adds the CIs
@@ -274,10 +274,8 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 # 99 percentile
 df$total_ab=ifelse(df$total_ab==0,NA,df$total_ab)
 outlier=quantile(df$total_ab,0.9999,na.rm=T)
-
 ```
-remove total antibiotics >= `outlier` 
-
+remove total antibiotics >= `r outlier` 
 
 ```{r include=FALSE}
 
@@ -296,7 +294,7 @@ df=df%>%filter(exclude.subclass !=1)
 df=df%>%ungroup(subclass)
 pt=count(df)
 ```
-excluded patient number= `pt` 
+excluded patient number= `r pt` 
 
 ```{r include=FALSE}
 
@@ -326,9 +324,9 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 
 ```
 
-## model summary
-```{r include=FALSE}
 
+```{r include=FALSE}
+## model summary
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
@@ -463,9 +461,10 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plots
 
 ```{r echo=FALSE}
+
+## forest plots
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
@@ -565,9 +564,9 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 
 ```
 
-## model summary
-```{r include=FALSE}
 
+```{r include=FALSE}
+## model summary
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
@@ -702,9 +701,10 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plots
+
 
 ```{r echo=FALSE}
+## forest plots
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
@@ -806,9 +806,9 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 
 ```
 
-## model summary
-```{r include=FALSE}
 
+```{r include=FALSE}
+## model summary
 mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
            #+ bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 
 sum.mod=summary(mod)
@@ -943,9 +943,10 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plots
+
 
 ```{r echo=FALSE}
+## forest plots
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
