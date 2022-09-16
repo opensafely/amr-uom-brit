@@ -86,12 +86,12 @@ df=df%>%mutate(ab_qn_type=
 
 
 
-```{r echo=FALSE}
+```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_qn_type , df)
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
-sum.mod
-vif(mod)
+#sum.mod
+#vif(mod)
 
 ```
 
