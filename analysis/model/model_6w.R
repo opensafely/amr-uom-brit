@@ -6,7 +6,7 @@ library(car)
 library(finalfit)
 
 
-df <- read_rds(here::here("output","matched_outcome.rds"))
+df <- read_rds(here::here("output","matched_outcome_6w.rds"))
 
 
 ## define variables
@@ -72,7 +72,7 @@ rm(model)
 model=df%>%
   summary_factorlist("case", c("level","total_ab_6w"), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level +total_ab_6w+strata(subclass),df) %>% 
+    survival::clogit(case ~ level + total_ab_6w + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
@@ -95,7 +95,7 @@ rm(model)
 model=df%>%
   summary_factorlist("case", c("level","ab_types_6w"), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level +ab_types_6w+strata(subclass),df) %>% 
+    survival::clogit(case ~ level + ab_types_6w + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
@@ -122,7 +122,7 @@ rm(model)
 model=df%>%
   summary_factorlist("case", c("level" ,"ab_6w","CCI" ,"covrx_ever", "bmi_cat", "care_home",  "flu_vaccine", "smoking_cat_3", "imd", "ethnicity_6" ), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level+ ab_6w+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
+    survival::clogit(case ~ level+ ab_6w +CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
@@ -145,7 +145,7 @@ rm(model)
 model=df%>%
   summary_factorlist("case", c("level" ,"total_ab_6w","CCI" ,"covrx_ever", "bmi_cat", "care_home",  "flu_vaccine", "smoking_cat_3", "imd", "ethnicity_6" ), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level+ total_ab_6w+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
+    survival::clogit(case ~ level+ total_ab_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
@@ -168,7 +168,7 @@ rm(model)
 model=df%>%
   summary_factorlist("case", c("level" ,"ab_types_6w","CCI" ,"covrx_ever", "bmi_cat", "care_home",  "flu_vaccine", "smoking_cat_3", "imd", "ethnicity_6" ), fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level+ ab_types_6w+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
+    survival::clogit(case ~ level+ ab_types_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
