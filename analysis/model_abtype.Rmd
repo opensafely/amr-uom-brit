@@ -85,10 +85,10 @@ df=df%>%mutate(ab_qn_type=
 ```
 
 
-## model summary
-```{r echo=FALSE}
 
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+```{r echo=FALSE}
+## model summary
+mod=clogit(case ~ ab_qn_type , df)
 sum.mod=summary(mod)
 sum.mod
 vif(mod)
@@ -146,6 +146,9 @@ DF
 
 ```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0,2.2),breaks = c(1.0,1.5,2.0))+
+scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n≥ 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n≥ 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n≥ 3 ")) +
 
 #this adds the effect sizes to the plot
 geom_point(color="black")+ 
@@ -153,8 +156,18 @@ geom_point(color="black")+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0, y =1, label = "Q1")+
+    annotate("text", x = 0, y =2.5, label = "Q2")+
+  annotate("text", x = 0, y =5, label = "Q3")+
+  annotate("text", x = 0, y =8, label = "Q4")+
+  annotate("text", x = 0, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.3, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n≥ 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n≥ 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n≥ 3 ")),
+            hjust = "right",
+            nudge_y = -.1)+
 
-    
+
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
@@ -164,17 +177,20 @@ geom_vline(xintercept=1, color="black", linetype="dashed")+
 #thematic stuff
 theme_classic()+ 
 
-scale_x_continuous(breaks=seq(1.0,2.2,0.2))+
 
-xlim(0.8, 2.2)+
+
 theme(text=element_text(size=14, color="black"),
-      plot.subtitle =element_text(size=12,hjust=0.05),
-      panel.spacing = unit(1, "lines"),
-      plot.title.position = "plot")+
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
   
+    theme(axis.ticks.x = element_blank()) +  
 
 labs(
-      subtitle = "Antibiotics",
+    title = "Antibiotics types",
     x="",
     y=""
   )
@@ -207,10 +223,11 @@ tab2 <- table_base+
   ggtitle("95% CI")
 ```
 
-## forest plot
+
 ```{r}
+## forest plot
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
