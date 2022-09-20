@@ -54,7 +54,7 @@ DF6=summary(df[df$level==5,]$total_ab)
 DF=data.frame(rbind(DF1,DF2,DF3,DF4,DF5,DF6))
 rownames(DF)=c("level0","level1","level2","level3","level4","level5")
 
-write.csv("DF",here::here("output","model_3_male_ab.csv"))
+write.csv(DF,here::here("output","model_3_male_ab.csv"))
 rm(DF)
 
 #### crude model
@@ -123,7 +123,7 @@ DF6=summary(df[df$level==5,]$total_ab)
 DF=data.frame(rbind(DF1,DF2,DF3,DF4,DF5,DF6))
 rownames(DF)=c("level0","level1","level2","level3","level4","level5")
 
-write.csv("DF",here::here("output","model_3_female_ab.csv"))
+write.csv(DF,here::here("output","model_3_female_ab.csv"))
 rm(DF)
 
 #### crude model
@@ -189,7 +189,7 @@ DF6=summary(df[df$level==5,]$total_ab)
 DF=data.frame(rbind(DF1,DF2,DF3,DF4,DF5,DF6))
 rownames(DF)=c("level0","level1","level2","level3","level4","level5")
 
-write.csv("DF",here::here("output","model_3_age1_ab.csv"))
+write.csv(DF,here::here("output","model_3_age1_ab.csv"))
 rm(DF)
 
 #### crude model
@@ -254,7 +254,7 @@ DF6=summary(df[df$level==5,]$total_ab)
 DF=data.frame(rbind(DF1,DF2,DF3,DF4,DF5,DF6))
 rownames(DF)=c("level0","level1","level2","level3","level4","level5")
 
-write.csv("DF",here::here("output","model_3_age2_ab.csv"))
+write.csv(DF,here::here("output","model_3_age2_ab.csv"))
 rm(DF)
 
 #### crude model
@@ -321,7 +321,7 @@ DF6=summary(df[df$level==5,]$total_ab)
 DF=data.frame(rbind(DF1,DF2,DF3,DF4,DF5,DF6))
 rownames(DF)=c("level0","level1","level2","level3","level4","level5")
 
-write.csv("DF",here::here("output","model_3_age3_ab.csv"))
+write.csv(DF,here::here("output","model_3_age3_ab.csv"))
 rm(DF)
 
 #### crude model
@@ -388,7 +388,7 @@ DF6=summary(df[df$level==5,]$total_ab)
 DF=data.frame(rbind(DF1,DF2,DF3,DF4,DF5,DF6))
 rownames(DF)=c("level0","level1","level2","level3","level4","level5")
 
-write.csv("DF",here::here("output","model_3_age4_ab.csv"))
+write.csv(DF,here::here("output","model_3_age4_ab.csv"))
 rm(DF)
 
 #### crude model
