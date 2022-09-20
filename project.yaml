@@ -95,12 +95,30 @@ actions:
       moderately_sensitive:
         html: output/table2_ab.html
 
-  model: 
-    run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+
+  table3_round: 
+    run: r:latest analysis/table3.R
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model.html
+        csv1: output/table3.csv
+        csv3: output/table3_ab.csv
+
+  model: 
+    run: r:latest analysis/model/model.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/model_1_crude.csv
+        csv2: output/model_1_adjusted.csv
+
+
+  # model: 
+  #   run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model.html
 
   model_subgroup: # by age and sex 
     run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
