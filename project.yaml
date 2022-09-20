@@ -265,6 +265,22 @@ actions:
         csv2.2: output/model_6w_total_adj2.csv 
         csv2.3: output/model_6w_types_adj2.csv
 
+
+  model_6w_time: 
+    run: r:latest analysis/model/model_6w_time.R
+    needs: [process_Rmatching_6w]
+    outputs:
+      moderately_sensitive:
+        csv1.1: output/model_6w_time_adj1.csv
+        csv1.2: output/model_6w_time_adj2.csv 
+
+  model_6w_time_plot: # adjust for last AB time
+    run: r:latest -e 'rmarkdown::render("analysis/model_6w_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching_6w]
+    outputs:
+      moderately_sensitive:
+        html: output/model_6w_time_plot.html
+        
           #### addintional check for 6 weeks exclusion
 
 
