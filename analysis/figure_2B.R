@@ -70,11 +70,15 @@ df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
                           time>36 ~ 2022)) %>% 
   mutate(day = 1) 
 df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
-df.model$value <- df.model$numOutcome/df.model$numEligible
-
 df.model$indication <- recode(df.model$indication,
        "1" = "coded", 
        "0"= "uncoded")
+
+
+df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
+df.model$numEligible <- plyr::round_any(df.model$numEligible, 5)
+df.model$value <- df.model$numOutcome/df.model$numEligible
+df.model$value <- round(df.model$value,digits = 3)
 
 ### broad-spectrum rate by indication
 
@@ -102,3 +106,4 @@ figure_indication_strata
 ggsave(figure_indication_strata, width = 12, height = 6, dpi = 640,
        filename="figure_2B.jpeg", path=here::here("output"),
 )  
+write_csv(df.model, here::here("output", "figure_2B_table.csv"))

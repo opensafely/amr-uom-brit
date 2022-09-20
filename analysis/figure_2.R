@@ -51,6 +51,12 @@ df.plot <- df1 %>% group_by(date,age_cat) %>% summarise(braod_count = sum(broad_
 
 df.plot <- df.plot %>% filter(!age_cat == 0)
 
+
+df.plot$value <- round(df.plot$value,digits = 3)
+df.plot$braod_count <- plyr::round_any(df.plot$braod_count, 5)
+df.plot$ab_count <- plyr::round_any(df.plot$ab_count, 5)
+
+
 figure_age_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(age_cat), col = factor(age_cat), fill = factor(age_cat))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -80,6 +86,8 @@ df2$sex <- recode(df2$sex,
        "F" = "Female", 
        "M"= "Male")
 
+df2$value <- round(df2$value,digits = 3)
+
 figure_sex_strata <- ggplot(df2, aes(x = as.Date("2019-01-01"), y = value, group = factor(sex), col = factor(sex), fill = factor(sex))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -107,6 +115,7 @@ df3 <- read_csv("measure_broad-spectrum-ratio_region.csv",
                 col_types = col_spec3)
 
 df3 <- df3 %>% filter(!is.na(region))
+df3$value <- round(df3$value,digits = 3)
 
 figure_region_strata <- ggplot(df3, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
@@ -131,6 +140,9 @@ figure_region_strata
 ggsave(figure_age_strata, width = 12, height = 6, dpi = 640,
        filename="figure_2.1.jpeg", path=here::here("output"),
 )  
+
+write_csv(df.plot, here::here("output", "figure_2.1_table.csv"))
+
 ggsave(figure_sex_strata, width = 12, height = 6, dpi = 640,
        filename="figure_2.2.jpeg", path=here::here("output"),
 )  

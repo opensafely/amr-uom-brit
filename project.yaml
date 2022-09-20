@@ -113,6 +113,7 @@ actions:
     outputs:
        moderately_sensitive:
         plot1: output/figure_1B.jpeg
+        table1: output/figure_1B_table.csv
 
   figure_2: 
     run: r:latest analysis/figure_2.R
@@ -122,6 +123,7 @@ actions:
         plot1: output/figure_2.1.jpeg
         plot2: output/figure_2.2.jpeg
         plot3: output/figure_2.3.jpeg
+        table1: output/figure_2.1_table.csv
 
   generate_study_population_weekly:
     run: cohortextractor:latest generate_cohort
@@ -216,6 +218,7 @@ actions:
     outputs:
        moderately_sensitive:
         plot1: output/figure_2B.jpeg
+        table1: output/figure_2B_table.csv
 
   ITS_var: 
     run: r:latest analysis/ITS_var.R
