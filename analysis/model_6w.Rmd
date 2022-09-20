@@ -32,7 +32,7 @@ df <- read_rds(here::here("output","matched_outcome_6w.rds"))
 
 ```
 
-```{r}
+```{r include=FALSE}
 
 # outcome
 df$case=as.numeric(df$case) #1/0
@@ -147,7 +147,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 ## model summary
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type + ab_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
@@ -315,7 +315,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 ## model summary
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type +total_ab_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
@@ -482,7 +482,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 ## model summary
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type +ab_types_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
@@ -647,7 +647,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 ## model summary
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type + lastABtime_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
