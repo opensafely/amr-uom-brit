@@ -285,7 +285,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type +total_ab_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
@@ -467,7 +467,7 @@ df$ab_qn_type=as.factor(df$ab_qn_type)
 ```
 
 
-```{r echo=FALSE}
+```{r include=FALSE}
 
 mod=clogit(case ~ ab_qn_type +ab_types_6w + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 
