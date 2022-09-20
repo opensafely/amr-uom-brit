@@ -334,8 +334,8 @@ actions:
     needs: [process_Rmatching_6w]
     outputs:
       moderately_sensitive:
-        csv1.1: output/model_6w_time_binary_adj1.csv
-        csv1.2: output/model_6w_time_total_adj1.csv 
+        csv1.1: output/model_6w_time_adj1.csv
+        csv1.2: output/model_6w_time_adj2.csv 
 
   model_6w_time_plot: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_6w_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
