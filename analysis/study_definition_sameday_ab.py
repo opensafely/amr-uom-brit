@@ -112,6 +112,7 @@ study = StudyDefinition(
         pathogen="SARS-CoV-2",
         test_result="positive",
         between=["index_date", "last_day_of_month(index_date)"],
+        restrict_to_earliest_specimen_date=False,
         returning = "binary_flag",
         return_expectations={"incidence": 0.5},
     ),
@@ -121,6 +122,7 @@ study = StudyDefinition(
         test_result="positive",
         between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,
+        restrict_to_earliest_specimen_date=False,
         returning="date",
         date_format="YYYY-MM-DD",
         return_expectations={
