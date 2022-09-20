@@ -46,6 +46,9 @@ df2 <- bind_rows(df2.20,df2.21)
 df <- left_join(df1,df2,by = "date")
 df$ab_rate <- round(df$value,digits = 3)
 df$broad_rate <- round(df$Broad_given_2D_window/df$AB_given_2D_window,digits = 3)
+df$Broad_given_2D_window <- plyr::round_any(df$Broad_given_2D_window, 5)
+df$AB_given_2D_window <- plyr::round_any(df$AB_given_2D_window, 5)
+
 
 train_sec <- function(primary, secondary, na.rm = TRUE) {
   # Thanks Henry Holm for including the na.rm argument!
@@ -84,3 +87,4 @@ p
 ggsave(p, width = 12, height = 6, dpi = 640,
                    filename="figure_3_2D.jpeg", path=here::here("output"),
             )  
+write_csv(df, here::here("output", "figure_3_2D_table.csv"))
