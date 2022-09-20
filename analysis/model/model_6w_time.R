@@ -52,7 +52,7 @@ model[,5]=gsub("[(*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
-write.csv(model,here::here("output","model_time_adj1.csv"))
+write.csv(model,here::here("output","model_6w_time_adj1.csv"))
 
 
 
@@ -76,4 +76,4 @@ model[,5]=gsub("[(*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
-write.csv(model,here::here("output","model_time_adj2.csv"))
+write.csv(model,here::here("output","model_6w_time_adj2.csv"))
