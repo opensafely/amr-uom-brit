@@ -27,6 +27,7 @@ df.frequency <- df %>% group_by(antibiotic_type) %>% summarise(
 all_count <- sum(df$AB_given_14D_window)
 
 df.frequency$prop <- df.frequency$n_count/all_count
+df.frequency$prop <- round(df.frequency$prop,digits = 3)
 
 write_csv(df.frequency, here::here("output", "ab_type_table.csv"))
 
@@ -54,5 +55,6 @@ df.frequency2 <- df2 %>% group_by(antibiotic_type) %>% summarise(
 all_count <- sum(df2$AB_given_2D_window)
 
 df.frequency2$prop <- df.frequency2$n_count/all_count
+df.frequency2$prop <- round(df.frequency2$prop,digits = 3)
 
 write_csv(df.frequency2, here::here("output", "ab_type_table_2D.csv"))
