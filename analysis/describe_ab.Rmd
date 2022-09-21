@@ -54,6 +54,8 @@ DF[i,2]=sum(dat[,i])
 DF$percent=DF[,2]/sum(DF$V2)*100
 
 DF
+
+sum(DF$V2 !=0)
 ```
 
 
