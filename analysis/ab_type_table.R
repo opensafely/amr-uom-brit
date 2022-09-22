@@ -26,6 +26,7 @@ df.frequency <- df %>% group_by(antibiotic_type) %>% summarise(
 
 all_count <- sum(df$AB_given_14D_window)
 
+df.frequency$n_count <- plyr::round_any(df.frequency$n_count, 5)
 df.frequency$prop <- df.frequency$n_count/all_count
 df.frequency$prop <- round(df.frequency$prop,digits = 3)
 
@@ -54,6 +55,8 @@ df.frequency2 <- df2 %>% group_by(antibiotic_type) %>% summarise(
 
 all_count <- sum(df2$AB_given_2D_window)
 
+
+df.frequency2$n_count <- plyr::round_any(df.frequency2$n_count, 5)
 df.frequency2$prop <- df.frequency2$n_count/all_count
 df.frequency2$prop <- round(df.frequency2$prop,digits = 3)
 
