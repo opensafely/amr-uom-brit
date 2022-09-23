@@ -1683,6 +1683,12 @@ actions:
         plot1: output/redacted_v2/prevalent_AB_top5.jpeg
         plot2: output/redacted_v2/incident_AB_top5.jpeg
 
+  describe_top5_ab: 
+    run: r:latest -e 'rmarkdown::render("analysis/redaction/top5_ab.rmd", output_dir = "output/redacted_v2")'
+    needs: [describe_infection_abtype_process]
+    outputs:
+      moderately_sensitive:
+        html: output/redacted_v2/top5_ab.html
 
   describe_broad_proportion_measure:   
     run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
