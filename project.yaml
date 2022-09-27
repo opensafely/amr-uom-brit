@@ -185,7 +185,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_age_plot.html
-
+  
+  model_gender_plot:
+    run: r:latest -e 'rmarkdown::render("analysis/model_gender_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_gender_plot.html
 
   model_time_plot: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
