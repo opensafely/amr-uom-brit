@@ -18,8 +18,8 @@ df.gp <- read_csv("measure_samedayab_gp.csv",
 ### Sgss same day ab
 df.sgss <- df.sgss %>% filter(date >=as.Date("2020-03-01"))
 df.gp  <- df.gp  %>% filter(date >=as.Date("2020-03-01"))
-df.sgss <- df.sgss %>% filter(date <=as.Date("2022-01-01"))
-df.gp  <- df.gp  %>% filter(date <=as.Date("2022-01-01"))
+df.sgss <- df.sgss %>% filter(date <=as.Date("2022-06-01"))
+df.gp  <- df.gp  %>% filter(date <=as.Date("2022-06-01"))
 
 first_mon=format(min(df.sgss$date),"%m-%Y")
 last_mon= format(max(df.sgss$date),"%m-%Y")
