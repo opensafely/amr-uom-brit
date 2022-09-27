@@ -95,7 +95,7 @@ df=df%>%mutate(ab_qn_type=
 
 df1=df%>%filter(age_grp=="1") #18-39
 
-mod1=clogit(case ~ ab_qn_type +  CCI +  covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df1)
+mod1=clogit(case ~ ab_qn_type +  CCI +  covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), method = "approximate", df1)
 sum.mod1=summary(mod1)
 
 df2=df%>%filter(age_grp=="2") 
@@ -293,16 +293,10 @@ rm(DF)
 
 
 
-DF1$age=1
-DF2$age=2
-DF3$age=3
-DF4$age=4
-
-DF=bind_rows(DF1,DF2,DF3,DF4)
 ```
 
 
-
+#age group=1
 ```{r include=FALSE}
 p <- ggplot(data=DF1, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
@@ -310,19 +304,8 @@ scale_x_continuous(limits = c(0.6,6.5),breaks = c(1.0,1.5,2.0,2.5,3,3.5,4,4.5,5,
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
-geom_point(color="blue")+
-geom_point(data=DF2, color="red")+  
-geom_point(data=DF3, color="green")+
-geom_point(data=DF2, color="grey")+  
-  
-  
-  # lenend
-  
-   scale_color_manual(name='Age groups',
-                     breaks=c('18-39', '40-59', '60-79','80+'),
-                     values=c('18-39'='blue', '40-59'='red', '60-79'='green','80+'='grey'))+
- theme(legend.title=element_text(size=10),
-       legend.text=element_text(size=10))+
+geom_point(color="black")+
+
 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
@@ -377,7 +360,7 @@ p
 ```
 
 ```{r eval=FALSE, include=FALSE}
-table_base <- ggplot(DF, aes(y=label)) +
+table_base <- ggplot(DF1, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
         axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
@@ -403,12 +386,412 @@ tab2 <- table_base+
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=FALSE}
 ## forest plot
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
+
+
+
+
+#age group=2
+```{r include=FALSE}
+p <- ggplot(data=DF2, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,6.5),breaks = c(1.0,1.5,2.0,2.5,3,3.5,4,4.5,5,5.5,6,6.5))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+
+
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF2,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF3,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF4,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+#thematic stuff
+theme_classic()+ 
+
+
+
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Antibiotic types",
+    x="",
+    y=""
+  )
+
+
+
+p
+```
+
+```{r eval=FALSE, include=FALSE}
+table_base <- ggplot(DF2, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+
+```{r echo=FALSE}
+## forest plot
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+#age group=1
+```{r include=FALSE}
+p <- ggplot(data=DF1, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,6.5),breaks = c(1.0,1.5,2.0,2.5,3,3.5,4,4.5,5,5.5,6,6.5))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+
+
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF2,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF3,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF4,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+#thematic stuff
+theme_classic()+ 
+
+
+
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Antibiotic types",
+    x="",
+    y=""
+  )
+
+
+
+p
+```
+
+```{r eval=FALSE, include=FALSE}
+table_base <- ggplot(DF1, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+
+```{r echo=FALSE}
+## forest plot
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
+#age group=3
+```{r include=FALSE}
+p <- ggplot(data=DF3, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,6.5),breaks = c(1.0,1.5,2.0,2.5,3,3.5,4,4.5,5,5.5,6,6.5))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+
+
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF2,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF3,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF4,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+#thematic stuff
+theme_classic()+ 
+
+
+
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Antibiotic types",
+    x="",
+    y=""
+  )
+
+
+
+p
+```
+
+```{r eval=FALSE, include=FALSE}
+table_base <- ggplot(DF3, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+
+```{r echo=FALSE}
+## forest plot
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
+
+#age group=4
+```{r include=FALSE}
+p <- ggplot(data=DF4, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,6.5),breaks = c(1.0,1.5,2.0,2.5,3,3.5,4,4.5,5,5.5,6,6.5))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+
+
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+    annotate("text", x = 0.6, y =1, label = "Q1")+
+    annotate("text", x = 0.6, y =2.5, label = "Q2")+
+  annotate("text", x = 0.6, y =5, label = "Q3")+
+  annotate("text", x = 0.6, y =8, label = "Q4")+
+  annotate("text", x = 0.6, y =11, label = "Q5")+
+  
+   geom_text(aes(y = 1:12, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+            hjust = "right",
+            nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF2,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF3,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+  geom_errorbarh(data=DF4,aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+#thematic stuff
+theme_classic()+ 
+
+
+
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Antibiotic types",
+    x="",
+    y=""
+  )
+
+
+
+p
+```
+
+```{r eval=FALSE, include=FALSE}
+table_base <- ggplot(DF4, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+```
+
+
+```{r echo=FALSE}
+## forest plot
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
+
+
+
 
 
 
