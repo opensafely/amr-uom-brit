@@ -271,7 +271,7 @@ labs(
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 table_base <- ggplot(DF1, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -374,7 +374,7 @@ labs(
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 table_base <- ggplot(DF2, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 

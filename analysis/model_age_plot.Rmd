@@ -110,7 +110,7 @@ sum.mod3=summary(mod3)
 
 df4=df%>%filter(age_grp=="4") 
 
-mod2=clogit(case ~ ab_qn_type +  CCI +  covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df4)
+mod4=clogit(case ~ ab_qn_type +  CCI +  covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df4)
 sum.mod4=summary(mod4)
 #sum.mod
 #(mod)
@@ -359,7 +359,7 @@ labs(
 p
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 table_base <- ggplot(DF1, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -459,7 +459,7 @@ labs(
 p
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 table_base <- ggplot(DF2, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -557,7 +557,7 @@ labs(
 p
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 table_base <- ggplot(DF1, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -756,7 +756,7 @@ labs(
 p
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 table_base <- ggplot(DF4, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
