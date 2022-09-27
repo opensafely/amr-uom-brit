@@ -241,8 +241,6 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="gre
 #adds the CIs
 geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
   geom_errorbarh(data=DF2,aes(xmin=CI_L, xmax=CI_U, height = .2))+
-  geom_errorbarh(data=DF3,aes(xmin=CI_L, xmax=CI_U, height = .2))+
-  geom_errorbarh(data=DF4,aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 
 #adding a vertical line at the effect = 0 mark
