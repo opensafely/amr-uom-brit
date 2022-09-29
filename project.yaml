@@ -2676,3 +2676,10 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/covid_count.csv
+
+  describe_covid_count_patone: 
+    run: r:latest analysis/tables/covidcount_patone.R
+    needs: [generate_study_population_samedayab]
+    outputs:
+      moderately_sensitive:
+        table1: output/covid_count_patone.csv
