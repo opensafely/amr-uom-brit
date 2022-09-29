@@ -2642,3 +2642,30 @@ actions:
       moderately_sensitive:
         table1: output/TPP_ab_Brit_new_2019_frequency.csv
         table2: output/TPP_ab_Brit_new_2019_count.csv
+
+  generate_study_population_covidnum_2020:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_covidnum_2020
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidnum_2020.csv.gz
+
+  generate_study_population_covidnum_2021:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_covidnum_2021
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidnum_2021.csv.gz
+
+  generate_study_population_covidnum_2022:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_covidnum_2022
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidnum_2022.csv.gz
