@@ -2669,3 +2669,10 @@ actions:
       outputs:
         highly_sensitive:
           cohort: output/input_covidnum_2022.csv.gz
+
+  describe_covid_count: 
+    run: r:latest analysis/tables/covidcount.R
+    needs: [generate_study_population_covidnum_2020,generate_study_population_covidnum_2021,generate_study_population_covidnum_2022]
+    outputs:
+      moderately_sensitive:
+        table1: output/covid_count.csv
