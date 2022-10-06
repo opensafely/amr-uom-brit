@@ -28,7 +28,7 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
-df$lastABtime=as.numeric(df$lastABtime)
+df$lastABtime=as.numeric(df$lastABtime_6w)
 
 
 
