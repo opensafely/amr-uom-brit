@@ -255,6 +255,53 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # ab_6w amount
 
 ```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome_6w.rds")
+df <- read_rds(here::here("output","matched_outcome_6w.rds"))
+
+```
+
+```{r include=FALSE}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+df$lastABtime=as.numeric(df$lastABtime)
+
+df$total_ab_6w=ifelse(is.na(df$total_ab_6w),0,df$total_ab_6w)
+df$total_ab_6w=as.numeric(df$total_ab_6w)
+
+df$ab_6w=ifelse(is.na(df$ab_6w),0,df$ab_6w)
+df$ab_6w=as.factor(df$ab_6w)
+
+df$ab_types_6w=ifelse(is.na(df$ab_types_6w),0,df$ab_types_6w)
+df$ab_types_6w=as.numeric(df$ab_types_6w)
+
+df$lastABtime_6w=as.numeric(df$lastABtime_6w)
+data=df
+rm(df)
+
+```
+
+```{r include=FALSE}
 
 df=data%>%mutate(ab_qn_type= 
                  case_when(level=="0" & ab_types==0 ~ "0",
@@ -435,6 +482,53 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 # ab_6w types
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome_6w.rds")
+df <- read_rds(here::here("output","matched_outcome_6w.rds"))
+
+```
+
+```{r include=FALSE}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+df$lastABtime=as.numeric(df$lastABtime)
+
+df$total_ab_6w=ifelse(is.na(df$total_ab_6w),0,df$total_ab_6w)
+df$total_ab_6w=as.numeric(df$total_ab_6w)
+
+df$ab_6w=ifelse(is.na(df$ab_6w),0,df$ab_6w)
+df$ab_6w=as.factor(df$ab_6w)
+
+df$ab_types_6w=ifelse(is.na(df$ab_types_6w),0,df$ab_types_6w)
+df$ab_types_6w=as.numeric(df$ab_types_6w)
+
+df$lastABtime_6w=as.numeric(df$lastABtime_6w)
+data=df
+rm(df)
+
+```
 
 ```{r include=FALSE}
 
