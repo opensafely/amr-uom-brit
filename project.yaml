@@ -102,3 +102,11 @@ actions:
       moderately_sensitive:
         notebook: output/hosp_plots/hosp_plots.html 
         figures: output/hosp_plots/*
+
+  generate_notebook_combining_outputs:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/combining_outputs.ipynb --execute --to html --output-dir=/workspace/output/cox_outputs --ExecutePreprocessor.timeout=86400
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    outputs:
+      moderately_sensitive:
+        notebook: output/cox_outputs/combining_outputs.html 
+        figures: output/cox_outputs/*
