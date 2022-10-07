@@ -151,11 +151,11 @@ geom_point(color="black")+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-    annotate("text", x = 0.6, y =1, label = "Q1")+
-    annotate("text", x = 0.6, y =2.5, label = "Q2")+
-  annotate("text", x = 0.6, y =5, label = "Q3")+
-  annotate("text", x = 0.6, y =8, label = "Q4")+
-  annotate("text", x = 0.6, y =11, label = "Q5")+
+    annotate("text", x = 0, y =1, label = "Q1")+
+    annotate("text", x = 0, y =2.5, label = "Q2")+
+  annotate("text", x = 0, y =5, label = "Q3")+
+  annotate("text", x = 0, y =8, label = "Q4")+
+  annotate("text", x = 0, y =11, label = "Q5")+
   
    geom_text(aes(y = 1:12, x = 0.9, 
                 label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
