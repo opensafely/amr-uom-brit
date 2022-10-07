@@ -29,6 +29,7 @@ rm(DF1,DF2)
 # df=df%>%filter(keep==1)
 # df=df%>%ungroup(subclass)
 
+
 ######## time ##########
 
 ## wave  
@@ -38,20 +39,7 @@ df$wave=ifelse(df$patient_index_date >= as.Date("2021-05-01"),"3",
 
 ####### matching variables ########
 ## age
-#df=df%>%filter(df$age_cat != "0")
-#df$age_cat <- factor(df$age_cat, levels=c( "18-29","30-39","40-49","50-59","60-69","70-79","80+"))
 df=df%>% select(-"age_cat")
-
-           
-#  df=df%>% mutate(age_cat = case_when(
-#             is.na(age) ~ "Unknown",
-#             age >= 18 & age < 30 ~  "18-29" ,
-#             age >= 30 & age < 40 ~ "30-39" ,
-#             age >= 40 & age < 50 ~ "40-49" ,
-#             age >= 50 & age < 60 ~  "50-59" ,
-#             age >= 60 & age < 70 ~ "60-69",
-#             age >= 70 & age < 80 ~ "70-79",
-#             age >= 80 & age <= 110 ~ "80+"))
 
 df$age_cat=ifelse(df$age<30,"18-29",
                    ifelse(df$age<40,"30-39",
@@ -234,7 +222,7 @@ df$total_ab=ifelse(is.na(df$total_ab),0,df$total_ab) # recode NA to 0
 
 
 ######## confounding variables #########
-# ethnicity
+## ethnicity
 #df$ethnicity=ifelse(is.na(df$ethnicity),"6",df$ethnicity)
 df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
                                        ethnicity == 2  ~ "Mixed",
@@ -245,13 +233,6 @@ df=df%>%mutate(ethnicity_6 = case_when(ethnicity == 1 ~ "White",
 df$ethnicity_6=as.factor(df$ethnicity_6)
 df$ethnicity_6 <- factor(df$ethnicity_6, levels=c("White", "South Asian","Black","Mixed","Other","Unknown"))
 
-# df$ethnicity=as.factor(df$ethnicity)
-# df$ethnicity_6=ifelse(df$ethnicity == 1 , "White",
-#                    ifelse(df$ethnicity == 2  , "Mixed",
-#                           ifelse(df$ethnicity == 3 , "South Asian",
-#                                  ifelse(df$ethnicity == 4 , "Black",
-#                                         ifelse(df$ethnicity == 5  , "Other","Unknown")))))
-# df$ethnicity_6=as.factor(df$ethnicity_6)
 
 ## BMI category
 #bmi 
