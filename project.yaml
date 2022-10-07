@@ -1685,7 +1685,7 @@ actions:
 
   describe_top5_ab: 
     run: r:latest -e 'rmarkdown::render("analysis/redaction/top5_ab.rmd", output_dir = "output/redacted_v2")'
-    needs: [describe_infection_abtype_process]
+    needs: [describe_infection_AB_plot_top5]
     outputs:
       moderately_sensitive:
         html: output/redacted_v2/top5_ab.html
