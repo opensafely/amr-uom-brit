@@ -347,10 +347,7 @@ vif(mod)
 
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
-
-result
-
-result=result[1:12,-2]
+DF =result[1:12,-2]
 ```
 
 ```{r include=FALSE}
@@ -580,7 +577,7 @@ result=data.frame(sum.mod$conf.int)
 
 result
 
-result=result[1:12,-2]
+DF=result[1:12,-2]
 ```
 
 ```{r include=FALSE}
