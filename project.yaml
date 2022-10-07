@@ -109,7 +109,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_2.html
-    
+
+  model_check: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_check.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_check.html  
 
   model_subgroup: # by age and sex 
     run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'

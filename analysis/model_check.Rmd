@@ -1,0 +1,95 @@
+---
+title: "Model_antibiotic types"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+library(gridExtra)
+
+```
+
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r include=FALSE}
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$level=as.character(df$level) #category
+
+df$ab_types=as.numeric(df$ab_types) 
+
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+```
+
+# all data
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(level=="0" & ab_types==0 ~ "0",
+                           level=="1" & ab_types==1 ~ "1",
+                           level=="2" &  ab_types==1 ~ "2",
+                           level=="2" &  ab_types==2 ~ "3",
+                           level=="3" &  ab_types==1 ~ "4",
+                           level=="3" &  ab_types==2 ~ "5",
+                           level=="3" &  ab_types>=3 ~ "6",
+                           level=="4" &  ab_types==1 ~ "7",
+                           level=="4" &  ab_types==2 ~ "8",
+                           level=="4" &  ab_types>=3 ~ "9",
+                           level=="5" &  ab_types==1 ~ "10",
+                           level=="5" &  ab_types==2 ~ "11",
+                           level=="5" &  ab_types>=3 ~ "12"
+
+                          ))
+
+
+#table(df$level,df$ab_types)
+```
+
+```{r}
+
+table(df$ab_qn_type)
+
+table(df$level)
+
+sum(df$level==2)
+```
+
