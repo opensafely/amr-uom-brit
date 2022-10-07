@@ -135,6 +135,14 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_2.html
+
+    # # abtype modeling
+  model_2_3grp: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_2_3grp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_2_3grp.html
     
   # model_abtype: 
   #   run: r:latest analysis/model/model_abtype.R
