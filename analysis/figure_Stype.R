@@ -44,6 +44,7 @@ p <- ggplot(df, aes(date)) +
   geom_rect(aes(xmin=lockdown_3_start, xmax=lockdown_3_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_line(aes(y = prop), colour = "#0F5DC9",size = 0.8) +
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
+  scale_y_continuous(limits = c(0, 0.4)) +
   labs(x = "", y = "") +
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
