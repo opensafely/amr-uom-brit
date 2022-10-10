@@ -369,3 +369,10 @@ actions:
        moderately_sensitive:
         table1: output/ab_type_table.csv
         table2: output/ab_type_table_2D.csv
+
+  figure_Stype: 
+    run: r:latest analysis/figure_Stype.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_Stype.jpeg

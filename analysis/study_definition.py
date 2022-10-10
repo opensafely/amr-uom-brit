@@ -263,6 +263,14 @@ measures = [
         group_by="population",
     ),
 
+###
+    Measure(
+        id="antibiotic_by_type",
+        numerator="antibiotic_count",
+        denominator="population",
+        group_by="antibiotic_type",
+    ),    
+
 ###  Monthly number of patients tested positive for SARS-CoV-2 ###   
     Measure(
         id="covid-case",
