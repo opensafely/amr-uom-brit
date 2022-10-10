@@ -376,3 +376,4 @@ actions:
     outputs:
        moderately_sensitive:
         plot1: output/figure_Stype.jpeg
+        table1: output/figure_Stype_table.csv

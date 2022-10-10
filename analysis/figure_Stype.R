@@ -36,7 +36,10 @@ df2 <- df2 %>% filter (antibiotic_type == "Amoxicillin")
 names(df1) <- c("overall","date")
 
 df <- merge(df2,df1,by = "date")
+df$antibiotic_count <- plyr::round_any(df$antibiotic_count, 5)
+df$overall <- plyr::round_any(df$overall, 5)
 df$prop <- df$antibiotic_count/df$overall
+df$prop <- round(df$prop,digits = 3)
 
 p <- ggplot(df, aes(date)) +
   geom_rect(aes(xmin=lockdown_1_start, xmax=lockdown_1_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
@@ -54,3 +57,5 @@ p <- ggplot(df, aes(date)) +
 ggsave(p, width = 12, height = 6, dpi = 640,
   filename="figure_Stype.jpeg", path=here::here("output"),
 )  
+
+write_csv(df, here::here("output", "figure_Stype_table.csv"))
