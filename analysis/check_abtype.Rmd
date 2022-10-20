@@ -42,11 +42,10 @@ DF%>% tbl_summary(by = case) %>%add_difference()
 # scatter plot
 ```{r}
 # Scatter plot
-x= "Rx_Amoxicillin"
-y= "Rx_Flucloxacillin" 
+
 DF$case=as.factor(DF$case)
-ggplot(DF, aes(x = x, y = y, color = case)) +
-  geom_point()
+ggplot(DF, aes(x=Rx_Amoxicillin,y=Rx_Flucloxacillin)) +
+  geom_point(aes(color = case))
 
 ```
 
