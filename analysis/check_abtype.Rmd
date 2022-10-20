@@ -16,6 +16,7 @@ library(kableExtra)
 library('tidyverse')
 library("gtsummary")
 library("ggplot2")
+library(scales)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
@@ -30,22 +31,50 @@ df1=df%>% filter(case==1)
 df0=df%>% filter(case==0) %>% group_by(subclass) %>% sample_n(1)
 ```
 
+# frequency table
+```{r}
+DF=rbind(df1,df0)
+DF=DF%>% select(-"subclass")
+
+DF%>% tbl_summary(by = case) %>%add_difference() 
+```
 
 
 
 # case
 ```{r}
-  tbl_summary(
-    df1[col],
-    statistic = list(all_continuous() ~ "{mean} ({sd})"))
+DF1=data.frame(colSums(Filter(is.numeric, df1[col])))
+names(DF1)[1] <- "sum.case"
+
+total=sum(DF1[,1])
+DF1$percent.case=DF1[,1]/total
+
+DF1%>% arrange(desc(sum.case))%>% top_n(10)
 
 ```
 
 
 # control
 ```{r}
-  tbl_summary(
-    df0[col],
-    statistic = list(all_continuous() ~ "{mean} ({sd})"))
+DF0=data.frame(colSums(Filter(is.numeric, df0[col])))
+names(DF0)[1] <- "sum.control"
+
+
+total=sum(DF0[,1])
+DF0$percent.case=DF0[,1]/total
+
+DF0%>% arrange(desc(sum.control))%>% top_n(10)
 
 ```
+
+# difference
+```{r}
+DF=cbind(DF1,DF0)
+DF$diff=DF[,1]-DF[,3]
+DF$diff.percent=DF[,2]-DF[,4]
+
+DF[,2]=label_percent()(DF[,2])
+DF[,4]=label_percent()(DF[,4])
+DF[,6]=label_percent()(DF[,6])
+```
+
