@@ -12,11 +12,12 @@ output:
 ```{r setup, include=FALSE}
 library(knitr)
 library(dplyr)
-library(kableExtra)
+##library(kableExtra)
 library('tidyverse')
-library("gtsummary")
+#library("gtsummary")
 library("ggplot2")
 library(scales)
+library(survival)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
@@ -27,29 +28,50 @@ options(knitr.table.format="html")
 df <- read_rds(here::here("output","abtype79.rds"))
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
+AB=gsub('["]', '', col)
 df1=df%>% filter(case==1)
 df0=df%>% filter(case==0) %>% group_by(subclass) %>% sample_n(1)
-```
-
-# frequency table
-```{r}
 DF=rbind(df1,df0)
-DF=DF%>% select(-"subclass")
-
-DF%>% tbl_summary(by = case) %>%add_difference() 
 ```
 
-# scatter plot
+
+# univariate regression
+```{r}
+
+clogit(case ~ Rx_Amoxicillin + strata(subclass), data=DF)
+clogit(case ~ Rx_Doxycycline + strata(subclass), data=DF)
+clogit(case ~ Rx_Nitrofurantoin + strata(subclass), data=DF)
+clogit(case ~ Rx_Flucloxacillin + strata(subclass), data=DF)
+
+```
+
+
+
+```{r}
+
+
+```
+
+# boxplot
 ```{r}
 # Scatter plot
+DF=DF%>% select(-"subclass")
 
 DF$case=as.factor(DF$case)
-ggplot(DF, aes(x=Rx_Amoxicillin,y=Rx_Flucloxacillin)) +
-  geom_point(aes(color = case))
 
+for (i in 1:10){
+  ab=col[i]
+  boxplot(DF[,ab] ~ DF$case,
+          ylab=ab, xlab="case")
+}
 ```
 
-# case
+
+
+
+
+# frequency table
+## case
 ```{r}
 DF1=data.frame(colSums(Filter(is.numeric, df1[col])))
 names(DF1)[1] <- "sum.case"
@@ -62,7 +84,7 @@ DF1%>% arrange(desc(sum.case))%>% top_n(10)
 ```
 
 
-# control
+## control
 ```{r}
 DF0=data.frame(colSums(Filter(is.numeric, df0[col])))
 names(DF0)[1] <- "sum.control"
@@ -75,7 +97,7 @@ DF0%>% arrange(desc(sum.control))%>% top_n(10)
 
 ```
 
-# difference
+## difference
 ```{r}
 DF=cbind(DF1,DF0)
 DF$diff=DF[,1]-DF[,3]
@@ -87,6 +109,4 @@ DF[,6]=label_percent()(DF[,6])
 
 DF
 ```
-
-
 
