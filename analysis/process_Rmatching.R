@@ -58,11 +58,13 @@ col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_A
 df[col]=df[col]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
 df$total_ab=rowSums(df[col])# total types number -> total ab prescription
 
+DF_type=df%>%select(col,"case","subclass")
+write_rds(DF_type, here::here("output", "abtype79.rds"))
+
 df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag(1,0)
 df$ab_types=rowSums(df[col]>0)# count number of types
 
-DF_type=df%>%select(col,"case","subclass")
-write_rds(DF_type, here::here("output", "abtype79.rds"))
+
 df=df[ ! names(df) %in% col]
 
 df$ab_types=ifelse(is.na(df$ab_types),0,df$ab_types) # no ab 
