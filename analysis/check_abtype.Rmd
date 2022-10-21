@@ -32,16 +32,20 @@ AB=gsub('["]', '', col)
 df1=df%>% filter(case==1)
 df0=df%>% filter(case==0) %>% group_by(subclass) %>% sample_n(1)
 DF=rbind(df1,df0)
+
+DF$sum=rowSums(DF[1:79])
+outlier=quantile(DF$sum, 0.9)
+DF=DF%>%filter(sum<=outlier)
 ```
 
 
+
+```{r}
 # univariate regression
-```{r}
-
-clogit(case ~ Rx_Amoxicillin + strata(subclass), data=DF)
-clogit(case ~ Rx_Doxycycline + strata(subclass), data=DF)
-clogit(case ~ Rx_Nitrofurantoin + strata(subclass), data=DF)
-clogit(case ~ Rx_Flucloxacillin + strata(subclass), data=DF)
+#clogit(case ~ Rx_Amoxicillin + strata(subclass), data=DF)
+#clogit(case ~ Rx_Doxycycline + strata(subclass), data=DF)
+#clogit(case ~ Rx_Flucloxacillin + strata(subclass), data=DF)
+#clogit(case ~ Rx_Nitrofurantoin + strata(subclass), data=DF)
 
 ```
 
@@ -52,18 +56,24 @@ clogit(case ~ Rx_Flucloxacillin + strata(subclass), data=DF)
 
 ```
 
-# boxplot
+# scatter plot
 ```{r}
 # Scatter plot
-DF=DF%>% select(-"subclass")
+#DF=DF%>% select(-"subclass")
 
 DF$case=as.factor(DF$case)
 
-for (i in 1:10){
-  ab=col[i]
-  boxplot(DF[,ab] ~ DF$case,
-          ylab=ab, xlab="case")
-}
+ggplot(DF, aes(Rx_Amoxicillin,Rx_Doxycycline)) +
+  geom_point(aes(color=case, size=3)) +
+  geom_line(aes(group = subclass))
+
+ggplot(DF, aes(Rx_Amoxicillin,Rx_Flucloxacillin)) +
+  geom_point(aes(color=case, size=3)) +
+  geom_line(aes(group = subclass))
+
+ggplot(DF, aes(Rx_Nitrofurantoin,Rx_Trimethoprim)) +
+  geom_point(aes(color=case, size=3)) +
+  geom_line(aes(group = subclass))
 ```
 
 
