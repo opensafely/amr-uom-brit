@@ -81,19 +81,18 @@ df$diff_D=df$D.case-df$D.con
 ```
 
 ```{r}
-p<- ggplot(df, aes(diff_N, diff_T))
-
-p +   geom_bin2d() +
-  theme_bw()
+p<- ggplot(df, aes(N.case, N.con))
+p +   geom_point(alpha=1/10)
 
 
-p<- ggplot(df, aes(diff_A, diff_F))
-p +   geom_bin2d() +
-  theme_bw() 
- 
-p<-  ggplot(df, aes(diff_A, diff_D))
-p +   geom_bin2d() +
-  theme_bw()
+p<- ggplot(df, aes(T.case, T.con))
+p +   geom_point(alpha=1/10)
+p<- ggplot(df, aes(A.case, A.con))
+p +   geom_point(alpha=1/10)
+p<- ggplot(df, aes(F.case, F.con))
+p +   geom_point(alpha=1/10)
+p<- ggplot(df, aes(D.case, D.con))
+p +   geom_point(alpha=1/10)
 ```
 
 
