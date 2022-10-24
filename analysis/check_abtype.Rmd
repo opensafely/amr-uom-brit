@@ -56,19 +56,42 @@ DF=DF%>%filter(sum<=outlier)
 
 DF$case=as.factor(DF$case)
 
-ggplot(DF, aes(Rx_Amoxicillin,Rx_Doxycycline)) +
-  geom_point(aes(color=case),alpha = 1/10) +
-  geom_line(aes(group = subclass),alpha = 1/10)
+DF_1=DF%>% filter(case==1)%>% select(subclass,Rx_Nitrofurantoin, Rx_Trimethoprim, Rx_Amoxicillin, Rx_Flucloxacillin, Rx_Doxycycline) 
+names(DF_1)[2]<-"N.case"
+names(DF_1)[3]<-"T.case"
+names(DF_1)[4]<-"A.case"
+names(DF_1)[5]<-"F.case"
+names(DF_1)[6]<-"D.case"
 
-ggplot(DF, aes(Rx_Amoxicillin,Rx_Flucloxacillin)) +
-  geom_point(aes(color=case),alpha = 1/10) +
-  geom_line(aes(group = subclass),alpha = 1/10)
+DF_0=DF%>% filter(case==0)%>% select(subclass,Rx_Nitrofurantoin, Rx_Trimethoprim, Rx_Amoxicillin, Rx_Flucloxacillin, Rx_Doxycycline) 
+names(DF_0)[2]<-"N.con"
+names(DF_0)[3]<-"T.con"
+names(DF_0)[4]<-"A.con"
+names(DF_0)[5]<-"F.con"
+names(DF_0)[6]<-"D.con"
 
-ggplot(DF, aes(Rx_Nitrofurantoin,Rx_Trimethoprim)) +
-  geom_point(aes(color=case),alpha = 1/10) +
-  geom_line(aes(group = subclass),alpha = 1/10)
+df=merge(DF_1,DF_0, by="subclass")
+
+df$diff_N=df$N.case-df$N.con
+df$diff_T=df$T.case-df$T.con
+df$diff_A=df$A.case-df$A.con
+df$diff_F=df$F.case-df$F.con
+df$diff_D=df$D.case-df$D.con
+
 ```
 
+```{r}
+p<- ggplot(df, aes(diff_N, diff_T))
+p + geom_point(alpha = 1/10)
+
+
+p<- ggplot(df, aes(diff_A, diff_F))
+p + geom_point(alpha = 1/10)
+ 
+ 
+p<-  ggplot(df, aes(diff_A, diff_D))
+p + geom_point(alpha = 1/10)
+```
 
 
 
