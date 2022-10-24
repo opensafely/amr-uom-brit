@@ -82,15 +82,18 @@ df$diff_D=df$D.case-df$D.con
 
 ```{r}
 p<- ggplot(df, aes(diff_N, diff_T))
-p + geom_point(alpha = 1/10)
+
+p +   geom_bin2d() +
+  theme_bw()
 
 
 p<- ggplot(df, aes(diff_A, diff_F))
-p + geom_point(alpha = 1/10)
- 
+p +   geom_bin2d() +
+  theme_bw() 
  
 p<-  ggplot(df, aes(diff_A, diff_D))
-p + geom_point(alpha = 1/10)
+p +   geom_bin2d() +
+  theme_bw()
 ```
 
 
