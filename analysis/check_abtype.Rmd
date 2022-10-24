@@ -82,19 +82,27 @@ df$diff_D=df$D.case-df$D.con
 
 ```{r}
 p<- ggplot(df, aes(N.case, N.con))
-p +   geom_point(alpha=1/10)
+p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 
 
 p<- ggplot(df, aes(T.case, T.con))
-p +   geom_point(alpha=1/10)
+p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 p<- ggplot(df, aes(A.case, A.con))
-p +   geom_point(alpha=1/10)
+p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 p<- ggplot(df, aes(F.case, F.con))
-p +   geom_point(alpha=1/10)
+p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 p<- ggplot(df, aes(D.case, D.con))
-p +   geom_point(alpha=1/10)
+p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 ```
 
+```{r}
+# Quick display of two cabapilities of GGally, to assess the distribution and correlation of variables 
+library(GGally)
+ 
+# From the help page:
+
+ggpairs(df, columns = 2:10) 
+```
 
 
 
