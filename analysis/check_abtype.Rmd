@@ -100,21 +100,11 @@ p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 
 
 ```{r}
-sub.df=subset(df, diff_N >0)
-barplot(sub.df$diff_N)
-
-sub.df=subset(df, diff_T >0)
-barplot(sub.df$diff_T)
-
-sub.df=subset(df, diff_A >0)
-barplot(sub.df$diff_A)
-
-sub.df=subset(df, diff_F >0)
-barplot(sub.df$diff_F)
-
-sub.df=subset(df, diff_D >0)
-barplot(sub.df$diff_D)
-
+barplot(df$diff_N)
+barplot(df$diff_T)
+barplot(df$diff_A)
+barplot(df$diff_F)
+barplot(df$diff_D)
 ```
 
 ```{r}
