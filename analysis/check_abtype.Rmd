@@ -100,11 +100,12 @@ p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 
 
 ```{r}
-barplot(df$diff_N)
-barplot(df$diff_T)
-barplot(df$diff_A)
-barplot(df$diff_F)
-barplot(df$diff_D)
+prop.table(df$diff_N)
+prop.table(df$diff_T)
+prop.table(df$diff_A)
+prop.table(df$diff_F)
+prop.table(df$diff_D)
+
 ```
 
 ```{r}
