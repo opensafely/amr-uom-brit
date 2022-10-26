@@ -100,11 +100,11 @@ p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 
 
 ```{r}
-prop.table(df$diff_N)
-prop.table(df$diff_T)
-prop.table(df$diff_A)
-prop.table(df$diff_F)
-prop.table(df$diff_D)
+data.frame(prop.table(table(df$diff_N)))
+data.frame(prop.table(table(df$diff_T)))
+data.frame(prop.table(table(df$diff_A)))
+data.frame(prop.table(table(df$diff_F)))
+data.frame(prop.table(table(df$diff_D)))
 
 ```
 
