@@ -80,14 +80,7 @@ df$diff_D=df$D.case-df$D.con
 
 ```
 
-```{r}
-hist(df$diff_N)
-hist(df$diff_T)
-hist(df$diff_A)
-hist(df$diff_F)
-hist(df$diff_D)
 
-```
 
 
 ```{r}
@@ -103,6 +96,25 @@ p<- ggplot(df, aes(F.case, F.con))
 p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 p<- ggplot(df, aes(D.case, D.con))
 p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
+```
+
+
+```{r}
+sub.df=subset(df, diff_N >0)
+barplot(sub.df$diff_N)
+
+sub.df=subset(df, diff_T >0)
+barplot(sub.df$diff_T)
+
+sub.df=subset(df, diff_A >0)
+barplot(sub.df$diff_A)
+
+sub.df=subset(df, diff_F >0)
+barplot(sub.df$diff_F)
+
+sub.df=subset(df, diff_D >0)
+barplot(sub.df$diff_D)
+
 ```
 
 ```{r}
