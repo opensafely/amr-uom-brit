@@ -81,6 +81,16 @@ df$diff_D=df$D.case-df$D.con
 ```
 
 ```{r}
+hist(df$diff_N)
+hist(df$diff_T)
+hist(df$diff_A)
+hist(df$diff_F)
+hist(df$diff_D)
+
+```
+
+
+```{r}
 p<- ggplot(df, aes(N.case, N.con))
 p +   geom_point(alpha=1/10) + geom_smooth(method=lm)
 
