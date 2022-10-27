@@ -1,4 +1,3 @@
-opensafely/antibacterials/27089eaa
 opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
 opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
@@ -50,3 +49,4 @@ user/yayang/charlson16_peptic_ulcer/36562fe8
 user/yayang/charlson17_peripheral_vascular/68751652
 user/yayang/nonab/635200b8
 user/BillyZhongUOM/brit_new_dmd/792101bd
+user/alifahmi/urti_cough_cold_sorethroat/0d16c856

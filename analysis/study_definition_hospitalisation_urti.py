@@ -21,7 +21,7 @@ from cohortextractor import (
 
 ## Import codelists from codelist.py (which pulls them from the codelist folder)
 
-#from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, urti_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_urti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
+#from codelists import antibacterials_codes, broad_spectrum_antibiotics_codes, uti_codes, urti_cough_cold_sorethroat_codes, ethnicity_codes, bmi_codes, any_primary_care_code, clear_smoking_codes, unclear_smoking_codes, flu_med_codes, flu_clinical_given_codes, flu_clinical_not_given_codes, covrx_code, hospitalisation_infection_related #, any_urti_urti_uti_hospitalisation_codes#, flu_vaccine_codes
 
 from codelists import *
 
@@ -78,7 +78,7 @@ study = StudyDefinition(
         ),
 
         has_urti=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         between=[start_date,end_date],
         returning="binary_flag",
         ),
@@ -570,7 +570,7 @@ study = StudyDefinition(
     ################################################### URTI
 
     urti_date_1=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         # between=["index_date", "today"],
         on_or_after='index_date',
@@ -580,7 +580,7 @@ study = StudyDefinition(
         ),
 
     urti_date_2=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         # on_or_after='urti_date_1 + 3 days',
         between=["urti_date_1 + 1 day", "today"],
@@ -590,7 +590,7 @@ study = StudyDefinition(
         ),
 
     urti_date_3=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         # on_or_after='urti_date_2 + 3 days',
         between=["urti_date_2 + 1 day", "today"],
@@ -600,7 +600,7 @@ study = StudyDefinition(
         ),
 
     urti_date_4=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_3 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -609,7 +609,7 @@ study = StudyDefinition(
         ),
 
     urti_date_5=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_4 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -618,7 +618,7 @@ study = StudyDefinition(
         ),
 
     urti_date_6=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_5 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -627,7 +627,7 @@ study = StudyDefinition(
         ),
 
     urti_date_7=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_6 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -636,7 +636,7 @@ study = StudyDefinition(
         ),
 
     urti_date_8=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_7 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -645,7 +645,7 @@ study = StudyDefinition(
         ),
 
     urti_date_9=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_8 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -654,7 +654,7 @@ study = StudyDefinition(
         ),
 
     urti_date_10=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_9 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -663,7 +663,7 @@ study = StudyDefinition(
         ),
 
     urti_date_11=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_10 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -672,7 +672,7 @@ study = StudyDefinition(
         ),
 
     urti_date_12=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_11 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -681,7 +681,7 @@ study = StudyDefinition(
         ),
 
     urti_date_13=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_12 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -690,7 +690,7 @@ study = StudyDefinition(
         ),
 
     urti_date_14=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_13 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -699,7 +699,7 @@ study = StudyDefinition(
         ),
 
     urti_date_15=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_14 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -708,7 +708,7 @@ study = StudyDefinition(
         ),
 
     urti_date_16=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_15 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -717,7 +717,7 @@ study = StudyDefinition(
         ),
 
     urti_date_17=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_16 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -726,7 +726,7 @@ study = StudyDefinition(
         ),
 
     urti_date_18=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_17 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -735,7 +735,7 @@ study = StudyDefinition(
         ),
 
     urti_date_19=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_18 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -744,7 +744,7 @@ study = StudyDefinition(
         ),
 
     urti_date_20=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning='date',
         between=["urti_date_19 + 1 day", "today"],
         find_first_match_in_period=True,
@@ -1143,7 +1143,7 @@ study = StudyDefinition(
 
     #  incidence 
     incdt_urti_date_1=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_1 - 42 days", "urti_date_1 - 1 day"], #["urti_date_1 - 42 days", "urti_date_1"]
         find_first_match_in_period=True,
@@ -1152,7 +1152,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_2=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_2 - 42 days", "urti_date_2 - 1 day"],
         find_first_match_in_period=True,
@@ -1160,7 +1160,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_3=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_3 - 42 days", "urti_date_3 - 1 day"], 
         find_first_match_in_period=True,
@@ -1168,7 +1168,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_4=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_4 - 42 days", "urti_date_4 - 1 day"], 
         find_first_match_in_period=True,
@@ -1176,7 +1176,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_5=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_5 - 42 days", "urti_date_5 - 1 day"], 
         find_first_match_in_period=True,
@@ -1184,7 +1184,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_6=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_6 - 42 days", "urti_date_6 - 1 day"], 
         find_first_match_in_period=True,
@@ -1192,7 +1192,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_7=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_7 - 42 days", "urti_date_7 - 1 day"], 
         find_first_match_in_period=True,
@@ -1200,7 +1200,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_8=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_8 - 42 days", "urti_date_8 - 1 day"], 
         find_first_match_in_period=True,
@@ -1208,7 +1208,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_9=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_9 - 42 days", "urti_date_9 - 1 day"], 
         find_first_match_in_period=True,
@@ -1216,7 +1216,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_10=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_10 - 42 days", "urti_date_10 - 1 day"], 
         find_first_match_in_period=True,
@@ -1224,7 +1224,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_11=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_11 - 42 days", "urti_date_1 - 11 day"],
         find_first_match_in_period=True,
@@ -1232,7 +1232,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_12=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_12 - 42 days", "urti_date_12 - 1 day"],
         find_first_match_in_period=True,
@@ -1240,7 +1240,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_13=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_13 - 42 days", "urti_date_13 - 1 day"], 
         find_first_match_in_period=True,
@@ -1248,7 +1248,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_14=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_14 - 42 days", "urti_date_14 - 1 day"], 
         find_first_match_in_period=True,
@@ -1256,7 +1256,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_15=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_15 - 42 days", "urti_date_15 - 1 day"], 
         find_first_match_in_period=True,
@@ -1264,7 +1264,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_16=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_16 - 42 days", "urti_date_16 - 1 day"], 
         find_first_match_in_period=True,
@@ -1272,7 +1272,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_17=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_17 - 42 days", "urti_date_17 - 1 day"], 
         find_first_match_in_period=True,
@@ -1280,7 +1280,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_18=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_18 - 42 days", "urti_date_18 - 1 day"], 
         find_first_match_in_period=True,
@@ -1288,7 +1288,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_19=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_19 - 42 days", "urti_date_19 - 1 day"], 
         find_first_match_in_period=True,
@@ -1296,7 +1296,7 @@ study = StudyDefinition(
     ),
 
     incdt_urti_date_20=patients.with_these_clinical_events(
-        urti_codes,
+        urti_cough_cold_sorethroat_codes,
         returning="binary_flag",
         between=["urti_date_20 - 42 days", "urti_date_20 - 1 day"], 
         find_first_match_in_period=True,

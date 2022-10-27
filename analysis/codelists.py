@@ -21,9 +21,7 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 antibacterials_codes = codelist_from_csv(
     "codelists/opensafely-antibacterials.csv", system="snomed", column="dmd_id"
 )
-# antibacterials_codes_brit = codelist_from_csv(
-#     "codelists/user-rriefu-antibiotics_dmd.csv", system="snomed", column="dmd_id"
-# )
+
 antibacterials_codes_brit = codelist_from_csv(
     "codelists/user-BillyZhongUOM-brit_new_dmd.csv", system="snomed", column="dmd_id", category_column="type",
 )
@@ -253,12 +251,15 @@ throat_codes= codelist_from_csv(
 
 
 ###  URTI
-urti_codes= codelist_from_csv(
-  "codelists/user-rriefu-urti.csv",
-  system = "snomed",
-  column = "code"
-)
+# urti_codes= codelist_from_csv(
+#   "codelists/user-rriefu-urti.csv",
+#   system = "snomed",
+#   column = "code"
+# )
 
+urti_cough_cold_sorethroat_codes = codelist_from_csv(
+    "codelists/user-alifahmi-urti_cough_cold_sorethroat.csv", system="snomed", column="code"
+)
 
 ###  UTI
 uti_codes = codelist_from_csv(

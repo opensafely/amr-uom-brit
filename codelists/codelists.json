@@ -1,11 +1,5 @@
 {
   "files": {
-    "opensafely-antibacterials.csv": {
-      "id": "opensafely/antibacterials/27089eaa",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/27089eaa/",
-      "downloaded_at": "2021-09-17 13:38:25.538531Z",
-      "sha": "f3c280d89cff832ee287f1b66a5042794f2fda27"
-    },
     "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
@@ -311,6 +305,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/brit_new_dmd/792101bd/",
       "downloaded_at": "2022-08-25 09:53:19.030415Z",
       "sha": "554121b79fc1d6ade21e23be9ddc2e719fe29b68"
+    },
+    "user-alifahmi-urti_cough_cold_sorethroat.csv": {
+      "id": "user/alifahmi/urti_cough_cold_sorethroat/0d16c856",
+      "url": "https://codelists.opensafely.org/codelist/user/alifahmi/urti_cough_cold_sorethroat/0d16c856/",
+      "downloaded_at": "2022-10-27 21:57:31.639434Z",
+      "sha": "8e0507c7ac3e3da0b92f1f9bd7ecf81e18bf1423"
     }
   }
 }
