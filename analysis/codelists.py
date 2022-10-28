@@ -18,9 +18,9 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 ### The following should be our own codelists in the future
 
 ### All antibacterials
-antibacterials_codes = codelist_from_csv(
-    "codelists/opensafely-antibacterials.csv", system="snomed", column="dmd_id"
-)
+# antibacterials_codes = codelist_from_csv(
+#     "codelists/opensafely-antibacterials.csv", system="snomed", column="dmd_id"
+# )
 
 antibacterials_codes_brit = codelist_from_csv(
     "codelists/user-BillyZhongUOM-brit_new_dmd.csv", system="snomed", column="dmd_id", category_column="type",
@@ -267,10 +267,10 @@ uti_codes = codelist_from_csv(
 )
 
 
-## all infections
-all_infection_codes = combine_codelists(asthma_copd_codes, asthma_codes, cold_codes, copd_codes, 
-      cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, 
-      renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_codes, uti_codes )
+# ## all infections
+# all_infection_codes = combine_codelists(asthma_copd_codes, asthma_codes, cold_codes, copd_codes, 
+#       cough_cold_codes, cough_codes, lrti_codes, ot_externa_codes, otmedia_codes, pneumonia_codes, 
+#       renal_codes, sepsis_codes, sinusitis_codes, throat_codes, urti_cough_cold_sorethroat_codes, uti_codes )
 
 
 ###  vaccination
