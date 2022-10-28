@@ -250,16 +250,16 @@ throat_codes= codelist_from_csv(
 )
 
 
-###  URTI
-# urti_codes= codelist_from_csv(
-#   "codelists/user-rriefu-urti.csv",
-#   system = "snomed",
-#   column = "code"
-# )
-
-urti_cough_cold_sorethroat_codes = codelist_from_csv(
-    "codelists/user-alifahmi-urti_cough_cold_sorethroat.csv", system="snomed", column="code"
+##  URTI
+urti_codes= codelist_from_csv(
+  "codelists/user-rriefu-urti.csv",
+  system = "snomed",
+  column = "code"
 )
+
+# urti_cough_cold_sorethroat_codes = codelist_from_csv(
+#     "codelists/user-alifahmi-urti_cough_cold_sorethroat.csv", system="snomed", column="code"
+# )
 
 ###  UTI
 uti_codes = codelist_from_csv(
