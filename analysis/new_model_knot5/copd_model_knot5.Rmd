@@ -89,6 +89,10 @@ ggplot(data=df.OR1.exp, aes(x=Age, y=expfx)) +
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+head(df.OR1.exp,n=90)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 df.OR1 <- as.data.frame(cbind(rcs1[,1],OR1))
 names(df.OR1) <- c("Age","fx")
 ggplot(data=df.OR1, aes(x=Age, y=fx)) +
