@@ -411,3 +411,29 @@ actions:
         table9: output/sen_3mon_ot_media.csv
         table10: output/sen_3mon_ot_externa.csv
         table11: output/sen_3mon_all.csv
+
+  describe_ITS_model_broad_sen2mon:
+    run: r:latest analysis/itsmodel/ITS_model_monthly_sen2mon.R
+    needs: [ITS_var_sen_2month]
+    outputs:
+        moderately_sensitive:
+          plot1: output/sen_2mon_overall_predicted_plot.jpeg
+          plot2: output/sen_2mon_overall_forest_C.jpeg
+          plot3: output/sen_2mon_overall_forest_B.jpeg
+          plot4: output/sen_2mon_overall_combined.jpeg
+          table1: output/sen_2mon_overall_predicted_table.csv
+          table2: output/sen_2mon_overall_forest_B_table.csv
+          table3: output/sen_2mon_overall_forest_C_table.csv
+
+  describe_ITS_model_broad_sen3mon:
+    run: r:latest analysis/itsmodel/ITS_model_monthly_sen3mon.R
+    needs: [ITS_var_sen_3month]
+    outputs:
+        moderately_sensitive:
+          plot1: output/sen_3mon_overall_predicted_plot.jpeg
+          plot2: output/sen_3mon_overall_forest_C.jpeg
+          plot3: output/sen_3mon_overall_forest_B.jpeg
+          plot4: output/sen_3mon_overall_combined.jpeg
+          table1: output/sen_3mon_overall_predicted_table.csv
+          table2: output/sen_3mon_overall_forest_B_table.csv
+          table3: output/sen_3mon_overall_forest_C_table.csv
