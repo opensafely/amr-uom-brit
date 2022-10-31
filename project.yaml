@@ -377,3 +377,37 @@ actions:
        moderately_sensitive:
         plot1: output/figure_Stype.jpeg
         table1: output/figure_Stype_table.csv
+
+  ITS_var_sen_2month: 
+    run: r:latest analysis/ITS_var_sen_2month.R
+    needs: [conversion_abtype_2019,conversion_abtype_2020,conversion_abtype_2021,generate_measures]
+    outputs:
+       moderately_sensitive:
+        table1: output/sen_2mon_uti.csv
+        table2: output/sen_2mon_cold.csv
+        table3: output/sen_2mon_cough.csv
+        table4: output/sen_2mon_copd.csv
+        table5: output/sen_2mon_throat.csv
+        table6: output/sen_2mon_lrti.csv
+        table7: output/sen_2mon_urti.csv
+        table8: output/sen_2mon_sinusitis.csv
+        table9: output/sen_2mon_ot_media.csv
+        table10: output/sen_2mon_ot_externa.csv
+        table11: output/sen_2mon_all.csv
+
+  ITS_var_sen_3month: 
+    run: r:latest analysis/ITS_var_sen_3month.R
+    needs: [conversion_abtype_2019,conversion_abtype_2020,conversion_abtype_2021,generate_measures]
+    outputs:
+       moderately_sensitive:
+        table1: output/sen_3mon_uti.csv
+        table2: output/sen_3mon_cold.csv
+        table3: output/sen_3mon_cough.csv
+        table4: output/sen_3mon_copd.csv
+        table5: output/sen_3mon_throat.csv
+        table6: output/sen_3mon_lrti.csv
+        table7: output/sen_3mon_urti.csv
+        table8: output/sen_3mon_sinusitis.csv
+        table9: output/sen_3mon_ot_media.csv
+        table10: output/sen_3mon_ot_externa.csv
+        table11: output/sen_3mon_all.csv
