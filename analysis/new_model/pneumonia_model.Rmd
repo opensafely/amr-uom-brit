@@ -100,6 +100,10 @@ ggplot(data=df.OR1, aes(x=Age, y=fx)) +
 
 ```
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+head(df.OR1,n=90)
+```
+
 ### age plot model[3]/[1] (from age 10 to 90)
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 OR2.exp <- exp(OR2)
@@ -121,7 +125,9 @@ ggplot(data=df.OR2, aes(x=Age, y=fx)) +
   scale_x_continuous(breaks=seq(0, 90 , 10))+
   labs(x="Age", y = "f(X)")
 ```
-
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+head(df.OR2,n=90)
+```
 
 ## Age OR (age = 40 as reference)
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
