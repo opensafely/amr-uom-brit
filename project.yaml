@@ -567,3 +567,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/modeling5.html
+
+  extract_variables_ab_yr1: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr1
+    needs: [matching]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_yr1.csv
