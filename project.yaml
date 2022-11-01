@@ -396,6 +396,8 @@ actions:
         table9: output/sen_2mon_ot_media.csv
         table10: output/sen_2mon_ot_externa.csv
         table11: output/sen_2mon_all.csv
+        table12: output/sen_2mon_all_coded.csv
+        table13: output/sen_2mon_all_uncoded.csv
 
   ITS_var_sen_3month: 
     run: r:latest analysis/ITS_var_sen_3month.R
@@ -413,6 +415,8 @@ actions:
         table9: output/sen_3mon_ot_media.csv
         table10: output/sen_3mon_ot_externa.csv
         table11: output/sen_3mon_all.csv
+        table12: output/sen_3mon_all_coded.csv
+        table13: output/sen_3mon_all_uncoded.csv
 
   describe_ITS_model_broad_sen2mon:
     run: r:latest analysis/itsmodel/ITS_model_monthly_sen2mon.R
