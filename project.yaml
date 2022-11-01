@@ -236,6 +236,8 @@ actions:
         table9: output/mon_ot_media.csv
         table10: output/mon_ot_externa.csv
         table11: output/mon_all.csv
+        table12: output/mon_all_coded.csv
+        table13: output/mon_all_uncoded.csv
 
   describe_ITS_model_broad_mon_overall:
     run: r:latest analysis/itsmodel/ITS_model_monthly.R
