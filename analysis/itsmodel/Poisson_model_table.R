@@ -21,9 +21,9 @@ plot_order <- c(1:11)
 all_files <- list.files(here::here("output"), pattern = "mon_")
 outcomes <- stringr::str_remove_all(all_files, c("mon_|.csv"))
 outcome_of_interest_namematch <- bind_cols("outcome" = outcomes, 
-                                           "outcome_name" = (c("Overall","Cold","COPD",
-                                                               "Cough","LRTI","Otitis externa","Otitis media",
-                                                               "Sinusitis","Sore throat","URTI","UTI"))
+                                           "outcome_name" = (c("Overall","Coded","Uncoded","Cold","COPD",
+                                           "Cough","LRTI","Otitis externa","Otitis media",
+                                           "Sinusitis","Sore throat","URTI","UTI"))
 )
 
 for(ii in 1:length(outcomes)){
