@@ -37,25 +37,30 @@ df=df%>%filter(sum<=outlier)
 
 df$case=as.factor(df$case)
 ggplot(df, aes(y=Rx_Nitrofurantoin,x=case)) + 
-    geom_boxplot() 
+    geom_boxplot() +
+  ylim(0,2)
 
 
 df$case=as.factor(df$case)
 ggplot(df, aes(y=Rx_Trimethoprim,x=case)) + 
-    geom_boxplot() 
+    geom_boxplot() +
+  ylim(0,2)
 
 
 df$case=as.factor(df$case)
 ggplot(df, aes(y=Rx_Amoxicillin,x=case)) + 
-    geom_boxplot() 
+    geom_boxplot() +
+  ylim(0,2)
 
 df$case=as.factor(df$case)
 ggplot(df, aes(y= Rx_Flucloxacillin, x=case)) + 
-    geom_boxplot() 
+    geom_boxplot() +
+  ylim(0,2)
 
 df$case=as.factor(df$case)
 ggplot(df, aes(y=Rx_Doxycycline,x=case)) + 
-    geom_boxplot() 
+    geom_boxplot() +
+  ylim(0,2)
 
 
 ```
