@@ -443,3 +443,25 @@ actions:
           table1: output/sen_3mon_overall_predicted_table.csv
           table2: output/sen_3mon_overall_forest_B_table.csv
           table3: output/sen_3mon_overall_forest_C_table.csv
+
+  generate_study_population_2020_coinfection:
+    run: cohortextractor:latest generate_cohort
+      --with-end-date-fix
+      --study-definition study_definition_2020_coinfection 
+      --index-date-range "2020-01-01 to 2020-12-31 by month" 
+      --skip-existing 
+      --output-dir=output/measures 
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_2020_coinfection_*.csv.gz
+
+  generate_measures_2020_coinfection:
+    run: cohortextractor:latest generate_measures 
+      --study-definition study_definition_2020_coinfection 
+      --skip-existing 
+      --output-dir=output/measures
+    needs: [generate_study_population_2020_coinfection]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_infection_coded_*.csv
