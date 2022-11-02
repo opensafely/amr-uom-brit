@@ -28,7 +28,7 @@ antibacterials_codes_brit = codelist_from_csv(
 
 ### broad antibacterials
 broad_spectrum_antibiotics_codes = codelist_from_csv(
-    "codelists/user-rriefu-broad-spectrum-antibiotics.csv", system="snomed", column="dmd_id"
+    "codelists/opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv", system="snomed", column="dmd_id"
 )
 
 
@@ -654,9 +654,9 @@ charlson17_peripheral_vascular= codelist_from_csv(
   column = "code"
 )
 
-### Broad-spectrum antibiotics
-broad_spectrum_antibiotics_codes = codelist_from_csv(
-  "codelists/opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv",
-  system = "snomed",
-  column = "dmd_id"
-)
+# ### Broad-spectrum antibiotics
+# broad_spectrum_antibiotics_codes = codelist_from_csv(
+#   "codelists/opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv",
+#   system = "snomed",
+#   column = "dmd_id"
+# )

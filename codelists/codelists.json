@@ -1019,6 +1019,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/yayang/charlson17_peripheral_vascular/68751652/",
       "downloaded_at": "2021-12-01 21:03:24.132382Z",
       "sha": "93cdab3534d0c44371d41ab73d861aaafba20270"
+    },
+    "opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv": {
+      "id": "opensafely/co-amoxiclav-cephalosporins-and-quinolones/0d299a50",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/co-amoxiclav-cephalosporins-and-quinolones/0d299a50/",
+      "downloaded_at": "2022-11-02 15:45:27.743419Z",
+      "sha": "b1118448ed57fb5b2598e642b2235537dd420f1e"
     }
   }
 }
