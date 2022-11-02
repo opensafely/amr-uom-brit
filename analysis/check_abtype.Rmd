@@ -35,25 +35,23 @@ df$sum=rowSums(df[col])
 df=df%>%filter(sum>0)
 
 df$case=as.factor(df$case)
-ggplot(df, aes(y=Rx_Nitrofurantoin,x=case)) + 
+df01=df%>%filter(Rx_Nitrofurantoin>0)
+ggplot(df01, aes(y=Rx_Nitrofurantoin,x=case)) + 
     geom_boxplot() 
 
-
-df$case=as.factor(df$case)
-ggplot(df, aes(y=Rx_Trimethoprim,x=case)) + 
+df02=df%>%filter(Rx_Trimethoprim>0)
+ggplot(df02, aes(y=Rx_Trimethoprim,x=case)) + 
     geom_boxplot() 
 
-
-df$case=as.factor(df$case)
-ggplot(df, aes(y=Rx_Amoxicillin,x=case)) + 
+df03=df%>%filter(Rx_Amoxicillin>0)
+ggplot(df03, aes(y=Rx_Amoxicillin,x=case)) + 
     geom_boxplot() 
 
-df$case=as.factor(df$case)
-ggplot(df, aes(y= Rx_Flucloxacillin, x=case)) + 
+df04=df%>%filter( Rx_Flucloxacillin>0)
+ggplot(df04, aes(y= Rx_Flucloxacillin, x=case)) + 
     geom_boxplot() 
-
-df$case=as.factor(df$case)
-ggplot(df, aes(y=Rx_Doxycycline,x=case)) + 
+df05=df%>%filter(Rx_Doxycycline>0)
+ggplot(df05, aes(y=Rx_Doxycycline,x=case)) + 
     geom_boxplot() 
 
 
