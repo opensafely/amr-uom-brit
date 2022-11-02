@@ -161,12 +161,14 @@ study = StudyDefinition(
     ### Infection coded binary ###
     Infection_coded_14D_window=patients.with_these_clinical_events(
         antibiotics_indications,
+        between=["Positive_test_date - 14 days","Positive_test_date + 14 days"],
         returning='binary_flag',
         return_expectations={"incidence":0.3,},
     ),
 
     Infection_coded_2D_window=patients.with_these_clinical_events(
         antibiotics_indications,
+        between=["Positive_test_date - 2 days","Positive_test_date + 2 days"],
         returning='binary_flag',
         return_expectations={"incidence":0.3,},
     ),
