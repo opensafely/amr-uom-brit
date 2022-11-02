@@ -653,3 +653,10 @@ charlson17_peripheral_vascular= codelist_from_csv(
   system = "snomed",
   column = "code"
 )
+
+### Broad-spectrum antibiotics
+broad_spectrum_antibiotics_codes = codelist_from_csv(
+  "codelists/opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv",
+  system = "snomed",
+  column = "dmd_id"
+)
