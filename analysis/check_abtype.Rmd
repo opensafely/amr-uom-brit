@@ -31,6 +31,10 @@ col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_A
 
 #boxplot
 ```{r}
+df$sum=rowSums(df[col])
+outlier=quantile(df$sum, 0.9)
+df=df%>%filter(sum<=outlier)
+
 df$case=as.factor(df$case)
 ggplot(df, aes(y=Rx_Nitrofurantoin,x=case)) + 
     geom_boxplot() 
