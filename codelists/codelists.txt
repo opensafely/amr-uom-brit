@@ -172,3 +172,5 @@ user/yayang/charlson14_moderate_several_renaldiseae/33a36ff2
 user/yayang/charlson15_mi/1a93fcbd
 user/yayang/charlson16_peptic_ulcer/36562fe8
 user/yayang/charlson17_peripheral_vascular/68751652
+
+opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538
