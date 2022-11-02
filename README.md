@@ -17,5 +17,17 @@ research quality.
 
 Read more at [OpenSAFELY.org](https://opensafely.org).
 
+# Project: The impact of COVID -19 on antibiotic prescribing in primary care in England: evaluation and risk prediction of appropriateness of type and repeat prescribing
+
+[View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_eval_work/)
+Details of the purpose and any published outputs from this project can be found at the link above.
+
+# Project: Investigating the impact of COVID-19 on primary care broad-spectrum antibiotic prescribing in England: An OpenSAFELY cohort study and interrupted time-series analysis
+
+[View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/broad-spectrum-its/)
+Details of the purpose and any published outputs from this project can be found at the link above.
+
+[View all the code](https://github.com/opensafely/amr-uom-brit/tree/broad_ITS)
+
 # Licences
 As standard, research projects have a MIT license. 
