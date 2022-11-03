@@ -74,6 +74,13 @@ actions:
       moderately_sensitive:
         html: output/check_abtype.html
 
+  check_process_1: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_study_population_covid_primarycare,generate_study_population_covid_SGSS,generate_study_population_covid_admission]
+    outputs:
+      moderately_sensitive:
+        html: output/check_process_1.html
+
   # table1: # compare before & after matching 
   #   run: r:latest -e 'rmarkdown::render("analysis/table1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
   #   needs: [process_1,process_Rmatching]
