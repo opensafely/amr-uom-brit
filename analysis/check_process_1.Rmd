@@ -15,6 +15,11 @@ options(knitr.table.format="html")
 library('tidyverse')
 library('dplyr')
 library('lubridate')
+library(magrittr)
+library(Gmisc)
+library(glue)
+library(crayon)
+library(grid)
 ```
 
 # control
@@ -132,6 +137,171 @@ count(df0)
 
 df1=df%>%filter(case==1)
 count(df1)
+
+```
+
+
+# flowchart
+```{r echo=FALSE}
+grid.newpage()
+
+width=0.3
+dataset1<- boxGrob(glue_col("SGSS: positive COVID-19 test",
+                            "N = {pop}",
+                            pop = txtInt(2466912),
+                            .sep = "\n"),width = width)
+
+dataset2<- boxGrob(glue_col("Primary care: COVID-19 related diagnosis",
+                            "N = {pop}",
+                            pop = txtInt(473078),
+                            .sep = "\n"),width = width)
+
+dataset3<- boxGrob(glue_col("Hospital admission: COVID-19 cause",
+                            "N = {pop}",
+                            pop = txtInt(99958),
+                            .sep = "\n"),width =width)
+
+
+criteria1<- boxGrob(glue_col("incident COVID-19 in SGSS dataset",
+                             "N = {pop}",
+                             pop = txtInt(2415103),
+                             .sep = "\n"),width = width)
+criteria2<- boxGrob(glue_col("incident COVID-19 in GP dataset",
+                             "N = {pop}",
+                             pop = txtInt(126227),
+                             .sep = "\n"),width = width)
+criteria3<- boxGrob(glue_col("incident COVID-19 in hospital dataset",
+                             "N = {pop}",
+                             pop = txtInt(98424),
+                             .sep = "\n"),width = width)
+
+
+
+merge_infec <- boxGrob(glue("aggregated datasets\n incident COVID-19 infection",
+                            "N = {pop}",
+                            pop = txtInt(2487144),
+                            .sep = "\n"),width = width, x=0.1)
+
+final1<- boxGrob(glue("Controls",
+                      "N = {pop}",
+                      pop = txtInt(2374845),
+                      .sep = "\n"),width = width)
+final2<- boxGrob(glue("Cases",
+                      "N = {pop}",
+                      pop = txtInt(98424),
+                      .sep = "\n"),width = width)
+
+exclude1 <- boxGrob(glue_col("exclusion\n COVID-19 history",
+                             "n = {pop}",
+                             pop = txtInt(2466912-2415103),
+                             .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
+exclude2 <- boxGrob(glue_col("exclusion\n COVID-19 history",
+                             "n = {pop}",
+                             pop = txtInt(473078-126227),
+                             .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
+
+exclude3 <- boxGrob(glue("exclusion\n COVID-19 hospital admission or death records",
+                         "n = {pop}",
+                         pop = txtInt(2487144-2374845),
+                         .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
+
+exclude4 <- boxGrob(glue("exclusion\n COVID-19 history",
+                         "n = {pop}",
+                         pop = txtInt(99958-98424),
+                         .sep = "\n"),
+                    txt_gp = gpar(fontsize = 9))
+
+
+# align box
+
+vert <- spreadVertical(dataset = dataset1,
+                        criteria = criteria1,
+                      merge_infec =merge_infec ,
+                      final=final1)
+
+dataset <- alignVertical(reference = vert$dataset,
+                         dataset1, dataset2,dataset3) %>%
+  spreadHorizontal()
+
+vert$dataset <- NULL
+
+criteria= alignVertical(reference = vert$criteria,
+              criteria1, criteria2,criteria3)%>%
+  spreadHorizontal()
+
+vert$criteria <- NULL
+
+final= alignVertical(reference = vert$final,
+                        final1, final2)%>%
+  spreadHorizontal()
+
+vert$final <- NULL
+
+
+
+
+
+
+
+exclude1 <- moveBox(exclude1,
+                    x = 0.25,
+y = coords(criteria[[1]])$top +
+                      distance(dataset[[1]], criteria[[1]], half = TRUE, center = FALSE))
+
+exclude2 <- moveBox(exclude2,
+                    x = 0.4,
+                    y = coords(criteria[[2]])$top +
+                      distance(dataset[[2]], criteria[[2]], half = TRUE, center = FALSE))
+
+exclude3 <- moveBox(exclude3,
+                    x = 0.5,
+                    y = coords(final[[1]])$top +
+                      distance(vert$merge_infec, final[[1]], half = TRUE, center = FALSE))
+
+aggregated <- moveBox(merge_infec,
+                    x = 0.3)
+
+control <- moveBox(final[[1]],
+                      x = 0.3)
+exclude4 <- moveBox(exclude4,
+                    x = coords(criteria[[3]])$left+
+                      distance(dataset[[1]], dataset[[3]]),
+                    y = coords(criteria[[3]])$top +
+                      distance(dataset[[3]], criteria[[3]], half = TRUE, center = FALSE))
+
+
+
+exclude1
+exclude2
+exclude3
+exclude4
+
+
+aggregated 
+control
+final[[2]]
+dataset 
+criteria
+
+connectGrob(dataset[[1]],criteria[[1]] , type = "vert") 
+connectGrob(dataset[[2]],criteria[[2]] , type = "vert")
+connectGrob(criteria[[1]], aggregated, type = "N")
+connectGrob(criteria[[2]], aggregated, type = "N")
+connectGrob(aggregated ,control, type = "vert")
+
+connectGrob(dataset[[3]],criteria[[3]] , type = "vert") 
+connectGrob(criteria[[3]],final[[2]] , type = "vert") 
+
+# Add a connection to the exclusions
+connectGrob(dataset[[1]], exclude1, type = "L")
+connectGrob(dataset[[2]], exclude2, type = "L")
+connectGrob(aggregated, exclude3, type = "L")
+
+connectGrob(dataset[[3]], exclude4, type = "L")
+
 
 ```
 
