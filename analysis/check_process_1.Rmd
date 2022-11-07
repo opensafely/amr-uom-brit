@@ -145,74 +145,83 @@ count(df1)
 ```{r echo=FALSE}
 grid.newpage()
 
-width=0.3
+width=0.33
 dataset1<- boxGrob(glue_col("SGSS: positive COVID-19 test",
                             "N = {pop}",
                             pop = txtInt(2466912),
-                            .sep = "\n"),width = width)
+                            .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 
 dataset2<- boxGrob(glue_col("Primary care: COVID-19 related diagnosis",
                             "N = {pop}",
                             pop = txtInt(473078),
-                            .sep = "\n"),width = width)
+                            .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 
 dataset3<- boxGrob(glue_col("Hospital admission: COVID-19 cause",
                             "N = {pop}",
                             pop = txtInt(99958),
-                            .sep = "\n"),width =width)
+                            .sep = "\n"),width =width,
+                    txt_gp = gpar(fontsize = 9))
 
 
 criteria1<- boxGrob(glue_col("incident COVID-19 in SGSS dataset",
                              "N = {pop}",
                              pop = txtInt(2415103),
-                             .sep = "\n"),width = width)
+                             .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 criteria2<- boxGrob(glue_col("incident COVID-19 in GP dataset",
                              "N = {pop}",
                              pop = txtInt(126227),
-                             .sep = "\n"),width = width)
+                             .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 criteria3<- boxGrob(glue_col("incident COVID-19 in hospital dataset",
                              "N = {pop}",
                              pop = txtInt(98424),
-                             .sep = "\n"),width = width)
+                             .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 
 
 
 merge_infec <- boxGrob(glue("aggregated datasets\n incident COVID-19 infection",
                             "N = {pop}",
                             pop = txtInt(2487144),
-                            .sep = "\n"),width = width, x=0.1)
+                            .sep = "\n"),width = width, x=0.1,
+                    txt_gp = gpar(fontsize = 9))
 
 final1<- boxGrob(glue("Controls",
                       "N = {pop}",
                       pop = txtInt(2374845),
-                      .sep = "\n"),width = width)
+                      .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 final2<- boxGrob(glue("Cases",
                       "N = {pop}",
                       pop = txtInt(98424),
-                      .sep = "\n"),width = width)
+                      .sep = "\n"),width = width,
+                    txt_gp = gpar(fontsize = 9))
 
 exclude1 <- boxGrob(glue_col("exclusion\n COVID-19 history",
                              "n = {pop}",
                              pop = txtInt(2466912-2415103),
                              .sep = "\n"),
-                    txt_gp = gpar(fontsize = 9))
+                    txt_gp = gpar(fontsize = 7))
 exclude2 <- boxGrob(glue_col("exclusion\n COVID-19 history",
                              "n = {pop}",
                              pop = txtInt(473078-126227),
                              .sep = "\n"),
-                    txt_gp = gpar(fontsize = 9))
+                    txt_gp = gpar(fontsize = 7))
 
 exclude3 <- boxGrob(glue("exclusion\n COVID-19 hospital admission or death records",
                          "n = {pop}",
                          pop = txtInt(2487144-2374845),
                          .sep = "\n"),
-                    txt_gp = gpar(fontsize = 9))
+                    txt_gp = gpar(fontsize = 7))
 
 exclude4 <- boxGrob(glue("exclusion\n COVID-19 history",
                          "n = {pop}",
                          pop = txtInt(99958-98424),
                          .sep = "\n"),
-                    txt_gp = gpar(fontsize = 9))
+                    txt_gp = gpar(fontsize = 7))
 
 
 # align box
