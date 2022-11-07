@@ -42,7 +42,7 @@ actions:
   
   check_process_1: 
     run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [generate_study_population_covid_primarycare]
+    needs: [generate_study_population_covid_admission]
     outputs:
       moderately_sensitive:
         html: output/check_process_1.html
