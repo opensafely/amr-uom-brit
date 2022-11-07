@@ -40,6 +40,12 @@ actions:
       moderately_sensitive:
         html: output/check_unmatched.html
   
+  check_process_1: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_study_population_covid_primarycare]
+    outputs:
+      moderately_sensitive:
+        html: output/check_process_1.html
 
   extract_variables: 
     run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome
