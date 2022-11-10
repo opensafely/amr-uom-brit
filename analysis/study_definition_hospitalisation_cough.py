@@ -293,15 +293,15 @@ study = StudyDefinition(
         include_month=True,
     ),
 
-    ## GP consultations
-    gp_count=patients.with_gp_consultations(
-        between=["index_date - 12 months", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+    # ## GP consultations
+    # gp_count=patients.with_gp_consultations(
+    #     between=["index_date - 12 months", "last_day_of_month(index_date)"],
+    #     returning="number_of_matches_in_period",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+    #         "incidence": 0.6,
+    #     },
+    # ),
 
 
     ### Flu vaccine
@@ -754,186 +754,186 @@ study = StudyDefinition(
 
 ####################################################################################
 
-# ## count of GP consultations
-    gp_count_1=patients.with_gp_consultations(
-        between=["cough_date_1 - 12 months", "cough_date_1"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+# # ## count of GP consultations
+#     gp_count_1=patients.with_gp_consultations(
+#         between=["cough_date_1 - 12 months", "cough_date_1"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_2=patients.with_gp_consultations(
-        between=["cough_date_2 - 12 months", "cough_date_2"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_2=patients.with_gp_consultations(
+#         between=["cough_date_2 - 12 months", "cough_date_2"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_3=patients.with_gp_consultations(
-        between=["cough_date_3 - 12 months", "cough_date_3"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_3=patients.with_gp_consultations(
+#         between=["cough_date_3 - 12 months", "cough_date_3"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_4=patients.with_gp_consultations(
-        between=["cough_date_4 - 12 months", "cough_date_4"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_4=patients.with_gp_consultations(
+#         between=["cough_date_4 - 12 months", "cough_date_4"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_5=patients.with_gp_consultations(
-        between=["cough_date_5 - 12 months", "cough_date_5"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_5=patients.with_gp_consultations(
+#         between=["cough_date_5 - 12 months", "cough_date_5"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_6=patients.with_gp_consultations(
-        between=["cough_date_6 - 12 months", "cough_date_6"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_6=patients.with_gp_consultations(
+#         between=["cough_date_6 - 12 months", "cough_date_6"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_7=patients.with_gp_consultations(
-        between=["cough_date_7 - 12 months", "cough_date_7"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_7=patients.with_gp_consultations(
+#         between=["cough_date_7 - 12 months", "cough_date_7"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_8=patients.with_gp_consultations(
-        between=["cough_date_8 - 12 months", "cough_date_8"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_8=patients.with_gp_consultations(
+#         between=["cough_date_8 - 12 months", "cough_date_8"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_9=patients.with_gp_consultations(
-        between=["cough_date_9 - 12 months", "cough_date_9"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_9=patients.with_gp_consultations(
+#         between=["cough_date_9 - 12 months", "cough_date_9"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_10=patients.with_gp_consultations(
-        between=["cough_date_10 - 12 months", "cough_date_10"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_10=patients.with_gp_consultations(
+#         between=["cough_date_10 - 12 months", "cough_date_10"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_11=patients.with_gp_consultations(
-        between=["cough_date_11 - 12 months", "cough_date_11"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_11=patients.with_gp_consultations(
+#         between=["cough_date_11 - 12 months", "cough_date_11"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_12=patients.with_gp_consultations(
-        between=["cough_date_12 - 12 months", "cough_date_12"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_12=patients.with_gp_consultations(
+#         between=["cough_date_12 - 12 months", "cough_date_12"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_13=patients.with_gp_consultations(
-        between=["cough_date_13 - 12 months", "cough_date_13"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_13=patients.with_gp_consultations(
+#         between=["cough_date_13 - 12 months", "cough_date_13"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_14=patients.with_gp_consultations(
-        between=["cough_date_14 - 12 months", "cough_date_14"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_14=patients.with_gp_consultations(
+#         between=["cough_date_14 - 12 months", "cough_date_14"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_15=patients.with_gp_consultations(
-        between=["cough_date_15 - 12 months", "cough_date_15"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_15=patients.with_gp_consultations(
+#         between=["cough_date_15 - 12 months", "cough_date_15"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_16=patients.with_gp_consultations(
-        between=["cough_date_16 - 12 months", "cough_date_16"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_16=patients.with_gp_consultations(
+#         between=["cough_date_16 - 12 months", "cough_date_16"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_17=patients.with_gp_consultations(
-        between=["cough_date_17 - 12 months", "cough_date_17"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_17=patients.with_gp_consultations(
+#         between=["cough_date_17 - 12 months", "cough_date_17"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_18=patients.with_gp_consultations(
-        between=["cough_date_18 - 12 months", "cough_date_18"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_18=patients.with_gp_consultations(
+#         between=["cough_date_18 - 12 months", "cough_date_18"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_19=patients.with_gp_consultations(
-        between=["cough_date_19 - 12 months", "cough_date_19"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_19=patients.with_gp_consultations(
+#         between=["cough_date_19 - 12 months", "cough_date_19"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
-    gp_count_20=patients.with_gp_consultations(
-        between=["cough_date_20 - 12 months", "cough_date_20"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-            "incidence": 0.6,
-        },
-    ),
+#     gp_count_20=patients.with_gp_consultations(
+#         between=["cough_date_20 - 12 months", "cough_date_20"],
+#         returning="number_of_matches_in_period",
+#         return_expectations={
+#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
+#             "incidence": 0.6,
+#         },
+#     ),
 
 
 
