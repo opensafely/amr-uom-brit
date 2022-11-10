@@ -530,6 +530,9 @@ actions:
         cohort: output/input_ab_yr1.csv
 
 
+
+
+
 ## add sensitivity analusis for death without hospital admission
   process_study2: 
     run: r:latest analysis/process_study2.R
@@ -538,6 +541,23 @@ actions:
       highly_sensitive:
         case: output/case_covid_icu_death.csv 
         control: output/control_covid_hosp.csv 
+
+  matching_study2: # matching with replacement # died covid
+    run: r:latest -e 'rmarkdown::render("analysis/matching_study2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_study2]
+    outputs:
+      moderately_sensitive:
+        html: output/matching.html
+      highly_sensitive: 
+        rds1: output/matched_patients.rds
+        rds2: output/unmatched_patients.rds
+        csv: output/matched_patients_id.csv
+## add sensitivity analusis for death without hospital admission
+
+
+
+
+
 
 
 
