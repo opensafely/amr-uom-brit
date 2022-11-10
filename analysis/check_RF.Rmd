@@ -55,7 +55,7 @@ length(test_idx)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 # develop model
 df.train=sample_n(df.train,1000)
 
