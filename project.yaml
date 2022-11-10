@@ -552,6 +552,13 @@ actions:
         rds1: output/matched_patients_study2.rds
         rds2: output/unmatched_patients_study2.rds
         csv: output/matched_patients_id_study2.csv
+
+  extract_variables_study2: 
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome_study2
+    needs: [matching_study2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_study2.csv
 ## add sensitivity analysis for death without hospital admission
 
 
