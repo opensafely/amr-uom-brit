@@ -34,13 +34,13 @@ count(df)
 df=df[!is.na(df$subclass),]
 count(df)
 
-sum(is.na(df[col,]))
+sum(is.na(df[,col]))
 ```
 
 
 ```{r}
 # divide data
-set.seed(0)
+set.seed(1024)
 all_idx <- 1:nrow(df)
 
 train_idx <- sample(all_idx, nrow(df) * 0.8)
@@ -57,8 +57,7 @@ length(test_idx)
 
 ```{r eval=FALSE, include=FALSE}
 # develop model
-
-df.train=sample_n(df.train, 0.001)
+df.train=sample_n(df.train,1000)
 
 set.seed(123) 
 train.control <- trainControl(method = "repeatedcv",
