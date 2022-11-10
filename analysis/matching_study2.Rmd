@@ -105,12 +105,12 @@ plot(m.out1, type = "hist")
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 plot(m.out1, type = "qq", interactive = FALSE,
      which.xs = c("age", "sex", "stp"))
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 plot(summary(m.out1))
 ```
 
