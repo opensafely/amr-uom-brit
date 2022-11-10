@@ -32,6 +32,7 @@ col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_A
 
 ```{r}
 # divide data
+set.seed(0)
 all_idx <- 1:nrow(df)
 
 train_idx <- sample(all_idx, nrow(df) * 0.8)
