@@ -12,12 +12,11 @@ output:
 ```{r setup, include=FALSE}
 library(knitr)
 library(dplyr)
-##library(kableExtra)
+
 library('tidyverse')
-#library("gtsummary")
+
 library("ggplot2")
-library(scales)
-library(survival)
+
 library(caret)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
