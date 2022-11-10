@@ -18,6 +18,7 @@ library('tidyverse')
 library("ggplot2")
 library(scales)
 library(survival)
+library(caret)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
