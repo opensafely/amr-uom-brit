@@ -58,7 +58,7 @@ p <- ggplot(df, aes(x=date)) +
   geom_line(aes(y = ab_rate), colour = "#0F5DC9",size = 0.8) +
   geom_line(aes(y = broad_rate), colour = "#BA6A16") +
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  scale_y_continuous(limits = c(0, 0.7), breaks = 0.05,labels=scales::percent)+
+  scale_y_continuous(limits = c(0, 0.7),labels = scales::percent)+
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
 p
