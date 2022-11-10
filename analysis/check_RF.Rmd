@@ -57,7 +57,7 @@ length(test_idx)
 
 ```{r echo=TRUE}
 # develop model
-df.train=sample_n(df.train,100)
+df.train=sample_n(df.train,1000)
 
 set.seed(123) 
 train.control <- trainControl(method = "repeatedcv",
@@ -75,6 +75,6 @@ model$bestTune# mtry: Number of variable is randomly collected to be sampled at 
 plot(varImp(model,scale = F), main="var imp: RF 5 fold cv")
 
 sub_rf1=subset(model$pred, model$pred$mtry== model$bestTune$mtry)
-caret::confusionMatrix((table(sub_rf1$pred,sub_rf1$obs)))
+#caret::confusionMatrix((table(sub_rf1$pred,sub_rf1$obs)))
 ```
 
