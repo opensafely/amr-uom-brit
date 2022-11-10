@@ -531,12 +531,12 @@ actions:
 
 
 ## add sensitivity analusis for death without hospital admission
-  process_2: 
-    run: r:latest analysis/process_2.R
+  process_study2: 
+    run: r:latest analysis/process_study2.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
     outputs:
       highly_sensitive:
-        case: output/case_covid_death.csv 
+        case: output/case_covid_icu_death.csv 
         control: output/control_covid_hosp.csv 
 
 
