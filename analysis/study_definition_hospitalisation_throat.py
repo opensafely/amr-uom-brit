@@ -572,8 +572,8 @@ study = StudyDefinition(
     throat_date_1=patients.with_these_clinical_events(
         throat_codes,
         returning='date',
-        # between=["index_date", "today"],
-        on_or_after='index_date',
+        between=["index_date", "today"],
+        # on_or_after='index_date',
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
         return_expectations={"date": {"index_date": "today()"}},
