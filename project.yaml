@@ -559,6 +559,16 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_outcome_study2.csv
+
+  process_Rmatching_study2: # add variables 
+    run: r:latest analysis/process_Rmatching_study2.R
+    needs: [extract_variables_study2,matching_study2]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_study2.rds
+        cohort2: output/matched_outcome_check_study2.rds # filter died $ de-regist again
+        rds1: output/abtype79_study2.rds
+        rds2: output/comor17_study2.rds
 ## add sensitivity analysis for death without hospital admission
 
 
