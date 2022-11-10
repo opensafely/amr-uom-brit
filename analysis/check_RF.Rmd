@@ -57,7 +57,7 @@ length(test_idx)
 
 ```{r echo=TRUE}
 # develop model
-df.train=sample_n(df.train,1000)
+df.train=sample_n(df.train,100)
 
 set.seed(123) 
 train.control <- trainControl(method = "repeatedcv",
