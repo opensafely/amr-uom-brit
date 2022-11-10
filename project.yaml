@@ -533,7 +533,7 @@ actions:
 
 
 
-## add sensitivity analusis for death without hospital admission
+## add sensitivity analysis for death without hospital admission
   process_study2: 
     run: r:latest analysis/process_study2.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
@@ -547,12 +547,12 @@ actions:
     needs: [process_study2]
     outputs:
       moderately_sensitive:
-        html: output/matching.html
+        html: output/matching_study2.html
       highly_sensitive: 
-        rds1: output/matched_patients.rds
-        rds2: output/unmatched_patients.rds
-        csv: output/matched_patients_id.csv
-## add sensitivity analusis for death without hospital admission
+        rds1: output/matched_patients_study2.rds
+        rds2: output/unmatched_patients_study2.rds
+        csv: output/matched_patients_id_study2.csv
+## add sensitivity analysis for death without hospital admission
 
 
 
