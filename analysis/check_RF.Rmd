@@ -1,0 +1,72 @@
+---
+title: "AB types"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+##library(kableExtra)
+library('tidyverse')
+#library("gtsummary")
+library("ggplot2")
+library(scales)
+library(survival)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+```{r}
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+df <- read_rds(here::here("output","abtype79.rds"))
+col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
+
+```
+
+
+```{r}
+# divide data
+all_idx <- 1:nrow(df)
+
+train_idx <- sample(all_idx, nrow(df) * 0.8)
+test_idx <- all_idx[!all_idx %in% train_idx]
+
+df.train=df[train_idx,]
+df.test=df[test_idx,]
+
+length(all_idx)
+length(train_idx)
+length(test_idx)
+```
+
+
+```{r}
+# develop model
+
+df.train=sample_n(df.train, 0.001)
+
+set.seed(123) 
+train.control <- trainControl(method = "repeatedcv",
+                              number = 5,
+                              search="random", repeats=3, savePredictions = T)
+# Train the model
+model <- train(case ~., data = df.train, method = "rf",
+               trControl = train.control, tuneLength= 10, ntree=1000)
+# Summarize the results
+print(model)
+plot(model)
+
+model$bestTune# mtry: Number of variable is randomly collected to be sampled at each split time.
+
+plot(varImp(model,scale = F), main="var imp: RF 5 fold cv")
+
+sub_rf1=subset(model$pred, model$pred$mtry== model$bestTune$mtry)
+caret::confusionMatrix((table(sub_rf1$pred,sub_rf1$obs)))
+```
+
