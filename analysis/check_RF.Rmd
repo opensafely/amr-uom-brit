@@ -33,6 +33,8 @@ count(df)
 
 df=df[!is.na(df$subclass),]
 count(df)
+
+sum(is.na(df[col,]))
 ```
 
 
@@ -53,7 +55,7 @@ length(test_idx)
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # develop model
 
 df.train=sample_n(df.train, 0.001)
