@@ -24,7 +24,7 @@ actions:
       highly_sensitive:
         cohort: output/input_covid_admission.csv
 
-  process_1:  # Covid ons death
+  process_1: 
     run: r:latest analysis/process_1.R
     needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
     outputs:
@@ -528,6 +528,17 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_ab_yr1.csv
+
+
+## add sensitivity analusis for death without hospital admission
+  process_2: 
+    run: r:latest analysis/process_2.R
+    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
+    outputs:
+      highly_sensitive:
+        case: output/case_covid_death.csv 
+        control: output/control_covid_hosp.csv 
+
 
 
   check_abtype:
