@@ -55,6 +55,10 @@ df0=df%>%
 
 
 
+
+
+
+
 ## CASE part1 - covid icu or covid death within 1 month after hospitalisation
 df1_1=df%>%
   filter(icu_days>0|
@@ -107,10 +111,7 @@ df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
 ## CASE part2 - covid infection+death records within 1 month
 df1_2=df%>%
-  filter(
-          !is.na(covid_admission_date_after)|
-          !is.na(died_date_cpns_after)|
-          !is.na(died_date_ons_covid_after))
+  filter(!is.na(died_date_ons_covid_after))
 
 ## merge
 df=rbind(df1_1,df1_2)
