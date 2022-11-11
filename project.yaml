@@ -1690,6 +1690,17 @@ actions:
       moderately_sensitive:
         html: output/redacted_v2/top5_ab.html
 
+  ### +-7 days prescribing
+
+  generate_study_population_infection_abtype_wk : # for ab types plot
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk --index-date-range "2019-01-01 to 2022-07-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_abtype_wk_*.csv.gz
+
+
+
+
   describe_broad_proportion_measure:   
     run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
     needs: [generate_measures]
