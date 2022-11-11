@@ -364,6 +364,14 @@ actions:
         plot1: output/figure_3_bar.jpeg
         table1: output/figure_3_bar_table.csv
 
+  figure_3_prop: 
+    run: r:latest analysis/figure_3_prop.R
+    needs: [generate_measures_2020_covid_window,generate_measures_2021_covid_window]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_3_prop.jpeg
+        table1: output/figure_3_prop_table.csv
+
   figure_3_2D: 
     run: r:latest analysis/figure_3_2D.R
     needs: [generate_measures_2020_covid_window,generate_measures_2021_covid_window]
