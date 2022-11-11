@@ -30,7 +30,7 @@ library(gridExtra)
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome_study_2.rds")
-df <- read_rds(here::here("output","matched_outcome_study_2.rds"))
+df <- read_rds(here::here("output","matched_outcome_study2.rds"))
 
 ```
 
@@ -241,7 +241,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-df <- read_rds(here::here("output","matched_outcome_study_2.rds"))
+df <- read_rds(here::here("output","matched_outcome_study2.rds"))
 
 ```
 
@@ -480,7 +480,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-df <- read_rds(here::here("output","matched_outcome_study_2.rds"))
+df <- read_rds(here::here("output","matched_outcome_study2.rds"))
 
 ```
 
@@ -722,7 +722,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-df <- read_rds(here::here("output","matched_outcome_study_2.rds"))
+df <- read_rds(here::here("output","matched_outcome_study2.rds"))
 
 ```
 
