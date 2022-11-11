@@ -31,7 +31,7 @@ df=df%>%filter( !is.na(patient_index_date)) # covid hospital case
 
 
 
-## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+## Control - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
 df=df%>%filter(
          is.na(SGSS_positive_test_date_before),
          is.na(primary_care_covid_date_before), 
@@ -51,7 +51,7 @@ df0=df%>%
     is.na(died_date_cpns_after),
     is.na(died_date_ons_covid_after))
 
-write_csv(df0, here::here("output", "control_covid_hosp.csv"))
+#write_csv(df0, here::here("output", "control_covid_hosp.csv"))
 
 
 
@@ -59,7 +59,7 @@ write_csv(df0, here::here("output", "control_covid_hosp.csv"))
 df1_1=df%>%
   filter(icu_days>0|
            !is.na(died_date_ons_covid_after)|
-           !is.na(died_date_cpns_after))
+           !is.na(died_date_cpns_after))#
 
 rm(df)
 
@@ -123,5 +123,14 @@ df1=df%>%
 
 
 
+rm(df)
+
+
+df1_id=df1$patient_id
+df0=df0%>%filter(! patient_id %in% df1_id )
+
+
+
 write_csv(df1, here::here("output", "case_covid_icu_death.csv"))
+write_csv(df0, here::here("output", "control_covid_hosp.csv"))
 
