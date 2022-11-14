@@ -49,35 +49,15 @@ df$Broad_given_2D_window <- plyr::round_any(df$Broad_given_2D_window, 5)
 df$AB_given_2D_window <- plyr::round_any(df$AB_given_2D_window, 5)
 df$broad_rate <- round(df$Broad_given_2D_window/df$AB_given_2D_window,digits = 3)
 
-train_sec <- function(primary, secondary, na.rm = TRUE) {
-  # Thanks Henry Holm for including the na.rm argument!
-  from <- range(secondary, na.rm = na.rm)
-  to   <- range(primary, na.rm = na.rm)
-  # Forward transform for the data
-  forward <- function(x) {
-    rescale(x, from = from, to = to)
-  }
-  # Reverse transform for the secondary axis
-  reverse <- function(x) {
-    rescale(x, from = to, to = from)
-  }
-  list(fwd = forward, rev = reverse)
-}
 
-sec <- with(df, train_sec(c(0, max(ab_rate)),
-                          c(0, max(broad_rate))))
-
-
-
-p <- ggplot(df, aes(x=date, y=sec$fwd(broad_rate))) +
+p <- ggplot(df, aes(x=date)) +
   geom_rect(aes(xmin=lockdown_1_start, xmax=lockdown_1_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_rect(aes(xmin=lockdown_2_start, xmax=lockdown_2_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_rect(aes(xmin=lockdown_3_start, xmax=lockdown_3_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_line(aes(y = ab_rate), colour = "#0F5DC9",size = 0.8) +
-  geom_line(aes(y = sec$fwd(broad_rate)), colour = "#BA6A16") +
-  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  scale_y_continuous(sec.axis = sec_axis(~sec$rev(.), name = "broad-spectrum rate"))+
-  labs(x = "", y = "antibiotic prescribed in 2-day window tested positive for SARS-Cov-2") +
+  geom_line(aes(y = broad_rate), colour = "#BA6A16") +
+  scale_x_date(date_labels = "%Y %b", breaks = "1 months") +
+  scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, 0.05),labels = scales::percent)+
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
 p
@@ -86,4 +66,5 @@ p
 ggsave(p, width = 12, height = 6, dpi = 640,
                    filename="figure_3_2D.jpeg", path=here::here("output"),
             )  
+
 write_csv(df, here::here("output", "figure_3_2D_table.csv"))
