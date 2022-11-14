@@ -1,11 +1,5 @@
 {
   "files": {
-    "opensafely-antibacterials.csv": {
-      "id": "opensafely/antibacterials/01fff52f",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/01fff52f/",
-      "downloaded_at": "2022-08-22 20:11:12.959326Z",
-      "sha": "56fb312525f167260205d5dfa8dea94e07627429"
-    },
     "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
@@ -367,8 +361,8 @@
       "sha": "b35c6447b6456ebf00acbf89c6c53f432500b8c3"
     },
     "opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv": {
-      "id": "opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538/",
+      "id": "opensafely/co-amoxiclav-cephalosporins-and-quinolones/0d299a50",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/co-amoxiclav-cephalosporins-and-quinolones/0d299a50/",
       "downloaded_at": "2022-08-22 20:11:33.676528Z",
       "sha": "b1118448ed57fb5b2598e642b2235537dd420f1e"
     }
