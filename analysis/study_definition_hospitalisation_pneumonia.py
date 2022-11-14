@@ -698,50 +698,50 @@ study = StudyDefinition(
         return_expectations={"date": {"pneumonia_date_14": "today()"}},
         ),
 
-    # pneumonia_date_16=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning='date',
-    #     between=["pneumonia_date_15 + 1 day", "today"],
-    #     find_first_match_in_period=True,
-    #     date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-    #     return_expectations={"date": {"pneumonia_date_15": "today()"}},
-    #     ),
+    pneumonia_date_16=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_15 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"pneumonia_date_15": "today()"}},
+        ),
 
-    # pneumonia_date_17=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning='date',
-    #     between=["pneumonia_date_16 + 1 day", "today"],
-    #     find_first_match_in_period=True,
-    #     date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-    #     return_expectations={"date": {"pneumonia_date_16": "today()"}},
-    #     ),
+    pneumonia_date_17=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_16 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"pneumonia_date_16": "today()"}},
+        ),
 
-    # pneumonia_date_18=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning='date',
-    #     between=["pneumonia_date_17 + 1 day", "today"],
-    #     find_first_match_in_period=True,
-    #     date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-    #     return_expectations={"date": {"pneumonia_date_17": "today()"}},
-    #     ),
+    pneumonia_date_18=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_17 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"pneumonia_date_17": "today()"}},
+        ),
 
-    # pneumonia_date_19=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning='date',
-    #     between=["pneumonia_date_18 + 1 day", "today"],
-    #     find_first_match_in_period=True,
-    #     date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-    #     return_expectations={"date": {"pneumonia_date_18": "today()"}},
-    #     ),
+    pneumonia_date_19=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_18 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"pneumonia_date_18": "today()"}},
+        ),
 
-    # pneumonia_date_20=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning='date',
-    #     between=["pneumonia_date_19 + 1 day", "today"],
-    #     find_first_match_in_period=True,
-    #     date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
-    #     return_expectations={"date": {"pneumonia_date_19": "today()"}},
-    #     ),
+    pneumonia_date_20=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning='date',
+        between=["pneumonia_date_19 + 1 day", "today"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        return_expectations={"date": {"pneumonia_date_19": "today()"}},
+        ),
 
 
 ####################################################################################
@@ -1080,55 +1080,55 @@ study = StudyDefinition(
         },
     ),
 
-    # antibacterial_brit_16=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=["pneumonia_date_16 - 12 months", "pneumonia_date_16"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
+    antibacterial_brit_16=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_16 - 12 months", "pneumonia_date_16"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 
-    # antibacterial_brit_17=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=["pneumonia_date_17 - 12 months", "pneumonia_date_17"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
+    antibacterial_brit_17=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_17 - 12 months", "pneumonia_date_17"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 
-    # antibacterial_brit_18=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=["pneumonia_date_18 - 12 months", "pneumonia_date_18"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
+    antibacterial_brit_18=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_18 - 12 months", "pneumonia_date_18"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 
-    # antibacterial_brit_19=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=["pneumonia_date_19 - 12 months", "pneumonia_date_19"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
+    antibacterial_brit_19=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_19 - 12 months", "pneumonia_date_19"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 
-    # antibacterial_brit_20=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=["pneumonia_date_20 - 12 months", "pneumonia_date_20"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
+    antibacterial_brit_20=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["pneumonia_date_20 - 12 months", "pneumonia_date_20"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 
 
 ###################################################################################
@@ -1398,45 +1398,45 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
     ),
 
-    # incdt_pneumonia_date_16=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning="binary_flag",
-    #     between=["pneumonia_date_16 - 42 days", "pneumonia_date_16 - 1 day"], 
-    #     find_first_match_in_period=True,
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
-    # ),
+    incdt_pneumonia_date_16=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning="binary_flag",
+        between=["pneumonia_date_16 - 42 days", "pneumonia_date_16 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
 
-    # incdt_pneumonia_date_17=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning="binary_flag",
-    #     between=["pneumonia_date_17 - 42 days", "pneumonia_date_17 - 1 day"], 
-    #     find_first_match_in_period=True,
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
-    # ),
+    incdt_pneumonia_date_17=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning="binary_flag",
+        between=["pneumonia_date_17 - 42 days", "pneumonia_date_17 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
 
-    # incdt_pneumonia_date_18=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning="binary_flag",
-    #     between=["pneumonia_date_18 - 42 days", "pneumonia_date_18 - 1 day"], 
-    #     find_first_match_in_period=True,
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
-    # ),
+    incdt_pneumonia_date_18=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning="binary_flag",
+        between=["pneumonia_date_18 - 42 days", "pneumonia_date_18 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
 
-    # incdt_pneumonia_date_19=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning="binary_flag",
-    #     between=["pneumonia_date_19 - 42 days", "pneumonia_date_19 - 1 day"], 
-    #     find_first_match_in_period=True,
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
-    # ),
+    incdt_pneumonia_date_19=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning="binary_flag",
+        between=["pneumonia_date_19 - 42 days", "pneumonia_date_19 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
 
-    # incdt_pneumonia_date_20=patients.with_these_clinical_events(
-    #     pneumonia_codes,
-    #     returning="binary_flag",
-    #     between=["pneumonia_date_20 - 42 days", "pneumonia_date_20 - 1 day"], 
-    #     find_first_match_in_period=True,
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
-    # ),
+    incdt_pneumonia_date_20=patients.with_these_clinical_events(
+        pneumonia_codes,
+        returning="binary_flag",
+        between=["pneumonia_date_20 - 42 days", "pneumonia_date_20 - 1 day"], 
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
+    ),
 
 
 
@@ -1576,52 +1576,50 @@ study = StudyDefinition(
        return_expectations={"incidence": 0.3},
     ),
 
-    # admitted_pneumonia_date_16=patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    between=["pneumonia_date_16", "pneumonia_date_16 + 30 days"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
+    admitted_pneumonia_date_16=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["pneumonia_date_16", "pneumonia_date_16 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
 
-    # admitted_pneumonia_date_17=patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    between=["pneumonia_date_17", "pneumonia_date_17 + 30 days"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
+    admitted_pneumonia_date_17=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["pneumonia_date_17", "pneumonia_date_17 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
 
-    # admitted_pneumonia_date_18=patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    between=["pneumonia_date_18", "pneumonia_date_18 + 30 days"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
+    admitted_pneumonia_date_18=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["pneumonia_date_18", "pneumonia_date_18 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
 
-    # admitted_pneumonia_date_19=patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    between=["pneumonia_date_19", "pneumonia_date_19 + 30 days"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
+    admitted_pneumonia_date_19=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["pneumonia_date_19", "pneumonia_date_19 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
 
-    # admitted_pneumonia_date_20=patients.admitted_to_hospital(
-    #    with_these_diagnoses=hospitalisation_infection_related,
-    #    returning="date_admitted",
-    #    date_format="YYYY-MM-DD",
-    #    between=["pneumonia_date_20", "pneumonia_date_20 + 30 days"],
-    #    find_first_match_in_period=True,
-    #    return_expectations={"incidence": 0.3},
-    # ),
-
-
+    admitted_pneumonia_date_20=patients.admitted_to_hospital(
+       with_these_diagnoses=hospitalisation_infection_related,
+       returning="date_admitted",
+       date_format="YYYY-MM-DD",
+       between=["pneumonia_date_20", "pneumonia_date_20 + 30 days"],
+       find_first_match_in_period=True,
+       return_expectations={"incidence": 0.3},
+    ),
 
 
     ## Covid positive test result during hospital admission related to pneumonia
@@ -2069,156 +2067,155 @@ study = StudyDefinition(
         """,
     ),
 
-# ########################################
-#     ## Covid positive test result 16
-#     sgss_pos_covid_date_pneumonia_16=patients.with_test_result_in_sgss(
-#         pathogen="SARS-CoV-2",
-#         test_result="positive",
-#         between=["pneumonia_date_16 - 90 days", "pneumonia_date_16 + 30 days"],
-#         find_first_match_in_period=True,
-#         returning="date",
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.5},
-#     ),
+########################################
+    ## Covid positive test result 16
+    sgss_pos_covid_date_pneumonia_16=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["pneumonia_date_16 - 90 days", "pneumonia_date_16 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis
-#     gp_covid_date_pneumonia_16=patients.with_these_clinical_events(
-#         any_primary_care_code,
-#         returning="date",
-#         between=["pneumonia_date_16 - 90 days", "pneumonia_date_16 + 30 days"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
-#     ),
+    ## Covid diagnosis
+    gp_covid_date_pneumonia_16=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["pneumonia_date_16 - 90 days", "pneumonia_date_16 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
-#     sgss_gp_cov_pneumonia_date_16=patients.satisfying(
-#         """
-#         sgss_pos_covid_date_pneumonia_16 OR
-#         gp_covid_date_pneumonia_16
-#         """,
-#     ),
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
+    sgss_gp_cov_pneumonia_date_16=patients.satisfying(
+        """
+        sgss_pos_covid_date_pneumonia_16 OR
+        gp_covid_date_pneumonia_16
+        """,
+    ),
 
-# ########################################
-#     ## Covid positive test result 17
-#     sgss_pos_covid_date_pneumonia_17=patients.with_test_result_in_sgss(
-#         pathogen="SARS-CoV-2",
-#         test_result="positive",
-#         between=["pneumonia_date_17 - 90 days", "pneumonia_date_17 + 30 days"],
-#         find_first_match_in_period=True,
-#         returning="date",
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.5},
-#     ),
+########################################
+    ## Covid positive test result 17
+    sgss_pos_covid_date_pneumonia_17=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["pneumonia_date_17 - 90 days", "pneumonia_date_17 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis
-#     gp_covid_date_pneumonia_17=patients.with_these_clinical_events(
-#         any_primary_care_code,
-#         returning="date",
-#         between=["pneumonia_date_17 - 90 days", "pneumonia_date_17 + 30 days"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
-#     ),
+    ## Covid diagnosis
+    gp_covid_date_pneumonia_17=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["pneumonia_date_17 - 90 days", "pneumonia_date_17 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
-#     sgss_gp_cov_pneumonia_date_17=patients.satisfying(
-#         """
-#         sgss_pos_covid_date_pneumonia_17 OR
-#         gp_covid_date_pneumonia_17
-#         """,
-#     ),
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
+    sgss_gp_cov_pneumonia_date_17=patients.satisfying(
+        """
+        sgss_pos_covid_date_pneumonia_17 OR
+        gp_covid_date_pneumonia_17
+        """,
+    ),
 
-# ########################################
-#     ## Covid positive test result 18
-#     sgss_pos_covid_date_pneumonia_18=patients.with_test_result_in_sgss(
-#         pathogen="SARS-CoV-2",
-#         test_result="positive",
-#         between=["pneumonia_date_18 - 90 days", "pneumonia_date_18 + 30 days"],
-#         find_first_match_in_period=True,
-#         returning="date",
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.5},
-#     ),
+########################################
+    ## Covid positive test result 18
+    sgss_pos_covid_date_pneumonia_18=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["pneumonia_date_18 - 90 days", "pneumonia_date_18 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis
-#     gp_covid_date_pneumonia_18=patients.with_these_clinical_events(
-#         any_primary_care_code,
-#         returning="date",
-#         between=["pneumonia_date_18 - 90 days", "pneumonia_date_18 + 30 days"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
-#     ),
+    ## Covid diagnosis
+    gp_covid_date_pneumonia_18=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["pneumonia_date_18 - 90 days", "pneumonia_date_18 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
-#     sgss_gp_cov_pneumonia_date_18=patients.satisfying(
-#         """
-#         sgss_pos_covid_date_pneumonia_18 OR
-#         gp_covid_date_pneumonia_18
-#         """,
-#     ),
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
+    sgss_gp_cov_pneumonia_date_18=patients.satisfying(
+        """
+        sgss_pos_covid_date_pneumonia_18 OR
+        gp_covid_date_pneumonia_18
+        """,
+    ),
 
-# ########################################
-#     ## Covid positive test result 19
-#     sgss_pos_covid_date_pneumonia_19=patients.with_test_result_in_sgss(
-#         pathogen="SARS-CoV-2",
-#         test_result="positive",
-#         between=["pneumonia_date_19 - 90 days", "pneumonia_date_19 + 30 days"],
-#         find_first_match_in_period=True,
-#         returning="date",
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.5},
-#     ),
+########################################
+    ## Covid positive test result 19
+    sgss_pos_covid_date_pneumonia_19=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["pneumonia_date_19 - 90 days", "pneumonia_date_19 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis
-#     gp_covid_date_pneumonia_19=patients.with_these_clinical_events(
-#         any_primary_care_code,
-#         returning="date",
-#         between=["pneumonia_date_19 - 90 days", "pneumonia_date_19 + 30 days"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
-#     ),
+    ## Covid diagnosis
+    gp_covid_date_pneumonia_19=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["pneumonia_date_19 - 90 days", "pneumonia_date_19 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
-#     sgss_gp_cov_pneumonia_date_19=patients.satisfying(
-#         """
-#         sgss_pos_covid_date_pneumonia_19 OR
-#         gp_covid_date_pneumonia_19
-#         """,
-#     ),
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
+    sgss_gp_cov_pneumonia_date_19=patients.satisfying(
+        """
+        sgss_pos_covid_date_pneumonia_19 OR
+        gp_covid_date_pneumonia_19
+        """,
+    ),
 
-# ########################################
-#     ## Covid positive test result 20
-#     sgss_pos_covid_date_pneumonia_20=patients.with_test_result_in_sgss(
-#         pathogen="SARS-CoV-2",
-#         test_result="positive",
-#         between=["pneumonia_date_20 - 90 days", "pneumonia_date_20 + 30 days"],
-#         find_first_match_in_period=True,
-#         returning="date",
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.5},
-#     ),
+########################################
+    ## Covid positive test result 20
+    sgss_pos_covid_date_pneumonia_20=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["pneumonia_date_20 - 90 days", "pneumonia_date_20 + 30 days"],
+        find_first_match_in_period=True,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis
-#     gp_covid_date_pneumonia_20=patients.with_these_clinical_events(
-#         any_primary_care_code,
-#         returning="date",
-#         between=["pneumonia_date_20 - 90 days", "pneumonia_date_20 + 30 days"],
-#         find_first_match_in_period=True,
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
-#     ),
+    ## Covid diagnosis
+    gp_covid_date_pneumonia_20=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        between=["pneumonia_date_20 - 90 days", "pneumonia_date_20 + 30 days"],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={"date":{"earliest":start_date}, "rate": "exponential_increase", "incidence": 0.5},
+    ),
 
-#     ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
-#     sgss_gp_cov_pneumonia_date_20=patients.satisfying(
-#         """
-#         sgss_pos_covid_date_pneumonia_20 OR
-#         gp_covid_date_pneumonia_20
-#         """,
-#     ),
-
+    ## Covid diagnosis either recorded in sgss or diagnosed by gp within 90 days before and 30 days after pneumonia dx 
+    sgss_gp_cov_pneumonia_date_20=patients.satisfying(
+        """
+        sgss_pos_covid_date_pneumonia_20 OR
+        gp_covid_date_pneumonia_20
+        """,
+    ),
 
 
     #numbers of antibiotic prescribed for this infection 
@@ -2375,45 +2372,45 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
         ),
 
-    # pneumonia_ab_date_16=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_16','pneumonia_date_16 + 5 days'],
-    #     returning='date',
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #     ),
+    pneumonia_ab_date_16=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_16','pneumonia_date_16 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
 
-    # pneumonia_ab_date_17=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_17','pneumonia_date_17 + 5 days'],
-    #     returning='date',
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #     ),
+    pneumonia_ab_date_17=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_17','pneumonia_date_17 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
 
-    # pneumonia_ab_date_18=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_18','pneumonia_date_18 + 5 days'],
-    #     returning='date',
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #     ),
+    pneumonia_ab_date_18=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_18','pneumonia_date_18 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
 
-    # pneumonia_ab_date_19=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_19','pneumonia_date_19 + 5 days'],
-    #     returning='date',
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #     ),
+    pneumonia_ab_date_19=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_19','pneumonia_date_19 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
 
-    # pneumonia_ab_date_20=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_20','pneumonia_date_20 + 5 days'],
-    #     returning='date',
-    #     date_format="YYYY-MM-DD",
-    #     return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-    #     ),
+    pneumonia_ab_date_20=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_20','pneumonia_date_20 + 5 days'],
+        returning='date',
+        date_format="YYYY-MM-DD",
+        return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
+        ),
 
     # antibiotics type for pneumonia
     pneumonia_ab_type_1=patients.with_these_medications(
@@ -2596,64 +2593,64 @@ study = StudyDefinition(
             "incidence": 0.2},
         ),
 
-    # pneumonia_ab_type_16=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_16','pneumonia_date_16 + 5 days'],
-    #     returning='category',
-    #     return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
-    #                                                  "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
-    #                                                  "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
-    #                                                  "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
-    #                                                  "Cefprozil":0.05, "Clarithromycin":0.05}},
-    #         "incidence": 0.2},
-    #     ),
+    pneumonia_ab_type_16=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_16','pneumonia_date_16 + 5 days'],
+        returning='category',
+        return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
+                                                     "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
+                                                     "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
+                                                     "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
+                                                     "Cefprozil":0.05, "Clarithromycin":0.05}},
+            "incidence": 0.2},
+        ),
 
-    # pneumonia_ab_type_17=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_17','pneumonia_date_17 + 5 days'],
-    #     returning='category',
-    #     return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
-    #                                                  "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
-    #                                                  "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
-    #                                                  "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
-    #                                                  "Cefprozil":0.05, "Clarithromycin":0.05}},
-    #         "incidence": 0.2},
-    #     ),
+    pneumonia_ab_type_17=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_17','pneumonia_date_17 + 5 days'],
+        returning='category',
+        return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
+                                                     "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
+                                                     "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
+                                                     "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
+                                                     "Cefprozil":0.05, "Clarithromycin":0.05}},
+            "incidence": 0.2},
+        ),
 
-    # pneumonia_ab_type_18=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_18','pneumonia_date_18 + 5 days'],
-    #     returning='category',
-    #     return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
-    #                                                  "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
-    #                                                  "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
-    #                                                  "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
-    #                                                  "Cefprozil":0.05, "Clarithromycin":0.05}},
-    #         "incidence": 0.2},
-    #     ),
+    pneumonia_ab_type_18=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_18','pneumonia_date_18 + 5 days'],
+        returning='category',
+        return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
+                                                     "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
+                                                     "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
+                                                     "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
+                                                     "Cefprozil":0.05, "Clarithromycin":0.05}},
+            "incidence": 0.2},
+        ),
 
-    # pneumonia_ab_type_19=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_19','pneumonia_date_19 + 5 days'],
-    #     returning='category',
-    #     return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
-    #                                                  "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
-    #                                                  "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
-    #                                                  "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
-    #                                                  "Cefprozil":0.05, "Clarithromycin":0.05}},
-    #         "incidence": 0.2},
-    #     ),
+    pneumonia_ab_type_19=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_19','pneumonia_date_19 + 5 days'],
+        returning='category',
+        return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
+                                                     "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
+                                                     "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
+                                                     "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
+                                                     "Cefprozil":0.05, "Clarithromycin":0.05}},
+            "incidence": 0.2},
+        ),
 
-    # pneumonia_ab_type_20=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     between=['pneumonia_date_20','pneumonia_date_20 + 5 days'],
-    #     returning='category',
-    #     return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
-    #                                                  "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
-    #                                                  "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
-    #                                                  "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
-    #                                                  "Cefprozil":0.05, "Clarithromycin":0.05}},
-    #         "incidence": 0.2},
-    #     ),
+    pneumonia_ab_type_20=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=['pneumonia_date_20','pneumonia_date_20 + 5 days'],
+        returning='category',
+        return_expectations={"category": {"ratios": {"Doxycycline":0.1, "Cefoxitin":0.05, "Aztreonam":0.05, 
+                                                     "Lymecycline":0.05, "Cefotaxime":0.05, "Amoxicillin":0.3,
+                                                     "Trimethoprim":0.05, "Cefalexin":0.05, "Cefamandole":0.05,
+                                                     "Cefixime":0.05, "Demeclocycline":0.05, "Fosfomycin":0.05,
+                                                     "Cefprozil":0.05, "Clarithromycin":0.05}},
+            "incidence": 0.2},
+        ),
 
 )
