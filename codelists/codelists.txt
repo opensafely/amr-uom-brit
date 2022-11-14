@@ -61,4 +61,4 @@ opensafely/trimethoprim-and-nitrofurantoin/251c9243
 
 user/BillyZhongUOM/broad_spec_op_codelist/46b64804
 user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/
-opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538
+opensafely/co-amoxiclav-cephalosporins-and-quinolones/0d299a50
