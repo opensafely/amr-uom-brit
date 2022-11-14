@@ -47,12 +47,6 @@ actions:
       highly_sensitive:
         cohort: output/hospitalisation_data/input_hospitalisation_pneumonia.csv.gz
 
-  generate_study_population_hospitalisation_throat:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_throat --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/hospitalisation_data/input_hospitalisation_throat.csv.gz
-
   generate_study_population_hospitalisation_cough:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_cough --output-format=csv.gz
     outputs:
@@ -64,6 +58,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/hospitalisation_data/input_hospitalisation_cough_cold.csv.gz
+
+  generate_study_population_hospitalisation_throat:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_hospitalisation_throat --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/hospitalisation_data/input_hospitalisation_throat.csv.gz
 
   generate_notebook_hospitalisation_prediction_urti:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti --ExecutePreprocessor.timeout=86400
@@ -119,9 +119,41 @@ actions:
         notebook: output/hospitalisation_prediction_otmedia/hospitalisation_prediction_otmedia.html 
         figures: output/hospitalisation_prediction_otmedia/*
 
+  generate_notebook_hospitalisation_prediction_pneumonia:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_pneumonia.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_pneumonia --ExecutePreprocessor.timeout=86400
+    needs: [generate_study_population_hospitalisation_pneumonia]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction_pneumonia/hospitalisation_prediction_pneumonia.html 
+        figures: output/hospitalisation_prediction_pneumonia/* 
+
+  generate_notebook_hospitalisation_prediction_cough:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_cough.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_cough --ExecutePreprocessor.timeout=86400
+    needs: [generate_study_population_hospitalisation_cough]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction_cough/hospitalisation_prediction_cough.html 
+        figures: output/hospitalisation_prediction_cough/*
+
+  generate_notebook_hospitalisation_prediction_cough_cold:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_cough_cold.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_cough_cold --ExecutePreprocessor.timeout=86400
+    needs: [generate_study_population_hospitalisation_cough_cold]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction_cough_cold/hospitalisation_prediction_cough_cold.html 
+        figures: output/hospitalisation_prediction_cough_cold/*
+
+  generate_notebook_hospitalisation_prediction_throat:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_throat.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_throat --ExecutePreprocessor.timeout=86400
+    needs: [generate_study_population_hospitalisation_throat]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction_throat/hospitalisation_prediction_throat.html 
+        figures: output/hospitalisation_prediction_throat/* 
+
   generate_notebook_hosp_plots:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hosp_plots.ipynb --execute --to html --output-dir=/workspace/output/hosp_plots --ExecutePreprocessor.timeout=86400
-    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_pneumonia, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
     outputs:
       moderately_sensitive:
         notebook: output/hosp_plots/hosp_plots.html 
@@ -129,7 +161,7 @@ actions:
 
   generate_notebook_aggregate_table:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_baseline_table.ipynb --execute --to html --output-dir=/workspace/output/aggregate_tables --ExecutePreprocessor.timeout=86400
-    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_pneumonia, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]    
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_tables/aggregate_baseline_table.html 
@@ -137,7 +169,7 @@ actions:
 
   generate_notebook_aggregate_hosp_table:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_hosp_table.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hosp_table --ExecutePreprocessor.timeout=86400
-    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_pneumonia, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_hosp_table/aggregate_hosp_table.html 
@@ -145,7 +177,7 @@ actions:
 
   generate_notebook_aggregate_cox_hrs_betas:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_hrs_betas.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hrs_betas --ExecutePreprocessor.timeout=86400
-    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_pneumonia, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_hrs_betas/aggregate_cox_hrs_betas.html 
@@ -153,7 +185,7 @@ actions:
 
   generate_notebook_aggregate_cox_cis:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_cis.ipynb --execute --to html --output-dir=/workspace/output/aggregate_cox_cis --ExecutePreprocessor.timeout=86400
-    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa]
+    needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_pneumonia, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_cox_cis/aggregate_cox_cis.html 
