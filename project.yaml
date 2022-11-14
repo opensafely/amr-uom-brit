@@ -20,29 +20,6 @@ actions:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
 
-# COVID population for same-day prescribing
-
-  generate_study_population_samedayab:
-      run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_sameday_ab --index-date-range "2019-01-01 to 2022-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
-      outputs:
-        highly_sensitive:
-          cohort: output/measures/input_sameday_ab_*.csv.gz
-
-  generate_measures_samedayab:
-    run: cohortextractor:latest generate_measures --study-definition study_definition_sameday_ab --skip-existing --output-dir=output/measures
-    needs: [generate_study_population_samedayab]
-    outputs:
-      moderately_sensitive:
-        measure_csv: output/measures/measure_samedayab_*.csv
-
-  describe_same_day_ab:
-    run: r:latest analysis/plot/same_day_covid_ab.R
-    needs: [generate_measures_samedayab]
-    outputs:
-       moderately_sensitive:
-        plot1: output/same_day_ab_prop_line_sgss.jpeg
-        plot2: output/same_day_ab_prop_line_gp.jpeg
-
 # AB prescribing rate 
 
   describe_percentile:
@@ -75,7 +52,6 @@ actions:
 
 # baseline table
 
-####### 2019 baseline table
   describe_baseline_table_split_2019:
     run: r:latest analysis/tables/baseline_table_2019.R
     needs: [describe_basic_record_process]
@@ -85,6 +61,82 @@ actions:
         baseline_table_2019: output/blt_one_random_obs_perpat_2019.csv
       highly_sensitive:
         cohort: output/measures/id_2019.csv
+
+  describe_baseline_table_split_2020:
+    run: r:latest analysis/tables/baseline_table_2020.R
+    needs: [describe_basic_record_process]
+    outputs:
+      moderately_sensitive:
+        baseline_overall_2020: output/overall_counts_blt_2020.csv
+        baseline_table_2020: output/blt_one_random_obs_perpat_2020.csv
+      highly_sensitive:
+        cohort: output/measures/id_2020.csv
+  
+  describe_baseline_table_split_2021:
+    run: r:latest analysis/tables/baseline_table_2021.R
+    needs: [describe_basic_record_process]
+    outputs:
+      moderately_sensitive:
+        baseline_overall_2021: output/overall_counts_blt_2021.csv
+        baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
+      highly_sensitive:
+        cohort: output/measures/id_2021.csv
+  
+  describe_baseline_table_split_2022:
+    run: r:latest analysis/tables/baseline_table_2022.R
+    needs: [describe_basic_record_process]
+    outputs:
+      moderately_sensitive:
+        baseline_overall_2022: output/overall_counts_blt_2022.csv
+        baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
+      highly_sensitive:
+        cohort: output/measures/id_2022.csv
+
+#  additional: baseline table - covid infetion patients
+
+  generate_study_population_covidnum_2020:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_covidnum_2020
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidnum_2020.csv.gz
+
+  generate_study_population_covidnum_2021:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_covidnum_2021
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidnum_2021.csv.gz
+
+  generate_study_population_covidnum_2022:
+      run: cohortextractor:latest generate_cohort 
+        --with-end-date-fix
+        --study-definition study_definition_covidnum_2022
+        --output-format=csv.gz
+      outputs:
+        highly_sensitive:
+          cohort: output/input_covidnum_2022.csv.gz
+
+  describe_covid_count: 
+    run: r:latest analysis/tables/covidcount.R
+    needs: [generate_study_population_covidnum_2020,generate_study_population_covidnum_2021,generate_study_population_covidnum_2022]
+    outputs:
+      moderately_sensitive:
+        table1: output/covid_count.csv
+
+  describe_covid_count_patone: 
+    run: r:latest analysis/tables/covidcount_patone.R
+    needs: [generate_study_population_samedayab]
+    outputs:
+      moderately_sensitive:
+        table1: output/covid_count_patone.csv
+  
+
+  #  additional: baseline table - covid vaccination %
 
   extract_covrx_2019:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2019
@@ -99,18 +151,6 @@ actions:
     outputs:
       moderately_sensitive:
         number: output/covrx_2019.txt
-
-
-####### 2020 baseline table
-  describe_baseline_table_split_2020:
-    run: r:latest analysis/tables/baseline_table_2020.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2020: output/overall_counts_blt_2020.csv
-        baseline_table_2020: output/blt_one_random_obs_perpat_2020.csv
-      highly_sensitive:
-        cohort: output/measures/id_2020.csv
   
   extract_covrx_2020:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2020
@@ -119,25 +159,12 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_covrx_2020.csv 
 
-
   describe_covrx_2020:
     run: r:latest analysis/tables/covrx_2020.R
     needs: [extract_covrx_2020]
     outputs:
       moderately_sensitive:
         number: output/covrx_2020.txt
-
-####### 2021 baseline table
-
-  describe_baseline_table_split_2021:
-    run: r:latest analysis/tables/baseline_table_2021.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2021: output/overall_counts_blt_2021.csv
-        baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
-      highly_sensitive:
-        cohort: output/measures/id_2021.csv
   
   extract_covrx_2021:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2021
@@ -152,18 +179,6 @@ actions:
     outputs:
       moderately_sensitive:
         number: output/covrx_2021.txt
-
-####### 2022 baseline table
-
-  describe_baseline_table_split_2022:
-    run: r:latest analysis/tables/baseline_table_2022.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2022: output/overall_counts_blt_2022.csv
-        baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
-      highly_sensitive:
-        cohort: output/measures/id_2022.csv
   
   extract_covrx_2022:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covrx_2022
@@ -180,7 +195,12 @@ actions:
         number: output/covrx_2022.txt
 
 
-#  population with 12 AB records per month
+
+
+
+
+
+#  12 extractions for antibiotics /per month
 
   generate_study_population_ab: #  Antibiotics_recorded_01
     run: cohortextractor:latest generate_cohort  --with-end-date-fix --study-definition study_definition_ab --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -226,7 +246,8 @@ actions:
         html: output/report/ab_recoded_indication_ITS2_plot.html
 
 
-# population with 4 infection consultations per month - same day AB prescribing
+
+#  4 extractions for infection consultations /per month  (with same-day AB prescribing)
   generate_study_population_infection_abtype: # for ab types plot
     run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
@@ -295,18 +316,6 @@ actions:
     needs: [describe_infection_abtype_process]
     outputs:
        moderately_sensitive:
-        # plot1.1: output/redacted_v2/prevalent_AB_uti_top5.jpeg
-        # plot1.2: output/redacted_v2/incident_AB_uti_top5.jpeg
-        # plot2.1: output/redacted_v2/prevalent_AB_lrti_top5.jpeg
-        # plot2.2: output/redacted_v2/incident_AB_lrti_top5.jpeg
-        # plot3.1: output/redacted_v2/prevalent_AB_urti_top5.jpeg
-        # plot3.2: output/redacted_v2/incident_AB_urti_top5.jpeg
-        # plot4.1: output/redacted_v2/prevalent_AB_sinusitis_top5.jpeg
-        # plot4.2: output/redacted_v2/incident_AB_sinusitis_top5.jpeg
-        # plot5.1: output/redacted_v2/prevalent_AB_ot_externa_top5.jpeg
-        # plot5.2: output/redacted_v2/incident_AB_ot_externa_top5.jpeg
-        # plot6.1: output/redacted_v2/prevalent_AB_otmedia_top5.jpeg
-        # plot6.2: output/redacted_v2/incident_AB_otmedia_top5.jpeg
         csv1: output/redacted_v2/AB_uti_check_top5.csv
         csv2: output/redacted_v2/AB_lrti_check_top5.csv
         csv3: output/redacted_v2/AB_urti_check_top5.csv
@@ -314,7 +323,7 @@ actions:
         csv5: output/redacted_v2/AB_ot_externa_check_top5.csv
         csv6: output/redacted_v2/AB_otmedia_check_top5.csv
         csv7: output/redacted_v2/AB_top5.csv
-        plot1: output/redacted_v2/prevalent_AB_top5.jpeg
+        plot1: output/redacted_v2/prevalent_AB_top5.jpeg # combined 6 infections
         plot2: output/redacted_v2/incident_AB_top5.jpeg
 
   describe_top5_ab: 
@@ -324,7 +333,10 @@ actions:
       moderately_sensitive:
         html: output/redacted_v2/top5_ab.html
 
-  # population with 4 infection consultations per month-- 14-days AB prescribing (+/- 7 days of infection date)
+  
+  
+  
+  # 4 extractions for infection consultations /per month  (with 14-day AB prescribing)
 
   generate_study_population_infection_abtype_wk : # for ab types plot
     run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk --index-date-range "2019-01-01 to 2022-07-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -332,54 +344,28 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_infection_abtype_wk_*.csv.gz
 
-  # describe_ab_check_2020: 
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/ab_check_2020.rmd", output_dir = "output/report")'
-  #   needs: [generate_study_population_infection_abtype]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/ab_check_2020.html
 
 
+# same-day COVID-19 diagnosis with an antibiotic prescription (+/- 2 days)
 
-# check for covid infetion patients
-
-  generate_study_population_covidnum_2020:
-      run: cohortextractor:latest generate_cohort 
-        --with-end-date-fix
-        --study-definition study_definition_covidnum_2020
-        --output-format=csv.gz
+  generate_study_population_samedayab:
+      run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_sameday_ab --index-date-range "2019-01-01 to 2022-06-01" --skip-existing --output-dir=output/measures --output-format=csv.gz
       outputs:
         highly_sensitive:
-          cohort: output/input_covidnum_2020.csv.gz
+          cohort: output/measures/input_sameday_ab_*.csv.gz
 
-  generate_study_population_covidnum_2021:
-      run: cohortextractor:latest generate_cohort 
-        --with-end-date-fix
-        --study-definition study_definition_covidnum_2021
-        --output-format=csv.gz
-      outputs:
-        highly_sensitive:
-          cohort: output/input_covidnum_2021.csv.gz
-
-  generate_study_population_covidnum_2022:
-      run: cohortextractor:latest generate_cohort 
-        --with-end-date-fix
-        --study-definition study_definition_covidnum_2022
-        --output-format=csv.gz
-      outputs:
-        highly_sensitive:
-          cohort: output/input_covidnum_2022.csv.gz
-
-  describe_covid_count: 
-    run: r:latest analysis/tables/covidcount.R
-    needs: [generate_study_population_covidnum_2020,generate_study_population_covidnum_2021,generate_study_population_covidnum_2022]
-    outputs:
-      moderately_sensitive:
-        table1: output/covid_count.csv
-
-  describe_covid_count_patone: 
-    run: r:latest analysis/tables/covidcount_patone.R
+  generate_measures_samedayab:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_sameday_ab --skip-existing --output-dir=output/measures
     needs: [generate_study_population_samedayab]
     outputs:
       moderately_sensitive:
-        table1: output/covid_count_patone.csv
+        measure_csv: output/measures/measure_samedayab_*.csv
+
+  describe_same_day_ab:
+    run: r:latest analysis/plot/same_day_covid_ab.R
+    needs: [generate_measures_samedayab]
+    outputs:
+       moderately_sensitive:
+        plot1: output/same_day_ab_prop_line_sgss.jpeg
+        plot2: output/same_day_ab_prop_line_gp.jpeg
+
