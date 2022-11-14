@@ -18,11 +18,11 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 ### The following should be our own codelists in the future
 
 ### All antibacterials
-antibacterials_codes= codelist_from_csv(
-  "codelists/opensafely-antibacterials.csv",
-  system = "snomed",
-  column = "dmd_id"
-)
+# antibacterials_codes= codelist_from_csv(
+#   "codelists/opensafely-antibacterials.csv",
+#   system = "snomed",
+#   column = "dmd_id"
+# )
 
 
 antibacterials_codes_brit = codelist_from_csv(

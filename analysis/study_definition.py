@@ -869,19 +869,19 @@ measures = [
             group_by=["practice"]
             ),
     
-    ## Antibiotic Rx rate by TyPE
-    Measure(id="antibiotics_overall_brit_abtype",
-            numerator="antibacterial_brit",
-            denominator="population",
-            group_by=["antibacterial_brit_abtype"]
-            ),
+    # ## Antibiotic Rx rate by TyPE
+    # Measure(id="antibiotics_overall_brit_abtype",
+    #         numerator="antibacterial_brit",
+    #         denominator="population",
+    #         group_by=["antibacterial_brit_abtype"]
+    #         ),
 
-    ## Broad spectrum antibiotics
-    Measure(id="broad_spectrum_proportion",
-            numerator="broad_spectrum_antibiotics_prescriptions",
-            denominator="antibacterial_brit",
-            group_by=["practice"]
-            ),
+    # ## Broad spectrum antibiotics
+    # Measure(id="broad_spectrum_proportion",
+    #         numerator="broad_spectrum_antibiotics_prescriptions",
+    #         denominator="antibacterial_brit",
+    #         group_by=["practice"]
+    #         ),
 
     # ## antibiotic count rolling 12m before
     # Measure(id="ABs_12mb4",
