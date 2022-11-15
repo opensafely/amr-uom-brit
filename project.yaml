@@ -239,6 +239,14 @@ actions:
         csv2.2: output/model_6w_total_adj2.csv 
         csv2.3: output/model_6w_types_adj2.csv
 
+  model_6w_time: 
+    run: r:latest analysis/model/model_6w_time.R
+    needs: [process_Rmatching_6w]
+    outputs:
+      moderately_sensitive:
+        csv1.1: output/model_6w_time_adj1.csv
+        csv1.2: output/model_6w_time_adj2.csv
+
   model_6w_plot: 
     run: r:latest -e 'rmarkdown::render("analysis/model_6w_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching_6w]
@@ -246,36 +254,6 @@ actions:
       moderately_sensitive:
         html: output/model_6w_plot.html
 
-  model_6w_time: 
-    run: r:latest analysis/model/model_6w_time.R
-    needs: [process_Rmatching_6w]
-    outputs:
-      moderately_sensitive:
-        csv1.1: output/model_6w_time_adj1.csv
-        csv1.2: output/model_6w_time_adj2.csv 
-
-  model_6w_time_plot:
-    run: r:latest -e 'rmarkdown::render("analysis/model_6w_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching_6w]
-    outputs:
-      moderately_sensitive:
-        html: output/model_6w_time_plot.html
-
- # criteria check: died any cause
-
-  process_2: # 
-    run: r:latest analysis/process_2.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
-    outputs:
-      highly_sensitive:
-        control: output/control_covid_infection_2.csv
-
-  check_input: # compare patient number
-    run: r:latest -e 'rmarkdown::render("analysis/check_input.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_Rmatching,process_2,extract_variables,matching,process_matching,extract_variables_outcome_2_2,extract_variables_outcome_2_4,extract_variables_outcome_2_6,matching_2,process_1,generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
-    outputs:
-      moderately_sensitive:
-        html: output/check_input.html
 
 # criteria check: death without hospital admission
 
@@ -334,7 +312,7 @@ actions:
 
 
 
-# ongoing porject
+# ongoing porjec
   extract_variables_ab_yr1: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr1
     needs: [matching]
