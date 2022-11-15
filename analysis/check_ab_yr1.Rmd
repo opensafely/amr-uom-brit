@@ -1,0 +1,100 @@
+---
+title: "AB in recent 1 year"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library('dplyr')
+library('lubridate')
+
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+
+```{r}
+
+setwd(here::here("output"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
+# read variables and add "case"
+df_ab_extraction=read.csv("input_ab_yr1.csv")
+
+count(df_ab_extraction)
+
+## add variables to extracted cohort:"subclass","case", 
+df_matched <- read_rds("matched_patients.rds")
+df_matched= df_matched%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
+
+count(df_matched)
+#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
+df=merge(df_matched,df_ab_extraction,by=c("patient_id","sex","stp","patient_index_date"),all=T)
+rm(df_matched,df_ab_extraction)
+
+count(df)
+```
+
+```{r}
+df1=df%>%filter(case==1)
+df0=df%>%filter(case==0)
+# random 1 control
+df0=df%>% group_by(subclass)%>%sample_n(1)
+df0=ungroup(df0)
+
+df=rbind(df1,df0)
+count(df1)
+count(df0)
+count(df)
+```
+
+
+```{r}
+AB_name=c("Amoxicillin","Azithromycin","Cefalexin","Ciprofloxacin","Clarithromycin","Co_amoxiclav","Doxycycline","Flucloxacillin","Nitrofurantoin","Phenoxymethylpenicillin","Trimethoprim")
+
+DF_case=data_frame()
+for (i in 1:12){
+ for (j in 1:11){
+   DF_case[i,j]=sum(df1[paste0("Rx_",i,"_",AB_name[j])])
+  }
+}
+colnames(DF_case)=AB_name
+```
+
+```{r}
+
+DF_control=data_frame()
+for (i in 1:12){
+  for (j in 1:11){
+    DF_control[i,j]=sum(df0[paste0("Rx_",i,"_",AB_name[j])])
+  }
+}
+colnames(DF_control)=AB_name
+```
+
+```{r}
+
+DF_case$case=1
+DF_control$case=0
+DF=rbind(DF_case,DF_control)
+barplot(DF$Amoxicillin)
+barplot(DF$Azithromycin)
+barplot(DF$Cefalexin)
+barplot(DF$Ciprofloxacin)
+barplot(DF$Clarithromycin)
+barplot(DF$Co_amoxiclav)
+barplot(DF$Doxycycline)
+barplot(DF$Flucloxacillin)
+barplot(DF$Nitrofurantoin)
+barplot(DF$Clarithromycin)
+
+barplot(DF$Trimethoprim)
+
+
+```

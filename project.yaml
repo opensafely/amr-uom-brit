@@ -529,7 +529,12 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_yr1.csv
 
-
+  check_ab_yr1:
+    run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_yr1,matching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_ab_yr1.html
 
 
 
