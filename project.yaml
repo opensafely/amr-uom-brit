@@ -5,7 +5,11 @@ expectations:
 
 actions:
 
-
+  generate_study_population:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_*.csv.gz
 
   generate_study_population_broad_comparison:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_broad_comparison --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -2645,11 +2649,7 @@ actions:
 
 ########################### 1. baseline table ###############################
 
-  # generate_study_population:
-  #   run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-  #   outputs:
-  #     highly_sensitive:
-  #       cohort: output/measures/input_*.csv.gz
+
 
   # generate_measures:
   #   run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
