@@ -12,18 +12,48 @@ library('lubridate')
 
 setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
-# extracted dataset after matching
-DF1=read_csv("input_outcome.csv")
+
+# read variables and add "case"
+df_ab_extraction=read.csv("input_ab_yr1.csv")
+
+## add variables to extracted cohort:"subclass","case", 
+df_matched <- read_rds("matched_patients.rds")
+df_matched= df_matched%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
+
+#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
+df=merge(df_matched,df_ab_extraction,by=c("patient_id","sex","stp","patient_index_date"),all=T)
+rm(df_matched,df_ab_extraction)
+
+
+
+
+
+AB_name=c("Amoxicillin","Azithromycin","Cefalexin","Ciprofloxacin","Clarithromycin","Co_amoxiclav","Doxycycline","Flucloxacillin","Nitrofurantoin","Phenoxymethylpenicillin","Trimethoprim")
+
+df1=df%>% filter(case==1)
+DF_case=data_frame()
+for (i in 1:12){
+ for (j in 1:11){
+   DF_case[i,j]=sum(df1[paste0("Rx_",i,"_",AB_name[j])])
+  }
+}
+colnames(DF_case)=AB_name
+
+df0=df%>% filter(case==0)
+DF_control=data_frame()
+for (i in 1:12){
+  for (j in 1:11){
+    DF_control[i,j]=sum(df0[paste0("Rx_",i,"_",AB_name[j])])
+  }
+}
+colnames(DF_control)=AB_name
+
+
+
 
 ## add variables to extracted cohort:"subclass","case", 
 DF2 <- read_rds("matched_patients.rds")
 
-#DF2 = subset(DF2,select=c("patient_id","age","sex","set_id","case", "match_counts","stp"))
-DF2 = DF2%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
-
-#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(DF2,DF1,by=c("patient_id","sex","stp","patient_index_date"),all=T)
-rm(DF1,DF2)
 
 # df=df%>%group_by(subclass)%>%mutate(keep=sum(as.numeric(case)))
 # df=df%>%filter(keep==1)
