@@ -1,5 +1,5 @@
 ---
-title: "AB in recent 1 year"
+title: "AB in 3 years"
 output: 
   html_document:
    toc: true
@@ -21,23 +21,9 @@ options(knitr.table.format="html")
 
 
 ```{r}
-
 #setwd(here::here("output"))
-#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
-# read variables and add "case"
-df_ab_extraction=read.csv("input_ab_yr1.csv")
-
-count(df_ab_extraction)
-
-## add variables to extracted cohort:"subclass","case", 
-df_matched <- read_rds("matched_patients.rds")
-df_matched= df_matched%>%select(c("patient_id","sex","stp","subclass","case","patient_index_date"))
-
-count(df_matched)
-#df=merge(DF1,DF2,by=c("patient_id","age","sex","stp"),all.x=T) can't merge with dummy data
-df=merge(df_matched,df_ab_extraction,by=c("patient_id","sex","stp","patient_index_date"),all=T)
-rm(df_matched,df_ab_extraction)
-
+setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
+df <- read_rds("abtype79.rds")
 count(df)
 ```
 
@@ -56,59 +42,49 @@ count(df)
 
 
 ```{r}
-AB_name=c("Amoxicillin","Azithromycin","Cefalexin","Ciprofloxacin","Clarithromycin","Co_amoxiclav","Doxycycline","Flucloxacillin","Nitrofurantoin","Phenoxymethylpenicillin","Trimethoprim")
+keep.var=c("Rx_Amoxicillin","Rx_Azithromycin","Rx_Cefalexin","Rx_Ciprofloxacin","Rx_Clarithromycin","Rx_Co_amoxiclav","Rx_Doxycycline","Rx_Flucloxacillin","Rx_Nitrofurantoin","Rx_Phenoxymethylpenicillin","Rx_Trimethoprim","case")
 
-DF_case=data_frame()
-for (i in 1:12){
- for (j in 1:11){
-   DF_case[i,j]=sum(df1[paste0("Rx_",i,"_",AB_name[j])])
+DF=df[colnames(df) %in% keep.var]
+
+df1=DF%>% filter(case==1)
+
+DF_case=vector()
+for (i in 1:11){
+   DF_case[i]=sum(df1[keep.var[i]])
   }
-}
-colnames(DF_case)=AB_name
+DF_case=data.frame(DF_case)
+
+DF_case$AB=keep.var[1:11]
 ```
 
 ```{r}
 
-DF_control=data_frame()
-for (i in 1:12){
-  for (j in 1:11){
-    DF_control[i,j]=sum(df0[paste0("Rx_",i,"_",AB_name[j])])
+df0=DF%>% filter(case==0)
+
+DF_control=vector()
+for (i in 1:11){
+   DF_control[i]=sum(df0[keep.var[i]])
   }
-}
-colnames(DF_control)=AB_name
-```
+DF_control=data.frame(DF_control)
 
-```{r}
-
-DF_case=DF_case%>% gather()
-DF_case$month=rep(1:12,11)
-
-DF_control=gather(DF_control)
-DF_control$month=rep(1:12,11)
-
-DF_case$case=1
-DF_control$case=0
-
-DF=rbind(DF_case,DF_control)
-barplot(DF)
-
-DF$case=as.factor(DF$case)
-DF$month=as.factor(DF$month)
-
-
+DF_control$AB=keep.var[1:11]
 
 
 ```
+
 
 ```{r}
 for (i in 1:11){
 
 DF_ab=DF%>%filter(key==AB_name[i])
+
+DF_ab$case=as.factor(DF_ab$case)
+DF_ab$month=as.factor(DF_ab$month)
+
 print(
 ggplot(data=DF_ab, aes(x=month, y=value, fill=case)) +
   geom_col(position="dodge", stat="identity")
 )
 }
-
 ```
 
