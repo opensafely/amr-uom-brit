@@ -5,11 +5,7 @@ expectations:
 
 actions:
 
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_*.csv.gz
+
 
   generate_study_population_broad_comparison:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_broad_comparison --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
@@ -24,12 +20,7 @@ actions:
         highly_sensitive:
           cohort: output/input_covidcheck_2.csv.gz
 
-  generate_study_population_samedayab:
-      run: cohortextractor:latest generate_cohort --study-definition study_definition_sameday_ab 
-        --output-format=csv.gz
-      outputs:
-        highly_sensitive:
-          cohort: output/input_sameday_ab.csv.gz
+
 
   generate_study_population_ab_extraction:
       run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_extraction 
@@ -123,12 +114,6 @@ actions:
       highly_sensitive:
         cohort: output/input_elderly.csv.gz
 
-  generate_measures:
-    run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
-    needs: [generate_study_population]
-    outputs:
-      moderately_sensitive:
-        measure_csv: output/measures/measure_*.csv
     
 
   generate_measures_broad:
@@ -171,21 +156,7 @@ actions:
   #       cohort: output/overall.png
   #       boxplot: output/overallbox.png
 
-  describe_percentile:
-    run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        percentile: output/overall_25th_75th_percentile.jpeg
-        table_total: output/total_number_antibacterial_prescriptions.csv
 
-  describe_percentile_starpu:
-    run: r:latest analysis/plot/starpu_ab_percentile.R
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        percentile_STARPU: output/overall_25th_75th_percentile_STARPU.jpeg
-        percentile_csv_STARPU: output/monthly_quantile_ab_STARPU.csv
   
   # generate_notebook_starpu:
   #   run: jupyter:latest jupyter nbconvert /workspace/analysis/starpu.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
@@ -198,45 +169,6 @@ actions:
   #       #csvs: output/*/* # two possible subfolders
   #       #text: output/text/*
   
-  describe_service_eval_baseline_table:
-    run: r:latest analysis/tables/baseline_table.R
-    needs: [generate_study_population]
-    outputs:
-      moderately_sensitive:
-        baseline_overall: output/overall_counts_blt.csv
-        baseline_table: output/blt_one_random_obs_perpat.csv
-
-  describe_baseline_table_split_2019:
-    run: r:latest analysis/tables/baseline_table_2019.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2019: output/overall_counts_blt_2019.csv
-        baseline_table_2019: output/blt_one_random_obs_perpat_2019.csv
-
-  describe_baseline_table_split_2020:
-    run: r:latest analysis/tables/baseline_table_2020.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2020: output/overall_counts_blt_2020.csv
-        baseline_table_2020: output/blt_one_random_obs_perpat_2020.csv
-
-  describe_baseline_table_split_2021:
-    run: r:latest analysis/tables/baseline_table_2021.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2021: output/overall_counts_blt_2021.csv
-        baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
-    
-  describe_baseline_table_split_2022:
-    run: r:latest analysis/tables/baseline_table_2022.R
-    needs: [describe_basic_record_process]
-    outputs:
-      moderately_sensitive:
-        baseline_overall_2022: output/overall_counts_blt_2022.csv
-        baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
 
   describe_service_eval_covid_check:
     run: r:latest analysis/tables/baseline_table_covid_check.R
@@ -305,34 +237,6 @@ actions:
         plot: output/AB_1yb4_line.jpeg
         plot_sex: output/AB_1yb4_SEX.jpeg
         #count_table: output/prior_ab_by_month.csv      
-
-
-
-
-
-
-
-
-
-
-
-  describe_same_day_ab:
-    run: r:latest analysis/plot/same_day_covid_ab.R
-    needs: [generate_study_population_samedayab]
-    outputs:
-       moderately_sensitive:
-        table1: output/sameday_positive_1_sgss.csv
-        table2: output/sameday_positive_2_sgss.csv
-        table3: output/sameday_ab_1_sgss.csv
-        table4: output/sameday_ab_2_sgss.csv
-        table5: output/sameday_positive_1_gp.csv
-        table6: output/sameday_positive_2_gp.csv
-        table7: output/sameday_ab_1_gp.csv
-        table8: output/sameday_ab_2_gp.csv
-        table9: output/same_day_ab_prop_line_sgss_table.csv
-        table10: output/same_day_ab_prop_line_gp_table.csv
-        plot1: output/same_day_ab_prop_line_sgss.jpeg
-        plot2: output/same_day_ab_prop_line_gp.jpeg
 
   describe_broad_by_region:
     run: r:latest analysis/plot/broad_percentage_by_region.R
@@ -415,95 +319,7 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_infection_all_pre_*.csv.gz
 
-  generate_study_population_antibiotics_covid: #  Ab for covid
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_antibiotics_covid_*.csv.gz
 
-  describe_ab_recoded_covid_process:
-    run: r:latest analysis/process/ab_covid_transform.R
-    needs: [generate_study_population_antibiotics_covid]
-    outputs:
-       highly_sensitive:
-        rds1: output/measures/recorded_ab_covid_2019.rds
-        rds2: output/measures/recorded_ab_covid_2020.rds
-        rds3: output/measures/recorded_ab_covid_2021.rds
-       # rds4: output/measures/recorded_ab_covid_2022.rds
-
-# used describe_ab_recoded_broad_process instead
-  # describe_ab_recoded_indication_process: #  Antibiotics_recorded_02: generate prescription-level dataset 
-  #   run: r:latest analysis/process/ab_recorded_indication_transform.R
-  #   needs: [generate_study_population_antibiotics_antibiotics]
-  #   outputs:
-  #      highly_sensitive:
-  #       rds1: output/measures/recorded_ab_2019.rds
-  #       rds2: output/measures/recorded_ab_2020.rds
-  #       rds3: output/measures/recorded_ab_2021.rds
-  #       rds4: output/measures/recorded_ab_2022.rds
-
-  describe_ab_recoded_indication_plot_incident: 
-    run: r:latest analysis/plot/ab_recorded_indication_plot_incident.R
-    needs: [describe_ab_recoded_broad_process] # transfrom & define all variables
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_incident_bar.jpeg
-        plot2: output/ab_recorded_incident_line.jpeg
-        plot3: output/ab_recorded_incident_bar_2.jpeg
-        csv: output/ab_recorded_incident.csv
-
-  describe_ab_recoded_indication_plot_prevalent: 
-    run: r:latest analysis/plot/ab_recorded_indication_plot_prevalent.R
-    needs: [describe_ab_recoded_broad_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_prevalent_bar.jpeg
-        plot2: output/ab_recorded_prevalent_line.jpeg
-        plot3: output/ab_recorded_prevalent_bar_2.jpeg
-        csv: output/ab_recorded_prevalent.csv
-
-  ab_recoded_indication_ITS2_plot: # overall, incident, prevalent
-    run: r:latest -e 'rmarkdown::render("analysis/model/ab_recoded_indication_ITS2_plot.rmd", output_dir = "output/report")'
-    needs: [describe_ab_recoded_indication_plot_prevalent,describe_ab_recoded_indication_plot_incident]
-    outputs:
-      moderately_sensitive:
-        html: output/report/ab_recoded_indication_ITS2_plot.html
-
-  describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
-    run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
-    needs: [describe_ab_recoded_covid_process] 
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_incident_bar.jpeg
-        plot2: output/ab_recorded_covid_incident_line.jpeg
-        csv: output/ab_recorded_covid_incident.csv
-
-  describe_ab_recoded_covid_plot_prevalent: 
-    run: r:latest analysis/plot/ab_recorded_covid_plot_prevalent.R
-    needs: [describe_ab_recoded_covid_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_prevalent_bar.jpeg
-        plot2: output/ab_recorded_covid_prevalent_line.jpeg
-        csv: output/ab_recorded_covid_prevalent.csv
-  
-  describe_ab_recoded_covid_all_plot_incident: # combind all indication and covid
-    run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_incident.R
-    needs: [describe_ab_recoded_covid_plot_incident,describe_ab_recoded_indication_plot_incident] 
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_indication_incident_bar.jpeg
-        plot2: output/ab_recorded_covid_indication_incident_line.jpeg
-        csv: output/ab_recorded_covid_indication_incident.csv
-  
-  describe_ab_recoded_covid_all_plot_prevalent: 
-    run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_prevalent.R
-    needs: [describe_ab_recoded_covid_plot_prevalent,describe_ab_recoded_indication_plot_prevalent] 
-    outputs:
-       moderately_sensitive:
-        plot1: output/ab_recorded_covid_indication_prevalent_bar.jpeg
-        plot2: output/ab_recorded_covid_indication_prevalent_line.jpeg
-        csv: output/ab_recorded_covid_indication_prevalent.csv
 
   describe_ab_recoded_broad_process:
     run: r:latest analysis/process/broad_transform.R
@@ -1072,193 +888,6 @@ actions:
   #   outputs:
   #     moderately_sensitive:
   #       html: output/report/baseline_table_pat_one_2022.html
-
-
-  # describe_ab_recoded_indication_process_plot: #  Antibiotics_recorded_02: only indication/row
-  #   run: r:latest analysis/process/ab_recorded_indication_transform_plot.R
-  #   needs: [generate_study_population_antibiotics]
-  #   outputs:
-  #      highly_sensitive:
-  #       rds1: output/measures/recorded_ab_indication_2019.rds
-  #       rds2: output/measures/recorded_ab_indication_2020.rds
-  #       rds3: output/measures/recorded_ab_indication_2021.rds
-  #       rds4: output/measures/recorded_ab_indication_2022.rds
-
-  # describe_ab_recoded_indication_plot: 
-  #   run: r:latest analysis/plot/ab_recorded_indication_plot.R
-  #   needs: [describe_ab_recoded_indication_process_plot]
-  #   outputs:
-  #      highly_sensitive:
-  #       plot1: output/ab_recorded_indication_bar.jpeg
-  #       plot2: output/ab_recorded_indication_line.jpeg
-  #       csv: output/ab_recorded_indication.csv
-
-  generate_study_population_infection_abtype: # for ab types plot
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_abtype --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_infection_abtype_*.csv.gz
-  
-  describe_infection_abtype_process: #  infection/row
-    run: r:latest analysis/process/infection_abtype_transform.R
-    needs: [generate_study_population_infection_abtype]
-    outputs:
-       highly_sensitive:
-        rds1: output/measures/abtype_uti.rds
-        rds2: output/measures/abtype_lrti.rds
-        rds3: output/measures/abtype_urti.rds
-        rds4: output/measures/abtype_sinusitis.rds
-        rds5: output/measures/abtype_ot_externa.rds
-        rds6: output/measures/abtype_otmedia.rds
-
-  describe_infection_abtype_plot: #  incident+prevalent
-    run: r:latest analysis/plot/infection_abtype.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/abtype_uti.jpeg
-        plot2: output/abtype_lrti.jpeg
-        plot3: output/abtype_urti.jpeg
-        plot4: output/abtype_sinusitis.jpeg
-        plot5: output/abtype_ot_externa.jpeg
-        plot6: output/abtype_otmedia.jpeg
-        csv1: output/abtype_uti.csv
-        csv2: output/abtype_lrti.csv
-        csv3: output/abtype_urti.csv
-        csv4: output/abtype_sinusitis.csv
-        csv5: output/abtype_ot_externa.csv
-        csv6: output/abtype_otmedia.csv
-       
-  describe_infection_abtype_plot_redacted: #  incident+prevalent
-    run: r:latest analysis/redaction/infection_abtype.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted/abtype_uti.jpeg
-        plot2: output/redacted/abtype_lrti.jpeg
-        plot3: output/redacted/abtype_urti.jpeg
-        plot4: output/redacted/abtype_sinusitis.jpeg
-        plot5: output/redacted/abtype_ot_externa.jpeg
-        plot6: output/redacted/abtype_otmedia.jpeg
-        csv1: output/redacted/abtype_uti_check.csv
-        csv2: output/redacted/abtype_lrti_check.csv
-        csv3: output/redacted/abtype_urti_check.csv
-        csv4: output/redacted/abtype_sinusitis_check.csv
-        csv5: output/redacted/abtype_ot_externa_check.csv
-        csv6: output/redacted/abtype_otmedia_check.csv
-        csv7: output/redacted/abtype_uti.csv
-        csv8: output/redacted/abtype_lrti.csv
-        csv9: output/redacted/abtype_urti.csv
-        csv10: output/redacted/abtype_sinusitis.csv
-        csv11: output/redacted/abtype_ot_externa.csv
-        csv12: output/redacted/abtype_otmedia.csv
-
-  describe_infection_abtype_plot_count: #  output raw counts
-    run: r:latest analysis/redaction/infection_abtype_counts.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted/count_abtype_uti.jpeg
-        plot2: output/redacted/count_abtype_lrti.jpeg
-        plot3: output/redacted/count_abtype_urti.jpeg
-        plot4: output/redacted/count_abtype_sinusitis.jpeg
-        plot5: output/redacted/count_abtype_ot_externa.jpeg
-        plot6: output/redacted/count_abtype_otmedia.jpeg
-        csv1: output/redacted/count_abtype_uti_check.csv
-        csv2: output/redacted/count_abtype_lrti_check.csv
-        csv3: output/redacted/count_abtype_urti_check.csv
-        csv4: output/redacted/count_abtype_sinusitis_check.csv
-        csv5: output/redacted/count_abtype_ot_externa_check.csv
-        csv6: output/redacted/count_abtype_otmedia_check.csv
-        csv7: output/redacted/count_abtype_uti.csv
-        csv8: output/redacted/count_abtype_lrti.csv
-        csv9: output/redacted/count_abtype_urti.csv
-        csv10: output/redacted/count_abtype_sinusitis.csv
-        csv11: output/redacted/count_abtype_ot_externa.csv
-        csv12: output/redacted/count_abtype_otmedia.csv
-
-  describe_infection_noAB_plot: #  percentage
-    run: r:latest analysis/redaction/infection_v2_noAB.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted_v2/noAB_uti.jpeg
-        plot2: output/redacted_v2/noAB_lrti.jpeg
-        plot3: output/redacted_v2/noAB_urti.jpeg
-        plot4: output/redacted_v2/noAB_sinusitis.jpeg
-        plot5: output/redacted_v2/noAB_ot_externa.jpeg
-        plot6: output/redacted_v2/noAB_otmedia.jpeg
-        csv1: output/redacted_v2/noAB_uti_check.csv
-        csv2: output/redacted_v2/noAB_lrti_check.csv
-        csv3: output/redacted_v2/noAB_urti_check.csv
-        csv4: output/redacted_v2/noAB_sinusitis_check.csv
-        csv5: output/redacted_v2/noAB_ot_externa_check.csv
-        csv6: output/redacted_v2/noAB_otmedia_check.csv
-        csv7: output/redacted_v2/noAB.csv
-
-  describe_infection_AB_plot: #  percentage
-    run: r:latest analysis/redaction/infection_v2_AB.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti.jpeg
-        plot2: output/redacted_v2/AB_lrti.jpeg
-        plot3: output/redacted_v2/AB_urti.jpeg
-        plot4: output/redacted_v2/AB_sinusitis.jpeg
-        plot5: output/redacted_v2/AB_ot_externa.jpeg
-        plot6: output/redacted_v2/AB_otmedia.jpeg
-        csv1: output/redacted_v2/AB_uti_check.csv
-        csv2: output/redacted_v2/AB_lrti_check.csv
-        csv3: output/redacted_v2/AB_urti_check.csv
-        csv4: output/redacted_v2/AB_sinusitis_check.csv
-        csv5: output/redacted_v2/AB_ot_externa_check.csv
-        csv6: output/redacted_v2/AB_otmedia_check.csv
-        csv7: output/redacted_v2/AB.csv
-
-  infection_ab_ITS2_plot: 
-    run: r:latest -e 'rmarkdown::render("analysis/model/infection_ab_ITS2_plot.rmd", output_dir = "output/report")'
-    needs: [describe_infection_noAB_plot]
-    outputs:
-      moderately_sensitive:
-        html: output/report/infection_ab_ITS2_plot.html
-
-  describe_infection_AB_plot_top3: #  percentage
-    run: r:latest analysis/redaction/infection_v2_AB_top3.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti_top3.jpeg
-        plot2: output/redacted_v2/AB_lrti_top3.jpeg
-        plot3: output/redacted_v2/AB_urti_top3.jpeg
-        plot4: output/redacted_v2/AB_sinusitis_top3.jpeg
-        plot5: output/redacted_v2/AB_ot_externa_top3.jpeg
-        plot6: output/redacted_v2/AB_otmedia_top3.jpeg
-        csv1: output/redacted_v2/AB_uti_check_top3.csv
-        csv2: output/redacted_v2/AB_lrti_check_top3.csv
-        csv3: output/redacted_v2/AB_urti_check_top3.csv
-        csv4: output/redacted_v2/AB_sinusitis_check_top3.csv
-        csv5: output/redacted_v2/AB_ot_externa_check_top3.csv
-        csv6: output/redacted_v2/AB_otmedia_check_top3.csv
-        csv7: output/redacted_v2/AB_top3.csv
-
-  describe_infection_AB_plot_top5: #  percentage
-    run: r:latest analysis/redaction/infection_v2_AB_top5.R
-    needs: [describe_infection_abtype_process]
-    outputs:
-       moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti_top5.jpeg
-        plot2: output/redacted_v2/AB_lrti_top5.jpeg
-        plot3: output/redacted_v2/AB_urti_top5.jpeg
-        plot4: output/redacted_v2/AB_sinusitis_top5.jpeg
-        plot5: output/redacted_v2/AB_ot_externa_top5.jpeg
-        plot6: output/redacted_v2/AB_otmedia_top5.jpeg
-        csv1: output/redacted_v2/AB_uti_check_top5.csv
-        csv2: output/redacted_v2/AB_lrti_check_top5.csv
-        csv3: output/redacted_v2/AB_urti_check_top5.csv
-        csv4: output/redacted_v2/AB_sinusitis_check_top5.csv
-        csv5: output/redacted_v2/AB_ot_externa_check_top5.csv
-        csv6: output/redacted_v2/AB_otmedia_check_top5.csv
-        csv7: output/redacted_v2/AB_top5.csv
 
   describe_broad_proportion_measure:   
     run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
@@ -3004,3 +2633,392 @@ actions:
   #       html: output/report/check_consultation_model_otmedia.html
 
 ###########################################################################
+
+
+
+
+
+#######################################################################
+################## move to service_evaluation branch ##################
+#######################################################################
+
+
+########################### 1. baseline table ###############################
+
+  # generate_study_population:
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/measures/input_*.csv.gz
+
+  # generate_measures:
+  #   run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
+  #   needs: [generate_study_population]
+  #   outputs:
+  #     moderately_sensitive:
+  #       measure_csv: output/measures/measure_*.csv
+
+  # describe_service_eval_baseline_table:
+  #   run: r:latest analysis/tables/baseline_table.R
+  #   needs: [generate_study_population]
+  #   outputs:
+  #     moderately_sensitive:
+  #       baseline_overall: output/overall_counts_blt.csv
+  #       baseline_table: output/blt_one_random_obs_perpat.csv
+
+  # describe_baseline_table_split_2019:
+  #   run: r:latest analysis/tables/baseline_table_2019.R
+  #   needs: [describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       baseline_overall_2019: output/overall_counts_blt_2019.csv
+  #       baseline_table_2019: output/blt_one_random_obs_perpat_2019.csv
+
+  # describe_baseline_table_split_2020:
+  #   run: r:latest analysis/tables/baseline_table_2020.R
+  #   needs: [describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       baseline_overall_2020: output/overall_counts_blt_2020.csv
+  #       baseline_table_2020: output/blt_one_random_obs_perpat_2020.csv
+
+  # describe_baseline_table_split_2021:
+  #   run: r:latest analysis/tables/baseline_table_2021.R
+  #   needs: [describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       baseline_overall_2021: output/overall_counts_blt_2021.csv
+  #       baseline_table_2021: output/blt_one_random_obs_perpat_2021.csv
+    
+  # describe_baseline_table_split_2022:
+  #   run: r:latest analysis/tables/baseline_table_2022.R
+  #   needs: [describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       baseline_overall_2022: output/overall_counts_blt_2022.csv
+  #       baseline_table_2022: output/blt_one_random_obs_perpat_2022.csv
+
+  # describe_percentile:
+  #   run: r:latest analysis/plot/overall_ab_prescribing_2575percentile.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       percentile: output/overall_25th_75th_percentile.jpeg
+  #       table_total: output/total_number_antibacterial_prescriptions.csv
+
+  # describe_percentile_starpu:
+  #   run: r:latest analysis/plot/starpu_ab_percentile.R
+  #   needs: [generate_measures]
+  #   outputs:
+  #     moderately_sensitive:
+  #       percentile_STARPU: output/overall_25th_75th_percentile_STARPU.jpeg
+  #       percentile_csv_STARPU: output/monthly_quantile_ab_STARPU.csv
+
+
+  ####################### 2. AB recorded indication (12 AB extraction per month)#####################
+
+#     generate_study_population_antibiotics_covid: #  Ab for covid
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_antibiotics_covid --index-date-range "2019-01-01 to today" --skip-existing --output-dir=output/measures --output-format=csv.gz
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/measures/input_antibiotics_covid_*.csv.gz
+
+#   describe_ab_recoded_covid_process:
+#     run: r:latest analysis/process/ab_covid_transform.R
+#     needs: [generate_study_population_antibiotics_covid]
+#     outputs:
+#        highly_sensitive:
+#         rds1: output/measures/recorded_ab_covid_2019.rds
+#         rds2: output/measures/recorded_ab_covid_2020.rds
+#         rds3: output/measures/recorded_ab_covid_2021.rds
+#        # rds4: output/measures/recorded_ab_covid_2022.rds
+
+# # used describe_ab_recoded_broad_process instead
+#   # describe_ab_recoded_indication_process: #  Antibiotics_recorded_02: generate prescription-level dataset 
+#   #   run: r:latest analysis/process/ab_recorded_indication_transform.R
+#   #   needs: [generate_study_population_antibiotics_antibiotics]
+#   #   outputs:
+#   #      highly_sensitive:
+#   #       rds1: output/measures/recorded_ab_2019.rds
+#   #       rds2: output/measures/recorded_ab_2020.rds
+#   #       rds3: output/measures/recorded_ab_2021.rds
+#   #       rds4: output/measures/recorded_ab_2022.rds
+
+#   describe_ab_recoded_indication_plot_incident: 
+#     run: r:latest analysis/plot/ab_recorded_indication_plot_incident.R
+#     needs: [describe_ab_recoded_broad_process] # transfrom & define all variables
+#     outputs:
+#        moderately_sensitive:
+#         plot1: output/ab_recorded_incident_bar.jpeg
+#         plot2: output/ab_recorded_incident_line.jpeg
+#         plot3: output/ab_recorded_incident_bar_2.jpeg
+#         csv: output/ab_recorded_incident.csv
+
+#   describe_ab_recoded_indication_plot_prevalent: 
+#     run: r:latest analysis/plot/ab_recorded_indication_plot_prevalent.R
+#     needs: [describe_ab_recoded_broad_process]
+#     outputs:
+#        moderately_sensitive:
+#         plot1: output/ab_recorded_prevalent_bar.jpeg
+#         plot2: output/ab_recorded_prevalent_line.jpeg
+#         plot3: output/ab_recorded_prevalent_bar_2.jpeg
+#         csv: output/ab_recorded_prevalent.csv
+
+#   ab_recoded_indication_ITS2_plot: # overall, incident, prevalent
+#     run: r:latest -e 'rmarkdown::render("analysis/model/ab_recoded_indication_ITS2_plot.rmd", output_dir = "output/report")'
+#     needs: [describe_ab_recoded_indication_plot_prevalent,describe_ab_recoded_indication_plot_incident]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/report/ab_recoded_indication_ITS2_plot.html
+
+#   describe_ab_recoded_covid_plot_incident: # ab prescription on covid infection date
+#     run: r:latest analysis/plot/ab_recorded_covid_plot_incident.R
+#     needs: [describe_ab_recoded_covid_process] 
+#     outputs:
+#        moderately_sensitive:
+#         plot1: output/ab_recorded_covid_incident_bar.jpeg
+#         plot2: output/ab_recorded_covid_incident_line.jpeg
+#         csv: output/ab_recorded_covid_incident.csv
+
+#   describe_ab_recoded_covid_plot_prevalent: 
+#     run: r:latest analysis/plot/ab_recorded_covid_plot_prevalent.R
+#     needs: [describe_ab_recoded_covid_process]
+#     outputs:
+#        moderately_sensitive:
+#         plot1: output/ab_recorded_covid_prevalent_bar.jpeg
+#         plot2: output/ab_recorded_covid_prevalent_line.jpeg
+#         csv: output/ab_recorded_covid_prevalent.csv
+  
+#   describe_ab_recoded_covid_all_plot_incident: # combind all indication and covid
+#     run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_incident.R
+#     needs: [describe_ab_recoded_covid_plot_incident,describe_ab_recoded_indication_plot_incident] 
+#     outputs:
+#        moderately_sensitive:
+#         plot1: output/ab_recorded_covid_indication_incident_bar.jpeg
+#         plot2: output/ab_recorded_covid_indication_incident_line.jpeg
+#         csv: output/ab_recorded_covid_indication_incident.csv
+  
+#   describe_ab_recoded_covid_all_plot_prevalent: 
+#     run: r:latest analysis/plot/ab_recorded_indic_plus_covid_plot_prevalent.R
+#     needs: [describe_ab_recoded_covid_plot_prevalent,describe_ab_recoded_indication_plot_prevalent] 
+#     outputs:
+#        moderately_sensitive:
+#         plot1: output/ab_recorded_covid_indication_prevalent_bar.jpeg
+#         plot2: output/ab_recorded_covid_indication_prevalent_line.jpeg
+#         csv: output/ab_recorded_covid_indication_prevalent.csv
+
+
+  # describe_ab_recoded_indication_process_plot: #  Antibiotics_recorded_02: only indication/row
+  #   run: r:latest analysis/process/ab_recorded_indication_transform_plot.R
+  #   needs: [generate_study_population_antibiotics]
+  #   outputs:
+  #      highly_sensitive:
+  #       rds1: output/measures/recorded_ab_indication_2019.rds
+  #       rds2: output/measures/recorded_ab_indication_2020.rds
+  #       rds3: output/measures/recorded_ab_indication_2021.rds
+  #       rds4: output/measures/recorded_ab_indication_2022.rds
+
+  # describe_ab_recoded_indication_plot: 
+  #   run: r:latest analysis/plot/ab_recorded_indication_plot.R
+  #   needs: [describe_ab_recoded_indication_process_plot]
+  #   outputs:
+  #      highly_sensitive:
+  #       plot1: output/ab_recorded_indication_bar.jpeg
+  #       plot2: output/ab_recorded_indication_line.jpeg
+  #       csv: output/ab_recorded_indication.csv
+
+  # ##############3. top 5 ab for 6 common infection (4 infection restraction per month)###################
+
+  # generate_study_population_infection_abtype: # for ab types plot
+  #   run: cohortextractor:latest generate_cohort --study-definition study_definition_infection_abtype --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  #   outputs:
+  #     highly_sensitive:
+  #       cohort: output/measures/input_infection_abtype_*.csv.gz
+  
+  # describe_infection_abtype_process: #  infection/row
+  #   run: r:latest analysis/process/infection_abtype_transform.R
+  #   needs: [generate_study_population_infection_abtype]
+  #   outputs:
+  #      highly_sensitive:
+  #       rds1: output/measures/abtype_uti.rds
+  #       rds2: output/measures/abtype_lrti.rds
+  #       rds3: output/measures/abtype_urti.rds
+  #       rds4: output/measures/abtype_sinusitis.rds
+  #       rds5: output/measures/abtype_ot_externa.rds
+  #       rds6: output/measures/abtype_otmedia.rds
+
+  # describe_infection_abtype_plot: #  incident+prevalent
+  #   run: r:latest analysis/plot/infection_abtype.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/abtype_uti.jpeg
+  #       plot2: output/abtype_lrti.jpeg
+  #       plot3: output/abtype_urti.jpeg
+  #       plot4: output/abtype_sinusitis.jpeg
+  #       plot5: output/abtype_ot_externa.jpeg
+  #       plot6: output/abtype_otmedia.jpeg
+  #       csv1: output/abtype_uti.csv
+  #       csv2: output/abtype_lrti.csv
+  #       csv3: output/abtype_urti.csv
+  #       csv4: output/abtype_sinusitis.csv
+  #       csv5: output/abtype_ot_externa.csv
+  #       csv6: output/abtype_otmedia.csv
+       
+  # describe_infection_abtype_plot_redacted: #  incident+prevalent
+  #   run: r:latest analysis/redaction/infection_abtype.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted/abtype_uti.jpeg
+  #       plot2: output/redacted/abtype_lrti.jpeg
+  #       plot3: output/redacted/abtype_urti.jpeg
+  #       plot4: output/redacted/abtype_sinusitis.jpeg
+  #       plot5: output/redacted/abtype_ot_externa.jpeg
+  #       plot6: output/redacted/abtype_otmedia.jpeg
+  #       csv1: output/redacted/abtype_uti_check.csv
+  #       csv2: output/redacted/abtype_lrti_check.csv
+  #       csv3: output/redacted/abtype_urti_check.csv
+  #       csv4: output/redacted/abtype_sinusitis_check.csv
+  #       csv5: output/redacted/abtype_ot_externa_check.csv
+  #       csv6: output/redacted/abtype_otmedia_check.csv
+  #       csv7: output/redacted/abtype_uti.csv
+  #       csv8: output/redacted/abtype_lrti.csv
+  #       csv9: output/redacted/abtype_urti.csv
+  #       csv10: output/redacted/abtype_sinusitis.csv
+  #       csv11: output/redacted/abtype_ot_externa.csv
+  #       csv12: output/redacted/abtype_otmedia.csv
+
+  # describe_infection_abtype_plot_count: #  output raw counts
+  #   run: r:latest analysis/redaction/infection_abtype_counts.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted/count_abtype_uti.jpeg
+  #       plot2: output/redacted/count_abtype_lrti.jpeg
+  #       plot3: output/redacted/count_abtype_urti.jpeg
+  #       plot4: output/redacted/count_abtype_sinusitis.jpeg
+  #       plot5: output/redacted/count_abtype_ot_externa.jpeg
+  #       plot6: output/redacted/count_abtype_otmedia.jpeg
+  #       csv1: output/redacted/count_abtype_uti_check.csv
+  #       csv2: output/redacted/count_abtype_lrti_check.csv
+  #       csv3: output/redacted/count_abtype_urti_check.csv
+  #       csv4: output/redacted/count_abtype_sinusitis_check.csv
+  #       csv5: output/redacted/count_abtype_ot_externa_check.csv
+  #       csv6: output/redacted/count_abtype_otmedia_check.csv
+  #       csv7: output/redacted/count_abtype_uti.csv
+  #       csv8: output/redacted/count_abtype_lrti.csv
+  #       csv9: output/redacted/count_abtype_urti.csv
+  #       csv10: output/redacted/count_abtype_sinusitis.csv
+  #       csv11: output/redacted/count_abtype_ot_externa.csv
+  #       csv12: output/redacted/count_abtype_otmedia.csv
+
+  # describe_infection_noAB_plot: #  percentage
+  #   run: r:latest analysis/redaction/infection_v2_noAB.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted_v2/noAB_uti.jpeg
+  #       plot2: output/redacted_v2/noAB_lrti.jpeg
+  #       plot3: output/redacted_v2/noAB_urti.jpeg
+  #       plot4: output/redacted_v2/noAB_sinusitis.jpeg
+  #       plot5: output/redacted_v2/noAB_ot_externa.jpeg
+  #       plot6: output/redacted_v2/noAB_otmedia.jpeg
+  #       csv1: output/redacted_v2/noAB_uti_check.csv
+  #       csv2: output/redacted_v2/noAB_lrti_check.csv
+  #       csv3: output/redacted_v2/noAB_urti_check.csv
+  #       csv4: output/redacted_v2/noAB_sinusitis_check.csv
+  #       csv5: output/redacted_v2/noAB_ot_externa_check.csv
+  #       csv6: output/redacted_v2/noAB_otmedia_check.csv
+  #       csv7: output/redacted_v2/noAB.csv
+
+  # describe_infection_AB_plot: #  percentage
+  #   run: r:latest analysis/redaction/infection_v2_AB.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted_v2/AB_uti.jpeg
+  #       plot2: output/redacted_v2/AB_lrti.jpeg
+  #       plot3: output/redacted_v2/AB_urti.jpeg
+  #       plot4: output/redacted_v2/AB_sinusitis.jpeg
+  #       plot5: output/redacted_v2/AB_ot_externa.jpeg
+  #       plot6: output/redacted_v2/AB_otmedia.jpeg
+  #       csv1: output/redacted_v2/AB_uti_check.csv
+  #       csv2: output/redacted_v2/AB_lrti_check.csv
+  #       csv3: output/redacted_v2/AB_urti_check.csv
+  #       csv4: output/redacted_v2/AB_sinusitis_check.csv
+  #       csv5: output/redacted_v2/AB_ot_externa_check.csv
+  #       csv6: output/redacted_v2/AB_otmedia_check.csv
+  #       csv7: output/redacted_v2/AB.csv
+
+  # infection_ab_ITS2_plot: 
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/infection_ab_ITS2_plot.rmd", output_dir = "output/report")'
+  #   needs: [describe_infection_noAB_plot]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/infection_ab_ITS2_plot.html
+
+  # describe_infection_AB_plot_top3: #  percentage
+  #   run: r:latest analysis/redaction/infection_v2_AB_top3.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted_v2/AB_uti_top3.jpeg
+  #       plot2: output/redacted_v2/AB_lrti_top3.jpeg
+  #       plot3: output/redacted_v2/AB_urti_top3.jpeg
+  #       plot4: output/redacted_v2/AB_sinusitis_top3.jpeg
+  #       plot5: output/redacted_v2/AB_ot_externa_top3.jpeg
+  #       plot6: output/redacted_v2/AB_otmedia_top3.jpeg
+  #       csv1: output/redacted_v2/AB_uti_check_top3.csv
+  #       csv2: output/redacted_v2/AB_lrti_check_top3.csv
+  #       csv3: output/redacted_v2/AB_urti_check_top3.csv
+  #       csv4: output/redacted_v2/AB_sinusitis_check_top3.csv
+  #       csv5: output/redacted_v2/AB_ot_externa_check_top3.csv
+  #       csv6: output/redacted_v2/AB_otmedia_check_top3.csv
+  #       csv7: output/redacted_v2/AB_top3.csv
+
+  # describe_infection_AB_plot_top5: #  percentage
+  #   run: r:latest analysis/redaction/infection_v2_AB_top5.R
+  #   needs: [describe_infection_abtype_process]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1: output/redacted_v2/AB_uti_top5.jpeg
+  #       plot2: output/redacted_v2/AB_lrti_top5.jpeg
+  #       plot3: output/redacted_v2/AB_urti_top5.jpeg
+  #       plot4: output/redacted_v2/AB_sinusitis_top5.jpeg
+  #       plot5: output/redacted_v2/AB_ot_externa_top5.jpeg
+  #       plot6: output/redacted_v2/AB_otmedia_top5.jpeg
+  #       csv1: output/redacted_v2/AB_uti_check_top5.csv
+  #       csv2: output/redacted_v2/AB_lrti_check_top5.csv
+  #       csv3: output/redacted_v2/AB_urti_check_top5.csv
+  #       csv4: output/redacted_v2/AB_sinusitis_check_top5.csv
+  #       csv5: output/redacted_v2/AB_ot_externa_check_top5.csv
+  #       csv6: output/redacted_v2/AB_otmedia_check_top5.csv
+  #       csv7: output/redacted_v2/AB_top5.csv
+
+
+  ############# 4. same-day ab for covid  #############
+    # generate_study_population_samedayab:
+    #   run: cohortextractor:latest generate_cohort --study-definition study_definition_sameday_ab 
+    #     --output-format=csv.gz
+    #   outputs:
+    #     highly_sensitive:
+    #       cohort: output/input_sameday_ab.csv.gz
+
+  # describe_same_day_ab:
+  #   run: r:latest analysis/plot/same_day_covid_ab.R
+  #   needs: [generate_study_population_samedayab]
+  #   outputs:
+  #      moderately_sensitive:
+  #       table1: output/sameday_positive_1_sgss.csv
+  #       table2: output/sameday_positive_2_sgss.csv
+  #       table3: output/sameday_ab_1_sgss.csv
+  #       table4: output/sameday_ab_2_sgss.csv
+  #       table5: output/sameday_positive_1_gp.csv
+  #       table6: output/sameday_positive_2_gp.csv
+  #       table7: output/sameday_ab_1_gp.csv
+  #       table8: output/sameday_ab_2_gp.csv
+  #       table9: output/same_day_ab_prop_line_sgss_table.csv
+  #       table10: output/same_day_ab_prop_line_gp_table.csv
+  #       plot1: output/same_day_ab_prop_line_sgss.jpeg
+  #       plot2: output/same_day_ab_prop_line_gp.jpeg
