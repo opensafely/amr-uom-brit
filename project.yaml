@@ -115,17 +115,6 @@ actions:
         highly_sensitive:
           cohort: output/input_withab_cohort.csv.gz
 
-  generate_study_population_infection:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_infection_*.csv.gz
-  
-  generate_study_population_indication:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_indication --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
-    outputs:
-      highly_sensitive:
-        cohort: output/measures/input_indication_*.csv.gz
 
   generate_study_population_elderly:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_elderly 
@@ -140,20 +129,7 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
-  
-  generate_measures_infection:
-    run: cohortextractor:latest generate_measures --study-definition study_definition_infection --skip-existing --output-dir=output/measures
-    needs: [generate_study_population_infection]
-    outputs:
-      moderately_sensitive:
-        measure_csv: output/measures/measure_infection_*.csv
-  
-  generate_measures_indication:
-    run: cohortextractor:latest generate_measures --study-definition study_definition_indication --skip-existing --output-dir=output/measures
-    needs: [generate_study_population_indication]
-    outputs:
-      moderately_sensitive:
-        measure_csv: output/measures/measure_indication_*.csv
+    
 
   generate_measures_broad:
     run: cohortextractor:latest generate_measures --study-definition study_definition_broad_comparison --skip-existing --output-dir=output/measures
@@ -331,324 +307,14 @@ actions:
         #count_table: output/prior_ab_by_month.csv      
 
 
-  describe_consultation_rate_all_incident:
-    run: r:latest analysis/plot/consultation_by_age_infection_incident.R
-    needs: [generate_measures_infection]
-    outputs:
-       moderately_sensitive:
-        plot1.1: output/consult_age_incident_UTI.jpeg
-        plot1.2: output/consult_age_incident_URTI.jpeg
-        plot1.3: output/consult_age_incident_LRTI.jpeg
-        plot1.4: output/consult_age_incident_sinusitis.jpeg
-        plot1.5: output/consult_age_incident_otmedia.jpeg
-        plot1.6: output/consult_age_incident_ot_externa.jpeg
-        plot2: output/consult_all_incident.jpeg
-        csv1: output/consultation_rate_incident.csv
-        csv2: output/consultation_GP_rate_incident.csv
-  
-  describe_consultation_rate_all_prevalent:
-    run: r:latest analysis/plot/consultation_by_age_infection_prevalent.R
-    needs: [generate_measures_infection]
-    outputs:
-       moderately_sensitive:
-        plot1.1: output/consult_age_prevalent_UTI.jpeg
-        plot1.2: output/consult_age_prevalent_URTI.jpeg
-        plot1.3: output/consult_age_prevalent_LRTI.jpeg
-        plot1.4: output/consult_age_prevalent_sinusitis.jpeg
-        plot1.5: output/consult_age_prevalent_otmedia.jpeg
-        plot1.6: output/consult_age_prevalent_ot_externa.jpeg
-        plot2: output/consult_all_prevalent.jpeg
-        csv1: output/consultation_rate_prevalent.csv
-        csv2: output/consultation_GP_rate_prevalent.csv
-  
-  describe_consultation_rate_all_incident_redacted:
-    run: r:latest analysis/redaction/consultation_by_age_infection_incident.R
-    needs: [generate_measures_infection,generate_measures_indication]
-    outputs:
-       moderately_sensitive:
-        plot1.1: output/redacted/consult_age_incident_UTI.jpeg
-        plot1.2: output/redacted/consult_age_incident_URTI.jpeg
-        plot1.3: output/redacted/consult_age_incident_LRTI.jpeg
-        plot1.4: output/redacted/consult_age_incident_sinusitis.jpeg
-        plot1.5: output/redacted/consult_age_incident_otmedia.jpeg
-        plot1.6: output/redacted/consult_age_incident_ot_externa.jpeg
-        plot1.7: output/redacted/consult_age_incident_all.jpeg
-        csv1: output/redacted/consultation_rate_incident_check.csv
-        csv2: output/redacted/consultation_rate_incident.csv
-        csv3:  output/redacted/consultation_rate_incident_year.csv
 
 
-  describe_consultation_rate_all_prevalent_redacted:
-    run: r:latest analysis/redaction/consultation_by_age_infection_prevalent.R
-    needs: [generate_measures_infection,generate_measures_indication]
-    outputs:
-       moderately_sensitive: 
-        plot1.1: output/redacted/consult_age_prevalent_UTI.jpeg
-        plot1.2: output/redacted/consult_age_prevalent_URTI.jpeg
-        plot1.3: output/redacted/consult_age_prevalent_LRTI.jpeg
-        plot1.4: output/redacted/consult_age_prevalent_sinusitis.jpeg
-        plot1.5: output/redacted/consult_age_prevalent_otmedia.jpeg
-        plot1.6: output/redacted/consult_age_prevalent_ot_externa.jpeg
-        plot1.7: output/redacted/consult_age_prevalent_all.jpeg        
-        csv1: output/redacted/consultation_rate_prevalent_check.csv
-        csv2: output/redacted/consultation_rate_prevalent.csv
-        csv3:  output/redacted/consultation_rate_prevalent_year.csv
-
-  describe_consultation_rate_all_GP_redacted:
-    run: r:latest analysis/redaction/consultation_by_age_infection_GP.R
-    needs: [generate_measures_infection]
-    outputs:
-       moderately_sensitive: 
-        plot1: output/redacted/consult_all_prevalent.jpeg
-        plot2: output/redacted/consult_all_incident.jpeg
-        plot3: output/redacted/consult_all.jpeg
-        csv1: output/redacted/consultation_rate_GP_check.csv
-        csv1.2: output/redacted/consultation_all_GP_check.csv
-        csv2: output/redacted/consultation_GP_rate_prevalent.csv
-        csv3: output/redacted/consultation_GP_rate_incident.csv
-        csv4: output/redacted/consultation_GP_rate_all.csv
-        table: output/redacted/consultation_GP_rate_yr.csv
-        table2: output/redacted/consultation_GP_rate_yr2.csv
 
 
-  describe_consultation_model_process_1:
-    run: r:latest analysis/process/consultation_variables_1.R
-    needs: [generate_measures_indication,generate_measures_infection, describe_basic_record_process]
-    outputs:
-       moderately_sensitive:
-        rds1: output/measures/consult_UTI.rds
-        rds2: output/measures/consult_LRTI.rds
-        rds3: output/measures/consult_URTI.rds
-        rds4: output/measures/consult_sinusitis.rds
-        rds5: output/measures/consult_otmedia.rds
-        rds6: output/measures/consult_ot_externa.rds
-        rds7: output/measures/consult_indications.rds
 
 
-  describe_consultation_model_process_2:
-    run: r:latest analysis/process/consultation_variables_2.R
-    needs: [describe_consultation_model_process_1]
-    outputs:
-       moderately_sensitive:
-        rds1: output/measures/monthly_consult_UTI.rds
-        rds2: output/measures/monthly_consult_LRTI.rds
-        rds3: output/measures/monthly_consult_URTI.rds
-        rds4: output/measures/monthly_consult_sinusitis.rds
-        rds5: output/measures/monthly_consult_otmedia.rds
-        rds6: output/measures/monthly_consult_ot_externa.rds
-  
-  # # # # describe_consultation_model_1:
-  # # # #   run: r:latest analysis/model/consult_model_1.R
-  # # # #   needs: [describe_consultation_model_process_2]
-  # # # #   outputs:
-  # # # #      moderately_sensitive:
-  # # # #       jpeg: output/consult_model1.jpeg
-  # # # #       rds: output/consult_model1.rds
-
-  # # # # describe_consultation_model_2:
-  # # # #   run: r:latest analysis/model/consult_model_2.R
-  # # # #   needs: [describe_consultation_model_process_2]
-  # # # #   outputs:
-  # # # #      moderately_sensitive:
-  # # # #       jpeg: output/consult_model2.jpeg
-  # # # #       rds: output/consult_model2.rds
-  
-  # describe_consultation_model_3:
-  #   run: r:latest analysis/model/consult_model_3.R
-  #   needs: [describe_consultation_model_process_2]
-  #   outputs:
-  #      moderately_sensitive:
-  #       jpeg: output/consult_model3.jpeg
-  #       rds: output/consult_model3.rds
-
-  # # # # check_consultation_model: #Poisson vs. NBR  
-  # # # #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model.Rmd", output_dir = "output/report")'
-  # # # #   needs: [describe_consultation_model_process_2]
-  # # # #   outputs:
-  # # # #     moderately_sensitive:
-  # # # #       html: output/report/check_consultation_model.html
-
-  # # # # consultation_model: # compare modeling1 &2
-  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
-  # # # #   needs: [describe_consultation_model_process_1]
-  # # # #   outputs:
-  # # # #     moderately_sensitive:
-  # # # #       html: output/report/consultation_model.html
 
 
-  consultation_model_ITS2: # compare modeling1 &2
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2.html
-
-  consultation_model_ITS2_incident: 
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_incident.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_rate_all_incident_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_incident.html
-
-  consultation_model_ITS2_prevalent: 
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_prevalent.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_rate_all_prevalent_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_prevalent.html
-  
-  consultation_model_ITS2_combined: # overall, incident, prevalent
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_combined.html
-  
-  consultation_model_ITS2_combined_plot: # overall, incident, prevalent
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined_plot.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_combined_plot.html
-        csv: output/report/consultation_ITS_plot_indicetnt.csv
-
-  
-  consultation_model_ITS2_combined_recovery: # overall, incident, prevalent
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined_recovery.rmd", output_dir = "output/report")'
-    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_combined_recovery.html
-
-  # # # # consultation_model_ITS2_harmonic_month: #sine,cosine harmonic month
-  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month.Rmd", output_dir = "output/report")'
-  # # # #   needs: [describe_consultation_model_process_1]
-  # # # #   outputs:
-  # # # #     moderately_sensitive:
-  # # # #       html: output/report/consultation_model_ITS2_harmonic_month.html
-
-  # # # # consultation_model_ITS2_harmonic_month_incident: 
-  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_incident.Rmd", output_dir = "output/report")'
-  # # # #   needs: [describe_consultation_rate_all_incident_redacted]
-  # # # #   outputs:
-  # # # #     moderately_sensitive:
-  # # # #       html: output/report/consultation_model_ITS2_harmonic_month_incident.html
-
-  # # # # consultation_model_ITS2_harmonic_month_prevalent: 
-  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_prevalent.Rmd", output_dir = "output/report")'
-  # # # #   needs: [describe_consultation_rate_all_prevalent_redacted]
-  # # # #   outputs:
-  # # # #     moderately_sensitive:
-  # # # #       html: output/report/consultation_model_ITS2_harmonic_month_prevalent.html
-
-  # consultation_model_zero_truncated: # zero-truncated negative binomial
-  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_zero_truncated.rmd", output_dir = "output/report")'
-  #   needs: [describe_consultation_model_process_1]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/consultation_model_zero_truncated.html
-
-  # consultation_model_3: # model 3 for adjusting autocorrelation
-  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_3.rmd", output_dir = "output/report")'
-  #   needs: [describe_consultation_model_process_1]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/consultation_model_3.html
-
-  # check_consultation_model_urti: #  
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_urti.Rmd", output_dir = "output/report")'
-  #   needs: [generate_measures_infection, describe_basic_record_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/check_consultation_model_urti.html
-
-  # check_consultation_model_lrti: #  
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_lrti.Rmd", output_dir = "output/report")'
-  #   needs: [generate_measures_infection, describe_basic_record_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/check_consultation_model_lrti.html
-
-  # check_consultation_model_sinusitis: #  
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_sinusitis.Rmd", output_dir = "output/report")'
-  #   needs: [generate_measures_infection, describe_basic_record_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/check_consultation_model_sinusitis.html
-
-  # check_consultation_model_ot_externa: #  
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_ot_externa.Rmd", output_dir = "output/report")'
-  #   needs: [generate_measures_infection, describe_basic_record_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/check_consultation_model_ot_externa.html
-
-  # check_consultation_model_otmedia: #  
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_otmedia.Rmd", output_dir = "output/report")'
-  #   needs: [generate_measures_infection, describe_basic_record_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/report/check_consultation_model_otmedia.html
-
-
-  # # describe_infection_prescribed_percent:
-  # #   run: r:latest analysis/plot/infection_prescibed_percent.R
-  # #   needs: [generate_measures_infection]
-  # #   outputs:
-  # #      moderately_sensitive:
-  # #       plot1: output/infection_ab_precent_p1.jpeg
-  # #       plot2: output/infection_ab_precent_p2.jpeg
-  # #       plot3: output/infection_ab_precent_i1.jpeg
-  # #       plot4: output/infection_ab_precent_i2.jpeg
-  # #       plot5: output/infection_ab_precent_all.jpeg
-  # #       csv1: output/prescribed_infection_prevalent.csv
-  # #       csv2: output/prescribed_infection_incident.csv
-
-  # # describe_top10ABtypes_byInfection:
-  # #   run: r:latest analysis/plot/abtypes_top10.R
-  # #   needs: [generate_measures_infection]
-  # #   outputs:
-  # #      moderately_sensitive:
-  # #       plot1: output/abtype_UTI.jpeg
-  # #       plot2: output/abtype_URTI.jpeg
-  # #       plot3: output/abtype_LRTI.jpeg
-  # #       plot4: output/abtype_sinusitis.jpeg
-  # #       plot5: output/abtype_ot_externa.jpeg
-  # #       plot6: output/abtype_otmedia.jpeg
-  # #       plot7: output/abtype_percent_UTI.jpeg
-  # #       plot8: output/abtype_percent_URTI.jpeg
-  # #       plot9: output/abtype_percent_LRTI.jpeg
-  # #       plot10: output/abtype_percent_sinusitis.jpeg
-  # #       plot11: output/abtype_percent_ot_externa.jpeg
-  # #       plot12: output/abtype_percent_otmedia.jpeg
-  # #       csv: output/abtype_top10_by_infection.csv
-  
-  # # describe_top10ABtypes_byInfection_line:
-  # #   run: r:latest analysis/plot/abtypes_top10_line.R
-  # #   needs: [generate_measures_infection]
-  # #   outputs:
-  # #      moderately_sensitive:
-  # #       plot13: output/abtype_UTI_line.jpeg
-  # #       plot14: output/abtype_URTI_line.jpeg
-  # #       plot15: output/abtype_LRTI_line.jpeg
-  # #       plot16: output/abtype_sinusitis_line.jpeg
-  # #       plot17: output/abtype_ot_externa_line.jpeg
-  # #       plot18: output/abtype_otmedia_line.jpeg
-  # #       plot19: output/abtype_percent_UTI_line.jpeg
-  # #       plot20: output/abtype_percent_URTI_line.jpeg
-  # #       plot21: output/abtype_percent_LRTI_line.jpeg
-  # #       plot22: output/abtype_percent_sinusitis_line.jpeg
-  # #       plot23: output/abtype_percent_ot_externa_line.jpeg
-  # #       plot24: output/abtype_percent_otmedia_line.jpeg
-  # #       csv: output/abtype_top10_by_infection_line.csv
-  
-  # describe_top10ABtypes_total:
-  #   run: r:latest analysis/plot/types_ab_prescriptions.R
-  #   needs: [generate_study_population]
-  #   outputs:
-  #      moderately_sensitive:
-  #       plot1: output/abtype_all_Rx.jpeg
-  #       plot2: output/abtype_all_Rx_percent.jpeg
 
   describe_same_day_ab:
     run: r:latest analysis/plot/same_day_covid_ab.R
@@ -3040,3 +2706,301 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/uti_model_knot5.html
+  
+
+
+
+
+###########################################################################
+############## service evaluation _  infection consultations ############## 
+###########################################################################
+
+  generate_study_population_infection:  # extract 6 common infection
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_infection --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_*.csv.gz
+  
+  generate_measures_infection:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_infection --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_infection]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_infection_*.csv
+
+  generate_study_population_indication: # extract all indications for AB prescribing
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_indication --index-date-range "2019-01-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_indication_*.csv.gz
+
+  generate_measures_indication:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_indication --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_indication]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_indication_*.csv
+
+# raw number--not for release 
+  # describe_consultation_rate_all_incident:
+  #   run: r:latest analysis/plot/consultation_by_age_infection_incident.R
+  #   needs: [generate_measures_infection]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1.1: output/consult_age_incident_UTI.jpeg
+  #       plot1.2: output/consult_age_incident_URTI.jpeg
+  #       plot1.3: output/consult_age_incident_LRTI.jpeg
+  #       plot1.4: output/consult_age_incident_sinusitis.jpeg
+  #       plot1.5: output/consult_age_incident_otmedia.jpeg
+  #       plot1.6: output/consult_age_incident_ot_externa.jpeg
+  #       plot2: output/consult_all_incident.jpeg
+  #       csv1: output/consultation_rate_incident.csv
+  #       csv2: output/consultation_GP_rate_incident.csv
+  
+  # describe_consultation_rate_all_prevalent:
+  #   run: r:latest analysis/plot/consultation_by_age_infection_prevalent.R
+  #   needs: [generate_measures_infection]
+  #   outputs:
+  #      moderately_sensitive:
+  #       plot1.1: output/consult_age_prevalent_UTI.jpeg
+  #       plot1.2: output/consult_age_prevalent_URTI.jpeg
+  #       plot1.3: output/consult_age_prevalent_LRTI.jpeg
+  #       plot1.4: output/consult_age_prevalent_sinusitis.jpeg
+  #       plot1.5: output/consult_age_prevalent_otmedia.jpeg
+  #       plot1.6: output/consult_age_prevalent_ot_externa.jpeg
+  #       plot2: output/consult_all_prevalent.jpeg
+  #       csv1: output/consultation_rate_prevalent.csv
+  #       csv2: output/consultation_GP_rate_prevalent.csv
+  
+  describe_consultation_rate_all_incident_redacted: # figures: round count<5 for release
+    run: r:latest analysis/redaction/consultation_by_age_infection_incident.R
+    needs: [generate_measures_infection,generate_measures_indication]
+    outputs:
+       moderately_sensitive:
+        plot1.1: output/redacted/consult_age_incident_UTI.jpeg
+        plot1.2: output/redacted/consult_age_incident_URTI.jpeg
+        plot1.3: output/redacted/consult_age_incident_LRTI.jpeg
+        plot1.4: output/redacted/consult_age_incident_sinusitis.jpeg
+        plot1.5: output/redacted/consult_age_incident_otmedia.jpeg
+        plot1.6: output/redacted/consult_age_incident_ot_externa.jpeg
+        plot1.7: output/redacted/consult_age_incident_all.jpeg
+        csv1: output/redacted/consultation_rate_incident_check.csv
+        csv2: output/redacted/consultation_rate_incident.csv
+        csv3:  output/redacted/consultation_rate_incident_year.csv
+
+
+  describe_consultation_rate_all_prevalent_redacted: #figures: round count<5 for release
+    run: r:latest analysis/redaction/consultation_by_age_infection_prevalent.R
+    needs: [generate_measures_infection,generate_measures_indication]
+    outputs:
+       moderately_sensitive: 
+        plot1.1: output/redacted/consult_age_prevalent_UTI.jpeg
+        plot1.2: output/redacted/consult_age_prevalent_URTI.jpeg
+        plot1.3: output/redacted/consult_age_prevalent_LRTI.jpeg
+        plot1.4: output/redacted/consult_age_prevalent_sinusitis.jpeg
+        plot1.5: output/redacted/consult_age_prevalent_otmedia.jpeg
+        plot1.6: output/redacted/consult_age_prevalent_ot_externa.jpeg
+        plot1.7: output/redacted/consult_age_prevalent_all.jpeg        
+        csv1: output/redacted/consultation_rate_prevalent_check.csv
+        csv2: output/redacted/consultation_rate_prevalent.csv
+        csv3:  output/redacted/consultation_rate_prevalent_year.csv
+
+  describe_consultation_rate_all_GP_redacted: #figures: round count<5 for release
+    run: r:latest analysis/redaction/consultation_by_age_infection_GP.R
+    needs: [generate_measures_infection]
+    outputs:
+       moderately_sensitive: 
+        plot1: output/redacted/consult_all_prevalent.jpeg
+        plot2: output/redacted/consult_all_incident.jpeg
+        plot3: output/redacted/consult_all.jpeg
+        csv1: output/redacted/consultation_rate_GP_check.csv
+        csv1.2: output/redacted/consultation_all_GP_check.csv
+        csv2: output/redacted/consultation_GP_rate_prevalent.csv
+        csv3: output/redacted/consultation_GP_rate_incident.csv
+        csv4: output/redacted/consultation_GP_rate_all.csv
+        table: output/redacted/consultation_GP_rate_yr.csv
+        table2: output/redacted/consultation_GP_rate_yr2.csv
+
+
+  describe_consultation_model_process_1: # prepare variables for model
+    run: r:latest analysis/process/consultation_variables_1.R
+    needs: [generate_measures_indication,generate_measures_infection, describe_basic_record_process]
+    outputs:
+       moderately_sensitive:
+        rds1: output/measures/consult_UTI.rds
+        rds2: output/measures/consult_LRTI.rds
+        rds3: output/measures/consult_URTI.rds
+        rds4: output/measures/consult_sinusitis.rds
+        rds5: output/measures/consult_otmedia.rds
+        rds6: output/measures/consult_ot_externa.rds
+        rds7: output/measures/consult_indications.rds
+
+  consultation_model_ITS2_incident: # compare model: add month vs. exclude month
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_incident.Rmd", output_dir = "output/report")'
+    needs: [describe_consultation_rate_all_incident_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_incident.html
+
+  consultation_model_ITS2_prevalent: # compare model: add month vs. exclude month
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_prevalent.Rmd", output_dir = "output/report")'
+    needs: [describe_consultation_rate_all_prevalent_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_prevalent.html
+  
+  consultation_model_ITS2_combined: # final model: overall, incident, prevalent
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined.rmd", output_dir = "output/report")'
+    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_combined.html
+  
+  consultation_model_ITS2_combined_plot: #figures for final model: overall, incident, prevalent
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined_plot.rmd", output_dir = "output/report")'
+    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_combined_plot.html
+        csv: output/report/consultation_ITS_plot_indicetnt.csv
+
+  
+  consultation_model_ITS2_combined_recovery: #model for testing  recovery level : overall, incident, prevalent (not released)
+    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined_recovery.rmd", output_dir = "output/report")'
+    needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]
+    outputs:
+      moderately_sensitive:
+        html: output/report/consultation_model_ITS2_combined_recovery.html
+
+
+
+
+### sensitivity analysis for consultation model ###
+  # describe_consultation_model_process_2:
+  #   run: r:latest analysis/process/consultation_variables_2.R
+  #   needs: [describe_consultation_model_process_1]
+  #   outputs:
+  #      moderately_sensitive:
+  #       rds1: output/measures/monthly_consult_UTI.rds
+  #       rds2: output/measures/monthly_consult_LRTI.rds
+  #       rds3: output/measures/monthly_consult_URTI.rds
+  #       rds4: output/measures/monthly_consult_sinusitis.rds
+  #       rds5: output/measures/monthly_consult_otmedia.rds
+  #       rds6: output/measures/monthly_consult_ot_externa.rds
+  
+  # # # # describe_consultation_model_1:
+  # # # #   run: r:latest analysis/model/consult_model_1.R
+  # # # #   needs: [describe_consultation_model_process_2]
+  # # # #   outputs:
+  # # # #      moderately_sensitive:
+  # # # #       jpeg: output/consult_model1.jpeg
+  # # # #       rds: output/consult_model1.rds
+
+  # # # # describe_consultation_model_2:
+  # # # #   run: r:latest analysis/model/consult_model_2.R
+  # # # #   needs: [describe_consultation_model_process_2]
+  # # # #   outputs:
+  # # # #      moderately_sensitive:
+  # # # #       jpeg: output/consult_model2.jpeg
+  # # # #       rds: output/consult_model2.rds
+  
+  # describe_consultation_model_3:
+  #   run: r:latest analysis/model/consult_model_3.R
+  #   needs: [describe_consultation_model_process_2]
+  #   outputs:
+  #      moderately_sensitive:
+  #       jpeg: output/consult_model3.jpeg
+  #       rds: output/consult_model3.rds
+
+  # # # # check_consultation_model: #Poisson vs. NBR  
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_model_process_2]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/check_consultation_model.html
+
+  # # # # consultation_model: # compare modeling1 &2
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model.rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_model_process_1]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model.html
+
+
+  # consultation_model_ITS2: # compare modeling1 &2
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2.rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_model_process_1]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_ITS2.html
+  # # # # consultation_model_ITS2_harmonic_month: #sine,cosine harmonic month
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_model_process_1]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model_ITS2_harmonic_month.html
+
+  # # # # consultation_model_ITS2_harmonic_month_incident: 
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_incident.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_rate_all_incident_redacted]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model_ITS2_harmonic_month_incident.html
+
+  # # # # consultation_model_ITS2_harmonic_month_prevalent: 
+  # # # #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_harmonic_month_prevalent.Rmd", output_dir = "output/report")'
+  # # # #   needs: [describe_consultation_rate_all_prevalent_redacted]
+  # # # #   outputs:
+  # # # #     moderately_sensitive:
+  # # # #       html: output/report/consultation_model_ITS2_harmonic_month_prevalent.html
+
+  # consultation_model_zero_truncated: # zero-truncated negative binomial
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_zero_truncated.rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_model_process_1]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_zero_truncated.html
+
+  # consultation_model_3: # model 3 for adjusting autocorrelation
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_3.rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_model_process_1]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_3.html
+
+  # check_consultation_model_urti: #  
+  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_urti.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures_infection, describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/check_consultation_model_urti.html
+
+  # check_consultation_model_lrti: #  
+  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_lrti.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures_infection, describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/check_consultation_model_lrti.html
+
+  # check_consultation_model_sinusitis: #  
+  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_sinusitis.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures_infection, describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/check_consultation_model_sinusitis.html
+
+  # check_consultation_model_ot_externa: #  
+  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_ot_externa.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures_infection, describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/check_consultation_model_ot_externa.html
+
+  # check_consultation_model_otmedia: #  
+  #   run: r:latest -e 'rmarkdown::render("analysis/process/report/check_consultation_model_otmedia.Rmd", output_dir = "output/report")'
+  #   needs: [generate_measures_infection, describe_basic_record_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/check_consultation_model_otmedia.html
+
+###########################################################################
