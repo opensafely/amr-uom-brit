@@ -22,7 +22,7 @@ options(knitr.table.format="html")
 
 ```{r}
 
-setwd(here::here("output"))
+#setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # read variables and add "case"
 df_ab_extraction=read.csv("input_ab_yr1.csv")

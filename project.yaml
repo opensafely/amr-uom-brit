@@ -536,6 +536,12 @@ actions:
       moderately_sensitive:
         html: output/check_ab_yr1.html
 
+  check_ab_yr3:
+    run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_ab_yr3.html
 
 
 ## add sensitivity analysis for death without hospital admission
