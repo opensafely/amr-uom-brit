@@ -90,7 +90,6 @@ DF_case$case=1
 DF_control$case=0
 
 DF=rbind(DF_case,DF_control)
-barplot(DF)
 
 DF$case=as.factor(DF$case)
 DF$month=as.factor(DF$month)
@@ -104,6 +103,10 @@ DF$month=as.factor(DF$month)
 for (i in 1:11){
 
 DF_ab=DF%>%filter(key==AB_name[i])
+
+DF_ab$case=as.factor(DF_ab$case)
+DF_ab$month=as.factor(DF_ab$month)
+
 print(
 ggplot(data=DF_ab, aes(x=month, y=value, fill=case)) +
   geom_col(position="dodge", stat="identity")
