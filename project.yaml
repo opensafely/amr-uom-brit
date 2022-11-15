@@ -2821,7 +2821,6 @@ actions:
         table: output/redacted/consultation_GP_rate_yr.csv
         table2: output/redacted/consultation_GP_rate_yr2.csv
 
-
   describe_consultation_model_process_1: # prepare variables for model
     run: r:latest analysis/process/consultation_variables_1.R
     needs: [generate_measures_indication,generate_measures_infection, describe_basic_record_process]
@@ -2834,20 +2833,6 @@ actions:
         rds5: output/measures/consult_otmedia.rds
         rds6: output/measures/consult_ot_externa.rds
         rds7: output/measures/consult_indications.rds
-
-  consultation_model_ITS2_incident: # compare model: add month vs. exclude month
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_incident.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_rate_all_incident_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_incident.html
-
-  consultation_model_ITS2_prevalent: # compare model: add month vs. exclude month
-    run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_prevalent.Rmd", output_dir = "output/report")'
-    needs: [describe_consultation_rate_all_prevalent_redacted]
-    outputs:
-      moderately_sensitive:
-        html: output/report/consultation_model_ITS2_prevalent.html
   
   consultation_model_ITS2_combined: # final model: overall, incident, prevalent
     run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined.rmd", output_dir = "output/report")'
@@ -2876,7 +2861,22 @@ actions:
 
 
 ### sensitivity analysis for consultation model ###
-  # describe_consultation_model_process_2:
+ 
+  # consultation_model_ITS2_incident: # compare model: add month vs. exclude month
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_incident.Rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_rate_all_incident_redacted]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_ITS2_incident.html
+
+  # consultation_model_ITS2_prevalent: # compare model: add month vs. exclude month
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_prevalent.Rmd", output_dir = "output/report")'
+  #   needs: [describe_consultation_rate_all_prevalent_redacted]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/report/consultation_model_ITS2_prevalent.html
+
+ # describe_consultation_model_process_2:
   #   run: r:latest analysis/process/consultation_variables_2.R
   #   needs: [describe_consultation_model_process_1]
   #   outputs:
