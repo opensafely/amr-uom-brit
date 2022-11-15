@@ -22,7 +22,7 @@ options(knitr.table.format="html")
 
 ```{r}
 
-setwd(here::here("output"))
+#setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 # read variables and add "case"
 df_ab_extraction=read.csv("input_ab_yr1.csv")
@@ -80,21 +80,35 @@ colnames(DF_control)=AB_name
 
 ```{r}
 
+DF_case=DF_case%>% gather()
+DF_case$month=rep(1:12,11)
+
+DF_control=gather(DF_control)
+DF_control$month=rep(1:12,11)
+
 DF_case$case=1
 DF_control$case=0
-DF=rbind(DF_case,DF_control)
-barplot(DF$Amoxicillin)
-barplot(DF$Azithromycin)
-barplot(DF$Cefalexin)
-barplot(DF$Ciprofloxacin)
-barplot(DF$Clarithromycin)
-barplot(DF$Co_amoxiclav)
-barplot(DF$Doxycycline)
-barplot(DF$Flucloxacillin)
-barplot(DF$Nitrofurantoin)
-barplot(DF$Clarithromycin)
 
-barplot(DF$Trimethoprim)
+DF=rbind(DF_case,DF_control)
+barplot(DF)
+
+DF$case=as.factor(DF$case)
+DF$month=as.factor(DF$month)
+
+
 
 
 ```
+
+```{r}
+for (i in 1:11){
+
+DF_ab=DF%>%filter(key==AB_name[i])
+print(
+ggplot(data=DF_ab, aes(x=month, y=value, fill=case)) +
+  geom_col(position="dodge", stat="identity")
+)
+}
+
+```
+
