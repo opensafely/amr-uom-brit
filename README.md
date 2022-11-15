@@ -26,10 +26,10 @@ Details of the purpose and any published outputs from this project can be found 
 
 This is the code and configuration for long-COVID-risk-factors.
 
-Raw model outputs, including charts, crosstabs, etc, are in released_outputs/
-If you are interested in how we defined our variables, take a look at the study definitions for [cohort definition](https://github.com/opensafely/amr-uom-brit/tree/main/analysis); these are written in python.
-If you are interested in how we defined our code lists, look in the [codelists folder](https://github.com/opensafely/amr-uom-brit/tree/main/codelists).
-Developers and epidemiologists interested in the framework should review [the OpenSAFELY documentation](https://docs.opensafely.org/)
+* Raw model outputs, including charts, crosstabs, etc, are in `released_outputs/`
+* If you are interested in how we defined our variables, take a look at the study definitions for [cohort definition](https://github.com/opensafely/amr-uom-brit/tree/main/analysis); these are written in `python`.
+* If you are interested in how we defined our code lists, look in the [codelists folder](https://github.com/opensafely/amr-uom-brit/tree/main/codelists).
+* Developers and epidemiologists interested in the framework should review [the OpenSAFELY documentation](https://docs.opensafely.org/)
 
 
 # Project: Investigating the impact of COVID-19 on primary care broad-spectrum antibiotic prescribing in England: An OpenSAFELY cohort study and interrupted time-series analysis
