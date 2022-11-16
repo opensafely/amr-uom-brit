@@ -1,5 +1,5 @@
 ---
-title: "AB in recent 1 year"
+title: "AB in recent 1 year vs. 3 year"
 output: 
   html_document:
    toc: true
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
 
-
+# AB year1
 ```{r}
 
 setwd(here::here("output"))
@@ -115,6 +115,123 @@ ggplot(data=DF_ab, aes(x=month, y=value, fill=case)) +
   geom_col(position="dodge", stat="identity")
 )
 }
+
+```
+
+```{r}
+# yearly sum
+
+DF.yr1=DF%>%group_by(case,key)%>% summarise(total=sum(value))
+DF.yr1$group="1"
+
+rm(df,DF,DF_ab,DF_case,DF_control,df0,df1,AB_name,i,j)
+```
+
+
+
+# AB year3
+
+```{r}
+setwd(here::here("output"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
+df <- read_rds("abtype79.rds")
+count(df)
+
+```
+
+```{r}
+
+df1=df%>%filter(case==1)
+df0=df%>%filter(case==0)
+# random 1 control
+df0=df%>% group_by(subclass)%>%sample_n(1)
+df0=ungroup(df0)
+
+df=rbind(df1,df0)
+count(df1)
+count(df0)
+count(df)
+```
+
+
+```{r}
+keep.var=c("Rx_Amoxicillin","Rx_Azithromycin","Rx_Cefalexin","Rx_Ciprofloxacin","Rx_Clarithromycin","Rx_Co_amoxiclav","Rx_Doxycycline","Rx_Flucloxacillin","Rx_Nitrofurantoin","Rx_Phenoxymethylpenicillin","Rx_Trimethoprim","case")
+
+DF=df[colnames(df) %in% keep.var]
+
+df1=DF%>% filter(case==1)
+
+DF_case=vector()
+for (i in 1:11){
+   DF_case[i]=sum(df1[keep.var[i]])
+  }
+DF_case=data.frame(DF_case)
+
+DF_case$AB=keep.var[1:11]
+
+DF_case
+```
+
+```{r}
+
+df0=DF%>% filter(case==0)
+
+DF_control=vector()
+for (i in 1:11){
+   DF_control[i]=sum(df0[keep.var[i]])
+  }
+DF_control=data.frame(DF_control)
+
+DF_control$AB=keep.var[1:11]
+
+DF_control
+```
+
+```{r}
+DF_case$case=1
+colnames(DF_case)[1]="total"
+DF_control$case=0
+colnames(DF_control)[1]="total"
+DF.yr3=rbind(DF_case,DF_control)
+DF.yr3$group=3
+rm(df,DF,DF_case,DF_control,df0,df1,keep.var,i)
+
+DF.yr3$AB=gsub("Rx_","",DF.yr3$AB)
+
+```
+
+
+
+```{r}
+colnames(DF.yr1)[2]="AB"
+DF.yr1=DF.yr1%>%select("AB","group","case","total")
+DF.yr1=data.frame(DF.yr1)
+DF.yr3=DF.yr3%>%select("AB","group","case","total")
+
+DF=rbind(DF.yr1,DF.yr3)
+
+```
+
+
+```{r}
+
+
+DF$case=as.factor(DF$case)
+
+p=ggplot(data=DF, aes(x=AB, y=total, fill=group)) +
+  geom_col(position="dodge", stat="identity")+
+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+p  +  facet_grid(vars(case), scales = "free")
+
+```
+
+
+```{r}
+p=ggplot(data=DF, aes(x=AB, y=total, fill=case)) +
+  geom_col(position="dodge", stat="identity")+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+p  +  facet_grid(vars(group), scales = "free")
 
 ```
 
