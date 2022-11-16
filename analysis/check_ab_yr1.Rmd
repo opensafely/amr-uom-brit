@@ -61,10 +61,12 @@ AB_name=c("Amoxicillin","Azithromycin","Cefalexin","Ciprofloxacin","Clarithromyc
 DF_case=data_frame()
 for (i in 1:12){
  for (j in 1:11){
-   DF_case[i,j]=sum(df1[paste0("Rx_",i,"_",AB_name[j])])
+   DF_case[i,j]=sum(df1[paste0("Rx_",i,"_",AB_name[j])],na.rm = T)
   }
 }
 colnames(DF_case)=AB_name
+
+DF_case
 ```
 
 ```{r}
@@ -72,10 +74,11 @@ colnames(DF_case)=AB_name
 DF_control=data_frame()
 for (i in 1:12){
   for (j in 1:11){
-    DF_control[i,j]=sum(df0[paste0("Rx_",i,"_",AB_name[j])])
+    DF_control[i,j]=sum(df0[paste0("Rx_",i,"_",AB_name[j])] ,na.rm = T)
   }
 }
 colnames(DF_control)=AB_name
+DF_control
 ```
 
 ```{r}
