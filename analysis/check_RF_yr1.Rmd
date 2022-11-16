@@ -23,11 +23,11 @@ options(knitr.table.format="html")
 ```
 
 ```{r}
-# read variables and add "case"setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
-df_ab_extraction=read.csv(here::here("input_ab_yr1.csv"))
-
-count(df_ab_extraction)
+setwd(here::here("output"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
+# read variables and add "case"
+df_ab_extraction=read.csv("input_ab_yr1.csv")
 
 ## add variables to extracted cohort:"subclass","case", 
 df_matched <- read_rds("matched_patients.rds")
