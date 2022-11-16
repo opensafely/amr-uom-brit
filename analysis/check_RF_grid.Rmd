@@ -59,7 +59,7 @@ length(test_idx)
 # develop model
 
 set.seed(123)
-df=sample_n(df.train,100)
+df=sample_n(df.train,1000)
 
 x=df[,1:79]
 y=df[,80]
@@ -84,6 +84,7 @@ rf_gridsearch <- train(case ~ .,
                        metric = 'Accuracy',
                        tuneGrid = tunegrid)
 print(rf_gridsearch)
+plot(rf_gridsearch)
 plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
 ```
