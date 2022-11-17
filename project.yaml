@@ -281,24 +281,14 @@ actions:
         csv6: output/redacted_v2/noAB_otmedia_check.csv
         csv7: output/redacted_v2/noAB.csv
 
-  describe_infection_AB_plot: #  percentage
-    run: r:latest analysis/redaction/infection_v2_AB.R
+  describe_infection_AB_plot: #  percentage of ab in same day of infection
+    run: r:latest analysis/redaction/infection_v2_ab_sameday.R
     needs: [describe_infection_abtype_process]
     outputs:
        moderately_sensitive:
-        plot1: output/redacted_v2/AB_uti.jpeg
-        plot2: output/redacted_v2/AB_lrti.jpeg
-        plot3: output/redacted_v2/AB_urti.jpeg
-        plot4: output/redacted_v2/AB_sinusitis.jpeg
-        plot5: output/redacted_v2/AB_ot_externa.jpeg
-        plot6: output/redacted_v2/AB_otmedia.jpeg
-        csv1: output/redacted_v2/AB_uti_check.csv
-        csv2: output/redacted_v2/AB_lrti_check.csv
-        csv3: output/redacted_v2/AB_urti_check.csv
-        csv4: output/redacted_v2/AB_sinusitis_check.csv
-        csv5: output/redacted_v2/AB_ot_externa_check.csv
-        csv6: output/redacted_v2/AB_otmedia_check.csv
-        csv7: output/redacted_v2/AB.csv
+        plot1: output/redacted_v2/incident_sameday.jpeg
+        plot2: output/redacted_v2/prevalent_sameday.jpeg
+        csv1: output/redacted_v2/sameday_AB_check.csv
 
   infection_ab_ITS2_plot: 
     run: r:latest -e 'rmarkdown::render("analysis/model/infection_ab_ITS2_plot.rmd", output_dir = "output/report")'
