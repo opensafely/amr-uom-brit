@@ -337,6 +337,12 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_yr2.csv
 
+  extract_variables_ab_yr3: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3
+    needs: [process_filter_ab]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_yr3.csv
 
 
   check_ab_yr1:
