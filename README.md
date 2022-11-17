@@ -24,7 +24,7 @@ Read more at [OpenSAFELY.org](https://opensafely.org).
 Details of the purpose and any published outputs from this project can be found at the link above.
 
 
-This is the code and configuration for long-COVID-risk-factors.
+This is the code and configuration for appropriateness of type and repeat prescribing.
 
 * Raw model outputs, including charts, crosstabs, etc, are in `released_outputs/`
 * If you are interested in how we defined our variables, take a look at the study definitions for [cohort definition](https://github.com/opensafely/amr-uom-brit/tree/main/analysis); these are written in `python`.
