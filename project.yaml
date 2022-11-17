@@ -153,7 +153,7 @@ actions:
 
   generate_notebook_hospitalisation_prediction_urti_combined:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti_combined.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti_combined --ExecutePreprocessor.timeout=86400
-    needs: [generate_study_population_hospitalisation_urti_combined]
+    needs: [generate_study_population_hospitalisation_urti, generate_study_population_hospitalisation_cough, generate_study_population_hospitalisation_cough_cold, generate_study_population_hospitalisation_throat]
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_urti_combined/hospitalisation_prediction_urti_combined.html 
