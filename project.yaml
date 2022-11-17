@@ -151,6 +151,14 @@ actions:
         notebook: output/hospitalisation_prediction_throat/hospitalisation_prediction_throat.html 
         figures: output/hospitalisation_prediction_throat/* 
 
+  generate_notebook_hospitalisation_prediction_urti_combined:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti_combined.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti_combined --ExecutePreprocessor.timeout=86400
+    needs: [generate_study_population_hospitalisation_urti_combined]
+    outputs:
+      moderately_sensitive:
+        notebook: output/hospitalisation_prediction_urti_combined/hospitalisation_prediction_urti_combined.html 
+        figures: output/hospitalisation_prediction_urti_combined/* 
+
   generate_notebook_hosp_plots:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hosp_plots.ipynb --execute --to html --output-dir=/workspace/output/hosp_plots --ExecutePreprocessor.timeout=86400
     needs: [generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_pneumonia, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
