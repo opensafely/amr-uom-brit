@@ -36,6 +36,8 @@ count(df)
 # year1 ab variables
 #df1=read.csv(here::here("output","input_ab_yr1.csv"))
 df1=read.csv("input_ab_yr1.csv")
+
+df1=df1%>% mutate_at(c(8:139), ~replace_na(.,0))
 df1$total_ab_yr1=rowSums(df1[,8:139])
 
 df1=df1%>% select(-c("ab_first_date","ab_last_date","ab_prescriptions"))
@@ -56,6 +58,7 @@ setwd(here::here("output"))
 
 #df2=read.csv(here::here("output","input_ab_yr2.csv"))
 df2=read.csv("input_ab_yr2.csv")
+df2=df2%>% mutate_at(c(6:137), ~replace_na(.,0))
 df2$total_ab_yr2=rowSums(df2[,6:137])
 
 names(df2)[138]<-"broad_ab_yr2"
@@ -75,6 +78,7 @@ setwd(here::here("output"))
 
 #df3=read.csv(here::here("output","input_ab_yr3.csv"))
 df3=read.csv("input_ab_yr3.csv")
+df3=df3%>% mutate_at(c(6:137), ~replace_na(.,0))
 df3$total_ab_yr3=rowSums(df3[,6:137])
 
 names(df3)[138]<-"broad_ab_yr3"
