@@ -403,7 +403,7 @@ actions:
         html: output/check_RF_yr1.html
 
   extract_variables_ab_time: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix
     needs: [process_filter_ab]
     outputs:
       highly_sensitive:

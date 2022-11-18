@@ -159,6 +159,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         between=["patient_index_date - 42 days", "patient_index_date"],
         return_last_date_in_period=True,
+        include_date_of_match= True,
         date_format="YYYY-MM-DD",
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
@@ -168,8 +169,19 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         between=["patient_index_date - 1137 days", "patient_index_date - 43 days"],
         return_last_date_in_period=True,
+        include_date_of_match= True,
         date_format="YYYY-MM-DD",
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
     ),  
-)
+
+    AB_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="number_of_matches_in_period",
+        between=["patient_index_date - 1137 days", "AB_1_date"],
+        return_last_date_in_period=True,
+        include_date_of_match= True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),)
