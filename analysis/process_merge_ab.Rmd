@@ -49,9 +49,10 @@ df1=df1%>% select(-c("ab_first_date","ab_last_date","ab_prescriptions"))
 names(df1)[138]<-"broad_ab_yr1"
 count(df1)
 
-
+df1=df1%>% select(-c("age","sex","stp"))
 # merge
-DF=merge(df,df1,by=c("patient_id","patient_index_date","age","sex","stp"))
+#DF=merge(df,df1,by=c("patient_id","patient_index_date","age","sex","stp"))
+DF=merge(df,df1,by=c("patient_id","patient_index_date"), all.x = TRUE)
 count(DF)
 
 ```
@@ -71,10 +72,11 @@ df2$total_ab_yr2=rowSums(df2[,6:137])
 names(df2)[138]<-"broad_ab_yr2"
 count(df2)
 
+df2=df2%>% select(-c("age","sex","stp"))
 
 # merge
-DF=merge(DF,df2,by=c("patient_id","patient_index_date","age","sex","stp"))
-count(DF)
+DF2=merge(DF,df2,by=c("patient_id","patient_index_date"), all.x = TRUE)
+count(DF2)
 
 ```
 
@@ -93,11 +95,24 @@ df3$total_ab_yr3=rowSums(df3[,6:137])
 names(df3)[138]<-"broad_ab_yr3"
 count(df3)
 
+df3=df3%>% select(-c("age","sex","stp"))
 
 # merge
-DF=merge(DF,df3,by=c("patient_id","patient_index_date","age","sex","stp"))
-count(DF)
+DF3=merge(DF2,df3,by=c("patient_id","patient_index_date"), all.x = TRUE)
+count(DF3)
 
-write_rds(DF,"matched_patients_monthly_ab.rds")
+DF3[,8:410]=DF3[,8:410]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+
+
+write_rds(DF3,"matched_patients_monthly_ab.rds")
+```
+
+```{r}
+ # overall check
+
+DF3$total_check=rowSums(DF3[,c("total_ab_yr1","total_ab_yr2","total_ab_yr3")])
+
+plot(DF3$total_ab,DF3$total_check)
+
 ```
 
