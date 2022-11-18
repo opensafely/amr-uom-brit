@@ -350,8 +350,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/process_merge_ab.html
-      highly_sensitive: 
-        rds: output/matched_patients_monthly_ab.rds
+      # highly_sensitive: 
+      #   rds: output/matched_patients_monthly_ab.rds
 
   check_ab_yr1:
     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
