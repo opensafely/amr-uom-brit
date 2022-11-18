@@ -78,7 +78,7 @@ count(DF)
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 # import ab var3
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
