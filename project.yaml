@@ -314,7 +314,7 @@ actions:
 
 # ongoing porject
 
-  process_filter_ab: 
+  process_filter_ab: # filter ab users
     run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
@@ -344,7 +344,7 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_yr3.csv
 
-  process_merge_ab: 
+  process_merge_ab: # merge 1-2-3 year ab 
     run: r:latest -e 'rmarkdown::render("analysis/process_merge_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching,extract_variables_ab_yr3,extract_variables_ab_yr2,extract_variables_ab_yr1]
     outputs:
@@ -366,8 +366,6 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_ab_yr3.html
-
-
 
   check_abtype:
     run: r:latest -e 'rmarkdown::render("analysis/check_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -403,3 +401,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_RF_yr1.html
+
+  extract_variables_ab_time: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time
+    needs: [process_filter_ab]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_time.csv
