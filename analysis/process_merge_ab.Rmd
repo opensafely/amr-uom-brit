@@ -38,9 +38,10 @@ count(df)
 df1=read.csv("input_ab_yr1.csv")
 str(df1)
 
-AB=colnames(df1[,8:139])
-df1[AB]=df1[AB]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-#df1$total_ab_yr1=rowSums(df1[AB])
+#AB=colnames(df1[,8:139])
+df1[,8:139]=df1[,8:139]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df1[,8:139]<- sapply(df1[8:139],as.numeric)
+df1$total_ab_yr1=rowSums(df1[,8:139])
 
 str(df1)
 
@@ -55,16 +56,17 @@ count(df1)
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 # import ab var2
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 
 #df2=read.csv(here::here("output","input_ab_yr2.csv"))
 df2=read.csv("input_ab_yr2.csv")
-AB=colnames(df2[,6:137])
-df2[AB]=df2[AB]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-df2$total_ab_yr2=rowSums(df2[AB])
+
+df2[,6:137]=df2[,6:137]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df2[,6:137]<- sapply(df2[,6:137],as.numeric)
+df2$total_ab_yr2=rowSums(df2[,6:137])
 
 names(df2)[138]<-"broad_ab_yr2"
 count(df2)
@@ -84,9 +86,9 @@ setwd(here::here("output"))
 #df3=read.csv(here::here("output","input_ab_yr3.csv"))
 df3=read.csv("input_ab_yr3.csv")
 
-AB=colnames(df3[,6:137])
-df3[AB]=df3[AB]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-df3$total_ab_yr3=rowSums(df3[AB])
+df3[,6:137]=df3[,6:137]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df3[,6:137]<- sapply(df3[,6:137],as.numeric)
+df3$total_ab_yr3=rowSums(df3[,6:137])
 
 names(df3)[138]<-"broad_ab_yr3"
 count(df3)
