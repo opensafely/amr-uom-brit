@@ -51,8 +51,8 @@ count(df1)
 
 
 # merge
-#DF=merge(df,df1,by=c("patient_id","patient_index_date","age","sex","stp"))
-#count(DF)
+DF=merge(df,df1,by=c("patient_id","patient_index_date","age","sex","stp"))
+count(DF)
 
 ```
 
