@@ -154,16 +154,22 @@ study = StudyDefinition(
 #         return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
 #     ),
 
-
-  AB_date1=patients.with_these_medications(codes_ab_type_Amikacin,between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],returning='number_of_matches_in_period',
-  return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
-    Rx_Amoxicillin=patients.with_these_medications(codes_ab_type_Amoxicillin,between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],returning='number_of_matches_in_period',
-  return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
-    Rx_Ampicillin=patients.with_these_medications(codes_ab_type_Ampicillin,between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],returning='number_of_matches_in_period',
-  return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
-    Rx_Azithromycin=patients.with_these_medications(codes_ab_type_Azithromycin,between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],returning='number_of_matches_in_period',
-  return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
-    Rx_Aztreonam=patients.with_these_medications(codes_ab_type_Aztreonam,between=[f'{index_date_variable}- 1137 days', f'{index_date_variable}- 42 days'],returning='number_of_matches_in_period',
-  return_expectations={'int': {'distribution': 'normal', 'mean': 3, 'stddev': 1},'incidence': 0.5,}),
-  
+    AB_6wk=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="number_of_matches_in_period",
+        between=["patient_index_date - 42 days", "patient_index_date"],
+        return_last_date_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),  
+    AB_1=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="number_of_matches_in_period",
+        between=["patient_index_date - 1137 days", "patient_index_date - 43 days"],
+        return_last_date_in_period=True,
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
+    ),  
 )
