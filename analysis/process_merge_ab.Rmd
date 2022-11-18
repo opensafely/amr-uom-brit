@@ -36,9 +36,13 @@ count(df)
 # year1 ab variables
 #df1=read.csv(here::here("output","input_ab_yr1.csv"))
 df1=read.csv("input_ab_yr1.csv")
+str(df1)
+
 AB=colnames(df1[,8:139])
 df1[AB]=df1[AB]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-df1$total_ab_yr1=rowSums(df1[AB])
+#df1$total_ab_yr1=rowSums(df1[AB])
+
+str(df1)
 
 df1=df1%>% select(-c("ab_first_date","ab_last_date","ab_prescriptions"))
 names(df1)[138]<-"broad_ab_yr1"
@@ -46,12 +50,12 @@ count(df1)
 
 
 # merge
-DF=merge(df,df1,by=c("patient_id","patient_index_date","age","sex","stp"))
-count(DF)
+#DF=merge(df,df1,by=c("patient_id","patient_index_date","age","sex","stp"))
+#count(DF)
 
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # import ab var2
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
@@ -72,7 +76,7 @@ count(DF)
 
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # import ab var3
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
