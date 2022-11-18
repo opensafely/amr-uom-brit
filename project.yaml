@@ -312,7 +312,7 @@ actions:
 
 
 
-# ongoing porjec
+# ongoing porject
 
   process_filter_ab: 
     run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -344,6 +344,14 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_yr3.csv
 
+  process_merge_ab: 
+    run: r:latest -e 'rmarkdown::render("analysis/process_merge_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching,extract_variables_ab_yr3,extract_variables_ab_yr2,extract_variables_ab_yr1]
+    outputs:
+      moderately_sensitive:
+        html: output/process_merge_ab.html
+      highly_sensitive: 
+        rds: output/matched_patients_monthly_ab.rds
 
   check_ab_yr1:
     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
