@@ -111,15 +111,21 @@ write_rds(DF3,"matched_patients_monthly_ab.rds")
  # overall check
 
 DF3$total_check=DF3$total_ab_yr1+DF3$total_ab_yr2+DF3$total_ab_yr3
+DF3=DF3%>% select("total_ab","total_check","patient_id","patient_index_date")
 
-DF3=DF3%>% filter(total_ab>0)
-plot(DF3$total_ab,DF3$total_check)
+# discrepancy
+count(DF3[DF3$total_check==0 & DF3$total_ab != 0,])
+count(DF3[DF3$total_check!=0 & DF3$total_ab == 0,])
+
+#DF3=DF3%>% filter(total_ab>0)
+count(DF3[DF3$total_check> DF3$total_ab,])
+count(DF3[DF3$total_check< DF3$total_ab,])
 
 ```
 
 ```{r}
 DF3$diff= DF3$total_check - DF3$total_ab
 
-histogram(DF3$diff)
+hist(DF3$diff)
 ```
 
