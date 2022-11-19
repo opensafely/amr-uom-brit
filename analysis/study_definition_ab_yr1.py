@@ -10,7 +10,7 @@ from cohortextractor import (
 )
 
 ###### import matched cohort
-COHORT = "output/matched_patients_id.csv"
+COHORT = "output/matched_patients_id_ab.csv"
 
 ###### Code lists
 from codelists import *
