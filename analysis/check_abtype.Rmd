@@ -39,6 +39,7 @@ df=df%>%filter(sum>0)
 counts=table(df$sum)
 barplot(counts)
 counts
+length(counts)
 ```
 
 
