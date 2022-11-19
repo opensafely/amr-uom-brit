@@ -126,6 +126,10 @@ count(DF3[DF3$total_check< DF3$total_ab,])
 ```{r}
 DF3$diff= DF3$total_check - DF3$total_ab
 
-hist(DF3$diff)
+DF3$diff=as.factor(DF3$diff)
+counts=table(DF3$diff)
+
+barplot(counts, main="difference distribution",
+   xlab="total check - total ab")
 ```
 
