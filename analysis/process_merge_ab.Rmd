@@ -124,6 +124,8 @@ count(DF3[DF3$total_check< DF3$total_ab,])
 ```
 
 ```{r}
+
+DF3=DF3%>% filter(total_ab>0)
 DF3$diff= DF3$total_check - DF3$total_ab
 
 DF3$diff=as.factor(DF3$diff)

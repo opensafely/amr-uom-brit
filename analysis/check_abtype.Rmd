@@ -42,6 +42,14 @@ counts
 length(counts)
 ```
 
+```{r}
+outlier=quantile(df$sum,0.9)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+
+length(counts)
+```
+
 
 #boxplot
 ```{r}
