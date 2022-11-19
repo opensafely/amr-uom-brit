@@ -29,11 +29,21 @@ col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_A
 ```
 
 
-#boxplot
+
 ```{r}
 df$sum=rowSums(df[col])
 df=df%>%filter(sum>0)
+```
 
+```{r}
+counts=table(df$sum)
+barplot(counts)
+counts
+```
+
+
+#boxplot
+```{r}
 df$case=as.factor(df$case)
 df01=df%>%filter(Rx_Nitrofurantoin>0)
 ggplot(df01, aes(y=Rx_Nitrofurantoin,x=case)) + 
