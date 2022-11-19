@@ -48,6 +48,20 @@ DF=df%>% filter(sum<=outlier)
 counts=table(DF$sum)
 
 length(counts)
+
+
+outlier=quantile(df$sum,0.99)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+
+length(counts)
+
+
+outlier=quantile(df$sum,0.999)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+
+length(counts)
 ```
 
 
