@@ -40,7 +40,7 @@ str(df1)
 
 #AB=colnames(df1[,8:139])
 df1[,6:137]=df1[,6:137]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-df1[,6:1379]<- sapply(df1[6:137],as.numeric)
+df1[,6:137]<- sapply(df1[6:137],as.numeric)
 df1$total_ab_yr1=rowSums(df1[,6:137])
 
 str(df1)
