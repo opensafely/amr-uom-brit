@@ -25,8 +25,8 @@ options(knitr.table.format="html")
 
 
 ```{r}
-setwd(here::here("output"))
-#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+#setwd(here::here("output"))
+setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 
 # import matched patients dataset
 df=read_rds("matched_outcome.rds")
@@ -39,13 +39,13 @@ df1=read.csv("input_ab_yr1.csv")
 str(df1)
 
 #AB=colnames(df1[,8:139])
-df1[,8:139]=df1[,8:139]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-df1[,8:139]<- sapply(df1[8:139],as.numeric)
-df1$total_ab_yr1=rowSums(df1[,8:139])
+df1[,6:137]=df1[,6:137]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df1[,6:1379]<- sapply(df1[6:137],as.numeric)
+df1$total_ab_yr1=rowSums(df1[,6:137])
 
 str(df1)
 
-df1=df1%>% select(-c("ab_first_date","ab_last_date","ab_prescriptions"))
+df1=df1%>% select(-c("ab_prescriptions"))
 names(df1)[138]<-"broad_ab_yr1"
 count(df1)
 
