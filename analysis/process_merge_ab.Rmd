@@ -126,7 +126,7 @@ df3_15d=df3_15d%>% select(-c("age","sex","stp"))
 DF3_all=merge(DF3,df3_15d,by=c("patient_id","patient_index_date"), all.x = TRUE)
 count(DF3_all)
 
-DF3_all[,8:423]=DF3[,8:423]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+DF3_all[,8:423]=DF3_all[,8:423]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
 
 
 write_rds(DF3_all,"matched_patients_monthly_ab.rds")
