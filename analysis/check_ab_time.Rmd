@@ -25,8 +25,8 @@ options(knitr.table.format="html")
 
 
 ```{r}
-setwd(here::here("output"))
-#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+#setwd(here::here("output"))
+setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 df_time=read.csv("input_ab_time.csv")
 # import matched patients dataset
 df=read_rds("matched_outcome.rds")
@@ -40,16 +40,26 @@ count(DF)
 
 total ab check
 ```{r}
-DF$total_check=0
-
-DF[,6:95]=DF[,6:95]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
-
-
-for (i in 1:45) {
-   DF["total_check"]= DF[,"total_check"] + DF[,paste0("AB_",i)]
+for (i in 6:95) {
+ DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
+ 
 }
 
-DF$cover=DF$total_check/DF$total_ab
+for (i in 6:95) {
+ DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
+ 
+}
+
+
+DF$total_check=0
+
+head(DF)
+tail(DF)
+#for (i in 1:45) {
+ #  DF$total_check=  DF$total_check + DF[,paste0("AB_",i)]
+#}
+
+#DF$cover=DF$total_check/DF$total_ab
 
 plot(DF$cover)
 
