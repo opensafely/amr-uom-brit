@@ -101,14 +101,44 @@ df3=df3%>% select(-c("age","sex","stp"))
 DF3=merge(DF2,df3,by=c("patient_id","patient_index_date"), all.x = TRUE)
 count(DF3)
 
-DF3[,8:410]=DF3[,8:410]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
 
-
-write_rds(DF3,"matched_patients_monthly_ab.rds")
 ```
+
+
+```{r}
+# import ab var3
+setwd(here::here("output"))
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+
+#df3=read.csv(here::here("output","input_ab_yr3.csv"))
+df3_15d=read.csv("input_ab_yr3_15d.csv")
+
+df3_15d[,6:16]=df3_15d[,6:16]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+df3_15d[,6:16]<- sapply(df3_15d[,6:16],as.numeric)
+df3_15d$total_ab_yr3_15d=rowSums(df3_15d[,6:16])
+
+names(df3_15d)[17]<-"broad_ab_yr3"
+count(df3_15d)
+
+df3_15d=df3_15d%>% select(-c("age","sex","stp"))
+
+# merge
+DF3_all=merge(DF3,df3_15d,by=c("patient_id","patient_index_date"), all.x = TRUE)
+count(DF3_all)
+
+DF3_all[,8:423]=DF3[,8:423]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
+
+
+write_rds(DF3_all,"matched_patients_monthly_ab.rds")
+```
+
+
+
 
 ```{r}
  # overall check
+
+DF3=DF3_all
 
 DF3$total_check=DF3$total_ab_yr1+DF3$total_ab_yr2+DF3$total_ab_yr3
 DF3=DF3%>% select("total_ab","total_check","patient_id","patient_index_date")
