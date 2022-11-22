@@ -140,7 +140,7 @@ write_rds(DF3_all,"matched_patients_monthly_ab.rds")
 
 DF3=DF3_all
 
-DF3$total_check=DF3$total_ab_yr1+DF3$total_ab_yr2+DF3$total_ab_yr3
+DF3$total_check=DF3$total_ab_yr1+DF3$total_ab_yr2+DF3$total_ab_yr3+total_ab_yr3_15d
 DF3=DF3%>% select("total_ab","total_check","patient_id","patient_index_date")
 
 # discrepancy
