@@ -1,0 +1,67 @@
+---
+title: "ab time - 45 extraction"
+author: "YT Y"
+date: "07/04/2022"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library(knitr)
+library(dplyr)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+
+```
+
+
+```{r}
+setwd(here::here("output"))
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+df_time=read.csv("input_ab_time.csv")
+
+
+# import matched patients dataset
+df=read_rds("matched_outcome.rds")
+df=df%>% select("patient_id","patient_index_date","total_ab")
+DF=merge(df,df_time,by=c("patient_id","patient_index_date"), all.x = TRUE)
+
+count(df_time)
+count(df)
+count(DF)
+```
+
+total ab check
+```{r}
+DF$total_check=0
+for (i in 1:45) {
+   DF["total_check"]= DF["total_check"] + DF[paste0("AB_",i)]
+}
+
+DF$cover=DF$total_check/DF$total_ab
+
+plot(DF$cover)
+
+```
+
+percentile check coverage
+```{r}
+quantile(DF$cover,0.99)
+quantile(DF$cover,0.95)
+quantile(DF$cover,0.90)
+
+quantile(DF$cover,0.75)
+quantile(DF$cover,0.5)
+quantile(DF$cover,0.25)
+
+```
+

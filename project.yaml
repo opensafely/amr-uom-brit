@@ -416,3 +416,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time.csv
+
+  check_ab_time: # merge 1-2-3 year ab 
+    run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_time,process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_ab_time.html
+      # highly_sensitive: 
+      #   rds: output/matched_patients_monthly_ab.rds
