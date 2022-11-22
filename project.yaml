@@ -380,6 +380,14 @@ actions:
         plot1: output/figure_3_2D.jpeg
         table1: output/figure_3_2D_table.csv
 
+  figure_3_7D: 
+    run: r:latest analysis/figure_3_7D.R
+    needs: [generate_measures_2020_covid_window,generate_measures_2021_covid_window]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_3_7D.jpeg
+        table1: output/figure_3_7D_table.csv
+
   ab_type_table: 
     run: r:latest analysis/ab_type_table.R
     needs: [generate_measures_2020_covid_window,generate_measures_2021_covid_window]
