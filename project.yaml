@@ -395,6 +395,7 @@ actions:
        moderately_sensitive:
         table1: output/ab_type_table.csv
         table2: output/ab_type_table_2D.csv
+        table3: output/ab_type_table_7D.csv
 
   figure_Stype: 
     run: r:latest analysis/figure_Stype.R
