@@ -144,6 +144,19 @@ study = StudyDefinition(
         return_expectations={"incidence":0.3,},
     ),
 
+    AB_given_7D_window=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["Positive_test_date - 7 days","Positive_test_date + 7 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.3,},
+    ),
+
+    Broad_given_7D_window=patients.with_these_medications(
+        broad_spectrum_codes,
+        between=["Positive_test_date - 7 days","Positive_test_date + 7 days"],
+        returning="binary_flag",
+        return_expectations={"incidence":0.3,},
+    ),
 
     AB_given_2D_window=patients.with_these_medications(
         antibacterials_codes_brit,
@@ -178,8 +191,29 @@ measures = [
     ),
 
     Measure(
+        id="21_covid_window_7D_window_ab",
+        numerator="AB_given_7D_window",
+        denominator="Positive_test_event",
+        group_by="population",
+    ),
+
+    Measure(
+        id="21_covid_window_7D_window_broad",
+        numerator="Broad_given_7D_window",
+        denominator="Positive_test_event",
+        group_by="population",
+    ),
+
+    Measure(
         id="21_covid_window_top5_ab_by_type",
         numerator="AB_given_14D_window",
+        denominator="Positive_test_event",
+        group_by="antibiotic_type",
+    ),    
+
+    Measure(
+        id="21_covid_window_7D_top5_ab_by_type",
+        numerator="AB_given_7D_window",
         denominator="Positive_test_event",
         group_by="antibiotic_type",
     ),    
