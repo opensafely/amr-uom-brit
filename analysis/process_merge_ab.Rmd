@@ -32,12 +32,14 @@ setwd(here::here("output"))
 df=read_rds("matched_outcome.rds")
 df=df%>% select("patient_id","patient_index_date","age","sex","stp","case","subclass","total_ab")
 count(df)
-
+head(df)
+tail(df)
 # year1 ab variables
 #df1=read.csv(here::here("output","input_ab_yr1.csv"))
 df1=read.csv("input_ab_yr1.csv")
 str(df1)
-
+head(df1)
+tail(df1)
 #AB=colnames(df1[,8:139])
 df1[,6:137]=df1[,6:137]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
 df1[,6:137]<- sapply(df1[6:137],as.numeric)
@@ -150,8 +152,16 @@ count(DF3[DF3$total_check!=0 & DF3$total_ab == 0,])
 #DF3=DF3%>% filter(total_ab>0)
 count(DF3[DF3$total_check> DF3$total_ab,])
 count(DF3[DF3$total_check< DF3$total_ab,])
+count(DF3[DF3$total_check== DF3$total_ab,])
+count(DF3[DF3$total_check!= DF3$total_ab,])
 
 ```
+
+```{r}
+check=DF3[DF3$total_check==0 & DF3$total_ab != 0,]
+length(as.factor(check$patient_id))
+```
+
 
 ```{r}
 
