@@ -28,6 +28,8 @@ options(knitr.table.format="html")
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 df_time=read.csv("input_ab_time.csv")
+head(df_time)
+tail(df_time)
 # import matched patients dataset
 df=read_rds("matched_outcome.rds")
 df=df%>% select("patient_id","patient_index_date","total_ab")
@@ -36,10 +38,13 @@ DF=merge(df,df_time,by=c("patient_id","patient_index_date"), all.x = TRUE)
 count(df_time)
 count(df)
 count(DF)
+
+head(DF)
+tail(DF)
 ```
 
 total ab check
-```{r}
+```{r eval=FALSE, include=FALSE}
 for (i in 6:95) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
