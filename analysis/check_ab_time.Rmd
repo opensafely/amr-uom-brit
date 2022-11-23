@@ -61,7 +61,7 @@ tail(DF)
 
 #DF$cover=DF$total_check/DF$total_ab
 
-plot(DF$cover)
+#plot(DF$cover)
 
 ```
 
