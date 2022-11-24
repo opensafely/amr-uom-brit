@@ -324,13 +324,29 @@ actions:
   
   # 4 extractions for infection consultations /per month  (with 14-day AB prescribing)
 
-  generate_study_population_infection_abtype_wk : # for ab types plot
-    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk --index-date-range "2019-01-01 to 2022-07-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+  generate_study_population_infection_abtype_wk_2019: # for ab types plot
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk_2019 --index-date-range "2019-01-01 to 2019-12-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
       highly_sensitive:
-        cohort: output/measures/input_infection_abtype_wk_*.csv.gz
+        cohort: output/measures/input_infection_abtype_wk_2019_*.csv.gz
+ 
+  generate_study_population_infection_abtype_wk_2020:
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk_2020 --index-date-range "2020-01-01 to 2020-12-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_abtype_wk_2020_*.csv.gz
 
+  generate_study_population_infection_abtype_wk_2021:
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk_2021 --index-date-range "2021-01-01 to 2021-12-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_abtype_wk_2021_*.csv.gz
 
+  generate_study_population_infection_abtype_wk_2022:
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_infection_abtype_wk_2022 --index-date-range "2022-01-01 to 2022-07-01 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_infection_abtype_wk_2022_*.csv.gz
 
 
 # same-day COVID-19 diagnosis with an antibiotic prescription (+/- 2 days)

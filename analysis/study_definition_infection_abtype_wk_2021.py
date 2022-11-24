@@ -30,7 +30,7 @@ from codelists import *
 ## Define study time variables
 from datetime import datetime
 
-start_date = "2019-01-01"
+start_date = "2021-01-01"
 end_date = datetime.today().strftime('%Y-%m-%d')
 
 ## Define study population and variables
@@ -84,7 +84,7 @@ study = StudyDefinition(
 
     ),
 
-    ########## patient demographics to group_by for measures:
+    # ########## patient demographics to group_by for measures:
     ### Age
     age=patients.age_as_of(
         "index_date",
@@ -104,26 +104,26 @@ study = StudyDefinition(
     ),
 
 
-    ### Practice
-    practice=patients.registered_practice_as_of(
-        "index_date",
-        returning="pseudo_id",
-        return_expectations={"int": {"distribution": "normal",
-                                     "mean": 25, "stddev": 5}, "incidence": 1}
-    ),
+    # ### Practice
+    # practice=patients.registered_practice_as_of(
+    #     "index_date",
+    #     returning="pseudo_id",
+    #     return_expectations={"int": {"distribution": "normal",
+    #                                  "mean": 25, "stddev": 5}, "incidence": 1}
+    # ),
 
 
 
-    ## all antibacterials from BRIT (dmd codes)
-    antibacterial_brit=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=["index_date", "last_day_of_month(index_date)"],
-        returning="number_of_matches_in_period",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 1,
-        },
-    ),
+    # ## all antibacterials from BRIT (dmd codes)
+    # antibacterial_brit=patients.with_these_medications(
+    #     antibacterials_codes_brit,
+    #     between=["index_date", "last_day_of_month(index_date)"],
+    #     returning="number_of_matches_in_period",
+    #     return_expectations={
+    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+    #         "incidence": 1,
+    #     },
+    # ),
 
 ####### 6 common infection date
 
