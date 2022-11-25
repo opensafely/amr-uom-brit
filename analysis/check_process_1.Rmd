@@ -4,14 +4,18 @@ title: "data flow patient number"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
 library('tidyverse')
 library('dplyr')
 library('lubridate')
 ```
 
 ### hospital admission
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # import data
 df <- read_csv(here::here("output", "input_covid_admission.csv"))
 #df=read_csv("input_covid_admission.csv")
@@ -20,7 +24,7 @@ round(nrow(df)/5)*5
 ```
 
 ### hospital admission (remove NA)
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # filter cohort
 df=df%>%filter( !is.na(patient_index_date)) # covid hospital case
 
@@ -28,7 +32,7 @@ round(nrow(df)/5)*5
 ```
 
 ## cohort: covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
 df=df%>%filter(
          is.na(SGSS_positive_test_date_before),
@@ -39,7 +43,7 @@ round(nrow(df)/5)*5
 ```
 
 ## CASE - covid icu or covid death within 1 month
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # calendar month for matching
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
@@ -53,7 +57,7 @@ round(nrow(df1)/5)*5
 ```
 
 ## Control - covid hospital without any covid severe outcome within 1 month
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ## Control - covid hospital without any covid severe outcome within 1 month
 df01=df%>%
   filter(
