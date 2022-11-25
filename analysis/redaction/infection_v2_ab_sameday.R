@@ -370,7 +370,10 @@ DF_6$infection="otitis media"
 DF=rbind(DF_1,DF_2,DF_3,DF_4,DF_5,DF_6)
 rm(DF_1,DF_2,DF_3,DF_4,DF_5,DF_6,df.0,df.1)
 
-DF$percentage_sameday=1-DF$percentage # patients with ab
+DF$percentage_ab=1-DF$percentage # patients with ab
+DF$round_count=round(DF$count/5)*5
+DF$round_total=round(DF$total/5)*5
+DF$percentage_sameday=1-(DF$round_count/DF$round_total)
 
 DF0=DF%>% filter(prevalent==0)
 DF1=DF%>% filter(prevalent==1)
