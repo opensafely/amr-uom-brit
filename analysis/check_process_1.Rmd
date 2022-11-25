@@ -24,54 +24,54 @@ library(grid)
 
 # control
 ## covid infection- SGSS
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 # impoprt data
 df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
 df1=df1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 # filter SGSS (exclude SGSS+admission, SGSS+death)
 df1 =df1%>%filter( !is.na(patient_index_date)) # SGSS case
-round(count(df1)/5)*5
+round(nrow(df1)/5)*5
 ```
 
 ## covid infection- SGSS - incident cases
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 df1=df1%>%
   filter(is.na(primary_care_covid_date),
          is.na(covid_admission_date),
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
 
-round(count(df1)/5)*5
+round(nrow(df1)/5)*5
 ```
 
 ## covid infection- primary care
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
 df2=df2%>%filter(patient_index_date <= as.Date("2021-12-31"))
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
-round(count(df2)/5)*5
+round(nrow(df2)/5)*5
 ```
 
 ## covid infection- primary care- incident cases
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df2=df2%>%
   filter(is.na(SGSS_positive_test_date),
          is.na(covid_admission_date),
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
-round(count(df2)/5)*5
+round(nrow(df2)/5)*5
 
 
 ```
 
 ## covid infection - merged sgss & primary care
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df=rbind(df1,df2)
-round(count(df)/5)*5
+round(nrow(df)/5)*5
 ```
 
 ## covid infection - aggregated sgss & primary care
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 # keep earlist covid infection date
 df=df%>%
   group_by(patient_id)%>%
@@ -81,7 +81,7 @@ round(nrow(df)/5)*5
 ```
 
 ## covid infection - removed death/hospital in one month
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 # calendar month for matching
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
@@ -99,36 +99,36 @@ round(nrow(df.0)/5)*5
 # case
 
 ## hospital admission
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
 df.1=df.1%>%filter(patient_index_date <= as.Date("2021-12-31"))
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
-round(count(df.1)/5)*5
+round(nrow(df.1)/5)*5
 ```
 
 ## hospital admission - incident cases( remove SGSS/primary care 1 month before index)
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df.1=df.1%>%filter(
          is.na(SGSS_positive_test_date_before),
          is.na(primary_care_covid_date_before), 
          is.na(died_date_cpns_before),
          is.na(died_date_ons_covid_before))
-round(count(df.1)/5)*5
+round(nrow(df.1)/5)*5
 df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 
 ```
 
 
 # cohort- combined
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df.0$case=0
 df.1$case=1
 df=rbind(df.1,df.0)
-round(count(df)/5)*5
+round(nrow(df)/5)*5
 ```
 
 # cohort- combined - keep 1 patient
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 # keep earlist covid positive date
 df=df%>%
   group_by(patient_id)%>%
@@ -138,15 +138,15 @@ round(nrow(df)/5)*5
 ```
 
 # eligible controls
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df0=df%>%filter(case==0)
 round(nrow(df0)/5)*5
 ```
 
 # eligible cases
-```{r echo=FALSE, message=TRUE, warning=FALSE}
+```{r echo=FALSE,message=FALSE, warning=FALSE}
 df1=df%>%filter(case==1)
-round(count(df1)/5)*5
+round(nrow(df1)/5)*5
 ```
 
 
