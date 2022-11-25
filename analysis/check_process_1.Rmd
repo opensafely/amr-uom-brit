@@ -1,50 +1,45 @@
 ---
-title: "check patient number of process_1"
-output: 
-  html_document:
-   toc: true
-   toc_depth: 2
-   toc_float:
-     collapsed: false
-     smooth_scorll: false
+title: "data flow patient number"
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-options(knitr.table.format="html")
 library('tidyverse')
 library('dplyr')
 library('lubridate')
-library(magrittr)
-library(Gmisc)
-library(glue)
-library(crayon)
-library(grid)
 ```
 
-
+### hospital admission
 ```{r}
 # import data
 df <- read_csv(here::here("output", "input_covid_admission.csv"))
 #df=read_csv("input_covid_admission.csv")
 df=df%>%filter(patient_index_date <= as.Date("2021-12-31"))
-count(df)
+round(nrow(df)/5)*5
+```
 
+### hospital admission (remove NA)
+```{r}
 # filter cohort
 df=df%>%filter( !is.na(patient_index_date)) # covid hospital case
 
-count(df)
+round(nrow(df)/5)*5
+```
 
-
+## cohort: covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+```{r}
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
 df=df%>%filter(
          is.na(SGSS_positive_test_date_before),
          is.na(primary_care_covid_date_before), 
          is.na(died_date_cpns_before),
          is.na(died_date_ons_covid_before))
-count(df)
+round(nrow(df)/5)*5
+```
 
-
+## CASE - covid icu or covid death within 1 month
+```{r}
 # calendar month for matching
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
@@ -54,10 +49,11 @@ df1=df%>%
            !is.na(died_date_ons_covid_after)|
            !is.na(died_date_cpns_after))
 
-count(df1)
+round(nrow(df1)/5)*5
+```
 
-
-
+## Control - covid hospital without any covid severe outcome within 1 month
+```{r}
 ## Control - covid hospital without any covid severe outcome within 1 month
 df01=df%>%
   filter(
@@ -65,7 +61,7 @@ df01=df%>%
     is.na(died_date_cpns_after),
     is.na(died_date_ons_covid_after))
 
-count(df01)
+round(nrow(df01)/5)*5
 
 ```
 
