@@ -1,5 +1,5 @@
 ---
-title: "check patient number of process_1"
+title: "data flow numbers"
 output: 
   html_document:
    toc: true
@@ -24,61 +24,64 @@ library(grid)
 
 # control
 ## covid infection- SGSS
-```{r}
+```{r echo=FALSE}
 # impoprt data
 df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
-count(df1)
-
 df1=df1%>%filter(patient_index_date <= as.Date("2021-12-31"))
-count(df1)
-
 # filter SGSS (exclude SGSS+admission, SGSS+death)
 df1 =df1%>%filter( !is.na(patient_index_date)) # SGSS case
-count(df1)
+round(count(df1)/5)*5
+```
 
+## covid infection- SGSS - incident cases
+```{r echo=FALSE}
 df1=df1%>%
   filter(is.na(primary_care_covid_date),
          is.na(covid_admission_date),
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
 
-count(df1)
+round(count(df1)/5)*5
 ```
 
 ## covid infection- primary care
-```{r}
+```{r echo=FALSE}
 df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
-count(df2)
-
 df2=df2%>%filter(patient_index_date <= as.Date("2021-12-31"))
-count(df2)
-
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
-count(df2)
+round(count(df2)/5)*5
+```
 
+## covid infection- primary care- incident cases
+```{r echo=FALSE}
 df2=df2%>%
   filter(is.na(SGSS_positive_test_date),
          is.na(covid_admission_date),
          is.na(died_date_cpns), 
          is.na(died_date_ons_covid))
-
-count(df2)
+round(count(df2)/5)*5
 
 
 ```
 
-## covid infection - merged
-```{r}
+## covid infection - merged sgss & primary care
+```{r echo=FALSE}
 df=rbind(df1,df2)
-count(df)
+round(count(df)/5)*5
+```
 
+## covid infection - aggregated sgss & primary care
+```{r echo=FALSE}
 # keep earlist covid infection date
 df=df%>%
   group_by(patient_id)%>%
   arrange(patient_id,patient_index_date)%>%
   distinct(patient_id, .keep_all = TRUE)
-count(df)
+round(count(df)/5)*5
+```
 
+## covid infection - removed death/hospital in one month
+```{r echo=FALSE}
 # calendar month for matching
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
@@ -88,271 +91,62 @@ df.0=df%>%
           is.na(covid_admission_date_after),
           is.na(died_date_cpns_after),
           is.na(died_date_ons_covid_after))
-count(df.0)
+round(count(df.0)/5)*5
 
 
 ```
 
 # case
-```{r}
+
+## hospital admission
+```{r echo=FALSE}
 df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
-count(df.1)
-
 df.1=df.1%>%filter(patient_index_date <= as.Date("2021-12-31"))
-count(df.1)
-
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
-count(df.1)
+round(count(df.1)/5)*5
+```
 
-
+## hospital admission - incident cases( remove SGSS/primary care 1 month before index)
+```{r echo=FALSE}
 df.1=df.1%>%filter(
          is.na(SGSS_positive_test_date_before),
          is.na(primary_care_covid_date_before), 
          is.na(died_date_cpns_before),
          is.na(died_date_ons_covid_before))
-count(df.1)
-
-# calendar month for matching
+round(count(df.1)/5)*5
 df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
 
 ```
+
 
 # cohort- combined
 ```{r}
 df.0$case=0
 df.1$case=1
 df=rbind(df.1,df.0)
-count(df)
+round(count(df)/5)*5
+```
 
+# cohort- combined - keep 1 patient
+```{r}
 # keep earlist covid positive date
 df=df%>%
   group_by(patient_id)%>%
   arrange(patient_id,patient_index_date)%>%
   distinct(patient_id, .keep_all = TRUE)
-count(df)
+round(count(df)/5)*5
+```
 
-
+# eligible controls
+```{r}
 df0=df%>%filter(case==0)
-count(df0)
+round(count(df0)/5)*5
+```
 
+# eligible cases
+```{r}
 df1=df%>%filter(case==1)
-count(df1)
-
+round(count(df1)/5)*5
 ```
 
-
-# flowchart
-```{r echo=FALSE}
-
-
-width=0.33
-dataset1<- boxGrob(glue_col("SGSS: positive COVID-19 test",
-                            "N = {pop}",
-                            pop = txtInt(2466912),
-                            .sep = "\n"),width = width,
-                   txt_gp = gpar(fontsize = 9))
-
-dataset2<- boxGrob(glue_col("Primary care: COVID-19 related diagnosis",
-                            "N = {pop}",
-                            pop = txtInt(473078),
-                            .sep = "\n"),width = width,
-                   txt_gp = gpar(fontsize = 9))
-
-dataset3<- boxGrob(glue_col("Hospital admission: COVID-19 cause",
-                            "N = {pop}",
-                            pop = txtInt(99958),
-                            .sep = "\n"),width =width,
-                   txt_gp = gpar(fontsize = 9))
-
-
-criteria1<- boxGrob(glue_col("incident COVID-19 in SGSS dataset",
-                             "N = {pop}",
-                             pop = txtInt(2415103),
-                             .sep = "\n"),width = width,
-                    txt_gp = gpar(fontsize = 9))
-criteria2<- boxGrob(glue_col("incident COVID-19 in GP dataset",
-                             "N = {pop}",
-                             pop = txtInt(126227),
-                             .sep = "\n"),width = width,
-                    txt_gp = gpar(fontsize = 9))
-criteria3<- boxGrob(glue_col("blank",
-                             "N = {pop}",
-                             pop = txtInt(126227),
-                             .sep = "\n"),width = width,
-                    txt_gp = gpar(fontsize = 9))
-
-
-
-merge<- boxGrob(glue("aggregated both datasets\n incident COVID-19 infection",
-                           "N = {pop}",
-                           pop = txtInt(2487144),
-                           .sep = "\n"),width = width, x=0.1,
-                      txt_gp = gpar(fontsize = 9))
-
-inclusion1<- boxGrob(glue_col("incident COVID-19 without hospital admission",
-                              "N = {pop}",
-                              pop = txtInt(2374845),
-                              .sep = "\n"),width = width,
-                     txt_gp = gpar(fontsize = 9))
-
-inclusion2<- boxGrob(glue_col("incident COVID-19 with hospital admission",
-                             "N = {pop}",
-                             pop = txtInt(98424),
-                             .sep = "\n"),width = width,
-                    txt_gp = gpar(fontsize = 9))
-
-
-cohort<- boxGrob(glue_col("COVID-19 infection cohort",
-                            "N = {pop}",
-                            pop = txtInt(2473279),
-                            .sep = "\n"),width =width,
-                   txt_gp = gpar(fontsize = 9))
-
-final1<- boxGrob(glue("Controls",
-                      "N = {pop}",
-                      pop = txtInt(2374845),
-                      .sep = "\n"),width = width,
-                 txt_gp = gpar(fontsize = 9))
-final2<- boxGrob(glue("Cases",
-                      "N = {pop}",
-                      pop = txtInt(98424),
-                      .sep = "\n"),width = width,
-                 txt_gp = gpar(fontsize = 9))
-
-exclude1 <- boxGrob(glue_col("exclude\n COVID-19 primary care records\n before index",
-                             "n = {pop}",
-                             pop = txtInt(2466912-2415103),
-                             .sep = "\n"),
-                    txt_gp = gpar(fontsize = 7.5))
-exclude2 <- boxGrob(glue_col("exclude\n COVID-19 SGSS records\n before index",
-                             "n = {pop}",
-                             pop = txtInt(473078-126227),
-                             .sep = "\n"),
-                    txt_gp = gpar(fontsize = 7.5))
-
-exclude3 <- boxGrob(glue("exclude COVID-19\n hospital admission or death records\n 1 month after index",
-                         "n = {pop}",
-                         pop = txtInt(2487144-2374845),
-                         .sep = "\n"),
-                    txt_gp = gpar(fontsize = 7.5))
-
-exclude4 <- boxGrob(glue("exclude COVID-19\n primary care or SGSS records\n 1 month before index",
-                         "n = {pop}",
-                         pop = txtInt(99958-98424),
-                         .sep = "\n"),
-                    txt_gp = gpar(fontsize = 7.5))
-
-
-# align box
-
-vert <- spreadVertical(dataset = dataset1,
-                       criteria = criteria1,
-                       merge=merge,
-                       inclusion =inclusion1 ,
-                       cohort=cohort,
-                       final=final1)
-
-dataset <- alignVertical(reference = vert$dataset,
-                         dataset1, dataset2,dataset3) %>%
-  spreadHorizontal()
-
-vert$dataset <- NULL
-
-criteria= alignVertical(reference = vert$criteria,
-                        criteria1, criteria2, criteria3)%>%
-  spreadHorizontal()
-
-vert$criteria <- NULL
-criteria[[3]] <- NULL
-
-inclusion= alignVertical(reference = vert$inclusion,
-                        inclusion1, inclusion2)%>%
-  spreadHorizontal()
-
-vert$inclusion <- NULL
-
-final= alignVertical(reference = vert$final,
-                     final1, final2)%>%
-  spreadHorizontal()
-
-vert$final <- NULL
-
-
-
-
-
-
-
-exclude1 <- moveBox(exclude1,
-                    x = 0.35,
-                    y = coords(criteria[[1]])$top +
-                      distance(dataset[[1]], criteria[[1]], half = TRUE, center = FALSE))
-
-exclude2 <- moveBox(exclude2,
-                    x = 0.7,
-                    y = coords(criteria[[2]])$top +
-                      distance(dataset[[2]], criteria[[2]], half = TRUE, center = FALSE))
-
-exclude3 <- moveBox(exclude3,
-                    x = 0.5,
-                    y = coords(inclusion[[1]])$top +
-                      distance(inclusion[[1]], vert$cohort, half = TRUE, center = FALSE))
-
-vert$merge<- moveBox(vert$merge,
-                         x = 0.3)
-
-inclusion[[1]]<- moveBox(inclusion[[1]],
-                      x = 0.3)
-inclusion[[2]]<- moveBox(inclusion[[2]],
-                         x = 0.8)
-
-final[[1]] <- moveBox(final[[1]],
-                   x = 0.3)
-
-exclude4 <- moveBox(exclude4,
-                    x = 0.65,
-                    y = 0.7)
-
-
-
-exclude1
-exclude2
-exclude3
-exclude4
-
-
-vert
-final
-dataset 
-criteria
-inclusion
-
-
-connectGrob(dataset[[1]],criteria[[1]] , type = "vert") 
-connectGrob(dataset[[2]],criteria[[2]] , type = "vert")
-
-connectGrob(criteria[[1]], vert$merge , type = "N")
-connectGrob(criteria[[2]], vert$merge, type = "N")
-
-connectGrob(dataset[[3]], inclusion[[2]] , type = "N")
-connectGrob(vert$merge,inclusion[[1]] , type = "vert")
-
-
-connectGrob(inclusion[[1]] ,vert$cohort, type = "N")
-connectGrob(inclusion[[2]] ,vert$cohort, type = "N")
-
-connectGrob(vert$cohort ,final[[1]], type = "N")
-connectGrob(vert$cohort ,final[[2]], type = "N")
-
-# Add a connection to the exclusions
-connectGrob(dataset[[1]], exclude1, type = "L")
-connectGrob(dataset[[2]], exclude2, type = "L")
-connectGrob(vert$merge, exclude3, type = "L")
-
-connectGrob(dataset[[3]], exclude4, type = "L")
-
-
-
-
-```
 
