@@ -145,7 +145,7 @@ def generate_covid_variables(index_date_variable):
 
     covid_admission_date_after=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
-        with_these_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+        with_these_diagnoses=covid_codelist, 
         between=[f'{index_date_variable}' , f'{index_date_variable} + 1 month'],        
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
@@ -167,7 +167,7 @@ def generate_covid_variables(index_date_variable):
         between=[f'{index_date_variable}' , f'{index_date_variable} +  1 month'],        
         returning="date_of_death",
         date_format="YYYY-MM-DD",
-        match_only_underlying_cause=False,
+        match_only_underlying_cause=False, # not restricted to primary cause
         return_expectations={"date": {"earliest": "2020-03-01"},
         "rate" : "exponential_increase",
         "incidence" : 0.25},
