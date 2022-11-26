@@ -145,7 +145,7 @@ def generate_covid_variables(index_date_variable):
 
     covid_admission_date_after=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
-        with_these_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
+        with_these_diagnoses=covid_codelist,  
         between=[f'{index_date_variable}' , f'{index_date_variable} + 1 month'],        
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
