@@ -5,6 +5,7 @@ expectations:
 
 actions:
   
+# study cohort
 
   generate_study_population_covid_admission:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_admission
