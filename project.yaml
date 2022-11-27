@@ -29,7 +29,9 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_process_1.html
-        
+
+# matching
+       
   matching: # matching with replacement # died covid
     run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1]
