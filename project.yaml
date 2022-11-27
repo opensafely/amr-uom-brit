@@ -115,17 +115,7 @@ actions:
       moderately_sensitive:
         html: output/model_2.html
 
- 
- 
- 
- ################# sensitivity analysis ###########
-
-  # model_subgroup: # by age and sex 
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_subgroup.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-  #   needs: [process_Rmatching]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_subgroup.html
+ # sensitivity analysis 
 
   model_subgroup: 
     run: r:latest analysis/model/model_subgroup.R
