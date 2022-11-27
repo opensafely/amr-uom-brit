@@ -49,8 +49,6 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_unmatched.html
-  
-
 
   extract_variables: 
     run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome
@@ -67,6 +65,8 @@ actions:
         cohort1: output/matched_outcome.rds
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
+
+# main analysis
 
   table1: # matching var
     run: r:latest -e 'rmarkdown::render("analysis/table1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -106,7 +106,6 @@ actions:
       moderately_sensitive:
         html: output/table2_ab.html
 
-
   table3_round: 
     run: r:latest analysis/table3.R
     needs: [process_Rmatching]
@@ -138,6 +137,9 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_2_3grp.html
+ 
+ 
+ 
  ################# sensitivity analysis ###########
 
   # model_subgroup: # by age and sex 
