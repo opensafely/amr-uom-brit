@@ -155,13 +155,6 @@ actions:
       moderately_sensitive:
         html: output/model_gender_plot.html
 
-  model_time_plot: # adjust for last AB time
-    run: r:latest -e 'rmarkdown::render("analysis/model_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_time_plot.html
-
   model_time: 
     run: r:latest analysis/model/model_time.R
     needs: [process_Rmatching]
@@ -169,14 +162,14 @@ actions:
       moderately_sensitive:
         csv1.1: output/model_time_adj1.csv
         csv1.2: output/model_time_adj2.csv 
-       
-  model_disease_plot: # adjust for individual
-    run: r:latest -e 'rmarkdown::render("analysis/model_disease_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+
+  model_time_plot: # adjust for last AB time
+    run: r:latest -e 'rmarkdown::render("analysis/model_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_disease_plot.html
-
+        html: output/model_time_plot.html
+        
   model_disease: 
     run: r:latest analysis/model/model_disease.R
     needs: [process_Rmatching]
@@ -184,6 +177,14 @@ actions:
       moderately_sensitive:
         csv1.1: output/model_disease_adj1.csv
         csv1.2: output/model_disease_adj2.csv 
+     
+  model_disease_plot: # adjust for individual
+    run: r:latest -e 'rmarkdown::render("analysis/model_disease_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_disease_plot.html
+
   
   # model_wave: # separate wave
   #   run: r:latest -e 'rmarkdown::render("analysis/model_wave.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
