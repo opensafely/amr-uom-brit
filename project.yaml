@@ -184,7 +184,6 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_disease_plot.html
-
   
   # model_wave: # separate wave
   #   run: r:latest -e 'rmarkdown::render("analysis/model_wave.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -209,7 +208,6 @@ actions:
         html: output/model_complete_case_plot.html
   
 
-        #### addintional check for 6 weeks exclusion
   extract_variables_6w: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_6w
     needs: [matching]
