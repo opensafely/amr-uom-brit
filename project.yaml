@@ -68,7 +68,7 @@ actions:
 
 # main analysis
 
-  table1: # matching var
+  table1: # matching variables
     run: r:latest -e 'rmarkdown::render("analysis/table1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1,process_Rmatching]
     outputs:
@@ -122,6 +122,13 @@ actions:
         csv1: output/model_1_crude.csv
         csv2: output/model_1_adjusted.csv
   
+  model_2_3grp:     # # abtype modeling
+    run: r:latest -e 'rmarkdown::render("analysis/model_2_3grp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_2_3grp.html
+
   model_2: 
     run: r:latest -e 'rmarkdown::render("analysis/model_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching]
@@ -129,12 +136,6 @@ actions:
       moderately_sensitive:
         html: output/model_2.html
 
-  model_2_3grp:     # # abtype modeling
-    run: r:latest -e 'rmarkdown::render("analysis/model_2_3grp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_2_3grp.html
  
  
  
