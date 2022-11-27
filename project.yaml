@@ -206,7 +206,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_complete_case_plot.html
-  
+
+ # adjust for 6 weeks exclusion
 
   extract_variables_6w: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_6w
@@ -221,13 +222,6 @@ actions:
     outputs:
       highly_sensitive:
         cohort1: output/matched_outcome_6w.rds
-  
-  # model_6w: # adjust for last AB time
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_6w.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-  #   needs: [process_Rmatching_6w]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_6w.html
 
   model_6w_plot: # adjust for last AB time
     run: r:latest -e 'rmarkdown::render("analysis/model_6w_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
