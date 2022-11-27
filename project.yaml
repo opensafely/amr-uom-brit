@@ -22,6 +22,13 @@ actions:
         control: output/control_covid_hosp.csv
       #  control2: output/control_covid_hosp_2.csv
 
+  check_process_1: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_study_population_covid_admission]
+    outputs:
+      moderately_sensitive:
+        html: output/check_process_1.html
+        
   matching: # matching with replacement # died covid
     run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_1]
@@ -40,12 +47,7 @@ actions:
       moderately_sensitive:
         html: output/check_unmatched.html
   
-  check_process_1: 
-    run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [generate_study_population_covid_admission]
-    outputs:
-      moderately_sensitive:
-        html: output/check_process_1.html
+
 
   extract_variables: 
     run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome
