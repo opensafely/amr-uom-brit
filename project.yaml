@@ -367,15 +367,14 @@ actions:
       moderately_sensitive:
         html: output/report/check_abtype_wk.html
 
-
   describe_infection_AB_plot_wk: #  percentage of ab in same day of infection
-    run: r:latest analysis/redaction/infection_v2_ab_sameday_wk.R
+    run: r:latest analysis/redaction/infection_v2_ab_wk.R
     needs: [describe_infection_abtype_process_wk]
     outputs:
        moderately_sensitive:
-        plot1: output/redacted_v2/incident_sameday_wk.jpeg
-        plot2: output/redacted_v2/prevalent_sameday_wk.jpeg
-        csv1: output/redacted_v2/sameday_AB_check_wk.csv
+        plot1: output/redacted_v2/incident_wk.jpeg
+        plot2: output/redacted_v2/prevalent_wk.jpeg
+        csv1: output/redacted_v2/AB_check_wk.csv
 
 
 # same-day COVID-19 diagnosis with an antibiotic prescription (+/- 2 days)

@@ -377,10 +377,10 @@ lineplot.1
 
 ggsave(
   plot= lineplot.0,
-  filename="incident_sameday_wk.jpeg", path=here::here("output","redacted_v2")) 
+  filename="incident_wk.jpeg", path=here::here("output","redacted_v2")) 
 ggsave(
   plot= lineplot.1,
-  filename="prevalent_sameday_wk.jpeg", path=here::here("output","redacted_v2")) 
+  filename="prevalent_wk.jpeg", path=here::here("output","redacted_v2")) 
 
-write_csv(DF, here::here("output","redacted_v2", "sameday_AB_check_wk.csv"))
+write_csv(DF, here::here("output","redacted_v2", "AB_check_wk.csv"))
 
