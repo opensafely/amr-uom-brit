@@ -360,6 +360,14 @@ actions:
         rds5: output/measures/abtype_ot_externa_wk.rds
         rds6: output/measures/abtype_otmedia_wk.rds
 
+  check_abtype_wk: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_abtype_wk.rmd", output_dir = "output/report")'
+    needs: [describe_infection_abtype_process_wk]
+    outputs:
+      moderately_sensitive:
+        html: output/report/check_abtype_wk.html
+
+
   describe_infection_AB_plot_wk: #  percentage of ab in same day of infection
     run: r:latest analysis/redaction/infection_v2_ab_sameday_wk.R
     needs: [describe_infection_abtype_process_wk]

@@ -1,0 +1,36 @@
+---
+title: "check abtype "
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+```{r message=FALSE}
+library("ggplot2")
+library("data.table")
+library("dplyr")
+library("tidyverse")
+library("MASS")
+#library(modelsummary)
+#library("gtsummary")
+```
+
+```{r}
+setwd(here::here("output", "measures"))
+
+df1=readRDS("abtype_uti_wk.rds")
+df2=readRDS("abtype_lrti_wk.rds")
+
+head(df1)
+head(df2)
+```
+
