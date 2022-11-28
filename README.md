@@ -24,7 +24,9 @@ This is a integrated work and the released ouptut can be found in these workspac
 1. infection consultations
 
   (1) Common infection consultation rates by age groups
+  
   (2) The trend of GP consultation rate
+  
   (3) Consultation rate change- interruped time series analysis
   
 [View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_eval_work/)   
@@ -33,7 +35,9 @@ This is a integrated work and the released ouptut can be found in these workspac
 2. antibiotics prescribing
 
   (1) Antibiotics with/without an infection coded
+  
   (2) Common infection cousultations with/witout antibiotics issued
+  
 [View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_evaluation/).  
 [View all the code](https://github.com/opensafely/amr-uom-brit/tree/service_evaluation)
 
@@ -41,10 +45,6 @@ This is a integrated work and the released ouptut can be found in these workspac
 
 Details of the purpose and any published outputs from this project can be found at the link above.
 
-
-1. infection consultations[View on OpenSAFELY]()
-2. antibiotics prescribing [View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_evaluation/)
-3. hospital admission 
 
 
 # Project: The impact of COVID -19 on antibiotic prescribing in primary care in England: evaluation and risk prediction of appropriateness of type and repeat prescribing
