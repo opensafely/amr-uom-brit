@@ -20,17 +20,23 @@ Read more at [OpenSAFELY.org](https://opensafely.org).
 # Project: The impact of COVID-19 on the treatment of common infections in primary care and the change to antibiotic prescribing in England
 
 This is a integrated work and the released ouptut can be found in these workspaces:
+
 1. infection consultations
+
   (1) Common infection consultation rates by age groups
   (2) The trend of GP consultation rate
   (3) Consultation rate change- interruped time series analysis
-[View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_eval_work/)
+  
+[View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_eval_work/)   
 [View all the code](https://github.com/opensafely/amr-uom-brit)
-2. antibiotics prescribing [View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_evaluation/)
+
+2. antibiotics prescribing
+
   (1) Antibiotics with/without an infection coded
   (2) Common infection cousultations with/witout antibiotics issued
-[View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_evaluation/)
+[View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/service_evaluation/).  
 [View all the code](https://github.com/opensafely/amr-uom-brit/tree/service_evaluation)
+
 3. hospital admission 
 
 Details of the purpose and any published outputs from this project can be found at the link above.
