@@ -9,8 +9,8 @@ library('lubridate')
 #library("ggpubr")
 
 rm(list=ls())
-#setwd(here::here("output", "measures"))
-setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
+setwd(here::here("output", "measures"))
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/measures")
 
 indications=c("uti","lrti","urti","sinusits","otmedia","ot_externa")
 
@@ -19,10 +19,10 @@ indications=c("uti","lrti","urti","sinusits","otmedia","ot_externa")
 
 
 # file list
-csvFiles_19 = list.files(pattern="input_infection_abtype_2019", full.names = FALSE)
-csvFiles_20 = list.files(pattern="input_infection_abtype_2020", full.names = FALSE)
-csvFiles_21 = list.files(pattern="input_infection_abtype_2021", full.names = FALSE)
-csvFiles_22 = list.files(pattern="input_infection_abtype_2022", full.names = FALSE)
+csvFiles_19 = list.files(pattern="input_infection_abtype_wk_2019", full.names = FALSE)
+csvFiles_20 = list.files(pattern="input_infection_abtype_wk_2020", full.names = FALSE)
+csvFiles_21 = list.files(pattern="input_infection_abtype_wk_2021", full.names = FALSE)
+csvFiles_22 = list.files(pattern="input_infection_abtype_wk_2022", full.names = FALSE)
 
 # date list
 date_19= seq(as.Date("2019-01-01"), as.Date("2019-12-01"), "month")
@@ -262,7 +262,7 @@ rm(temp)
 DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-saveRDS(DF,"abtype_uti.rds")
+saveRDS(DF,"abtype_uti_wk.rds")
 
 rm(list=ls())
 
@@ -521,7 +521,7 @@ rm(temp)
 DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-saveRDS(DF,"abtype_lrti.rds")
+saveRDS(DF,"abtype_lrti_wk.rds")
 
 rm(list=ls())
 
@@ -783,7 +783,7 @@ rm(temp)
 DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-saveRDS(DF,"abtype_urti.rds")
+saveRDS(DF,"abtype_urti_wk.rds")
 
 rm(list=ls())
 
@@ -1043,7 +1043,7 @@ rm(temp)
 DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-saveRDS(DF,"abtype_sinusitis.rds")
+saveRDS(DF,"abtype_sinusitis_wk.rds")
 
 rm(list=ls())
 
@@ -1303,7 +1303,7 @@ rm(temp)
 DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-saveRDS(DF,"abtype_ot_externa.rds")
+saveRDS(DF,"abtype_ot_externa_wk.rds")
 
 rm(list=ls())
 
@@ -1563,7 +1563,7 @@ rm(temp)
 DF=c(DF_19,DF_20,DF_21,DF_22)
 
 
-saveRDS(DF,"abtype_otmedia.rds")
+saveRDS(DF,"abtype_otmedia_wk.rds")
 
 rm(list=ls())
 

@@ -348,6 +348,18 @@ actions:
       highly_sensitive:
         cohort: output/measures/input_infection_abtype_wk_2022_*.csv.gz
 
+  describe_infection_abtype_process_wk: #  infection/row
+    run: r:latest analysis/process/infection_abtype_transform_wk.R
+    needs: [generate_study_population_infection_abtype_wk_2019,generate_study_population_infection_abtype_wk_2020,generate_study_population_infection_abtype_wk_2021,generate_study_population_infection_abtype_wk_2022]
+    outputs:
+       highly_sensitive:
+        rds1: output/measures/abtype_uti_wk.rds
+        rds2: output/measures/abtype_lrti_wk.rds
+        rds3: output/measures/abtype_urti_wk.rds
+        rds4: output/measures/abtype_sinusitis_wk.rds
+        rds5: output/measures/abtype_ot_externa_wk.rds
+        rds6: output/measures/abtype_otmedia_wk.rds
+
 
 # same-day COVID-19 diagnosis with an antibiotic prescription (+/- 2 days)
 
