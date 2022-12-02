@@ -49,6 +49,7 @@ df1=df%>%
            !is.na(died_date_ons_covid_after)|
            !is.na(died_date_cpns_after))
 
+df1$case=1
 # # CASE - covid icu or any death death within 1 month
 # df2=df%>%
 #   filter(icu_days>0|
@@ -56,7 +57,6 @@ df1=df%>%
 #            !is.na(died_date_cpns_after)|
 #            !is.na(died_date_ons_covid_after))
 
-write_csv(df1, here::here("output", "case_covid_icu_death.csv"))
 #write_csv(df2, here::here("output", "case_covid_icu_death_2.csv"))
 
 
@@ -68,7 +68,15 @@ df01=df%>%
     is.na(died_date_cpns_after),
     is.na(died_date_ons_covid_after))
 
-write_csv(df01, here::here("output", "control_covid_hosp.csv"))
+df01$case=0
+df=rbind(df1,df01)
+
+DF=df%>% group_by(patient_id) %>% arrange(desc(case)) %>% distinct(patient_id,.keep_all = TRUE)
+
+DF1=DF%>% filter(case==1)
+DF0=DF%>% filter(case==0)
+write_csv(DF1, here::here("output", "case_covid_icu_death.csv"))
+write_csv(DF0, here::here("output", "control_covid_hosp.csv"))
 
 # # Control - covid hospital without any  severe outcome within 1 month
 # df02=df%>%
