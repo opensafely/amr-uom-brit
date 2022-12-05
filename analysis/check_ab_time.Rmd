@@ -19,8 +19,6 @@ library(dplyr)
 library(kableExtra)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
-
-
 ```
 
 
@@ -28,43 +26,45 @@ options(knitr.table.format="html")
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 df_time=read.csv("input_ab_time.csv")
-head(df_time)
-tail(df_time)
+#head(df_time)
+#tail(df_time)
 # import matched patients dataset
 df=read_rds("matched_outcome.rds")
 df=df%>% select("patient_id","patient_index_date","total_ab")
+# filter only 1 ID
+df=df %>% distinct(patient_id, .keep_all=T)
 DF=merge(df,df_time,by=c("patient_id","patient_index_date"), all.x = TRUE)
 
 count(df_time)
 count(df)
 count(DF)
 
-head(DF)
-tail(DF)
+#head(DF)
+#tail(DF)
 ```
 
 total ab check
 ```{r eval=FALSE, include=FALSE}
-for (i in 6:95) {
+for (i in 3:100) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
 
-for (i in 6:95) {
+for (i in 54:100) {
  DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
  
 }
 
 
-DF$total_check=0
+DF$total_check=rowSums(DF[,56:100])
 
-head(DF)
-tail(DF)
+#head(DF)
+#tail(DF)
 #for (i in 1:45) {
  #  DF$total_check=  DF$total_check + DF[,paste0("AB_",i)]
 #}
 
-#DF$cover=DF$total_check/DF$total_ab
+DF$cover=DF$total_check/DF$total_ab
 
 #plot(DF$cover)
 
