@@ -59,6 +59,42 @@ counts=table(DF$sum)
 outlier
 length(counts)
 
+outlier=quantile(df$sum,0.995)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+outlier
+length(counts)
+
+outlier=quantile(df$sum,0.999)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+outlier
+length(counts)
+```
+
+# exclude ab<3
+```{r}
+
+df=df%>% filter(sum >=3)
+
+outlier=quantile(df$sum,0.9)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+outlier
+length(counts)
+
+
+outlier=quantile(df$sum,0.99)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+outlier
+length(counts)
+
+outlier=quantile(df$sum,0.995)
+DF=df%>% filter(sum<=outlier)
+counts=table(DF$sum)
+outlier
+length(counts)
 
 outlier=quantile(df$sum,0.999)
 DF=df%>% filter(sum<=outlier)
