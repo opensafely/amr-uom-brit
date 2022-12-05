@@ -412,7 +412,8 @@ actions:
 
   extract_variables_ab_time: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix
-    needs: [process_filter_ab]
+    #needs: [process_filter_ab]
+    needs: [matching]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time.csv
