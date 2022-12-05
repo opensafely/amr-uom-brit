@@ -44,7 +44,7 @@ count(DF)
 ```
 
 total ab check
-```{r eval=FALSE, include=FALSE}
+```{r }
 for (i in 3:100) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
@@ -66,9 +66,17 @@ DF$total_check=rowSums(DF[,56:100])
 
 DF$cover=DF$total_check/DF$total_ab
 
+head(DF)
 #plot(DF$cover)
 
 ```
+
+# disconcordance
+```{r}
+plot(DF$total_ab,DF$total_check)
+abline(lm(DF$total_check ~ total_ab, data =DF), col = "blue")
+```
+
 
 percentile check coverage
 ```{r}
