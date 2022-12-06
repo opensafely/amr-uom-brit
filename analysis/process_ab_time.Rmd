@@ -1,0 +1,120 @@
+---
+title: "data preparation"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library(knitr)
+library(dplyr)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+read dataset of ab_time
+```{r}
+setwd(here::here("output"))
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+DF=read.csv("input_ab_time.csv")
+names(DF)
+
+ab_date=colnames(DF[,5:64])
+ab_conut=colnames(DF[,70:129])
+
+
+
+```
+
+replace NA
+```{r }
+# all date+ab variables 
+for (i in 3:129) {
+ DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
+ 
+}
+# all 60 ab counts+AB_0
+for (i in 69:129) {
+ DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
+ 
+}
+```
+
+total ab
+```{r }
+DF$total_ab=rowSums(DF[,ab_conut])
+```
+
+filter ab users
+```{r}
+DF=DF%>% filter(total_ab>0)
+count(DF)
+```
+
+exposure period
+```{r}
+DF[ab_date]=lapply(DF[ab_date], as.Date)
+DF$last_time= apply(DF[ab_date], 1, max, na.rm=TRUE)
+
+DF$exposure_period=difftime(DF$last_time,DF$AB_date_1, units = "day")
+
+DF$exposure_period=as.numeric(DF$exposure_period)
+summary(DF$exposure_period)
+```
+
+prescribing times
+```{r}
+DF$prescribe_times=60-rowSums(is.na(DF[,ab_date]))
+```
+
+prescribing frequency
+```{r}
+DF$prescribe_freq=DF$prescribe_times/DF$exposure_period
+```
+
+
+calculate time interval between prescriptions
+```{r}
+for (i in 1:59){
+
+
+DF[,134+i]=difftime(DF[,ab_date[i+1]], DF[,ab_date[i]], units = "day" )
+  colnames(DF)[134+i]=paste0("interval_",i)
+
+
+}
+
+
+DF[,135:193]=lapply(DF[,135:193], as.numeric)
+
+
+names(DF)
+
+
+DF$interval_mean= apply(DF[,135:193], 1, mean, na.rm=TRUE)
+DF$interval_sd= apply(DF[,135:193], 1, sd, na.rm=TRUE)
+
+
+head(DF)
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+
+# import matched patients dataset
+df=read_rds("matched_outcome.rds")
+df=df%>% select("patient_id","patient_index_date","total_ab","case","subclass")
+# filter only 1 ID
+df=df %>% distinct(patient_id, .keep_all=T)
+DF=merge(df,df_time,by=c("patient_id","patient_index_date"), all.x = TRUE)
+
+```
+
