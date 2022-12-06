@@ -23,8 +23,8 @@ options(knitr.table.format="html")
 
 
 ```{r}
-setwd(here::here("output"))
-#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+#setwd(here::here("output"))
+setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 df_time=read.csv("input_ab_time.csv")
 #head(df_time)
 #tail(df_time)
@@ -56,7 +56,7 @@ for (i in 54:129) {
 }
 
 
-DF$total_check=rowSums(DF[,70:129])
+DF$total_check=rowSums(DF[,71:130])
 
 #head(DF)
 #tail(DF)
