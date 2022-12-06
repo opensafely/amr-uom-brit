@@ -45,18 +45,18 @@ count(DF)
 
 total ab check
 ```{r }
-for (i in 3:100) {
+for (i in 3:129) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
 
-for (i in 54:100) {
+for (i in 54:129) {
  DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
  
 }
 
 
-DF$total_check=rowSums(DF[,56:100])
+DF$total_check=rowSums(DF[,70:129])
 
 #head(DF)
 #tail(DF)
