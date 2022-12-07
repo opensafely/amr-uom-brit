@@ -21,7 +21,7 @@ options(knitr.table.format="html")
 
 read dataset of ab_time
 ```{r}
-setwd(here::here("output"))
+etwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 DF=read.csv("input_ab_time.csv")
 names(DF)
@@ -36,7 +36,7 @@ ab_conut=colnames(DF[,70:129])
 replace NA
 ```{r }
 # all date+ab variables 
-for (i in 3:129) {
+for (i in 69:129) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
