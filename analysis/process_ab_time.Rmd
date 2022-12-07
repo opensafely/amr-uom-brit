@@ -14,7 +14,7 @@ library('tidyverse')
 library("ggplot2")
 library(knitr)
 library(dplyr)
-library(kableExtra)
+library(lubridate)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
@@ -29,14 +29,14 @@ names(DF)
 ab_date=colnames(DF[,5:64])
 ab_conut=colnames(DF[,70:129])
 
-
+count(DF)
 
 ```
 
 replace NA
 ```{r }
 # all date+ab variables 
-for (i in 3:129) {
+for (i in 69:129) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
@@ -60,10 +60,19 @@ count(DF)
 
 exposure period
 ```{r}
-DF$last_time= apply(DF[ab_date], 1, max, na.rm=TRUE)
-DF$exposure_period=as.Date(DF$last_time)-as.Date(DF$AB_date_1)
-DF$exposure_period=as.numeric(DF$exposure_period)
+DF$last_date= apply(DF[ab_date], 1, max, na.rm=TRUE)
+#DF$last_time2=do.call(pmax, c(DF[ab_date], na.rm = TRUE))
+
+```
+
+
+```{r}
+DF$last_date=as.Date(DF$last_date)
+DF$AB_date_1=as.Date(DF$AB_date_1)
+
+DF$exposure_period=as.integer(difftime(DF$last_date,DF$AB_date_1,unit="day"))
 summary(DF$exposure_period)
+
 ```
 
 ```{r eval=FALSE, include=FALSE}
