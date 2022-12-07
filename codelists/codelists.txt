@@ -1,4 +1,3 @@
-opensafely/antibacterials/01fff52f
 opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
 opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
@@ -28,9 +27,6 @@ user/rriefu/urti/6f716659
 user/rriefu/uti/5661f324
 user/rriefu/vaccination/26f5ccb0
 primis-covid19-vacc-uptake/longres/v1
-user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f
-user/rriefu/antibiotics_dmd/15f53060
-user/rriefu/broad-spectrum-antibiotics/3d9e533e
 user/BillyZhongUOM/brit_new_dmd/792101bd
 user/yayang/charlson01_cancer/796c49a5
 user/yayang/charlson02_cvd/605cd670
@@ -50,15 +46,5 @@ user/yayang/charlson15_mi/1a93fcbd
 user/yayang/charlson16_peptic_ulcer/36562fe8
 user/yayang/charlson17_peripheral_vascular/68751652
 user/yayang/antibiotics_indications/69efab76
-user/BillyZhongUOM/broad_spectrum_op/70090cf7
 
-user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9
-user/yayang/codes_ab_type_nitrofurantoincsv/56b72f70
-user/yayang/trimethoprim_op/496907fa
-user/yayang/nitrofurantoin_op/62787b2f
-opensafely/trimethoprim/0c0d1f0e
-opensafely/trimethoprim-and-nitrofurantoin/251c9243
-
-user/BillyZhongUOM/broad_spec_op_codelist/46b64804
-user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/
-opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538
+user/BillyZhongUOM/infection-related-complication/1d3ddf1d

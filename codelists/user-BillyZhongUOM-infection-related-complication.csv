@@ -11,23 +11,12 @@ B95,Streptococcus and staphylococcus as the cause of diseases classified to othe
 B96,Other specified bacterial agents as the cause of diseases classified to other chapters
 G00,"Bacterial meningitis, not elsewhere classified"
 G01,Meningitis in bacterial diseases classified elsewhere
-G04,"Encephalitis, myelitis and encephalomyelitis"
-G05,"Encephalitis, myelitis and encephalomyelitis in diseases classified elsewhere"
-G06,Intracranial and intraspinal abscess and granuloma
-G07,Intracranial and intraspinal abscess and granuloma in diseases classified elsewhere
-G08,Intracranial and intraspinal phlebitis and thrombophlebitis
 H60,Otitis externa
 H65,Nonsuppurative otitis media
+H66,Suppurative and unspecified otitis media
 H67,Otitis media in diseases classified elsewhere
 H68,Eustachian salpingitis and obstruction
-H70,Mastoiditis and related conditions
-H71,Cholesteatoma of middle ear
-I00,Rheumatic fever without mention of heart involvement
-I01,Rheumatic fever with heart involvement
-I02,Rheumatic chorea
-I33,Acute and subacute endocarditis
-I38,"Endocarditis, valve unspecified"
-I39,Endocarditis and heart valve disorders in diseases classified elsewhere
+H700,Acute mastoiditis
 J00,Acute nasopharyngitis [common cold]
 J01,Acute sinusitis
 J02,Acute pharyngitis
@@ -45,17 +34,10 @@ J20,Acute bronchitis
 J21,Acute bronchiolitis
 J22,Unspecified acute lower respiratory infection
 J36,Peritonsillar abscess
-J40,"Bronchitis, not specified as acute or chronic"
-J41,Simple and mucopurulent chronic bronchitis
-J42,Unspecified chronic bronchitis
 J85,Abscess of lung and mediastinum
 J86,Pyothorax
 K05,Gingivitis and periodontal diseases
-K35,Acute appendicitis
-K36,Other appendicitis
-K37,Unspecified appendicitis
 K61,Abscess of anal and rectal regions
-K81,Cholecystitis
 L00,Staphylococcal scalded skin syndrome
 L01,Impetigo
 L02,"Cutaneous abscess, furuncle and carbuncle"
@@ -64,10 +46,10 @@ L04,Acute lymphadenitis
 L05,Pilonidal cyst
 L08,Other local infections of skin and subcutaneous tissue
 M00,Pyogenic arthritis
-M01,Direct infections of joint in infectious and parasitic diseases classified elsewhere
 M86,Osteomyelitis
 N10,Acute tubulo-interstitial nephritis
 N30,Cystitis
+N390,"Urinary tract infection, site not specified"
 N45,Orchitis and epididymitis
 N70,Salpingitis and oophoritis
 N71,"Inflammatory disease of uterus, except cervix"
@@ -75,11 +57,3 @@ N72,Inflammatory disease of cervix uteri
 N73,Other female pelvic inflammatory diseases
 N74,Female pelvic inflammatory disorders in diseases classified elsewhere
 N75,Diseases of Bartholin gland
-O23,Infections of genitourinary tract in pregnancy
-O85,Puerperal sepsis
-O86,Other puerperal infections
-O91,Infections of breast associated with childbirth
-O98,"Maternal infectious and parasitic diseases classifiable elsewhere but complicating pregnancy, childbirth and the puerperium"
-P23,Congenital pneumonia
-P36,Bacterial sepsis of newborn
-P37,Other congenital infectious and parasitic diseases

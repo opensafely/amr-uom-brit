@@ -1,11 +1,5 @@
 {
   "files": {
-    "opensafely-antibacterials.csv": {
-      "id": "opensafely/antibacterials/01fff52f",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/antibacterials/01fff52f/",
-      "downloaded_at": "2022-08-22 20:11:12.959326Z",
-      "sha": "56fb312525f167260205d5dfa8dea94e07627429"
-    },
     "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
       "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
       "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
@@ -180,24 +174,6 @@
       "downloaded_at": "2021-06-11 12:31:13.723622Z",
       "sha": "4d4c94b9c6aa267c6a60657150bbc5ec7d2d7625"
     },
-    "user-alifahmi-hospital-admissions-with-infection-related-complication.csv": {
-      "id": "user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f",
-      "url": "https://codelists.opensafely.org/codelist/user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f/",
-      "downloaded_at": "2021-11-23 10:45:19.024119Z",
-      "sha": "57f75538d842da15d153aea6e41622f562bf0d1e"
-    },
-    "user-rriefu-antibiotics_dmd.csv": {
-      "id": "user/rriefu/antibiotics_dmd/15f53060",
-      "url": "https://codelists.opensafely.org/codelist/user/rriefu/antibiotics_dmd/15f53060/",
-      "downloaded_at": "2022-08-28 12:53:06.615190Z",
-      "sha": "6399c02c4c97a18687e8a132e948716cb38f6e83"
-    },
-    "user-rriefu-broad-spectrum-antibiotics.csv": {
-      "id": "user/rriefu/broad-spectrum-antibiotics/3d9e533e",
-      "url": "https://codelists.opensafely.org/codelist/user/rriefu/broad-spectrum-antibiotics/3d9e533e/",
-      "downloaded_at": "2022-01-19 15:31:05.480699Z",
-      "sha": "789eb486bb16399006e2ae6ba5dca040acdee17a"
-    },
     "user-BillyZhongUOM-brit_new_dmd.csv": {
       "id": "user/BillyZhongUOM/brit_new_dmd/792101bd",
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/brit_new_dmd/792101bd/",
@@ -312,65 +288,11 @@
       "downloaded_at": "2022-02-10 10:14:25.942930Z",
       "sha": "fab2ed2b51fdbaf4157cff1e81da6c6f33f04918"
     },
-    "user-BillyZhongUOM-broad_spectrum_op.csv": {
-      "id": "user/BillyZhongUOM/broad_spectrum_op/70090cf7",
-      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/broad_spectrum_op/70090cf7/",
-      "downloaded_at": "2022-04-01 10:27:58.005781Z",
-      "sha": "daf7bd501c0f90e2469521ad48971595675544f0"
-    },
-    "user-yayang-codes_ab_type_trimethoprimcsv.csv": {
-      "id": "user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9/",
-      "downloaded_at": "2022-06-21 16:23:22.581167Z",
-      "sha": "2aeffeea4db5c63937622a596ff5cc9dd888ea1a"
-    },
-    "user-yayang-codes_ab_type_nitrofurantoincsv.csv": {
-      "id": "user/yayang/codes_ab_type_nitrofurantoincsv/56b72f70",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/codes_ab_type_nitrofurantoincsv/56b72f70/",
-      "downloaded_at": "2022-06-21 16:23:22.730931Z",
-      "sha": "64017f7918b0c9e25ccdf6ce9290882c5a5f8a83"
-    },
-    "user-yayang-trimethoprim_op.csv": {
-      "id": "user/yayang/trimethoprim_op/496907fa",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/trimethoprim_op/496907fa/",
-      "downloaded_at": "2022-06-21 16:36:54.844463Z",
-      "sha": "4cad0585b02dee3b7deab0bd60705de93746173a"
-    },
-    "user-yayang-nitrofurantoin_op.csv": {
-      "id": "user/yayang/nitrofurantoin_op/62787b2f",
-      "url": "https://codelists.opensafely.org/codelist/user/yayang/nitrofurantoin_op/62787b2f/",
-      "downloaded_at": "2022-06-21 16:36:54.978071Z",
-      "sha": "f0573d031c6c6b51dd7c90eecb3fd5e17d49aaab"
-    },
-    "opensafely-trimethoprim.csv": {
-      "id": "opensafely/trimethoprim/0c0d1f0e",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/trimethoprim/0c0d1f0e/",
-      "downloaded_at": "2022-06-22 11:56:07.951431Z",
-      "sha": "cceecec83823c8663c40aaaf0c5158fded8a21ec"
-    },
-    "opensafely-trimethoprim-and-nitrofurantoin.csv": {
-      "id": "opensafely/trimethoprim-and-nitrofurantoin/251c9243",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/trimethoprim-and-nitrofurantoin/251c9243/",
-      "downloaded_at": "2022-06-22 11:56:08.034911Z",
-      "sha": "4af6569869550c9daaf0c24f07941fcdc4d3daf1"
-    },
-    "user-BillyZhongUOM-broad_spec_op_codelist.csv": {
-      "id": "user/BillyZhongUOM/broad_spec_op_codelist/46b64804",
-      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/broad_spec_op_codelist/46b64804/",
-      "downloaded_at": "2022-06-21 16:23:22.905252Z",
-      "sha": "c0918b22202e342414ee91a82cff3b715652df0d"
-    },
-    "user-jon_massey-nitrofurantoin-vtm-based-drugs.csv": {
-      "id": "user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8",
-      "url": "https://codelists.opensafely.org/codelist/user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/",
-      "downloaded_at": "2022-08-18 09:20:53.104336Z",
-      "sha": "b35c6447b6456ebf00acbf89c6c53f432500b8c3"
-    },
-    "opensafely-co-amoxiclav-cephalosporins-and-quinolones.csv": {
-      "id": "opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538/",
-      "downloaded_at": "2022-08-22 20:11:33.676528Z",
-      "sha": "b1118448ed57fb5b2598e642b2235537dd420f1e"
+    "user-BillyZhongUOM-infection-related-complication.csv": {
+      "id": "user/BillyZhongUOM/infection-related-complication/1d3ddf1d",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/infection-related-complication/1d3ddf1d/",
+      "downloaded_at": "2022-12-07 14:03:05.690636Z",
+      "sha": "6cc685ccea6cf12be7010a076b1c648fbeaaa713"
     }
   }
 }
