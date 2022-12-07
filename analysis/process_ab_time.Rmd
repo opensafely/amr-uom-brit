@@ -21,7 +21,7 @@ options(knitr.table.format="html")
 
 read dataset of ab_time
 ```{r}
-etwd(here::here("output"))
+setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 DF=read.csv("input_ab_time.csv")
 names(DF)
@@ -36,7 +36,7 @@ ab_conut=colnames(DF[,70:129])
 replace NA
 ```{r }
 # all date+ab variables 
-for (i in 69:129) {
+for (i in 3:129) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
@@ -60,7 +60,17 @@ count(DF)
 
 exposure period
 ```{r}
-DF[ab_date]=lapply(DF[ab_date], as.Date)
+DF$last_time= apply(DF[ab_date], 1, max, na.rm=TRUE)
+DF$exposure_period=as.Date(DF$last_time)-as.Date(DF$AB_date_1)
+DF$exposure_period=as.numeric(DF$exposure_period)
+summary(DF$exposure_period)
+```
+
+```{r eval=FALSE, include=FALSE}
+DF[ab_date]=lapply(DF[ab_date], as.factor)
+
+DF[ab_date]=lapply(DF[ab_date], as.Date, origin="1970-01-01")
+
 DF$last_time= apply(DF[ab_date], 1, max, na.rm=TRUE)
 
 DF$exposure_period=difftime(DF$last_time,DF$AB_date_1, units = "day")
