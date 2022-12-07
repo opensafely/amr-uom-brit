@@ -12,11 +12,8 @@ output:
 ```{r setup, include=FALSE}
 library('tidyverse')
 library("ggplot2")
-library(knitr)
-library(dplyr)
-library(lubridate)
-knitr::opts_chunk$set(echo = TRUE)
-options(knitr.table.format="html")
+library('dplyr')
+library('lubridate')
 ```
 
 read dataset of ab_time
@@ -33,10 +30,11 @@ count(DF)
 
 ```
 
-replace NA
+
 ```{r }
+#replace NA
 # all date+ab variables 
-for (i in 69:129) {
+for (i in 3:129) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
@@ -60,23 +58,25 @@ count(DF)
 
 exposure period
 ```{r}
-DF$last_date= apply(DF[ab_date], 1, max, na.rm=TRUE)
-#DF$last_time2=do.call(pmax, c(DF[ab_date], na.rm = TRUE))
+#DF$last_date= apply(DF[ab_date], 1, max, na.rm=TRUE)
+DF$last_date=do.call(pmax, c(DF[ab_date], na.rm = TRUE))
 
 ```
 
 
 ```{r}
+
 DF$last_date=as.Date(DF$last_date)
+
 DF$AB_date_1=as.Date(DF$AB_date_1)
 
+#DF$exposure_period=DF$last_date-DF$AB_date_1
 DF$exposure_period=as.integer(difftime(DF$last_date,DF$AB_date_1,unit="day"))
 summary(DF$exposure_period)
 
 ```
 
 ```{r eval=FALSE, include=FALSE}
-DF[ab_date]=lapply(DF[ab_date], as.factor)
 
 DF[ab_date]=lapply(DF[ab_date], as.Date, origin="1970-01-01")
 
