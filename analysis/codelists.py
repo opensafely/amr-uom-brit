@@ -375,7 +375,7 @@ infection_related_complication_codes = codelist_from_csv(
 
 ### adverse-event
 adverse_event_codes = codelist_from_csv(
-  "codelists/infection-related-complication.csv",
+  "codelists/adverse-event-hospital-admission.csv",
   system = "icd10",
   column = "dmd_id"
 )

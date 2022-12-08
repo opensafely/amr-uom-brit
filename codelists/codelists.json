@@ -293,6 +293,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/infection-related-complication/1d3ddf1d/",
       "downloaded_at": "2022-12-07 14:03:05.690636Z",
       "sha": "6cc685ccea6cf12be7010a076b1c648fbeaaa713"
+    },
+    "user-BillyZhongUOM-adverse-event-hospital-admission.csv": {
+      "id": "user/BillyZhongUOM/adverse-event-hospital-admission/520f857d",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/adverse-event-hospital-admission/520f857d/",
+      "downloaded_at": "2022-12-08 16:36:32.009948Z",
+      "sha": "02a29e8cb18746b019623a979066fe2d1615c798"
     }
   }
 }
