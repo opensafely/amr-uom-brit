@@ -73,10 +73,15 @@ df=rbind(df1,df01)
 
 DF=df%>% group_by(patient_id) %>% arrange(desc(case)) %>% distinct(patient_id,.keep_all = TRUE)
 
+
+
 DF1=DF%>% filter(case==1)
 DF0=DF%>% filter(case==0)
+DF_ICU=DF%>% filter(case==1 & icu_days>0)
+
 write_csv(DF1, here::here("output", "case_covid_icu_death.csv"))
 write_csv(DF0, here::here("output", "control_covid_hosp.csv"))
+write_csv(DF_ICU, here::here("output", "case_covid_icu.csv"))
 
 # # Control - covid hospital without any  severe outcome within 1 month
 # df02=df%>%
