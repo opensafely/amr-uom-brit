@@ -53,14 +53,14 @@ actions:
       moderately_sensitive:
         html: output/check_unmatched.html
 
-  extract_variables: 
+  extract_variables: # confounders
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
     needs: [matching]
     outputs:
       highly_sensitive:
         cohort: output/input_outcome.csv
 
-  process_Rmatching: # add variables 
+  process_Rmatching: #  confounders
     run: r:latest analysis/process_Rmatching.R
     needs: [extract_variables,matching]
     outputs:
@@ -70,328 +70,41 @@ actions:
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
 
-# main analysis
- 
-  table1_round: 
-    run: r:latest analysis/table1.R
-    needs: [process_1,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table1_unmatched.csv
-        csv2: output/table1_matched.csv
-        csv3: output/table1_random.csv
-
-  table2_round: 
-    run: r:latest analysis/table2.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table2_matched.csv
-        csv3: output/table2_random.csv
-  
-  table3_round: 
-    run: r:latest analysis/table3.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table3.csv
-        csv3: output/table3_ab.csv
-
-  model: 
-    run: r:latest analysis/model/model.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1: output/model_1_crude.csv
-        csv2: output/model_1_adjusted.csv
-
-  model_2: # abtype modeling
-    run: r:latest -e 'rmarkdown::render("analysis/model_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_2.html
-
-  model_2_3grp: # abtype modeling
-    run: r:latest -e 'rmarkdown::render("analysis/model_2_3grp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_2_3grp.html
-         
- # sensitivity analysis 
-
-  model_subgroup: 
-    run: r:latest analysis/model/model_subgroup.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1.1: output/model_3_male_crude.csv
-        csv1.2: output/model_3_male_adjusted.csv 
-        csv1.3: output/model_3_male_ab.csv       
-        csv2.1: output/model_3_female_crude.csv
-        csv2.2: output/model_3_female_adjusted.csv 
-        csv2.3: output/model_3_female_ab.csv       
-        csv3.1: output/model_3_age1_crude.csv
-        csv3.2: output/model_3_age1_adjusted.csv     
-        csv3.3: output/model_3_age1_ab.csv 
-        csv4.1: output/model_3_age2_crude.csv
-        csv4.2: output/model_3_age2_adjusted.csv    
-        csv4.3: output/model_3_age2_ab.csv       
-        csv5.1: output/model_3_age3_crude.csv
-        csv5.2: output/model_3_age3_adjusted.csv 
-        csv5.3: output/model_3_age3_ab.csv       
-        csv6.1: output/model_3_age4_crude.csv
-        csv6.2: output/model_3_age4_adjusted.csv   
-        csv6.3: output/model_3_age4_ab.csv       
-
-  model_age_plot:
-    run: r:latest -e 'rmarkdown::render("analysis/model_age_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_age_plot.html
-  
-  model_gender_plot:
-    run: r:latest -e 'rmarkdown::render("analysis/model_gender_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_gender_plot.html
-
-  model_time:  # adjust for lastest AB time
-    run: r:latest analysis/model/model_time.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1.1: output/model_time_adj1.csv
-        csv1.2: output/model_time_adj2.csv 
-
-  model_time_plot:
-    run: r:latest -e 'rmarkdown::render("analysis/model_time_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_time_plot.html
-
-  model_disease: # adjust for individual disease
-    run: r:latest analysis/model/model_disease.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1.1: output/model_disease_adj1.csv
-        csv1.2: output/model_disease_adj2.csv 
-
-  model_disease_plot: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_disease_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_disease_plot.html
-
-  # model_wave: # separate wave
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_wave.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-  #   needs: [process_Rmatching]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_wave.html
-      
-  model_cca: # complete case analysis
-    run: r:latest analysis/model/model_cca.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1.1: output/model_cca_crude.csv
-        csv1.2: output/model_cca_adjusted.csv 
-
-  model_complete_case_plot: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_complete_case_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_complete_case_plot.html
-
- # adjust for 6 weeks exclusion
-
-  extract_variables_6w: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_6w
+# analysis
+  extract_variables_ab_time:   # exposure variables
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix
     needs: [matching]
     outputs:
       highly_sensitive:
-        cohort: output/input_outcome_6w.csv
-  
-  process_Rmatching_6w: # add 6-wk-ab variables 
-    run: r:latest analysis/process_Rmatching_6w.R
-    needs: [extract_variables_6w,matching,process_Rmatching]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_6w.rds
-  
-  model_6w: 
-    run: r:latest analysis/model/model_6w.R
-    needs: [process_Rmatching_6w]
+        cohort: output/input_ab_time.csv
+
+  check_ab_time:  
+    run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
-        csv1.1: output/model_6w_binary_adj1.csv
-        csv1.2: output/model_6w_total_adj1.csv 
-        csv1.3: output/model_6w_types_adj1.csv
-        csv2.1: output/model_6w_binary_adj2.csv
-        csv2.2: output/model_6w_total_adj2.csv 
-        csv2.3: output/model_6w_types_adj2.csv
+        html: output/check_ab_time.html
+      # highly_sensitive: 
+      #   rds: output/matched_patients_monthly_ab.rds
 
-  model_6w_time: 
-    run: r:latest analysis/model/model_6w_time.R
-    needs: [process_Rmatching_6w]
+  process_ab_time: # exposures
+    run: r:latest -e 'rmarkdown::render("analysis/process_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_time]
     outputs:
       moderately_sensitive:
-        csv1.1: output/model_6w_time_adj1.csv
-        csv1.2: output/model_6w_time_adj2.csv
-
-  model_6w_plot: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_6w_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching_6w]
-    outputs:
-      moderately_sensitive:
-        html: output/model_6w_plot.html
-
-
-# criteria check: covid death without hospital admission(case) vs. covid hospitalisation
-
-  process_study2: 
-    run: r:latest analysis/process_study2.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
-    outputs:
-      highly_sensitive:
-        case: output/case_covid_icu_death.csv 
-        control: output/control_covid_hosp.csv 
-
-  matching_study2: # matching with replacement # died covid
-    run: r:latest -e 'rmarkdown::render("analysis/matching_study2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_study2]
-    outputs:
-      moderately_sensitive:
-        html: output/matching_study2.html
-      highly_sensitive: 
-        rds1: output/matched_patients_study2.rds
-        rds2: output/unmatched_patients_study2.rds
-        csv: output/matched_patients_id_study2.csv
-
-  extract_variables_study2: 
-    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome_study2
-    needs: [matching_study2]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_study2.csv
-
-  process_Rmatching_study2: # add variables 
-    run: r:latest analysis/process_Rmatching_study2.R
-    needs: [extract_variables_study2,matching_study2]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_study2.rds
-        cohort2: output/matched_outcome_check_study2.rds 
-        rds1: output/abtype79_study2.rds
-        rds2: output/comor17_study2.rds
-
-  model_study2: 
-    run: r:latest analysis/model/model_study2.R
-    needs: [process_Rmatching_study2]
-    outputs:
-      moderately_sensitive:
-        csv1: output/model_1_crude_study2.csv
-        csv2: output/model_1_adjusted_study2.csv       
-  
-  model_2_study2: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_2_study2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching_study2]
-    outputs:
-      moderately_sensitive:
-        html: output/model_2_study2.html
-
-
-# criteria check: covid death without hospital admission(case) vs. covid infection
-
-  process_study2_2: 
-    run: r:latest analysis/process_study2_2.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS]
-    outputs:
-      highly_sensitive:
-        case: output/case_covid_death_study2_2.csv
-        control: output/control_covid_infection_study2_2.csv
-        case2: output/case_covid_death_study2_2.2.csv
-        control2: output/control_covid_infection_study2_2.2.csv
-
-  matching_study2_2: 
-    run: r:latest -e 'rmarkdown::render("analysis/matching_study2_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_study2_2]
-    outputs:
-      moderately_sensitive:
-        html: output/matching_study2_2.html
-      highly_sensitive: 
-        rds1: output/matched_patients_study2_2.rds
-        rds2: output/unmatched_patients_study2_2.rds
-        csv: output/matched_patients_id_study2_2.csv
-
-  matching_study2_2.2: 
-    run: r:latest -e 'rmarkdown::render("analysis/matching_study2_2.2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_study2_2]
-    outputs:
-      moderately_sensitive:
-        html: output/matching_study2_2.2.html
-      highly_sensitive: 
-        rds1: output/matched_patients_study2_2.2.rds
-        rds2: output/unmatched_patients_study2_2.2.rds
-        csv: output/matched_patients_id_study2_2.2.csv
-
-  extract_variables_study2_2: 
-    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome_study2_2
-    needs: [matching_study2_2]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_study2_2.csv
-
-  extract_variables_study2_2_2: #extract_variables_study2_2.2
-    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome_study2_2_2
-    needs: [matching_study2_2.2]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_study2_2_2.csv
-
-  process_Rmatching_study2_2: # add variables 
-    run: r:latest analysis/process_Rmatching_study2_2.R
-    needs: [extract_variables_study2_2,matching_study2_2,extract_variables_study2_2_2,matching_study2_2.2]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_study2_2.rds
-        cohort2: output/matched_outcome_check_study2_2.rds 
-        rds1: output/abtype79_study2_2.rds
-        rds2: output/comor17_study2_2.rds
-        cohort1.2: output/matched_outcome_study2_2.2.rds
-        cohort2.2: output/matched_outcome_check_study2_2.2.rds 
-        rds1.2: output/abtype79_study2_2.2.rds
-        rds2.2: output/comor17_study2_2.2.rds
-        
-
-  model_study2_2: 
-    run: r:latest analysis/model/model_study2_2.R
-    needs: [process_Rmatching_study2_2]
-    outputs:
-      moderately_sensitive:
-        csv1: output/model_1_crude_study2_2.csv
-        csv2: output/model_1_adjusted_study2_2.csv
-        csv1.2: output/model_1_crude_study2_2.2.csv
-        csv2.2: output/model_1_adjusted_study2_2.2.csv
-
-  model_2_study2_2: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_2_study2_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching_study2_2]
-    outputs:
-      moderately_sensitive:
-        html: output/model_2_study2_2.html
+        html: output/process_ab_time.html
+      # highly_sensitive: 
+      #   rds: output/matched_patients_monthly_ab.rds
 
 
 
-# ongoing porject
+
+
+
+
+
+
+# check
 
   process_filter_ab: # filter ab users
     run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -489,28 +202,3 @@ actions:
       moderately_sensitive:
         html: output/check_RF_yr1.html
 
-  extract_variables_ab_time: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix
-    #needs: [process_filter_ab]
-    needs: [matching]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_ab_time.csv
-
-  check_ab_time:  
-    run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [extract_variables_ab_time,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/check_ab_time.html
-      # highly_sensitive: 
-      #   rds: output/matched_patients_monthly_ab.rds
-
-  process_ab_time: 
-    run: r:latest -e 'rmarkdown::render("analysis/process_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [extract_variables_ab_time]
-    outputs:
-      moderately_sensitive:
-        html: output/process_ab_time.html
-      # highly_sensitive: 
-      #   rds: output/matched_patients_monthly_ab.rds
