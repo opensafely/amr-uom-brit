@@ -20,6 +20,7 @@ read dataset of ab_time
 ```{r}
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+df <- read_rds("matched_outcome.rds")
 DF=read.csv("input_ab_time.csv")
 names(DF)
 
@@ -45,14 +46,14 @@ for (i in 69:129) {
 }
 ```
 
-total ab
+all ab
 ```{r }
-DF$total_ab=rowSums(DF[,ab_conut])
+DF$all_ab=rowSums(DF[,ab_conut])
 ```
 
 filter ab users
 ```{r}
-DF=DF%>% filter(total_ab>0)
+DF=DF%>% filter(all_ab>0)
 count(DF)
 ```
 
@@ -62,6 +63,7 @@ exposure period
 DF$last_date=do.call(pmax, c(DF[ab_date], na.rm = TRUE))
 
 ```
+
 
 
 ```{r}
@@ -88,15 +90,30 @@ DF$exposure_period=as.numeric(DF$exposure_period)
 summary(DF$exposure_period)
 ```
 
+most recent exp days
+```{r}
+DF$recent_ab_days=difftime(DF$patient_index_date,DF$last_date, units = "day")
+```
+
+ab in 6 weeks
+```{r}
+summary(DF$AB_6wk)
+DF$ab_6w_binary=ifelse(DF$AB_6wk>0,1,0)
+
+```
+
+recent ab type
+```{r}
+table(DF$AB_6wk_type)
+table(DF$AB_1_type)
+```
+
+
 prescribing times
 ```{r}
 DF$prescribe_times=60-rowSums(is.na(DF[,ab_date]))
 ```
 
-prescribing frequency
-```{r}
-DF$prescribe_freq=DF$prescribe_times/DF$exposure_period
-```
 
 
 calculate time interval between prescriptions
@@ -104,36 +121,80 @@ calculate time interval between prescriptions
 for (i in 1:59){
 
 
-DF[,134+i]=difftime(DF[,ab_date[i+1]], DF[,ab_date[i]], units = "day" )
-  colnames(DF)[134+i]=paste0("interval_",i)
+DF[,137+i]=difftime(DF[,ab_date[i+1]], DF[,ab_date[i]], units = "day" )
+  colnames(DF)[137+i]=paste0("interval_",i)
 
 
 }
 
 
-DF[,135:193]=lapply(DF[,135:193], as.numeric)
+DF[,138:196]=lapply(DF[,138:196], as.numeric)
 
 
 names(DF)
 
 
-DF$interval_mean= apply(DF[,135:193], 1, mean, na.rm=TRUE)
-DF$interval_sd= apply(DF[,135:193], 1, sd, na.rm=TRUE)
-
+DF$interval_mean= apply(DF[,138:196], 1, mean, na.rm=TRUE)
+DF$interval_med= apply(DF[,138:196], 1, median, na.rm=TRUE)
+DF$interval_sd= apply(DF[,138:196], 1, sd, na.rm=TRUE)
+DF$interval_CV=DF$interval_sd/DF$interval_mean
 
 head(DF)
 ```
 
 
 
-```{r eval=FALSE, include=FALSE}
 
+calculate time interval from index date
+```{r}
+for (i in 1:59){
+
+
+DF[,200+i]=difftime(DF[,"patient_index_date"], DF[,ab_date[i]], units = "day" )
+  colnames(DF)[200+i]=paste0("length_",i)
+
+
+}
+
+
+DF[,201:259]=lapply(DF[,201:259], as.numeric)
+
+
+names(DF)
+
+
+DF$length_mean= apply(DF[,201:259], 1, mean, na.rm=TRUE)
+DF$length_med= apply(DF[,201:259], 1, median, na.rm=TRUE)
+DF$length_sd= apply(DF[,201:259], 1, sd, na.rm=TRUE)
+DF$length_CV=DF$length_sd/DF$length_mean
+
+head(DF)
+```
+
+filter column
+```{r}
+DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interval_sd,interval_CV,prescribe_times,AB_6wk_type,,AB_6wk,ab_6w_binary,AB_1_type,recent_ab_days,exposure_period,length_mean,length_med,length_sd,length_CV)
+```
+
+
+
+```{r}
+#setwd(here::here("output"))
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 # import matched patients dataset
-df=read_rds("matched_outcome.rds")
-df=df%>% select("patient_id","patient_index_date","total_ab","case","subclass")
+
+df=df%>% select("patient_id","patient_index_date","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types","case","subclass")
 # filter only 1 ID
 df=df %>% distinct(patient_id, .keep_all=T)
-DF=merge(df,df_time,by=c("patient_id","patient_index_date"), all.x = TRUE)
+data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
+
+head(data)
+```
+
+broad %
+```{r}
+data$broad_prop=data$broad_ab_prescriptions/data$total_ab
+data$broad_prop=data$broad_ab_prescriptions/data$ab_prescriptions
 
 ```
 

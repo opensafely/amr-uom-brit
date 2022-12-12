@@ -54,7 +54,7 @@ actions:
         html: output/check_unmatched.html
 
   extract_variables: # confounders
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome --with-end-date-fix
     needs: [matching]
     outputs:
       highly_sensitive:
@@ -89,7 +89,7 @@ actions:
 
   process_ab_time: # exposures
     run: r:latest -e 'rmarkdown::render("analysis/process_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [extract_variables_ab_time]
+    needs: [extract_variables_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/process_ab_time.html
