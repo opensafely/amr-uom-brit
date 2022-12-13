@@ -67,10 +67,10 @@ DF$last_date=do.call(pmax, c(DF[ab_date], na.rm = TRUE))
 
 
 ```{r}
+library(lubridate)
+DF$last_date=mdy(DF$last_date)
 
-DF$last_date=as.Date(DF$last_date)
-
-DF$AB_date_1=as.Date(DF$AB_date_1)
+DF$AB_date_1=mdy(DF$AB_date_1)
 
 #DF$exposure_period=DF$last_date-DF$AB_date_1
 DF$exposure_period=as.integer(difftime(DF$last_date,DF$AB_date_1,unit="day"))
