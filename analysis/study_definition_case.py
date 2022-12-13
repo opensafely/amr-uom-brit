@@ -19,9 +19,8 @@ end_date = "2020-03-31"
 
 # # ###### Import variables
 
-## covid history before patient_index_date
-from variables_outcomes import generate_hospital_admission_variables
-hospital_admission_variables = generate_hospital_admission_variables(index_date_variable="patient_index_date")
+from variables_infections import generate_infection_variables
+infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
 
 
 study = StudyDefinition(
@@ -136,6 +135,6 @@ study = StudyDefinition(
         },
     ),
 
-    **hospital_admission_variables,
+    **infection_variables,
   
 )
