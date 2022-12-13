@@ -71,13 +71,13 @@ library(lubridate)
 DF$last_date=ifelse(is.na(DF$last_date),NA, DF$last_date)
 DF$AB_date_1=ifelse(is.na(DF$AB_date_1),NA,DF$AB_date_1)
 
-#DF$last_date=ymd(DF$last_date)
-#DF$AB_date_1=ymd(DF$AB_date_1)
+DF$last_date=ymd(DF$last_date)
+DF$AB_date_1=ymd(DF$AB_date_1)
 
 #DF$exposure_period=DF$last_date-DF$AB_date_1
 DF$exposure_period=difftime(DF$last_date,DF$AB_date_1, units = "day")
-summary(DF$exposure_period)
 
+head(DF$exposure_period)
 ```
 
 ```{r eval=FALSE, include=FALSE}
