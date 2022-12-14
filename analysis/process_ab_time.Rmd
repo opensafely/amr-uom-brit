@@ -24,9 +24,10 @@ df <- read_rds("matched_outcome.rds")
 DF=read.csv("input_ab_time.csv")
 names(DF)
 
-ab_date=colnames(DF[,5:64])
+ab_date=colnames(DF[,9:68])
+ab_date
 ab_conut=colnames(DF[,70:129])
-
+ab_conut
 count(DF)
 
 ```
@@ -35,7 +36,7 @@ count(DF)
 ```{r }
 #replace NA
 # all date+ab variables 
-for (i in 3:129) {
+for (i in 7:129) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
@@ -60,7 +61,7 @@ count(DF)
 exposure period
 ```{r}
 #DF$last_date= apply(DF[ab_date], 1, max, na.rm=TRUE)
-DF$last_date=do.call(pmax, c(DF[ab_date], na.rm = TRUE))
+DF[,"last_date"]=do.call(pmax, c(DF[,ab_date], na.rm = TRUE))
 
 ```
 
@@ -95,6 +96,8 @@ summary(DF$exposure_period)
 most recent exp days
 ```{r}
 DF$recent_ab_days=difftime(DF$patient_index_date,DF$last_date, units = "day")
+DF$recent_ab_days=as.numeric(DF$recent_ab_days)
+summary(DF$recent_ab_days)
 ```
 
 ab in 6 weeks
@@ -122,11 +125,13 @@ calculate time interval between prescriptions
 
 ```{r}
 
-for (i in 1:60) {
-  DF[,ab_date[i]]=ifelse(is.na(DF[,ab_date[i]]), NA,  DF[,ab_date[i]])
-   DF[,ab_date[i]]=ymd( DF[,ab_date[i]])
+for (i in 2:60) {
+  DF[,ab_date[i]]=ifelse(
+    is.na(DF[,ab_date[i]]), NA,
+    DF[,ab_date[i]])
+  
+  
 }
-
 
 ```
 
@@ -134,7 +139,7 @@ for (i in 1:60) {
 for (i in 1:59){
 
 
-DF[,137+i]=difftime(DF[,ab_date[i+1]], DF[,ab_date[i]], units = "day" )
+DF[,137+i]=difftime( DF[,ab_date[i]],DF[,ab_date[i+1]],units = "day" )
   colnames(DF)[137+i]=paste0("interval_",i)
 
 
@@ -199,7 +204,7 @@ filter column
 ```{r}
 
 
-DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interval_sd,interval_CV,prescribe_times,AB_6wk_type,,AB_6wk,ab_6w_binary,AB_1_type,recent_ab_days,exposure_period,length_mean,length_med,length_sd,length_CV)
+DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interval_sd,interval_CV,prescribe_times,AB_6wk_type,AB_6wk,ab_6w_binary,AB_1_type,recent_ab_days,exposure_period,length_mean,length_med,length_sd,length_CV)
 
 DF$exposure_period=as.numeric(DF$exposure_period)
 DF$recent_ab_days=as.numeric(DF$recent_ab_days)
