@@ -160,6 +160,17 @@ head(DF)
 
 calculate time interval from index date
 ```{r}
+DF[,"patient_index_date"]=ifelse(
+  is.na(DF[,"patient_index_date"]), NA, 
+  DF[,"patient_index_date"])
+
+DF[,"patient_index_date"]=ymd(DF[,"patient_index_date"])
+
+
+```
+
+
+```{r}
 for (i in 1:59){
 
 
@@ -197,8 +208,9 @@ DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interva
 # import matched patients dataset
 
 df=df%>% select("patient_id","patient_index_date","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types","case","subclass")
+
 # filter only 1 ID
-df=df %>% distinct(patient_id, .keep_all=T)
+#df=df %>% distinct(patient_id, .keep_all=T)
 data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
 
 head(data)
@@ -209,5 +221,9 @@ broad %
 data$broad_prop=data$broad_ab_prescriptions/data$total_ab
 data$broad_prop=data$broad_ab_prescriptions/data$ab_prescriptions
 
+```
+
+```{r}
+write_rds(data, here::here("output", "matched_ab.rds"))
 ```
 

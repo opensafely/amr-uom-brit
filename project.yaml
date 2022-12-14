@@ -93,8 +93,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/process_ab_time.html
-      # highly_sensitive: 
-      #   rds: output/matched_patients_monthly_ab.rds
+      highly_sensitive: 
+         rds: output/matched_ab.rds
 
 
 
