@@ -119,6 +119,15 @@ DF$prescribe_times=60-rowSums(is.na(DF[,ab_date]))
 
 
 calculate time interval between prescriptions
+
+```{r}
+
+for (i in 1:60) {
+  DF[,ab_date[i]]=as.POSIXct(DF[,ab_date[i]], origin="1970-01-01")
+}
+
+```
+
 ```{r}
 for (i in 1:59){
 
