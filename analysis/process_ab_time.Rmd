@@ -61,7 +61,7 @@ count(DF)
 exposure period
 ```{r}
 #DF$last_date= apply(DF[ab_date], 1, max, na.rm=TRUE)
-DF[,"last_date"]=do.call(pmax, c(DF[,ab_date], na.rm = TRUE))
+DF[,"last_date"]=do.call(pmin, c(DF[,ab_date], na.rm = TRUE))
 
 ```
 
@@ -77,8 +77,8 @@ DF$AB_date_1=ymd(DF$AB_date_1)
 
 #DF$exposure_period=DF$last_date-DF$AB_date_1
 DF$exposure_period=difftime(DF$last_date,DF$AB_date_1, units = "day")
-
-head(DF$exposure_period)
+DF$exposure_period=as.numeric(DF$exposure_period)
+summary(DF$exposure_period)
 ```
 
 ```{r eval=FALSE, include=FALSE}
@@ -206,7 +206,6 @@ filter column
 
 DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interval_sd,interval_CV,prescribe_times,AB_6wk_type,AB_6wk,ab_6w_binary,AB_1_type,recent_ab_days,exposure_period,length_mean,length_med,length_sd,length_CV)
 
-DF$exposure_period=as.numeric(DF$exposure_period)
 DF$recent_ab_days=as.numeric(DF$recent_ab_days)
 
 str(DF)
