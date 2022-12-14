@@ -307,8 +307,8 @@ AB_60=patients.with_these_medications(antibacterials_codes_brit,returning='numbe
             "incidence": 0.99,
         },   
          ),  
-    
-    AB_1_type=patients.with_these_medications(
+   # most recent ab type 
+    AB_1_type=patients.with_these_medications( 
         antibacterials_codes_brit,
         returning="category",
         between=['patient_index_date - 1137 days', 'patient_index_date - 43 days '],

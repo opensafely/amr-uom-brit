@@ -16,7 +16,7 @@ library('tidyverse')
 library("ggplot2")
 library(knitr)
 library(dplyr)
-library(kableExtra)
+library(GGally)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
@@ -25,68 +25,27 @@ options(knitr.table.format="html")
 ```{r}
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
-df_time=read.csv("input_ab_time.csv")
-#head(df_time)
-#tail(df_time)
-# import matched patients dataset
-df=read_rds("matched_outcome.rds")
-df=df%>% select("patient_id","patient_index_date","total_ab")
+df=read_rds("matched_ab.rds")
 # filter only 1 ID
-df=df %>% distinct(patient_id, .keep_all=T)
-DF=merge(df,df_time,by=c("patient_id","patient_index_date"), all.x = TRUE)
+#df=df %>% distinct(patient_id, .keep_all=T)
 
-count(df_time)
-count(df)
-count(DF)
+df=df%>% select( "patient_id" , "patient_index_date","case","subclass",
+                 "AB_1_type","AB_6wk_type" ,
+             "total_ab", "ab_prescriptions","ab_types",
+              "prescribe_times","exposure_period"  ,
+               "recent_ab_days",   
+              "broad_prop" ,"broad_ab_prescriptions",
+             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
+              "length_med" , "length_mean", "length_sd" ,  "length_CV" , 
+              "AB_6wk" , "ab_6w_binary" )
 
-#head(DF)
-#tail(DF)
+df$exposure_period=as.numeric(df$exposure_period)
+df$recent_ab_days=as.numeric(df$recent_ab_days)
 ```
 
-total ab check
-```{r }
-for (i in 3:129) {
- DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
- 
-}
-
-for (i in 54:129) {
- DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
- 
-}
-
-
-DF$total_check=rowSums(DF[,71:130])
-
-#head(DF)
-#tail(DF)
-#for (i in 1:45) {
- #  DF$total_check=  DF$total_check + DF[,paste0("AB_",i)]
-#}
-
-DF$cover=DF$total_check/DF$total_ab
-
-head(DF)
-#plot(DF$cover)
-
-```
-
-# disconcordance
 ```{r}
-plot(DF$total_ab,DF$total_check)
-abline(lm(DF$total_check ~ total_ab, data =DF), col = "blue")
-```
-
-
-percentile check coverage
-```{r}
-quantile(DF$cover,0.99, na.rm=T)
-quantile(DF$cover,0.95, na.rm=T)
-quantile(DF$cover,0.90, na.rm=T)
-
-quantile(DF$cover,0.75, na.rm=T)
-quantile(DF$cover,0.5, na.rm=T)
-quantile(DF$cover,0.25, na.rm=T)
+var= df[,7:24]
+ggpairs(var)
 
 ```
 

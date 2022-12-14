@@ -197,7 +197,14 @@ head(DF)
 
 filter column
 ```{r}
+
+
 DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interval_sd,interval_CV,prescribe_times,AB_6wk_type,,AB_6wk,ab_6w_binary,AB_1_type,recent_ab_days,exposure_period,length_mean,length_med,length_sd,length_CV)
+
+DF$exposure_period=as.numeric(DF$exposure_period)
+DF$recent_ab_days=as.numeric(DF$recent_ab_days)
+
+str(DF)
 ```
 
 
@@ -207,7 +214,7 @@ DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interva
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 # import matched patients dataset
 
-df=df%>% select("patient_id","patient_index_date","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types","case","subclass")
+df=df%>% select("patient_id","patient_index_date","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types","case","subclass",)
 
 # filter only 1 ID
 #df=df %>% distinct(patient_id, .keep_all=T)
