@@ -43,7 +43,7 @@ study = StudyDefinition(
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
         AND NOT stp = ""
-        AND has_infection
+        AND has_outcome
         """,
 
         has_died=patients.died_from_any_cause(
@@ -67,7 +67,7 @@ study = StudyDefinition(
     # hospital_admission_date
     patient_index_date=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
-        with_these_primary_diagnoses=outcome_code,  # only include primary_diagnoses as covid
+        with_these_primary_diagnoses=outcome_code,  
         on_or_after="index_date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
@@ -136,7 +136,7 @@ study = StudyDefinition(
     ),
 
     has_outcome_1yr=patients.admitted_to_hospital(
-            with_these_primary_diagnoses=outcome_code,  # only include primary_diagnoses as covid
+            with_these_primary_diagnoses=outcome_code, 
             between=["patient_index_date- 366 days", "patient_index_date - 1 day"],
             return_expectations={"incidence": 0.65},
     ),
