@@ -43,7 +43,7 @@ study = StudyDefinition(
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
         AND NOT stp = ""
-        AND has_outcome
+        AND has_infection
         """,
 
         has_died=patients.died_from_any_cause(
@@ -57,22 +57,23 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.95},
         ),
 
-        has_outcome=patients.admitted_to_hospital(
-            with_these_primary_diagnoses=outcome_code,  # only include primary_diagnoses as covid
-            on_or_after="index_date",
+        has_infection=patients.with_these_clinical_events(
+            all_infection_codes,  
+            between=["2020-01-01", "2020-03-31"],
+            returning="binary_flag"
         ),
 
     ),
-    ### patient index date = hospital admission date
-    # hospital_admission_date
-    patient_index_date=patients.admitted_to_hospital(
-        returning= "date_admitted" ,  
-        with_these_primary_diagnoses=outcome_code,  # only include primary_diagnoses as covid
-        on_or_after="index_date",
-        find_first_match_in_period=True,  
+
+    patient_index_date=patients.with_these_clinical_events(
+        all_infection_codes,
+        returning='date',
+        find_first_match_in_period=True,
+        between=["2020-01-01", "2020-03-31"], 
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-01-01"}, "incidence" : 1},
-    ),
+            ),
+
 
     ## Age
     age=patients.age_as_of(
@@ -141,6 +142,12 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.65},
     ),
 
-    **infection_variables,
+    has_outcome_6weekafter=patients.admitted_to_hospital(
+            with_these_primary_diagnoses=outcome_code,  # only include primary_diagnoses as covid
+            between=["patient_index_date + 42 days", "patient_index_date"],
+            return_expectations={"incidence": 0.65},
+    ),
   
+    **infection_variables,
+
 )

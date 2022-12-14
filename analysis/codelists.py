@@ -96,6 +96,9 @@ uti_codes = codelist_from_csv(
 ## all upper respiratory infection
 all_urti_codes = combine_codelists(urti_codes,cough_codes,cold_codes,throat_codes)
 
+## all infection code
+all_infection_codes = combine_codelists(lrti_codes,ot_externa_codes,otmedia_codes,pneumonia_codes,sinusitis_codes,uti_codes,all_urti_codes)
+
 ### infection-related-complication
 
 infection_related_complication_codes = codelist_from_csv(
