@@ -114,6 +114,13 @@ adverse_event_codes = codelist_from_csv(
   column = "code"
 )
 
+### sepsis_hosp
+sepsis_hosp = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-sepsis_hosp_admission.csv",
+  system = "icd10",
+  column = "code"
+)
+
 outcome_code = combine_codelists(
     infection_related_complication_codes,
     adverse_event_codes,
