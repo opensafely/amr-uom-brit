@@ -9,6 +9,7 @@ match(
         "age": 5,
         "stp": "category",
         "patient_index_date": "month_only",
+        "charlsonGrp": "category",
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],

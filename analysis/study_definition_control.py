@@ -20,7 +20,9 @@ end_date = "2020-03-31"
 # # ###### Import variables
 
 from variables_infections import generate_infection_variables
+from variables_CCI import generate_CCI_variables
 infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
+CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
 
 
 study = StudyDefinition(
@@ -149,5 +151,5 @@ study = StudyDefinition(
     ),
   
     **infection_variables,
-
+    **CCI_variables,
 )
