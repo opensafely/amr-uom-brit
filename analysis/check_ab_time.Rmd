@@ -55,5 +55,6 @@ library(corpcor)
 result=data.frame(cor2pcor(cov(var)))
 colnames(result)=var_name
 rownames(result)=var_name
+result
 ```
 
