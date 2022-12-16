@@ -1,5 +1,5 @@
 ---
-title: "ab time - 45 extraction"
+title: "variables correlation"
 author: "YT Y"
 date: "07/04/2022"
 output: 
@@ -30,22 +30,30 @@ df=read_rds("matched_ab.rds")
 #df=df %>% distinct(patient_id, .keep_all=T)
 
 df=df%>% select( "patient_id" , "patient_index_date","case","subclass",
-                 "AB_1_type","AB_6wk_type" ,
-             "total_ab", "ab_prescriptions","ab_types",
+                 "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
+             "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
               "prescribe_times","exposure_period"  ,
-               "recent_ab_days",   
+               "recent_ab_days",  
               "broad_prop" ,"broad_ab_prescriptions",
              "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
-              "length_med" , "length_mean", "length_sd" ,  "length_CV" , 
-              "AB_6wk" , "ab_6w_binary" )
+              "length_med" , "length_mean", "length_sd" ,  "length_CV" 
+               )
 
-df$exposure_period=as.numeric(df$exposure_period)
+df$exposure_period=-(df$exposure_period)
 df$recent_ab_days=as.numeric(df$recent_ab_days)
 ```
 
-```{r}
-var= df[,7:24]
+```{r eval=FALSE, include=FALSE}
+var= df[,8:24]
 ggpairs(var)
 
+```
+
+```{r}
+var_name=colnames(var)
+library(corpcor)
+result=data.frame(cor2pcor(cov(var)))
+colnames(result)=var_name
+rownames(result)=var_name
 ```
 
