@@ -41,12 +41,19 @@ df=df%>% select( "patient_id" , "patient_index_date","case","subclass",
 
 df$exposure_period=-(df$exposure_period)
 df$recent_ab_days=as.numeric(df$recent_ab_days)
+
+```
+```{r}
+var= df[,8:24]
+cor(var, use = "pairwise.complete.obs")
+
 ```
 
 
 ```{r}
-var= df[,8:24]
-cov(var)
+
+var[is.na(var)] <- 0
+cor(var)
 
 ```
 
