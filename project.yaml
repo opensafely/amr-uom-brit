@@ -103,7 +103,12 @@ actions:
       moderately_sensitive:
         html: output/check_RF_grid.html
 
-
+  check_RF: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF.html
 
 
 
@@ -186,12 +191,12 @@ actions:
       moderately_sensitive:
         html: output/check_process_1.html
 
-  check_RF: 
-    run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF.html
+  # check_RF: 
+  #   run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [process_Rmatching]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF.html
   
   # check_RF_grid: 
   #   run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
