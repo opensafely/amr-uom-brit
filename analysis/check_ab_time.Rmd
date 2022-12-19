@@ -51,10 +51,7 @@ ggpairs(var)
 
 ```{r}
 var_name=colnames(var)
-library(corpcor)
-result=data.frame(cor2pcor(cov(var)))
-colnames(result)=var_name
-rownames(result)=var_name
-result
+cov(var)
+
 ```
 
