@@ -43,14 +43,9 @@ df$exposure_period=-(df$exposure_period)
 df$recent_ab_days=as.numeric(df$recent_ab_days)
 ```
 
-```{r eval=FALSE, include=FALSE}
-var= df[,8:24]
-ggpairs(var)
-
-```
 
 ```{r}
-var_name=colnames(var)
+var= df[,8:24]
 cov(var)
 
 ```
