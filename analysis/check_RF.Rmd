@@ -65,10 +65,10 @@ length(test_idx)
 # develop model
 
 set.seed(123)
-df=sample_n(df.train,100)
+df=sample_n(df.train,50)
 
-x=df[,1:79]
-y=df[,80]
+x=df[,5:24]
+y=df[,3]
 
 df$case=as.factor(df$case)
 ```
