@@ -105,7 +105,7 @@ actions:
 
   check_RF: 
     run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_Rmatching]
+    needs: [process_ab_time]
     outputs:
       moderately_sensitive:
         html: output/check_RF.html
