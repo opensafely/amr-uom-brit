@@ -109,18 +109,29 @@ df=df%>%
 # calendar month for matching
 df$cal_YM=format(df$patient_index_date,"%Y-%m")
 
-## CASE - covid infection+death records within 1 month
+## CASE - covid infection+death/hospital records within 1 month
 df1=df%>%
-  filter(!is.na(died_date_ons_covid_after))
+  filter(!is.na(died_date_ons_covid_after)|
+   !is.na(died_date_cpns_after)|
+   !is.na(covid_admission_date_after))
 
 ## CONTROL
-df0=df%>%filter(is.na(died_date_ons_covid_after))
+df0=df%>%filter(is.na(died_date_ons_covid_after),
+   is.na(died_date_cpns_after),
+   is.na(covid_admission_date_after))
 
 ## CASE_2 - any death records within 1 month
 df1.2=df%>%
-  filter(!is.na(ons_died_date_after))
+  filter(!is.na(ons_died_date_after)|
+  !is.na(died_date_ons_covid_after)|
+   !is.na(died_date_cpns_after)|
+   !is.na(covid_admission_date_after))
+  
 ## CONTROL
-df0.2=df%>%filter(is.na(ons_died_date_after))
+df0.2=df%>%filter(is.na(ons_died_date_after),
+is.na(died_date_ons_covid_after),
+   is.na(died_date_cpns_after),
+   is.na(covid_admission_date_after))
 
 write_csv(df1, here::here("output", "case_covid_death_study2_2.csv"))
 write_csv(df0, here::here("output", "control_covid_infection_study2_2.csv"))

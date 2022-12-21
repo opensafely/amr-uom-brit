@@ -255,7 +255,7 @@ actions:
         html: output/model_6w_plot.html
 
 
-# criteria check: covid death without hospital admission(case) vs. covid hospitalisation
+# criteria check: covid death regardless of hospital admission(case) vs. covid hospitalisation
 
   process_study2: 
     run: r:latest analysis/process_study2.R
@@ -309,7 +309,7 @@ actions:
         html: output/model_2_study2.html
 
 
-# criteria check: covid death without hospital admission(case) vs. covid infection
+# criteria check: covid death regardless of hospital admission(case) vs. covid infection
 
   process_study2_2: 
     run: r:latest analysis/process_study2_2.R
