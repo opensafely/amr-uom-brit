@@ -6,7 +6,7 @@ library(car)
 library(finalfit)
 
 
-df <- read_rds(here::here("output","matched_outcome.rds"))
+df <- read_rds(here::here("output","matched_outcome_2.rds"))
 
 
 ## define variables
@@ -51,7 +51,7 @@ model[,5]=gsub("[(*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
-write.csv(model,here::here("output","model_1_crude.csv"))
+write.csv(model,here::here("output","model_1_crude_2.csv"))
 
 
 
@@ -75,4 +75,4 @@ model[,5]=gsub("[(*)]"," ",model[,5])
 model[,4]=gsub(","," ",model[,4])
 
 
-write.csv(model,here::here("output","model_1_adjusted.csv"))
+write.csv(model,here::here("output","model_1_adjusted_2.csv"))
