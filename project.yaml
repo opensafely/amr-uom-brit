@@ -259,3 +259,65 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_ab_yr1.csv
+
+
+
+
+
+# sensitivity analysis - combine ICU+death outcome
+  generate_study_population_covid_admission_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_admission_2
+    outputs:
+      highly_sensitive:
+        cohort: output/input_covid_admission_2.csv
+
+  process_2:  
+    run: r:latest analysis/process_2.R
+    needs: [generate_study_population_covid_admission_2]
+    outputs:
+      highly_sensitive:
+        case: output/case_covid_icu_death_2.csv
+        control: output/control_covid_hosp_2.csv
+        case2: output/case_covid_icu_2.csv
+
+  matching_2: 
+    run: r:latest -e 'rmarkdown::render("analysis/matching_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_2]
+    outputs:
+      moderately_sensitive:
+        html: output/matching_2.html
+      highly_sensitive: 
+        rds1: output/matched_patients_2.rds
+        rds2: output/unmatched_patients_2.rds
+        csv: output/matched_patients_id_2.csv
+
+  extract_variables_2: 
+    run: cohortextractor:latest generate_cohort --with-end-date-fix --study-definition study_definition_outcome_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_2.csv
+
+  process_Rmatching_2: # add variables 
+    run: r:latest analysis/process_Rmatching_2.R
+    needs: [extract_variables_2,matching_2]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_2.rds
+        rds1: output/abtype79_2.rds
+        rds2: output/comor17_2.rds
+
+  model_ICU_death: 
+    run: r:latest analysis/model/model_ICU&death.R
+    needs: [process_Rmatching_2]
+    outputs:
+      moderately_sensitive:
+        csv1: output/model_1_crude_ICU&death.csv
+        csv2: output/model_1_adjusted_ICU&death.csv
+  
+  model_2_ICU_death: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_2_ICU&death.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching_2]
+    outputs:
+      moderately_sensitive:
+        html: output/model_2_ICU_death.html
