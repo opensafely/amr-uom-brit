@@ -308,15 +308,15 @@ actions:
         rds2: output/comor17_2.rds
 
   model_ICU_death: 
-    run: r:latest analysis/model/model_ICU&death.R
+    run: r:latest analysis/model/model_ICU_death.R
     needs: [process_Rmatching_2]
     outputs:
       moderately_sensitive:
-        csv1: output/model_1_crude_ICU&death.csv
-        csv2: output/model_1_adjusted_ICU&death.csv
+        csv1: output/model_1_crude_ICU_death.csv
+        csv2: output/model_1_adjusted_ICU_death.csv
   
   model_2_ICU_death: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_2_ICU&death.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/model_2_ICU_death.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_Rmatching_2]
     outputs:
       moderately_sensitive:
