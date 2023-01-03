@@ -85,8 +85,8 @@ study = StudyDefinition(
 
     ),
 
-    ########## patient demographics to group_by for measures:
-    ### Age
+    ### patient demographics to group_by for measures:
+    ## Age
     age=patients.age_as_of(
         "index_date",
         return_expectations={
@@ -97,7 +97,6 @@ study = StudyDefinition(
     ),
 
     ### Age categories
-
     ## 0-4; 5-14; 15-24; 25-34; 35-44; 45-54; 55-64; 65-74; 75+
     age_cat=patients.categorised_as(
         {
@@ -132,7 +131,7 @@ study = StudyDefinition(
     ),
 
     
-    ### Sex
+    ## Sex
     sex=patients.sex(
         return_expectations={
             "rate": "universal",
@@ -140,7 +139,7 @@ study = StudyDefinition(
         }
     ),
 
-    #deregistration for censoring
+    ## deregistration for censoring
     deregistered_date=patients.date_deregistered_from_all_supported_practices(
             date_format="YYYY-MM-DD",
             # between=["index_date", "last_day_of_month(index_date)"],
@@ -159,9 +158,8 @@ study = StudyDefinition(
         },
     ),
 
-    ########## risk factors
-
-    ### Practice
+    ### risk factors
+    ## Practice
     practice=patients.registered_practice_as_of(
         "index_date",
         returning="pseudo_id",
@@ -340,61 +338,10 @@ study = StudyDefinition(
         """,
     ),
 
-    ########## antibacterials
-
-    # ## all antibacterials from BRIT (dmd codes)
-    # antibacterial_brit=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     # between=["index_date", "last_day_of_month(index_date)"],
-    #     between=["index_date - 12 months", "last_day_of_month(index_date)"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
-
-    
-
-    # all_meds=patients.with_these_medications(
-    #     all_meds_codes,
-    #     between=["index_date - 12 months", "last_day_of_month(index_date)"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
-
-    # # all meds except antibiotics (dmd codes) 
-    # antibacterial_brit_one_month=patients.with_these_medications(
-    #     antibacterials_codes_brit,
-    #     # between=["index_date", "last_day_of_month(index_date)"],
-    #     between=["index_date - 1 months", "last_day_of_month(index_date)"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
-
-    # all_meds_one_month=patients.with_these_medications(
-    #     all_meds_codes,
-    #     between=["index_date - 1 months", "last_day_of_month(index_date)"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-    #         "incidence": 0.5,
-    #     },
-    # ),
-
-    ########## hospital admission
 
     ## hospitalisation
     admitted=patients.admitted_to_hospital(
         returning="binary_flag",
-        #returning="date_admitted",
-        #date_format="YYYY-MM-DD",
         between=["index_date", "today"],
         return_expectations={"incidence": 0.1},
     ),
@@ -403,13 +350,11 @@ study = StudyDefinition(
     hx_hosp=patients.admitted_to_hospital(
         between=["index_date - 12 months", "index_date"],
         returning="number_of_matches_in_period",
-        #returning="date_admitted",
-        #date_format="YYYY-MM-DD",
         return_expectations={
             "int" : {"distribution": "normal", "mean": 5, "stddev": 1}, "incidence":0.1}
     ),
 
-    # hospitalisation with diagnosis of pneumonia, urti, or uti
+    ## hospitalisation with diagnosis of pneumonia, urti, or uti
     admitted_date=patients.admitted_to_hospital(
        with_these_diagnoses=hospitalisation_infection_related,
        returning="date_admitted",
@@ -418,7 +363,7 @@ study = StudyDefinition(
        return_expectations={"incidence": 0.3},
     ),
 
-    ######### comorbidities
+    ## comorbidities
     cancer_comor=patients.with_these_clinical_events(
         charlson01_cancer,
         between=["index_date - 5 years", "index_date"],
@@ -559,11 +504,10 @@ study = StudyDefinition(
         },
     ),
 
-    ################################################### pneumonia
+    ## pneumonia diagnosis
     pneumonia_date_1=patients.with_these_clinical_events(
         pneumonia_codes,
         returning='date',
-        # between=["index_date", "today"],
         on_or_after='index_date',
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", 
@@ -573,7 +517,6 @@ study = StudyDefinition(
     pneumonia_date_2=patients.with_these_clinical_events(
         pneumonia_codes,
         returning='date',
-        # on_or_after='pneumonia_date_1 + 3 days',
         between=["pneumonia_date_1 + 1 day", "today"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
@@ -583,10 +526,9 @@ study = StudyDefinition(
     pneumonia_date_3=patients.with_these_clinical_events(
         pneumonia_codes,
         returning='date',
-        # on_or_after='pneumonia_date_2 + 3 days',
         between=["pneumonia_date_2 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_2": "today()"}},
         ),
 
@@ -595,7 +537,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_3 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_3": "today()"}},
         ),
 
@@ -604,7 +546,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_4 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_4": "today()"}},
         ),
 
@@ -613,7 +555,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_5 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_5": "today()"}},
         ),
 
@@ -622,7 +564,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_6 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_6": "today()"}},
         ),
 
@@ -631,7 +573,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_7 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_7": "today()"}},
         ),
 
@@ -640,7 +582,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_8 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_8": "today()"}},
         ),
 
@@ -649,7 +591,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_9 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_9": "today()"}},
         ),
 
@@ -658,7 +600,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_10 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_10": "today()"}},
         ),
 
@@ -667,7 +609,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_11 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_11": "today()"}},
         ),
 
@@ -676,7 +618,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_12 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_12": "today()"}},
         ),
 
@@ -685,7 +627,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_13 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_13": "today()"}},
         ),
 
@@ -694,7 +636,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_14 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_14": "today()"}},
         ),
 
@@ -703,7 +645,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_15 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_15": "today()"}},
         ),
 
@@ -712,7 +654,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_16 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_16": "today()"}},
         ),
 
@@ -721,7 +663,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_17 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_17": "today()"}},
         ),
 
@@ -730,7 +672,7 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_18 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_18": "today()"}},
         ),
 
@@ -739,194 +681,9 @@ study = StudyDefinition(
         returning='date',
         between=["pneumonia_date_19 + 1 day", "today"],
         find_first_match_in_period=True,
-        date_format="YYYY-MM-DD", ## prescribed AB & infection record in same day
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"pneumonia_date_19": "today()"}},
         ),
-
-
-####################################################################################
-
-# # ## count of GP consultations
-#     gp_count_1=patients.with_gp_consultations(
-#         between=["pneumonia_date_1 - 12 months", "pneumonia_date_1"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_2=patients.with_gp_consultations(
-#         between=["pneumonia_date_2 - 12 months", "pneumonia_date_2"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_3=patients.with_gp_consultations(
-#         between=["pneumonia_date_3 - 12 months", "pneumonia_date_3"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_4=patients.with_gp_consultations(
-#         between=["pneumonia_date_4 - 12 months", "pneumonia_date_4"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_5=patients.with_gp_consultations(
-#         between=["pneumonia_date_5 - 12 months", "pneumonia_date_5"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_6=patients.with_gp_consultations(
-#         between=["pneumonia_date_6 - 12 months", "pneumonia_date_6"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_7=patients.with_gp_consultations(
-#         between=["pneumonia_date_7 - 12 months", "pneumonia_date_7"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_8=patients.with_gp_consultations(
-#         between=["pneumonia_date_8 - 12 months", "pneumonia_date_8"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_9=patients.with_gp_consultations(
-#         between=["pneumonia_date_9 - 12 months", "pneumonia_date_9"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-#     gp_count_10=patients.with_gp_consultations(
-#         between=["pneumonia_date_10 - 12 months", "pneumonia_date_10"],
-#         returning="number_of_matches_in_period",
-#         return_expectations={
-#             "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-#             "incidence": 0.6,
-#         },
-#     ),
-
-    # gp_count_11=patients.with_gp_consultations(
-    #     between=["pneumonia_date_11 - 12 months", "pneumonia_date_11"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_12=patients.with_gp_consultations(
-    #     between=["pneumonia_date_12 - 12 months", "pneumonia_date_12"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_13=patients.with_gp_consultations(
-    #     between=["pneumonia_date_13 - 12 months", "pneumonia_date_13"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_14=patients.with_gp_consultations(
-    #     between=["pneumonia_date_14 - 12 months", "pneumonia_date_14"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_15=patients.with_gp_consultations(
-    #     between=["pneumonia_date_15 - 12 months", "pneumonia_date_15"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_16=patients.with_gp_consultations(
-    #     between=["pneumonia_date_16 - 12 months", "pneumonia_date_16"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_17=patients.with_gp_consultations(
-    #     between=["pneumonia_date_17 - 12 months", "pneumonia_date_17"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_18=patients.with_gp_consultations(
-    #     between=["pneumonia_date_18 - 12 months", "pneumonia_date_18"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_19=patients.with_gp_consultations(
-    #     between=["pneumonia_date_19 - 12 months", "pneumonia_date_19"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
-    # gp_count_20=patients.with_gp_consultations(
-    #     between=["pneumonia_date_20 - 12 months", "pneumonia_date_20"],
-    #     returning="number_of_matches_in_period",
-    #     return_expectations={
-    #         "int": {"distribution": "normal", "mean": 6, "stddev": 3},
-    #         "incidence": 0.6,
-    #     },
-    # ),
-
 
 
     # count of abs
@@ -1131,158 +888,12 @@ study = StudyDefinition(
     ),
 
 
-###################################################################################
-
-# ## GP consultations for pneumonia
-#     gp_cons_pneumonia_1=patients.with_gp_consultations(
-#         between=["pneumonia_date_1 - 1 day", "pneumonia_date_1 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_2=patients.with_gp_consultations(
-#         between=["pneumonia_date_2 - 1 day", "pneumonia_date_2 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_3=patients.with_gp_consultations(
-#         between=["pneumonia_date_3 - 1 day", "pneumonia_date_3 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_4=patients.with_gp_consultations(
-#         between=["pneumonia_date_4 - 1 day", "pneumonia_date_4 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_5=patients.with_gp_consultations(
-#         between=["pneumonia_date_5 - 1 day", "pneumonia_date_5 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_6=patients.with_gp_consultations(
-#         between=["pneumonia_date_6 - 1 day", "pneumonia_date_6 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_7=patients.with_gp_consultations(
-#         between=["pneumonia_date_7 - 1 day", "pneumonia_date_7 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_8=patients.with_gp_consultations(
-#         between=["pneumonia_date_8 - 1 day", "pneumonia_date_8 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_9=patients.with_gp_consultations(
-#         between=["pneumonia_date_9 - 1 day", "pneumonia_date_9 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_10=patients.with_gp_consultations(
-#         between=["pneumonia_date_10 - 1 day", "pneumonia_date_10 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#         ## GP consultations for pneumonia
-#     gp_cons_pneumonia_11=patients.with_gp_consultations(
-#         between=["pneumonia_date_11 - 1 day", "pneumonia_date_11 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_12=patients.with_gp_consultations(
-#         between=["pneumonia_date_12 - 1 day", "pneumonia_date_12 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_13=patients.with_gp_consultations(
-#         between=["pneumonia_date_13 - 1 day", "pneumonia_date_13 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_14=patients.with_gp_consultations(
-#         between=["pneumonia_date_14 - 1 day", "pneumonia_date_14 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_15=patients.with_gp_consultations(
-#         between=["pneumonia_date_15 - 1 day", "pneumonia_date_15 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_16=patients.with_gp_consultations(
-#         between=["pneumonia_date_16 - 1 day", "pneumonia_date_16 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_17=patients.with_gp_consultations(
-#         between=["pneumonia_date_17 - 1 day", "pneumonia_date_17 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_18=patients.with_gp_consultations(
-#         between=["pneumonia_date_18 - 1 day", "pneumonia_date_18 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_19=patients.with_gp_consultations(
-#         between=["pneumonia_date_19 - 1 day", "pneumonia_date_19 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-#     gp_cons_pneumonia_20=patients.with_gp_consultations(
-#         between=["pneumonia_date_20 - 1 day", "pneumonia_date_20 + 1 day"],
-#         returning='date',
-#         date_format="YYYY-MM-DD",
-#         return_expectations={"incidence": 0.1, "date": {"earliest": start_date}},
-#     ),
-
-
     #  incidence 
     incdt_pneumonia_date_1=patients.with_these_clinical_events(
         pneumonia_codes,
         returning="binary_flag",
-        between=["pneumonia_date_1 - 42 days", "pneumonia_date_1 - 1 day"], #["pneumonia_date_1 - 42 days", "pneumonia_date_1"]
+        between=["pneumonia_date_1 - 42 days", "pneumonia_date_1 - 1 day"], 
         find_first_match_in_period=True,
-        # return_expectations={"incidence": 0.1, "date": {"earliest": "first_day_of_month(index_date) - 42 days"}}
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date - 42 days"}}
     ),
 
@@ -1738,7 +1349,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 5
     sgss_pos_covid_date_pneumonia_5=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1768,7 +1379,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 6
     sgss_pos_covid_date_pneumonia_6=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1797,7 +1408,8 @@ study = StudyDefinition(
         gp_covid_date_pneumonia_6
         """,
     ),
-########################################
+ 
+
     ## Covid positive test result 7
     sgss_pos_covid_date_pneumonia_7=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1827,7 +1439,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 8
     sgss_pos_covid_date_pneumonia_8=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1857,7 +1469,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 9
     sgss_pos_covid_date_pneumonia_9=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1887,7 +1499,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 10
     sgss_pos_covid_date_pneumonia_10=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1917,7 +1529,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 11
     sgss_pos_covid_date_pneumonia_11=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1947,7 +1559,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 12
     sgss_pos_covid_date_pneumonia_12=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -1977,7 +1589,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 13
     sgss_pos_covid_date_pneumonia_13=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2007,7 +1619,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 14
     sgss_pos_covid_date_pneumonia_14=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2037,7 +1649,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 15
     sgss_pos_covid_date_pneumonia_15=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2067,7 +1679,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 16
     sgss_pos_covid_date_pneumonia_16=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2097,7 +1709,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 17
     sgss_pos_covid_date_pneumonia_17=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2127,7 +1739,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 18
     sgss_pos_covid_date_pneumonia_18=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2157,7 +1769,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 19
     sgss_pos_covid_date_pneumonia_19=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2187,7 +1799,7 @@ study = StudyDefinition(
         """,
     ),
 
-########################################
+ 
     ## Covid positive test result 20
     sgss_pos_covid_date_pneumonia_20=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
@@ -2217,41 +1829,7 @@ study = StudyDefinition(
         """,
     ),
 
-
-    #numbers of antibiotic prescribed for this infection 
-    pneumonia_ab_count_1 = patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=['pneumonia_date_1','pneumonia_date_1 + 7 days'],
-        returning='number_of_matches_in_period',
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-        ),
-
-    pneumonia_ab_count_2= patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=['pneumonia_date_2','pneumonia_date_2 + 7 days'],
-        returning='number_of_matches_in_period',
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-        ),
-
-    pneumonia_ab_count_3= patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=['pneumonia_date_3','pneumonia_date_3 + 7 days'],
-        returning='number_of_matches_in_period',
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-        ),
-
-    pneumonia_ab_count_4= patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=['pneumonia_date_4','pneumonia_date_4 + 7 days'],
-        returning='number_of_matches_in_period',
-        return_expectations={
-            "int" : {"distribution": "normal", "mean": 5, "stddev": 1},"incidence":0.2}
-        ),
-
-    ## GP consultations for pneumonia resulted in antibiotics
+    ## antibiotics prescribed for pneumonia
     pneumonia_ab_date_1=patients.with_these_medications(
         antibacterials_codes_brit,
         between=['pneumonia_date_1','pneumonia_date_1 + 5 days'],
