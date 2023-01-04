@@ -97,7 +97,7 @@ summary(m.out1)
 
 ## Assessing the Quality of Matches
 Points far from the solid diagonal line are the areas of the covariate distributions that differ between the treatment groups
-```{r}
+```{r eval=FALSE, include=FALSE}
 plot(m.out1, type = "jitter", interactive = FALSE)
 
 plot(m.out1, type = "hist")
@@ -105,12 +105,12 @@ plot(m.out1, type = "hist")
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 plot(m.out1, type = "qq", interactive = FALSE,
      which.xs = c("age", "sex", "stp"))
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 plot(summary(m.out1))
 ```
 
