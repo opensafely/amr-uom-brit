@@ -98,7 +98,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r}
+```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 #ntree: Number of trees to grow.
