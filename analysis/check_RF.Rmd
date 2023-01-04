@@ -74,7 +74,7 @@ df$case=as.factor(df$case)
 ```
 
 # default
-```{r echo=TRUE}
+```{r eval=FALSE, include=FALSE}
 
 #10 folds repeat 3 times
 control <- trainControl(method='repeatedcv', 
@@ -98,7 +98,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 #ntree: Number of trees to grow.
