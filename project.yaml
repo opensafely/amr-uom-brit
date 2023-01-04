@@ -321,7 +321,7 @@ actions:
         case2: output/case_covid_death_study2_2.2.csv
         control2: output/control_covid_infection_study2_2.2.csv
 
-  matching_study2_2: 
+  matching_study2_2: # covid+ covid death
     run: r:latest -e 'rmarkdown::render("analysis/matching_study2_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_study2_2]
     outputs:
@@ -332,7 +332,7 @@ actions:
         rds2: output/unmatched_patients_study2_2.rds
         csv: output/matched_patients_id_study2_2.csv
 
-  matching_study2_2.2: 
+  matching_study2_2.2: # covid+ any death
     run: r:latest -e 'rmarkdown::render("analysis/matching_study2_2.2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [process_study2_2]
     outputs:
