@@ -116,7 +116,7 @@ rf_random <- train(case ~ .,
                    data = df,
                    method = 'rf',
                    metric = 'Accuracy',
-                   tuneLength  = 15, 
+                   tuneLength  = 50, 
                    trControl = control)
 print(rf_random)
 plot(rf_random)
@@ -133,7 +133,7 @@ control <- trainControl(method='repeatedcv',
                         repeats=3, 
                         search='grid')
 #create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
-tunegrid <- expand.grid(.mtry = (1:15)) 
+tunegrid <- expand.grid(.mtry = (1:20)) 
 
 rf_gridsearch <- train(case ~ ., 
                        data = df,
