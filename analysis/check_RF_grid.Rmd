@@ -66,10 +66,61 @@ length(test_idx)
 df$case=as.factor(df$case)
 
 set.seed(123)
-df=sample_n(df,50)
+df=sample_n(df,1000)
 
 x=df[,2:21]
 y=df[,1]
+
+```
+
+# default
+```{r }
+
+#10 folds repeat 3 times
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3)
+#Metric compare model is Accuracy
+metric <- "Accuracy"
+set.seed(123)
+#Number randomely variable selected is mtry
+mtry <- sqrt(ncol(x))
+tunegrid <- expand.grid(.mtry=mtry)
+rf_default <- train(case~., 
+                      data=df, 
+                      method='rf', 
+                      metric='Accuracy', 
+                      tuneGrid=tunegrid, 
+                      trControl=control)
+print(rf_default)
+
+plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
+```
+
+# Random search
+```{r }
+#mtry: Number of random variables collected at each split. In normal equal square number columns.
+mtry <- sqrt(ncol(x))
+#ntree: Number of trees to grow.
+ntree <- 3
+
+
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3,
+                        search = 'random')
+
+#Random generate 15 mtry values with tuneLength = 15
+set.seed(1)
+rf_random <- train(case ~ .,
+                   data = df,
+                   method = 'rf',
+                   metric = 'Accuracy',
+                   tuneLength  = 15, 
+                   trControl = control)
+print(rf_random)
+plot(rf_random)
+plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 ```
 
