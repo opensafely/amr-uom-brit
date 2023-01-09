@@ -30,7 +30,7 @@ count(df)
 df=df[!is.na(df$case),]
 count(df)
 
-df=df%>% select( "patient_id" , "patient_index_date","case","subclass",
+df=df%>% select( "case",
                  "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
              "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
               "prescribe_times","exposure_period"  ,
@@ -44,7 +44,7 @@ df[is.na(df)] <- 0
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # divide data
 set.seed(1024)
 all_idx <- 1:nrow(df)
@@ -63,14 +63,14 @@ length(test_idx)
 
 ```{r echo=TRUE}
 # develop model
+df$case=as.factor(df$case)
 
 set.seed(123)
 df=sample_n(df.train,50)
 
-x=df[,5:24]
-y=df[,3]
+x=df[,2:21]
+y=df[,1]
 
-df$case=as.factor(df$case)
 ```
 
 
