@@ -127,20 +127,22 @@ plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 # Grid search
 ```{r}
+
 #Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
 control <- trainControl(method='repeatedcv', 
                         number=5, 
                         repeats=3, 
                         search='grid')
 #create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
-tunegrid <- expand.grid(.mtry = (1:20)) 
+tunegrid <- expand.grid(.mtry = c(1:20)) 
 
 rf_gridsearch <- train(case ~ ., 
                        data = df,
                        method = 'rf',
                        metric = 'Accuracy',
                        tuneGrid = tunegrid,
-                       trControl=control)
+                       trControl=control
+                  )
 print(rf_gridsearch)
 plot(rf_gridsearch)
 plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
