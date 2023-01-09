@@ -133,7 +133,7 @@ control <- trainControl(method='repeatedcv',
                         repeats=3, 
                         search='grid')
 #create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
-tunegrid <- expand.grid(.mtry = (1:20)) 
+tunegrid <- expand.grid(.mtry = (1:20),.ntree=c(1000, 1500, 2000, 2500)) 
 
 rf_gridsearch <- train(case ~ ., 
                        data = df,
