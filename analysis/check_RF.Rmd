@@ -44,7 +44,7 @@ df[is.na(df)] <- 0
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # divide data
 set.seed(1024)
 all_idx <- 1:nrow(df)
@@ -64,17 +64,17 @@ length(test_idx)
 ```{r echo=TRUE}
 # develop model
 
-set.seed(123)
-df=sample_n(df.train,50)
+#set.seed(123)
+#df=sample_n(df.train,50)
+df$case=as.factor(df$case)
 
 x=df[,2:21]
 y=df[,1]
 
-df$case=as.factor(df$case)
 ```
 
 # default
-```{r eval=FALSE, include=FALSE}
+```{r include=FALSE}
 
 #10 folds repeat 3 times
 control <- trainControl(method='repeatedcv', 
