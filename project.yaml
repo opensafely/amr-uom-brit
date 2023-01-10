@@ -117,6 +117,12 @@ actions:
       moderately_sensitive:
         html: output/model_RF.html
 
+  model_RF_develop: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_develop.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_ab_time]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_develop.html
 
 
 

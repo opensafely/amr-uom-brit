@@ -111,7 +111,6 @@ lmProfile
 
 random pick subclass
 ```{r}
-df <- read_rds(here::here("output","matched_ab.rds"))
 
 set.seed(123)
 sub.df.1=df%>%filter(case==1)%>%sample_n(1000)
