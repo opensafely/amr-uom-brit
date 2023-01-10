@@ -68,7 +68,7 @@ df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 set.seed(123)
 df=sample_n(df,1000)
 
-x=df[,2:24]
+x=df[,2:25]
 y=df[,1]
 
 table(y)
@@ -112,12 +112,3 @@ lmProfile <- rfe(x=x, y=y,
 lmProfile
 ```
 
-random pick subclass
-```{r}
-
-set.seed(123)
-sub.df.1=df%>%filter(case==1)%>%sample_n(1000)
-sub.df= subset(df, df$subclass %in% sub.df.1$subclass)
-
-table(sub.df$case)
-```
