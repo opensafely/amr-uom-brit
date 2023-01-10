@@ -112,3 +112,80 @@ lmProfile <- rfe(x=x, y=y,
 lmProfile
 ```
 
+
+# default
+```{r }
+
+#10 folds repeat 3 times
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3)
+#Metric compare model is Accuracy
+metric <- "Accuracy"
+set.seed(123)
+#Number randomely variable selected is mtry
+mtry <- sqrt(ncol(x))
+tunegrid <- expand.grid(.mtry=mtry)
+rf_default <- train(case~., 
+                      data=df, 
+                      method='rf', 
+                      metric='Accuracy', 
+                      tuneGrid=tunegrid, 
+                      trControl=control)
+print(rf_default)
+
+plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
+```
+
+# Random search
+```{r }
+#mtry: Number of random variables collected at each split. In normal equal square number columns.
+mtry <- sqrt(ncol(x))
+#ntree: Number of trees to grow.
+ntree <- 3
+
+
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3,
+                        search = 'random')
+
+#Random generate 15 mtry values with tuneLength = 15
+set.seed(1)
+rf_random <- train(case ~ .,
+                   data = df,
+                   method = 'rf',
+                   metric = 'Accuracy',
+                   tuneLength  = 50, 
+                   trControl = control)
+print(rf_random)
+plot(rf_random)
+plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+# Grid search
+```{r}
+
+#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3, 
+                        search='grid')
+#create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
+tunegrid <- expand.grid(.mtry = c(1:20)) 
+
+rf_gridsearch <- train(case ~ ., 
+                       data = df,
+                       method = 'rf',
+                       metric = 'Accuracy',
+                       tuneGrid = tunegrid,
+                       trControl=control
+                  )
+print(rf_gridsearch)
+plot(rf_gridsearch)
+plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
