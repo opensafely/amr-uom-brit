@@ -42,8 +42,24 @@ df=df%>% select( "case",
 df$exposure_period=-df$exposure_period
 df$case=as.factor(df$case)
 
-#df[is.na(df)] <- 0
+#
 ```
+
+handle missing value
+replace with 0
+```{r}
+df[is.na(df)] <- 0
+```
+
+indicator for missing value
+```{r}
+df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
+df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
+df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
+df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
+
+```
+
 
 
 ```{r echo=TRUE}
@@ -52,7 +68,7 @@ df$case=as.factor(df$case)
 set.seed(123)
 df=sample_n(df,1000)
 
-x=df[,2:21]
+x=df[,2:24]
 y=df[,1]
 
 table(y)
@@ -75,20 +91,7 @@ featurePlot(x = x,
             scales = list(x = list(relation="free"), 
                           y = list(relation="free")))
 ```
-replace NA with 0
-```{r}
-df[is.na(df)] <- 0
-x=df[,2:21]
-y=df[,1]
-df$case=as.factor(df$case)
 
-featurePlot(x = x, 
-            y = y, 
-            plot = "density",
-            strip=strip.custom(par.strip.text=list(cex=.7)),
-            scales = list(x = list(relation="free"), 
-                          y = list(relation="free")))
-```
 
 feature selection: recursive feature elimination (rfe)
 ```{r}
