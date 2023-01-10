@@ -1,0 +1,120 @@
+---
+title: "feature selection"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(skimr)
+library('tidyverse')
+
+library("ggplot2")
+
+library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+https://www.machinelearningplus.com/machine-learning/caret-package/ 
+
+```{r}
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
+count(df)
+
+df=df[!is.na(df$case),]
+count(df)
+```
+
+
+
+
+```{r}
+df=df%>% select( "case",
+                 "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
+             "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
+              "prescribe_times","exposure_period"  ,
+               "recent_ab_days",  
+              "broad_prop" ,"broad_ab_prescriptions",
+             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
+              "length_med" , "length_mean", "length_sd" ,  "length_CV" 
+               )
+df$exposure_period=-df$exposure_period
+df$case=as.factor(df$case)
+
+#df[is.na(df)] <- 0
+```
+
+
+```{r echo=TRUE}
+# develop model
+
+set.seed(123)
+df=sample_n(df,1000)
+
+x=df[,2:21]
+y=df[,1]
+
+table(y)
+
+```
+
+descriptive stats
+```{r}
+skimmed <- skim_to_wide(df)
+skimmed[, c(1:5, 9:11, 13, 15:16)]
+```
+
+```{r}
+df$case=as.factor(df$case)
+
+featurePlot(x = x, 
+            y = y, 
+            plot = "density",
+            strip=strip.custom(par.strip.text=list(cex=.7)),
+            scales = list(x = list(relation="free"), 
+                          y = list(relation="free")))
+```
+replace NA with 0
+```{r}
+df[is.na(df)] <- 0
+x=df[,2:21]
+y=df[,1]
+df$case=as.factor(df$case)
+
+featurePlot(x = x, 
+            y = y, 
+            plot = "density",
+            strip=strip.custom(par.strip.text=list(cex=.7)),
+            scales = list(x = list(relation="free"), 
+                          y = list(relation="free")))
+```
+
+feature selection: recursive feature elimination (rfe)
+```{r}
+set.seed(100)
+options(warn=-1)
+
+subsets <- c(1:5, 10, 15, 18)
+
+ctrl <- rfeControl(functions = rfFuncs,
+                   method = "repeatedcv",
+                   repeats = 5,
+                   verbose = FALSE)
+
+lmProfile <- rfe(x=x, y=y,
+                 sizes = subsets,
+                 rfeControl = ctrl)
+
+lmProfile
+```
+
+random pick subclass
+```{r}
+
+set.seed(123)
+sub.df.1=df%>%filter(case==1)%>%sample_n(1000)
+sub.df= subset(df, df$subclass %in% sub.df.1$subclass)
+
+table(sub.df$case)
+```
