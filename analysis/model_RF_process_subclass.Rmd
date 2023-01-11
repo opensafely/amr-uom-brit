@@ -33,7 +33,7 @@ sample 1000 patients by subclass
 set.seed(123)
 
 subclass=levels(df$subclass)
-idx=sample(subclass,834)
+idx=sample(subclass,145)
 
 df=df%>%filter(subclass %in% idx)
 
@@ -109,22 +109,19 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
-#ntree: Number of trees to grow.
-ntree <- 3
-
 
 control <- trainControl(method='repeatedcv', 
                         number=5, 
                         repeats=3,
                         search = 'random')
 
-#Random generate 15 mtry values with tuneLength = 15
+#Random generate 15 mtry values with tuneLength = 12
 set.seed(1)
 rf_random <- train(case ~ .,
                    data = df,
                    method = 'rf',
                    metric = 'Accuracy',
-                   tuneLength  = 50, 
+                   tuneLength  = 12, 
                    trControl = control)
 print(rf_random)
 plot(rf_random)
@@ -142,7 +139,7 @@ control <- trainControl(method='repeatedcv',
                         repeats=3, 
                         search='grid')
 #create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
-tunegrid <- expand.grid(.mtry = c(1:20)) 
+tunegrid <- expand.grid(.mtry = c(1:12)) 
 
 rf_gridsearch <- train(case ~ ., 
                        data = df,
