@@ -33,12 +33,12 @@ sample 1000 patients by subclass
 set.seed(123)
 
 subclass=levels(df$subclass)
-idx=sample(subclass,145)
+idx=sample(subclass,5)
 
 df=df%>%filter(subclass %in% idx)
 
 
-table(y)
+table(df$case)
 
 ```
 
