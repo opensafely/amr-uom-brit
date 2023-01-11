@@ -37,8 +37,6 @@ idx=sample(subclass,145)
 
 df=df%>%filter(subclass %in% idx)
 
-x=df[,2:25]
-y=df[,1]
 
 table(y)
 
@@ -83,6 +81,8 @@ df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 
 # default
 ```{r }
+x=df[,2:25]
+y=df[,1]
 
 #10 folds repeat 3 times
 control <- trainControl(method='repeatedcv', 
