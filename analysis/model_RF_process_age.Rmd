@@ -44,9 +44,7 @@ table(df$case)
 
 add variables
 ```{r}
-#setwd(here::here("output"))
-#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
-# import matched patients dataset
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
 DF=DF%>% select("patient_id","patient_index_date","age")
 
@@ -54,8 +52,21 @@ DF=DF%>% select("patient_id","patient_index_date","age")
 #df=df %>% distinct(patient_id, .keep_all=T)
 data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
 
+df=data
+rm(DF,data)
+
 ```
 
+```{r eval=FALSE, include=FALSE}
+## age grp
+df=df%>%mutate(age_group=case_when(case==1 & age<40 ~1,
+                                   case==1 & age>=40 & age<60 ~2,
+                                   case==1 & age>=60 & age<80 ~3,
+                                   case==1 & age>=80 ~4))
+df=df%>% group_by(subclass)%>%mutate(age_grp=sum(age_group,na.rm = T))
+data=df
+rm(df)
+```
 
 ```{r}
 df=df%>% select( "case", "AB_6wk" , "total_ab","ab_types",
@@ -166,4 +177,6 @@ plot(rf_gridsearch)
 plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
 ```
+
+
 
