@@ -47,6 +47,7 @@ add variables
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
 DF=DF%>% select("patient_id","patient_index_date","age")
+DF=distinct(DF)
 
 # filter only 1 ID
 #df=df %>% distinct(patient_id, .keep_all=T)
@@ -137,7 +138,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r }
+```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 
@@ -162,7 +163,7 @@ plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 
 # Grid search
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 #Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
 control <- trainControl(method='repeatedcv', 
@@ -223,7 +224,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r }
+```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 
@@ -248,7 +249,7 @@ plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 
 # Grid search
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 #Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
 control <- trainControl(method='repeatedcv', 
@@ -310,7 +311,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r }
+```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 
@@ -335,7 +336,7 @@ plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 
 # Grid search
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 #Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
 control <- trainControl(method='repeatedcv', 
@@ -399,7 +400,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r }
+```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 
@@ -424,7 +425,7 @@ plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 
 # Grid search
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 #Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
 control <- trainControl(method='repeatedcv', 
