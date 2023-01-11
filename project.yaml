@@ -18,12 +18,29 @@ actions:
       highly_sensitive:
         cohort: output/input_control.csv
 
-  generate_study_population_sepsis:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_sepsis
+  generate_study_population_sepsis_2019:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sepsis_2019
     outputs:
       highly_sensitive:
-        cohort: output/input_sepsis.csv
+        cohort: output/input_sepsis_2019.csv
 
+  generate_study_population_sepsis_2020:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sepsis_2020
+    outputs:
+      highly_sensitive:
+        cohort: output/input_sepsis_2020.csv
+
+  generate_study_population_sepsis_2021:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sepsis_2021
+    outputs:
+      highly_sensitive:
+        cohort: output/input_sepsis_2021.csv
+
+  generate_study_population_sepsis_2022:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_sepsis_2022
+    outputs:
+      highly_sensitive:
+        cohort: output/input_sepsis_2022.csv
 ### extract patient_id & index_date in case ###
 
   process_1:  
@@ -51,10 +68,34 @@ actions:
       moderately_sensitive: 
         report1: output/matching_report.txt
 
-  process_sepsis:  
-    run: r:latest analysis/process_sepsis.R
-    needs: [generate_study_population_sepsis]
+  process_sepsis_2019:  
+    run: r:latest analysis/process_sepsis_2019.R
+    needs: [generate_study_population_sepsis_2019]
     outputs:
       moderately_sensitive:
-        table1: output/table_sepsis_0.csv
-        table2: output/table_sepsis_1.csv
+        table1: output/table_sepsis_2019_0.csv
+        table2: output/table_sepsis_2019_1.csv
+
+  process_sepsis_2020:  
+    run: r:latest analysis/process_sepsis_2020.R
+    needs: [generate_study_population_sepsis_2020]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_sepsis_2020_0.csv
+        table2: output/table_sepsis_2020_1.csv
+
+  process_sepsis_2021:  
+    run: r:latest analysis/process_sepsis_2021.R
+    needs: [generate_study_population_sepsis_2021]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_sepsis_2021_0.csv
+        table2: output/table_sepsis_2021_1.csv
+
+  process_sepsis_2022:  
+    run: r:latest analysis/process_sepsis_2022.R
+    needs: [generate_study_population_sepsis_2022]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_sepsis_2022_0.csv
+        table2: output/table_sepsis_2022_1.csv

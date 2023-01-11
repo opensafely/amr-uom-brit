@@ -33,7 +33,7 @@ col_spec <-cols_only(patient_index_date = col_date(format = ""),
                         patient_id = col_number()
 )
 
-df <- read_csv(here::here("output", "input_sepsis.csv"),
+df <- read_csv(here::here("output", "input_sepsis_2020.csv"),
                 col_types = col_spec)
 
 
@@ -46,12 +46,12 @@ dttable <- select(df,age,sex,stp,region,imd,has_outcome_1yr,uti_record,lrti_reco
 ot_media_record,pneumonia_record)
 colsfortab <- colnames(dttable)
 dttable %>% summary_factorlist(explanatory = colsfortab) -> t
-write_csv(t, here::here("output", "table_sepsis_0.csv"))
+write_csv(t, here::here("output", "table_sepsis_2020_0.csv"))
 
 df_1 <- df %>% filter(has_outcome_1yr == "0")
 dttable_1 <- select(df_1,age,sex,stp,region,imd,uti_record,lrti_record,urti_record,sinusitis_record,ot_externa_record,
 ot_media_record,pneumonia_record)
 colsfortab_1 <- colnames(dttable_1)
 dttable_1 %>% summary_factorlist(explanatory = colsfortab_1) -> t1
-write_csv(t1, here::here("output", "table_sepsis_1.csv"))
+write_csv(t1, here::here("output", "table_sepsis_2020_1.csv"))
 
