@@ -33,7 +33,7 @@ sample 1000 patients by subclass
 set.seed(123)
 
 subclass=levels(df$subclass)
-idx=sample(subclass,145)
+idx=sample(subclass,834)
 
 df=df%>%filter(subclass %in% idx)
 
@@ -84,16 +84,17 @@ df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 x=df[,2:25]
 y=df[,1]
 
-#10 folds repeat 3 times
-control <- trainControl(method='repeatedcv', 
-                        number=5, 
-                        repeats=3)
-#Metric compare model is Accuracy
-metric <- "Accuracy"
+control <- trainControl(method='repeatedcv', # repeated cross-validation 
+                        number=5,            # 5 folds 
+                        repeats=3)           # repeat 3 times
+
+metric <- "Accuracy"  # Metric compare model is Accuracy
+
 set.seed(123)
-#Number randomely variable selected is mtry
-mtry <- sqrt(ncol(x))
+
+mtry <- sqrt(ncol(x)) #Randomly Selected Predictors, decorrelated the trees, preventing strong predictors from being selected on the top of every time
 tunegrid <- expand.grid(.mtry=mtry)
+
 rf_default <- train(case~., 
                       data=df, 
                       method='rf', 
