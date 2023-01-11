@@ -1,0 +1,159 @@
+---
+title: "random sampling by subclass"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(skimr)
+library('tidyverse')
+
+library("ggplot2")
+
+library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+https://www.machinelearningplus.com/machine-learning/caret-package/ 
+
+```{r}
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
+count(df)
+
+df=df[!is.na(df$case),]
+count(df)
+```
+
+sample 1000 patients by subclass
+```{r echo=TRUE}
+# develop model
+
+set.seed(123)
+
+subclass=levels(df$subclass)
+idx=sample(subclass,145)
+
+df=df%>%filter(subclass %in% idx)
+
+x=df[,2:25]
+y=df[,1]
+
+table(y)
+
+```
+
+
+
+```{r}
+df=df%>% select( "case",
+                 "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
+             "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
+              "prescribe_times","exposure_period"  ,
+               "recent_ab_days",  
+              "broad_prop" ,"broad_ab_prescriptions",
+             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
+              "length_med" , "length_mean", "length_sd" ,  "length_CV" 
+               )
+df$exposure_period=-df$exposure_period
+df$case=as.factor(df$case)
+
+#
+```
+
+handle missing value
+replace with 0
+```{r}
+df[is.na(df)] <- 0
+```
+
+indicator for missing value
+```{r}
+df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
+df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
+df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
+df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
+
+```
+
+
+
+
+
+# default
+```{r }
+
+#10 folds repeat 3 times
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3)
+#Metric compare model is Accuracy
+metric <- "Accuracy"
+set.seed(123)
+#Number randomely variable selected is mtry
+mtry <- sqrt(ncol(x))
+tunegrid <- expand.grid(.mtry=mtry)
+rf_default <- train(case~., 
+                      data=df, 
+                      method='rf', 
+                      metric='Accuracy', 
+                      tuneGrid=tunegrid, 
+                      trControl=control)
+print(rf_default)
+
+plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
+```
+
+# Random search
+```{r eval=FALSE, include=FALSE}
+#mtry: Number of random variables collected at each split. In normal equal square number columns.
+mtry <- sqrt(ncol(x))
+#ntree: Number of trees to grow.
+ntree <- 3
+
+
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3,
+                        search = 'random')
+
+#Random generate 15 mtry values with tuneLength = 15
+set.seed(1)
+rf_random <- train(case ~ .,
+                   data = df,
+                   method = 'rf',
+                   metric = 'Accuracy',
+                   tuneLength  = 50, 
+                   trControl = control)
+print(rf_random)
+plot(rf_random)
+plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+# Grid search
+```{r eval=FALSE, include=FALSE}
+
+#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3, 
+                        search='grid')
+#create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
+tunegrid <- expand.grid(.mtry = c(1:20)) 
+
+rf_gridsearch <- train(case ~ ., 
+                       data = df,
+                       method = 'rf',
+                       metric = 'Accuracy',
+                       tuneGrid = tunegrid,
+                       trControl=control
+                  )
+print(rf_gridsearch)
+plot(rf_gridsearch)
+plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
