@@ -56,6 +56,8 @@ data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
 df=data
 rm(DF,data)
 
+table(df$case)
+
 ```
 
 ```{r}
@@ -110,6 +112,9 @@ age group1
 data=df
 rm(df)
 df=data %>% filter(age_grp==1)
+
+table(df$case)
+
 ```
 
 # default
@@ -193,9 +198,11 @@ plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
 age group2
 ```{r}
-data=df
 rm(df)
 df=data %>% filter(age_grp==2)
+
+table(df$case)
+
 ```
 
 # default
@@ -280,9 +287,10 @@ plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
 age group3
 ```{r}
-data=df
 rm(df)
 df=data %>% filter(age_grp==3)
+table(df$case)
+
 ```
 
 # default
@@ -369,9 +377,10 @@ plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
 age group4
 ```{r}
-data=df
 rm(df)
 df=data %>% filter(age_grp==4)
+table(df$case)
+
 ```
 
 # default
