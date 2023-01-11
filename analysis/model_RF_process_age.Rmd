@@ -57,16 +57,17 @@ rm(DF,data)
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 ## age grp
 df=df%>%mutate(age_group=case_when(case==1 & age<40 ~1,
                                    case==1 & age>=40 & age<60 ~2,
                                    case==1 & age>=60 & age<80 ~3,
                                    case==1 & age>=80 ~4))
 df=df%>% group_by(subclass)%>%mutate(age_grp=sum(age_group,na.rm = T))
-data=df
-rm(df)
+
 ```
+
+
 
 ```{r}
 df=df%>% select( "case", "AB_6wk" , "total_ab","ab_types",
@@ -75,7 +76,7 @@ df=df%>% select( "case", "AB_6wk" , "total_ab","ab_types",
               "broad_prop" ,
              "interval_med"  , "interval_CV",
               "length_med" ,  "length_CV" ,
-             "prescribe_times","age"
+             "prescribe_times","age_group"
                )
 df$exposure_period=-df$exposure_period
 df$case=as.factor(df$case)
@@ -101,10 +102,16 @@ df$prescribe_time_2=ifelse(df$prescribe_times>=2,1,0) # missing indicator for sd
 
 
 
+age group1
+```{r}
+data=df
+rm(df)
+df=data %>% filter(age_group==1)
+```
 
 # default
 ```{r }
-x=df[,2:14]
+x=df[,2:13]
 y=df[,1]
 
 control <- trainControl(method='repeatedcv', # repeated cross-validation 
@@ -178,5 +185,266 @@ plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
 ```
 
+
+
+
+age group2
+```{r}
+data=df
+rm(df)
+df=data %>% filter(age_group==2)
+```
+
+# default
+```{r }
+x=df[,2:13]
+y=df[,1]
+
+control <- trainControl(method='repeatedcv', # repeated cross-validation 
+                        number=5,            # 5 folds 
+                        repeats=3)           # repeat 3 times
+
+metric <- "Accuracy"  # Metric compare model is Accuracy
+
+set.seed(123)
+
+mtry <- sqrt(ncol(x)) #Randomly Selected Predictors, decorrelated the trees, preventing strong predictors from being selected on the top of every time
+tunegrid <- expand.grid(.mtry=mtry)
+
+rf_default <- train(case~., 
+                      data=df, 
+                      method='rf', 
+                      metric='Accuracy', 
+                      tuneGrid=tunegrid, 
+                      trControl=control)
+print(rf_default)
+
+plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
+```
+
+# Random search
+```{r }
+#mtry: Number of random variables collected at each split. In normal equal square number columns.
+mtry <- sqrt(ncol(x))
+
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3,
+                        search = 'random')
+
+#Random generate 15 mtry values with tuneLength = 12
+set.seed(1)
+rf_random <- train(case ~ .,
+                   data = df,
+                   method = 'rf',
+                   metric = 'Accuracy',
+                   tuneLength  = 13, 
+                   trControl = control)
+print(rf_random)
+plot(rf_random)
+plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+# Grid search
+```{r}
+
+#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3, 
+                        search='grid')
+#create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
+tunegrid <- expand.grid(.mtry = c(1:13) )
+
+rf_gridsearch <- train(case ~ ., 
+                       data = df,
+                       method = 'rf',
+                       metric = 'Accuracy',
+                       tuneGrid = tunegrid,
+                       trControl=control
+                  )
+print(rf_gridsearch)
+plot(rf_gridsearch)
+plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+
+
+
+age group3
+```{r}
+data=df
+rm(df)
+df=data %>% filter(age_group==3)
+```
+
+# default
+```{r }
+x=df[,2:13]
+y=df[,1]
+
+control <- trainControl(method='repeatedcv', # repeated cross-validation 
+                        number=5,            # 5 folds 
+                        repeats=3)           # repeat 3 times
+
+metric <- "Accuracy"  # Metric compare model is Accuracy
+
+set.seed(123)
+
+mtry <- sqrt(ncol(x)) #Randomly Selected Predictors, decorrelated the trees, preventing strong predictors from being selected on the top of every time
+tunegrid <- expand.grid(.mtry=mtry)
+
+rf_default <- train(case~., 
+                      data=df, 
+                      method='rf', 
+                      metric='Accuracy', 
+                      tuneGrid=tunegrid, 
+                      trControl=control)
+print(rf_default)
+
+plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
+```
+
+# Random search
+```{r }
+#mtry: Number of random variables collected at each split. In normal equal square number columns.
+mtry <- sqrt(ncol(x))
+
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3,
+                        search = 'random')
+
+#Random generate 15 mtry values with tuneLength = 12
+set.seed(1)
+rf_random <- train(case ~ .,
+                   data = df,
+                   method = 'rf',
+                   metric = 'Accuracy',
+                   tuneLength  = 13, 
+                   trControl = control)
+print(rf_random)
+plot(rf_random)
+plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+# Grid search
+```{r}
+
+#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3, 
+                        search='grid')
+#create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
+tunegrid <- expand.grid(.mtry = c(1:13) )
+
+rf_gridsearch <- train(case ~ ., 
+                       data = df,
+                       method = 'rf',
+                       metric = 'Accuracy',
+                       tuneGrid = tunegrid,
+                       trControl=control
+                  )
+print(rf_gridsearch)
+plot(rf_gridsearch)
+plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+
+
+
+
+
+age group4
+```{r}
+data=df
+rm(df)
+df=data %>% filter(age_group==4)
+```
+
+# default
+```{r }
+x=df[,2:13]
+y=df[,1]
+
+control <- trainControl(method='repeatedcv', # repeated cross-validation 
+                        number=5,            # 5 folds 
+                        repeats=3)           # repeat 3 times
+
+metric <- "Accuracy"  # Metric compare model is Accuracy
+
+set.seed(123)
+
+mtry <- sqrt(ncol(x)) #Randomly Selected Predictors, decorrelated the trees, preventing strong predictors from being selected on the top of every time
+tunegrid <- expand.grid(.mtry=mtry)
+
+rf_default <- train(case~., 
+                      data=df, 
+                      method='rf', 
+                      metric='Accuracy', 
+                      tuneGrid=tunegrid, 
+                      trControl=control)
+print(rf_default)
+
+plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
+```
+
+# Random search
+```{r }
+#mtry: Number of random variables collected at each split. In normal equal square number columns.
+mtry <- sqrt(ncol(x))
+
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3,
+                        search = 'random')
+
+#Random generate 15 mtry values with tuneLength = 12
+set.seed(1)
+rf_random <- train(case ~ .,
+                   data = df,
+                   method = 'rf',
+                   metric = 'Accuracy',
+                   tuneLength  = 13, 
+                   trControl = control)
+print(rf_random)
+plot(rf_random)
+plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
+
+
+# Grid search
+```{r}
+
+#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
+control <- trainControl(method='repeatedcv', 
+                        number=5, 
+                        repeats=3, 
+                        search='grid')
+#create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
+tunegrid <- expand.grid(.mtry = c(1:13) )
+
+rf_gridsearch <- train(case ~ ., 
+                       data = df,
+                       method = 'rf',
+                       metric = 'Accuracy',
+                       tuneGrid = tunegrid,
+                       trControl=control
+                  )
+print(rf_gridsearch)
+plot(rf_gridsearch)
+plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
+
+```
 
 
