@@ -47,7 +47,7 @@ add variables
 #setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 # import matched patients dataset
-DF<- read_rds(here::here("output","matched_outcome.rds")
+DF<- read_rds(here::here("output","matched_outcome.rds"))
 DF=DF%>% select("patient_id","patient_index_date","age")
 
 # filter only 1 ID
