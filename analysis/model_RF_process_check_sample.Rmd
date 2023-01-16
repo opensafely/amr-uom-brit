@@ -1,0 +1,149 @@
+---
+title: "random sampling by subclass"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(skimr)
+library('tidyverse')
+
+library("ggplot2")
+
+library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+
+```{r eval=FALSE, include=FALSE}
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
+count(df)
+
+df=df[!is.na(df$case),]
+count(df)
+table(df$case)
+
+df_uniq= distinct(df)
+count(df_uniq)
+table(df_uniq$case)
+```
+
+
+
+
+
+```{r }
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+DF<- read_rds(here::here("output","matched_outcome.rds"))
+DF=DF%>% select("patient_id","patient_index_date","age","wave","sex","age_cat")
+count(DF)
+table(DF$case)
+
+
+DF=DF[!is.na(DF$case),]
+count(DF)
+table(DF$case)
+
+
+DF_uniq=distinct(DF)
+count(DF_uniq)
+table(DF_uniq$case)
+# filter only 1 ID
+#df=df %>% distinct(patient_id, .keep_all=T)
+#data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
+
+#df=data
+#rm(DF,data)
+
+#table(df$case)
+
+```
+descriptive stats
+```{r}
+skimmed <- skim_to_wide(DF)
+skimmed[, c(1:5, 9:11, 13, 15:16)]
+```
+
+
+```{r}
+DF$case=as.factor(DF$case)
+
+boxplot(age ~ case, data = DF)
+densityplot(~ wave, data = DF, groups = case)
+densityplot(~ age, data = DF, groups = case)
+ggplot(DF, aes(x = factor(case), fill = factor(sex))) +
+   geom_bar() 
+
+ggplot(DF, aes(x = factor(case), fill = factor(age_cat))) +
+   geom_bar() 
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
+## age grp
+df=df%>%mutate(age_group=case_when(case==1 & age<40 ~1,
+                                   case==1 & age>=40 & age<60 ~2,
+                                   case==1 & age>=60 & age<80 ~3,
+                                   case==1 & age>=80 ~4))
+df=df%>% group_by(subclass)%>%mutate(age_grp=sum(age_group,na.rm = T))
+
+df=df%>% ungroup(subclass)
+
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+df=df%>% select( "case", "AB_6wk" , "total_ab","ab_types",
+              "exposure_period"  ,
+               "recent_ab_days",  
+              "broad_prop" ,
+             "interval_med"  , "interval_CV",
+              "length_med" ,  "length_CV" ,
+             "prescribe_times","age_grp"
+               )
+df$exposure_period=-df$exposure_period
+df$case=as.factor(df$case)
+
+#
+```
+
+
+# distinct
+```{r}
+DF_uniq$case=as.factor(DF_uniq$case)
+
+boxplot(age ~ case, data = DF_uniq)
+densityplot(~ wave, data = DF_uniq, groups = case)
+densityplot(~ age, data = DF_uniq, groups = case)
+ggplot(DF_uniq, aes(x = factor(case), fill = factor(sex))) +
+   geom_bar() 
+
+ggplot(DF_uniq, aes(x = factor(case), fill = factor(age_cat))) +
+   geom_bar() 
+```
+
+
+
+
+
+handle missing value
+replace with 0
+```{r eval=FALSE, include=FALSE}
+df[is.na(df)] <- 0
+```
+
+indicator for missing value
+```{r eval=FALSE, include=FALSE}
+#df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
+#df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
+#df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
+df$prescribe_time_2=ifelse(df$prescribe_times>=2,1,0) # missing indicator for sd,CV
+
+```
+
+
+
