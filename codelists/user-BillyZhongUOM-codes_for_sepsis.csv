@@ -1,0 +1,36 @@
+code,term
+A021,Salmonella sepsis
+A207,Septicaemic plague
+A227,Anthrax sepsis
+A267,Erysipelothrix sepsis
+A327,Listerial sepsis
+A392,Acute meningococcaemia
+A393,Chronic meningococcaemia
+A394,"Meningococcaemia, unspecified"
+A400,"Sepsis due to streptococcus, group A"
+A401,"Sepsis due to streptococcus, group B"
+A402,"Sepsis due to streptococcus, group D"
+A403,Sepsis due to Streptococcus pneumoniae
+A408,Other streptococcal sepsis
+A409,"Streptococcal sepsis, unspecified"
+A410,Sepsis due to Staphylococcus aureus
+A411,Sepsis due to other specified staphylococcus
+A412,Sepsis due to unspecified staphylococcus
+A413,Sepsis due to Haemophilus influenzae
+A414,Sepsis due to anaerobes
+A415,Sepsis due to other Gram-negative organisms
+A418,Other specified sepsis
+A419,"Sepsis, unspecified"
+A427,Actinomycotic sepsis
+B007,Disseminated herpesviral disease
+O85,Puerperal sepsis
+P360,"Sepsis of newborn due to streptococcus, group B"
+P361,Sepsis of newborn due to other and unspecified streptococci
+P362,Sepsis of newborn due to Staphylococcus aureus
+P363,Sepsis of newborn due to other and unspecified staphylococci
+P364,Sepsis of newborn due to Escherichia coli
+P365,Sepsis of newborn due to anaerobes
+P368,Other bacteiral spesis of newborn
+P369,"Bacterial sepsis of newborn, unspecified"
+R572,Septic shock
+R651,Systemic Inflammatory Response Syndrome of infectious origin with organ failure
