@@ -73,10 +73,8 @@ DF$case=as.factor(DF$case)
 boxplot(age ~ case, data = DF)
 densityplot(~ wave, data = DF, groups = case)
 densityplot(~ age, data = DF, groups = case)
-ggplot(DF, aes(x = factor(case), fill = factor(sex))) +
-   geom_bar() 
 
-ggplot(DF, aes(x = factor(case), fill = factor(age_cat))) +
+ggplot(DF, aes(x = factor(case), fill = factor(sex))) +
    geom_bar() 
 
 ```
