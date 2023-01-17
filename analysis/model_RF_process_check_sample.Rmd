@@ -37,7 +37,7 @@ table(df_uniq$case)
 ```{r }
 #DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
-DF=DF%>% select("patient_id","patient_index_date","age","wave","sex","age_cat")
+DF=DF%>% select("patient_id","patient_index_date","case","age","wave","sex","age_cat","region")
 count(DF)
 table(DF$case)
 
@@ -76,6 +76,8 @@ densityplot(~ wave, data = DF, groups = case)
 densityplot(~ age, data = DF, groups = case)
 
 table(DF$sex,DF$case)
+table(DF$region,DF$case)
+
 ```
 
 
@@ -112,15 +114,14 @@ df$case=as.factor(df$case)
 # distinct
 ```{r}
 DF_uniq$case=as.factor(DF_uniq$case)
+DF_uniq$sex=as.factor(DF_uniq$sex)
 
-boxplot(age ~ case, data = DF_uniq)
 densityplot(~ wave, data = DF_uniq, groups = case)
 densityplot(~ age, data = DF_uniq, groups = case)
-ggplot(DF_uniq, aes(x = factor(case), fill = factor(sex))) +
-   geom_bar() 
 
-ggplot(DF_uniq, aes(x = factor(case), fill = factor(age_cat))) +
-   geom_bar() 
+table(DF_uniq$sex,DF_uniq$case) 
+table(DF_uniq$region,DF_uniq$case)
+
 ```
 
 
