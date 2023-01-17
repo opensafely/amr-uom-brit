@@ -15,8 +15,13 @@ knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
 
+tutorial:
 https://www.machinelearningplus.com/machine-learning/caret-package/ 
+https://www.guru99.com/r-random-forest-tutorial.html#4
+https://topepo.github.io/caret/measuring-performance.html
 
+
+# patient selection and data preparation
 ```{r}
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
@@ -24,9 +29,14 @@ count(df)
 
 df=df[!is.na(df$case),]
 count(df)
+table(df$case)
+
+# select unique patient
+df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+count(df)
+table(df$case)
+
 ```
-
-
 
 
 ```{r}
@@ -40,33 +50,34 @@ df=df%>% select( "case",
               "length_med" , "length_mean", "length_sd" ,  "length_CV" 
                )
 df$exposure_period=-df$exposure_period
-df$case=as.factor(df$case)
 
-#
+df$case= ifelse(df$case=="1","case","control")
+
 ```
 
-handle missing value
-replace with 0
+handle missing value (replace with 0 = no ab use)
 ```{r}
 df[is.na(df)] <- 0
 ```
 
-indicator for missing value
+add indicator for missing value
 ```{r}
 df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
 df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
 df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
 df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 
+names(df)
 ```
 
 
+# train model
 
-```{r echo=TRUE}
+```{r }
 # develop model
 
 set.seed(123)
-df=sample_n(df,5000)
+df=sample_n(df,1000)
 
 x=df[,2:25]
 y=df[,1]
@@ -75,46 +86,71 @@ table(y)
 
 ```
 
-descriptive stats
+
+
+https://stackoverflow.com/questions/57939453/building-a-randomforest-with-caret 
+
+# tune parameter
 ```{r}
-skimmed <- skim_to_wide(df)
-skimmed[, c(1:5, 9:11, 13, 15:16)]
+set.seed(1234)
+cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
+
+
+# create tune control
+#mtry <- sqrt(ncol(x))
+tuneGrid <- expand.grid(.mtry = c(1 : 10))
+
+ctrl <- trainControl(method = "cv",
+                     number = 5,
+                     search = 'grid',
+                     classProbs = TRUE,
+                     savePredictions = "final",
+                     index = cv_folds,
+                     summaryFunction = twoClassSummary) #in most cases a better summary for two class problem
+
+
+# other tuning parameters
+ntrees <- c(500, 1000)    
+nodesize <- c(1, 5)
+
+params <- expand.grid(ntrees = ntrees,
+                      nodesize = nodesize)
 ```
 
 ```{r}
-df$case=as.factor(df$case)
+store_maxnode <- vector("list", nrow(params))
 
-featurePlot(x = x, 
-            y = y, 
-            plot = "density",
-            strip=strip.custom(par.strip.text=list(cex=.7)),
-            scales = list(x = list(relation="free"), 
-                          y = list(relation="free")))
+for(i in 1:nrow(params)){
+  nodesize <- params[i,2]
+  ntree <- params[i,1]
+  set.seed(65)
+  rf_model <- train(case ~. ,
+                       data = df,
+                       method = "rf",
+                       importance=TRUE,
+                       metric = "ROC",
+                       tuneGrid = tuneGrid,
+                       trControl = ctrl,
+                       ntree = ntree,
+                       nodesize = nodesize)
+  store_maxnode[[i]] <- rf_model
+}
+
+
+names(store_maxnode) <- paste("ntrees:", params$ntrees,
+                              "nodesize:", params$nodesize)
+
+results_mtry <- resamples(store_maxnode)
+
+summary(results_mtry)
+lapply(store_maxnode, function(x) x$best) #get the best mtry for each model
+lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),])#get the best average performance for each model
 ```
 
-
-feature selection: recursive feature elimination (rfe)
-```{r}
-set.seed(100)
-options(warn=-1)
-
-subsets <- c(1:5, 10, 15, 18)
-
-ctrl <- rfeControl(functions = rfFuncs,
-                   method = "repeatedcv",
-                   repeats = 5,
-                   verbose = FALSE)
-
-lmProfile <- rfe(x=x, y=y,
-                 sizes = subsets,
-                 rfeControl = ctrl)
-
-lmProfile
-```
 
 
 # default
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 #10 folds repeat 3 times
 control <- trainControl(method='repeatedcv', 
@@ -138,7 +174,7 @@ plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
 ```
 
 # Random search
-```{r }
+```{r eval=FALSE, include=FALSE}
 #mtry: Number of random variables collected at each split. In normal equal square number columns.
 mtry <- sqrt(ncol(x))
 #ntree: Number of trees to grow.
@@ -166,7 +202,7 @@ plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
 
 
 # Grid search
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 #Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
 control <- trainControl(method='repeatedcv', 
@@ -187,5 +223,35 @@ print(rf_gridsearch)
 plot(rf_gridsearch)
 plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
 
+```
+
+
+# check exposures
+```{r eval=FALSE, include=FALSE}
+df$case=as.factor(df$case)
+
+featurePlot(x = x, 
+            y = y, 
+            plot = "density",
+            strip=strip.custom(par.strip.text=list(cex=.7)),
+            scales = list(x = list(relation="free"), 
+                          y = list(relation="free")))
+
+#feature selection: recursive feature elimination (rfe)
+set.seed(100)
+options(warn=-1)
+
+subsets <- c(1:5, 10, 15, 18)
+
+ctrl <- rfeControl(functions = rfFuncs,
+                   method = "repeatedcv",
+                   repeats = 5,
+                   verbose = FALSE)
+
+lmProfile <- rfe(x=x, y=y,
+                 sizes = subsets,
+                 rfeControl = ctrl)
+
+lmProfile
 ```
 
