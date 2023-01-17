@@ -46,7 +46,7 @@ count(DF)
 table(DF$case)
 
 
-DF_uniq=distinct(DF)
+DF_uniq=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
 count(DF_uniq)
 table(DF_uniq$case)
 # filter only 1 ID
@@ -61,6 +61,7 @@ table(DF_uniq$case)
 
 
 DF_sub = DF%>% group_by(subclass,case) %>% sample_n(1)
+DF_sub=DF_sub%>%ungroup(subclass,case)
 count(DF_sub)
 table(DF_sub$case)
 ```
