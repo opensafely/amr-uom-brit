@@ -36,6 +36,9 @@ df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
 count(df)
 table(df$case)
 
+
+df=df%>% filter(total_ab>0)
+
 ```
 
 
@@ -146,6 +149,23 @@ summary(results_mtry)
 lapply(store_maxnode, function(x) x$best) #get the best mtry for each model
 lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),])#get the best average performance for each model
 ```
+
+
+# predict
+```{r}
+prediction=predict(rf_model, newdata =df, type = "prob") %>% 
+  mutate('class'=names(.)[apply(., 1, which.max)])
+
+prediction$decile=ntile(prediction$case,10) #create decile group
+
+head(prediction)
+```
+
+```{r}
+
+```
+
+
 
 
 
