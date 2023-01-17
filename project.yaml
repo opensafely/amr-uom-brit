@@ -123,6 +123,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RF_process.html
+        rds: output/matched_pt_decile.rds
 
   model_RF_process_subclass: # random sampling by subclass
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_subclass.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

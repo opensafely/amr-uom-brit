@@ -43,15 +43,7 @@ df=df%>% filter(total_ab>0)
 
 
 ```{r}
-df=df%>% select( "case",
-                 "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
-             "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
-              "prescribe_times","exposure_period"  ,
-               "recent_ab_days",  
-              "broad_prop" ,"broad_ab_prescriptions",
-             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
-              "length_med" , "length_mean", "length_sd" ,  "length_CV" 
-               )
+
 df$exposure_period=-df$exposure_period
 
 df$case= ifelse(df$case=="1","case","control")
@@ -80,10 +72,10 @@ names(df)
 # develop model
 
 set.seed(123)
-df=sample_n(df,1000)
 
-x=df[,2:25]
-y=df[,1]
+df=sample_n(df,5000)
+
+y=df$case
 
 table(y)
 
@@ -114,7 +106,7 @@ ctrl <- trainControl(method = "cv",
 
 # other tuning parameters
 ntrees <- c(500, 1000)    
-nodesize <- c(1, 5)
+nodesize <- c(1, 5, 10)
 
 params <- expand.grid(ntrees = ntrees,
                       nodesize = nodesize)
@@ -124,10 +116,18 @@ params <- expand.grid(ntrees = ntrees,
 store_maxnode <- vector("list", nrow(params))
 
 for(i in 1:nrow(params)){
+  
   nodesize <- params[i,2]
   ntree <- params[i,1]
   set.seed(65)
-  rf_model <- train(case ~. ,
+  rf_model <- train(case~AB_1_type+AB_6wk_type+ab_6w_binary+
+             AB_6wk+total_ab+ab_prescriptions+ab_types+
+              prescribe_times+exposure_period+
+               recent_ab_days+
+              broad_prop+broad_ab_prescriptions+
+             interval_med+ interval_mean+interval_sd+interval_CV+
+              length_med+length_mean+length_sd+ length_CV+
+    prescribe_time_0+prescribe_time_1+prescribe_time_2+prescribe_time_3,
                        data = df,
                        method = "rf",
                        importance=TRUE,
@@ -159,10 +159,19 @@ prediction=predict(rf_model, newdata =df, type = "prob") %>%
 prediction$decile=ntile(prediction$case,10) #create decile group
 
 head(prediction)
+
 ```
 
+# merge data
 ```{r}
+df=cbind(df, prediction)
+df=df%>% select("patient_id","patient_index_date","decile")
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+DF<- read_rds(here::here("output","matched_outcome.rds"))
 
+DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
+
+write_rds(DF,here::here("output","matched_pt_decile.rds"))
 ```
 
 
