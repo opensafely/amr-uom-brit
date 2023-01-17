@@ -14,6 +14,10 @@ library('dplyr')
 library('lubridate')
 ```
 
+```{r}
+DF=data.frame()
+```
+
 ### hospital admission
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # import data
@@ -21,6 +25,9 @@ df <- read_csv(here::here("output", "input_covid_admission.csv"))
 #df=read_csv("input_covid_admission.csv")
 df=df%>%filter(patient_index_date <= as.Date("2021-12-31"))
 round(nrow(df)/5)*5
+
+DF[1,1]=paste0("hospital admission")
+DF[1,2]=paste0(round(nrow(df)/5)*5)
 ```
 
 ### hospital admission (remove NA)
@@ -29,6 +36,11 @@ round(nrow(df)/5)*5
 df=df%>%filter( !is.na(patient_index_date)) # covid hospital case
 
 round(nrow(df)/5)*5
+
+
+
+DF[2,1]=paste0("hospital admission (remove NA)")
+DF[2,2]=paste0(round(nrow(df)/5)*5)
 ```
 
 ## cohort: covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
@@ -40,6 +52,9 @@ df=df%>%filter(
          is.na(died_date_cpns_before),
          is.na(died_date_ons_covid_before))
 round(nrow(df)/5)*5
+
+DF[3,1]=paste0("cohort: covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)")
+DF[3,2]=paste0(round(nrow(df)/5)*5)
 ```
 
 ## CASE - covid icu or covid death within 1 month
@@ -54,6 +69,10 @@ df1=df%>%
            !is.na(died_date_cpns_after))
 
 round(nrow(df1)/5)*5
+
+
+DF[4,1]=paste0("CASE - covid icu or covid death within 1 month")
+DF[4,2]=paste0(round(nrow(df1)/5)*5)
 ```
 
 ## Control - covid hospital without any covid severe outcome within 1 month
@@ -66,6 +85,11 @@ df01=df%>%
     is.na(died_date_ons_covid_after))
 
 round(nrow(df01)/5)*5
+
+DF[4,1]=paste0("Control - covid hospital without any covid severe outcome within 1 month")
+DF[4,2]=paste0(round(nrow(df01)/5)*5)
+
+write.csv(DF, here::here("output","check_process_1.csv"))
 
 ```
 
