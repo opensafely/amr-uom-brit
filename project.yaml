@@ -467,6 +467,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_process_1.html
+        csv: output/check_process_1.csv
 
   check_RF: 
     run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
