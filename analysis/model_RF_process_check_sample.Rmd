@@ -69,14 +69,13 @@ skimmed[, c(1:5, 9:11, 13, 15:16)]
 
 ```{r}
 DF$case=as.factor(DF$case)
+DF$sex=as.factor(DF$sex)
 
 boxplot(age ~ case, data = DF)
 densityplot(~ wave, data = DF, groups = case)
 densityplot(~ age, data = DF, groups = case)
 
-ggplot(DF, aes(x = factor(case), fill = factor(sex))) +
-   geom_bar() 
-
+table(DF$sex,DF$case)
 ```
 
 
