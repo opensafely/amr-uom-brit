@@ -28,16 +28,15 @@ table(df$case)
 df_uniq= distinct(df)
 count(df_uniq)
 table(df_uniq$case)
+
+
 ```
-
-
-
 
 
 ```{r }
 #DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
-DF=DF%>% select("patient_id","patient_index_date","case","age","wave","sex","age_cat","region")
+DF=DF%>% select("patient_id","patient_index_date","case","age","wave","sex","age_cat","region","subclass")
 count(DF)
 table(DF$case)
 
@@ -59,11 +58,11 @@ table(DF_uniq$case)
 
 #table(df$case)
 
-```
-descriptive stats
-```{r}
-skimmed <- skim_to_wide(DF)
-skimmed[, c(1:5, 9:11, 13, 15:16)]
+
+
+DF_sub = DF%>% group_by(subclass,case) %>% sample_n(1)
+count(DF_sub)
+table(DF_sub$case)
 ```
 
 
@@ -75,39 +74,12 @@ DF$sex=as.factor(DF$sex)
 densityplot(~ wave, data = DF, groups = case)
 densityplot(~ age, data = DF, groups = case)
 
-table(DF$sex,DF$case)
-table(DF$region,DF$case)
+tbl1=table(DF$sex,DF$case)
+tbl2=table(DF$region,DF$case)
 
-```
+prop.table(tbl1, 2)
+prop.table(tbl2, 2)
 
-
-```{r eval=FALSE, include=FALSE}
-## age grp
-df=df%>%mutate(age_group=case_when(case==1 & age<40 ~1,
-                                   case==1 & age>=40 & age<60 ~2,
-                                   case==1 & age>=60 & age<80 ~3,
-                                   case==1 & age>=80 ~4))
-df=df%>% group_by(subclass)%>%mutate(age_grp=sum(age_group,na.rm = T))
-
-df=df%>% ungroup(subclass)
-
-```
-
-
-
-```{r eval=FALSE, include=FALSE}
-df=df%>% select( "case", "AB_6wk" , "total_ab","ab_types",
-              "exposure_period"  ,
-               "recent_ab_days",  
-              "broad_prop" ,
-             "interval_med"  , "interval_CV",
-              "length_med" ,  "length_CV" ,
-             "prescribe_times","age_grp"
-               )
-df$exposure_period=-df$exposure_period
-df$case=as.factor(df$case)
-
-#
 ```
 
 
@@ -119,29 +91,28 @@ DF_uniq$sex=as.factor(DF_uniq$sex)
 densityplot(~ wave, data = DF_uniq, groups = case)
 densityplot(~ age, data = DF_uniq, groups = case)
 
-table(DF_uniq$sex,DF_uniq$case) 
-table(DF_uniq$region,DF_uniq$case)
+tbl1=table(DF_uniq$sex,DF_uniq$case) 
+tbl2=table(DF_uniq$region,DF_uniq$case)
+
+
+prop.table(tbl1, 2)
+prop.table(tbl2, 2)
 
 ```
 
 
+# random selection
+```{r}
+DF_sub$case=as.factor(DF_sub$case)
+DF_sub$sex=as.factor(DF_sub$sex)
 
+densityplot(~ wave, data = DF_sub, groups = case)
+densityplot(~ age, data = DF_sub, groups = case)
 
+tbl1=table(DF_sub$sex,DF_sub$case) 
+tbl2=table(DF_sub$region,DF_sub$case)
 
-handle missing value
-replace with 0
-```{r eval=FALSE, include=FALSE}
-df[is.na(df)] <- 0
+prop.table(tbl1, 2)
+prop.table(tbl2, 2)
 ```
-
-indicator for missing value
-```{r eval=FALSE, include=FALSE}
-#df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
-#df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
-#df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
-df$prescribe_time_2=ifelse(df$prescribe_times>=2,1,0) # missing indicator for sd,CV
-
-```
-
-
 
