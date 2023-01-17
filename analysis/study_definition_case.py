@@ -1,3 +1,8 @@
+###################################################################
+
+## This script is to extract the Spesis hospital admission cases ##
+
+###################################################################
 
 from cohortextractor import (
     StudyDefinition,
@@ -14,16 +19,17 @@ from codelists import *
 
 ###### Define study time variables
 from datetime import datetime
-start_date = "2020-01-01"
-end_date = "2020-03-31"
+start_date = "2019-01-01"
+end_date = "2022-12-31"
 
-# # ###### Import variables
-
-from variables_infections import generate_infection_variables
-from variables_CCI import generate_CCI_variables
-infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
-CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
-
+###### Cases definition ######
+## 1. any age 
+## 2. sex (M/F)
+## 3. at least one year of GP records prior to their index date
+## 4. sepsis admission 
+## 5. has region (stp) information
+## 6. has IMD 
+##############################
 
 study = StudyDefinition(
 
@@ -40,18 +46,12 @@ study = StudyDefinition(
     # study population
     population=patients.satisfying(
         """
-        NOT has_died
-        AND has_follow_up_previous_year
+        has_follow_up_previous_year
         AND (sex = "M" OR sex = "F")
-        AND (age >=18 AND age <= 110)
-        AND NOT stp = ""
+        AND (age > 0 AND age <= 110)
+        AND NOT region = ""
         AND has_outcome
         """,
-
-        has_died=patients.died_from_any_cause(
-            on_or_before="index_date",
-            returning="binary_flag",
-        ),
 
         has_follow_up_previous_year=patients.registered_with_one_practice_between(
             start_date="patient_index_date - 365 days",
@@ -60,23 +60,24 @@ study = StudyDefinition(
         ),
 
         has_outcome=patients.admitted_to_hospital(
-            with_these_primary_diagnoses=outcome_code,  # only include primary_diagnoses as covid
+            with_these_diagnoses=sepsis_hosp,  # include diagnoses as sepsis (primary or secondary)
             on_or_after="index_date",
         ),
 
     ),
-    ### patient index date = hospital admission date
-    # hospital_admission_date
+
+    ### patient index date = sepsis hospital admission
+    # sepsis hospital admission
     patient_index_date=patients.admitted_to_hospital(
         returning= "date_admitted" ,  
-        with_these_primary_diagnoses=outcome_code,  
-        between=["2020-01-01", "2020-03-31"], 
+        with_these_diagnoses=sepsis_hosp,  # only include primary_diagnoses as covid
+        on_or_after="index_date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-01-01"}, "incidence" : 1},
+        return_expectations={"date": {"earliest": "2019-01-01"}, "incidence" : 1},
     ),
 
-    ## Age
+ ## Age
     age=patients.age_as_of(
         "patient_index_date",
         return_expectations={
@@ -85,36 +86,13 @@ study = StudyDefinition(
             "incidence": 0.001
         },
     ),
-    
+
     ## Sex
     sex=patients.sex(
         return_expectations={
             "rate": "universal",
             "category": {"ratios": {"M": 0.49, "F": 0.51}},
         }
-    ),
-
-    ## region
-    stp=patients.registered_practice_as_of(
-             "patient_index_date",
-            returning="stp_code",
-            return_expectations={
-                "rate": "universal",
-                "category": {
-                    "ratios": {
-                        "STP1": 0.1,
-                        "STP2": 0.1,
-                        "STP3": 0.1,
-                        "STP4": 0.1,
-                        "STP5": 0.1,
-                        "STP6": 0.1,
-                        "STP7": 0.1,
-                        "STP8": 0.1,
-                        "STP9": 0.1,
-                        "STP10": 0.1,
-                    }
-                },
-            },
     ),
 
     # Region - NHS England 9 regions
@@ -137,13 +115,64 @@ study = StudyDefinition(
         },
     ),
 
-    has_outcome_1yr=patients.admitted_to_hospital(
-            with_these_primary_diagnoses=outcome_code, 
-            between=["patient_index_date- 366 days", "patient_index_date - 1 day"],
-            return_expectations={"incidence": 0.65},
+   #Check any historic record of sepsis in their GP & Hosp record (14 days)#
+    historic_sepsis_gp=patients.with_these_clinical_events(
+        sepsis_gp,
+        returning="binary_flag",
+        between=["patient_index_date - 15 days","patient_index_date - 1 day"],
+        return_expectations={	
+        "incidence": 0.01	
+        }
     ),
 
-    **infection_variables,
-    **CCI_variables,
-  
-)
+    historic_sepsis_hosp=patients.admitted_to_hospital(
+        with_these_diagnoses=sepsis_hosp,
+        returning="binary_flag",
+        between=["patient_index_date - 15 days","patient_index_date - 1 day"],
+        return_expectations={	
+        "incidence": 0.01	
+        }
+    ),
+
+    #Check Community-acquired sepsis or hospital-acquired sepsis #
+    had_sepsis_within_2day = patients.admitted_to_hospital(
+        with_these_diagnoses=None,
+        returning="binary_flag",
+        between=["patient_index_date - 16 days","patient_index_date - 2 days"],
+        return_expectations={	
+        "incidence": 0.1	
+        }
+    ),
+
+    #Check COVID-diagnsis within +/- 6 weeks #
+
+        ## covid infection record sgss+gp ##
+    SGSS_positive_6weeks=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
+        returning="binary_flag",
+        return_expectations={
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
+    ),
+    
+    GP_positive_6weeks=patients.with_these_clinical_events(
+        any_primary_care_code,        
+        returning="binary_flag",
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
+         return_expectations={
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},  ),
+
+        ## covid infection record hosp ##
+    covid_admission_6weeks=patients.admitted_to_hospital(
+        returning="binary_flag",
+        with_these_diagnoses=covid_codelist,
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
+        return_expectations={
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},    ),
+  )
+
+
