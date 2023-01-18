@@ -19,8 +19,8 @@ options(knitr.table.format="html")
 
 # import dataset
 ```{r}
-df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-#df <- read_rds(here::here("output","matched_ab.rds"))
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
 count(df)
 
 df=df[!is.na(df$case),]
