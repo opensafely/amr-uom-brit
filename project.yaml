@@ -16,7 +16,17 @@ actions:
     run: r:latest analysis/case_check.R
     needs: [generate_study_population_case]
     outputs:
+      highly_sensitive:
+        cohort: output/case_ch.csv
       moderately_sensitive:
         table1: output/case_check.csv
         table2: output/case_frequency_check.csv
 
+  sepsis_trend:  
+    run: r:latest analysis/sepsis_trend.R
+    needs: [case_check]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_2.1.jpeg
+        plot2: output/figure_2.2.jpeg
+        plot3: output/figure_2.3.jpeg

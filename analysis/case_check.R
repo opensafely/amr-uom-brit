@@ -52,6 +52,9 @@ step2 <- length(df$patient_id)
 #Check Community-acquired sepsis or hospital-acquired sepsis
 #1--community 2-- hospital #
 df$sepsis_type <- ifelse(df$had_sepsis_within_2day == 0,1,2)
+
+write_csv(df, here::here("output", "case_ch.csv"))
+
 df <- df %>% filter(sepsis_type == 1) 
 step3 <- length(df$patient_id)
 
