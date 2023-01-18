@@ -21,7 +21,7 @@ https://www.guru99.com/r-random-forest-tutorial.html#4
 https://topepo.github.io/caret/measuring-performance.html
 
 
-# patient selection and data preparation
+# import dataset
 ```{r}
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
@@ -37,76 +37,99 @@ count(df)
 table(df$case)
 
 
-df=df%>% filter(total_ab>0)
+#df=df%>% filter(total_ab>0)
 
 ```
 
-
+check variables
 ```{r}
-
+str(df)
 df$exposure_period=-df$exposure_period
-
-df$case= ifelse(df$case=="1","case","control")
+df$case= ifelse(df$case=="1","case","control")# for model training
 
 ```
 
 handle missing value (replace with 0 = no ab use)
 ```{r}
 df[is.na(df)] <- 0
-```
 
-add indicator for missing value
-```{r}
+#add indicator for missing value
 df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
 df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
 df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
 df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
-
 names(df)
 ```
 
 
-# train model
-
+training vs. validation
 ```{r }
 # develop model
 
 set.seed(123)
 
-df=sample_n(df,5000)
+df=sample_n(df,1000)
 
 y=df$case
 
 table(y)
+```
+
+
+```{r }
+set.seed(0)
+all_idx <- 1:nrow(df)
+
+train_idx <- sample(all_idx, nrow(df) * 0.8)
+#valid_idx <- sample(all_idx[!all_idx %in% train_idx], nrow(df) * 0.2)
+test_idx <- all_idx[!all_idx %in% train_idx]
+
+pred_col=c( "case",
+                 "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
+             "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
+              "prescribe_times","exposure_period"  ,
+               "recent_ab_days",  
+              "broad_prop" ,"broad_ab_prescriptions",
+             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
+              "length_med" , "length_mean", "length_sd" ,  "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3")
+  
+train_X <- df[train_idx,pred_col]
+#valid_X <- df[valid_idx,]
+test_X <- df[test_idx,pred_col]
+
+train_Y <- df[train_idx,"case"]
+#valid_Y <- subdat[valid_idx,"LVD"]
+test_Y <- df[test_idx,"case"]
 
 ```
 
 
-
+# train model
 https://stackoverflow.com/questions/57939453/building-a-randomforest-with-caret 
 
 # tune parameter
 ```{r}
 set.seed(1234)
-cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
+#cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
 
 
 # create tune control
 #mtry <- sqrt(ncol(x))
 tuneGrid <- expand.grid(.mtry = c(1 : 10))
 
-ctrl <- trainControl(method = "cv",
-                     number = 5,
+ctrl <- trainControl(
+                    # method = "cv",
+                     #number = 5,
                      search = 'grid',
                      classProbs = TRUE,
-                     savePredictions = "final",
-                     index = cv_folds,
+                     savePredictions = TRUE,
+                    # index = cv_folds,
                      summaryFunction = twoClassSummary) #in most cases a better summary for two class problem
 
 
 # other tuning parameters
 ntrees <- c(500, 1000)    
-nodesize <- c(1, 5, 10)
+nodesize <- c(1, 5)
 
 params <- expand.grid(ntrees = ntrees,
                       nodesize = nodesize)
@@ -119,16 +142,11 @@ for(i in 1:nrow(params)){
   
   nodesize <- params[i,2]
   ntree <- params[i,1]
+  
   set.seed(65)
-  rf_model <- train(case~AB_1_type+AB_6wk_type+ab_6w_binary+
-             AB_6wk+total_ab+ab_prescriptions+ab_types+
-              prescribe_times+exposure_period+
-               recent_ab_days+
-              broad_prop+broad_ab_prescriptions+
-             interval_med+ interval_mean+interval_sd+interval_CV+
-              length_med+length_mean+length_sd+ length_CV+
-    prescribe_time_0+prescribe_time_1+prescribe_time_2+prescribe_time_3,
-                       data = df,
+  
+  rf_model <- train(case~.,
+                       data = train_X,
                        method = "rf",
                        importance=TRUE,
                        metric = "ROC",
@@ -136,6 +154,7 @@ for(i in 1:nrow(params)){
                        trControl = ctrl,
                        ntree = ntree,
                        nodesize = nodesize)
+  
   store_maxnode[[i]] <- rf_model
 }
 
@@ -152,9 +171,10 @@ lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),
 
 
 # predict
-```{r}
-prediction=predict(rf_model, newdata =df, type = "prob") %>% 
-  mutate('class'=names(.)[apply(., 1, which.max)])
+```{r eval=FALSE, include=FALSE}
+
+
+predict(store_maxnode[[4]], newdata =train_X, type = "prob") %>% mutate('class'=names(.)[apply(., 1, which.max)])
 
 prediction$decile=ntile(prediction$case,10) #create decile group
 
@@ -163,7 +183,7 @@ head(prediction)
 ```
 
 # merge data
-```{r}
+```{r eval=FALSE, include=FALSE}
 df=cbind(df, prediction)
 df=df%>% select("patient_id","patient_index_date","decile")
 #DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")

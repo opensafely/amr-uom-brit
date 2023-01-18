@@ -119,11 +119,12 @@ actions:
 
   model_RF_process: # random sampling 1000
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time]
+    needs: [process_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/model_RF_process.html
-        rds: output/matched_pt_decile.rds
+        rds1: output/matched_pt_decile.rds
+        rds2: output/matched_pt_decile_confounder.rds
 
   model_RF_process_subclass: # random sampling by subclass
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_subclass.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
