@@ -34,12 +34,6 @@ table(df$case)
 # select unique patient
 #df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
-df =df %>% group_by(subclass,case) %>% sample_n(1)
-df=df%>%ungroup(subclass,case)
-count(df)
-table(df$case)
-
-
 #df=df%>% filter(total_ab>0)
 
 ```
@@ -64,6 +58,15 @@ df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 names(df)
 ```
 
+
+filter 
+```{r}
+df =df %>% group_by(subclass,case) %>% sample_n(1)
+df=df%>%ungroup(subclass,case)
+str(df)
+table(df$case)
+
+```
 
 training vs. validation
 ```{r }
@@ -105,6 +108,9 @@ train_Y <- df[train_idx,"case"]
 test_Y <- df[test_idx,"case"]
 
 ```
+
+
+
 
 
 # train model
