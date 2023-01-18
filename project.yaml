@@ -11,3 +11,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case.csv
+
+  case_check:  
+    run: r:latest analysis/case_check.R
+    needs: [generate_study_population_case]
+    outputs:
+      moderately_sensitive:
+        table1: output/case_check.csv
+        table2: output/case_frequency_check.csv
+
