@@ -32,10 +32,10 @@ count(df)
 table(df$case)
 
 # select unique patient
-df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+#df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
-#df =df %>% group_by(subclass,case) %>% sample_n(1)
-#df=df%>%ungroup(subclass,case)
+df =df %>% group_by(subclass,case) %>% sample_n(1)
+df=df%>%ungroup(subclass,case)
 count(df)
 table(df$case)
 
