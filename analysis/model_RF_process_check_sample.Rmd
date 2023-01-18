@@ -19,8 +19,8 @@ options(knitr.table.format="html")
 
 # import dataset
 ```{r}
-#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-df <- read_rds(here::here("output","matched_ab.rds"))
+df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+#df <- read_rds(here::here("output","matched_ab.rds"))
 count(df)
 
 df=df[!is.na(df$case),]
@@ -49,7 +49,7 @@ df$case= ifelse(df$case=="1","case","control")# for model training
 
 handle missing value (replace with 0 = no ab use)
 ```{r}
-df[is.na(df)] <- 0
+df[is.na(df)] <- "0"
 
 #add indicator for missing value
 df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
