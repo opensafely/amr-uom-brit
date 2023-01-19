@@ -50,3 +50,10 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/figure_rate.jpeg
+
+  sepsis_trend_rate_com:  
+    run: r:latest analysis/sepsis_trend_rate_com.R
+    needs: [case_check,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_rate_com.jpeg
