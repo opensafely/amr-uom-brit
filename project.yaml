@@ -30,3 +30,9 @@ actions:
         plot1: output/figure_2.1.jpeg
         plot2: output/figure_2.2.jpeg
         plot3: output/figure_2.3.jpeg
+
+  generate_study_population:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-01-01 to 2022-12-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_*.csv.gz
