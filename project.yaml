@@ -24,6 +24,42 @@ actions:
       highly_sensitive:
         cohort: output/input_control_2.csv
 
+  generate_study_population_control_3:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_3
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_3.csv
+
+  generate_study_population_control_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_4
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_4.csv
+
+  generate_study_population_control_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_5
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_5.csv
+
+  generate_study_population_control_6:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_6
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_6.csv
+
+  generate_study_population_control_7:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_7
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_7.csv
+
+  generate_study_population_control_8:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_8
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_8.csv
+
   case_check:  
     run: r:latest analysis/case_check.R
     needs: [generate_study_population_case]
@@ -72,7 +108,9 @@ actions:
 
   process1:  
     run: r:latest analysis/process1.R
-    needs: [case_check,generate_study_population_control_1,generate_study_population_control_2]
+    needs: [case_check,generate_study_population_control_1,generate_study_population_control_2,
+    generate_study_population_control_3,generate_study_population_control_4,generate_study_population_control_5,
+    generate_study_population_control_6,generate_study_population_control_7,generate_study_population_control_8]
     outputs:
       highly_sensitive:
         cohort1: output/case_191.csv
@@ -85,6 +123,12 @@ actions:
         cohort8: output/case_222.csv
         cohort9: output/control_191.csv
         cohort10: output/control_192.csv
+        cohort11: output/control_201.csv
+        cohort12: output/control_202.csv
+        cohort13: output/control_211.csv
+        cohort14: output/control_212.csv
+        cohort15: output/control_221.csv
+        cohort16: output/control_222.csv
 
   matching1:
     run: python:latest python analysis/matching1.py
@@ -100,3 +144,48 @@ actions:
       moderately_sensitive: 
         report1: output/matching_report_191.txt
         report2: output/matching_report_192.txt
+
+  matching2:
+    run: python:latest python analysis/matching2.py
+    needs: [process1]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_201.csv
+        table2: output/matched_matches_201.csv
+        table3: output/matched_combined_201.csv
+        table4: output/matched_cases_202.csv
+        table5: output/matched_matches_202.csv
+        table6: output/matched_combined_202.csv
+      moderately_sensitive: 
+        report1: output/matching_report_201.txt
+        report2: output/matching_report_202.txt
+
+  matching3:
+    run: python:latest python analysis/matching3.py
+    needs: [process1]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_211.csv
+        table2: output/matched_matches_211.csv
+        table3: output/matched_combined_211.csv
+        table4: output/matched_cases_212.csv
+        table5: output/matched_matches_212.csv
+        table6: output/matched_combined_212.csv
+      moderately_sensitive: 
+        report1: output/matching_report_211.txt
+        report2: output/matching_report_212.txt
+
+  matching4:
+    run: python:latest python analysis/matching4.py
+    needs: [process1]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_221.csv
+        table2: output/matched_matches_221.csv
+        table3: output/matched_combined_221.csv
+        table4: output/matched_cases_222.csv
+        table5: output/matched_matches_222.csv
+        table6: output/matched_combined_222.csv
+      moderately_sensitive: 
+        report1: output/matching_report_221.txt
+        report2: output/matching_report_222.txt

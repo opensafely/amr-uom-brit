@@ -66,3 +66,45 @@ dfcontrol192 <- read_csv("input_control_2.csv",
 dfcontrol192$patient_index_date <-as.Date("2019-09-30")
 
 write_csv(dfcontrol192, here::here("output", "control_192.csv"))
+
+dfcontrol201 <- read_csv("input_control_3.csv",
+                col_types = col_spec1)
+
+dfcontrol201$patient_index_date <-as.Date("2020-03-31")
+
+write_csv(dfcontrol201, here::here("output", "control_201.csv"))
+
+dfcontrol202 <- read_csv("input_control_4.csv",
+                col_types = col_spec1)
+
+dfcontrol202$patient_index_date <-as.Date("2020-09-30")
+
+write_csv(dfcontrol202, here::here("output", "control_202.csv"))
+
+dfcontrol211 <- read_csv("input_control_5.csv",
+                col_types = col_spec1)
+
+dfcontrol211$patient_index_date <-as.Date("2021-03-31")
+
+write_csv(dfcontrol211, here::here("output", "control_211.csv"))
+
+dfcontrol212 <- read_csv("input_control_6.csv",
+                col_types = col_spec1)
+
+dfcontrol212$patient_index_date <-as.Date("2021-09-30")
+
+write_csv(dfcontrol212, here::here("output", "control_212.csv"))
+
+dfcontrol221 <- read_csv("input_control_7.csv",
+                col_types = col_spec1)
+
+dfcontrol221$patient_index_date <-as.Date("2022-03-31")
+
+write_csv(dfcontrol221, here::here("output", "control_221.csv"))
+
+dfcontrol222 <- read_csv("input_control_8.csv",
+                col_types = col_spec1)
+
+dfcontrol222$patient_index_date <-as.Date("2022-09-30")
+
+write_csv(dfcontrol222, here::here("output", "control_222.csv"))
