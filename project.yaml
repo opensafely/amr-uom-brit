@@ -43,3 +43,10 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+
+  sepsis_trend_rate:  
+    run: r:latest analysis/sepsis_trend_rate.R
+    needs: [case_check,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_rate.jpeg
