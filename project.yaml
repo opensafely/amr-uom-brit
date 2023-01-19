@@ -72,7 +72,7 @@ actions:
 
   process1:  
     run: r:latest analysis/process1.R
-    needs: [case_check]
+    needs: [case_check,generate_study_population_control_1,generate_study_population_control_2]
     outputs:
       highly_sensitive:
         cohort1: output/case_191.csv
@@ -83,3 +83,20 @@ actions:
         cohort6: output/case_212.csv
         cohort7: output/case_221.csv
         cohort8: output/case_222.csv
+        cohort9: output/control_191.csv
+        cohort10: output/control_192.csv
+
+  matching1:
+    run: python:latest python analysis/matching1.py
+    needs: [process1]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_191.csv
+        table2: output/matched_matches_191.csv
+        table3: output/matched_combined_191.csv
+        table4: output/matched_cases_192.csv
+        table5: output/matched_matches_192.csv
+        table6: output/matched_combined_192.csv
+      moderately_sensitive: 
+        report1: output/matching_report_191.txt
+        report2: output/matching_report_192.txt

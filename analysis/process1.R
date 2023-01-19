@@ -46,3 +46,23 @@ write_csv(df5, here::here("output", "case_211.csv"))
 write_csv(df6, here::here("output", "case_212.csv"))
 write_csv(df7, here::here("output", "case_221.csv"))
 write_csv(df8, here::here("output", "case_222.csv"))
+
+col_spec1 <-cols_only(age = col_number(),
+                        sex = col_character(),
+                        region = col_character(),
+                        imd = col_integer(), 
+                        patient_id = col_number()
+)
+
+dfcontrol191 <- read_csv("input_control_1.csv",
+                col_types = col_spec1)
+
+dfcontrol191$patient_index_date <-as.Date("2019-03-31")
+write_csv(dfcontrol191, here::here("output", "control_191.csv"))
+
+dfcontrol192 <- read_csv("input_control_2.csv",
+                col_types = col_spec1)
+
+dfcontrol192$patient_index_date <-as.Date("2019-09-30")
+
+write_csv(dfcontrol192, here::here("output", "control_192.csv"))
