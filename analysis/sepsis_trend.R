@@ -94,11 +94,11 @@ figure_sex_strata
 
 ###  by IMD
 df$imd <- recode(df$imd,
-       "5" = "1(most deprived)", 
-       "4" = "2",
+       "5" = "5(least deprived)", 
+       "4" = "4",
        "3" = "3",
-       "2" = "4",
-       "1" = "5(least deprived")
+       "2" = "2",
+       "1" = "1(most deprived)")
 df.plot <- df %>% group_by(monPlot,imd) %>% summarise(value = length(patient_id))
 df.plot$value <- plyr::round_any(df.plot$value, 5)
 
