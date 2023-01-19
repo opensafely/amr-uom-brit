@@ -132,4 +132,13 @@ study = StudyDefinition(
 
   )
 
+measures = [
 
+    # registered patient per IMD
+
+    Measure(id="person_imd",
+            numerator="population",
+            denominator="population",
+            group_by=["imd"]
+            ),
+]
