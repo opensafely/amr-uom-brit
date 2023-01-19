@@ -12,6 +12,18 @@ actions:
       highly_sensitive:
         cohort: output/input_case.csv
 
+  generate_study_population_control_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1.csv
+
+  generate_study_population_control_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2.csv
+
   case_check:  
     run: r:latest analysis/case_check.R
     needs: [generate_study_population_case]
