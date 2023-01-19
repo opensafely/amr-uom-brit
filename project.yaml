@@ -69,3 +69,17 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/figure_rate_com.jpeg
+
+  process1:  
+    run: r:latest analysis/process1.R
+    needs: [case_check]
+    outputs:
+      highly_sensitive:
+        cohort1: output/case_191.csv
+        cohort2: output/case_192.csv
+        cohort3: output/case_201.csv
+        cohort4: output/case_202.csv
+        cohort5: output/case_211.csv
+        cohort6: output/case_212.csv
+        cohort7: output/case_221.csv
+        cohort8: output/case_222.csv
