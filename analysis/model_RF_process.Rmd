@@ -216,7 +216,7 @@ head(prediction)
 
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 library(pROC)
 
 pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
