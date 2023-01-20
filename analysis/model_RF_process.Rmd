@@ -25,64 +25,89 @@ https://topepo.github.io/caret/measuring-performance.html
 ```{r}
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
-count(df)
+df=sample_n(df,1000)
 
-df=df[!is.na(df$case),]
-count(df)
 table(df$case)
 
-# select unique patient
-#df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+df=df[!is.na(df$case),]
+table(df$case)
 
-#df=df%>% filter(total_ab>0)
+str(df)
 
+```
+
+filter 
+```{r}
+df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+str(df)
+table(df$case)
+
+```
+
+
+# merge data
+```{r echo=TRUE}
+
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+DF<- read_rds(here::here("output","abtype79.rds"))
+str(DF)
+class(DF$case)
+
+DF=DF%>% select(-c("case","subclass"))
+DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
+
+str(DF)
+class(DF$case)
+
+df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
+rm(DF)
+
+str(df)
+class(df$case)
 ```
 
 check variables
 ```{r}
-str(df)
+head(df$exposure_period)
 df$exposure_period=-df$exposure_period
 df$case= ifelse(df$case=="1","case","control")# for model training
-
+head(df$exposure_period)
+head(df$case)
 ```
 
-handle missing value (replace with 0 = no ab use)
+replace NA  (no antibiotics) with zero
 ```{r}
-df[is.na(df)] <- "0"
+df[is.na(df)] <- 0
 
 #add indicator for missing value
-df$prescribe_time_0=ifelse(is.na(df$prescribe_times),0,1) #1= ab user ,0=non 
+df$prescribe_time_0=ifelse(df$prescribe_times==0,0,1) #1= ab user ,0=non 
 df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
 df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
 df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
-names(df)
-```
-
-
-filter 
-```{r}
-df =df %>% group_by(subclass,case) %>% sample_n(1)
-df=df%>%ungroup(subclass,case)
 str(df)
 table(df$case)
+```
+
+check variables
+```{r}
+col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
+
+tbl=data_frame()
+for (i in 1:79) {
+  
+tbl[i,1]=paste0(col[i])
+tbl[i,2]=sum(df[,col[i]])
+}
+
+tbl
 
 ```
+
 
 training vs. validation
-```{r }
-# develop model
-
-set.seed(123)
-
-df=sample_n(df,1000)
-
-y=df$case
-
-table(y)
-```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 set.seed(0)
 all_idx <- 1:nrow(df)
 
@@ -117,7 +142,7 @@ test_Y <- df[test_idx,"case"]
 https://stackoverflow.com/questions/57939453/building-a-randomforest-with-caret 
 
 # tune parameter
-```{r}
+```{r eval=FALSE, include=FALSE}
 set.seed(1234)
 #cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
 
@@ -144,7 +169,7 @@ params <- expand.grid(ntrees = ntrees,
                       nodesize = nodesize)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 store_maxnode <- vector("list", nrow(params))
 
 for(i in 1:nrow(params)){
@@ -191,17 +216,20 @@ head(prediction)
 
 ```
 
-# merge data
-```{r eval=FALSE, include=FALSE}
-df=cbind(df, prediction)
-df=df%>% select("patient_id","patient_index_date","decile")
-#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-DF<- read_rds(here::here("output","matched_outcome.rds"))
+```{r}
+library(pROC)
 
-DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
+pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
 
-write_rds(DF,here::here("output","matched_pt_decile.rds"))
+roc_curve <- roc(test_Y ~ pred.y)
+plot(roc_curve)
+text(0.5, 0.5, paste0('AUC = ', formatC(roc_curve[['auc']], 4, format = 'f')), col = 'red')
 ```
+
+
+
+
+
 
 
 
