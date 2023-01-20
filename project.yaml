@@ -209,3 +209,11 @@ actions:
       moderately_sensitive:
         plot1: output/figure_rate_covidinclude.jpeg
         table1: output/figure_rate_covidinclude_table.csv
+
+  process_noexclude:  
+    run: r:latest analysis/process_noexclude.R
+    needs: [generate_study_population_case]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_noexclude.jpeg
+        table1: output/figure_noexclude_table.csv
