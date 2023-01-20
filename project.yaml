@@ -200,3 +200,11 @@ actions:
       moderately_sensitive:
         table1: output/case_frequency_check1.csv
         table2: output/case_frequency_check2.csv
+
+  sepsis_trend_rate_covidinclude:  
+    run: r:latest analysis/sepsis_trend_rate_covidinclude.R
+    needs: [process_covidinclude,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_rate_covidinclude.jpeg
+        table1: output/figure_rate_covidinclude_table.csv
