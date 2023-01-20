@@ -12,6 +12,12 @@ actions:
       highly_sensitive:
         cohort: output/input_case.csv
 
+  generate_study_population_case_test:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_test
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_test.csv
+
   generate_study_population_control_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1
     outputs:
