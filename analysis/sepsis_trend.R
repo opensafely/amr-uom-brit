@@ -131,3 +131,5 @@ ggsave(figure_sex_strata, width = 8, height = 4, dpi = 640,
 ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
        filename="figure_2.3.jpeg", path=here::here("output"),
 )  
+
+write_csv(df.plot, here::here("output", "figure_2.3_table.csv"))
