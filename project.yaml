@@ -87,7 +87,7 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-   model_RF_process: # random sampling 1000 # merge matched_outcome & matched_ab
+  model_RF_process: # random sampling 1000 # merge matched_outcome & matched_ab
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
     outputs:
