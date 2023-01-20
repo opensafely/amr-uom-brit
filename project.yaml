@@ -190,3 +190,13 @@ actions:
       moderately_sensitive: 
         report1: output/matching_report_221.txt
         report2: output/matching_report_222.txt
+
+  process_covidinclude:  
+    run: r:latest analysis/process_covidinclude.R
+    needs: [generate_study_population_case]
+    outputs:
+      highly_sensitive:
+        cohort: output/case_covidinclude.csv
+      moderately_sensitive:
+        table1: output/case_frequency_check1.csv
+        table2: output/case_frequency_check2.csv
