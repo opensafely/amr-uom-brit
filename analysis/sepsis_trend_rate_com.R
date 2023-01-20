@@ -54,11 +54,7 @@ df.plot$count <- plyr::round_any(df.plot$count, 5)
 
 df.plot<- merge(df.plot,df.1,by = c("monPlot","imd"))
 
-df.plot$value <- df.plot$count/df.plot$population
-df.plot$value <- round(df.plot$value,digits = 3)
-### make the value per 1000 person
-
-df.plot$value <- df.plot$value*1000 
+df.plot$value <- df.plot$count*1000 /df.plot$population
 
 df.plot$imd <- recode(df.plot$imd,
        "1" = "1(most deprived)", 
