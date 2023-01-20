@@ -18,7 +18,6 @@ col_spec1 <-cols_only(date = col_date(format = ""),
 df.1 <- read_csv("measure_person_imd.csv",
                 col_types = col_spec1)
 
-df.1 <- df.1 %>% filter(!df.1$imd == 0)
 df.1 <- df.1 %>% rename(monPlot = date)
 
 setwd(here::here("output"))
@@ -54,11 +53,7 @@ df.plot$count <- plyr::round_any(df.plot$count, 5)
 
 df.plot<- merge(df.plot,df.1,by = c("monPlot","imd"))
 
-df.plot$value <- df.plot$count/df.plot$population
-df.plot$value <- round(df.plot$value,digits = 3)
-### make the value per 1000 person
-
-df.plot$value <- df.plot$value*1000 
+df.plot$value <- df.plot$count*1000 /df.plot$population
 
 df.plot$imd <- recode(df.plot$imd,
        "1" = "1(most deprived)", 
@@ -92,3 +87,4 @@ figure_imd_strata
 ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
        filename="figure_rate.jpeg", path=here::here("output"),
 )  
+write_csv(df.plot, here::here("output", "figure_rate_table.csv"))

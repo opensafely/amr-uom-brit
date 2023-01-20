@@ -98,6 +98,7 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/figure_rate.jpeg
+        table1: output/figure_rate_table.csv
 
   sepsis_trend_rate_com:  
     run: r:latest analysis/sepsis_trend_rate_com.R
