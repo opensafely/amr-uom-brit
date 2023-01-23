@@ -105,7 +105,7 @@ actions:
 
   model_RandomForest: #
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,process_Rmatching]
+    needs: [process_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest.html
