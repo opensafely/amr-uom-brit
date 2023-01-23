@@ -114,6 +114,13 @@ actions:
       moderately_sensitive:
         plot1: output/figure_rate_com.jpeg
 
+  sepsis_trend_rate_hos:  
+    run: r:latest analysis/sepsis_trend_rate_hos.R
+    needs: [case_check,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_rate_hos.jpeg
+
   process1:  
     run: r:latest analysis/process1.R
     needs: [case_check,generate_study_population_control_1,generate_study_population_control_2,
@@ -215,6 +222,8 @@ actions:
       moderately_sensitive:
         plot1: output/figure_rate_covidinclude.jpeg
         table1: output/figure_rate_covidinclude_table.csv
+        plot2: output/figure_rate_covidinclude_com.jpeg
+        plot3: output/figure_rate_covidinclude_hos.jpeg
 
   process_noexclude:  
     run: r:latest analysis/process_noexclude.R

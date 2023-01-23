@@ -88,3 +88,93 @@ ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
        filename="figure_rate_covidinclude.jpeg", path=here::here("output"),
 )  
 write_csv(df.plot, here::here("output", "figure_rate_covidinclude_table.csv"))
+
+df1 <- df %>% filter(sepsis_type == 1) 
+
+###  by IMD
+
+df.plot <- df1 %>% group_by(monPlot,imd) %>% summarise(count = length(patient_id))
+df.plot$count <- plyr::round_any(df.plot$count, 5)
+
+df.plot<- merge(df.plot,df.1,by = c("monPlot","imd"))
+
+df.plot$value <- df.plot$count*1000 /df.plot$population
+
+df.plot$imd <- recode(df.plot$imd,
+       "1" = "1(most deprived)", 
+       "2" = "2",
+       "3" = "3",
+       "4" = "4",
+       "5" = "5(least deprived)")
+
+
+figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(imd), col = factor(imd), fill = factor(imd))) +
+  geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
+  annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
+  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
+  labs(x = "", y = "rate of spesis hospital admission", title = "", colour = "IMD", fill = "IMD") +
+  theme_bw() +
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 12),
+        axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 12),
+        legend.position = "top",
+        strip.background = element_rect(fill = "grey", colour =  NA),
+        strip.text = element_text(size = 12, hjust = 0)) +
+  theme(axis.text.x=element_text(angle=60,hjust=1))+ scale_color_aaas()+ scale_fill_aaas()
+figure_imd_strata
+
+
+ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
+       filename="figure_rate_covidinclude_com.jpeg", path=here::here("output"),
+)  
+
+
+df2 <- df %>% filter(sepsis_type == 2) 
+
+###  by IMD
+
+df.plot <- df2 %>% group_by(monPlot,imd) %>% summarise(count = length(patient_id))
+df.plot$count <- plyr::round_any(df.plot$count, 5)
+
+df.plot<- merge(df.plot,df.1,by = c("monPlot","imd"))
+
+df.plot$value <- df.plot$count*1000 /df.plot$population
+
+df.plot$imd <- recode(df.plot$imd,
+       "1" = "1(most deprived)", 
+       "2" = "2",
+       "3" = "3",
+       "4" = "4",
+       "5" = "5(least deprived)")
+
+
+figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(imd), col = factor(imd), fill = factor(imd))) +
+  geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
+  annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
+  geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
+  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
+  labs(x = "", y = "rate of spesis hospital admission", title = "", colour = "IMD", fill = "IMD") +
+  theme_bw() +
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 12),
+        axis.text.x = element_text(angle = 60, hjust = 1),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 12),
+        legend.position = "top",
+        strip.background = element_rect(fill = "grey", colour =  NA),
+        strip.text = element_text(size = 12, hjust = 0)) +
+  theme(axis.text.x=element_text(angle=60,hjust=1))+ scale_color_aaas()+ scale_fill_aaas()
+figure_imd_strata
+
+
+ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
+       filename="figure_rate_covidinclude_hos.jpeg", path=here::here("output"),
+)  
+
