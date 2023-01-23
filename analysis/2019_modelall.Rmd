@@ -54,8 +54,41 @@ DF=result[1:5,-2]
 DF
 ```
 
+
 ```{r echo=TRUE}
-df1 <- df %>% filter()
+df1 <- df %>% filter(sepsis_type=="1")
+df2 <- df %>% filter(sepsis_type=="2")
+comid <- df1$set_id
+hosid <- df2$set_id
+dfcom <- df %>% filter(set_id %in% comid)
+dfhos <- df %>% filter(set_id %in% hosid)
+```
+
+
+```{r echo=TRUE}
+mod=clogit(case ~ imd + strata(set_id), dfcom)
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+```
+
+```{r echo=TRUE}
+result=data.frame(sum.mod$conf.int)
+DF=result[1:5,-2]
+DF
+```
+
+```{r echo=TRUE}
+mod=clogit(case ~ imd + strata(set_id), dfhos)
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+```
+
+```{r echo=TRUE}
+result=data.frame(sum.mod$conf.int)
+DF=result[1:5,-2]
+DF
 ```
 
 
