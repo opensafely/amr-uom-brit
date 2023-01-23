@@ -103,12 +103,12 @@ actions:
       moderately_sensitive:
         html: output/model_RF_training.html
 
-  model_RandomFroest: #
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomFroest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  model_RandomForest: #
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process,process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_RandomFroest.html
+        html: output/model_RandomForest.html
 
   check_ab_time:  
     run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
