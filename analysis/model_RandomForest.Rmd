@@ -145,9 +145,13 @@ for (i in 1:nrow(result)) {
   
   pred.y <- predict(rf.model, test_X, type = 'prob')[,2]
   roc_valid <- roc(test_Y ~ pred.y)
-  plot(roc_valid)
+  
   result[i,'valid_auc'] <- roc_valid[['auc']]
   
+  plot(roc_valid)
+  roc_valid$sensitivities
+  roc_valid$specificities
+   rf.model
 }
 
 result
