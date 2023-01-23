@@ -20,9 +20,9 @@ options(knitr.table.format="html")
 
 # import dataset
 ```{r }
-#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-df <- read_rds(here::here("output","matched_ab.rds"))
-df=sample_n(df,1000)
+df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+#df <- read_rds(here::here("output","matched_ab.rds"))
+#df=sample_n(df,1000)
 table(df$case)
 ```
 
@@ -61,16 +61,12 @@ table(df$case)
 
 # import antibiotics types
 ```{r }
-#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
-DF<- read_rds(here::here("output","abtype79.rds"))
-str(DF)
-table(DF$case)
+DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+#DF<- read_rds(here::here("output","abtype79.rds"))
 
 DF=DF%>% select(-c("case","subclass"))
 DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
-str(DF)
-table(DF$case)
 
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
@@ -91,8 +87,6 @@ length(col)
 df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
 rm(DF)
 
-str(df)
-table(df$case)
 ```
 
 
@@ -114,9 +108,8 @@ pred_col=c( "case",
               "broad_prop" ,"broad_ab_prescriptions",
              "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
               "length_med" , "length_mean", "length_sd" ,  "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
-          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", col  )
-  #"AB_6wk_type" , "ab_6w_binary" ,
-             "AB_6wk"
+          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", col,"AB_6wk_type" , "ab_6w_binary" , "AB_6wk"  )
+
 train_X <- df[train_idx,pred_col]
 #valid_X <- df[valid_idx,]
 test_X <- df[test_idx,pred_col]
@@ -163,6 +156,7 @@ params <- expand.grid(ntrees = ntrees,
 ```
 
 ```{r }
+
 store_maxnode <- vector("list", nrow(params))
 
 for(i in 1:nrow(params)){
@@ -183,6 +177,13 @@ for(i in 1:nrow(params)){
                        nodesize = nodesize)
   
   store_maxnode[[i]] <- rf_model
+  
+  pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
+  roc_valid <- roc(test_Y ~ pred.y)
+  plot(roc_valid)
+  roc_valid$sensitivities
+  roc_valid$specificities
+   rf_model
 }
 
 
