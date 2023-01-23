@@ -131,7 +131,7 @@ https://stackoverflow.com/questions/57939453/building-a-randomforest-with-caret
 # tune parameter
 ```{r }
 set.seed(1234)
-#cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
+cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
 
 
 # create tune control
