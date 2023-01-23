@@ -237,3 +237,10 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/2019_imd_model.csv
+
+  2019_modelall:   
+    run: r:latest -e 'rmarkdown::render("analysis/2019_modelall.Rmd", output_dir = "output")'
+    needs: [matching1]
+    outputs:
+      moderately_sensitive:
+        html: output/2019_modelall.html
