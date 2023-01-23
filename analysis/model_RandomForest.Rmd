@@ -20,7 +20,7 @@ options(knitr.table.format="html")
 ```{r }
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
-df=sample_n(df,1000)
+df=sample_n(df,5000)
 table(df$case)
 ```
 
@@ -140,8 +140,8 @@ library(randomForest)
 
 
 result <- data.frame(replace = rep(c(TRUE, FALSE), each = 9),
-                     sampsize = rep(c(500, 600, 700), each = 3),
-                     nodesize = c(1, 5, 10),
+                     sampsize = rep(c(2800, 3200, 3600), each = 3),
+                     nodesize = c(50, 100, 200),
                      valid_auc = NA)
 
 for (i in 1:nrow(result)) {
