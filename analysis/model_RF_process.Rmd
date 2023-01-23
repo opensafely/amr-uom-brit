@@ -60,8 +60,8 @@ table(df$case)
 
 # import antibiotics types
 ```{r }
-DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
-#DF<- read_rds(here::here("output","abtype79.rds"))
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+DF<- read_rds(here::here("output","abtype79.rds"))
 str(DF)
 table(DF$case)
 
