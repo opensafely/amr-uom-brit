@@ -230,3 +230,10 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/case_test.csv
+
+  2019_imd_model: 
+    run: r:latest analysis/2019_imd_model.R
+    needs: [matching1]
+    outputs:
+      moderately_sensitive:
+        table1: output/2019_imd_model.csv
