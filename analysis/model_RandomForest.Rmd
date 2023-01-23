@@ -143,8 +143,8 @@ for (i in 1:nrow(result)) {
                            sampsize = result[i,'sampsize'],
                            nodesize =  result[i,'nodesize'])
   
-  pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-  roc_valid <- roc(train_Y ~ pred.y)
+  pred.y <- predict(rf.model, test_X, type = 'prob')[,2]
+  roc_valid <- roc(test_Y ~ pred.y)
   result[i,'valid_auc'] <- roc_valid[['auc']]
   
 }
