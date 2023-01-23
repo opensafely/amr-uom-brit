@@ -132,8 +132,8 @@ train model
 library(pROC)
 library(randomForest)
 result <- data.frame(replace = rep(c(TRUE, FALSE), each = 9),
-                     sampsize = rep(c(500, 600, 800), each = 3),
-                     nodesize = c(10, 20, 50),
+                     sampsize = rep(c(500, 600, 700), each = 3),
+                     nodesize = c(1, 5, 10),
                      valid_auc = NA)
 
 for (i in 1:nrow(result)) {
