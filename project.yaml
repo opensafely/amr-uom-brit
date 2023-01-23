@@ -87,15 +87,21 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-  model_RF_process: # random sampling 1000 # merge matched_outcome & matched_ab
+  model_RF_process: # distinct patient, check variables
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time,process_Rmatching]
+    needs: [process_ab_time]
     outputs:
       moderately_sensitive:
         html: output/model_RF_process.html
 #        rds1: output/matched_pt_decile.rds
 #        rds2: output/matched_pt_decile_confounder.rds
 
+  model_RF_training: #
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_training.html
 
 
   check_ab_time:  
@@ -127,8 +133,6 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RF.html
-
-
 
   model_RF_process_subclass: # random sampling by subclass
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_subclass.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
