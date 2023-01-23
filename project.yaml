@@ -89,7 +89,7 @@ actions:
 
   model_RF_process: # distinct patient, check variables
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time]
+    needs: [process_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
         html: output/model_RF_process.html
