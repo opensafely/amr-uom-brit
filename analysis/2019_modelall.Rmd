@@ -50,8 +50,9 @@ vif(mod)
 
 ```{r echo=TRUE}
 result=data.frame(sum.mod$conf.int)
-DF=result[1:5,-2]
-DF
+DF1=result[1:4,-2]
+DF1$cohort <- "community + hospital"
+DF1
 ```
 
 
@@ -74,8 +75,9 @@ vif(mod)
 
 ```{r echo=TRUE}
 result=data.frame(sum.mod$conf.int)
-DF=result[1:5,-2]
-DF
+DF2=result[1:4,-2]
+DF2$cohort <- "community"
+DF2
 ```
 
 ```{r echo=TRUE}
@@ -87,9 +89,63 @@ vif(mod)
 
 ```{r echo=TRUE}
 result=data.frame(sum.mod$conf.int)
-DF=result[1:5,-2]
+DF3=result[1:4,-2]
+DF3$cohort <- "hospital"
+DF3
+```
+
+```{r echo=TRUE}
+DF <-bind_rows(DF1,DF2,DF3)
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+DF[1,1]="community + hospital, IMD = 1"
+DF[2,1]="community + hospital, IMD = 2"
+DF[3,1]="community + hospital, IMD = 3"
+DF[4,1]="community + hospital, IMD = 4"
+DF[5,1]="community , IMD = 1"
+DF[6,1]="community , IMD = 2"
+DF[7,1]="community , IMD = 3"
+DF[8,1]="community , IMD = 4"
+DF[9,1]="hospital, IMD = 1"
+DF[10,1]="hospital, IMD = 2"
+DF[11,1]="hospital, IMD = 3"
+DF[12,1]="hospital, IMD = 4"
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
 DF
 ```
 
 
+
+```{r echo=TRUE}
+p <- ggplot(data=DF, aes(y=type, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
 
