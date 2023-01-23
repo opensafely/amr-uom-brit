@@ -223,3 +223,10 @@ actions:
       moderately_sensitive:
         plot1: output/figure_noexclude.jpeg
         table1: output/figure_noexclude_table.csv
+
+  case_check_test:  
+    run: r:latest analysis/case_check_test.R
+    needs: [generate_study_population_case_test]
+    outputs:
+      moderately_sensitive:
+        table1: output/case_test.csv
