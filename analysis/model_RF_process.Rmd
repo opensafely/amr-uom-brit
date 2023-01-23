@@ -102,7 +102,7 @@ train_idx <- sample(all_idx, nrow(df) * 0.8)
 test_idx <- all_idx[!all_idx %in% train_idx]
 
 pred_col=c( "case",
-                 "AB_1_type" 
+                 "AB_1_type" ,
             "total_ab", "ab_prescriptions","ab_types",
               "prescribe_times","exposure_period"  ,
                "recent_ab_days",  
