@@ -1,0 +1,154 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+#library("ggplot2")
+#library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+
+
+# import dataset
+```{r }
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
+df=sample_n(df,1000)
+table(df$case)
+```
+
+filter 
+```{r }
+df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+str(df)
+table(df$case)
+
+```
+
+
+check variables
+```{r }
+head(df$exposure_period)
+df$exposure_period=-df$exposure_period
+#df$case= ifelse(df$case=="1","case","control")# for model training
+df$case=as.factor(df$case)
+head(df$exposure_period)
+head(df$case)
+table(df$case)
+```
+
+replace NA  (no antibiotics) with zero
+```{r }
+df[is.na(df)] <- 0
+
+#add indicator for missing value
+df$prescribe_time_0=ifelse(df$prescribe_times==0,0,1) #1= ab user ,0=non 
+df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
+df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
+df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
+str(df)
+table(df$case)
+```
+
+
+# import antibiotics types
+```{r }
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+DF<- read_rds(here::here("output","abtype79.rds"))
+#str(DF)
+table(DF$case)
+
+DF[is.na(DF)] <- 0
+
+DF=DF%>% select(-c("case","subclass"))
+DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
+
+#str(DF)
+table(DF$case)
+
+col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
+
+
+#remove none :  
+
+table=data.frame(colSums(DF[col]))
+names(table)[1]="count"
+table=table%>% filter(count>0)
+col=rownames(table)
+
+length(col)
+```
+
+
+# merge data
+```{r eval=FALSE, include=FALSE}
+df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
+rm(DF)
+
+str(df)
+table(df$case)
+```
+
+
+training vs. validation
+
+
+```{r }
+set.seed(0)
+all_idx <- 1:nrow(df)
+
+train_idx <- sample(all_idx, nrow(df) * 0.8)
+#valid_idx <- sample(all_idx[!all_idx %in% train_idx], nrow(df) * 0.2)
+test_idx <- all_idx[!all_idx %in% train_idx]
+
+pred_col=c( "case",
+                 "AB_1_type" ,"total_ab", "ab_prescriptions","ab_types",
+              "prescribe_times","exposure_period"  ,
+               "recent_ab_days",  
+              "broad_prop" ,"broad_ab_prescriptions",
+             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
+              "length_med" , "length_mean", "length_sd" ,  "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_6wk_type" , "ab_6w_binary" ,
+             "AB_6wk" )
+train_X <- df[train_idx,pred_col]
+#valid_X <- df[valid_idx,]
+test_X <- df[test_idx,pred_col]
+
+train_Y <- df[train_idx,"case"]
+#valid_Y <- subdat[valid_idx,"LVD"]
+test_Y <- df[test_idx,"case"]
+
+```
+
+
+train model
+```{r}
+library(pROC)
+library(randomForest)
+result <- data.frame(replace = rep(c(TRUE, FALSE), each = 9),
+                     sampsize = rep(c(500, 600, 800), each = 3),
+                     nodesize = c(10, 20, 50),
+                     valid_auc = NA)
+
+for (i in 1:nrow(result)) {
+  
+  rf.model <- randomForest(formula = train_Y ~ ., data = train_X, ntree = 1000,
+                           replace = result[i,'replace'],
+                           sampsize = result[i,'sampsize'],
+                           nodesize =  result[i,'nodesize'])
+  
+  pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+  roc_valid <- roc(train_Y ~ pred.y)
+  result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+}
+
+result
+```
+
