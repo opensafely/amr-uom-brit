@@ -20,9 +20,9 @@ options(knitr.table.format="html")
 
 # import dataset
 ```{r }
-df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-#df <- read_rds(here::here("output","matched_ab.rds"))
-#df=sample_n(df,1000)
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
+df=sample_n(df,5000)
 table(df$case)
 ```
 
@@ -61,8 +61,8 @@ table(df$case)
 
 # import antibiotics types
 ```{r }
-DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
-#DF<- read_rds(here::here("output","abtype79.rds"))
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+DF<- read_rds(here::here("output","abtype79.rds"))
 
 DF=DF%>% select(-c("case","subclass"))
 DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
@@ -102,13 +102,14 @@ train_idx <- sample(all_idx, nrow(df) * 0.8)
 test_idx <- all_idx[!all_idx %in% train_idx]
 
 pred_col=c( "case",
-                 "AB_1_type" ,"total_ab", "ab_prescriptions","ab_types",
+                 "AB_1_type" )
+            "total_ab", "ab_prescriptions","ab_types",
               "prescribe_times","exposure_period"  ,
                "recent_ab_days",  
               "broad_prop" ,"broad_ab_prescriptions",
              "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
               "length_med" , "length_mean", "length_sd" ,  "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
-          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", col,"AB_6wk_type" , "ab_6w_binary" , "AB_6wk"  )
+          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", col,"AB_6wk_type" , "ab_6w_binary" , "AB_6wk", col)
 
 train_X <- df[train_idx,pred_col]
 #valid_X <- df[valid_idx,]
@@ -138,12 +139,12 @@ set.seed(1234)
 tuneGrid <- expand.grid(.mtry = c(1 : 10))
 
 ctrl <- trainControl(
-                    # method = "cv",
-                     #number = 5,
+                     method = "cv",
+                     number = 5,
                      search = 'grid',
                      classProbs = TRUE,
                      savePredictions = TRUE,
-                    # index = cv_folds,
+                     index = cv_folds,
                      summaryFunction = twoClassSummary) #in most cases a better summary for two class problem
 
 
@@ -156,7 +157,6 @@ params <- expand.grid(ntrees = ntrees,
 ```
 
 ```{r }
-
 store_maxnode <- vector("list", nrow(params))
 
 for(i in 1:nrow(params)){
@@ -178,12 +178,7 @@ for(i in 1:nrow(params)){
   
   store_maxnode[[i]] <- rf_model
   
-  pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
-  roc_valid <- roc(test_Y ~ pred.y)
-  plot(roc_valid)
-  roc_valid$sensitivities
-  roc_valid$specificities
-   rf_model
+
 }
 
 
@@ -195,6 +190,16 @@ results_mtry <- resamples(store_maxnode)
 summary(results_mtry)
 lapply(store_maxnode, function(x) x$best) #get the best mtry for each model
 lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),])#get the best average performance for each model
+```
+
+
+```{r }
+library(randomForest)
+pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
+  roc_valid <- roc(test_Y ~ pred.y)
+  plot(roc_valid)
+
+   rf_model
 ```
 
 
