@@ -70,8 +70,10 @@ library(randomForest)
   print(roc_valid$sensitivities)
   print(roc_valid$specificities)
   print(rf.model)
+  
+   predict(rf.model, valid_X, type = 'prob')
 #}
 
-#result
+#3result
 ```
 
