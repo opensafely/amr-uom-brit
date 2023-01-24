@@ -198,12 +198,9 @@ actions:
         table1: output/matched_cases_221.csv
         table2: output/matched_matches_221.csv
         table3: output/matched_combined_221.csv
-        table4: output/matched_cases_222.csv
-        table5: output/matched_matches_222.csv
-        table6: output/matched_combined_222.csv
       moderately_sensitive: 
         report1: output/matching_report_221.txt
-        report2: output/matching_report_222.txt
+
 
   process_covidinclude:  
     run: r:latest analysis/process_covidinclude.R
