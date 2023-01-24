@@ -22,7 +22,10 @@ options(knitr.table.format="html")
 ```{r }
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
-df=sample_n(df,5000)
+df=sample_n(df,1000)
+
+table(df$case)
+df=df[!is.na(df$case),]
 table(df$case)
 ```
 
@@ -37,12 +40,10 @@ table(df$case)
 
 check variables
 ```{r }
-head(df$exposure_period)
+
 df$exposure_period=-df$exposure_period
 df$case= ifelse(df$case=="1","case","control")# for model training
-head(df$exposure_period)
-head(df$case)
-table(df$case)
+
 ```
 
 replace NA  (no antibiotics) with zero
@@ -55,7 +56,7 @@ df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0)
 df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
 df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 str(df)
-table(df$case)
+
 ```
 
 
@@ -78,7 +79,7 @@ names(table)[1]="count"
 table=table%>% filter(count>0)
 col=rownames(table)
 
-length(col)
+length(col) #55
 ```
 
 
@@ -86,7 +87,7 @@ length(col)
 ```{r }
 df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
 rm(DF)
-
+table(df$case)
 ```
 
 
@@ -98,7 +99,6 @@ set.seed(0)
 all_idx <- 1:nrow(df)
 
 train_idx <- sample(all_idx, nrow(df) * 0.8)
-#valid_idx <- sample(all_idx[!all_idx %in% train_idx], nrow(df) * 0.2)
 test_idx <- all_idx[!all_idx %in% train_idx]
 
 pred_col=c( "case",
@@ -131,21 +131,22 @@ https://stackoverflow.com/questions/57939453/building-a-randomforest-with-caret
 # tune parameter
 ```{r }
 set.seed(1234)
-cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
-
+#cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
 
 # create tune control
-#mtry <- sqrt(ncol(x))
-tuneGrid <- expand.grid(.mtry = c(1 : 10))
+#tuneGrid <- expand.grid(.mtry = c(1 : 10))
+tuneGrid <- expand.grid(.mtry =sqrt(ncol(train_X)-1))
 
 ctrl <- trainControl(
-                     method = "cv",
-                     number = 5,
-                     search = 'grid',
+                     method = "none",
+               #      number = 5,
+               #      search = 'grid',
                      classProbs = TRUE,
-                     savePredictions = TRUE,
-                     index = cv_folds,
-                     summaryFunction = twoClassSummary) #in most cases a better summary for two class problem
+               #      savePredictions = TRUE,
+              #       index = cv_folds,
+               #      summaryFunction = twoClassSummary
+              ) 
+              #in most cases a better summary for two class problem
 
 
 # other tuning parameters
@@ -185,9 +186,9 @@ for(i in 1:nrow(params)){
 names(store_maxnode) <- paste("ntrees:", params$ntrees,
                               "nodesize:", params$nodesize)
 
-results_mtry <- resamples(store_maxnode)
+#results_mtry <- resamples(store_maxnode)
 
-summary(results_mtry)
+#summary(results_mtry)
 lapply(store_maxnode, function(x) x$best) #get the best mtry for each model
 lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),])#get the best average performance for each model
 ```
@@ -222,7 +223,6 @@ pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
 
 roc_curve <- roc(test_Y ~ pred.y)
 plot(roc_curve)
-text(0.5, 0.5, paste0('AUC = ', formatC(roc_curve[['auc']], 4, format = 'f')), col = 'red')
 ```
 
 
