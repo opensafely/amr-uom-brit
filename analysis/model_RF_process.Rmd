@@ -195,12 +195,12 @@ lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),
 
 
 ```{r }
-library(randomForest)
+library(pROC)
 pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
   roc_valid <- roc(test_Y ~ pred.y)
   plot(roc_valid)
 
-   rf_model
+   print(rf_model)
 ```
 
 
@@ -217,6 +217,7 @@ head(prediction)
 ```
 
 ```{r eval=FALSE, include=FALSE}
+
 library(pROC)
 
 pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
