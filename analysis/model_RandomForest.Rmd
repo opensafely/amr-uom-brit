@@ -32,7 +32,7 @@ valid_X <- read_rds(here::here("output","valid_X.rds"))
 table(train_X$case)
 table(valid_X$case)
 
-n=nrow(train_X$case)
+n=nrow(train_X)
 ```
 
 train model
@@ -52,8 +52,8 @@ result = expand.grid(
 for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = train_Y ~ ., data = train_X, 
-                           replace = FALSE,
-                           ntree = 5000,
+                           replace = TRUE,
+                           ntree = 1000,
                            sampsize = round(n*0.8),
                            nodesize =  10,
                            mtry = result[i,'mtry']
