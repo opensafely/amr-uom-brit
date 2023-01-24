@@ -22,17 +22,14 @@ options(knitr.table.format="html")
 ```{r }
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
-df=sample_n(df,1000)
-
 table(df$case)
 df=df[!is.na(df$case),]
 table(df$case)
 ```
 
-filter 
+filter: remove multiple controls
 ```{r }
 df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
-str(df)
 table(df$case)
 
 ```
@@ -40,15 +37,13 @@ table(df$case)
 
 check variables
 ```{r }
-
 df$exposure_period=-df$exposure_period
-df$case= ifelse(df$case=="1","case","control")# for model training
-
+str(df)
 ```
 
-replace NA  (no antibiotics) with zero
+replace NA  
 ```{r }
-df[is.na(df)] <- 0
+df[is.na(df)] <- 0 #antibiotics=zero
 
 #add indicator for missing value
 df$prescribe_time_0=ifelse(df$prescribe_times==0,0,1) #1= ab user ,0=non 
@@ -72,14 +67,13 @@ DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
 
-#remove none :  
+#remove not used AB 
 
 table=data.frame(colSums(DF[col]))
-names(table)[1]="count"
-table=table%>% filter(count>0)
-col=rownames(table)
+table=table%>% filter(table[,1]>0)
+col=rownames(table) # selected columns
 
-length(col) #55
+length(col) # 55
 ```
 
 
@@ -95,249 +89,31 @@ training vs. validation
 
 
 ```{r }
-set.seed(0)
+set.seed(1024)
 all_idx <- 1:nrow(df)
 
 train_idx <- sample(all_idx, nrow(df) * 0.8)
 test_idx <- all_idx[!all_idx %in% train_idx]
 
-pred_col=c( "case",
-            "total_ab", "ab_prescriptions","ab_types",
-              "prescribe_times","exposure_period"  ,
-               "recent_ab_days",  
-              "broad_prop" ,"broad_ab_prescriptions",
-             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
-              "length_med" , "length_mean", "length_sd" ,  "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
-          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam",  "ab_6w_binary" , "AB_6wk", col)
-#  "AB_1_type""AB_6wk_type" ,
+pred_col=c( "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period"  ,"recent_ab_days", "broad_prop" ,"broad_ab_prescriptions",  "interval_mean" , "interval_sd" , "interval_CV","length_mean", "length_sd", "length_CV", "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col)
+#  "AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk"
 
 train_X <- df[train_idx,pred_col]
-#valid_X <- df[valid_idx,]
-test_X <- df[test_idx,pred_col]
+valid_X <- df[test_idx,pred_col]
 
 train_Y <- df[train_idx,"case"]
-#valid_Y <- subdat[valid_idx,"LVD"]
-test_Y <- df[test_idx,"case"]
+valid_Y <- df[test_idx,"case"]
 
+
+table(train_X$case)
+table(valid_X$case)
 ```
 
+```{r}
+saveRDS(train_X, here::here("output","train_X.rds"))
+saveRDS(train_Y, here::here("output","train_Y.rds"))
+saveRDS(valid_X, here::here("output","valid_X.rds"))
+saveRDS(valid_Y, here::here("output","valid_Y.rds"))
 
-
-
-
-# train model
-https://stackoverflow.com/questions/57939453/building-a-randomforest-with-caret 
-
-# tune parameter
-```{r }
-set.seed(1234)
-#cv_folds <- createFolds(df$case, k = 5, returnTrain = TRUE)
-
-# create tune control
-#tuneGrid <- expand.grid(.mtry = c(1 : 10))
-tuneGrid <- expand.grid(.mtry =sqrt(ncol(train_X)-1))
-
-ctrl <- trainControl(
-                     method = "none",
-               #      number = 5,
-               #      search = 'grid',
-                     classProbs = TRUE,
-               #      savePredictions = TRUE,
-              #       index = cv_folds,
-               #      summaryFunction = twoClassSummary
-              ) 
-              #in most cases a better summary for two class problem
-
-
-# other tuning parameters
-ntrees <- c(500, 1000)    
-nodesize <- c(1, 5)
-
-params <- expand.grid(ntrees = ntrees,
-                      nodesize = nodesize)
-```
-
-```{r }
-store_maxnode <- vector("list", nrow(params))
-
-for(i in 1:nrow(params)){
-  
-  nodesize <- params[i,2]
-  ntree <- params[i,1]
-  
-  set.seed(65)
-  
-  rf_model <- train(case~.,
-                       data = train_X,
-                       method = "rf",
-                       importance=TRUE,
-                       metric = "ROC",
-                       tuneGrid = tuneGrid,
-                       trControl = ctrl,
-                       ntree = ntree,
-                       nodesize = nodesize)
-  
-  store_maxnode[[i]] <- rf_model
-  
-
-}
-
-
-names(store_maxnode) <- paste("ntrees:", params$ntrees,
-                              "nodesize:", params$nodesize)
-
-#results_mtry <- resamples(store_maxnode)
-
-#summary(results_mtry)
-lapply(store_maxnode, function(x) x$best) #get the best mtry for each model
-lapply(store_maxnode, function(x) x$results[x$results$ROC == max(x$results$ROC),])#get the best average performance for each model
-```
-
-
-```{r }
-library(pROC)
-pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
-  roc_valid <- roc(test_Y ~ pred.y)
-  plot(roc_valid)
-
-   print(rf_model)
-```
-
-
-# predict
-```{r eval=FALSE, include=FALSE}
-
-
-predict(store_maxnode[[4]], newdata =train_X, type = "prob") %>% mutate('class'=names(.)[apply(., 1, which.max)])
-
-prediction$decile=ntile(prediction$case,10) #create decile group
-
-head(prediction)
-
-```
-
-```{r eval=FALSE, include=FALSE}
-
-library(pROC)
-
-pred.y <- predict(rf_model, test_X, type = 'prob')[,2]
-
-roc_curve <- roc(test_Y ~ pred.y)
-plot(roc_curve)
-```
-
-
-
-
-
-
-
-
-
-
-# default
-```{r eval=FALSE, include=FALSE}
-
-#10 folds repeat 3 times
-control <- trainControl(method='repeatedcv', 
-                        number=5, 
-                        repeats=3)
-#Metric compare model is Accuracy
-metric <- "Accuracy"
-set.seed(123)
-#Number randomely variable selected is mtry
-mtry <- sqrt(ncol(x))
-tunegrid <- expand.grid(.mtry=mtry)
-rf_default <- train(case~., 
-                      data=df, 
-                      method='rf', 
-                      metric='Accuracy', 
-                      tuneGrid=tunegrid, 
-                      trControl=control)
-print(rf_default)
-
-plot(varImp(rf_default,scale = F), main= "Var Imp: RF 5 fold CV")
-```
-
-# Random search
-```{r eval=FALSE, include=FALSE}
-#mtry: Number of random variables collected at each split. In normal equal square number columns.
-mtry <- sqrt(ncol(x))
-#ntree: Number of trees to grow.
-ntree <- 3
-
-
-control <- trainControl(method='repeatedcv', 
-                        number=5, 
-                        repeats=3,
-                        search = 'random')
-
-#Random generate 15 mtry values with tuneLength = 15
-set.seed(1)
-rf_random <- train(case ~ .,
-                   data = df,
-                   method = 'rf',
-                   metric = 'Accuracy',
-                   tuneLength  = 50, 
-                   trControl = control)
-print(rf_random)
-plot(rf_random)
-plot(varImp(rf_random,scale = F), main= "Var Imp: RF 5 fold CV")
-
-```
-
-
-# Grid search
-```{r eval=FALSE, include=FALSE}
-
-#Create control function for training with 10 folds and keep 3 folds for training. search method is grid.
-control <- trainControl(method='repeatedcv', 
-                        number=5, 
-                        repeats=3, 
-                        search='grid')
-#create tunegrid with 15 values from 1:15 for mtry to tunning model. Our train function will change number of entry variable at each split according to tunegrid. 
-tunegrid <- expand.grid(.mtry = c(1:20)) 
-
-rf_gridsearch <- train(case ~ ., 
-                       data = df,
-                       method = 'rf',
-                       metric = 'Accuracy',
-                       tuneGrid = tunegrid,
-                       trControl=control
-                  )
-print(rf_gridsearch)
-plot(rf_gridsearch)
-plot(varImp(rf_gridsearch,scale = F), main= "Var Imp: RF 5 fold CV")
-
-```
-
-
-# check exposures
-```{r eval=FALSE, include=FALSE}
-df$case=as.factor(df$case)
-
-featurePlot(x = x, 
-            y = y, 
-            plot = "density",
-            strip=strip.custom(par.strip.text=list(cex=.7)),
-            scales = list(x = list(relation="free"), 
-                          y = list(relation="free")))
-
-#feature selection: recursive feature elimination (rfe)
-set.seed(100)
-options(warn=-1)
-
-subsets <- c(1:5, 10, 15, 18)
-
-ctrl <- rfeControl(functions = rfFuncs,
-                   method = "repeatedcv",
-                   repeats = 5,
-                   verbose = FALSE)
-
-lmProfile <- rfe(x=x, y=y,
-                 sizes = subsets,
-                 rfeControl = ctrl)
-
-lmProfile
 ```
 

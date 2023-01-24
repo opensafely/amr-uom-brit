@@ -93,8 +93,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RF_process.html
-#        rds1: output/matched_pt_decile.rds
-#        rds2: output/matched_pt_decile_confounder.rds
+        rds1: output/train_X.rds
+        rds2: output/train_Y.rds
+        rds3: output/valid_X.rds
+        rds4: output/valid_Y.rds
 
   model_RF_training: #
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
