@@ -1,5 +1,5 @@
 ---
-title: "RF model variables merge: top 10 antibiotcs types"
+title: "RF model variables merge antibiotcs types"
 ---
 
 ```{r setup, include=FALSE}

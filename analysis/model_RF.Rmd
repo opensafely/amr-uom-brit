@@ -1,7 +1,6 @@
 ---
-title: "feature selection"
+title: "test"
 ---
-
 ```{r setup, include=FALSE}
 library(knitr)
 library(dplyr)
@@ -13,113 +12,98 @@ library("ggplot2")
 library(caret)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
+
 ```
 
-https://www.machinelearningplus.com/machine-learning/caret-package/ 
 
-```{r}
+
+# import dataset
+```{r }
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 df <- read_rds(here::here("output","matched_ab.rds"))
-count(df)
-
+table(df$case)
 df=df[!is.na(df$case),]
-count(df)
+table(df$case)
+```
+
+filter: remove multiple controls
+```{r }
+df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+table(df$case)
+
 ```
 
 
-
-
-```{r}
-df=df%>% select( "case",
-                 "AB_1_type","AB_6wk_type" , "ab_6w_binary" ,
-             "AB_6wk" ,"total_ab", "ab_prescriptions","ab_types",
-              "prescribe_times","exposure_period"  ,
-               "recent_ab_days",  
-              "broad_prop" ,"broad_ab_prescriptions",
-             "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
-              "length_med" , "length_mean", "length_sd" ,  "length_CV" 
-               )
+check variables
+```{r }
 df$exposure_period=-df$exposure_period
-df$case=as.factor(df$case)
+str(df)
+```
 
-#df[is.na(df)] <- 0
+replace NA  
+```{r }
+df[is.na(df)] <- 0 #antibiotics=zero
+
+#add indicator for missing value
+df$prescribe_time_0=ifelse(df$prescribe_times==0,0,1) #1= ab user ,0=non 
+df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
+df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
+df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
+str(df)
+
 ```
 
 
-```{r echo=TRUE}
-# develop model
+# import antibiotics types
+```{r }
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
+DF<- read_rds(here::here("output","abtype79.rds"))
 
-#set.seed(123)
-#df=sample_n(df,1000)
+DF=DF%>% select(-c("case","subclass"))
+DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
-x=df[,2:21]
-y=df[,1]
 
-table(y)
+col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
-```
 
-descriptive stats
-```{r}
-skimmed <- skim_to_wide(df)
-skimmed[, c(1:5, 9:11, 13, 15:16)]
-```
+#remove not used AB 
 
-```{r}
-df$case=as.factor(df$case)
+table=data.frame(colSums(DF[col]))
+table=table%>% filter(table[,1]>0)
+col=rownames(table) # selected columns
 
-featurePlot(x = x, 
-            y = y, 
-            plot = "density",
-            strip=strip.custom(par.strip.text=list(cex=.7)),
-            scales = list(x = list(relation="free"), 
-                          y = list(relation="free")))
+length(col) # 55
 ```
 
 
-replace NA with 0
-```{r}
-df[is.na(df)] <- 0
-x=df[,2:21]
-y=df[,1]
-df$case=as.factor(df$case)
-
-featurePlot(x = x, 
-            y = y, 
-            plot = "density",
-            strip=strip.custom(par.strip.text=list(cex=.7)),
-            scales = list(x = list(relation="free"), 
-                          y = list(relation="free")))
+# merge data
+```{r }
+df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
+rm(DF)
+table(df$case)
 ```
 
 
+training vs. validation
 
-feature selection: recursive feature elimination (rfe)
-```{r}
-set.seed(100)
-options(warn=-1)
 
-subsets <- c(1:5, 10, 15, 18)
+```{r }
+set.seed(1024)
+all_idx <- 1:nrow(df)
 
-ctrl <- rfeControl(functions = rfFuncs,
-                   method = "repeatedcv",
-                   repeats = 5,
-                   verbose = FALSE)
+train_idx <- sample(all_idx, nrow(df) * 0.8)
+test_idx <- all_idx[!all_idx %in% train_idx]
 
-lmProfile <- rfe(x=x, y=y,
-                 sizes = subsets,
-                 rfeControl = ctrl)
+pred_col=c( "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period"  ,"recent_ab_days", "broad_prop" ,"broad_ab_prescriptions",  "interval_mean" , "interval_sd" , "interval_CV","length_mean", "length_sd", "length_CV", "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col)
+#  "AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk"
 
-lmProfile
-```
+train_X <- df[train_idx,pred_col]
+valid_X <- df[test_idx,pred_col]
 
-random pick subclass
-```{r}
-df <- read_rds(here::here("output","matched_ab.rds"))
+train_Y <- df[train_idx,"case"]
+valid_Y <- df[test_idx,"case"]
 
-set.seed(123)
-sub.df.1=df%>%filter(case==1)%>%sample_n(1000)
-sub.df= subset(df, df$subclass %in% sub.df.1$subclass)
 
-table(sub.df$case)
+table(train_X$case)
+table(valid_X$case)
 ```
