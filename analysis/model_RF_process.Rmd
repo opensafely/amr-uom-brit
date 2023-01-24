@@ -102,14 +102,14 @@ train_idx <- sample(all_idx, nrow(df) * 0.8)
 test_idx <- all_idx[!all_idx %in% train_idx]
 
 pred_col=c( "case",
-                 "AB_1_type" ,
             "total_ab", "ab_prescriptions","ab_types",
               "prescribe_times","exposure_period"  ,
                "recent_ab_days",  
               "broad_prop" ,"broad_ab_prescriptions",
              "interval_med" ,  "interval_mean" , "interval_sd" , "interval_CV",
               "length_med" , "length_mean", "length_sd" ,  "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
-          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", col,"AB_6wk_type" , "ab_6w_binary" , "AB_6wk", col)
+          "Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam",  "ab_6w_binary" , "AB_6wk", col)
+#  "AB_1_type""AB_6wk_type" ,
 
 train_X <- df[train_idx,pred_col]
 #valid_X <- df[valid_idx,]
