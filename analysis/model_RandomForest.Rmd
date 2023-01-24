@@ -77,14 +77,14 @@ set.seed(1024)
 ```
 ```{r}
 used_count <- varUsed(rf.model)
-names(used_count) <- colnames(train_X)
+#names(used_count) <- colnames(train_X)
 sort(used_count, decreasing = TRUE)
 ```
 
 
 ```{r}
 count_table <- varUsed(rf.model, by.tree = TRUE)
-rownames(count_table) <- colnames(train_X)
+#rownames(count_table) <- colnames(train_X)
 ```
 
 ```{r}
