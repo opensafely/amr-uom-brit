@@ -29,9 +29,10 @@ valid_Y=as.factor(valid_Y)
 valid_X <- read_rds(here::here("output","valid_X.rds"))
 
 #df=sample_n(df,5000)
-table(df$case)
+table(train_X$case)
+table(valid_X$case)
 
-n=nrow(df)
+n=nrow(train_X$case)
 ```
 
 train model
