@@ -1,0 +1,155 @@
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '/workspace')
+```
+
+```{r packages, include=FALSE}
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+library(gridExtra)
+```
+
+```{r include=FALSE}
+# import data
+col_spec <-cols_only(patient_index_date = col_date(format = ""),
+                        age = col_number(),
+                        sex = col_character(),
+                        region = col_character(),
+                        imd = col_integer(),
+                        set_id = col_number(),
+                        sepsis_type = col_number(),
+                        case = col_number(),
+                        patient_id = col_number()
+)
+
+df1.1<- read_csv(here::here("output", "matched_combined_191.csv"), col_types = col_spec)
+df2.1<- read_csv(here::here("output", "matched_combined_192.csv"), col_types = col_spec)
+df1.2<- read_csv(here::here("output", "matched_combined_201.csv"), col_types = col_spec)
+df2.2<- read_csv(here::here("output", "matched_combined_202.csv"), col_types = col_spec)
+df1.3<- read_csv(here::here("output", "matched_combined_211.csv"), col_types = col_spec)
+df2.3<- read_csv(here::here("output", "matched_combined_212.csv"), col_types = col_spec)
+df<-bind_rows(df1.1,df2.1,df1.2,df2.2,df1.3,df2.3)
+```
+
+```{r include=FALSE}
+# outcome
+df$case=as.numeric(df$case) #1/0
+df$set_id=as.factor(df$set_id)#pair id
+df$imd= relevel(as.factor(df$imd), ref="5")
+```
+
+
+```{r include=FALSE}
+mod=clogit(case ~ imd + strata(set_id), df)
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+```
+
+```{r echo=TRUE}
+result=data.frame(sum.mod$conf.int)
+DF1=result[1:4,-2]
+DF1$cohort <- "community + hospital"
+DF1
+```
+
+
+```{r echo=TRUE}
+df1 <- df %>% filter(sepsis_type=="1")
+df2 <- df %>% filter(sepsis_type=="2")
+comid <- df1$set_id
+hosid <- df2$set_id
+dfcom <- df %>% filter(set_id %in% comid)
+dfhos <- df %>% filter(set_id %in% hosid)
+```
+
+
+```{r echo=TRUE}
+mod=clogit(case ~ imd + strata(set_id), dfcom)
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+```
+
+```{r echo=TRUE}
+result=data.frame(sum.mod$conf.int)
+DF2=result[1:4,-2]
+DF2$cohort <- "community"
+DF2
+```
+
+```{r echo=TRUE}
+mod=clogit(case ~ imd + strata(set_id), dfhos)
+sum.mod=summary(mod)
+sum.mod
+vif(mod)
+```
+
+```{r echo=TRUE}
+result=data.frame(sum.mod$conf.int)
+DF3=result[1:4,-2]
+DF3$cohort <- "hospital"
+DF3
+```
+
+```{r echo=TRUE}
+DF <-bind_rows(DF1,DF2,DF3)
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+DF[1,1]="community + hospital, IMD = 1"
+DF[2,1]="community + hospital, IMD = 2"
+DF[3,1]="community + hospital, IMD = 3"
+DF[4,1]="community + hospital, IMD = 4"
+DF[5,1]="community , IMD = 1"
+DF[6,1]="community , IMD = 2"
+DF[7,1]="community , IMD = 3"
+DF[8,1]="community , IMD = 4"
+DF[9,1]="hospital, IMD = 1"
+DF[10,1]="hospital, IMD = 2"
+DF[11,1]="hospital, IMD = 3"
+DF[12,1]="hospital, IMD = 4"
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+DF
+```
+
+
+
+```{r echo=TRUE}
+p <- ggplot(data=DF, aes(y=type, x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+

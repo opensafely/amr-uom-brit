@@ -253,3 +253,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/2019_modelall.html
+
+  1921_modelall:   
+    run: r:latest -e 'rmarkdown::render("analysis/1921_modelall.Rmd", output_dir = "output")'
+    needs: [matching1,matching2,matching3]
+    outputs:
+      moderately_sensitive:
+        html: output/1921_modelall.html
