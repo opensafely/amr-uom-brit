@@ -42,38 +42,36 @@ library(pROC)
 library(randomForest)
 
 set.seed(1024)
-#result = expand.grid(
- # ntree=c(1000,1500),
+result = expand.grid(
+  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
-#  nodesize = c(50, 100, 200),
+  nodesize = c( 5,50),
  # mtry=1:sqrt(ncol(train_X)-1),
- # valid_auc = NA)
+  valid_auc = NA)
                
 
-#for (i in 1:nrow(result)) {
+for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
-                           replace = FALSE,
-                           ntree = 1000,
-                           sampsize = 229,
-                           nodesize =  10,
+                           replace = TRUE,
+                           ntree =  result[i,'ntree'],
+                           sampsize = round(n*0.8),
+                           nodesize =  result[i,'nodesize'],
                            mtry = sqrt(ncol(train_X)-1)
                           )
   
   pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
   roc_valid <- roc(valid_Y ~ pred.y)
   
-  #result[i,'valid_auc'] <- roc_valid[['auc']]
+  result[i,'valid_auc'] <- roc_valid[['auc']]
   
   plot(roc_valid)
   print(roc_valid)
-  print(roc_valid$sensitivities)
-  print(roc_valid$specificities)
   print(rf.model)
   
-#}
+}
 
-#3result
+result
 ```
 ```{r}
 used_count <- varUsed(rf.model)
