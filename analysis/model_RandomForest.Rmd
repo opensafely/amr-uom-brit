@@ -53,9 +53,9 @@ set.seed(1024)
 #for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = train_Y ~ ., data = train_X, 
-                           replace = TRUE,
+                           replace = FALSE,
                            ntree = 1000,
-                           sampsize = 10000,
+                           sampsize = 229,
                            nodesize =  10,
                            mtry = sqrt(ncol(train_X)-1)
                           )
@@ -71,7 +71,6 @@ set.seed(1024)
   print(roc_valid$specificities)
   print(rf.model)
   
-   predict(rf.model, valid_X, type = 'prob')
 #}
 
 #3result
