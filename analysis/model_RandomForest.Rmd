@@ -26,7 +26,7 @@ train_X <- read_rds(here::here("output","train_X.rds"))
 valid_Y <- read_rds(here::here("output","valid_Y.rds"))
 valid_Y=as.factor(valid_Y)
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
-valid_X <- read_rds(here::here("output","valid_X .rds"))
+valid_X <- read_rds(here::here("output","valid_X.rds"))
 
 #df=sample_n(df,5000)
 table(df$case)
