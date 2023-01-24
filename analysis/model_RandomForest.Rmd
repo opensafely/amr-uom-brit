@@ -54,8 +54,8 @@ library(randomForest)
   
   rf.model <- randomForest(formula = train_Y ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree = 100,
-                           sampsize = 100,
+                           ntree = 1000,
+                           sampsize = 10000,
                            nodesize =  10,
                            mtry = sqrt(ncol(train_X)-1)
                           )
