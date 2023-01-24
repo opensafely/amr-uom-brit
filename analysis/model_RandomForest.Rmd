@@ -21,13 +21,13 @@ train_Y <- read_rds(here::here("output","train_Y.rds"))
 train_Y=as.factor(train_Y)
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
-
+train_X$case=as.factor(train_X)
 #valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
 valid_Y <- read_rds(here::here("output","valid_Y.rds"))
 valid_Y=as.factor(valid_Y)
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
-
+valid_X$case=as.factor(valid_X)
 
 #df=sample_n(df,5000)
 table(train_X$case)
@@ -52,7 +52,7 @@ set.seed(1024)
 
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(formula = train_Y ~ ., data = train_X, 
+  rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = FALSE,
                            ntree = 1000,
                            sampsize = 229,
