@@ -46,7 +46,7 @@ result = expand.grid(
  #  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
  #  nodesize = c( 5,50),
-  mtry=1:sqrt(ncol(train_X)-1),
+  mtry=1:round(sqrt(ncol(train_X)-1)),
   valid_auc = NA)
                
 set.seed(1024)
@@ -57,7 +57,7 @@ for (i in 1:nrow(result)) {
                            ntree =  2000,
                            sampsize = round(n*0.8),
                            nodesize = 50 ,
-                           mtry = result[i,'result']
+                           mtry = result[i,'mtry']
                           )
   
   pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
