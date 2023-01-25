@@ -99,6 +99,13 @@ actions:
         rds3: output/valid_X.rds
         rds4: output/valid_Y.rds
 
+  model_tuneRF: #mtry, 
+    run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_tuneRF.html
+
   model_RF_training: #
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
@@ -112,6 +119,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest.html
+  
+  model_tuneRF: #
+    run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_tuneRF.html
 
   check_ab_time:  
     run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'

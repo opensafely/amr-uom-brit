@@ -41,23 +41,23 @@ train model
 library(pROC)
 library(randomForest)
 
-
+set.seed(1024)
 result = expand.grid(
- #  ntree=c(1000,2000),
+  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
- #  nodesize = c( 5,50),
-  mtry=1:sqrt(ncol(train_X)-1),
+  nodesize = c( 5,50),
+ # mtry=1:sqrt(ncol(train_X)-1),
   valid_auc = NA)
                
-set.seed(1024)
+
 for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree =  2000,
+                           ntree =  result[i,'ntree'],
                            sampsize = round(n*0.8),
-                           nodesize = 50 ,
-                           mtry = result[i,'result']
+                           nodesize =  result[i,'nodesize'],
+                           mtry = sqrt(ncol(train_X)-1)
                           )
   
   pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
