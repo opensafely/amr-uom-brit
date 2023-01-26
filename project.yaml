@@ -257,3 +257,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/1921_modelall.html
+
+  covidimd_model:   
+    run: r:latest -e 'rmarkdown::render("analysis/covidimd_model.Rmd", output_dir = "output")'
+    needs: [matching1,matching2,matching3,matching4]
+    outputs:
+      moderately_sensitive:
+        html: output/covidimd_model.html
