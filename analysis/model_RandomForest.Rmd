@@ -63,7 +63,7 @@ for (i in 1:nrow(result)) {
   pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
   roc_valid <- roc(valid_Y ~ pred.y)
   
-  result[i,'valid_auc'] <- roc_valid[['auc']]
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
   
   plot(roc_valid)
   print(roc_valid)
