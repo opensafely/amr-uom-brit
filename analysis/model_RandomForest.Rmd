@@ -50,7 +50,7 @@ library(randomForest)
  # valid_auc = NA)
                
 set.seed(1024)
-for (i in 1:nrow(result)) {
+#for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
@@ -69,7 +69,7 @@ for (i in 1:nrow(result)) {
   print(roc_valid)
   print(rf.model)
   
-}
+#}
 
 #result
 ```
