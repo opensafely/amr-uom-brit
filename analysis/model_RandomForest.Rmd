@@ -42,7 +42,7 @@ library(pROC)
 library(randomForest)
 
 
-result = expand.grid(
+#result = expand.grid(
  #  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
  #  nodesize = c( 5,50),
