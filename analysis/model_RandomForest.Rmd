@@ -46,8 +46,8 @@ result = expand.grid(
  #  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
  #  nodesize = c( 5,50),
-  mtry=1:round(sqrt(ncol(train_X)-1)),
-  valid_auc = NA)
+ # mtry=1:round(sqrt(ncol(train_X)-1)),
+ # valid_auc = NA)
                
 set.seed(1024)
 for (i in 1:nrow(result)) {
@@ -55,9 +55,9 @@ for (i in 1:nrow(result)) {
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            ntree =  2000,
-                           sampsize = round(n*0.8),
-                           nodesize = 50 ,
-                           mtry = result[i,'mtry']
+                           sampsize = round(n*0.7),
+                           nodesize = 1 ,
+                           mtry = sqrt(ncol(train_X)-1)
                           )
   
   pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
@@ -75,18 +75,22 @@ result
 ```
 ```{r}
 used_count <- varUsed(rf.model)
-#names(used_count) <- colnames(train_X)
+names(used_count) <- colnames(train_X[,-train_X$case])
 sort(used_count, decreasing = TRUE)
 ```
 
 
 ```{r}
 count_table <- varUsed(rf.model, by.tree = TRUE)
-#rownames(count_table) <- colnames(train_X)
+rownames(count_table) <- colnames(train_X[,-train_X$case])
+write.csv(count_table,here::here("output","var_tree.csv"))
+
 ```
 
 ```{r}
 importance(rf.model)
 varImpPlot(rf.model)
+
+saveRDS(rf.model,here::here("output","model_RandomForest"))
 ```
 
