@@ -71,7 +71,7 @@ for (i in 1:nrow(result)) {
   
 }
 
-result
+#result
 ```
 ```{r}
 used_count <- varUsed(rf.model)
