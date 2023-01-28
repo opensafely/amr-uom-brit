@@ -73,6 +73,7 @@ set.seed(1024)
 
 #result
 ```
+
 ```{r}
 used_count <- varUsed(rf.model)
 #names(used_count) <- colnames(train_X[,-train_X$case])
