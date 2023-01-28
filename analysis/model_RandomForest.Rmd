@@ -49,7 +49,6 @@ library(randomForest)
  # mtry=1:round(sqrt(ncol(train_X)-1)),
  # valid_auc = NA)
                
-train_X$case=as.factor(train_X$case)
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
