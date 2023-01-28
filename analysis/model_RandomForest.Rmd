@@ -91,6 +91,6 @@ write.csv(count_table,here::here("output","var_tree.csv"))
 importance(rf.model)
 varImpPlot(rf.model)
 
-saveRDS(rf.model,here::here("output","model_RandomForest"))
+saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```
 
