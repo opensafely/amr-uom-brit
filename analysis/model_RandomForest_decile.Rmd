@@ -12,15 +12,22 @@ library(randomForest)
 
 # import dataset
 ```{r }
-#train_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_Y.rds")
-train_Y <- read_rds(here::here("output","train_Y.rds"))
-train_Y=as.factor(train_Y)
+# original dataset
+#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+DF<- read_rds(here::here("output","matched_outcome.rds"))
+col=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor",
+"care_home_type","hospital_counts")
+DF=subset(DF,select=col)
+
+#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
+df <- read_rds(here::here("output","matched_ab.rds"))
+col=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
+df=subset(df,select=col)
+
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
-#valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
-valid_Y <- read_rds(here::here("output","valid_Y.rds"))
-valid_Y=as.factor(valid_Y)
+
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
 valid_X$case=as.factor(valid_X$case)
@@ -28,8 +35,6 @@ valid_X$case=as.factor(valid_X$case)
 #df=sample_n(df,5000)
 table(train_X$case)
 table(valid_X$case)
-
-n=nrow(train_X)
 
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
@@ -44,9 +49,15 @@ exp.class <- predict(rf.model, train_X, type = 'response')
 # create 10 risk groups
 decile <- ntile(pred.y,10)
 # combined
+train_X=train_X%>% select("patient_id","patient_index_date")
 devel <- cbind(train_X,decile,prob,exp.class)
 
 head(devel[,108:110])
+
+
+
+
+
 
 saveRDS(devel,here::here("output","development.rds"))
 ```

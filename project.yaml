@@ -131,7 +131,7 @@ actions:
 
   model_RandomForest_decile: # create decile groups for probabilities
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RandomForest]
+    needs: [model_RF_process,model_RandomForest,process_ab_time]
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_decile.html

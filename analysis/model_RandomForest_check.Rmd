@@ -64,7 +64,7 @@ library(dplyr)
 groups <- ntile(pred.y,10)
 # average the observed and expected probabilities of patients in each risk group 
 gpdata <- cbind(train_X,groups,pred.y)
-obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(train_Y))))[,2])
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
 exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
 obsn <- table(train_Y,groups)[1,] 
 
@@ -119,7 +119,7 @@ E/O
 groups <- ntile(pred.y,10)
 # average the observed and expected probabilities of patients in each risk group 
 gpdata <- cbind(valid_X,groups,pred.y)
-obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(valid_Y))))[,2])
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
 exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
 obsn <- table(valid_Y,groups)[1,] 
 
