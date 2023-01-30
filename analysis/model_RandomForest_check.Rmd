@@ -37,6 +37,8 @@ print(rf.model)
 
 
 model performance
+
+train
 ```{r}
 
 # probabilities of cases
@@ -94,8 +96,10 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 ```
 
+
+valid
 ```{r}
-rm(pred.y)
+rm(pred.y,train_X,train_Y)
 pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
 roc_valid <- roc(valid_Y ~ pred.y)
   
@@ -104,7 +108,7 @@ print(roc_valid)
 
 
 # E/O
-O <- prop.table(table(train_Y))[2]
+O <- prop.table(table(valid_Y))[2]
 E <- mean(pred.y)
 E/O
 
@@ -114,10 +118,10 @@ E/O
 # create 10 risk groups
 groups <- ntile(pred.y,10)
 # average the observed and expected probabilities of patients in each risk group 
-gpdata <- cbind(train_X,groups,pred.y)
-obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(train_Y))))[,2])
+gpdata <- cbind(valid_X,groups,pred.y)
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(valid_Y))))[,2])
 exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(train_Y,groups)[1,] 
+obsn <- table(valid_Y,groups)[1,] 
 
  
 # CIs for scatter points
@@ -139,7 +143,7 @@ for(i in 1:length(h$mids)){
 }
 
 # Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(train_Y))~pred.y,span=1))
+obs_all <- predict(loess(as.numeric(as.character(valid_Y))~pred.y,span=1))
 lines_data <- data.frame(pred.y,obs_all)
 lines_data2 <- lines_data[order(pred.y),] 
 lines(lines_data2[,1],lines_data2[,2],col="blue")
