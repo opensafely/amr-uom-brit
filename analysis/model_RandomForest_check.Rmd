@@ -3,14 +3,10 @@ title: "Random Forest"
 ---
 
 ```{r setup, include=FALSE}
-#library(knitr)
 library(dplyr)
-#library(skimr)
 library('tidyverse')
-#library("ggplot2")
-#library(caret)
-knitr::opts_chunk$set(echo = TRUE)
-options(knitr.table.format="html")
+library(pROC)
+library(randomForest)
 
 ```
 
