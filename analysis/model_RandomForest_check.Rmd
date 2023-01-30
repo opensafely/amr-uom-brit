@@ -3,11 +3,11 @@ title: "Random Forest"
 ---
 
 ```{r setup, include=FALSE}
-library(dplyr)
+
 library('tidyverse')
 library(pROC)
 library(randomForest)
-
+library(plyr)
 ```
 
 # import dataset
@@ -109,7 +109,7 @@ E <- mean(pred.y)
 E/O
 
 
-library(dplyr)
+
 # calibration 
 # create 10 risk groups
 groups <- ntile(pred.y,10)
