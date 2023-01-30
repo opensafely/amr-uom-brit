@@ -271,3 +271,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/case_id.csv
+
+  generate_study_population_variables:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_variables
+    needs: [process2_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_variables.csv
