@@ -135,6 +135,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_decile.html
+        rds1: output/development.rds
+        rds2: output/validation.rds
   
   model_tuneRF: #
     run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

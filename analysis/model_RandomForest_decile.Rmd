@@ -1,0 +1,69 @@
+---
+title: "Random Forest model_ decile groups of probabilities"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library('tidyverse')
+library(pROC)
+library(randomForest)
+
+```
+
+# import dataset
+```{r }
+#train_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_Y.rds")
+train_Y <- read_rds(here::here("output","train_Y.rds"))
+train_Y=as.factor(train_Y)
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+train_X <- read_rds(here::here("output","train_X.rds"))
+train_X$case=as.factor(train_X$case)
+#valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
+valid_Y <- read_rds(here::here("output","valid_Y.rds"))
+valid_Y=as.factor(valid_Y)
+#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
+valid_X <- read_rds(here::here("output","valid_X.rds"))
+valid_X$case=as.factor(valid_X$case)
+
+#df=sample_n(df,5000)
+table(train_X$case)
+table(valid_X$case)
+
+n=nrow(train_X)
+
+rf.model=readRDS(here::here("output","model_RandomForest.rds"))
+print(rf.model)
+```
+
+
+development set
+```{r}
+# probabilities of being case
+prob <- predict(rf.model, train_X, type = 'prob')[,2]
+exp.class <- predict(rf.model, train_X, type = 'response')
+# create 10 risk groups
+decile <- ntile(pred.y,10)
+# combined
+devel <- cbind(train_X,decile,prob,exp.class)
+
+head(devel[,108:110])
+
+saveRDS(devel,here::here("output","development.rds"))
+```
+
+
+validation set
+```{r}
+rm(pred.y)
+# probabilities of being case
+prob <- predict(rf.model, valid_X, type = 'prob')[,2]
+exp.class <- predict(rf.model, valid_X, type = 'response')
+# create 10 risk groups
+decile <- ntile(pred.y,10)
+# combined
+valid<- cbind(valid_X,decile,prob,exp.class)
+
+head(valid[,108:110])
+
+saveRDS(validl,here::here("output","validation.rds"))
+```
