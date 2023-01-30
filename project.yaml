@@ -264,3 +264,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/covidimd_model.html
+
+  process2_idextraction:  
+    run: r:latest analysis/process2_idextraction.R
+    needs: [matching1,matching2,matching3,matching4]
+    outputs:
+      highly_sensitive:
+        cohort: output/case_id.csv
