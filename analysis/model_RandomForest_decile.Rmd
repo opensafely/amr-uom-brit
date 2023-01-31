@@ -59,7 +59,7 @@ development set
 prob <- predict(rf.model, train_X, type = 'prob')[,2]
 exp.class <- predict(rf.model, train_X, type = 'response')
 # create 10 risk groups
-decile <- ntile(pred.y,10)
+decile <- ntile(prob,10)
 # combined
 train_X=train_X[,c("patient_id","patient_index_date")]
 devel <- cbind(train_X,decile,prob,exp.class)
@@ -73,12 +73,12 @@ devel$set=0
 
 validation set
 ```{r}
-rm(pred.y)
+rm(prob)
 # probabilities of being case
 prob <- predict(rf.model, valid_X, type = 'prob')[,2]
 exp.class <- predict(rf.model, valid_X, type = 'response')
 # create 10 risk groups
-decile <- ntile(pred.y,10)
+decile <- ntile(prob,10)
 
 valid_X=valid_X[,c("patient_id","patient_index_date")]
 
