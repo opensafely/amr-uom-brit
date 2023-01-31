@@ -119,7 +119,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest.html
-        csv1: output/var_tree.csv
+  #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
 
   model_RandomForest_check: # check performance
