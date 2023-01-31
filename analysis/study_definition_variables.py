@@ -553,4 +553,60 @@ study = StudyDefinition(
         on_or_before="patient_index_date",
         find_last_match_in_period=True,
     ),
+
+    # Alcohol problems
+    alcohol_problems=patients.with_these_clinical_events(
+        hazardous_alcohol_codes,  # imported from codelists.py
+        returning="binary_flag",
+        on_or_before="patient_index_date",
+        find_last_match_in_period=True,
+    ),
+
+    ## HOUSEHOLD INFORMATION
+    # CAREHOME STATUS
+    care_home_type=patients.care_home_status_as_of(
+        "2020-02-01",
+        categorised_as={
+            "PC": """
+              IsPotentialCareHome
+              AND LocationDoesNotRequireNursing='Y'
+              AND LocationRequiresNursing='N'
+            """,
+            "PN": """
+              IsPotentialCareHome
+              AND LocationDoesNotRequireNursing='N'
+              AND LocationRequiresNursing='Y'
+            """,
+            "PS": "IsPotentialCareHome",
+            "U": "DEFAULT",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "PC": 0.05,
+                    "PN": 0.05,
+                    "PS": 0.05,
+                    "U": 0.85,
+                },
+            },
+        },
+    ),
+    # HOUSEHOLD INFORMATION
+    household_id=patients.household_as_of(
+        "2020-02-01",
+        returning="pseudo_id",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 500, "stddev": 500},
+            "incidence": 1,
+        },
+    ),
+    household_size=patients.household_as_of(
+        "2020-02-01",
+        returning="household_size",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 1,
+        },
+    ),
  ) 

@@ -69,6 +69,12 @@ clear_smoking_codes = codelist_from_csv(
     category_column="Category",
 )
 
+# HAZARDOUS ALCOHOL USE CODELIST
+hazardous_alcohol_codes = codelist_from_csv(
+    "codelists/opensafely-hazardous-alcohol-drinking.csv", system="ctv3", column="code",
+)
+
+
 # COMORBIDITIES
 # Hypertension diagnosis
 hypertension_codes = codelist_from_csv(

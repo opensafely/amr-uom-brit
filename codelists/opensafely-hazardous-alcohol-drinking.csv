@@ -1,0 +1,248 @@
+code,term
+1365.,Heavy drinker - 7-9u/day
+1366.,Very heavy drinker - greater than 9 units/day
+136D.,Ex-heavy drinker - (7-9u/day)
+136E.,Ex-very heavy drinker - greater than 9 units/day
+136K.,Alcohol intake above recommended sensible limits
+13Y8.,Alcoholics anonymous
+1462.,H/O: alcoholism
+2577.,O/E - breath - alcohol smell
+8BA8.,Alcohol detoxification
+8G32.,Aversion therapy - alcoholism
+8H35.,Admitted to alcohol detoxification centre
+C251.,Thiamine (vit B1) defic state: [Wernicke] or [oth & unspec]
+E01..,Alcoholic psychoses
+E010.,Delirium tremens
+E011.,Korsakov psychosis
+E0110,Korsakov psychosis
+E0111,Korsakov's alcoholic psychosis with peripheral neuritis
+E0112,Wernicke-Korsakov syndrome
+E011z,Alcohol amnestic syndrome NOS
+E012.,Alcoholic dementia: [other] or [NOS]
+E0120,Chronic alcoholic brain syndrome
+E013.,Alcohol withdrawal hallucinosis
+E015.,Alcoholic paranoia
+E01y.,Other alcoholic psychosis
+E01y0,Alcohol withdrawal syndrome
+E01yz,Other alcoholic psychosis NOS
+E01z.,Alcoholic psychosis NOS
+E23..,(Alcoh depend synd [& alcoholism]) or (alcoh prob drinking)
+E230.,Acute alcoholic intoxication in alcoholism
+E2300,"Acute alcoholic intoxication, unspecified, in alcoholism"
+E2301,Continuous acute alcoholic intoxication in alcoholism
+E2302,Episodic acute alcoholic intoxication in alcoholism
+E2303,"Acute alcoholic intoxication in remission, in alcoholism"
+E230z,Acute alcoholic intoxication in alcoholism NOS
+E231.,Chronic alcoholism (& [dipsomania])
+E2310,Unspecified chronic alcoholism
+E2311,Continuous chronic alcoholism
+E2312,Episodic chronic alcoholism
+E2313,Chronic alcoholism in remission
+E231z,Chronic alcoholism NOS
+E23z.,Alcohol dependence syndrome NOS
+E247.,Drug dependence: [absinthe] or [other specified]
+E250.,(Alc intox)(hangover)(nondep alc abus)(drunk NOS)(inebr NOS)
+E2500,"Nondependent alcohol abuse, unspecified"
+E2501,"Nondependent alcohol abuse, continuous"
+E2502,"Nondependent alcohol abuse, episodic"
+E2503,Nondependent alcohol abuse in remission
+E250z,Nondependent alcohol abuse NOS
+Eu10.,[X]Mental and behavioural disorders due to use of alcohol
+Eu100,[X]Mental & behav dis due to use alcohol: acute intoxication
+Eu101,[X]Mental and behav dis due to use of alcohol: harmful use
+Eu102,"[X](Ment/beh dis,alc dep) or (chr alcoh'sm [&(addic)(dips)])"
+Eu103,[X]Mental and behav dis due to use alcohol: withdrawal state
+Eu104,[X]Men & behav dis due alcohl: withdrawl state with delirium
+Eu105,[X]Ment/beh dis due alc: psychot (& [variants][psychos NOS])
+Eu106,[X]Mental and behav dis due to use alcohol: amnesic syndrome
+Eu107,"[X](Ment/beh dis due alc, resid/late) or (chr alc brain syn)"
+Eu10y,[X]Men & behav dis due to use alcohol: oth men & behav dis
+F11x0,Alcoholic encephalopathy
+F1440,Alcoholic cerebellar degeneration
+F375.,Alcohol-related polyneuropathy
+G555.,Alcohol-induced heart muscle disease
+J153.,Alcoholic gastritis
+J610.,Alcoholic fatty liver
+J611.,Acute alcoholic hepatitis
+J612.,Cirrhosis: [florid] or [alcoholic]
+J613.,Alcoholic liver damage unspecified
+J617.,Alcoholic hepatitis
+J6710,Alcohol-induced chronic pancreatitis
+R103.,[D]Alcohol blood level excessive
+SM0..,Alcohol causing toxic effect
+SM002,Grain alcohol causing toxic effect
+SM0y.,Other alcohol causing toxic effect
+SM0z.,Alcohol causing toxic effect NOS
+SyuG0,[X]Toxic effect of other alcohols
+U2090,[X]Int self poison/exposure to alcohol at home
+U2091,[X]Intent self poison alcohol at res institut
+U2092,[X]Int self poison alcohol school/pub admin area
+U2093,[X]Int self poison alcohol in sport/athletic area
+U2094,[X]Intent self pois alcohol in street/highway
+U2095,[X]Intent self pois alcohol trade/service area
+U2096,[X]Int self pois alcohol indust/construct area
+U2097,[X]Int self poison/exposure to alcohol on farm
+U209y,[X]Int self poison alcohol other spec place
+U209z,[X]Intent self poison alcohol unspecif place
+U409.,"[X]Poisoning by and exposure to alcohol, undetermined intent"
+U4090,"[X]Poison/exposure ?intent, to alcohol at home"
+U4091,[X]Pois/expos ?intent to alcohol at res institut
+U4092,[X]Pois/exp ?intent alcohol school/pub admin area
+U4093,[X]Pois/exp ?intent alcohol in sport/athletic area
+U4094,[X]Pois/expos ?intent alcohol in street/highway
+U4095,[X]Pois/expos ?intent alcohol trade/service area
+U4096,"[X]Poison/exposure, ?intent, alcohol indust/construct area"
+U4097,"[X]Poison/exposure ?intent, to alcohol on farm"
+U409y,[X]Pois/exp ?intent to alcohol other spec place
+U409z,[X]Pois/expos ?intent to alcohol unspecif place
+U80..,[X]Evidence of alcohl involv determin by blood alcohl level
+U800.,[X]Eviden of alcohl involv blood alcohl level <20 mg/100 ml
+U801.,[X]Eviden of alcohl involv blood alcohl level 20-39mg/100ml
+U802.,[X]Eviden of alcohl involv blood alcohl level 40-59mg/100ml
+U803.,[X]Eviden of alcohl involv blood alcohl level 60-79mg/100ml
+U804.,[X]Eviden of alcohl involv blood alcohl level 80-99mg/100ml
+U805.,[X]Eviden of alcoh involv blood alcoh level 100-119mg/100ml
+U806.,[X]Eviden of alcoh involv blood alcoh level 120-199mg/100ml
+U807.,[X]Eviden of alcoh involv blood alcoh level 200-239mg/100ml
+U808.,[X]Eviden alcoh involv blood alcoh level 240mg/100ml or more
+U80z.,[X]Evid alcoh invol detrm by pres alcoh in bld levl not spec
+U81..,[X]Evid of alcohol involv determind by level of intoxication
+U810.,[X]Evid alcoh invol determ by levl of intox mild alcoh intox
+U811.,[X]Evid alcoh invol determ by level of intox mod alcoh intox
+U812.,[X]Evid alcoh invol determ by level of intox sev alcoh intox
+U813.,[X]Evid alcoh invl determ by levl intox very sev alcoh intox
+U814.,[X]Evid alch invl detrm by levl intox alch invl not oth spec
+Ua1Ml,Alcohol reduction programme
+Ua1Mm,Alcohol withdrawal regime
+Ub0lN,Fairly heavy drinker
+Ub0lO,Heavy drinker
+Ub0lP,Very heavy drinker
+Ub0lQ,Secret drinker
+Ub0lR,Problem drinker
+Ub0lX,Park drinker
+Ub0lY,Street drinker
+Ub0lp,Drinks with strangers
+Ub0lt,Drinks in morning to get rid of hangover
+Ub0ly,Binge drinker
+Ub0lz,Alcoholic binges exceeding sensible amounts
+Ub0m0,Alcoholic binges exceeding safe amounts
+Ub0m1,Regular drinker
+Ub0m3,Habitual drinker
+Ub0m9,Drinking binge
+Ub0mH,Priority given to drink-related activities
+Ub0mI,Drinking takes priority over social obligations
+Ub0mJ,Drinking takes priority over family obligations
+Ub0mK,Drinking takes priority over financial obligations
+Ub0mN,Unable to control drinking
+Ub0mO,Unable to abstain from drinking
+Ub0mP,Unable to control drinking once started
+Ub0mQ,Unable to control spontaneous drinking bouts
+Ub0mR,Unable to stop drinking before intoxication
+Ub0mX,Behavioural tolerance to alcohol
+Ub0mY,Physical tolerance to alcohol
+Ub0mZ,Psychological tolerance to alcohol
+Ub0mb,Drink driving
+Ub0mc,Charged with drink driving offence
+Ub0md,Convicted of drink driving
+Ub0mi,Ashamed of drinking
+Ub0mj,Feels should cut down drinking
+Ub0mk,Feels drinking is out of control
+Ub0mm,Craving for alcohol
+X0053,Wernicke encephalopathy
+X0055,Morel laminar sclerosis
+X006u,Alcohol-induced epilepsy
+X00FS,Alcoholic coma
+X00Rk,Alcoholic dementia NOS
+X00Rm,Acute alcohol intoxication
+X00Rn,Inebriety NOS
+X00Ro,Drunkenness NOS
+X00Rq,Absinthe addiction
+X20Bo,Alcohol-related macrocytosis
+X20CI,Alcohol-related sideroblastic anaemia
+X306r,Alcoholic hepatitis
+X3071,Alcoholic liver disease
+X3072,Alcoholic fibrosis and sclerosis of liver
+X3073,Alcoholic hepatic failure
+X308j,Alcohol-induced acute pancreatitis
+X308v,Alcohol-induced chronic pancreatitis
+X40K4,Alcohol-induced hypoglycaemia
+X40MG,Alcohol-induced pseudo-Cushing's syndrome
+X709V,Alcoholic myopathy
+XE0b4,Alcoholic cirrhosis of liver
+XE0dD,(Cirrhos &/or chron liver dis) or (alcoholic liver disease)
+XE0dF,Alcoholic liver damage NOS
+XE1Xu,Other alcoholic dementia
+XE1YQ,Chronic alcoholism
+XE1YX,Nondependent alcohol abuse
+XE1ZE,[X]Mental and behav dis due to use alcohol: dependence syndr
+XE1ZF,[X]Mental & behav dis due to use alcohol: psychotic disorder
+XE1ZG,[X]Men & behav dis due alcoh: resid & late-onset psychot dis
+XE1aI,(Alcohol psychosis: [Korsakov][other]) or (alc withdr syndr)
+XE1aw,Alcohol dependence syndrome (& [dipsomania])
+XE1b2,(Non-depend abuse of alcohol) or (drunkenness) or (hangover)
+XM033,Smell of alcohol on breath
+XM0zW,Alcohol blood elevated   [D]
+XM18Y,Alcoholism detoxication centre
+XM1D0,Finding of alcohol in blood
+XSBcu,Alcohol rehabilitation
+Xa0hK,Alcoholic macrocytosis
+Xa17e,Alcoholic hallucinosis
+Xa17m,Alcoholic jealousy
+Xa1yZ,Alcohol abuse
+Xa25J,Alcoholic dementia
+Xa2lt,Persistent alcohol abuse
+Xa3dY,Ex-problem drinker
+Xa7On,Alcoholism counselling
+Xa7lt,Abstinent alcoholic
+Xa7nD,Alcohol-induced cerebellar ataxia
+XaA1V,Ethanol abuse
+XaBE3,Chronic alcoholic hepatitis
+XaBZA,Alcohol withdrawal-induced convulsion
+XaC1d,Oesophageal varices in alcoholic cirrhosis of the liver
+XaF99,Alcohol related optic neuropathy
+XaIN4,Under care of community alcohol team
+XaIPn,Referral to community alcohol team
+XaJni,Alcohol disorder monitoring
+XaK9f,Alcohol misuse enhanced services administration
+XaKAA,Community detoxification registered
+XaKAC,Alcohol consumption counselling
+XaKAJ,Alcohol misuse enhanced service completed
+XaKAo,Alcohol counselling by other agencies
+XaKUg,Referral to community drug and alcohol team
+XaKV2,Alcohol induced hallucinations
+XaKvA,Hazardous alcohol use
+XaKvB,Harmful alcohol use
+XaLWu,[X]Alcohol withdrawal-induced seizure
+XaLrN,Alcohol abuse monitoring
+XaLsx,Delivery of rehabilitation for alcohol addiction
+XaMhj,Disqualified from driving due to excess alcohol
+XaORR,Referral to specialist alcohol treatment service
+XaPPv,Brief intervention for excessive alcohol consumptn completed
+XaPPy,Extended intervention for excessive alcohol consumptn complt
+XaPQC,Alcohol related fit
+XaPds,Seen by counsellor for alcohol misuse
+XaPmB,Advised to contact primary care alcohol worker
+XaPna,Referral to alcohol brief intervention service
+XaPty,Brief intervention for excessive alcohol consumptn declined
+XaPwp,Declined referral to specialist alcohol treatment service
+XaX4S,Extended interven for excessive alcohol consumption declined
+XaXan,Advised to abstain from alcohol consumption
+XaXkb,Referral to community alcohol team declined
+XaYLJ,"Cycle of change stage, alcohol"
+XaYWV,Referral to alcohol misuse clinic
+XaamS,In-house alcohol detoxification
+XabN7,Alcohol dependence resolved
+XabUM,Hospital alcohol liaison team report received
+Xabi7,Mild alcohol dependence
+Xabi8,Moderate alcohol dependence
+Xabi9,Severe alcohol dependence
+XaboV,Refer to MH services deferred until alcohol misuse resolved
+Xac6H,Specialist alcohol treatment service signposted
+XacTX,Emergency dept attendanc related to personl alcohl consumptn
+XacTY,Hospital attendance related to personal alcohol consumption
+Xacab,Withdrawn from alcohol detoxification programme
+XacfZ,Alcohol relapse prevention
+Xacmc,Alcohol harm reduction programme
+Xactr,Alcohol twelve step programme
+XagOG,Signposting to alcohol misuse service
+ZV6D6,[V]Alcohol abuse counselling and surveillance
