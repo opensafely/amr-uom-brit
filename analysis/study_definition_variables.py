@@ -45,6 +45,15 @@ study = StudyDefinition(
         returning_type="date",
     ),
 
+    # ethnicity
+    ethnicity=patients.with_ethnicity_from_sus(
+    returning="group_6",
+    use_most_frequent_code=True,
+    return_expectations={
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "incidence": 0.75,
+        },
+    ),
 
     # bmi
     # set maximum to avoid any impossibly extreme values being classified as
