@@ -48,6 +48,8 @@ valid_X$case=as.factor(valid_X$case)
 table(train_X$case)
 table(valid_X$case)
 
+rf.model=readRDS(here::here("output","model_RandomForest.rds"))
+print(rf.model)
 ```
 
 
