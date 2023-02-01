@@ -45,7 +45,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```{r}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
-print(model)
+summary(model)
 
 #pred.y <- predict(model, df, type = 'response')[,2]
 #roc<- roc(df$case ~ pred.y)
@@ -83,7 +83,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```{r}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
-print(model)
+summary(model)
 #pred.y <- predict(model, df, type = 'response')[,2]
 #roc<- roc(df$case ~ pred.y)
 #plot(roc)
