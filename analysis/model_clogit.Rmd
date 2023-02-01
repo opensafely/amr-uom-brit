@@ -41,11 +41,15 @@ DF=subset(DF,select=col1)
 data=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
 
 rm(DF,df)
+
+str(data)
+
+table(data$case)
 ```
 
 
 # train
-```{r}
+```{r eval=FALSE, include=FALSE}
 df=data%>%filter(set==1)
 
 df$case=as.numeric(df$case) #1/0
@@ -80,7 +84,7 @@ summary(model)
 
 
 # valid
-```{r}
+```{r eval=FALSE, include=FALSE}
 rm(df)
 df=data%>%filter(set==2)
 
