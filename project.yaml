@@ -340,3 +340,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_var_221.csv
+
+  process_data:
+    run: r:latest analysis/data_process.R
+    needs: [generate_study_population_variables]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed/input_case_data.rds
