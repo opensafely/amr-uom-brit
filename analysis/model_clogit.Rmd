@@ -1,0 +1,115 @@
+---
+title: "conditional logistic regression"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+require("gtsummary")
+library("survival")
+library(car)
+library(finalfit)
+```
+
+# import dataset
+```{r }
+#df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+df <- read_rds(here::here("output","train_X.rds"))
+
+df1=df
+df1$set=1
+
+rm(df)
+
+df <- read_rds(here::here("output","valid_X.rds"))
+
+df2=df
+df2$set=2
+rm(df)
+
+df=rbind(df1,df2)
+```
+
+```{r}
+DF<- read_rds(here::here("output","matched_outcome.rds"))
+col1=c("patient_index_date","patient_id","subclass","case","ethnicity_6","bmi_cat","CCI","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine")
+DF=subset(DF,select=col1)
+
+
+data=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
+
+rm(DF,df)
+```
+
+
+# train
+```{r}
+df=data%>%filter(set==1)
+
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean+interval_CV+length_mean+length_CV+prescribe_time_0+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+#pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period"  ,"recent_ab_days", "broad_prop" ,"broad_ab_prescriptions",  "interval_mean" , "interval_sd" , "interval_CV","length_mean", "length_sd", "length_CV", "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col)
+#  "AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk"
+
+summary(model)
+
+#pred.y <- predict(model, df, type = 'response')[,2]
+#roc<- roc(df$case ~ pred.y)
+##plot(roc)
+#print(roc)
+```
+
+
+# valid
+```{r}
+rm(df)
+df=data%>%filter(set==2)
+
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean+interval_CV+length_mean+length_CV+prescribe_time_0+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+summary(model)
+```
+
+```{r}
+
+#pred.y <- predict(model, df, type = 'response')[,2]
+#roc<- roc(df$case ~ pred.y)
+#plot(roc)
+#print(roc)
+```
