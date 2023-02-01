@@ -34,7 +34,7 @@ df=rbind(df1,df2)
 
 ```{r}
 DF<- read_rds(here::here("output","matched_outcome.rds"))
-col1=c("patient_index_date","patient_id","subclass","case","ethnicity_6","bmi_cat","CCI","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine")
+col1=c("patient_index_date","patient_id","subclass","ethnicity_6","bmi_cat","CCI","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine")
 DF=subset(DF,select=col1)
 
 
@@ -49,7 +49,7 @@ table(data$case)
 
 
 # train
-```{r eval=FALSE, include=FALSE}
+```{r}
 df=data%>%filter(set==1)
 
 df$case=as.numeric(df$case) #1/0
@@ -76,15 +76,15 @@ model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+i
 
 summary(model)
 
-#pred.y <- predict(model, df, type = 'response')[,2]
-#roc<- roc(df$case ~ pred.y)
-##plot(roc)
-#print(roc)
+pred.y <- predict(model, df, type = 'risk')[,2]
+roc<- roc(df$case ~ pred.y)
+plot(roc)
+print(roc)
 ```
 
 
 # valid
-```{r eval=FALSE, include=FALSE}
+```{r}
 rm(df)
 df=data%>%filter(set==2)
 
@@ -105,15 +105,12 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 
-model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean+interval_CV+length_mean+length_CV+prescribe_time_0+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
-
-summary(model)
 ```
 
 ```{r}
 
-#pred.y <- predict(model, df, type = 'response')[,2]
-#roc<- roc(df$case ~ pred.y)
-#plot(roc)
-#print(roc)
+pred.y <- predict(model, df, type = 'risk')[,2]
+roc<- roc(df$case ~ pred.y)
+plot(roc)
+print(roc)
 ```
