@@ -1,5 +1,11 @@
 {
   "files": {
+    "opensafely-ethnicity.csv": {
+      "id": "opensafely/ethnicity/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
+      "downloaded_at": "2023-02-01 12:12:05.440739Z",
+      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    },
     "user-BillyZhongUOM-codes_for_sepsis.csv": {
       "id": "user/BillyZhongUOM/codes_for_sepsis/00ab8f66",
       "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/codes_for_sepsis/00ab8f66/",

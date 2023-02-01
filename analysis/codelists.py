@@ -15,6 +15,14 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 
 # --- CODELISTS ---
 
+ethnicity_codes = codelist_from_csv(
+    "codelists/opensafely-ethnicity.csv",
+    system="ctv3",
+    column="Code",
+    category_column="Grouping_6",
+)
+
+
 ### sepsis_hosp
 sepsis_hosp = codelist_from_csv(
   "codelists/user-BillyZhongUOM-codes_for_sepsis.csv",

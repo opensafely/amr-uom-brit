@@ -11,7 +11,7 @@ from cohortextractor import (
 )
 
 ###### import matched cohort
-COHORT = "output/case_id.csv"
+COHORT = "output/control_id_191.csv"
 
 ###### Code lists
 from codelists import *
@@ -19,7 +19,7 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2019-01-01"
-end_date = "2022-06-30"
+end_date = "2019-06-30"
 
 
 study = StudyDefinition(

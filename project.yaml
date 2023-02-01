@@ -278,3 +278,65 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_variables.csv
+
+  process3_idextraction:  
+    run: r:latest analysis/process3_idextraction.R
+    needs: [matching1,matching2,matching3,matching4]
+    outputs:
+      highly_sensitive:
+        cohort1: output/control_id_191.csv
+        cohort2: output/control_id_192.csv
+        cohort3: output/control_id_201.csv
+        cohort4: output/control_id_202.csv
+        cohort5: output/control_id_211.csv
+        cohort6: output/control_id_212.csv
+        cohort7: output/control_id_221.csv
+
+  generate_study_population_control_var_191:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_191
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_191.csv
+
+  generate_study_population_control_var_192:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_192
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_192.csv
+
+  generate_study_population_control_var_201:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_201
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_201.csv
+
+  generate_study_population_control_var_202:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_202
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_202.csv
+
+  generate_study_population_control_var_211:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_211
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_211.csv
+
+  generate_study_population_control_var_212:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_212
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_212.csv
+
+  generate_study_population_control_var_221:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_var_221
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_var_221.csv
