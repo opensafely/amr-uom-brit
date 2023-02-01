@@ -105,9 +105,9 @@ names(DF)
 ```{r}
 
 development=DF%>%filter(set==0)
-saveRDS(ddevelopment,here::here("output","development.rds"))
+saveRDS(development,here::here("output","development.rds"))
 validation=DF%>%filter(set==1)
-saveRDS(validl,here::here("output","validation.rds"))
+saveRDS(validation,here::here("output","validation.rds"))
 
 table(development$case)
 nrow(development)
