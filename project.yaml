@@ -140,6 +140,7 @@ actions:
 
   model: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_decile]
     outputs:
       moderately_sensitive:
         html: output/model.html
