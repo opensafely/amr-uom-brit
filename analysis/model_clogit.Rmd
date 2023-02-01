@@ -76,7 +76,7 @@ model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+i
 
 summary(model)
 
-pred.y <- predict(model, df, type = 'risk')[,2]
+pred.y <- predict(model, df, type = 'risk')
 roc<- roc(df$case ~ pred.y)
 plot(roc)
 print(roc)
@@ -109,7 +109,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 
-pred.y <- predict(model, df, type = 'risk')[,2]
+pred.y <- predict(model, df, type = 'risk')
 roc<- roc(df$case ~ pred.y)
 plot(roc)
 print(roc)
