@@ -70,7 +70,7 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 
-model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean+interval_CV+length_mean+length_CV+prescribe_time_0+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~I(total_ab)+I(ab_types)+I(exposure_period)+I(recent_ab_days)+I(broad_prop)+I(interval_mean) +I(interval_CV)+I(length_mean)+I(length_CV)+I(prescribe_time_0)+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period"  ,"recent_ab_days", "broad_prop" ,"broad_ab_prescriptions",  "interval_mean" , "interval_sd" , "interval_CV","length_mean", "length_sd", "length_CV", "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col)
 #  "AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk"
@@ -110,7 +110,8 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```{r}
 
-pred.y <- predict(model, df, type = 'risk')
+pred.y <- predict(model, newdata = df, type ="risk")
+
 roc<- roc(df$case ~ pred.y)
 plot(roc)
 print(roc)
