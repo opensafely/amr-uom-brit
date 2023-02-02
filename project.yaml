@@ -348,6 +348,16 @@ actions:
       highly_sensitive: 
         rds: output/processed/input_case_data.rds
 
+  process_data_control:
+    run: r:latest analysis/data_process_control.R
+    needs: [generate_study_population_control_var_191,generate_study_population_control_var_192,
+    generate_study_population_control_var_201,generate_study_population_control_var_202,
+    generate_study_population_control_var_211,generate_study_population_control_var_212,
+    generate_study_population_control_var_221]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed/input_control_data.rds
+
 # Skim data
   skim_data_case:
     run: r:latest analysis/data_skim.R output/processed/input_case_data.rds output/data_properties
@@ -357,3 +367,12 @@ actions:
         txt1: output/data_properties/input_case_data_skim.txt
         txt2: output/data_properties/input_case_data_coltypes.txt
         txt3: output/data_properties/input_case_data_tabulate.txt
+
+  skim_data_control:
+    run: r:latest analysis/data_skim.R output/processed/input_control_data.rds output/data_properties
+    needs: [process_data_control]
+    outputs: 
+      moderately_sensitive:
+        txt1: output/data_properties/input_control_data_skim.txt
+        txt2: output/data_properties/input_control_data_coltypes.txt
+        txt3: output/data_properties/input_control_data_tabulate.txt
