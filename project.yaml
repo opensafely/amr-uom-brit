@@ -347,3 +347,13 @@ actions:
     outputs:
       highly_sensitive: 
         rds: output/processed/input_case_data.rds
+
+# Skim data
+  skim_data_case:
+    run: r:latest analysis/data_skim.R output/processed/input_case_data.rds output/data_properties
+    needs: [process_data]
+    outputs: 
+      moderately_sensitive:
+        txt1: output/data_properties/input_case_data_skim.txt
+        txt2: output/data_properties/input_case_data_coltypes.txt
+        txt3: output/data_properties/input_case_data_tabulate.txt
