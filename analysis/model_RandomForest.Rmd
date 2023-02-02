@@ -39,11 +39,23 @@ table(valid_X$case)
 n=nrow(train_X)
 ```
 
+pick variable
+```{r}
+names(train_X)
+
+col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_mean" , "interval_sd" , "interval_CV")
+# "length_mean", "length_sd", "length_CV",, "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3""prescribe_times",
+train_X=train_X%>% select(col)
+valid_X=valid_X%>% select(col)
+
+names(train_X)
+```
+
+
 train model
 ```{r}
 library(pROC)
 library(randomForest)
-
 
 #result = expand.grid(
  #  ntree=c(1000,2000),
@@ -59,7 +71,7 @@ set.seed(1024)
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.7),
-                           nodesize = 1 ,
+                           nodesize = 100 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
 ```
@@ -102,5 +114,15 @@ importance(rf.model)
 varImpPlot(rf.model)
 
 saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
+```
+
+```{r}
+rm(pred.y)
+pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+roc_valid <- roc(valid_Y ~ pred.y)
+  
+plot(roc_valid)
+print(roc_valid)
+
 ```
 
