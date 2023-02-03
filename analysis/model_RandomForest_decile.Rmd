@@ -90,7 +90,7 @@ head(prob)
 ```
 
 development set
-```{r }
+```{r eval=FALSE, include=FALSE}
 # probabilities of being case
 prob <- predict(rf.model, type = 'prob')[,2]
 exp.class <- predict(rf.model, type = 'response')
