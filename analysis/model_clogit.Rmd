@@ -119,7 +119,7 @@ summary(model)
 ```
 
 ```{r}
-model=clogit(case ~tinterval_mean + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+model=clogit(case ~interval_mean + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
