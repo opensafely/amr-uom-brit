@@ -95,7 +95,7 @@ summary(model)
 ```
 
 ```{r}
-model=clogit(case ~ab_types CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+model=clogit(case ~ab_types+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
@@ -107,7 +107,7 @@ summary(model)
 ```
 
 ```{r}
-model=clogit(case ~recent_ab_days+ covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+model=clogit(case ~recent_ab_days + CCI +covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
@@ -156,6 +156,5 @@ pred.y <- predict(model, newdata = df, type ="risk")
 roc<- roc(df$case ~ pred.y)
 plot(roc)
 print(roc)
-
 
 ```
