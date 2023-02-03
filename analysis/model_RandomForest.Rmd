@@ -42,9 +42,9 @@ n=nrow(train_X)
 pick variable
 ```{r}
 names(train_X)
-
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_mean" , "interval_sd" , "interval_CV")
-# "length_mean", "length_sd", "length_CV",, "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3""prescribe_times",
+# all varilables: pred_col=c("patient_id","patient_index_date", "case","total_ab","interval_sd" ,  "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk")
+abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_mean" , "interval_CV",abtype)
 train_X=train_X%>% select(col)
 valid_X=valid_X%>% select(col)
 
@@ -77,6 +77,20 @@ set.seed(1024)
 ```
 
 ```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, type = 'prob')[,2]
+  roc_valid <- roc(train_Y ~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+  print(rf.model)
+```
+
+
+```{r}
+set.seed(1024)
 pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
   roc_valid <- roc(train_Y ~ pred.y)
   
@@ -117,6 +131,7 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```
 
 ```{r}
+set.seed(1024)
 rm(pred.y)
 pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
 roc_valid <- roc(valid_Y ~ pred.y)

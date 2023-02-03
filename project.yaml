@@ -78,7 +78,7 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_time.csv
 
-  process_ab_time: # exposures
+  process_ab_time: # exposures #merge ab time with mathced patients
     run: r:latest -e 'rmarkdown::render("analysis/process_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [extract_variables_ab_time,process_Rmatching]
     outputs:
@@ -87,7 +87,7 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-  model_RF_process: # distinct patient, check variables
+  model_RF_process: # distinct patient, merge 79 types of ab, split train and valid set
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
     outputs:
@@ -98,6 +98,7 @@ actions:
         rds2: output/train_Y.rds
         rds3: output/valid_X.rds
         rds4: output/valid_Y.rds
+        rds5: output/abtype.rds
 
   # model_tuneRF: #mtry, 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -113,7 +114,7 @@ actions:
   #     moderately_sensitive:
   #       html: output/model_RF_training.html
 
-  model_RandomForest: # model training
+  model_RandomForest: # pick variables for model training
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
