@@ -53,6 +53,7 @@ print(rf.model)
 ```
 
 
+
 development set
 ```{r}
 # probabilities of being case
@@ -67,6 +68,27 @@ devel <- cbind(train_X,decile,prob,exp.class)
 head(devel)
 
 devel$set=0
+
+head(prob)
+
+```
+
+development set
+```{r}
+# probabilities of being case
+prob <- predict(rf.model, type = 'prob')[,2]
+exp.class <- predict(rf.model, train_X, type = 'response')
+# create 10 risk groups
+decile <- ntile(prob,10)
+# combined
+train_X=train_X[,c("patient_id","patient_index_date")]
+devel <- cbind(train_X,decile,prob,exp.class)
+
+head(devel)
+
+devel$set=0
+
+head(prob)
 
 ```
 
