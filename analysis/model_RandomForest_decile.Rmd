@@ -37,9 +37,15 @@ nrow(DF)
 
 
 ```{r }
+
+abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_mean" , "interval_CV",abtype)
+
+
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
+
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
@@ -47,6 +53,13 @@ valid_X$case=as.factor(valid_X$case)
 
 table(train_X$case)
 table(valid_X$case)
+
+train_X=train_X%>% select(col)
+valid_X=valid_X%>% select(col)
+
+table(train_X$case)
+table(valid_X$case)
+
 
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
@@ -74,10 +87,10 @@ head(prob)
 ```
 
 development set
-```{r}
+```{r eval=FALSE, include=FALSE}
 # probabilities of being case
 prob <- predict(rf.model, type = 'prob')[,2]
-exp.class <- predict(rf.model, train_X, type = 'response')
+exp.class <- predict(rf.model, type = 'response')
 # create 10 risk groups
 decile <- ntile(prob,10)
 # combined
