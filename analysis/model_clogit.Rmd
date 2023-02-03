@@ -151,8 +151,11 @@ print(roc)
 rm(df)
 df=data%>%filter(set==2)
 
-pred.y <- predict(model, newdata = df, type ="risk")
+model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean +interval_CV+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
+summary(model)
+
+pred.y <- predict(model, df, type = 'risk')
 roc<- roc(df$case ~ pred.y)
 plot(roc)
 print(roc)
