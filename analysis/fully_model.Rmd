@@ -82,6 +82,7 @@ df <- bind_rows(case,control)
 df$case=as.numeric(df$case) #1/0
 df$set_id=as.factor(df$set_id)#pair id
 df$imd= relevel(as.factor(df$imd), ref="5")
+df$smoking_status= relevel(as.factor(df$smoking_status), ref="Never")
 df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
                                       patient_index_date >=as.Date("2020-03-26")&patient_index_date < as.Date("2021-03-08") ~ "2",
                                       patient_index_date >= as.Date("2021-03-08") ~ "3"))
@@ -101,7 +102,245 @@ sum.mod
 
 ```{r echo=TRUE}
 result=data.frame(sum.mod$conf.int)
-result
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+Region <- DF[1:8,]
+Ethnicity <- DF[9:13,]
+BMI <- DF[14:16,]
+Smoking <- DF[17:19,]
+CKD <- DF[45:50,]
+CHT <- DF[42:44,]
+Other1 <- DF[20:27,]
+Other2 <- DF[28:41,]
+
 ```
 
+```{r echo=TRUE}
+p <- ggplot(data=Region, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=Ethnicity, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=BMI, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=Smoking, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=CKD, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=CHT, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=Other1, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
+
+
+```{r echo=TRUE}
+p <- ggplot(data=Other2, aes(y= type,x=OR))+ 
+#xlim(c(0,2.2))+
+scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+geom_point(color="black")+ 
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+#thematic stuff
+theme_classic()+ 
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+labs(
+    title = "",
+    x="",
+    y=""
+  )
+p
+```
 
