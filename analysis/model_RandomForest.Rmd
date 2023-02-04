@@ -71,7 +71,7 @@ set.seed(1024)
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.7),
-                           nodesize = 10 ,
+                           nodesize = 25 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
 ```
