@@ -243,7 +243,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -251,7 +251,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
@@ -350,7 +350,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -358,7 +358,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
@@ -456,7 +456,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -464,7 +464,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
@@ -527,6 +527,9 @@ plot1.2$group <- "H"
 plot2.2$group <- "H"
 plota <- bind_rows(plot1,plot1.1,plot1.2)
 plotb <- bind_rows(plot2,plot2.1,plot2.2)
+label1 <- as.vector(plot1$type)
+label2 <- as.vector(plot2$type)
+plota$group <- factor(plota$group, levels = label1)
 
 
 p <- ggplot(data=plota, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +

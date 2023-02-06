@@ -63,11 +63,19 @@ df <- bind_rows(case,control)
 
 
 # outcome
+
+df$care_home_type_ba <- df %>% mutate() 
+df$care_home_type_ba<-  case_when(
+  df$care_home_type == "U" ~ "FALSE",
+  df$care_home_type == "NA" ~ "FALSE",
+  df$care_home_type == "PC" ~ "TRUE",
+  df$care_home_type == "PN" ~ "TRUE",
+  df$care_home_type == "PS" ~ "TRUE")
+
 df$case=as.numeric(df$case) #1/0
 df$set_id=as.factor(df$set_id)#pair id
 df$imd= relevel(as.factor(df$imd), ref="5")
 df$smoking_status= relevel(as.factor(df$smoking_status), ref="Never")
-df$care_home_type= relevel(as.factor(df$care_home_type), ref="U")
 df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
                                       patient_index_date >=as.Date("2020-03-26")&patient_index_date < as.Date("2021-03-08") ~ "2",
                                       patient_index_date >= as.Date("2021-03-08") ~ "3"))
@@ -81,7 +89,7 @@ df2 <- df %>% filter(sepsis_type=="2")
 mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
-             learning_disability + sev_mental_ill + alcohol_problems + care_home_type + ckd_rrt + strata(set_id), df)
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + strata(set_id), df)
 sum.mod=summary(mod)
 sum.mod
 
@@ -186,7 +194,7 @@ Other2$type = case_when(
 mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
-             learning_disability + sev_mental_ill + alcohol_problems + care_home_type + ckd_rrt + strata(set_id), df)
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + strata(set_id), df)
 sum.mod=summary(mod)
 sum.mod
 
@@ -226,7 +234,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -234,7 +242,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
@@ -291,7 +299,7 @@ plot2 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
 mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
-             learning_disability + sev_mental_ill + alcohol_problems + care_home_type + ckd_rrt + strata(set_id), df1)
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + strata(set_id), df1)
 sum.mod=summary(mod)
 sum.mod
 
@@ -330,7 +338,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -338,7 +346,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
@@ -434,7 +442,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -442,7 +450,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
