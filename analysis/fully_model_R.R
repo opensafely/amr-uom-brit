@@ -415,7 +415,7 @@ plotb <- bind_rows(plot2,plot2.1,plot2.2)
 write_csv(plota, here::here("output", "plota.csv"))
 write_csv(plotb, here::here("output", "plotb.csv"))
 
-p1 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
+p1 <- ggplot(data=plota, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
   geom_point() + 
   geom_errorbarh(height=.1) +
   geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
