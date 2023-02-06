@@ -106,8 +106,8 @@ Region <- DF[1:8,]
 Ethnicity <- DF[9:13,]
 BMI <- DF[14:16,]
 Smoking <- DF[17:19,]
-CKD <- DF[45:50,]
-CHT <- DF[42:44,]
+CKD <- DF[43:48,]
+CHT <- DF[42,]
 Other1 <- DF[c(20:21,24,28:33),]
 Asthma <- DF[22:23,]
 Diabetes <- DF[25:27,]
@@ -152,9 +152,7 @@ CKD$type = case_when(
   CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
 
 CHT$type = case_when(
-  CHT$type == "care_home_typePC" ~ "Not require Nursing",
-  CHT$type == "care_home_typePN" ~ "Require Nursing",
-  CHT$type == "care_home_typePS" ~ "Potential Care Home")
+  CHT$type == "care_home_type_baTRUE" ~ "Potential Care Home")
 
 Other1$type = case_when(
   Other1$type == "hypertensionTRUE" ~ "Hypertension",
@@ -188,108 +186,6 @@ Other2$type = case_when(
   Other2$type == "sev_mental_illTRUE" ~ "Severe mental illness",
   Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
 
-
-
-
-mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
-             asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
-             stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
-             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + strata(set_id), df)
-sum.mod=summary(mod)
-sum.mod
-
-
-result=data.frame(sum.mod$conf.int)
-DF=result[,-2]
-names(DF)[1]="OR"
-names(DF)[2]="CI_L"
-names(DF)[3]="CI_U"
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="type"
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:16,]
-Smoking <- DF[17:19,]
-CKD <- DF[45:50,]
-CHT <- DF[42:44,]
-Other1 <- DF[c(20:21,24,28:33),]
-Asthma <- DF[22:23,]
-Diabetes <- DF[25:27,]
-Organ<- DF[34:35,]
-Other2 <-DF[36:41,]
-
-Region$type <-  case_when(
-  Region$type == "regionNorth East" ~ "North East",
-  Region$type == "regionNorth West" ~ "North West",
-  Region$type == "regionYorkshire and The Humber" ~ "Yorkshire and the Humber",
-  Region$type == "regionEast Midlands" ~ "East Midlands",
-  Region$type == "regionWest Midlands" ~ "West Midlands",
-  Region$type == "regionEast" ~ "East of England",
-  Region$type == "regionLondon" ~ "London",
-  Region$type == "regionSouth East" ~ "South East",
-  Region$type == "regionSouth West" ~ "South West")
-
-Ethnicity$type = case_when(
-  Ethnicity$type == "ethnicityMixed" ~ "Mixed",
-  Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
-  Ethnicity$type == "ethnicityBlack" ~ "Black",
-  Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
-
-BMI$type = case_when(
-  BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
-  BMI$type == "bmiObese II (35-39.9 kg/m2)" ~ "Obese II (35-39.9 kg/m2)",
-  BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
-
-Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
-  Smoking$type == "smoking_statusFormer" ~ "Former",
-  Smoking$type == "smoking_statusCurrent" ~ "Current")
-
-CKD$type = case_when(
-  CKD$type == "ckd_rrtCKD stage 3a" ~ "CKD stage 3a",
-  CKD$type == "ckd_rrtCKD stage 3b" ~ "CKD stage 3b",
-  CKD$type == "ckd_rrtCKD stage 4" ~ "CKD stage 4",
-  CKD$type == "ckd_rrtCKD stage 5" ~ "CKD stage 5",
-  CKD$type == "ckd_rrtRRT (dialysis)" ~ "RRT (dialysis)",
-  CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
-
-CHT$type = case_when(
-  CHT$type == "care_home_typePC" ~ "Not require Nursing",
-  CHT$type == "care_home_typePN" ~ "Require Nursing",
-  CHT$type == "care_home_typePS" ~ "Potential Care Home")
-
-Other1$type = case_when(
-  Other1$type == "hypertensionTRUE" ~ "Hypertension",
-  Other1$type == "chronic_respiratory_diseaseTRUE" ~ "Chronic respiratory disease",
-  Other1$type == "chronic_cardiac_diseaseTRUE" ~ "Chronic cardiac disease",
-  Other1$type == "cancerTRUE" ~ "Cancer (non haematological)",
-  Other1$type == "haem_cancerTRUE" ~ "Haematological malignancy",
-  Other1$type == "chronic_liver_diseaseTRUE" ~ "Chronic liver disease",
-  Other1$type == "strokeTRUE" ~ "Stroke",
-  Other1$type == "dementiaTRUE" ~ "Dementia",
-  Other1$type == "other_neuroTRUE" ~ "Other neurological disease")
-
-Asthma$type = case_when(
-  Asthma$type == "asthmaWith no oral steroid use" ~ "With no oral steroid use",
-  Asthma$type == "asthmaWith oral steroid use" ~ "With oral steroid use")
-
-Diabetes$type = case_when(
-  Diabetes$type == "diabetes_controlledControlled" ~ "Controlled",
-  Diabetes$type == "diabetes_controlledNot controlled" ~ "Not controlled",
-  Diabetes$type == "diabetes_controlledWithout recent Hb1ac measure" ~ "Without recent Hb1ac measure")
-
-Organ$type = case_when(
-  Organ$type == "organ_kidney_transplantKidney transplant" ~ "Kidney transplant",
-  Organ$type == "organ_kidney_transplantOther organ transplant" ~ "Other organ transplant")
-
-Other2$type = case_when(
-  Other2$type == "aspleniaTRUE" ~ "Asplenia",
-  Other2$type == "ra_sle_psoriasisTRUE" ~ "Rheumatoid arthritis/ lupus/ psoriasis",
-  Other2$type == "immunosuppressionTRUE" ~ "Immunosuppressive condition",
-  Other2$type == "learning_disabilityTRUE" ~ "Learning disability",
-  Other2$type == "sev_mental_illTRUE" ~ "Severe mental illness",
-  Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
 
 plot1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
 plot2 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
@@ -314,8 +210,8 @@ Region <- DF[1:8,]
 Ethnicity <- DF[9:13,]
 BMI <- DF[14:16,]
 Smoking <- DF[17:19,]
-CKD <- DF[45:50,]
-CHT <- DF[42:44,]
+CKD <- DF[43:48,]
+CHT <- DF[42,]
 Other1 <- DF[c(20:21,24,28:33),]
 Asthma <- DF[22:23,]
 Diabetes <- DF[25:27,]
@@ -359,9 +255,7 @@ CKD$type = case_when(
   CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
 
 CHT$type = case_when(
-  CHT$type == "care_home_typePC" ~ "Not require Nursing",
-  CHT$type == "care_home_typePN" ~ "Require Nursing",
-  CHT$type == "care_home_typePS" ~ "Potential Care Home")
+  CHT$type == "care_home_type_baTRUE" ~ "Potential Care Home")
 
 Other1$type = case_when(
   Other1$type == "hypertensionTRUE" ~ "Hypertension",
@@ -402,7 +296,7 @@ plot2.1 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
 mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
-             learning_disability + sev_mental_ill + alcohol_problems + care_home_type + ckd_rrt + strata(set_id), df2)
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + strata(set_id), df2)
 sum.mod=summary(mod)
 sum.mod
 
@@ -418,8 +312,8 @@ Region <- DF[1:8,]
 Ethnicity <- DF[9:13,]
 BMI <- DF[14:16,]
 Smoking <- DF[17:19,]
-CKD <- DF[45:50,]
-CHT <- DF[42:44,]
+CKD <- DF[43:48,]
+CHT <- DF[42,]
 Other1 <- DF[c(20:21,24,28:33),]
 Asthma <- DF[22:23,]
 Diabetes <- DF[25:27,]
@@ -463,9 +357,7 @@ CKD$type = case_when(
   CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
 
 CHT$type = case_when(
-  CHT$type == "care_home_typePC" ~ "Not require Nursing",
-  CHT$type == "care_home_typePN" ~ "Require Nursing",
-  CHT$type == "care_home_typePS" ~ "Potential Care Home")
+  CHT$type == "care_home_type_baTRUE" ~ "Potential Care Home")
 
 Other1$type = case_when(
   Other1$type == "hypertensionTRUE" ~ "Hypertension",
@@ -502,7 +394,14 @@ Other2$type = case_when(
 plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
 plot2.2 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
 
-
+label1 <- as.vector(plot1$type)
+label2 <- as.vector(plot2$type)
+plot1$type <- factor(plot1$type, levels = label1)
+plot2$type <- factor(plot2$type, levels = label2)
+plot1.1$type <- factor(plot1.1$type, levels = label1)
+plot2.1$type <- factor(plot2.1$type, levels = label2)
+plot1.2$type <- factor(plot1.2$type, levels = label1)
+plot2.2$type <- factor(plot2.2$type, levels = label2)
 
 plot1$group <- "H+C"
 plot2$group <- "H+C"
@@ -516,5 +415,28 @@ plotb <- bind_rows(plot2,plot2.1,plot2.2)
 write_csv(plota, here::here("output", "plota.csv"))
 write_csv(plotb, here::here("output", "plotb.csv"))
 
+p1 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
+  geom_point() + 
+  geom_errorbarh(height=.1) +
+  scale_x_continuous(limits=c(0, 6), expand=c(0, 0),
+                     breaks=c(1, 2, 5), labels=c("1", "2", "5"),
+                     trans="log10") +
+  geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
+  theme_minimal()
 
+p2 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
+  geom_point() + 
+  geom_errorbarh(height=.1) +
+  scale_x_continuous(limits=c(0,25), expand=c(0, 0),
+                     breaks=c(1, 2, 5, 15), labels=c("1", "2", "5", "15"),
+                     trans="log10") +
+  geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
+  theme_minimal()
 
+ggsave(p1, width = 6, height = 12, dpi = 640,
+       filename="plota.jpeg", path=here::here("output"),
+)  
+
+ggsave(p2, width = 6, height = 12, dpi = 640,
+       filename="plotb.jpeg", path=here::here("output"),
+)  

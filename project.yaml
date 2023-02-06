@@ -412,3 +412,5 @@ actions:
       moderately_sensitive:
         table1: output/plota.csv
         table2: output/plotb.csv
+        plot1: output/plota.jpeg
+        plot2: output/plotb.jpeg
