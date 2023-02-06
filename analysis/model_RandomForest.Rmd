@@ -55,11 +55,10 @@ names(train_X)
 
 covert number to binary
 ```{r}
-train_X[abtype]=ifelse(is.na(train_X[abtype]),0,train_X[abtype])
-valid_X[abtype]=ifelse(is.na(valid_X[abtype]),0,valid_X[abtype])
 
-train_X[abtype]=ifelse(train_X[abtype]>=1,1,train_X[abtype])
-valid_X[abtype]=ifelse(valid_X[abtype]>=1,1,valid_X[abtype])
+train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+
 
 summary(train_X[abtype])
 summary(valid_X[abtype])
