@@ -404,3 +404,11 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/fully_model_combine.html
+
+  fully_model_R:  
+    run: r:latest analysis/fully_model_R.R
+    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
+    outputs:
+      moderately_sensitive:
+        table1: output/plota.csv
+        table2: output/plotb.csv
