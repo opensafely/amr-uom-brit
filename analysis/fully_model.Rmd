@@ -286,3 +286,26 @@ p <- ggplot(data=Other2, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U)) +
   theme_minimal()
 p
 ```
+
+```{r echo=TRUE}
+plot1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
+plot2 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=plot1, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U)) +
+  geom_point() + 
+  geom_errorbarh(height=.1) +
+  geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
+  theme_minimal()
+p
+```
+
+```{r echo=TRUE}
+p <- ggplot(data=plot2, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U)) +
+  geom_point() + 
+  geom_errorbarh(height=.1) +
+  geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
+  theme_minimal()
+p
+```
