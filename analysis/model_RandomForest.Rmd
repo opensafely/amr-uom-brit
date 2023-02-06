@@ -39,6 +39,7 @@ table(valid_X$case)
 n=nrow(train_X)
 ```
 
+
 pick variable
 ```{r}
 names(train_X)
@@ -47,8 +48,19 @@ abtype <- read_rds(here::here("output","abtype.rds"))
 col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_mean" , "interval_CV",abtype)
 train_X=train_X%>% select(col)
 valid_X=valid_X%>% select(col)
-
 names(train_X)
+```
+
+covert number to binary
+```{r}
+train_X[abtype]=ifelse(is.na(train_X[abtype]),0,train_X[abtype])
+valid_X[abtype]=ifelse(is.na(valid_X[abtype]),0,valid_X[abtype])
+
+train_X[abtype]=ifelse(train_X[abtype]>=1,1,train_X[abtype])
+valid_X[abtype]=ifelse(valid_X[abtype]>=1,1,valid_X[abtype])
+
+summary(train_X[abtype])
+summary(valid_X[abtype])
 ```
 
 
