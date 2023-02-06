@@ -9,6 +9,8 @@ library(dplyr)
 library('tidyverse')
 #library("ggplot2")
 #library(caret)
+library(pROC)
+library(randomForest)
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 
@@ -66,8 +68,7 @@ summary(valid_X[abtype])
 
 train model
 ```{r}
-library(pROC)
-library(randomForest)
+
 
 #result = expand.grid(
  #  ntree=c(1000,2000),
@@ -83,7 +84,7 @@ set.seed(1024)
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.7),
-                           nodesize = 25 ,
+                           nodesize = 50 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
 ```
