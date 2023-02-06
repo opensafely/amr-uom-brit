@@ -131,7 +131,7 @@ Ethnicity$type = case_when(
   Ethnicity$type == "ethnicitySouth Asian" ~ "South Asian",
   Ethnicity$type == "ethnicityBlack" ~ "Black",
   Ethnicity$type == "ethnicityOther" ~ "Other",
-  Ethnicity$type == "ethnicityUnknown" ~ "Unknown")
+  Ethnicity$type == "ethnicityUnknown" ~ "Ethnicity unknown")
 
 BMI$type = case_when(
   BMI$type == "bmiObese I (30-34.9 kg/m2)" ~ "Obese I (30-34.9 kg/m2)",
@@ -139,7 +139,7 @@ BMI$type = case_when(
   BMI$type == "bmiObese III (40+ kg/m2)" ~ "Obese III (40+ kg/m2)")
 
 Smoking$type = case_when(
-  Smoking$type == "smoking_statusMissing" ~ "Unknown",
+  Smoking$type == "smoking_statusMissing" ~ "Smoking unknown",
   Smoking$type == "smoking_statusFormer" ~ "Former",
   Smoking$type == "smoking_statusCurrent" ~ "Current")
 
