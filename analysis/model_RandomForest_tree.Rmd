@@ -1,0 +1,37 @@
+---
+title: "random Forest Explainer"
+
+---
+https://cran.rstudio.com/web/packages/randomForestExplainer/vignettes/randomForestExplainer.html
+```{r setup, include=FALSE}
+library(randomForestExplainer)
+library('tidyverse')
+library(pROC)
+library(randomForest)
+library(plyr)
+```
+
+# import dataset
+```{r }
+rf.model=readRDS(here::here("output","model_RandomForest.rds"))
+print(rf.model)
+
+plot(rf.model)
+```
+
+
+```{r}
+min_depth_frame <- min_depth_distribution(rf.model)
+head(min_depth_frame)
+plot_min_depth_distribution(min_depth_frame)
+```
+
+```{r}
+importance_frame <- measure_importance(rf.model)
+head(importance_frame)
+plot_multi_way_importance(importance_frame, size_measure = "no_of_nodes")
+plot_importance_ggpairs(importance_frame)
+
+plot_importance_rankings(importance_frame)
+```
+
