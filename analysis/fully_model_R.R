@@ -418,18 +418,12 @@ write_csv(plotb, here::here("output", "plotb.csv"))
 p1 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
   geom_point() + 
   geom_errorbarh(height=.1) +
-  scale_x_continuous(limits=c(0, 6), expand=c(0, 0),
-                     breaks=c(1, 2, 5), labels=c("1", "2", "5"),
-                     trans="log10") +
   geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
   theme_minimal()
 
 p2 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
   geom_point() + 
   geom_errorbarh(height=.1) +
-  scale_x_continuous(limits=c(0,25), expand=c(0, 0),
-                     breaks=c(1, 2, 5, 15), labels=c("1", "2", "5", "15"),
-                     trans="log10") +
   geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
   theme_minimal()
 
