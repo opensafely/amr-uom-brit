@@ -30,9 +30,9 @@ options(knitr.table.format="html")
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 setwd(here::here("output"))
 
-df1=read_csv(here::here("output","case_covid_hosp.csv"))
+df1=read_csv(here::here("output","case_covid_icu_death.csv"))
 df1$case=1
-df2=read_csv(here::here("output","control_covid_infection.csv"))
+df2=read_csv(here::here("output","control_covid_hosp.csv"))
 df2$case=0
 
 #df1=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_hosp.csv")
@@ -106,8 +106,8 @@ plot(m.out1, type = "hist")
 
 
 ```{r}
-#plot(m.out1, type = "qq", interactive = FALSE,
- #    which.xs = c("age", "sex", "stp"))
+plot(m.out1, type = "qq", interactive = FALSE,
+     which.xs = c("age", "sex", "stp"))
 ```
 
 ```{r}
@@ -118,7 +118,7 @@ plot(summary(m.out1))
 ```{r}
 
 m.data1 <- get_matches(m.out1) # repeated id between sets(subclasses)
-m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","age_cat","region") # key variables for merging
+m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM") # key variables for merging
 write_rds(m.data1, here::here("output", "matched_patients.rds"))
 
 m.data2 <- match.data(m.out1) # unique patient ID
@@ -126,9 +126,7 @@ m.data2=m.data2%>%select("patient_id","patient_index_date")
 write.csv(m.data2,here::here("output","matched_patients_id.csv"))
 
 unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
-unmatched=unmatched%>%filter(case==1)
-write_rds(unmatched,here::here("output","unmatched_cases.rds"))
-
+write_rds(unmatched,here::here("output","unmatched_patients.rds"))
 
 ```
 
