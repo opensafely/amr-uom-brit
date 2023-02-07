@@ -110,7 +110,7 @@ set.seed(1024)
 train_idx <- sample(subclass,  length(subclass)* 0.8)
 length(train_idx)
 valid_idx <- subclass[!subclass %in% train_idx]
-length(test_idx)
+length(valid_idx)
 
 pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 ```
