@@ -210,101 +210,101 @@ actions:
       moderately_sensitive:
         html: output/model_RF_process_check_sample.html
 
-# check
+# #check
 
-  process_filter_ab: # filter ab users
-    run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/process_filter_ab.html
-      highly_sensitive: 
-        csv: output/matched_patients_id_ab.csv
+#   process_filter_ab: # filter ab users
+#     run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/process_filter_ab.html
+#       highly_sensitive: 
+#         csv: output/matched_patients_id_ab.csv
 
-  extract_variables_ab_yr1: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr1 --with-end-date-fix
-    needs: [process_filter_ab]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_ab_yr1.csv
+#   extract_variables_ab_yr1: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr1 --with-end-date-fix
+#     needs: [process_filter_ab]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_ab_yr1.csv
 
-  extract_variables_ab_yr2: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr2 --with-end-date-fix
-    needs: [process_filter_ab]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_ab_yr2.csv
+#   extract_variables_ab_yr2: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr2 --with-end-date-fix
+#     needs: [process_filter_ab]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_ab_yr2.csv
 
-  extract_variables_ab_yr3: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3 --with-end-date-fix
-    needs: [process_filter_ab]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_ab_yr3.csv
+#   extract_variables_ab_yr3: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3 --with-end-date-fix
+#     needs: [process_filter_ab]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_ab_yr3.csv
 
-  extract_variables_ab_yr3_15d: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3_15d --with-end-date-fix
-    needs: [process_filter_ab]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_ab_yr3_15d.csv
+#   extract_variables_ab_yr3_15d: 
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3_15d --with-end-date-fix
+#     needs: [process_filter_ab]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_ab_yr3_15d.csv
 
 
-  process_merge_ab: # merge 1-2-3 year ab 
-    run: r:latest -e 'rmarkdown::render("analysis/process_merge_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching,extract_variables_ab_yr3_15d, extract_variables_ab_yr3,extract_variables_ab_yr2,extract_variables_ab_yr1]
-    outputs:
-      moderately_sensitive:
-        html: output/process_merge_ab.html
-      highly_sensitive: 
-        rds: output/matched_patients_monthly_ab.rds
+#   process_merge_ab: # merge 1-2-3 year ab 
+#     run: r:latest -e 'rmarkdown::render("analysis/process_merge_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [process_Rmatching,extract_variables_ab_yr3_15d, extract_variables_ab_yr3,extract_variables_ab_yr2,extract_variables_ab_yr1]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/process_merge_ab.html
+#       highly_sensitive: 
+#         rds: output/matched_patients_monthly_ab.rds
 
-  check_ab_yr1:
-    run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [extract_variables_ab_yr1,matching,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/check_ab_yr1.html
+#   check_ab_yr1:
+#     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [extract_variables_ab_yr1,matching,process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_ab_yr1.html
 
-  check_ab_yr3:
-    run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/check_ab_yr3.html
+#   check_ab_yr3:
+#     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_ab_yr3.html
  
-  check_abtype:
-    run: r:latest -e 'rmarkdown::render("analysis/check_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/check_abtype.html
+#   check_abtype:
+#     run: r:latest -e 'rmarkdown::render("analysis/check_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_abtype.html
 
-  check_process_1: 
-    run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [generate_study_population_covid_primarycare,generate_study_population_covid_SGSS,generate_study_population_covid_admission]
-    outputs:
-      moderately_sensitive:
-        html: output/check_process_1.html
+#   check_process_1: 
+#     run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [generate_study_population_covid_primarycare,generate_study_population_covid_SGSS,generate_study_population_covid_admission]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_process_1.html
 
-  # check_RF: 
-  #   run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [process_Rmatching]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/check_RF.html
+#   check_RF: 
+#     run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_RF.html
   
-  # check_RF_grid: 
-  #   run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [process_Rmatching]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/check_RF_grid.html
+#   check_RF_grid: 
+#     run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_RF_grid.html
   
-  check_RF_yr1: 
-    run: r:latest -e 'rmarkdown::render("analysis/check_RF_yr1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [extract_variables_ab_yr1,matching,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_yr1.html
+#   check_RF_yr1: 
+#     run: r:latest -e 'rmarkdown::render("analysis/check_RF_yr1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [extract_variables_ab_yr1,matching,process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_RF_yr1.html
 
