@@ -414,3 +414,10 @@ actions:
         table2: output/plotb.csv
         plot1: output/plota.jpeg
         plot2: output/plotb.jpeg
+
+  Figure_2A:  
+    run: r:latest analysis/Figure_2A.R
+    needs: [fully_model_R]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2A.jpeg
