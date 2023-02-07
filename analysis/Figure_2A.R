@@ -9,11 +9,13 @@ library(gridExtra)
 library("forestploter")
 
 # import data
-df1 <- read_csv(here::here("output", "plota.csv"))
+rm(list=ls())
+setwd(here::here("output"))
+df1 <- read_csv("plota.csv")
 
-plot.a1 <- df1 %>% filter (group == "H+C")
-plot.a2 <- df1 %>% filter (group == "C")
-plot.a3 <- df1 %>% filter (group == "H")
+plot.a1 <- df1 %>% filter(df1$group == "H+C")
+plot.a2 <- df1 %>% filter(df1$group == "C")
+plot.a3 <- df1 %>% filter(df1$group == "H")
 
 plot.a1$OR2 <- plot.a2$OR
 plot.a1$CI_L2 <- plot.a2$CI_L
