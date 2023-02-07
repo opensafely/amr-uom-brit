@@ -427,10 +427,10 @@ p2 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=g
   geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
   theme_minimal()
 
-ggsave(p1, width = 6, height = 12, dpi = 640,
+ggsave(p1, dpi = 640,
        filename="plota.jpeg", path=here::here("output"),
 )  
 
-ggsave(p2, width = 6, height = 12, dpi = 640,
+ggsave(p2, dpi = 640,
        filename="plotb.jpeg", path=here::here("output"),
 )  
