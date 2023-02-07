@@ -421,3 +421,17 @@ actions:
     outputs:
       moderately_sensitive:
         plot2: output/Figure_2A.jpeg
+
+  Figure_2B:  
+    run: r:latest analysis/Figure_2B.R
+    needs: [fully_model_R]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2B.jpeg
+
+  extract_case_ab_6w: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ab
+    needs: [process2_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ab.csv
