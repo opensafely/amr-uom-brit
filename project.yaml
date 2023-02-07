@@ -7,31 +7,29 @@ actions:
 
 # study cohort
 
-  generate_study_population_covid_primarycare:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_primarycare
-    outputs:
-      highly_sensitive:
-        cohort: output/input_covid_primarycare.csv
-  
-  generate_study_population_covid_SGSS:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_SGSS
-    outputs:
-      highly_sensitive:
-        cohort: output/input_covid_SGSS.csv
-
   generate_study_population_covid_admission:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_covid_admission
     outputs:
       highly_sensitive:
         cohort: output/input_covid_admission.csv
 
-  process_1: 
+  process_1:  
     run: r:latest analysis/process_1.R
-    needs: [generate_study_population_covid_primarycare, generate_study_population_covid_SGSS,generate_study_population_covid_admission]
+    needs: [generate_study_population_covid_admission]
     outputs:
       highly_sensitive:
-        case: output/case_covid_hosp.csv 
-        control: output/control_covid_infection.csv 
+        case: output/case_covid_icu_death.csv
+       # case2: output/case_covid_icu_death_2.csv
+        control: output/control_covid_hosp.csv
+      #  control2: output/control_covid_hosp_2.csv
+
+  check_process_1: 
+    run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_study_population_covid_admission]
+    outputs:
+      moderately_sensitive:
+        html: output/check_process_1.html
+        csv: output/check_process_1.csv
 
 # matching
 
