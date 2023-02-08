@@ -86,6 +86,7 @@ saveRDS(col,here::here("output","abtype.rds"))
 df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
 rm(DF)
 table(df$case)
+names(df)
 ```
 
 
@@ -93,18 +94,8 @@ training vs. validation
 
 # random assign subclass
 ```{r}
-DF=read_rds(here::here("output","matched_outcome.rds"))
-table(DF$case)
-DF=DF%>% select(subclass, patient_index_date, patient_id)
-count(DF)
 
-DF=DF%>%distinct(patient_id,patient_index_date, .keep_all=T)
-df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
-names(df)
-count(df)
-
-
-subclass=unique(DF$subclass)
+subclass=unique(df$subclass)
 
 set.seed(1024)
 train_idx <- sample(subclass,  length(subclass)* 0.8)
@@ -112,20 +103,18 @@ length(train_idx)
 valid_idx <- subclass[!subclass %in% train_idx]
 length(valid_idx)
 
-pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
+#pred_col=c("patient_id","patient_index_date", "case","subclass","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 ```
 
 ```{r}
 train_X =df %>% filter(subclass %in% train_idx)
 prop.table(table(train_X$case))
-table(train_X)
-count(train_X)
+table(train_X$case)
+nrow(train_X)
 valid_X =df %>% filter(subclass %in% valid_idx)
 prop.table(table(valid_X$case))
-table(valid_X)
-count(valid_X)
-
-
+table(valid_X$case)
+nrow(valid_X)
 
 train_Y <- train_X$case
 valid_Y <- valid_X$case
