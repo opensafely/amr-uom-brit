@@ -384,27 +384,6 @@ actions:
       moderately_sensitive:
         html: output/fully_model.html
 
-  fully_model_community:   
-    run: r:latest -e 'rmarkdown::render("analysis/fully_model_community.Rmd", output_dir = "output")'
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
-    outputs:
-      moderately_sensitive:
-        html: output/fully_model_community.html
-
-  fully_model_hospital:   
-    run: r:latest -e 'rmarkdown::render("analysis/fully_model_hospital.Rmd", output_dir = "output")'
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
-    outputs:
-      moderately_sensitive:
-        html: output/fully_model_hospital.html
-
-  fully_model_combine:   
-    run: r:latest -e 'rmarkdown::render("analysis/fully_model_combine.Rmd", output_dir = "output")'
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
-    outputs:
-      moderately_sensitive:
-        html: output/fully_model_combine.html
-
   fully_model_R:  
     run: r:latest analysis/fully_model_R.R
     needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
