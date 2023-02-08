@@ -435,3 +435,52 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_ab.csv
+
+  extract_control_ab_6w_191: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_191
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_191.csv
+
+  extract_control_ab_6w_192: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_192
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_192.csv
+
+  extract_control_ab_6w_201: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_201
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_201.csv
+
+  extract_control_ab_6w_202: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_202
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_202.csv
+
+  extract_control_ab_6w_211: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_211
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_211.csv
+
+  extract_control_ab_6w_212: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_212
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_212.csv
+
+  extract_control_ab_6w_221: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_221
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_221.csv
