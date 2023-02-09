@@ -188,8 +188,9 @@ Other2$type = case_when(
 
 
 plot1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
-plot2 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
-
+plot2 <- bind_rows(CKD,Asthma,Diabetes,Organ)
+plot3 <- Other1
+plot4 <- Other2
 
 
 mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
@@ -290,8 +291,9 @@ Other2$type = case_when(
   Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
 
 plot1.1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
-plot2.1 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
-
+plot2.1 <- bind_rows(CKD,Asthma,Diabetes,Organ)
+plot3.1 <- Other1
+plot4.1 <- Other2
 
 mod=clogit(case ~ region + ethnicity + bmi + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
@@ -392,45 +394,52 @@ Other2$type = case_when(
   Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
 
 plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
-plot2.2 <- bind_rows(CKD,Other1,Asthma,Diabetes,Organ,Other2)
+plot2.2 <- bind_rows(CKD,Asthma,Diabetes,Organ)
+plot3.2 <- Other1
+plot4.2 <- Other2
 
 label1 <- as.vector(plot1$type)
 label2 <- as.vector(plot2$type)
+label3 <- as.vector(plot3$type)
+label4 <- as.vector(plot4$type)
+
 plot1$type <- factor(plot1$type, levels = label1)
 plot2$type <- factor(plot2$type, levels = label2)
+plot3$type <- factor(plot3$type, levels = label3)
+plot4$type <- factor(plot4$type, levels = label4)
+
 plot1.1$type <- factor(plot1.1$type, levels = label1)
 plot2.1$type <- factor(plot2.1$type, levels = label2)
+plot3.1$type <- factor(plot3.1$type, levels = label3)
+plot4.1$type <- factor(plot4.1$type, levels = label4)
+
 plot1.2$type <- factor(plot1.2$type, levels = label1)
 plot2.2$type <- factor(plot2.2$type, levels = label2)
+plot3.2$type <- factor(plot3.2$type, levels = label3)
+plot4.2$type <- factor(plot4.2$type, levels = label4)
 
 plot1$group <- "H+C"
 plot2$group <- "H+C"
+plot3$group <- "H+C"
+plot4$group <- "H+C"
+
 plot1.1$group <- "C"
 plot2.1$group <- "C"
+plot3.1$group <- "C"
+plot4.1$group <- "C"
+
 plot1.2$group <- "H"
 plot2.2$group <- "H"
+plot3.2$group <- "H"
+plot4.2$group <- "H"
+
 plota <- bind_rows(plot1,plot1.1,plot1.2)
 plotb <- bind_rows(plot2,plot2.1,plot2.2)
+plotc <- bind_rows(plot3,plot3.1,plot3.2)
+plotd <- bind_rows(plot4,plot4.1,plot4.2)
 
 write_csv(plota, here::here("output", "plota.csv"))
 write_csv(plotb, here::here("output", "plotb.csv"))
+write_csv(plotc, here::here("output", "plotc.csv"))
+write_csv(plotd, here::here("output", "plotd.csv"))
 
-p1 <- ggplot(data=plota, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
-  geom_point() + 
-  geom_errorbarh(height=.1) +
-  geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
-  theme_minimal()
-
-p2 <- ggplot(data=plotb, aes(y=type, x=OR, xmin=CI_L, xmax=CI_U,col=group,fill=group)) +
-  geom_point() + 
-  geom_errorbarh(height=.1) +
-  geom_vline(xintercept=1, color='black', linetype='dashed', alpha=.5) +
-  theme_minimal()
-
-ggsave(p1, dpi = 640,
-       filename="plota.jpeg", path=here::here("output"),
-)  
-
-ggsave(p2, dpi = 640,
-       filename="plotb.jpeg", path=here::here("output"),
-)  
