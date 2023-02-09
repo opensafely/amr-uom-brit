@@ -39,7 +39,6 @@ plot.a1<- plot.a1 %>% add_row(type = "Chronic kidney disease or renal replacemen
 plot.a1<- plot.a1 %>% add_row(type = "Asthma", .before = 17,)
 plot.a1<- plot.a1 %>% add_row(type = "Diabetes", .before = 20,)
 plot.a1<- plot.a1 %>% add_row(type = "Organ transplant", .before = 24,)
-plot.a1<- plot.a1 %>% add_row(type = "Care homes status", .before = 24,)
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
@@ -86,6 +85,6 @@ p <- forest(dt[,c(1,12:15)],
 
 Figure <- plot(p)
 
-ggsave(Figure, width = 14, height = 14,dpi = 800,
+ggsave(Figure, width = 12, height = 14,dpi = 800,
        filename="Figure_2B.jpeg", path=here::here("output"),
 )  
