@@ -85,6 +85,7 @@ saveRDS(col,here::here("output","abtype.rds"))
 # merge data
 ```{r }
 df=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
+# "sex","age","age_cat","stp","region",and col
 rm(DF)
 table(df$case)
 names(df)
