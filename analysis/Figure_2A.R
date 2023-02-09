@@ -63,7 +63,7 @@ dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
                            sprintf("%.2f (%.2f to %.2f)",
                                    dt$OR3, dt$CI_L3, dt$CI_U3))
 
-p <- forest(dt[,c(1,11:14)],  
+p <- forest(dt[,c(1,12:15)],  
             est = list(dt$OR,
                        dt$OR2,
                        dt$OR3),
@@ -76,11 +76,9 @@ p <- forest(dt[,c(1,11:14)],
             ci_column = 2,
             ref_line = 1,
             nudge_y = 0.2,
-            x_trans = "log",
-            ticks_at = c(0.5,1,1.5,2,5),
             theme = tm)
 Figure <- plot(p)
 
-ggsave(Figure, dpi = 640,
+ggsave(Figure, width = 6, height = 10,dpi = 640,
        filename="Figure_2A.jpeg", path=here::here("output"),
 )  
