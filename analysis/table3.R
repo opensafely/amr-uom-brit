@@ -18,6 +18,8 @@ library("finalfit")
 setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
+col <- read_rds(here::here("output","abtype.rds"))
+
 
 ####### training ########
 DF=readRDS("train_X.rds")
