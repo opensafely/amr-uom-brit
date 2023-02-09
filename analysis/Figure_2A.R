@@ -79,6 +79,6 @@ p <- forest(dt[,c(1,12:15)],
             theme = tm)
 Figure <- plot(p)
 
-ggsave(Figure, width = 6, height = 10,dpi = 640,
+ggsave(Figure, width = 10, height = 10,dpi = 700,
        filename="Figure_2A.jpeg", path=here::here("output"),
 )  
