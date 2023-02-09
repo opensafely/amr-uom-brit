@@ -391,8 +391,9 @@ actions:
       moderately_sensitive:
         table1: output/plota.csv
         table2: output/plotb.csv
-        plot1: output/plota.jpeg
-        plot2: output/plotb.jpeg
+        table3: output/plotc.csv
+        table4: output/plotd.csv
+
 
   Figure_2A:  
     run: r:latest analysis/Figure_2A.R
