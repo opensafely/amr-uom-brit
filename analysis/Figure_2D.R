@@ -72,7 +72,7 @@ p <- forest(dt[,c(1,12:15)],
             nudge_y = 0.2,
             x_trans = "log",
             xlim = c(0, 20),
-            ticks_at = c(0.5,1,2,5,10,20),
+            ticks_at = c(0.5,1,2,5,10),
             theme = tm)
 
 
@@ -80,6 +80,6 @@ p <- forest(dt[,c(1,12:15)],
 
 Figure <- plot(p)
 
-ggsave(Figure, width = 10, height = 8,dpi = 700,
+ggsave(Figure, width = 10, height = 5,dpi = 700,
        filename="Figure_2D.jpeg", path=here::here("output"),
 )  
