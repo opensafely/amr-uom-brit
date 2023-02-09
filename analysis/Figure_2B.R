@@ -86,6 +86,6 @@ p <- forest(dt[,c(1,12:15)],
 
 Figure <- plot(p)
 
-ggsave(Figure, width = 10, height = 10,dpi = 700,
+ggsave(Figure, width = 14, height = 14,dpi = 800,
        filename="Figure_2B.jpeg", path=here::here("output"),
 )  
