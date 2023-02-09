@@ -19,18 +19,26 @@ setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
 
+####### training ########
+DF=readRDS("train_X.rds")
+DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
 
-####### ab level count ########
-DF=readRDS("matched_outcome.rds")
-DF=DF%>%dplyr::select("case","total_ab","level","ab_types")
-DF$level=as.factor(DF$level)
-DF$case=as.factor(DF$case)
+str(DF)
+
+DF= DF %>% 
+  mutate_at(c(2:12), as.numeric)
+
+DF= DF %>% 
+  mutate_at(c(13:74), as.factor)
+
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
-
+case.num
+contr.num
+str(DF)
 
 # select variables
-explanatory<- c("total_ab","ab_types","level")
+explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
 dependent <- "case"
 
 #table
@@ -50,58 +58,124 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 # level
-round_tbl[c(3:8),"percent_0"]=round_tbl[c(3:8),3]/sum(round_tbl[c(3:8),3])*100
-round_tbl[c(3:8),"percent_1"]=round_tbl[c(3:8),4]/sum(round_tbl[c(3:8),4])*100
+#[c(12:73),"percent_0"]=round_tbl[c(12:73),3]/sum(round_tbl[c(12:73),3])*100
+#round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
 
 # continuous variables
-round_tbl[c(1:2),c(3:4)]=tbl[c(1:2),c(3:4)]
+round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
 write.csv(round_tbl,"table3.csv")
 
 rm(list=ls())
 
-####### ab summary ########
+
+
+
+####### validation ########
+DF=readRDS("valid_X.rds")
+DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+
+str(DF)
+
+DF= DF %>% 
+  mutate_at(c(2:12), as.numeric)
+
+DF= DF %>% 
+  mutate_at(c(13:74), as.factor)
+
+case.num=sum(DF$case==1)
+contr.num=sum(DF$case==0)
+case.num
+contr.num
+str(DF)
+
+# select variables
+explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+dependent <- "case"
+
+#table
+tbl=DF%>% summary_factorlist(dependent, explanatory)
+
+round_tbl=tbl
+#remove percentage
+round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+
+#round to 5
+round_tbl[,3]=as.numeric(round_tbl[,3])
+round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+
+round_tbl[,4]=as.numeric(round_tbl[,4])
+round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+
+
+# level
+#[c(12:73),"percent_0"]=round_tbl[c(12:73),3]/sum(round_tbl[c(12:73),3])*100
+#round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
+
+# continuous variables
+round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
+
+
+write.csv(round_tbl,"table3.csv")
+
 rm(list=ls())
 
-df=readRDS("matched_outcome.rds")
-df$level=as.factor(df$level)
-df$case=as.factor(df$case)
 
-df00=df%>%dplyr::select("case","total_ab" ,"level")%>%dplyr::filter(case==0)
-df01=df%>%dplyr::select("case","total_ab" ,"level")%>%dplyr::filter(case==1)
 
-#  case
-l1=rbind(summary(df01[df01$level==0,]$total_ab),
-         summary(df01[df01$level==1,]$total_ab),
-         summary(df01[df01$level==2,]$total_ab),
-         summary(df01[df01$level==3,]$total_ab),
-         summary(df01[df01$level==4,]$total_ab),
-         summary(df01[df01$level==5,]$total_ab))
-l1=data.frame(l1)
+##### all
 
-l1=l1%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
+####### training ########
+DF1=readRDS("train_X.rds")
+DF2=readRDS("valid_X.rds")
+DF=rbind(DF1,DF2)
 
-rownames(l1)<-c("level0","level1","level2","level3","level4","level5")
-l1$case="1"
 
-# control
-l0=rbind(summary(df00[df00$level==0,]$total_ab),
-         summary(df00[df00$level==1,]$total_ab),
-         summary(df00[df00$level==2,]$total_ab),
-         summary(df00[df00$level==3,]$total_ab),
-         summary(df00[df00$level==4,]$total_ab),
-         summary(df00[df00$level==5,]$total_ab))
+DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
 
-l0=data.frame(l0)
+str(DF)
 
-l0=l0%>%select("Median","X1st.Qu.", "X3rd.Qu.","Mean","Min.","Max.")
+DF= DF %>% 
+  mutate_at(c(2:12), as.numeric)
 
-rownames(l0)<-c("level0","level1","level2","level3","level4","level5")
+DF= DF %>% 
+  mutate_at(c(13:74), as.factor)
 
-l0$case="0"
+case.num=sum(DF$case==1)
+contr.num=sum(DF$case==0)
+case.num
+contr.num
+str(DF)
 
-DF=rbind(l1,l0)
+# select variables
+explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+dependent <- "case"
 
-write.csv(DF,"table3_ab.csv")
+#table
+tbl=DF%>% summary_factorlist(dependent, explanatory)
 
+round_tbl=tbl
+#remove percentage
+round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+
+#round to 5
+round_tbl[,3]=as.numeric(round_tbl[,3])
+round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+
+round_tbl[,4]=as.numeric(round_tbl[,4])
+round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+
+
+# level
+#[c(12:73),"percent_0"]=round_tbl[c(12:73),3]/sum(round_tbl[c(12:73),3])*100
+#round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
+
+# continuous variables
+round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
+
+
+write.csv(round_tbl,"table3.csv")
+
+rm(list=ls())
