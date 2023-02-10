@@ -31,7 +31,10 @@ DF= DF %>%
   mutate_at(c(2:12), as.numeric)
 
 DF= DF %>% 
-  mutate_at(c(13:74), as.factor)
+  mutate_at(c(13:19), as.factor)
+
+DF= DF %>% 
+  mutate_at(c(20:74), as.factor)
 
 DF$case=as.factor(DF$case)
 
@@ -90,7 +93,10 @@ DF= DF %>%
   mutate_at(c(2:12), as.numeric)
 
 DF= DF %>% 
-  mutate_at(c(13:74), as.factor)
+  mutate_at(c(13:19), as.factor)
+
+DF= DF %>% 
+  mutate_at(c(20:74), as.factor)
 
 DF$case=as.factor(DF$case)
 
@@ -152,7 +158,10 @@ DF= DF %>%
   mutate_at(c(2:12), as.numeric)
 
 DF= DF %>% 
-  mutate_at(c(13:74), as.factor)
+  mutate_at(c(13:19), as.factor)
+
+DF= DF %>% 
+  mutate_at(c(20:74), as.factor)
 
 DF$case=as.factor(DF$case)
 
