@@ -509,3 +509,10 @@ actions:
       moderately_sensitive:
         table1: output/model_ab_type_full.csv
         table2: output/model_ab_type_unadjust.csv
+
+  check_age_dist:  
+    run: r:latest analysis/check_age_dist.R
+    needs: [matching1,matching2,matching3,matching4]
+    outputs:
+      moderately_sensitive:
+        plot1: output/case_18.jpeg
