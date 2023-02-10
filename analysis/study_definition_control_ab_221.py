@@ -22,8 +22,8 @@ end_date = "2022-06-30"
 
 ####### Import variables
 ## Exposure variables: antibiotics 
-from variables_antibiotics_6w import generate_ab_variables_6w
-ab_variables_6w = generate_ab_variables_6w(index_date_variable="patient_index_date")
+from variables_antibiotics import generate_ab_variables
+ab_variables = generate_ab_variables(index_date_variable="patient_index_date")
 
 
 study = StudyDefinition(
@@ -59,7 +59,7 @@ study = StudyDefinition(
         },
     ),
 
-     **ab_variables_6w,
+     **ab_variables,
     # **confounding_variables,
     # #**infection_variables,
     # #**comobidities_variables,
