@@ -44,7 +44,7 @@ actions:
       highly_sensitive: 
         rds1: output/matched_patients.rds
         rds2: output/unmatched_cases.rds
-        csv: output/matched_patients_id.csv
+        csv: output/matched_patients_id.csv # unique patient ID
         
   check_unmatched:
     run: r:latest -e 'rmarkdown::render("analysis/check_unmatched.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -72,7 +72,7 @@ actions:
 
 # extract ab for RF
   extract_variables_ab_time:   # exposure variables
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix # unique matched patient ID
     needs: [matching]
     outputs:
       highly_sensitive:
