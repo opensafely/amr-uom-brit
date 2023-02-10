@@ -8,7 +8,7 @@ library("here")
 setwd(here::here("output"))
 df=read_csv("input_case_ab.csv")
 
-col=c("Rx_6w_Amikacin", "Rx_6w_Amoxicillin", "Rx_6w_Ampicillin", "Rx_6w_Azithromycin", "Rx_6w_Aztreonam", "Rx_6w_Benzylpenicillin", "Rx_6w_Cefaclor", "Rx_6w_Cefadroxil", "Rx_6w_Cefalexin", "Rx_6w_Cefamandole", "Rx_6w_Cefazolin", "Rx_6w_Cefepime", "Rx_6w_Cefixime", "Rx_6w_Cefotaxime", "Rx_6w_Cefoxitin", "Rx_6w_Cefpirome", "Rx_6w_Cefpodoxime", "Rx_6w_Cefprozil", "Rx_6w_Cefradine", "Rx_6w_Ceftazidime", "Rx_6w_Ceftriaxone", "Rx_6w_Cefuroxime", "Rx_6w_Chloramphenicol", "Rx_6w_Cilastatin", "Rx_6w_Ciprofloxacin", "Rx_6w_Clarithromycin", "Rx_6w_Clindamycin", "Rx_6w_Co_amoxiclav", "Rx_6w_Co_fluampicil", "Rx_6w_Colistimethate", "Rx_6w_Dalbavancin", "Rx_6w_Dalfopristin", "Rx_6w_Daptomycin", "Rx_6w_Demeclocycline", "Rx_6w_Doripenem", "Rx_6w_Doxycycline", "Rx_6w_Ertapenem", "Rx_6w_Erythromycin", "Rx_6w_Fidaxomicin", "Rx_6w_Flucloxacillin", "Rx_6w_Fosfomycin", "Rx_6w_Fusidate", "Rx_6w_Gentamicin", "Rx_6w_Levofloxacin", "Rx_6w_Linezolid", "Rx_6w_Lymecycline", "Rx_6w_Meropenem", "Rx_6w_Methenamine", "Rx_6w_Metronidazole", "Rx_6w_Minocycline", "Rx_6w_Moxifloxacin", "Rx_6w_Nalidixic_acid", "Rx_6w_Neomycin", "Rx_6w_Netilmicin", "Rx_6w_Nitazoxanid", "Rx_6w_Nitrofurantoin", "Rx_6w_Norfloxacin", "Rx_6w_Ofloxacin", "Rx_6w_Oxytetracycline", "Rx_6w_Phenoxymethylpenicillin", "Rx_6w_Piperacillin", "Rx_6w_Pivmecillinam", "Rx_6w_Pristinamycin", "Rx_6w_Rifaximin", "Rx_6w_Sulfadiazine", "Rx_6w_Sulfamethoxazole", "Rx_6w_Sulfapyridine", "Rx_6w_Taurolidin", "Rx_6w_Tedizolid", "Rx_6w_Teicoplanin", "Rx_6w_Telithromycin", "Rx_6w_Temocillin", "Rx_6w_Tetracycline", "Rx_6w_Ticarcillin", "Rx_6w_Tigecycline", "Rx_6w_Tinidazole", "Rx_6w_Tobramycin", "Rx_6w_Trimethoprim", "Rx_6w_Vancomycin")
+col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
 df[col]=df[col]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
 df$total_ab_6w=rowSums(df[col])# total types number -> total ab prescription
@@ -23,10 +23,10 @@ df$ab_types_6w=ifelse(is.na(df$ab_types_6w),0,df$ab_types_6w) # no ab
 
   
 df$ab_frequency = case_when(
-  df$ab_prescriptions_6w == 0 ~ "0",
-  df$ab_prescriptions_6w == 1 ~ "1",
-  df$ab_prescriptions_6w >1 & df$ab_prescriptions_6w <4 ~ "2-3",
-  df$ab_prescriptions_6w > 3 ~ ">3",)
+  df$ab_prescriptions == 0 ~ "0",
+  df$ab_prescriptions == 1 ~ "1",
+  df$ab_prescriptions >1 & df$ab_prescriptions <4 ~ "2-3",
+  df$ab_prescriptions > 3 ~ ">3",)
 
 df$ab_type_num = case_when(
   df$ab_types_6w == 0 ~ "0",
