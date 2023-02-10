@@ -1,5 +1,5 @@
 ---
-title: "data preparation"
+title: "data preparation: measure antibiotics exposure"
 output: 
   html_document:
    toc: true
@@ -16,11 +16,15 @@ library('dplyr')
 library('lubridate')
 ```
 
-read dataset of ab_time
+input ab_time
 ```{r}
 setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 df <- read_rds("matched_outcome.rds")
+df=df%>% select("patient_id","patient_index_date","case","subclass","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types")
+
+
+
 DF=read.csv("input_ab_time.csv")
 names(DF)
 
@@ -47,12 +51,12 @@ for (i in 69:129) {
 }
 ```
 
-all ab
+all ab: sum of total 60 extractions
 ```{r }
 DF$all_ab=rowSums(DF[,ab_conut])
 ```
 
-filter ab users
+filter ab users (from all matched patient cohort)
 ```{r}
 DF=DF%>% filter(all_ab>0)
 count(DF)
@@ -61,7 +65,7 @@ count(DF)
 exposure period
 ```{r}
 #DF$last_date= apply(DF[ab_date], 1, max, na.rm=TRUE)
-DF[,"last_date"]=do.call(pmin, c(DF[,ab_date], na.rm = TRUE))
+DF[,"last_date"]=do.call(pmin, c(DF[,ab_date], na.rm = TRUE)) # earliest date of ab exposure
 
 ```
 
@@ -70,13 +74,13 @@ DF[,"last_date"]=do.call(pmin, c(DF[,ab_date], na.rm = TRUE))
 ```{r}
 library(lubridate)
 DF$last_date=ifelse(is.na(DF$last_date),NA, DF$last_date)
-DF$AB_date_1=ifelse(is.na(DF$AB_date_1),NA,DF$AB_date_1)
+DF$AB_date_1=ifelse(is.na(DF$AB_date_1),NA,DF$AB_date_1) # most recent ab date
 
 DF$last_date=ymd(DF$last_date)
 DF$AB_date_1=ymd(DF$AB_date_1)
 
 #DF$exposure_period=DF$last_date-DF$AB_date_1
-DF$exposure_period=difftime(DF$last_date,DF$AB_date_1, units = "day")
+DF$exposure_period=difftime(DF$AB_date_1,DF$last_date, units = "day")
 DF$exposure_period=as.numeric(DF$exposure_period)
 summary(DF$exposure_period)
 ```
@@ -95,7 +99,7 @@ summary(DF$exposure_period)
 
 most recent exp days
 ```{r}
-DF$recent_ab_days=difftime(DF$patient_index_date,DF$last_date, units = "day")
+DF$recent_ab_days=difftime(DF$patient_index_date,DF$AB_date_1, units = "day")
 DF$recent_ab_days=as.numeric(DF$recent_ab_days)
 summary(DF$recent_ab_days)
 ```
@@ -161,14 +165,13 @@ head(DF)
 ```
 
 
-
-
 calculate time interval from index date
 ```{r}
+sum(is.na(DF$patient_index_date))
 DF[,"patient_index_date"]=ifelse(
   is.na(DF[,"patient_index_date"]), NA, 
   DF[,"patient_index_date"])
-
+sum(is.na(DF$patient_index_date))
 DF[,"patient_index_date"]=ymd(DF[,"patient_index_date"])
 
 
@@ -206,7 +209,6 @@ filter column
 
 DF=DF%>% select(patient_id,patient_index_date,interval_med,interval_mean,interval_sd,interval_CV,prescribe_times,AB_6wk_type,AB_6wk,ab_6w_binary,AB_1_type,recent_ab_days,exposure_period,length_mean,length_med,length_sd,length_CV)
 
-DF$recent_ab_days=as.numeric(DF$recent_ab_days)
 
 str(DF)
 ```
@@ -218,18 +220,18 @@ str(DF)
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 # import matched patients dataset
 
-df=df%>% select("patient_id","patient_index_date","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types","case","subclass",)
-
 # filter only 1 ID
 #df=df %>% distinct(patient_id, .keep_all=T)
 data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
 
 head(data)
+
+rm(df,DF)
 ```
 
 broad %
 ```{r}
-data$broad_prop=data$broad_ab_prescriptions/data$total_ab
+#data$broad_prop=data$broad_ab_prescriptions/data$total_ab
 data$broad_prop=data$broad_ab_prescriptions/data$ab_prescriptions
 
 ```
