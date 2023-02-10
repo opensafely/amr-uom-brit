@@ -39,7 +39,6 @@ table(df$case)
 
 check variables
 ```{r }
-df$exposure_period=-df$exposure_period
 str(df)
 ```
 
@@ -53,6 +52,10 @@ df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0)
 df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
 df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 str(df)
+
+
+df$AB_6wk_type=ifelse(df$AB_6wk_type=="","none",df$AB_6wk_type)
+df$AB_1_type=ifelse(df$AB_1_type=="","none",df$AB_1_type)
 
 ```
 
