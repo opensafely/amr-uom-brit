@@ -500,3 +500,4 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/model_ab_count_full.csv
+        table2: output/model_ab_count_unadjust.csv

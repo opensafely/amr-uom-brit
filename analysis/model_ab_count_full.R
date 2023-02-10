@@ -113,3 +113,16 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 write_csv(DF, here::here("output", "model_ab_count_full.csv"))
 
+Antibiotic_prescriptions <- DF[49:51,]
+
+mod=clogit(case ~ ab_frequency + strata(set_id), df)
+sum.mod=summary(mod)
+sum.mod
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+write_csv(DF, here::here("output", "model_ab_count_unadjust.csv"))
