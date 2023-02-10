@@ -18,7 +18,7 @@ library("finalfit")
 setwd(here::here("output"))
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output")
 
-col <- read_rds(here::here("output","abtype.rds"))
+col <- read_rds("abtype.rds")
 
 
 ####### training ########
@@ -33,6 +33,9 @@ DF= DF %>%
 DF= DF %>% 
   mutate_at(c(13:74), as.factor)
 
+DF$case=as.factor(DF$case)
+
+
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
 case.num
@@ -46,17 +49,17 @@ dependent <- "case"
 #table
 tbl=DF%>% summary_factorlist(dependent, explanatory)
 
-round_tbl=tbl
+#round_tbl=tbl
 #remove percentage
-round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+#round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+#round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
 #round to 5
-round_tbl[,3]=as.numeric(round_tbl[,3])
-round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+#round_tbl[,3]=as.numeric(round_tbl[,3])
+#round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
-round_tbl[,4]=as.numeric(round_tbl[,4])
-round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+#round_tbl[,4]=as.numeric(round_tbl[,4])
+#round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 # level
@@ -64,10 +67,10 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 #round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
 
 # continuous variables
-round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
+#round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
-write.csv(round_tbl,"table3_train.csv")
+write.csv(tbl,"table3_train.csv")
 
 rm(list=ls())
 
@@ -89,6 +92,8 @@ DF= DF %>%
 DF= DF %>% 
   mutate_at(c(13:74), as.factor)
 
+DF$case=as.factor(DF$case)
+
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
 case.num
@@ -103,17 +108,17 @@ dependent <- "case"
 #table
 tbl=DF%>% summary_factorlist(dependent, explanatory)
 
-round_tbl=tbl
+#round_tbl=tbl
 #remove percentage
-round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+#round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+#round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
 #round to 5
-round_tbl[,3]=as.numeric(round_tbl[,3])
-round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+#round_tbl[,3]=as.numeric(round_tbl[,3])
+#round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
-round_tbl[,4]=as.numeric(round_tbl[,4])
-round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+#round_tbl[,4]=as.numeric(round_tbl[,4])
+#round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 # level
@@ -121,10 +126,10 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 #round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
 
 # continuous variables
-round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
+#round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
-write.csv(round_tbl,"table3_valid.csv")
+write.csv(tbl,"table3_valid.csv")
 
 rm(list=ls())
 
@@ -149,6 +154,8 @@ DF= DF %>%
 DF= DF %>% 
   mutate_at(c(13:74), as.factor)
 
+DF$case=as.factor(DF$case)
+
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
 case.num
@@ -162,17 +169,17 @@ dependent <- "case"
 #table
 tbl=DF%>% summary_factorlist(dependent, explanatory)
 
-round_tbl=tbl
+#round_tbl=tbl
 #remove percentage
-round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+#round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+#round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
 #round to 5
-round_tbl[,3]=as.numeric(round_tbl[,3])
-round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+#round_tbl[,3]=as.numeric(round_tbl[,3])
+#round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
-round_tbl[,4]=as.numeric(round_tbl[,4])
-round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+#round_tbl[,4]=as.numeric(round_tbl[,4])
+#round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 # level
@@ -180,9 +187,9 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 #round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
 
 # continuous variables
-round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
+#round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
-write.csv(round_tbl,"table3_all.csv")
+write.csv(tbl,"table3_all.csv")
 
 rm(list=ls())
