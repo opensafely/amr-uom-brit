@@ -67,7 +67,7 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
-write.csv(round_tbl,"table3.csv")
+write.csv(round_tbl,"table3_train.csv")
 
 rm(list=ls())
 
@@ -75,6 +75,9 @@ rm(list=ls())
 
 
 ####### validation ########
+
+col <- read_rds(here::here("output","abtype.rds"))
+
 DF=readRDS("valid_X.rds")
 DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
 
@@ -92,6 +95,7 @@ case.num
 contr.num
 str(DF)
 
+
 # select variables
 explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
 dependent <- "case"
@@ -120,7 +124,7 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
-write.csv(round_tbl,"table3.csv")
+write.csv(round_tbl,"table3_valid.csv")
 
 rm(list=ls())
 
@@ -133,6 +137,7 @@ DF1=readRDS("train_X.rds")
 DF2=readRDS("valid_X.rds")
 DF=rbind(DF1,DF2)
 
+col <- read_rds(here::here("output","abtype.rds"))
 
 DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
 
@@ -178,6 +183,6 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
 
 
-write.csv(round_tbl,"table3.csv")
+write.csv(round_tbl,"table3_all.csv")
 
 rm(list=ls())
