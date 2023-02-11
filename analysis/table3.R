@@ -35,7 +35,7 @@ DF= DF %>%
   mutate_at(c(1:8),as.factor)
 
 DF= DF %>% 
-  mutate_at(c(9:85), as.numeric)#80
+  mutate_at(c(9:25), as.numeric)#80
 
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
@@ -96,7 +96,7 @@ DF= DF %>%
   mutate_at(c(1:8),as.factor)
 
 DF= DF %>% 
-  mutate_at(c(9:85), as.numeric)#80
+  mutate_at(c(9:25), as.numeric)#80
 
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
@@ -161,7 +161,7 @@ DF= DF %>%
   mutate_at(c(1:8),as.factor)
 
 DF= DF %>% 
-  mutate_at(c(9:85), as.numeric)#80
+  mutate_at(c(9:25), as.numeric)#80
 
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
