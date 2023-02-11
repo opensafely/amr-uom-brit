@@ -48,7 +48,7 @@ names(train_X)
 # all varilables: pred_col=c("patient_id","patient_index_date", "case","total_ab","interval_sd" ,  "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk")
 #"sex","age","age_cat","stp","region")
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_CV","lenght_mean",abtype)
+#col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_CV","lenght_mean",abtype)
 #train_X=train_X%>% select(col)
 #valid_X=valid_X%>% select(col)
 names(train_X)
@@ -69,7 +69,7 @@ summary(valid_X[abtype])
 train model
 ```{r}
 
-
+col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_CV","lenght_mean",abtype)
 #result = expand.grid(
  #  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
@@ -80,12 +80,12 @@ train model
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(Y=NULL,X=train_X[col], 
+  rf.model <- randomForest(y=NULL,x=train_X[col,], 
                            replace = TRUE,
-                           ntree =  3000,
+                           ntree =  1000,
                            sampsize = round(n*0.7),
                            nodesize = 25 ,
-                           mtry = sqrt(ncol(train_X)-1),
+                           mtry = sqrt(length(col)),
                             proximity = TRUE, oob.prox = TRUE
                           )
   
