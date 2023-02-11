@@ -87,7 +87,7 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-  model_RF_process: # distinct patient, merge 79 types of ab, split train and valid set
+  model_RF_process: # merge 79 types of ab, split train and valid set
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
     outputs:
