@@ -1,0 +1,110 @@
+---
+title: "Random Forest_ clustering"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+#library("ggplot2")
+#library(caret)
+library(pROC)
+library(randomForest)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+# import dataset
+```{r }
+#train_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_Y.rds")
+train_Y <- read_rds(here::here("output","train_Y.rds"))
+train_Y=as.factor(train_Y)
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+train_X <- read_rds(here::here("output","train_X.rds"))
+train_X$case=as.factor(train_X$case)
+col=c("patient_id","patient_index_date")
+train_X = subset(train_X, select = -c(patient_id, patient_index_date))
+
+#valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
+valid_Y <- read_rds(here::here("output","valid_Y.rds"))
+valid_Y=as.factor(valid_Y)
+#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
+valid_X <- read_rds(here::here("output","valid_X.rds"))
+valid_X$case=as.factor(valid_X$case)
+
+#df=sample_n(df,5000)
+table(train_X$case)
+table(valid_X$case)
+
+n=nrow(train_X)
+```
+
+
+pick variable
+```{r}
+names(train_X)
+# all varilables: pred_col=c("patient_id","patient_index_date", "case","total_ab","interval_sd" ,  "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type""AB_6wk_type" ,"interval_med" "length_med" ,"ab_6w_binary" , "AB_6wk")
+#"sex","age","age_cat","stp","region")
+abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_CV","lenght_mean",abtype)
+#train_X=train_X%>% select(col)
+#valid_X=valid_X%>% select(col)
+names(train_X)
+```
+
+covert number to binary
+```{r eval=FALSE, include=FALSE}
+
+train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+
+
+summary(train_X[abtype])
+summary(valid_X[abtype])
+```
+
+
+train model
+```{r}
+
+
+#result = expand.grid(
+ #  ntree=c(1000,2000),
+#  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
+ #  nodesize = c( 5,50),
+ # mtry=1:round(sqrt(ncol(train_X)-1)),
+ # valid_auc = NA)
+               
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
+  rf.model <- randomForest(Y=NULL,X=train_X[col], 
+                           replace = TRUE,
+                           ntree =  3000,
+                           sampsize = round(n*0.7),
+                           nodesize = 25 ,
+                           mtry = sqrt(ncol(train_X)-1),
+                            proximity = TRUE, oob.prox = TRUE
+                          )
+  
+   rf.model
+```
+
+```{r}
+
+hclust.rf <- hclust(as.dist(1-rf.model$proximity), method = "ward.D2")
+rf.cluster = cutree(hclust.rf, k=10)
+train_X$rf.clusters <- rf.cluster
+table(rf.cluster, train_X$case)
+```
+
+```{r}
+
+model=clogit(case ~ rf.clusters + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+summary(model)
+
+```
+
