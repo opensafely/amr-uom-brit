@@ -158,6 +158,39 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_clogit.html
+
+
+
+
+  # # main analysis
+ 
+  table1_round: 
+    run: r:latest analysis/table1.R
+    needs: [process_1,process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table1_unmatched.csv
+        csv2: output/table1_matched.csv
+        csv3: output/table1_random.csv
+
+  table2_round: 
+    run: r:latest analysis/table2.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table2_matched.csv
+        csv3: output/table2_random.csv
+  
+  table3_round: # baseline table of exposure variables/ training &validation 
+    run: r:latest analysis/table3.R
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table3_train.csv
+        csv2: output/table3_valid.csv
+        csv3: output/table3_all.csv
+
+        
   
   model_tuneRF: #
     run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
