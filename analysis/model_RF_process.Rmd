@@ -1,5 +1,5 @@
 ---
-title: "RF model variables merge antibiotcs types"
+title: "divide train/valid dataset"
 ---
 
 ```{r setup, include=FALSE}
@@ -28,20 +28,6 @@ table(df$case)
 ```
 
 
-
-filter: remove multiple controls
-```{r }
-df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
-table(df$case)
-
-```
-
-
-check variables
-```{r }
-str(df)
-```
-
 replace NA  
 ```{r }
 df[is.na(df)] <- 0 #antibiotics=zero
@@ -53,10 +39,6 @@ df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0)
 df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
 str(df)
 
-
-df$AB_6wk_type=ifelse(df$AB_6wk_type=="","none",df$AB_6wk_type)
-df$AB_1_type=ifelse(df$AB_1_type=="","none",df$AB_1_type)
-
 ```
 
 
@@ -64,11 +46,12 @@ df$AB_1_type=ifelse(df$AB_1_type=="","none",df$AB_1_type)
 ```{r }
 #DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")
 DF<- read_rds(here::here("output","abtype79.rds"))
-
 table(DF$case)
-DF=DF%>% select(-c("case","subclass"))
-#DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
+names(DF)
 
+DF=DF%>% select(-c("case","subclass"))
+DF=DF%>% distinct(patient_id,patient_index_date, .keep_all=T)
+table(DF$case)
 
 col=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
@@ -80,18 +63,17 @@ table=table%>% filter(table[,1]>0)
 col=rownames(table) # selected columns
 
 length(col) # 55
-table(DF$case)
+
 saveRDS(col,here::here("output","abtype.rds"))
 ```
 
 
 # merge data
 ```{r }
-df=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
-# "sex","age","age_cat","stp","region",and col
+df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)
 rm(DF)
 table(df$case)
-names(df)
+str(df)
 ```
 
 
@@ -109,13 +91,11 @@ valid_idx <- subclass[!subclass %in% train_idx]
 length(valid_idx)
 
 #pred_col=c("patient_id","patient_index_date", "case","subclass","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
-```
-
-```{r}
 train_X =df %>% filter(subclass %in% train_idx)
 prop.table(table(train_X$case))
 table(train_X$case)
 nrow(train_X)
+
 valid_X =df %>% filter(subclass %in% valid_idx)
 prop.table(table(valid_X$case))
 table(valid_X$case)
@@ -130,7 +110,7 @@ valid_Y <- valid_X$case
 set.seed(1024)
 all_idx <- 1:nrow(df)
 
-train_idx <- sample(all_idx, nrow(df) * 0.8)
+train_idx <- sample(all_idx, nrow(df) * 0.7)
 test_idx <- all_idx[!all_idx %in% train_idx]
 
 pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
