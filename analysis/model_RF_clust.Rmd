@@ -80,13 +80,13 @@ col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","i
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(y=NULL,x=train_X[col], 
+  rf.model <- randomForest(y=NULL,x=valid_X[col], 
                            replace = TRUE,
                            ntree =  1000,
                            sampsize = round(n*0.7),
                            nodesize = 25 ,
                            mtry = sqrt(length(col)),
-                            proximity = TRUE, oob.prox = TRUE
+                          proximity = TRUE, oob.prox = TRUE
                           )
   
    rf.model
