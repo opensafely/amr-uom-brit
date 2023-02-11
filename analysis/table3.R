@@ -23,22 +23,19 @@ col <- read_rds("abtype.rds")
 
 ####### training ########
 DF=readRDS("train_X.rds")
-DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+DF=DF%>%dplyr::select( "case",
+                       "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
+                       "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col
+                       )
+
 
 str(DF)
 
 DF= DF %>% 
-  mutate_at(c(2:12), as.numeric)
+  mutate_at(c(1:8),as.factor)
 
 DF= DF %>% 
-  mutate_at(c(13:19), as.factor)
-
-
-DF= DF %>% 
-  mutate_at(c(20:74), as.numeric)
-
-DF$case=as.factor(DF$case)
-
+  mutate_at(c(9:85), as.numeric)#80
 
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
@@ -47,7 +44,8 @@ contr.num
 str(DF)
 
 # select variables
-explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+explanatory<- c("prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
+                "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col)
 dependent <- "case"
 
 #table
@@ -86,20 +84,19 @@ rm(list=ls())
 col <- read_rds(here::here("output","abtype.rds"))
 
 DF=readRDS("valid_X.rds")
-DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+DF=DF%>%dplyr::select( "case",
+                       "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
+                       "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col
+)
+
 
 str(DF)
 
 DF= DF %>% 
-  mutate_at(c(2:12), as.numeric)
+  mutate_at(c(1:8),as.factor)
 
 DF= DF %>% 
-  mutate_at(c(13:19), as.factor)
-
-DF= DF %>% 
-  mutate_at(c(20:74), as.numeric)
-
-DF$case=as.factor(DF$case)
+  mutate_at(c(9:85), as.numeric)#80
 
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
@@ -107,10 +104,11 @@ case.num
 contr.num
 str(DF)
 
-
 # select variables
-explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+explanatory<- c("prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
+                "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col)
 dependent <- "case"
+
 
 #table
 tbl=DF%>% summary_factorlist(dependent, explanatory)
@@ -151,20 +149,19 @@ DF=rbind(DF1,DF2)
 
 col <- read_rds(here::here("output","abtype.rds"))
 
-DF=DF%>%dplyr::select("case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+DF=DF%>%dplyr::select( "case",
+                       "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
+                       "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col
+)
+
 
 str(DF)
 
 DF= DF %>% 
-  mutate_at(c(2:12), as.numeric)
+  mutate_at(c(1:8),as.factor)
 
 DF= DF %>% 
-  mutate_at(c(13:19), as.factor)
-
-DF= DF %>% 
-  mutate_at(c(20:74), as.numeric)
-
-DF$case=as.factor(DF$case)
+  mutate_at(c(9:85), as.numeric)#80
 
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
@@ -173,7 +170,8 @@ contr.num
 str(DF)
 
 # select variables
-explanatory<- c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV", "AB_6wk","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",col)
+explanatory<- c("prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
+                "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col)
 dependent <- "case"
 
 #table
