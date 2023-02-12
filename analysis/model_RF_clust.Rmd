@@ -98,13 +98,13 @@ set.seed(1024)
 
 hclust.rf <- hclust(as.dist(1-rf.model$proximity), method = "ward.D2")
 rf.cluster = cutree(hclust.rf, k=10)
-train_X$rf.clusters <- rf.cluster
-table(rf.cluster, train_X$case)
+valid_X$rf.clusters <- rf.cluster
+table(rf.cluster, valid_X$case)
 ```
 
 ```{r}
 
-model=clogit(case ~ rf.clusters + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ rf.clusters + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),valid_X) 
 
 summary(model)
 
