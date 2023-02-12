@@ -516,3 +516,10 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/case_18.jpeg
+
+  generate_study_population_case_var_add:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_var_add
+    needs: [process2_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_var_add.csv
