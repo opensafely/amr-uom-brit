@@ -23,16 +23,16 @@ nrow(DF)
 table(DF$case)
 
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-df <- read_rds(here::here("output","matched_ab.rds"))
-table(df$case)
-col2=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
-df=subset(df,select=col2)
-df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
-nrow(df)
+#df <- read_rds(here::here("output","matched_ab.rds"))
+#table(df$case)
+#col2=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
+#df=subset(df,select=col2)
+#df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+#nrow(df)
 
-DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
-table(DF$case)
-nrow(DF)
+#DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
+#table(DF$case)
+#nrow(DF)
 ```
 
 
@@ -55,7 +55,7 @@ table(valid_X$case)
 
 
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_med","length_CV",abtype)
+col=c("patient_index_date","patient_id","case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV",abtype)
 
 train_X=train_X%>% select(col)
 valid_X=valid_X%>% select(col)
