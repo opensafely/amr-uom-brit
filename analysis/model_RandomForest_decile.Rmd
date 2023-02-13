@@ -110,6 +110,9 @@ prob <- predict(rf.model, type = 'prob')[,2]
 summary(prob)
 hist(prob)
 
+sum(prob==0)
+length(prob)
+
 exp.class <- predict(rf.model, type = 'response')
 summary(exp.class)
 
@@ -141,6 +144,9 @@ prob <- predict(rf.model, valid_X, type = 'prob')[,2]
 summary(prob)
 hist(prob)
 
+sum(prob==0)
+length(prob)
+
 exp.class <- predict(rf.model, valid_X, type = 'response')
 summary(exp.class)
 
@@ -159,7 +165,7 @@ valid<- cbind(valid_X,decile,prob,exp.class)
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(devel[decile==i,]$prob))
+  print(summary(valid[decile==i,]$prob))
 
 }
 
