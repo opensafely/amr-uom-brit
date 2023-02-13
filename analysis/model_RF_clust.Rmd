@@ -11,6 +11,8 @@ library('tidyverse')
 #library(caret)
 library(pROC)
 library(randomForest)
+library("survival")
+
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 
