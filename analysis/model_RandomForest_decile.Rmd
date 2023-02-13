@@ -76,11 +76,23 @@ development set
 prob <- predict(rf.model, train_X, type = 'prob')[,2]
 summary(prob)
 hist(prob)
+
+sum(prob==0)
+length(prob)
+
 exp.class <- predict(rf.model, train_X, type = 'response')
 summary(exp.class)
 # create 10 risk groups
+
+prob=ifelse(prob==0,NA,prob)
+
+
 decile <- ntile(prob,10)
-table(decile)
+summary(decile)
+
+prob=ifelse(is.na(prob),0,prob)
+decile=ifelse(is.na(decile),0,decile)
+
 
 # combined
 train_X=train_X[,c("patient_id","patient_index_date")]
@@ -150,11 +162,14 @@ length(prob)
 exp.class <- predict(rf.model, valid_X, type = 'response')
 summary(exp.class)
 
-# create 10 risk groups
-decile <- ntile(prob,10)
-table(decile)
-barplot(table(decile))
+prob=ifelse(prob==0,NA,prob)
 
+
+decile <- ntile(prob,10)
+summary(decile)
+
+prob=ifelse(is.na(prob),0,prob)
+decile=ifelse(is.na(decile),0,decile)
 
 
 valid_X=valid_X[,c("patient_id","patient_index_date")]
