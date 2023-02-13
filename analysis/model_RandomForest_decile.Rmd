@@ -23,16 +23,16 @@ nrow(DF)
 table(DF$case)
 
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-df <- read_rds(here::here("output","matched_ab.rds"))
-table(df$case)
-col2=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
-df=subset(df,select=col2)
-df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
-nrow(df)
+#df <- read_rds(here::here("output","matched_ab.rds"))
+#table(df$case)
+#col2=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
+#df=subset(df,select=col2)
+#df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
+#nrow(df)
 
-DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
-table(DF$case)
-nrow(DF)
+#DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
+#table(DF$case)
+#nrow(DF)
 ```
 
 
@@ -55,7 +55,7 @@ table(valid_X$case)
 
 
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("patient_id","patient_index_date","case","sex","age","region","wave","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_CV","length_mean",abtype)
+col=c("patient_index_date","patient_id","case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV",abtype)
 
 train_X=train_X%>% select(col)
 valid_X=valid_X%>% select(col)
@@ -74,12 +74,38 @@ development set
 ```{r}
 # probabilities of being case
 prob <- predict(rf.model, train_X, type = 'prob')[,2]
+summary(prob)
+hist(prob)
+
+sum(prob==0)
+length(prob)
+
 exp.class <- predict(rf.model, train_X, type = 'response')
+summary(exp.class)
 # create 10 risk groups
+
+prob=ifelse(prob==0,NA,prob)
+
+
 decile <- ntile(prob,10)
+summary(decile)
+
+prob=ifelse(is.na(prob),0,prob)
+decile=ifelse(is.na(decile),0,decile)
+
+
 # combined
 train_X=train_X[,c("patient_id","patient_index_date")]
 devel <- cbind(train_X,decile,prob,exp.class)
+
+
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(devel[decile==i,]$prob))
+
+}
+
 
 head(devel)
 
@@ -93,9 +119,22 @@ development set
 ```{r eval=FALSE, include=FALSE}
 # probabilities of being case
 prob <- predict(rf.model, type = 'prob')[,2]
+summary(prob)
+hist(prob)
+
+sum(prob==0)
+length(prob)
+
 exp.class <- predict(rf.model, type = 'response')
+summary(exp.class)
+
 # create 10 risk groups
 decile <- ntile(prob,10)
+table(decile)
+
+
+
+
 # combined
 train_X=train_X[,c("patient_id","patient_index_date")]
 devel <- cbind(train_X,decile,prob,exp.class)
@@ -114,14 +153,36 @@ validation set
 rm(prob)
 # probabilities of being case
 prob <- predict(rf.model, valid_X, type = 'prob')[,2]
+summary(prob)
+hist(prob)
+
+sum(prob==0)
+length(prob)
+
 exp.class <- predict(rf.model, valid_X, type = 'response')
-# create 10 risk groups
+summary(exp.class)
+
+prob=ifelse(prob==0,NA,prob)
+
+
 decile <- ntile(prob,10)
+summary(decile)
+
+prob=ifelse(is.na(prob),0,prob)
+decile=ifelse(is.na(decile),0,decile)
+
 
 valid_X=valid_X[,c("patient_id","patient_index_date")]
 
 # combined
 valid<- cbind(valid_X,decile,prob,exp.class)
+
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(valid[decile==i,]$prob))
+
+}
 
 head(valid)
 
