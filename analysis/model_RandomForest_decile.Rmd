@@ -74,12 +74,26 @@ development set
 ```{r}
 # probabilities of being case
 prob <- predict(rf.model, train_X, type = 'prob')[,2]
+summary(prob)
+hist(prob)
 exp.class <- predict(rf.model, train_X, type = 'response')
+summary(exp.class)
 # create 10 risk groups
 decile <- ntile(prob,10)
+table(decile)
+
 # combined
 train_X=train_X[,c("patient_id","patient_index_date")]
 devel <- cbind(train_X,decile,prob,exp.class)
+
+
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(devel[decile==i,]$prob))
+
+}
+
 
 head(devel)
 
@@ -102,7 +116,6 @@ summary(exp.class)
 # create 10 risk groups
 decile <- ntile(prob,10)
 table(decile)
-barplot(table(decile))
 
 
 
@@ -142,6 +155,13 @@ valid_X=valid_X[,c("patient_id","patient_index_date")]
 
 # combined
 valid<- cbind(valid_X,decile,prob,exp.class)
+
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(devel[decile==i,]$prob))
+
+}
 
 head(valid)
 
