@@ -70,7 +70,7 @@ summary(valid_X[abtype])
 train model
 ```{r}
 
-col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","interval_med" , "interval_CV","length_CV","length_mean",abtype)
+col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","interval_mean" , "interval_CV",abtype)
 
 n=nrow(valid_X)
 
