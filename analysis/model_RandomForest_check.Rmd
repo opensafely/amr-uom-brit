@@ -39,7 +39,7 @@ print(rf.model)
 model performance
 
 train_model_no prediction
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 # probabilities of cases
 pred.y <- predict(rf.model, type = 'prob')[,2]

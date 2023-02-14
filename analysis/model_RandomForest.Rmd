@@ -74,7 +74,7 @@ summary(valid_X[abtype])
 train model
 ```{r}
 
-
+train_X=train_X%>%filter(total_ab>0)
 #result = expand.grid(
  #  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
