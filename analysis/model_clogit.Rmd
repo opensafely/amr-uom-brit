@@ -21,7 +21,7 @@ df1 <- read_rds(here::here("output","development.rds"))
 df2 <- read_rds(here::here("output","validation.rds"))
 
 
-df=rbind(df1,df2)\
+df=rbind(df1,df2)
 rm(df1,df2)
 
 #abtype=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype.rds")
