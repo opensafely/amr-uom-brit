@@ -65,11 +65,11 @@ for (i in 2:90) {
 print(paste0(col[i]))
   
 print(
-  ggplot(df, aes(x=case, y=df[,col[i]])) + 
+  ggplot(df,aes(case, y=df[col[i]])) + 
     geom_boxplot()
 )
 print(
-ggplot(df,aes(x=case, y=df[,col[i]])) +
+ggplot(df,aes(x=case, y=df[col[i]])) +
     geom_violin() +
     scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
 )
