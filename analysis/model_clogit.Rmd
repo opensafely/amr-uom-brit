@@ -90,56 +90,103 @@ df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "0")
 df$recent_ab_days_group=relevel(as.factor(df$recent_ab_days_group),ref= "0")
 df$broad_prop_group=relevel(as.factor(df$broad_prop_group),ref= "0")
 df$interval_mean_group=relevel(as.factor(df$interval_mean_group),ref= "0")
+df$interval_med_group=relevel(as.factor(df$interval_med_group),ref= "0")
 df$interval_CV_group=relevel(as.factor(df$interval_CV_group),ref= "0")
+df$interval_sd_group=relevel(as.factor(df$interval_sd_group),ref= "0")
+df$length_med_group=relevel(as.factor(df$length_med_group),ref= "0")
+df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
+df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
+df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
+df$ab_6wk_group=relevel(as.factor(df$ab_6wk_group),ref= "0")
 
+
+names(df)
+table(df$total_ab_group)
 ```
 
 all
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_prop_group+interval_mean_group +interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~total_ab_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ab_types_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~exposure_period_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~recent_ab_days_group + CCI +covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~broad_prop_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~interval_mean_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~interval_med_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+```
+
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~ interval_sd_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~length_mean_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+```
+
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~length_med_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+```
+
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~ length_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+```
+
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~ length_sd_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+```
