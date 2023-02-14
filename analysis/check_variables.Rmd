@@ -49,12 +49,12 @@ df$case=as.factor(df$case)
 case
 ```{r}
 sum(df$case==1)
-summary(df[df$case==1])
+summary(df[df$case==1,])
 ```
 control
 ```{r}
 sum(df$case==0)
-summary(df[df$case==0])
+summary(df[df$case==0,])
 ```
 
 total ab
