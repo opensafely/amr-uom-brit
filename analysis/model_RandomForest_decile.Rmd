@@ -136,7 +136,7 @@ table(decile)
 
 
 # combined
-train_X=train_X[,c("patient_id","patient_index_date")]
+#train_X=train_X[,c("patient_id","patient_index_date")]
 devel <- cbind(train_X,decile,prob,exp.class)
 
 head(devel)
@@ -172,7 +172,7 @@ prob=ifelse(is.na(prob),0,prob)
 decile=ifelse(is.na(decile),0,decile)
 
 
-valid_X=valid_X[,c("patient_id","patient_index_date")]
+#valid_X=valid_X[,c("patient_id","patient_index_date")]
 
 # combined
 valid<- cbind(valid_X,decile,prob,exp.class)
@@ -192,7 +192,7 @@ valid$set=1
 ```{r}
 data=rbind(devel,valid)
 
-DF=merge(DF,data,by=c("patient_id","patient_index_date"), all.x = T)
+DF=merge(DF,data,by=c("patient_id","patient_index_date","case"), all.x = T)
 table(DF$case)
 nrow(DF)
 
