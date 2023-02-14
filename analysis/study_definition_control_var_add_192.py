@@ -67,12 +67,13 @@ study = StudyDefinition(
     ),
     bmi=patients.categorised_as(
         {
-            "Underweight (<18.5)": """ bmi_value < 18.5""",
-            "Healthy range (18.5-24.9)": "DEFAULT",
+            "Underweight (<18.5)": """ bmi_value < 18.5 AND bmi_value > 12""",
+            "Healthy range (18.5-24.9)": """ bmi_value >= 1.5 AND bmi_value < 25""",
             "Overweight (25-29.9)": """ bmi_value >= 25 AND bmi_value < 30""",
             "Obese I (30-34.9)": """ bmi_value >= 30 AND bmi_value < 35""",
             "Obese II (35-39.9)": """ bmi_value >= 35 AND bmi_value < 40""",
             "Obese III (40+)": """ bmi_value >= 40 AND bmi_value < 100""",
+            "Missing": "DEFAULT", 
         },
         return_expectations={
             "rate": "universal",
