@@ -53,7 +53,7 @@ df$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
 ```
 
 # set group
-```{r eval=FALSE, include=FALSE}
+```{r }
 
 col=c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
            "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
@@ -75,7 +75,7 @@ rm(df)
 ```
 
 # correlation
-```{r eval=FALSE, include=FALSE}
+```{r }
 
 dat=data%>% select("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","interval_mean","interval_CV")
 round(cor(dat),
@@ -83,49 +83,49 @@ round(cor(dat),
 )
 ```
 all
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_prop_group+interval_mean_group +interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~total_ab_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~ab_types_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~exposure_period_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~recent_ab_days_group + CCI +covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~broad_prop_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~interval_mean_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~ interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)

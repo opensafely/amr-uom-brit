@@ -55,7 +55,8 @@ table(valid_X$case)
 
 
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("patient_index_date","patient_id","case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV",abtype)
+col=c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
+           "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
 
 train_X=train_X%>% select(col)
 valid_X=valid_X%>% select(col)
