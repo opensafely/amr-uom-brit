@@ -95,7 +95,7 @@ decile=ifelse(is.na(decile),0,decile)
 
 
 # combined
-train_X=train_X[,c("patient_id","patient_index_date")]
+#train_X=train_X[,c("patient_id","patient_index_date")]
 devel <- cbind(train_X,decile,prob,exp.class)
 
 
