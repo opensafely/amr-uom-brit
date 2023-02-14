@@ -25,6 +25,8 @@ train_Y=as.factor(train_Y)
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
 col=c("patient_id","patient_index_date")
+train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+
 train_X = subset(train_X, select = -c(patient_id, patient_index_date))
 
 #valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
@@ -32,6 +34,8 @@ valid_Y <- read_rds(here::here("output","valid_Y.rds"))
 valid_Y=as.factor(valid_Y)
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
+valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+
 valid_X$case=as.factor(valid_X$case)
 
 #df=sample_n(df,5000)
@@ -83,8 +87,8 @@ set.seed(1024)
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree =  1000,
-                           sampsize = round(n*0.6),
+                           ntree =  3000,
+                           sampsize = round(n*0.7),
                            nodesize = 25 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
