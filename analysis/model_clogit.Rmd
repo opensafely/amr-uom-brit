@@ -37,16 +37,16 @@ df$case=as.factor(df$case)
 
 # overall
 ```{r}
-#data$case=as.numeric(data$case) #1/0
-data$subclass=as.factor(data$subclass)#pair id
-data$CCI= relevel(as.factor(data$CCI), ref="Zero")
-data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
-data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
-data$care_home=relevel(as.factor(data$care_home),ref = "0")
-data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
-data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
-data$imd=relevel(as.factor(data$imd),ref="1")
-data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+df$case=as.numeric(data$case) #1/0
+df$subclass=as.factor(data$subclass)#pair id
+df$CCI= relevel(as.factor(data$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+df$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(data$care_home),ref = "0")
+df$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+df$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(data$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
 
 ```
 
