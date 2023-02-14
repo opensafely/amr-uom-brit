@@ -27,7 +27,7 @@ DF=DF%>%dplyr::select( "case",
                        "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"ab_6w_binary",
                        "total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","broad_ab_prescriptions","AB_6wk","interval_mean","interval_med","interval_sd","interval_CV","length_mean","length_med" , "length_sd", "length_CV",col
                        )
-
+DF=DF%>%filter(total_ab>0)
 
 str(DF)
 
