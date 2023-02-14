@@ -24,8 +24,8 @@ train_Y=as.factor(train_Y)
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
-col=c("patient_id","patient_index_date")
-train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+#col=c("patient_id","patient_index_date")
+#train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
 train_X = subset(train_X, select = -c(patient_id, patient_index_date))
 
@@ -34,7 +34,7 @@ valid_Y <- read_rds(here::here("output","valid_Y.rds"))
 valid_Y=as.factor(valid_Y)
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
-valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+#valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
 valid_X$case=as.factor(valid_X$case)
 
@@ -94,29 +94,19 @@ set.seed(1024)
                           )
 ```
 
-```{r}
-set.seed(1024)
-pred.y <- predict(rf.model, type = 'prob')[,2]
-  roc_valid <- roc(train_Y ~ pred.y)
-  
-   #result[i,'valid_auc'] <- roc_valid[['auc']]
-  
-  plot(roc_valid)
-  print(roc_valid)
-  print(rf.model)
-```
+
 
 
 ```{r}
-set.seed(1024)
-pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-  roc_valid <- roc(train_Y ~ pred.y)
+#set.seed(1024)
+#pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+  #roc_valid <- roc(train_Y ~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
   
-  plot(roc_valid)
-  print(roc_valid)
-  print(rf.model)
+  #plot(roc_valid)
+  #print(roc_valid)
+  #print(rf.model)
  
 #}
 
@@ -149,13 +139,13 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```
 
 ```{r}
-set.seed(1024)
-rm(pred.y)
-pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
-roc_valid <- roc(valid_Y ~ pred.y)
+#set.seed(1024)
+#rm(pred.y)
+#pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+#roc_valid <- roc(valid_Y ~ pred.y)
   
-plot(roc_valid)
-print(roc_valid)
+#plot(roc_valid)
+#print(roc_valid)
 
 ```
 
