@@ -102,7 +102,7 @@ df$length_med_group=relevel(as.factor(df$length_med_group),ref= "0")
 df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
 df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
 df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
-df$ab_6wk_group=relevel(as.factor(df$ab_6wk_group),ref= "0")
+df$AB_6wk_group=relevel(as.factor(df$AB_6wk_group),ref= "0")
 
 str(df)
 ```
