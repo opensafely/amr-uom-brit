@@ -40,6 +40,7 @@ valid_X$case=as.factor(valid_X$case)
 #table(train_X$case)
 table(valid_X$case)
 
+names(valid_X)
 ```
 
 
@@ -59,20 +60,20 @@ covert number to binary
 ```{r eval=FALSE, include=FALSE}
 
 #train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+#valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
 
 
 #summary(train_X[abtype])
-summary(valid_X[abtype])
+#summary(valid_X[abtype])
 ```
 
 
 train model
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 #col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","interval_mean" , "interval_CV",abtype)
-col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_CV","length_mean",abtype)
 
+col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV",abtype)
 
 n=nrow(valid_X)
 
@@ -98,7 +99,7 @@ set.seed(1024)
    rf.model
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 hclust.rf <- hclust(as.dist(1-rf.model$proximity), method = "ward.D2")
 rf.cluster = cutree(hclust.rf, k=10)
@@ -106,7 +107,7 @@ valid_X$rf.clusters <- rf.cluster
 table(rf.cluster, valid_X$case)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 model=clogit(case ~ rf.clusters + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),valid_X) 
 
