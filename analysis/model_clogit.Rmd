@@ -70,8 +70,10 @@ for (i in 1:length(col)) {
  df[,col[i]]=ifelse(is.na(df[,col[i]]),0,df[,col[i]])
 }
 
-data=df
+data=data.frame(df)
 rm(df)
+
+str(data)
 ```
 
 # correlation
@@ -100,11 +102,6 @@ df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
 df$ab_6wk_group=relevel(as.factor(df$ab_6wk_group),ref= "0")
 ```
 
-
-```{r}
-str(df)
-#table(df$total_ab_group)
-```
 
 all
 ```{r eval=FALSE, include=FALSE}
