@@ -85,7 +85,7 @@ round(cor(dat),
 )
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 df=data
 df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "0")
