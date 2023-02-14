@@ -37,7 +37,7 @@ df$case=as.factor(df$case)
 
 # overall
 ```{r}
-data$case=as.numeric(data$case) #1/0
+#data$case=as.numeric(data$case) #1/0
 data$subclass=as.factor(data$subclass)#pair id
 data$CCI= relevel(as.factor(data$CCI), ref="Zero")
 data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
