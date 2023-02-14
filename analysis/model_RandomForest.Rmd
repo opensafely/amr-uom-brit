@@ -24,8 +24,8 @@ train_Y=as.factor(train_Y)
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
-col=c("patient_id","patient_index_date")
-train_X = subset(train_X, select = -c(patient_id, patient_index_date))
+#col=c("patient_id","patient_index_date")
+#train_X = subset(train_X, select = -c(patient_id, patient_index_date))
 
 #valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
 valid_Y <- read_rds(here::here("output","valid_Y.rds"))
@@ -69,8 +69,8 @@ summary(valid_X[abtype])
 
 filter ab users
 ```{r}
-train_X=train_X%>% filter(total_ab>0)
-valid_X=valid_X%>% filter(total_ab>0)
+#train_X=train_X%>% filter(total_ab>0)
+#valid_X=valid_X%>% filter(total_ab>0)
 
 ```
 
@@ -98,6 +98,15 @@ set.seed(1024)
 ```
 
 ```{r}
+importance(rf.model)
+varImpPlot(rf.model)
+
+saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
 set.seed(1024)
 pred.y <- predict(rf.model, type = 'prob')[,2]
   roc_valid <- roc(train_Y ~ pred.y)
@@ -144,12 +153,7 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 
 ```
 
-```{r}
-importance(rf.model)
-varImpPlot(rf.model)
 
-saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
-```
 
 ```{r}
 set.seed(1024)
