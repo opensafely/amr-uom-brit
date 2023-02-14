@@ -57,15 +57,15 @@ col=c("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"
 abtype,"AB_6wk")
 
 for (i in 1:length(col)) {
- df[,col[i]]=ifelse(df[,col[i]]>0,df[,col[i]],NA)
+ df[col[i]]=ifelse(df[col[i]]>0,df[col[i]],NA)
 }
 
 for (i in 1:length(col)) {
- df[,paste0(col[i],"_group")]=ntile(df[,col[i]],3)
+ df[,paste0(col[i],"_group")]=ntile(df[col[i]],3)
 }
 
 for (i in 1:length(col)) {
- df[,col[i]]=ifelse(is.na(df[,col[i]]),0,df[,col[i]])
+ df[col[i]]=ifelse(is.na(df[col[i]]),0,df[col[i]])
 }
 ```
 
