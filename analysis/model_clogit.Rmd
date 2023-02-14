@@ -83,7 +83,7 @@ round(cor(dat),
 )
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "0")
 df$ab_types_group=relevel(as.factor(df$ab_types_group),ref= "0")
 df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "0")
@@ -98,10 +98,12 @@ df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
 df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
 df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
 df$ab_6wk_group=relevel(as.factor(df$ab_6wk_group),ref= "0")
+```
 
 
-names(df)
-table(df$total_ab_group)
+```{r}
+str(df)
+#table(df$total_ab_group)
 ```
 
 all
