@@ -164,7 +164,7 @@ actions:
   
   model_clogit: # coditional logistic regression for expo variables
     run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile]
+    needs: [model_RandomForest_decile,model_RF_process]
     outputs:
       moderately_sensitive:
         html: output/model_clogit.html
