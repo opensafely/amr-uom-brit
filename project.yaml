@@ -199,6 +199,16 @@ actions:
         csv2: output/table3_valid.csv
         csv3: output/table3_all.csv
 
+        
+# variables check
+  check_variables: # check input
+    run: r:latest -e 'rmarkdown::render("analysis/check_variables.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_variables.html
+
+
 
   
   model_tuneRF: #

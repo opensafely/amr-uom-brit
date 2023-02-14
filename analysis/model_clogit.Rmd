@@ -13,68 +13,69 @@ library(pROC)
 ```
 
 # import dataset
+# import dataset
 ```{r }
 #df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-df <- read_rds(here::here("output","train_X.rds"))
+df1 <- read_rds(here::here("output","development.rds"))
 
-df1=df
-df1$set=1
+df2 <- read_rds(here::here("output","validation.rds"))
 
-rm(df)
-
-df <- read_rds(here::here("output","valid_X.rds"))
-
-df2=df
-df2$set=2
-rm(df)
 
 df=rbind(df1,df2)
+rm(df1,df2)
 
 #abtype=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype.rds")
 abtype <- read_rds(here::here("output","abtype.rds"))
 
-df=df%>% select("patient_id","patient_index_date", "case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_mean" , "interval_CV",abtype, "ab_6w_binary" , "AB_6wk","set")
-
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 table(df$case)
 str(df)
+
+df$case=as.factor(df$case)
+
+names(df)
 ```
 
-
-
-```{r}
-#DF=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-DF<- read_rds(here::here("output","matched_outcome.rds"))
-#col1=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor","care_home_type","hospital_counts")
-col1=c("patient_index_date","patient_id","subclass","ethnicity_6","bmi_cat","CCI","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine")
-DF=subset(DF,select=col1)
-
-
-data=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
-
-rm(DF,df)
-
-str(data)
-
-table(data$case)
-```
 
 # overall
-```{r}
-data$case=as.numeric(data$case) #1/0
-data$subclass=as.factor(data$subclass)#pair id
-data$CCI= relevel(as.factor(data$CCI), ref="Zero")
-data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
-data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
-data$care_home=relevel(as.factor(data$care_home),ref = "0")
-data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
-data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
-data$imd=relevel(as.factor(data$imd),ref="1")
-data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+```{r eval=FALSE, include=FALSE}
+df$case=as.numeric(data$case) #1/0
+df$subclass=as.factor(data$subclass)#pair id
+df$CCI= relevel(as.factor(data$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+df$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(data$care_home),ref = "0")
+df$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+df$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(data$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+
+```
+
+# set group
+```{r }
+
+col=c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
+           "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
+
+for (i in 1:length(col)) {
+ df[,col[i]]=ifelse(df[,col[i]]>0,df[,col[i]],NA)
+}
+
+for (i in 1:length(col)) {
+ df[,paste0(col[i],"_group")]=ntile(df[,col[i]],3)
+}
+
+for (i in 1:length(col)) {
+ df[,col[i]]=ifelse(is.na(df[,col[i]]),0,df[,col[i]])
+}
+
+data=df
+rm(df)
 ```
 
 # correlation
-```{r}
+```{r }
 
 dat=data%>% select("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","interval_mean","interval_CV")
 round(cor(dat),
@@ -82,82 +83,51 @@ round(cor(dat),
 )
 ```
 all
-```{r}
-model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean +interval_CV+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_prop_group+interval_mean_group +interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~total_ab+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~total_ab_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~ab_types+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~ab_types_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~exposure_period+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~exposure_period_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~recent_ab_days + CCI +covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~recent_ab_days_group + CCI +covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~broad_prop + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~broad_prop_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~interval_mean + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~interval_mean_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-```{r}
-model=clogit(case ~ interval_CV+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+```{r }
+model=clogit(case ~ interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 ```
 
-# train
-```{r}
-df=data%>%filter(set==1)
-
-
-model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean +interval_CV+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
-
-summary(model)
-
-pred.y <- predict(model, df, type = 'risk')
-roc<- roc(df$case ~ pred.y)
-plot(roc)
-print(roc)
-```
-
-
-# valid
-```{r}
-rm(df)
-df=data%>%filter(set==2)
-
-model=clogit(case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_prop+interval_mean +interval_CV+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
-
-summary(model)
-
-pred.y <- predict(model, df, type = 'risk')
-roc<- roc(df$case ~ pred.y)
-plot(roc)
-print(roc)
-
-```
