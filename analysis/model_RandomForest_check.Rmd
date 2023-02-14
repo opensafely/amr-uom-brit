@@ -31,6 +31,9 @@ table(valid_X$case)
 
 n=nrow(train_X)
 
+train_X=train_X%>%filter(total_ab>0)
+valid_X=valid_X%>%filter(total_ab>0)
+
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
 ```
