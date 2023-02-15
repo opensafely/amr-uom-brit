@@ -164,7 +164,7 @@ train_idx=train$patient_id
 valid_idx=valid$patient_id
 
 DF0=DF%>%filter(patient_id %in% train_idx)
-DF1=DF%>%filter(patinet_id %in% valid_idx)
+DF1=DF%>%filter(patient_id %in% valid_idx)
 nrow(DF0)
 nrow(DF1)
 
