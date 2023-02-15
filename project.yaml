@@ -587,3 +587,10 @@ actions:
         rds1: output/processed/input_model_c_h.rds
         rds2: output/processed/input_model_c.rds
         rds3: output/processed/input_model_h.rds
+
+  process_table_1:
+    run: r:latest analysis/Table1.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_1.csv
