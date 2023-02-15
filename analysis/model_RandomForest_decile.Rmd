@@ -43,11 +43,14 @@ DF=DF%>%distinct(patient_index_date,patient_id, .keep_all = TRUE)
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
 train$patient_id=as.factor(train$patient_id)
+train$index=as.factor(seq(nrow(train)))
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid <- read_rds(here::here("output","valid_X.rds"))
 valid$case=as.factor(valid$case)
 valid$patient_id=as.factor(valid$patient_id)
+valid$index=as.factor(seq(nrow(valid)))
+
 
 table(train$case)
 table(valid$case)
@@ -57,8 +60,8 @@ abtype <- read_rds(here::here("output","abtype.rds"))
 col=c("patient_id","patient_index_date","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
            "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
 
-train=train%>% select(col)
-valid=valid%>% select(col)
+train=train%>% select(all_of(col))
+valid=valid%>% select(all_of(col))
 
 #table(train$case)
 #table(valid$case)
@@ -98,11 +101,11 @@ decile <- ntile(prob,10)
 
 #prob=ifelse(is.na(prob),0,prob)
 #decile=ifelse(is.na(decile),0,decile)
-train_X=train_X%>%select(patient_id,patient_index_date)
+#rain_X=train_X%>%select(index)
 
 # combined
 #train_X=train_X[,c("patient_id","patient_index_date")]
-development <- cbind(train_X,decile,prob)
+development <- cbind(train_X$index,decile,prob)
 
 
 for (i in 1:10) {
@@ -137,10 +140,10 @@ summary(decile)
 #prob=ifelse(is.na(prob),0,prob)
 #decile=ifelse(is.na(decile),0,decile)
 #valid_X=valid_X[,c("patient_id","patient_index_date")]
-valid_X=valid_X%>%select(patient_id,patient_index_date)
+#valid_X=valid_X%>%select(patient_id,patient_index_date)
 
 # combined
-validation<- cbind(valid_X,decile,prob)
+validation<- cbind(valid_X$index,decile,prob)
 
 for (i in 1:10) {
   
@@ -162,8 +165,8 @@ nrow(development)
 nrow(valid)
 nrow(validation)
 
-df0=merge(train,development, by="patient_id", all.x=TRUE)
-df1=merge(valid,validation, by="patient_id", all.x=TRUE)
+df0=merge(train,development, by="index", all.x=TRUE)
+df1=merge(valid,validation, by="index", all.x=TRUE)
 nrow(df0)
 nrow(df1)
 ```
