@@ -116,7 +116,7 @@ for (i in 1:10) {
 }
 development$set=0
 
-nrow(devel)
+nrow(development)
 ```
 
 validation set
