@@ -48,7 +48,7 @@ Ethnicity$type = case_when(
 BMI$type = case_when(
   BMI$type == "bmi_adultMissing" ~ "BMI Missing",
   BMI$type == "bmi_adultOverweight (25-29.9)" ~ "Overweight (25-29.9 kg/m2)",
-  BMI$type == "bmi_adultUnderweight (<18.5)" ~ "Underweight (<18.5 kg/m2)"
+  BMI$type == "bmi_adultUnderweight (<18.5)" ~ "Underweight (<18.5 kg/m2)",
   BMI$type == "bmi_adultObese I (30-34.9)" ~ "Obese I (30-34.9 kg/m2)",
   BMI$type == "bmi_adultObese II (35-39.9)" ~ "Obese II (35-39.9 kg/m2)",
   BMI$type == "bmi_adultObese III (40+)" ~ "Obese III (40+ kg/m2)")
@@ -152,7 +152,7 @@ Ethnicity$type = case_when(
 BMI$type = case_when(
   BMI$type == "bmi_adultMissing" ~ "BMI Missing",
   BMI$type == "bmi_adultOverweight (25-29.9)" ~ "Overweight (25-29.9 kg/m2)",
-  BMI$type == "bmi_adultUnderweight (<18.5)" ~ "Underweight (<18.5 kg/m2)"
+  BMI$type == "bmi_adultUnderweight (<18.5)" ~ "Underweight (<18.5 kg/m2)",
   BMI$type == "bmi_adultObese I (30-34.9)" ~ "Obese I (30-34.9 kg/m2)",
   BMI$type == "bmi_adultObese II (35-39.9)" ~ "Obese II (35-39.9 kg/m2)",
   BMI$type == "bmi_adultObese III (40+)" ~ "Obese III (40+ kg/m2)")
@@ -255,7 +255,7 @@ Ethnicity$type = case_when(
 BMI$type = case_when(
   BMI$type == "bmi_adultMissing" ~ "BMI Missing",
   BMI$type == "bmi_adultOverweight (25-29.9)" ~ "Overweight (25-29.9 kg/m2)",
-  BMI$type == "bmi_adultUnderweight (<18.5)" ~ "Underweight (<18.5 kg/m2)"
+  BMI$type == "bmi_adultUnderweight (<18.5)" ~ "Underweight (<18.5 kg/m2)",
   BMI$type == "bmi_adultObese I (30-34.9)" ~ "Obese I (30-34.9 kg/m2)",
   BMI$type == "bmi_adultObese II (35-39.9)" ~ "Obese II (35-39.9 kg/m2)",
   BMI$type == "bmi_adultObese III (40+)" ~ "Obese III (40+ kg/m2)")
