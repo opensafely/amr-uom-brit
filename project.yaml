@@ -668,3 +668,14 @@ actions:
     outputs:
       moderately_sensitive:
         plot2: output/Figure_2E_crude.jpeg
+
+  model_adjusted_plot:
+    run: r:latest analysis/model_adjusted_plot.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/adjusted_plota.csv
+        table2: output/adjusted_plotb.csv
+        table3: output/adjusted_plotc.csv
+        table4: output/adjusted_plotd.csv
+        table5: output/adjusted_plote.csv
