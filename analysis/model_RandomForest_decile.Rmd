@@ -19,6 +19,7 @@ col1=c("wave","patient_index_date","patient_id","subclass","case","sex","age","a
 "care_home_type","hospital_counts")
 DF=subset(DF,select=col1)
 
+DF$patient_id=as.factor(DF$patient_id)
 nrow(DF)
 table(DF$case)
 
@@ -164,17 +165,17 @@ data=rbind(development,validation)
 nrow(data)
 nrow(DF)
 
-DF=merge(DF,data, by=c("patient_index_date","patient_id"), all.x=TRUE)
-nrow(DF)
+df=merge(DF,data, by=c("patient_index_date","patient_id"), all.x=TRUE)
+nrow(df)
 
 
-DF$decile=ifelse(is.na(DF$decile),0,DF$decile)
-DF$prob=ifelse(is.na(DF$prob),0,DF$prob)
+df$decile=ifelse(is.na(df$decile),0,df$decile)
+df$prob=ifelse(is.na(df$prob),0,df$prob)
 
-names(DF)
+names(df)
 
-df0=DF%>%filter(set==0)
-df1=DF%>%filter(set==1)
+df0=df%>%filter(set==0)
+df1=df%>%filter(set==1)
 
 saveRDS(df0,here::here("output","development.rds"))
 saveRDS(df1,here::here("output","validation.rds"))
