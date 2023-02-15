@@ -111,45 +111,18 @@ for (i in 1:10) {
 }
 
 
-head(devel)
+nrow(devel)
+devel=devel%>% left_join(DF,
+                   by=c("patient_id"= "patient_id",
+                        "patient_index_date"="patient_index_date"))
 
-devel$set=0
-
-head(prob)
-
-```
-
-development set
-```{r eval=FALSE, include=FALSE}
-# probabilities of being case
-prob <- predict(rf.model, type = 'prob')[,2]
-summary(prob)
-hist(prob)
-
-sum(prob==0)
-length(prob)
-
-exp.class <- predict(rf.model, type = 'response')
-summary(exp.class)
-
-# create 10 risk groups
-decile <- ntile(prob,10)
-table(decile)
-
-
-
-
-# combined
-#train_X=train_X[,c("patient_id","patient_index_date")]
-devel <- cbind(train_X,decile,prob,exp.class)
-
-head(devel)
-
-devel$set=0
-
-head(prob)
+nrow(devel)
+saveRDS(development,here::here("output","development.rds"))
+rm(devel)
 
 ```
+
+
 
 
 validation set
@@ -188,45 +161,13 @@ for (i in 1:10) {
 
 }
 
-head(valid)
-
-valid$set=1
-```
-
-```{r}
-nrow(devel)
 nrow(valid)
-
-data=rbind(devel,valid)
-nrow(data)
-```
-
-
-```{r}
-
-nrow(data)
-nrow(DF)
-
-DF=DF%>% left_join(data,
+valid=valid%>% left_join(DF,
                    by=c("patient_id"= "patient_id",
                         "patient_index_date"="patient_index_date"))
-table(DF$case)
-nrow(DF)
 
-names(DF)
-```
-
-
-
-```{r}
-
-development=DF%>%filter(set==0)
-saveRDS(development,here::here("output","development.rds"))
-validation=DF%>%filter(set==1)
+nrow(valid)
 saveRDS(validation,here::here("output","validation.rds"))
 
-table(development$case)
-nrow(development)
-table(validation$case)
-nrow(validation)
 ```
+
