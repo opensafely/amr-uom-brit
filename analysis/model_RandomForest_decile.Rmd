@@ -173,8 +173,10 @@ DF=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
 
 nrow(DF)
 
-df0=DF%>%filter(set=0)
-df1=DF%>%filter(set=1)
+df0=DF%>%filter(set==0)
+df1=DF%>%filter(set==1)
+nrow(df0)
+nrow(df1)
 
 saveRDS(df0,here::here("output","development.rds"))
 saveRDS(df1,here::here("output","validation.rds"))
