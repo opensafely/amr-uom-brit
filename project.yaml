@@ -595,3 +595,12 @@ actions:
       moderately_sensitive:
         table1: output/table_1_case.csv
         table2: output/table_1_control.csv
+
+  model_crude_ch:
+    run: r:latest analysis/model_crude_ch.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_ch.rds
