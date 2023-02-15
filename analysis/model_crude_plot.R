@@ -106,7 +106,7 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_frequency2-3" ~ "Antibiotic count: 2-3",
   Antibiotic$type == "ab_frequency>3" ~ "Antibiotic count: 3+",
   Antibiotic$type == "ab_type_num1" ~ "Antibiotic type: 1",
-  Antibiotic$type == "ab_type_num2-2" ~ "Antibiotic type: 2-3",
+  Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+",)
 
 plot1.1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
@@ -210,7 +210,7 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_frequency2-3" ~ "Antibiotic count: 2-3",
   Antibiotic$type == "ab_frequency>3" ~ "Antibiotic count: 3+",
   Antibiotic$type == "ab_type_num1" ~ "Antibiotic type: 1",
-  Antibiotic$type == "ab_type_num2-2" ~ "Antibiotic type: 2-3",
+  Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+",)
 
 plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
@@ -313,7 +313,7 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_frequency2-3" ~ "Antibiotic count: 2-3",
   Antibiotic$type == "ab_frequency>3" ~ "Antibiotic count: 3+",
   Antibiotic$type == "ab_type_num1" ~ "Antibiotic type: 1",
-  Antibiotic$type == "ab_type_num2-2" ~ "Antibiotic type: 2-3",
+  Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+",)
 
 plot1.3 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)

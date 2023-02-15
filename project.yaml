@@ -633,3 +633,38 @@ actions:
         table3: output/crude_plotc.csv
         table4: output/crude_plotd.csv
         table5: output/crude_plote.csv
+
+  Figure_2A_crude:  
+    run: r:latest analysis/Figure_2A_crude.R
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2A_crude.jpeg
+
+  Figure_2B_crude:  
+    run: r:latest analysis/Figure_2B_crude.R
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2B_crude.jpeg
+
+  Figure_2C_crude:  
+    run: r:latest analysis/Figure_2C_crude.R
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2C_crude.jpeg
+
+  Figure_2D_crude:  
+    run: r:latest analysis/Figure_2D_crude.R
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2D_crude.jpeg
+
+  Figure_2E_crude:  
+    run: r:latest analysis/Figure_2E_crude.R
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2E_crude.jpeg
