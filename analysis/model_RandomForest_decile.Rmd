@@ -67,13 +67,15 @@ print(rf.model)
 
 filter ab>0
 ```{r}
-nrow(train_X)
+
 train_X=train%>% filter(total_ab>0)
+nrow(train_X)
 train_X=train_X%>%distinct(patient_index_date,patient_id, .keep_all = TRUE)
 nrow(train_X)
 
-nrow(valid_X)
+
 valid_X=valid%>% filter(total_ab>0)
+nrow(valid_X)
 valid_X=valid_X%>%distinct(patient_index_date,patient_id, .keep_all = TRUE)
 nrow(valid_X)
 ```
