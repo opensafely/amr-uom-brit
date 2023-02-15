@@ -117,7 +117,7 @@ devel=devel%>% left_join(DF,
                         "patient_index_date"="patient_index_date"))
 
 nrow(devel)
-saveRDS(development,here::here("output","development.rds"))
+saveRDS(devel,here::here("output","development.rds"))
 rm(devel)
 
 ```
@@ -167,7 +167,7 @@ valid=valid%>% left_join(DF,
                         "patient_index_date"="patient_index_date"))
 
 nrow(valid)
-saveRDS(validation,here::here("output","validation.rds"))
+saveRDS(valid,here::here("output","validation.rds"))
 
 ```
 
