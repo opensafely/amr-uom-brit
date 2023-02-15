@@ -22,6 +22,10 @@ DF=subset(DF,select=col1)
 nrow(DF)
 table(DF$case)
 
+sum(is.na(DF$case))
+sum(is.na(DF$patient_id))
+sum(is.na(DF$patient_index_date))
+
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
 #df <- read_rds(here::here("output","matched_ab.rds"))
 #table(df$case)
@@ -204,7 +208,9 @@ nrow(data)
 nrow(data)
 nrow(DF)
 
-DF=merge(DF,data,by=c("patient_id","patient_index_date"), all.x = T)
+DF=DF%>% left_join(data,
+                   by=c("patient_id"= "patient_id",
+                        "patient_index_date"="patient_index_date"))
 table(DF$case)
 nrow(DF)
 
