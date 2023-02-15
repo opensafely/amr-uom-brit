@@ -95,11 +95,10 @@ length(prob)
 # create 10 risk groups
 #prob=ifelse(prob==0,NA,prob)
 decile <- ntile(prob,10)
-summary(decile)
 
 #prob=ifelse(is.na(prob),0,prob)
 #decile=ifelse(is.na(decile),0,decile)
-
+train_X=train_X%>%select(patient_id,patient_index_date)
 
 # combined
 #train_X=train_X[,c("patient_id","patient_index_date")]
@@ -138,6 +137,7 @@ summary(decile)
 #prob=ifelse(is.na(prob),0,prob)
 #decile=ifelse(is.na(decile),0,decile)
 #valid_X=valid_X[,c("patient_id","patient_index_date")]
+valid_X=valid_X%>%select(patient_id,patient_index_date)
 
 # combined
 validation<- cbind(valid_X,decile,prob)
