@@ -112,9 +112,7 @@ for (i in 1:10) {
 
 
 nrow(devel)
-devel=devel%>% left_join(DF,
-                   by=c("patient_id"= "patient_id",
-                        "patient_index_date"="patient_index_date"))
+devel=merge(devel,DF, by=c("patient_id","patient_index_date"), all.x=T)
 
 nrow(devel)
 saveRDS(devel,here::here("output","development.rds"))
@@ -161,10 +159,10 @@ for (i in 1:10) {
 
 }
 
+
+nrow(DF)
 nrow(valid)
-valid=valid%>% left_join(DF,
-                   by=c("patient_id"= "patient_id",
-                        "patient_index_date"="patient_index_date"))
+valid=merge(valid,DF, by=c("patient_id","patient_index_date"), all.x=T)
 
 nrow(valid)
 saveRDS(valid,here::here("output","validation.rds"))
