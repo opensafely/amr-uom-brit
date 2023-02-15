@@ -105,7 +105,7 @@ summary(decile)
 
 # combined
 #train_X=train_X[,c("patient_id","patient_index_date")]
-devel <- cbind(train_X,decile,prob)
+development <- cbind(train_X,decile,prob)
 
 
 for (i in 1:10) {
@@ -114,9 +114,7 @@ for (i in 1:10) {
   print(summary(devel[decile==i,]$prob))
 
 }
-nrow(train)
-
-devel$set=0
+development$set=0
 
 nrow(devel)
 ```
@@ -155,19 +153,21 @@ for (i in 1:10) {
 
 nrow(validation)
 
-nrow(valid)
-
-valid$set=1
+validation$set=1
 ```
 
 
 ```{r}
 
-nrow(DF)
-data=rbind(devel,valid)
+
+data=rbind(development,validation)
 nrow(data)
+nrow(DF)
+
 DF=merge(DF,data, by=c("patient_index_date","patient_id"), all.x=TRUE)
 nrow(DF)
+
+
 DF$decile=ifelse(is.na(DF$decile),0,DF$decile)
 DF$prob=ifelse(is.na(DF$prob),0,DF$prob)
 
