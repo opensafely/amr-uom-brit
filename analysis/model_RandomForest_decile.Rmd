@@ -15,8 +15,7 @@ library(randomForest)
 # original dataset
 #DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
-col1=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor",
-"care_home_type","hospital_counts")
+col1=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
 DF=subset(DF,select=col1)
 
 DF$patient_id=as.factor(DF$patient_id)
@@ -161,21 +160,44 @@ data=rbind(development,validation)
 nrow(data)
 nrow(DF)
 
-df=merge(data,df, by=c("patient_index_date","patient_id"), all.x=TRUE)
-nrow(df)
-names(df)
-```
+train_idx=train$patient_id
+valid_idx=valid$patient_id
 
+DF0=DF%>%filter(patient_id %in% train_idx)
+DF1=DF%>%filter(patinet_id %in% valid_idx)
+nrow(DF0)
+nrow(DF1)
 
-```{r}
-df$decile=ifelse(is.na(df$decile),0,df$decile)
-df$prob=ifelse(is.na(df$prob),0,df$prob)
-```
-
-
-```{r}
 df0=df%>%filter(set==0)
 df1=df%>%filter(set==1)
+nrow(df0)
+nrow(df1)
+```
+
+
+```{r}
+df0=merge(DF0,df0, by=c("patient_index_date","patient_id"), all.x=TRUE)
+df1=merge(DF1,df1, by=c("patient_index_date","patient_id"), all.x=TRUE)
+
+nrow(df0)
+nrow(df1)
+```
+
+
+```{r}
+
+df0$decile=ifelse(is.na(df0$decile),0,df0$decile)
+df0$prob=ifelse(is.na(df0$prob),0,df0$prob)
+
+df1$decile=ifelse(is.na(df1$decile),0,df1$decile)
+df1$prob=ifelse(is.na(df1$prob),0,df1$prob)
+
+nrow(df0)
+nrow(df1)
+```
+
+
+```{r}
 
 saveRDS(df0,here::here("output","development.rds"))
 saveRDS(df1,here::here("output","validation.rds"))
