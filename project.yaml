@@ -593,4 +593,5 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        table1: output/table_1.csv
+        table1: output/table_1_case.csv
+        table1: output/table_1_control.csv
