@@ -1,14 +1,14 @@
 
 
 ## Import libraries---
-library("tidyverse") 
-library('plyr')
-library('dplyr')
-library('lubridate')
-library('stringr')
-library("data.table")
-library("ggpubr")
-library("finalfit")
+
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+library(gridExtra)
 
 
 df <- readRDS("output/processed/input_model_c_h.rds")
