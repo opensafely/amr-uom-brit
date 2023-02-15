@@ -168,16 +168,13 @@ DF1=DF%>%filter(patient_id %in% valid_idx)
 nrow(DF0)
 nrow(DF1)
 
-df0=df%>%filter(set==0)
-df1=df%>%filter(set==1)
-nrow(df0)
-nrow(df1)
+
 ```
 
 
 ```{r}
-df0=merge(DF0,df0, by=c("patient_index_date","patient_id"), all.x=TRUE)
-df1=merge(DF1,df1, by=c("patient_index_date","patient_id"), all.x=TRUE)
+df0=merge(DF0,development, by=c("patient_index_date","patient_id"), all.x=TRUE)
+df1=merge(DF1,validation, by=c("patient_index_date","patient_id"), all.x=TRUE)
 
 nrow(df0)
 nrow(df1)
