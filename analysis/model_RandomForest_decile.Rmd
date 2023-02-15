@@ -73,6 +73,12 @@ rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
 ```
 
+```{r}
+train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
+
+valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
+
+```
 
 
 development set
@@ -110,8 +116,7 @@ for (i in 1:10) {
 
 }
 nrow(devel)
-devel=devel%>% distinct(patient_id,patient_index_date, .keep_all = T)
-nrow(devel)
+
 devel$set=0
 
 
@@ -157,8 +162,7 @@ for (i in 1:10) {
 }
 
 nrow(valid)
-valid=valid%>% distinct(patient_id,patient_index_date, .keep_all = T)
-nrow(valid)
+
 
 valid$set=1
 ```
@@ -169,12 +173,12 @@ nrow(DF)
 
 data=rbind(devel,valid)
 nrow(data)
-DF=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
+df=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
 
-nrow(DF)
+nrow(df)
 
-df0=DF%>%filter(set==0)
-df1=DF%>%filter(set==1)
+df0=df%>%filter(set==0)
+df1=df%>%filter(set==1)
 nrow(df0)
 nrow(df1)
 
