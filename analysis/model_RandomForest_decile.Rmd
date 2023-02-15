@@ -112,11 +112,8 @@ for (i in 1:10) {
 nrow(devel)
 devel=devel%>% distinct(patient_id,patient_index_date, .keep_all = T)
 nrow(devel)
-devel=merge(DF,devel, by=c("patient_id","patient_index_date"), all.x=T)
+devel$set=0
 
-nrow(devel)
-saveRDS(devel,here::here("output","development.rds"))
-rm(devel)
 
 ```
 
@@ -162,10 +159,25 @@ for (i in 1:10) {
 nrow(valid)
 valid=valid%>% distinct(patient_id,patient_index_date, .keep_all = T)
 nrow(valid)
-valid=merge(DF,valid, by=c("patient_id","patient_index_date"), all.x=T)
 
-nrow(valid)
-saveRDS(valid,here::here("output","validation.rds"))
+valid$set=1
+```
+
+
+```{r}
+nrow(DF)
+
+data=rbind(devel,valid)
+nrow(data)
+DF=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
+
+nrow(DF)
+
+df0=DF%>%filter(set=0)
+df1=DF%>%filter(set=1)
+
+saveRDS(df0,here::here("output","development.rds"))
+saveRDS(df1,here::here("output","validation.rds"))
 
 ```
 
