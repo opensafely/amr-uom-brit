@@ -40,10 +40,12 @@ table(DF$case)
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
+train$patient_id=as.factor(train$patient_id)
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid <- read_rds(here::here("output","valid_X.rds"))
 valid$case=as.factor(valid$case)
+valid$patient_id=as.factor(valid$patient_id)
 
 table(train$case)
 table(valid$case)
@@ -65,9 +67,15 @@ print(rf.model)
 
 filter ab>0
 ```{r}
+nrow(train_X)
 train_X=train%>% filter(total_ab>0)
-valid_X=valid%>% filter(total_ab>0)
+train_X=train_X%>%distinct(patient_index_date,patient_id, .keep_all = TRUE))
+nrow(train_X)
 
+nrow(valid_X)
+valid_X=valid%>% filter(total_ab>0)
+valid_X=valid_X%>%distinct(patient_index_date,patient_id, .keep_all = TRUE))
+nrow(valid_X)
 ```
 
 
@@ -106,7 +114,8 @@ for (i in 1:10) {
 }
 nrow(train)
 nrow(devel)
-devel.all=merge(train, devel, by=c("patient_index_date","patient_id"), all.x=T)
+
+devel.all=merge(train, devel, by=c("patient_index_date","patient_id"), all.x=TRUE)
 devel.all$decile=ifelse(is.na(devel.all$decile),0,devel.all$decile)
 devel.all$prob=ifelse(is.na(devel.all$prob),0,devel.all$prob)
 
@@ -149,6 +158,8 @@ for (i in 1:10) {
 
 nrow(validation)
 nrow(valid)
+
+
 valid.all=merge(valid, validation, by=c("patient_index_date","patient_id"), all.x=T)
 valid.all$decile=ifelse(is.na(valid.all$decile),0,valid.all$decile)
 valid.all$prob=ifelse(is.na(valid.all$prob),0,valid.all$prob)
