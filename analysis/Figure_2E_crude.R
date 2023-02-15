@@ -35,10 +35,8 @@ tm <- forest_theme(base_size = 10,
                    vertline_lty = c("dashed", "dotted"),
                    vertline_col = c("#d6604d", "#bababa"))
 
-plot.a1<- plot.a1 %>% add_row(type = "Chronic kidney disease or renal replacement therapy", .before = 1,)
-plot.a1<- plot.a1 %>% add_row(type = "Asthma", .before = 8,)
-plot.a1<- plot.a1 %>% add_row(type = "Diabetes", .before = 11,)
-plot.a1<- plot.a1 %>% add_row(type = "Organ transplant", .before = 15,)
+plot.a1<- plot.a1 %>% add_row(type = "The number of antibiotic prescriptions", .before = 1,)
+plot.a1<- plot.a1 %>% add_row(type = "The type of antibiotic prescriptions", .before = 5,)
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
@@ -77,7 +75,7 @@ p <- forest(dt[,c(1,12:15)],
             nudge_y = 0.2,
             x_trans = "log",
             xlim = c(0, 20),
-            ticks_at = c(0.5,1,2,5,10,20),
+            ticks_at = c(0.5,1,2,5,10),
             theme = tm)
 
 
@@ -86,5 +84,5 @@ p <- forest(dt[,c(1,12:15)],
 Figure <- plot(p)
 
 ggsave(Figure, width = 14, height = 8,dpi = 700,
-       filename="Figure_2B_crude.jpeg", path=here::here("output"),
+       filename="Figure_2E_crude.jpeg", path=here::here("output"),
 )  
