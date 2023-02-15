@@ -109,10 +109,10 @@ for (i in 1:10) {
   print(summary(devel[decile==i,]$prob))
 
 }
-
-
 nrow(devel)
-devel=merge(devel,DF, by=c("patient_id","patient_index_date"), all.x=T)
+devel=devel%>% distinct(patient_id,patient_index_date, .keep_all = T)
+nrow(devel)
+devel=merge(DF,devel, by=c("patient_id","patient_index_date"), all.x=T)
 
 nrow(devel)
 saveRDS(devel,here::here("output","development.rds"))
@@ -159,10 +159,10 @@ for (i in 1:10) {
 
 }
 
-
-nrow(DF)
 nrow(valid)
-valid=merge(valid,DF, by=c("patient_id","patient_index_date"), all.x=T)
+valid=valid%>% distinct(patient_id,patient_index_date, .keep_all = T)
+nrow(valid)
+valid=merge(DF,valid, by=c("patient_id","patient_index_date"), all.x=T)
 
 nrow(valid)
 saveRDS(valid,here::here("output","validation.rds"))
