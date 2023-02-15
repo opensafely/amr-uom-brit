@@ -8,7 +8,7 @@ library(data.table)
 library(gridExtra)
 library("forestploter")
 
-df <- readRDS("output/processed/input_model_ch.rds")
+df <- readRDS("output/processed/input_model_c_h.rds")
 
 mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
