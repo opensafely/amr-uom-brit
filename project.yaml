@@ -594,4 +594,4 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/table_1_case.csv
-        table1: output/table_1_control.csv
+        table2: output/table_1_control.csv
