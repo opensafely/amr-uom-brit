@@ -162,8 +162,8 @@ nrow(development)
 nrow(valid)
 nrow(validation)
 
-df0=merge(train,development, by=c("patient_index_date","patient_id"), all.x=TRUE)
-df1=merge(valid,validation, by=c("patient_index_date","patient_id"), all.x=TRUE)
+df0=merge(train,development, by="patient_index_date", all.x=TRUE)
+df1=merge(valid,validation, by="patient_index_date", all.x=TRUE)
 nrow(df0)
 nrow(df1)
 ```
