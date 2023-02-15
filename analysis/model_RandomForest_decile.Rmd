@@ -39,11 +39,11 @@ table(DF$case)
 ```{r }
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train <- read_rds(here::here("output","train_X.rds"))
-train$case=as.factor(train_X$case)
+train$case=as.factor(train$case)
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid <- read_rds(here::here("output","valid_X.rds"))
-valid$case=as.factor(valid_X$case)
+valid$case=as.factor(valid$case)
 
 table(train$case)
 table(valid$case)
