@@ -157,21 +157,23 @@ validation$set=1
 
 
 ```{r}
-
-
 data=rbind(development,validation)
 nrow(data)
 nrow(DF)
 
 df=merge(data,df, by=c("patient_index_date","patient_id"), all.x=TRUE)
 nrow(df)
+names(df)
+```
 
 
+```{r}
 df$decile=ifelse(is.na(df$decile),0,df$decile)
 df$prob=ifelse(is.na(df$prob),0,df$prob)
+```
 
-names(df)
 
+```{r}
 df0=df%>%filter(set==0)
 df1=df%>%filter(set==1)
 
