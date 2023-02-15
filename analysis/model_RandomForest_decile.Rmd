@@ -55,11 +55,11 @@ table(valid_X$case)
 
 
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("patient_id","patient_index_date","case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
+col=c("patient_id","patient_index_date","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
            "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
 
-train_X=train_X%>% select(col)
-valid_X=valid_X%>% select(col)
+train_X=train_X%>% select(all_of(col))
+valid_X=valid_X%>% select(all_of(col))
 
 table(train_X$case)
 table(valid_X$case)
@@ -191,9 +191,20 @@ valid$set=1
 ```
 
 ```{r}
-data=rbind(devel,valid)
+nrow(devel)
+nrow(valid)
 
-DF=merge(DF,data,by=c("patient_id","patient_index_date","case"), all.x = T)
+data=rbind(devel,valid)
+nrow(data)
+```
+
+
+```{r}
+
+nrow(data)
+nrow(DF)
+
+DF=merge(DF,data,by=c("patient_id","patient_index_date"), all.x = T)
 table(DF$case)
 nrow(DF)
 
