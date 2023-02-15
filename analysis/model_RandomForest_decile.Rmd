@@ -155,10 +155,22 @@ validation$set=1
 ```
 
 
+merge train&valid(1:6)
 ```{r}
-data=rbind(development,validation)
-nrow(data)
-nrow(DF)
+nrow(train)
+nrow(development)
+nrow(valid)
+nrow(validation)
+
+df0=merge(train,development, by=c("patient_index_date","patient_id"), all.x=TRUE)
+df1=merge(valid,validation, by=c("patient_index_date","patient_id"), all.x=TRUE)
+nrow(df0)
+nrow(df1)
+```
+
+
+
+```{r}
 
 train_idx=train$patient_id
 valid_idx=valid$patient_id
@@ -172,13 +184,9 @@ nrow(DF1)
 ```
 
 
-```{r}
-df0=merge(DF0,development, by=c("patient_index_date","patient_id"), all.x=TRUE)
-df1=merge(DF1,validation, by=c("patient_index_date","patient_id"), all.x=TRUE)
 
-nrow(df0)
-nrow(df1)
-```
+
+
 
 
 ```{r}
@@ -188,6 +196,17 @@ df0$prob=ifelse(is.na(df0$prob),0,df0$prob)
 
 df1$decile=ifelse(is.na(df1$decile),0,df1$decile)
 df1$prob=ifelse(is.na(df1$prob),0,df1$prob)
+
+nrow(df0)
+nrow(df1)
+```
+
+
+
+add confounder
+```{r}
+df0=merge(df0,DF0, by=c("patient_index_date","patient_id"), all.x=TRUE)
+df1=merge(df1,DF1, by=c("patient_index_date","patient_id"), all.x=TRUE)
 
 nrow(df0)
 nrow(df1)
