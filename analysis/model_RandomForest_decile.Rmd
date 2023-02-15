@@ -87,10 +87,9 @@ length(prob)
 
 exp.class <- predict(rf.model, train_X, type = 'response')
 summary(exp.class)
+
 # create 10 risk groups
-
 prob=ifelse(prob==0,NA,prob)
-
 
 decile <- ntile(prob,10)
 summary(decile)
