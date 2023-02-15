@@ -604,3 +604,21 @@ actions:
         table1: output/crude_model_result.csv
       highly_sensitive: 
         rds1: output/processed/input_crude_model_ch.rds
+
+  model_crude_c:
+    run: r:latest analysis/model_crude_c.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_c.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_c.rds
+
+  model_crude_h:
+    run: r:latest analysis/model_crude_h.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_h.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_h.rds
