@@ -58,8 +58,8 @@ col=c("patient_id","patient_index_date","total_ab","ab_types","prescribe_times",
 train=train%>% select(col)
 valid=valid%>% select(col)
 
-table(train$case)
-table(valid$case)
+#table(train$case)
+#table(valid$case)
 
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
@@ -115,15 +115,10 @@ for (i in 1:10) {
 
 }
 nrow(train)
+
+devel$set=0
+
 nrow(devel)
-
-devel.all=merge(train, devel, by=c("patient_index_date","patient_id"), all.x=TRUE)
-devel.all$decile=ifelse(is.na(devel.all$decile),0,devel.all$decile)
-devel.all$prob=ifelse(is.na(devel.all$prob),0,devel.all$prob)
-
-devel.all$set=0
-
-nrow(devel.all)
 ```
 
 validation set
@@ -159,23 +154,29 @@ for (i in 1:10) {
 }
 
 nrow(validation)
+
 nrow(valid)
 
-
-valid.all=merge(valid, validation, by=c("patient_index_date","patient_id"), all.x=T)
-valid.all$decile=ifelse(is.na(valid.all$decile),0,valid.all$decile)
-valid.all$prob=ifelse(is.na(valid.all$prob),0,valid.all$prob)
-
-
-nrow(valid.all)
-
-valid.all$set=1
+valid$set=1
 ```
 
 
 ```{r}
 
-saveRDS(devel.all,here::here("output","development.rds"))
-saveRDS(valid.all,here::here("output","validation.rds"))
+nrow(DF)
+data=rbind(devel,valid)
+nrow(data)
+DF=merge(DF,data, by=c("patient_index_date","patient_id"), all.x=TRUE)
+nrow(DF)
+DF$decile=ifelse(is.na(DF$decile),0,DF$decile)
+DF$prob=ifelse(is.na(DF$prob),0,DF$prob)
+
+names(DF)
+
+df0=DF%>%filter(set==0)
+df1=DF%>%filter(set==1)
+
+saveRDS(df0,here::here("output","development.rds"))
+saveRDS(df1,here::here("output","validation.rds"))
 
 ```
