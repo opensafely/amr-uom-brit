@@ -18,7 +18,7 @@ library(finalfit)
 #df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/development.rds")
 df <- read_rds(here::here("output","development.rds"))
 table(df$decile)
-table(df$decile,df$case)
+table(df$case)
 
 df$case=as.numeric(df$case) #1/0
 
