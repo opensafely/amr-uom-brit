@@ -37,38 +37,38 @@ table(DF$case)
 
 
 ```{r }
-
-
-
-
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-train_X <- read_rds(here::here("output","train_X.rds"))
-train_X$case=as.factor(train_X$case)
-
+train <- read_rds(here::here("output","train_X.rds"))
+train$case=as.factor(train_X$case)
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
-valid_X <- read_rds(here::here("output","valid_X.rds"))
-valid_X$case=as.factor(valid_X$case)
+valid <- read_rds(here::here("output","valid_X.rds"))
+valid$case=as.factor(valid_X$case)
 
-table(train_X$case)
-table(valid_X$case)
+table(train$case)
+table(valid$case)
 
 
 abtype <- read_rds(here::here("output","abtype.rds"))
 col=c("patient_id","patient_index_date","case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
            "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
 
-train_X=train_X%>% select(col)
-valid_X=valid_X%>% select(col)
+train=train%>% select(col)
+valid=valid%>% select(col)
 
-table(train_X$case)
-table(valid_X$case)
-
+table(train$case)
+table(valid$case)
 
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
 ```
 
+filter ab>0
+```{r}
+train_X=train%>% filter(total_ab>0)
+valid_X=valid%>% filter(total_ab>0)
+
+```
 
 
 development set
@@ -81,23 +81,21 @@ hist(prob)
 sum(prob==0)
 length(prob)
 
-exp.class <- predict(rf.model, train_X, type = 'response')
-summary(exp.class)
+#exp.class <- predict(rf.model, train_X, type = 'response')
+#summary(exp.class)
+
 # create 10 risk groups
-
-prob=ifelse(prob==0,NA,prob)
-
-
+#prob=ifelse(prob==0,NA,prob)
 decile <- ntile(prob,10)
 summary(decile)
 
-prob=ifelse(is.na(prob),0,prob)
-decile=ifelse(is.na(decile),0,decile)
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
 
 
 # combined
 #train_X=train_X[,c("patient_id","patient_index_date")]
-devel <- cbind(train_X,decile,prob,exp.class)
+devel <- cbind(train_X,decile,prob)
 
 
 for (i in 1:10) {
@@ -106,48 +104,16 @@ for (i in 1:10) {
   print(summary(devel[decile==i,]$prob))
 
 }
+nrow(train)
+nrow(devel)
+devel.all=merge(train, devel, by=c("patient_index_date","patient_id"), all.x=T)
+devel.all$decile=ifelse(is.na(devel.all$decile),0,devel.all$decile)
+devel.all$prob=ifelse(is.na(devel.all$prob),0,devel.all$prob)
 
+devel.all$set=0
 
-head(devel)
-
-devel$set=0
-
-head(prob)
-
+nrow(devel.all)
 ```
-
-development set
-```{r eval=FALSE, include=FALSE}
-# probabilities of being case
-prob <- predict(rf.model, type = 'prob')[,2]
-summary(prob)
-hist(prob)
-
-sum(prob==0)
-length(prob)
-
-exp.class <- predict(rf.model, type = 'response')
-summary(exp.class)
-
-# create 10 risk groups
-decile <- ntile(prob,10)
-table(decile)
-
-
-
-
-# combined
-#train_X=train_X[,c("patient_id","patient_index_date")]
-devel <- cbind(train_X,decile,prob,exp.class)
-
-head(devel)
-
-devel$set=0
-
-head(prob)
-
-```
-
 
 validation set
 ```{r}
@@ -160,57 +126,43 @@ hist(prob)
 sum(prob==0)
 length(prob)
 
-exp.class <- predict(rf.model, valid_X, type = 'response')
-summary(exp.class)
+#exp.class <- predict(rf.model, valid_X, type = 'response')
+#summary(exp.class)
 
-prob=ifelse(prob==0,NA,prob)
-
+#prob=ifelse(prob==0,NA,prob)
 
 decile <- ntile(prob,10)
 summary(decile)
-
-prob=ifelse(is.na(prob),0,prob)
-decile=ifelse(is.na(decile),0,decile)
-
-
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
 #valid_X=valid_X[,c("patient_id","patient_index_date")]
 
 # combined
-valid<- cbind(valid_X,decile,prob,exp.class)
+validation<- cbind(valid_X,decile,prob)
 
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(valid[decile==i,]$prob))
+  print(summary(validation[decile==i,]$prob))
 
 }
 
-head(valid)
+nrow(validation)
+nrow(valid)
+valid.all=merge(valid, validation, by=c("patient_index_date","patient_id"), all.x=T)
+valid.all$decile=ifelse(is.na(valid.all$decile),0,valid.all$decile)
+valid.all$prob=ifelse(is.na(valid.all$prob),0,valid.all$prob)
 
-valid$set=1
+
+nrow(valid.all)
+
+valid.all$set=1
 ```
-
-```{r}
-data=rbind(devel,valid)
-
-DF=merge(DF,data,by=c("patient_id","patient_index_date","case"), all.x = T)
-table(DF$case)
-nrow(DF)
-
-names(DF)
-```
-
 
 
 ```{r}
 
-development=DF%>%filter(set==0)
 saveRDS(development,here::here("output","development.rds"))
-validation=DF%>%filter(set==1)
 saveRDS(validation,here::here("output","validation.rds"))
 
-table(development$case)
-nrow(development)
-table(validation$case)
-nrow(validation)
 ```
