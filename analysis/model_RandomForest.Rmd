@@ -125,7 +125,8 @@ valid_X <- read_rds(here::here("output","valid_X.rds"))
 train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
-
+train_X$case=as.factor(train_X$case)
+valid_X$case=as.factor(valid_X$case)
 
 ```
 
