@@ -218,9 +218,8 @@ str(DF)
 
 # filter only 1 ID
 #df=df %>% distinct(patient_id, .keep_all=T)
-df <- read_rds(here::here("output","matched_outcome.rds")
+df <- read_rds(here::here("output","matched_outcome.rds"))
 col=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
-
 df=df[col]
 
 data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
