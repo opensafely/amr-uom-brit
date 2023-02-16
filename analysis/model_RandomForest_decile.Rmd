@@ -19,11 +19,7 @@ col=c("wave","patient_index_date","patient_id","subclass","case",
        "sex","age","age_cat","stp","region",
        "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
 #"cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor",
-DF=DF[,col]
-
-nrow(DF)# total matched patients
-table(DF$case)# total case/control
-prop.table(table(DF$case))# %
+DF=DF[col]
 
 str(DF)
 #sum(is.na(DF$case))# 0
@@ -39,35 +35,64 @@ train_X$case=as.factor(train_X$case)
 valid_X <- read_rds(here::here("output","valid_X.rds"))
 valid_X$case=as.factor(valid_X$case)
 
-table(train_X$case)
-table(valid_X$case)
 names(train_X)
 ```
 
-## select columns
-```{r }
-abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("patient_id","patient_index_date",
-      "total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days","broad_prop",
-      "interval_mean","interval_med" ,"interval_sd","interval_CV",
-      "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
+## compare patient number (matched)
+```{r}
 
-train_X=train_X[col]
-valid_X=valid_X%>% select(all_of(col))
+nrow(DF)# total matched patients
+table(DF$case)# total case/control
+prop.table(table(DF$case))# % total patients
+
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
+
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
+```
+
+# distint patients to merge
+```{r}
+train_X=train_X%>% distinct(as.factor(patient_id), .keep_all = TRUE)
+valid_X=valid_X%>% distinct(as.factor(patient_id), .keep_all = TRUE)
+
+```
+
+## compare patient number (distinct)
+```{r}
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
+
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
 ```
 
 # import RF model
 ```{r }
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
+input=rownames(data.frame(rf.model$importance))
+input
+```
+# select columns
+```{r }
+abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("patient_id","patient_index_date",input)
+
+train_X=train_X[col]
+valid_X=valid_X[col]
+
+str(train_X)
 ```
 
-```{r}
-train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
 
-valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
 
-```
+
 
 
 development set
