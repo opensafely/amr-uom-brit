@@ -610,7 +610,8 @@ actions:
     needs: [model_crude_plot]
     outputs:
       moderately_sensitive:
-        plot2: output/Figure_2A_crude.jpeg
+        plot1: output/Figure_2A_crude_1.jpeg
+        plot2: output/Figure_2A_crude_2.jpeg
 
   Figure_2B_crude:  
     run: r:latest analysis/Figure_2B_crude.R
@@ -656,7 +657,8 @@ actions:
     needs: [model_adjusted_plot]
     outputs:
       moderately_sensitive:
-        plot2: output/Figure_2A_adjusted.jpeg
+        plot1: output/Figure_2A_adjusted_1.jpeg
+        plot2: output/Figure_2A_adjusted_2.jpeg
 
   Figure_2B:  
     run: r:latest analysis/Figure_2B.R
