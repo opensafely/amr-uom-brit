@@ -79,6 +79,7 @@ print(rf.model)
 input=rownames(data.frame(rf.model$importance))
 input
 ```
+
 # select columns
 ```{r }
 abtype <- read_rds(here::here("output","abtype.rds"))
@@ -90,27 +91,20 @@ valid_X=valid_X[col]
 str(train_X)
 ```
 
-
-
-
-
-
-development set
+# development set
+## predict probabilities 
 ```{r}
-# probabilities of being case
-prob <- predict(rf.model, train_X, type = 'prob')[,2]
+prob <- predict(rf.model, train_X, type = 'prob')[,2]# votes of being case
+
 summary(prob)
 hist(prob)
+sum(prob==0)/length(prob)# % zero
 
-sum(prob==0)
-length(prob)
-
-exp.class <- predict(rf.model, train_X, type = 'response')
-summary(exp.class)
+exp.class <- predict(rf.model, train_X, type = 'response')# predicted case/control
+prop.table(summary(exp.class))
 
 # create 10 risk groups
-prob=ifelse(prob==0,NA,prob)
-
+prob=ifelse(prob==0,NA,prob) # 
 decile <- ntile(prob,10)
 summary(decile)
 
