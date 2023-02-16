@@ -10,65 +10,54 @@ library(randomForest)
 
 ```
 
-# import dataset
+# 1:6 matched patients
 ```{r }
 # original dataset
-#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
-col1=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor",
-"care_home_type","hospital_counts")
-DF=subset(DF,select=col1)
+col=c("wave","patient_index_date","patient_id","subclass","case",
+       "sex","age","age_cat","stp","region",
+       "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
+#"cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor",
+DF=DF[,col]
 
-nrow(DF)
-table(DF$case)
+nrow(DF)# total matched patients
+table(DF$case)# total case/control
+prop.table(table(DF$case))# %
 
-sum(is.na(DF$case))
-sum(is.na(DF$patient_id))
-sum(is.na(DF$patient_index_date))
+str(DF)
+#sum(is.na(DF$case))# 0
+#sum(is.na(DF$patient_id))# 0
+#sum(is.na(DF$patient_index_date))# 0
 
-#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-#df <- read_rds(here::here("output","matched_ab.rds"))
-#table(df$case)
-#col2=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
-#df=subset(df,select=col2)
-#df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
-#nrow(df)
-
-#DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
-#table(DF$case)
-#nrow(DF)
 ```
 
-
+# train and valid dataset (matched)
 ```{r }
-
-
-
-
-#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
-
-
-#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
 valid_X$case=as.factor(valid_X$case)
 
 table(train_X$case)
 table(valid_X$case)
+names(train_X)
+```
 
-
+## select columns
+```{r }
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("patient_id","patient_index_date","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
-           "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
+col=c("patient_id","patient_index_date",
+      "total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days","broad_prop",
+      "interval_mean","interval_med" ,"interval_sd","interval_CV",
+      "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
 
-train_X=train_X%>% select(all_of(col))
+train_X=train_X[col]
 valid_X=valid_X%>% select(all_of(col))
+```
 
-table(train_X$case)
-table(valid_X$case)
-
-
+# import RF model
+```{r }
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
 ```
