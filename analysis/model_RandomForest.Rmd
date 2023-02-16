@@ -82,7 +82,7 @@ set.seed(1024)
                            mtry = sqrt(ncol(train_X)-1)
                           )
   print(rf.model)
-  saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
+ # saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 
 ```
 
@@ -119,12 +119,22 @@ print(roc_valid)
 
 # unmatched cohort
 ```{r}
+rm(train_X)
+train_X <- read_rds(here::here("output","train_X.rds"))
+valid_X <- read_rds(here::here("output","valid_X.rds"))
 train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+
+
+
 ```
 
 
 ```{r}
+col=c("case","total_ab","ab_types","exposure_period" , "broad_prop" ,"interval_med" , "length_mean")
+train_X=train_X%>% select(col)
+
+
 n=nrow(train_X)                
 set.seed(1024)
 #for (i in 1:nrow(result)) {
@@ -137,7 +147,7 @@ set.seed(1024)
                            mtry = sqrt(ncol(train_X)-1)
                           )
   print(rf.model)
-  saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
+ # saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 
 ```
 
