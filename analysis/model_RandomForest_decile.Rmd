@@ -94,86 +94,149 @@ str(train_X)
 # development set
 ## predict probabilities 
 ```{r}
-prob <- predict(rf.model, train_X, type = 'prob')[,2]# votes of being case
+data=train_X
+
+prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
 
 summary(prob)
 hist(prob)
 sum(prob==0)/length(prob)# % zero
 
-exp.class <- predict(rf.model, train_X, type = 'response')# predicted case/control
+exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
 prop.table(summary(exp.class))
+```
 
-# create 10 risk groups
-prob=ifelse(prob==0,NA,prob) # 
-decile <- ntile(prob,10)
-summary(decile)
+## create decile group
+```{r}
 
-prob=ifelse(is.na(prob),0,prob)
-decile=ifelse(is.na(decile),0,decile)
+vec=vector()
 
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
 
-# combined
-#train_X=train_X[,c("patient_id","patient_index_date")]
-devel <- cbind(train_X,decile,prob,exp.class)
+vec# decile value
 
+decile=prob
+decile=ifelse(prob <=vec[1],1,decile)
 
+for (i in 1:9) {
+decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+}
+
+decile=ifelse(prob > vec[10],10,decile)
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+head(exp.class)
+
+newdata <- cbind(data,decile,prob,exp.class)
+
+str(newdata)
+```
+
+## check decile distribution
+```{r}
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(devel[decile==i,]$prob))
+  print(summary(newdata[decile==i,]$prob))
 
 }
-nrow(devel)
+nrow(newdata)
 
-devel$set=0
-
-
+development=newdata
+rm(newdata)
+rm(data)
 ```
 
 
-
-
-validation set
+# development set
+## predict probabilities 
 ```{r}
-rm(prob)
-# probabilities of being case
-prob <- predict(rf.model, valid_X, type = 'prob')[,2]
+data=valid_X
+
+prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+
 summary(prob)
 hist(prob)
+sum(prob==0)/length(prob)# % zero
 
-sum(prob==0)
-length(prob)
+exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+prop.table(summary(exp.class))
+```
 
-exp.class <- predict(rf.model, valid_X, type = 'response')
-summary(exp.class)
+## create decile group
+```{r}
 
-prob=ifelse(prob==0,NA,prob)
+vec=vector()
 
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
 
-decile <- ntile(prob,10)
-summary(decile)
+vec# decile value
 
-prob=ifelse(is.na(prob),0,prob)
-decile=ifelse(is.na(decile),0,decile)
+decile=prob
+decile=ifelse(prob <=vec[1],1,decile)
 
+for (i in 1:9) {
+decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+}
 
-#valid_X=valid_X[,c("patient_id","patient_index_date")]
+decile=ifelse(prob > vec[10],10,decile)
 
-# combined
-valid<- cbind(valid_X,decile,prob,exp.class)
+table(decile)
+prop.table(table(decile))*100 # % decile
 
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+head(exp.class)
+
+newdata <- cbind(data,decile,prob,exp.class)
+str(newdata)
+```
+
+## check decile distribution
+```{r}
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(valid[decile==i,]$prob))
+  print(summary(newdata[decile==i,]$prob))
 
 }
+nrow(newdata)
 
-nrow(valid)
-
-
-valid$set=1
+validation=newdata
+rm(newdata)
+rm(data)
 ```
+
+
+
+
+
 
 
 ```{r}
