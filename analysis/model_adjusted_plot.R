@@ -16,7 +16,7 @@ mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
              ab_type_num + strata(set_id), df)
 sum.mod=summary(mod)
-result <- sum.mod
+result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
 names(DF)[1]="OR"
 names(DF)[2]="CI_L"
@@ -34,7 +34,7 @@ mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
              ab_type_num + strata(set_id), df)
 sum.mod=summary(mod)
-result <- sum.mod
+result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
 names(DF)[1]="OR"
 names(DF)[2]="CI_L"
@@ -52,7 +52,7 @@ mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
              ab_type_num + strata(set_id), df)
 sum.mod=summary(mod)
-result <- sum.mod
+result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
 names(DF)[1]="OR"
 names(DF)[2]="CI_L"
