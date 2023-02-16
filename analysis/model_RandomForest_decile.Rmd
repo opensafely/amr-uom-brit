@@ -13,7 +13,7 @@ library(randomForest)
 # 1:6 matched patients
 ```{r }
 # original dataset
-setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 DF<- read_rds(here::here("output","matched_outcome.rds"))
 col=c("wave","patient_index_date","patient_id","subclass","case",
        "sex","age","age_cat","stp","region",
