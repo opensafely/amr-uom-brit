@@ -242,7 +242,7 @@ rm(data)
 ```{r}
 nrow(DF)
 
-data=rbind(devel,valid)
+data=rbind(development,validation)
 nrow(data)
 df=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
 
