@@ -247,11 +247,13 @@ data=rbind(development,validation)
 nrow(data)
 data$patient_id=as.character(data$patient_id)
 str(data)
+duplicated(data$patient_id)
 
 DF$patient_id=as.character(DF$patient_id)
 str(DF)
+duplicated(DF$patient_id)
 df=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
-
+duplicated(df$patient_id)
 nrow(df)
 str(df)
 
