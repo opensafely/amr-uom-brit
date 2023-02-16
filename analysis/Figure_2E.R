@@ -11,7 +11,7 @@ library("forestploter")
 # import data
 rm(list=ls())
 setwd(here::here("output"))
-df1 <- read_csv("adjusted_plotc.csv")
+df1 <- read_csv("adjusted_plote.csv")
 
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
@@ -34,6 +34,9 @@ tm <- forest_theme(base_size = 10,
                    footnote_col = "blue",
                    vertline_lty = c("dashed", "dotted"),
                    vertline_col = c("#d6604d", "#bababa"))
+
+plot.a1<- plot.a1 %>% add_row(type = "The number of antibiotic prescriptions", .before = 1,)
+plot.a1<- plot.a1 %>% add_row(type = "The type of antibiotic prescriptions", .before = 5,)
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
@@ -80,6 +83,6 @@ p <- forest(dt[,c(1,12:15)],
 
 Figure <- plot(p)
 
-ggsave(Figure, width = 10, height = 6,dpi = 700,
-       filename="Figure_2C_adjusted.jpeg", path=here::here("output"),
+ggsave(Figure, width = 14, height = 8,dpi = 700,
+       filename="Figure_2E_adjusted.jpeg", path=here::here("output"),
 )  

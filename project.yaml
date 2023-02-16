@@ -394,35 +394,6 @@ actions:
         table3: output/plotc.csv
         table4: output/plotd.csv
 
-
-  Figure_2A:  
-    run: r:latest analysis/Figure_2A.R
-    needs: [fully_model_R]
-    outputs:
-      moderately_sensitive:
-        plot2: output/Figure_2A.jpeg
-
-  Figure_2B:  
-    run: r:latest analysis/Figure_2B.R
-    needs: [fully_model_R]
-    outputs:
-      moderately_sensitive:
-        plot2: output/Figure_2B.jpeg
-
-  Figure_2C:  
-    run: r:latest analysis/Figure_2C.R
-    needs: [fully_model_R]
-    outputs:
-      moderately_sensitive:
-        plot2: output/Figure_2C.jpeg
-
-  Figure_2D:  
-    run: r:latest analysis/Figure_2D.R
-    needs: [fully_model_R]
-    outputs:
-      moderately_sensitive:
-        plot2: output/Figure_2D.jpeg
-
   extract_case_ab_6w: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ab
     needs: [process2_idextraction]
@@ -679,3 +650,38 @@ actions:
         table3: output/adjusted_plotc.csv
         table4: output/adjusted_plotd.csv
         table5: output/adjusted_plote.csv
+
+  Figure_2A:  
+    run: r:latest analysis/Figure_2A.R
+    needs: [model_adjusted_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2A_adjusted.jpeg
+
+  Figure_2B:  
+    run: r:latest analysis/Figure_2B.R
+    needs: [model_adjusted_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2B_adjusted.jpeg
+
+  Figure_2C:  
+    run: r:latest analysis/Figure_2C.R
+    needs: [model_adjusted_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2C_adjusted.jpeg
+
+  Figure_2D:  
+    run: r:latest analysis/Figure_2D.R
+    needs: [model_adjusted_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2D_adjusted.jpeg
+
+  Figure_2E:  
+    run: r:latest analysis/Figure_2E.R
+    needs: [model_adjusted_plot]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2E_adjusted.jpeg

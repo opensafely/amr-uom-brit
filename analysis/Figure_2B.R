@@ -11,7 +11,7 @@ library("forestploter")
 # import data
 rm(list=ls())
 setwd(here::here("output"))
-df1 <- read_csv("plotb.csv")
+df1 <- read_csv("adjusted_plotb.csv")
 
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
@@ -86,5 +86,5 @@ p <- forest(dt[,c(1,12:15)],
 Figure <- plot(p)
 
 ggsave(Figure, width = 14, height = 8,dpi = 700,
-       filename="Figure_2B.jpeg", path=here::here("output"),
+       filename="Figure_2B_adjusted.jpeg", path=here::here("output"),
 )  

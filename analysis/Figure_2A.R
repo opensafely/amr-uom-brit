@@ -11,7 +11,7 @@ library("forestploter")
 # import data
 rm(list=ls())
 setwd(here::here("output"))
-df1 <- read_csv("plota.csv")
+df1 <- read_csv("adjusted_plota.csv")
 
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
@@ -38,8 +38,8 @@ tm <- forest_theme(base_size = 10,
 plot.a1<- plot.a1 %>% add_row(type = "Region", .before = 1, )
 plot.a1<- plot.a1 %>% add_row(type = "Ethnicity", .before = 10, )
 plot.a1<- plot.a1 %>% add_row(type = "BMI", .before = 16, )
-plot.a1<- plot.a1 %>% add_row(type = "Smoking", .before = 20, )
-plot.a1<- plot.a1 %>% add_row(type = "Care homes status", .before = 24, )
+plot.a1<- plot.a1 %>% add_row(type = "Smoking", .before = 23, )
+plot.a1<- plot.a1 %>% add_row(type = "Care homes status", .before = 27, )
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
@@ -79,6 +79,6 @@ p <- forest(dt[,c(1,12:15)],
             theme = tm)
 Figure <- plot(p)
 
-ggsave(Figure, width = 10, height = 10,dpi = 700,
-       filename="Figure_2A.jpeg", path=here::here("output"),
+ggsave(Figure, width = 12, height = 14,dpi = 700,
+       filename="Figure_2A_adjusted.jpeg", path=here::here("output"),
 )  
