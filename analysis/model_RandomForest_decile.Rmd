@@ -245,9 +245,15 @@ development$set=0
 validation$set=1
 data=rbind(development,validation)
 nrow(data)
+data$patient_id=as.character(data$patient_id)
+str(data)
+
+DF$patient_id=as.character(DF$patient_id)
+str(DF)
 df=merge(DF,data, by=c("patient_id","patient_index_date"), all.x=T)
 
 nrow(df)
+str(df)
 
 df0=df%>%filter(set==0)
 df1=df%>%filter(set==1)
