@@ -18,52 +18,42 @@ options(knitr.table.format="html")
 
 # import dataset
 ```{r }
-#train_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_Y.rds")
-train_Y <- read_rds(here::here("output","train_Y.rds"))
-train_Y=as.factor(train_Y)
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
-#col=c("patient_id","patient_index_date")
-#train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 
-train_X = subset(train_X, select = -c(patient_id, patient_index_date))
-
-#valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
-valid_Y <- read_rds(here::here("output","valid_Y.rds"))
-valid_Y=as.factor(valid_Y)
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_X.rds"))
-#valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
-
 valid_X$case=as.factor(valid_X$case)
 
-#df=sample_n(df,5000)
 table(train_X$case)
 table(valid_X$case)
-
-n=nrow(train_X)
+#train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+#valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 ```
 
 
-pick variable
+# pick variable
 ```{r}
 names(train_X)
 
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 
-abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV",abtype)
+#abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","total_ab","ab_types","exposure_period" , "broad_prop" ,"interval_med" , "length_mean")
 train_X=train_X%>% select(col)
 valid_X=valid_X%>% select(col)
-names(train_X)
+
+str(train_X)
 ```
 
 covert number to binary
 ```{r eval=FALSE, include=FALSE}
 
 train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replac£sw33t!SUMMER!
+                                               dde(., .>=1, 1)) 
 
 
 summary(train_X[abtype])
@@ -71,17 +61,16 @@ summary(valid_X[abtype])
 ```
 
 
-train model
+# 1:6 cohort
 ```{r}
-
-train_X=train_X%>%filter(total_ab>0)
+#train_X=train_X%>%filter(total_ab>0)
 #result = expand.grid(
  #  ntree=c(1000,2000),
 #  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
  #  nodesize = c( 5,50),
  # mtry=1:round(sqrt(ncol(train_X)-1)),
  # valid_auc = NA)
-               
+n=nrow(train_X)                
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
@@ -92,60 +81,93 @@ set.seed(1024)
                            nodesize = 25 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
-```
-
-
-
-
-```{r}
-#set.seed(1024)
-#pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-  #roc_valid <- roc(train_Y ~ pred.y)
-  
-   #result[i,'valid_auc'] <- roc_valid[['auc']]
-  
-  #plot(roc_valid)
-  #print(roc_valid)
-  #print(rf.model)
- 
-#}
-
-#result
-```
-
-
-```{r}
-#names(train_X)
-#used_count <- varUsed(rf.model)
-#train_X=train_X[,-train_X$case]
-#names(used_count) <- colnames(train_X)
-#sort(used_count, decreasing = TRUE)
-#used_count
-```
-
-
-```{r}
-#count_table <- varUsed(rf.model, by.tree = TRUE)
-#rownames(count_table) <- colnames(train_X)
-#write.csv(count_table,here::here("output","var_tree.csv"))
+  print(rf.model)
+  saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 
 ```
 
+## variables of importance
 ```{r}
 importance(rf.model)
 varImpPlot(rf.model)
 
-saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```
+
+# C-statistic
+## train
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case ~ pred.y)
+  
+  plot(roc_valid)
+  print(roc_valid)
+
+```
+
+## valid
+```{r}
+set.seed(1024)
+rm(pred.y)
+pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+roc_valid <- roc(valid_X$case ~ pred.y)
+  
+plot(roc_valid)
+print(roc_valid)
+
+```
+
+# unmatched cohort
+```{r}
+train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
+```
+
 
 ```{r}
-#set.seed(1024)
-#rm(pred.y)
-#pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
-#roc_valid <- roc(valid_Y ~ pred.y)
+n=nrow(train_X)                
+set.seed(1024)
+#for (i in 1:nrow(result)) {
   
-#plot(roc_valid)
-#print(roc_valid)
+  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           ntree =  3000,
+                           sampsize = round(n*0.7),
+                           nodesize = 25 ,
+                           mtry = sqrt(ncol(train_X)-1)
+                          )
+  print(rf.model)
+  saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 
 ```
 
+## variables of importance
+```{r}
+importance(rf.model)
+varImpPlot(rf.model)
+
+```
+
+# C-statistic
+## train
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case ~ pred.y)
+  
+  plot(roc_valid)
+  print(roc_valid)
+
+```
+
+## valid
+```{r}
+set.seed(1024)
+rm(pred.y)
+pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+roc_valid <- roc(valid_X$case ~ pred.y)
+  
+plot(roc_valid)
+print(roc_valid)
+
+```
