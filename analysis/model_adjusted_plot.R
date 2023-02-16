@@ -13,8 +13,7 @@ df <- readRDS("output/processed/input_model_c_h.rds")
 mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
-             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
-             ab_type_num + strata(set_id), df)
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + strata(set_id), df)
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
@@ -32,7 +31,7 @@ mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
-             ab_type_num + strata(set_id), df)
+             strata(set_id), df)
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
@@ -50,7 +49,7 @@ mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
-             ab_type_num + strata(set_id), df)
+             strata(set_id), df)
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
@@ -75,7 +74,7 @@ Asthma <- DF[25:26,]
 Diabetes <- DF[28:30,]
 Organ<- DF[37:38,]
 Other2 <-DF[39:44,]
-Antibiotic <- DF[52:57,]
+Antibiotic <- DF[52:54,]
 
 Region$type <-  case_when(
   Region$type == "regionNorth East" ~ "North East",
@@ -179,7 +178,7 @@ Asthma <- DF[25:26,]
 Diabetes <- DF[28:30,]
 Organ<- DF[37:38,]
 Other2 <-DF[39:44,]
-Antibiotic <- DF[52:57,]
+Antibiotic <- DF[52:54,]
 
 Region$type <-  case_when(
   Region$type == "regionNorth East" ~ "North East",
@@ -282,7 +281,7 @@ Asthma <- DF[25:26,]
 Diabetes <- DF[28:30,]
 Organ<- DF[37:38,]
 Other2 <-DF[39:44,]
-Antibiotic <- DF[52:57,]
+Antibiotic <- DF[52:54,]
 
 Region$type <-  case_when(
   Region$type == "regionNorth East" ~ "North East",
