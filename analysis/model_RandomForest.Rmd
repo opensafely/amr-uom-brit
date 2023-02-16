@@ -124,23 +124,21 @@ train_X <- read_rds(here::here("output","train_X.rds"))
 valid_X <- read_rds(here::here("output","valid_X.rds"))
 train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
 valid_X=valid_X%>% distinct(patient_id,patient_index_date, .keep_all=T)
-
-train_X$case=as.factor(train_X$case)
-valid_X$case=as.factor(valid_X$case)
-
 ```
 
 
 ```{r}
 col=c("case","total_ab","ab_types","exposure_period" , "broad_prop" ,"interval_med" , "length_mean")
 train_X=train_X%>% select(col)
-
+valid_X=valid_X%>% select(col)
+train_X$case=as.factor(train_X$case)
+valid_X$case=as.factor(valid_X$case)
 
 n=nrow(train_X)                
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+  rf.model <- randomForest(formula = as.factor(case) ~ ., data = train_X, 
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.7),
