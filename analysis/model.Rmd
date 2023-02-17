@@ -15,7 +15,7 @@ library(finalfit)
 
 # import dataset
 ```{r }
-#df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/development.rds")
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 df <- read_rds(here::here("output","development.rds"))
 table(df$decile)
 #table(df$decile,df$case)
