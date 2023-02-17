@@ -121,6 +121,15 @@ actions:
         html: output/model_RandomForest.html
   #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
+  
+  model_RF_distinct: # pick variables for model training # distinct patients
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_distinct.html
+  #      csv1: output/var_tree.csv
+        rds: output/model_RF_distinct.rds
 
   # model_RF_clust: # use proximity
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
