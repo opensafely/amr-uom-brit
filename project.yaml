@@ -567,6 +567,16 @@ actions:
         table1: output/table_1_case.csv
         table2: output/table_1_control.csv
 
+  process_table_1_separate:
+    run: r:latest analysis/Table1_separate.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_1_case_com.csv
+        table2: output/table_1_control_com.csv
+        table1: output/table_1_case_hos.csv
+        table2: output/table_1_control_hos.csv
+
   model_crude_ch:
     run: r:latest analysis/model_crude_ch.R
     needs: [process_model_var]
