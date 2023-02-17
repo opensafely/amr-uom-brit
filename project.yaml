@@ -715,3 +715,10 @@ actions:
     outputs:
       moderately_sensitive:
         plot2: output/Figure_2E_adjusted_type.jpeg
+
+  model_imd:
+    run: r:latest analysis/model_imd.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/imd_model.csv
