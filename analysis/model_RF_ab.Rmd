@@ -116,7 +116,7 @@ set.seed(1024)
 importance(rf.model)
 varImpPlot(rf.model)
 
-saveRDS(rf.model,here::here("output","model_RF_distinct.rds"))
+saveRDS(rf.model,here::here("output","model_RF_ab.rds"))
 ```
 
 
