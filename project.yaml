@@ -722,3 +722,4 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/imd_model.csv
+        table2: output/imd_model_covid.csv

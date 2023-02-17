@@ -28,6 +28,20 @@ names(DF)[1]="type"
 
 dfch <- DF
 
+mod=clogit(case ~ covid*imd + imd + strata(set_id), df)
+
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfch_2 <- DF
+
+
 df <- readRDS("output/processed/input_model_c.rds")
 df$imd= relevel(as.factor(df$imd), ref="5")
 ### fit crude model by variables
@@ -43,6 +57,19 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
 dfc <- DF
+
+mod=clogit(case ~ covid*imd + imd + strata(set_id), df)
+
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfc_2 <- DF
 
 df <- readRDS("output/processed/input_model_h.rds")
 df$imd= relevel(as.factor(df$imd), ref="5")
@@ -60,6 +87,19 @@ names(DF)[1]="type"
 
 dfh <- DF
 
+mod=clogit(case ~ covid*imd + imd + strata(set_id), df)
+
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfh_2 <- DF
+
 dfch$group <- "H+C"
 dfc$group <- "C"
 dfh$group <- "H"
@@ -67,3 +107,14 @@ dfh$group <- "H"
 plot <- bind_rows(dfch,dfc,dfh)
 
 write_csv(plot, here::here("output", "imd_model.csv"))
+
+dfch_2$group <- "H+C"
+dfc_2$group <- "C"
+dfh_2$group <- "H"
+
+plot <- bind_rows(dfch_2,dfc_2,dfh_2)
+
+write_csv(plot, here::here("output", "imd_model_covid.csv"))
+
+
+
