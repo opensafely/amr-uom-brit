@@ -413,22 +413,6 @@ actions:
       highly_sensitive: 
         rds: output/processed/input_control_ab.rds
 
-  model_ab_count_full:  
-    run: r:latest analysis/model_ab_count_full.R
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control,process_ab_case,process_ab_control]
-    outputs:
-      moderately_sensitive:
-        table1: output/model_ab_count_full.csv
-        table2: output/model_ab_count_unadjust.csv
-
-  model_ab_type_full:  
-    run: r:latest analysis/model_ab_type_full.R
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control,process_ab_case,process_ab_control]
-    outputs:
-      moderately_sensitive:
-        table1: output/model_ab_type_full.csv
-        table2: output/model_ab_type_unadjust.csv
-
   check_age_dist:  
     run: r:latest analysis/check_age_dist.R
     needs: [matching1,matching2,matching3,matching4]
