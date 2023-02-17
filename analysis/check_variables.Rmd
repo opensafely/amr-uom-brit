@@ -33,7 +33,7 @@ df=rbind(df1,df2)
 #abtype=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype.rds")
 abtype <- read_rds(here::here("output","abtype.rds"))
 
-pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","broad_ab_prescriptions_total","interval_mean","interval_sd","interval_CV","length_mean", "length_sd","length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk",abtype)
+col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","broad_ab_prescriptions_total","interval_mean","interval_sd","interval_CV","length_mean", "length_sd","length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk",abtype)
 
 numeric=c("total_ab","ab_prescriptions","ab_types","prescribe_times",
          "exposure_period","recent_ab_days", "broad_prop",
