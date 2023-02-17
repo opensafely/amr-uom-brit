@@ -230,41 +230,6 @@ actions:
         plot1: output/figure_noexclude.jpeg
         table1: output/figure_noexclude_table.csv
 
-  case_check_test:  
-    run: r:latest analysis/case_check_test.R
-    needs: [generate_study_population_case_test]
-    outputs:
-      moderately_sensitive:
-        table1: output/case_test.csv
-
-  2019_imd_model: 
-    run: r:latest analysis/2019_imd_model.R
-    needs: [matching1]
-    outputs:
-      moderately_sensitive:
-        table1: output/2019_imd_model.csv
-
-  2019_modelall:   
-    run: r:latest -e 'rmarkdown::render("analysis/2019_modelall.Rmd", output_dir = "output")'
-    needs: [matching1]
-    outputs:
-      moderately_sensitive:
-        html: output/2019_modelall.html
-
-  1921_modelall:   
-    run: r:latest -e 'rmarkdown::render("analysis/1921_modelall.Rmd", output_dir = "output")'
-    needs: [matching1,matching2,matching3]
-    outputs:
-      moderately_sensitive:
-        html: output/1921_modelall.html
-
-  covidimd_model:   
-    run: r:latest -e 'rmarkdown::render("analysis/covidimd_model.Rmd", output_dir = "output")'
-    needs: [matching1,matching2,matching3,matching4]
-    outputs:
-      moderately_sensitive:
-        html: output/covidimd_model.html
-
   process2_idextraction:  
     run: r:latest analysis/process2_idextraction.R
     needs: [matching1,matching2,matching3,matching4]
@@ -376,23 +341,6 @@ actions:
         txt1: output/data_properties/input_control_data_skim.txt
         txt2: output/data_properties/input_control_data_coltypes.txt
         txt3: output/data_properties/input_control_data_tabulate.txt
-
-  fully_model:   
-    run: r:latest -e 'rmarkdown::render("analysis/fully_model.Rmd", output_dir = "output")'
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
-    outputs:
-      moderately_sensitive:
-        html: output/fully_model.html
-
-  fully_model_R:  
-    run: r:latest analysis/fully_model_R.R
-    needs: [matching1,matching2,matching3,matching4,process_data,process_data_control]
-    outputs:
-      moderately_sensitive:
-        table1: output/plota.csv
-        table2: output/plotb.csv
-        table3: output/plotc.csv
-        table4: output/plotd.csv
 
   extract_case_ab_6w: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ab
