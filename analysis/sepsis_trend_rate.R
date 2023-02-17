@@ -19,7 +19,7 @@ df.1 <- read_csv("measure_person_imd.csv",
                 col_types = col_spec1)
 
 df.1 <- df.1 %>% rename(monPlot = date)
-
+df.1  <- df.1 %>% filter(monPlot < as.Date("2022-07-01"))
 setwd(here::here("output"))
 
 col_spec <-cols_only(patient_index_date = col_date(format = ""),
@@ -45,7 +45,7 @@ df$cal_year <- year(df$patient_index_date)
 df$cal_mon <- month(df$patient_index_date)
 df$cal_day <- 1
 df$monPlot <- as.Date(with(df,paste(cal_year,cal_mon,cal_day,sep="-")),"%Y-%m-%d")
-
+df <- df %>% filter(monPlot < as.Date("2022-07-01"))
 ###  by IMD
 
 df.plot <- df %>% group_by(monPlot,imd) %>% summarise(count = length(patient_id))

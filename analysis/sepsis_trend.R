@@ -32,7 +32,7 @@ df$cal_year <- year(df$patient_index_date)
 df$cal_mon <- month(df$patient_index_date)
 df$cal_day <- 1
 df$monPlot <- as.Date(with(df,paste(cal_year,cal_mon,cal_day,sep="-")),"%Y-%m-%d")
-
+df <- df %>% filter(monPlot < as.Date("2022-07-01"))
 ### sepsis count by age
 
 df <- df %>% mutate(age_cat = case_when(age < 25 ~ "<25",
