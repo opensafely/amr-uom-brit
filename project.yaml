@@ -157,6 +157,21 @@ actions:
       moderately_sensitive:
         html: output/model_RF_distinct_check.html
 
+# ab users 
+  model_RF_ab: # pick variables for model training # distinct patients
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_ab.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_ab.html
+        rds: output/model_RF_ab.rds
+
+  model_RF_ab_check: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_ab_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process,model_RF_ab]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_ab_check.html
 
 # conditional logistics
   model_clogit: # coditional logistic regression for expo variables
