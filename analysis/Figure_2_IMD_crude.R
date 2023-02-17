@@ -11,7 +11,7 @@ library("forestploter")
 # import data
 rm(list=ls())
 setwd(here::here("output"))
-df1 <- read_csv("imd_model_covid.csv")
+df1 <- read_csv("imd_model.csv")
 
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
@@ -78,6 +78,6 @@ p <- forest(dt[,c(1,12:15)],
 
 Figure <- plot(p)
 
-ggsave(Figure, width = 12, height = 7,dpi = 700,
-       filename="Figure_2_IMD.jpeg", path=here::here("output"),
+ggsave(Figure, width = 12, height = 4,dpi = 700,
+       filename="Figure_2_IMD_crude.jpeg", path=here::here("output"),
 )  

@@ -730,3 +730,10 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/Figure_2_IMD.jpeg
+
+  Figure_2_IMD_crude:  
+    run: r:latest analysis/Figure_2_IMD_crude.R
+    needs: [model_imd]
+    outputs:
+      moderately_sensitive:
+        plot1: output/Figure_2_IMD_crude.jpeg
