@@ -43,16 +43,16 @@ table(valid_X$case)
 
 distinct patients
 ```{r}
-train_X=train_X%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
-nrow(train_X)
-table(train_X$case)
-prop.table(table(train_X$case))
+train=train_X%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
+nrow(train)
+table(train$case)
+prop.table(table(train$case))
 ```
 
 
 pick variable
 ```{r}
-names(train_X)
+names(train)
 
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 
@@ -64,10 +64,9 @@ col=c("case","total_ab","ab_types",
       "interval_med" ,"interval_mean","interval_CV","interval_sd",
       "length_med","length_mean","length_CV","length_sd", abtype)
 # abtype
-train_X=train_X[col]
-valid_X=valid_X[col]
+train=train[col]
 
-str(train_X)
+str(train)
 ```
 
 covert number to binary
@@ -103,7 +102,7 @@ n=nrow(train_X)
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+  rf.model <- randomForest(formula = case ~ ., data = train, 
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.8),
