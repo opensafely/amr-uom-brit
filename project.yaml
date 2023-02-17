@@ -698,3 +698,10 @@ actions:
         table3: output/adjusted_type_plotc.csv
         table4: output/adjusted_type_plotd.csv
         table5: output/adjusted_type_plote.csv
+
+  Figure_2E_type:  
+    run: r:latest analysis/Figure_2E_type.R
+    needs: [model_adjusted_plot_type]
+    outputs:
+      moderately_sensitive:
+        plot2: output/Figure_2E_adjusted_type.jpeg
