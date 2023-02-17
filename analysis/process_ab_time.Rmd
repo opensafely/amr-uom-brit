@@ -242,6 +242,18 @@ data$broad_prop_total=data$broad_ab_prescriptions/data$total_ab
 
 ```
 
+replace NA with zero
+```{r}
+data[is.na(data)] <- 0
+
+
+# prescribe times
+data$prescribe_time_0=ifelse(data$prescribe_times==0,0,1) #1= ab user ,0=non 
+data$prescribe_time_1=ifelse(data$prescribe_times==1,1,0) 
+data$prescribe_time_2=ifelse(data$prescribe_times==2,1,0) 
+data$prescribe_time_3=ifelse(data$prescribe_times>=3,1,0) # missing SD, CV
+```
+
 ```{r}
 write_rds(data, here::here("output", "matched_ab.rds"))
 ```

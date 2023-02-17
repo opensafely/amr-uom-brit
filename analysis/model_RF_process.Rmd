@@ -27,21 +27,6 @@ df=df[!is.na(df$case),]
 table(df$case)
 ```
 
-
-replace NA  
-```{r }
-df[is.na(df)] <- 0 #antibiotics=zero
-
-#add indicator for missing value
-df$prescribe_time_0=ifelse(df$prescribe_times==0,0,1) #1= ab user ,0=non 
-df$prescribe_time_1=ifelse(df$prescribe_times==1,1,0) 
-df$prescribe_time_2=ifelse(df$prescribe_times==2,1,0) 
-df$prescribe_time_3=ifelse(df$prescribe_times>=3,1,0) # missing SD, CV
-str(df)
-
-```
-
-
 # import antibiotics types
 ```{r }
 #DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype79.rds")

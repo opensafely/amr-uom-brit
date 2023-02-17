@@ -38,7 +38,7 @@ valid_X$case=as.factor(valid_X$case)
 table(train_X$case)
 table(valid_X$case)
 
-n=nrow(train_X)
+
 ```
 
 
@@ -48,12 +48,13 @@ names(train_X)
 
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 
-abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV",abtype)
-train_X=train_X%>% select(col)
-valid_X=valid_X%>% select(col)
+#abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" , "interval_CV","length_mean","length_CV")
+# abtype
+train_X=train_X[col]
+valid_X=valid_X[col]
 
-names(train_X)
+str(train_X)
 ```
 
 covert number to binary
@@ -84,7 +85,8 @@ train model
  #  nodesize = c( 5,50),
  # mtry=1:round(sqrt(ncol(train_X)-1)),
  # valid_auc = NA)
-               
+n=nrow(train_X)
+
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
@@ -95,6 +97,7 @@ set.seed(1024)
                            nodesize = 25 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
+  print(rf.model)
 ```
 
 ```{r}
@@ -106,18 +109,6 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 
 
 
-```{r eval=FALSE, include=FALSE}
-set.seed(1024)
-pred.y <- predict(rf.model, type = 'prob')[,2]
-  roc_valid <- roc(train_Y ~ pred.y)
-  
-   #result[i,'valid_auc'] <- roc_valid[['auc']]
-  
-  plot(roc_valid)
-  print(roc_valid)
-  print(rf.model)
-```
-
 
 ```{r}
 set.seed(1024)
@@ -128,8 +119,6 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
   
   plot(roc_valid)
   print(roc_valid)
-  print(rf.model)
- 
 #}
 
 #result
