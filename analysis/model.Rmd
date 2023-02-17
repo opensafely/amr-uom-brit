@@ -63,7 +63,7 @@ table(df$decile)
 table(df$decile,df$case)
 prop.table(table(df$case,df$decile))
 
-df$decile= relevel(as.factor(df$decile), ref="0")
+df$decile= relevel(as.factor(df$decile), ref="1")
 
 df$subclass=as.factor(df$subclass)#pair id
 
