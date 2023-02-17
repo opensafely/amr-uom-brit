@@ -10,215 +10,200 @@ library(randomForest)
 
 ```
 
-# import dataset
+# train and valid dataset (matched)
 ```{r }
-# original dataset
-#DF <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-DF<- read_rds(here::here("output","matched_outcome.rds"))
-col1=c("wave","patient_index_date","patient_id","subclass","case","sex","age","age_cat","stp","region","ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
-DF=subset(DF,select=col1)
+train_X <- read_rds(here::here("output","train_X.rds"))
+train_X$case=as.factor(train_X$case)
+valid_X <- read_rds(here::here("output","valid_X.rds"))
+valid_X$case=as.factor(valid_X$case)
 
-DF$patient_id=as.factor(DF$patient_id)
-nrow(DF)
-table(DF$case)
+names(train_X)
+```
 
-DF=DF%>%distinct(patient_index_date,patient_id, .keep_all = TRUE)
+## compare patient number (matched)
+```{r}
 
-#df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-#df <- read_rds(here::here("output","matched_ab.rds"))
-#table(df$case)
-#col2=c("patient_index_date","patient_id","AB_6wk_type","ab_6w_binary" , "AB_6wk")
-#df=subset(df,select=col2)
-#df=df%>% distinct(patient_id,patient_index_date, .keep_all=T)
-#nrow(df)
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
 
-#DF=merge(DF,df,by=c("patient_id","patient_index_date"), all.x = T)
-#table(DF$case)
-#nrow(DF)
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
 ```
 
 
+
+
+# import RF model
 ```{r }
-#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-train <- read_rds(here::here("output","train_X.rds"))
-train$case=as.factor(train$case)
-train$patient_id=as.factor(train$patient_id)
-train$index=as.factor(seq(nrow(train)))
-
-#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
-valid <- read_rds(here::here("output","valid_X.rds"))
-valid$case=as.factor(valid$case)
-valid$patient_id=as.factor(valid$patient_id)
-valid$index=as.factor(seq(nrow(valid)))
-
-
-table(train$case)
-table(valid$case)
-
-
-abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("patient_id","patient_index_date","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
-           "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
-
-train=train%>% select(all_of(col))
-valid=valid%>% select(all_of(col))
-
-#table(train$case)
-#table(valid$case)
-
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
+input=rownames(data.frame(rf.model$importance))
+input
 ```
 
-filter ab>0
-```{r}
+# select columns
+```{r }
+col=c("patient_id","patient_index_date",input)
 
-train_X=train%>% filter(total_ab>0)
-nrow(train_X)
+train_X=train_X[col]
+valid_X=valid_X[col]
 
-valid_X=valid%>% filter(total_ab>0)
-nrow(valid_X)
-
+str(train_X)
 ```
 
-
-development set
+# development set
+## predict probabilities 
 ```{r}
-# probabilities of being case
-prob <- predict(rf.model, train_X, type = 'prob')[,2]
+data=train_X
+
+prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+
 summary(prob)
 hist(prob)
+sum(prob==0)/length(prob)# % zero
 
-sum(prob==0)
-length(prob)
+exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+prop.table(summary(exp.class))
+```
 
-#exp.class <- predict(rf.model, train_X, type = 'response')
-#summary(exp.class)
+## create decile group
+```{r}
 
-# create 10 risk groups
-#prob=ifelse(prob==0,NA,prob)
-decile <- ntile(prob,10)
+vec=vector()
 
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=prob
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+}
+
+decile=ifelse(prob > vec[10],10,decile)
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
 #prob=ifelse(is.na(prob),0,prob)
 #decile=ifelse(is.na(decile),0,decile)
-#rain_X=train_X%>%select(index)
+```
 
-# combined
-#train_X=train_X[,c("patient_id","patient_index_date")]
-development <- cbind(train_X$index,decile,prob)
+## combine columns
+```{r}
+head(decile)
+head(prob)
+head(exp.class)
 
+newdata <- cbind(data,decile,prob,exp.class)
 
+str(newdata)
+```
+
+## check decile distribution
+```{r}
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(development[decile==i,]$prob))
+  print(summary(newdata[decile==i,]$prob))
 
 }
-development$set=0
+nrow(newdata)
 
-nrow(development)
+development=newdata
+rm(newdata)
+rm(data)
 ```
 
-validation set
+
+# development set
+## predict probabilities 
 ```{r}
-rm(prob)
-# probabilities of being case
-prob <- predict(rf.model, valid_X, type = 'prob')[,2]
+data=valid_X
+
+prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+
 summary(prob)
 hist(prob)
+sum(prob==0)/length(prob)# % zero
 
-sum(prob==0)
-length(prob)
+exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+prop.table(summary(exp.class))
+```
 
-#exp.class <- predict(rf.model, valid_X, type = 'response')
-#summary(exp.class)
+## create decile group
+```{r}
 
-#prob=ifelse(prob==0,NA,prob)
+vec=vector()
 
-decile <- ntile(prob,10)
-summary(decile)
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=prob
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+}
+
+decile=ifelse(prob > vec[10],10,decile)
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
 #prob=ifelse(is.na(prob),0,prob)
 #decile=ifelse(is.na(decile),0,decile)
-#valid_X=valid_X[,c("patient_id","patient_index_date")]
-#valid_X=valid_X%>%select(patient_id,patient_index_date)
+```
 
-# combined
-validation<- cbind(valid_X$index,decile,prob)
+## combine columns
+```{r}
+head(decile)
+head(prob)
+head(exp.class)
 
+newdata <- cbind(data,decile,prob,exp.class)
+str(newdata)
+```
+
+## check decile distribution
+```{r}
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(validation[decile==i,]$prob))
+  print(summary(newdata[decile==i,]$prob))
 
 }
+nrow(newdata)
 
-nrow(validation)
-
-validation$set=1
+validation=newdata
+rm(newdata)
+rm(data)
 ```
 
 
-merge train&valid(1:6)
 ```{r}
-nrow(train)
+
 nrow(development)
-nrow(valid)
 nrow(validation)
 
-df0=merge(train,development, by="index", all.x=TRUE)
-df1=merge(valid,validation, by="index", all.x=TRUE)
-nrow(df0)
-nrow(df1)
+saveRDS(development,here::here("output","development.rds"))
+saveRDS(validation,here::here("output","validation.rds"))
+
+str(development)
 ```
 
-
-
-```{r}
-
-train_idx=train$patient_id
-valid_idx=valid$patient_id
-
-DF0=DF%>%filter(patient_id %in% train_idx)
-DF1=DF%>%filter(patient_id %in% valid_idx)
-nrow(DF0)
-nrow(DF1)
-
-
-```
-
-
-
-
-
-
-
-```{r}
-
-df0$decile=ifelse(is.na(df0$decile),0,df0$decile)
-df0$prob=ifelse(is.na(df0$prob),0,df0$prob)
-
-df1$decile=ifelse(is.na(df1$decile),0,df1$decile)
-df1$prob=ifelse(is.na(df1$prob),0,df1$prob)
-
-nrow(df0)
-nrow(df1)
-```
-
-
-
-add confounder
-```{r}
-df0=merge(df0,DF0, by="patient_id", all.x=TRUE)
-df1=merge(df1,DF1, by="patient_id", all.x=TRUE)
-
-nrow(df0)
-nrow(df1)
-```
-
-
-```{r}
-
-saveRDS(df0,here::here("output","development.rds"))
-saveRDS(df1,here::here("output","validation.rds"))
-
-```

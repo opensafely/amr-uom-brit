@@ -18,21 +18,17 @@ library('lubridate')
 
 input ab_time
 ```{r}
-setwd(here::here("output"))
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
-df <- read_rds("matched_outcome.rds")
-df=df%>% select("patient_id","patient_index_date","case","subclass","total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types")
 
-
-
-DF=read.csv("input_ab_time.csv")
+DF=read.csv(here::here("output","input_ab_time.csv"))
+nrow(DF)
 names(DF)
 
 ab_date=colnames(DF[,9:68])
 ab_date
 ab_conut=colnames(DF[,70:129])
 ab_conut
-count(DF)
+nrow(DF)
 
 ```
 
@@ -222,9 +218,18 @@ str(DF)
 
 # filter only 1 ID
 #df=df %>% distinct(patient_id, .keep_all=T)
-data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
+df <- read_rds(here::here("output","matched_outcome.rds"))
+col=c("patient_index_date","patient_id","subclass","case",
+      "wave","sex","age","age_cat","stp","region",
+      "total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types",
+      "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
 
-head(data)
+df=df[col]
+
+data=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = TRUE)
+nrow(df)
+nrow(DF)
+nrow(data)
 
 rm(df,DF)
 ```
@@ -233,7 +238,20 @@ broad %
 ```{r}
 #data$broad_prop=data$broad_ab_prescriptions/data$total_ab
 data$broad_prop=data$broad_ab_prescriptions/data$ab_prescriptions
+data$broad_prop_total=data$broad_ab_prescriptions/data$total_ab
 
+```
+
+replace NA with zero
+```{r}
+data[is.na(data)] <- 0
+
+
+# prescribe times
+data$prescribe_time_0=ifelse(data$prescribe_times==0,0,1) #1= ab user ,0=non 
+data$prescribe_time_1=ifelse(data$prescribe_times==1,1,0) 
+data$prescribe_time_2=ifelse(data$prescribe_times==2,1,0) 
+data$prescribe_time_3=ifelse(data$prescribe_times>=3,1,0) # missing SD, CV
 ```
 
 ```{r}
