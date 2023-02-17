@@ -122,14 +122,14 @@ actions:
   #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
 
-  model_RF_clust: # use proximity
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile,model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_clust.html
-  #      csv1: output/var_tree.csv
-        rds: output/model_clust.rds
+  # model_RF_clust: # use proximity
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_RandomForest_decile,model_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_RF_clust.html
+  # #      csv1: output/var_tree.csv
+  #       rds: output/model_clust.rds
 
   model_RandomForest_check: # check performance
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
