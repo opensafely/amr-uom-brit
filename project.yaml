@@ -509,6 +509,22 @@ actions:
         table3: output/table_1_case_hos.csv
         table4: output/table_1_control_hos.csv
 
+  process_table_1_byimd:
+    run: r:latest analysis/Table1_byimd.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_1_imd1_case.csv
+        table2: output/table_1_imd2_case.csv
+        table3: output/table_1_imd3_case.csv
+        table4: output/table_1_imd4_case.csv
+        table5: output/table_1_imd5_case.csv
+        table6: output/table_1_imd1_control.csv
+        table7: output/table_1_imd2_control.csv
+        table8: output/table_1_imd3_control.csv
+        table9: output/table_1_imd4_control.csv
+        table10: output/table_1_imd5_control.csv
+
   model_crude_ch:
     run: r:latest analysis/model_crude_ch.R
     needs: [process_model_var]
