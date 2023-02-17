@@ -574,8 +574,8 @@ actions:
       moderately_sensitive:
         table1: output/table_1_case_com.csv
         table2: output/table_1_control_com.csv
-        table1: output/table_1_case_hos.csv
-        table2: output/table_1_control_hos.csv
+        table3: output/table_1_case_hos.csv
+        table4: output/table_1_control_hos.csv
 
   model_crude_ch:
     run: r:latest analysis/model_crude_ch.R
