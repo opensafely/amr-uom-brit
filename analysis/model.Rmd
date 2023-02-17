@@ -19,8 +19,7 @@ library(finalfit)
 df <- read_rds(here::here("output","development.rds"))
 table(df$decile)
 table(df$case)
-
-table(df$case,df$decile)
+prop.table(table(df$case,df$decile))
 
 df$case=as.numeric(df$case) #1/0
 
@@ -62,8 +61,7 @@ rm(df)
 df <- read_rds(here::here("output","validation.rds"))
 table(df$decile)
 table(df$decile,df$case)
-
-df$case=as.numeric(df$case) #1/0
+prop.table(table(df$case,df$decile))
 
 df$decile= relevel(as.factor(df$decile), ref="0")
 
