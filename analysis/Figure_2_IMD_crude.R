@@ -35,8 +35,6 @@ tm <- forest_theme(base_size = 10,
                    vertline_lty = c("dashed", "dotted"),
                    vertline_col = c("#d6604d", "#bababa"))
 
-plot.a1 <- plot.a1[-c(1:2),]
-
 plot.a1<- plot.a1 %>% add_row(type = "IMD, Index of multiple deprivation", .before = 1,)
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
