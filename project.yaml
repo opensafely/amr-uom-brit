@@ -99,19 +99,8 @@ actions:
         rds4: output/valid_Y.rds
         rds5: output/abtype.rds
 
-  # model_tuneRF: #mtry, 
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_tuneRF.html
 
-  # model_RF_training: #
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_RF_training.html
+# train model
 
   model_RandomForest: # pick variables for model training
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -121,24 +110,6 @@ actions:
         html: output/model_RandomForest.html
   #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
-  
-  model_RF_distinct: # pick variables for model training # distinct patients
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_distinct.html
-  #      csv1: output/var_tree.csv
-        rds: output/model_RF_distinct.rds
-
-  # model_RF_clust: # use proximity
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RandomForest_decile,model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_RF_clust.html
-  # #      csv1: output/var_tree.csv
-  #       rds: output/model_clust.rds
 
   model_RandomForest_check: # check performance
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -169,7 +140,25 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model.html
-  
+
+# distinct  
+  model_RF_distinct: # pick variables for model training # distinct patients
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_distinct.html
+        rds: output/model_RF_distinct.rds
+
+  model_RF_distinct: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process,model_RF_distinct]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_distinct.html
+
+
+# conditional logistics
   model_clogit: # coditional logistic regression for expo variables
     run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RandomForest_decile,model_RF_process]
@@ -385,3 +374,26 @@ actions:
 #       moderately_sensitive:
 #         html: output/check_RF_yr1.html
 
+  # model_RF_clust: # use proximity
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_RandomForest_decile,model_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_RF_clust.html
+  # #      csv1: output/var_tree.csv
+  #       rds: output/model_clust.rds
+
+
+  # model_tuneRF: #mtry, 
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_tuneRF.html
+
+  # model_RF_training: #
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_RF_training.html
