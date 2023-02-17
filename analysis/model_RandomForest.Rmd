@@ -53,7 +53,7 @@ col=c("case","total_ab","ab_types",
       "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
       "exposure_period","recent_ab_days",
       "broad_ab_prescriptions","broad_prop_total","broad_prop",
-      "interval_med" ,"interval_mean","interval_CV","interval_sd"
+      "interval_med" ,"interval_mean","interval_CV","interval_sd",
       "length_med","length_mean","length_CV","length_sd", abtype)
 # abtype
 train_X=train_X[col]
