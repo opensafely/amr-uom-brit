@@ -45,7 +45,7 @@ input
 
 # select columns
 ```{r }
-col=c("patient_id","patient_index_date",input)
+col=c("patient_id","patient_index_date","case",input)
 
 train_X=train_X[col]
 valid_X=valid_X[col]
