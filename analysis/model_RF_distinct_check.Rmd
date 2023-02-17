@@ -1,0 +1,281 @@
+---
+title: "Random Forest- check results"
+---
+
+```{r setup, include=FALSE}
+
+library('tidyverse')
+library(pROC)
+library(randomForest)
+library(plyr)
+```
+
+import dataset
+```{r }
+train <- read_rds(here::here("output","train_X.rds"))
+train$case=as.factor(train$case)
+#valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
+valid <- read_rds(here::here("output","valid_X.rds"))
+valid$case=as.factor(valid$case)
+
+table(train$case)
+table(valid$case)
+```
+
+separate dataset: filter ab>0
+```{r}
+train.sub=train%>%filter(total_ab>0)
+valid.sub=valid%>%filter(total_ab>0)
+
+table(train.sub$case)
+table(valid.sub$case)
+```
+
+import saved model
+```{r }
+rf.model=readRDS(here::here("output","model_RF_distinct.rds"))
+print(rf.model)
+```
+
+
+model performance
+
+train_ all
+```{r}
+
+# probabilities of cases
+pred.y <- predict(rf.model, train, type = 'prob')[,2]
+
+#  c statistic / AUC
+roc_train <- roc(train$case ~ pred.y)
+  
+plot(roc_train)# ROC
+print(roc_train) #AUC
+
+
+  
+# E/O
+O <- prop.table(table(train$case))[2]
+E <- mean(pred.y)
+E/O
+
+
+library(dplyr)
+# calibration 
+# create 10 risk groups
+groups <- ntile(pred.y,10)
+# average the observed and expected probabilities of patients in each risk group 
+gpdata <- cbind(train,groups,pred.y)
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(train$case,groups)[1,] 
+
+obs 
+exp
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs + (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp[,2],xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i,2],exp[i,2]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(pred.y, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(train$case))~pred.y,span=1))
+lines_data <- data.frame(pred.y,obs_all)
+lines_data2 <- lines_data[order(pred.y),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+
+
+valid_all
+```{r}
+rm(pred.y,train)
+pred.y <- predict(rf.model, valid, type = 'prob')[,2]
+roc_valid <- roc(valid$case ~ pred.y)
+  
+plot(roc_valid)#ROC curve
+print(roc_valid)#AUC
+
+
+# E/O
+O <- prop.table(table(valid$case))[2]
+E <- mean(pred.y)
+E/O
+
+
+
+# calibration 
+# create 10 risk groups
+groups <- ntile(pred.y,10)
+# average the observed and expected probabilities of patients in each risk group 
+gpdata <- cbind(valid,groups,pred.y)
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(valid$case,groups)[1,] 
+obs 
+exp
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs + (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp[,2],xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i,2],exp[i,2]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(pred.y, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(valid$case))~pred.y,span=1))
+lines_data <- data.frame(pred.y,obs_all)
+lines_data2 <- lines_data[order(pred.y),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+
+train_ab>0
+```{r}
+
+train=train.sub
+rm(train.sub)
+# probabilities of cases
+pred.y <- predict(rf.model, train, type = 'prob')[,2]
+
+#  c statistic / AUC
+roc_train <- roc(train$case ~ pred.y)
+  
+plot(roc_train)# ROC
+print(roc_train) #AUC
+
+
+  
+# E/O
+O <- prop.table(table(train$case))[2]
+E <- mean(pred.y)
+E/O
+
+
+library(dplyr)
+# calibration 
+# create 10 risk groups
+groups <- ntile(pred.y,10)
+# average the observed and expected probabilities of patients in each risk group 
+gpdata <- cbind(train,groups,pred.y)
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(train$case,groups)[1,] 
+
+obs 
+exp
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs + (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp[,2],xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i,2],exp[i,2]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(pred.y, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(train$case))~pred.y,span=1))
+lines_data <- data.frame(pred.y,obs_all)
+lines_data2 <- lines_data[order(pred.y),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+
+
+valid_ab>0
+```{r}
+
+valid=valid.sub
+rm(pred.y,train,valid.sub)
+
+pred.y <- predict(rf.model, valid, type = 'prob')[,2]
+roc_valid <- roc(valid$case ~ pred.y)
+  
+plot(roc_valid)#ROC curve
+print(roc_valid)#AUC
+
+
+# E/O
+O <- prop.table(table(valid$case))[2]
+E <- mean(pred.y)
+E/O
+
+
+
+# calibration 
+# create 10 risk groups
+groups <- ntile(pred.y,10)
+# average the observed and expected probabilities of patients in each risk group 
+gpdata <- cbind(valid,groups,pred.y)
+obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(valid$case,groups)[1,] 
+obs 
+exp
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs + (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp[,2],xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i,2],exp[i,2]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(pred.y, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(valid$case))~pred.y,span=1))
+lines_data <- data.frame(pred.y,obs_all)
+lines_data2 <- lines_data[order(pred.y),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
