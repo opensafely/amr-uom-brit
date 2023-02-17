@@ -29,13 +29,13 @@ tm <- forest_theme(base_size = 10,
                    refline_lty = "solid",
                    ci_pch = 15,
                    ci_col = c("#003C67FF", "#EFC000FF","#CD534CFF"),
-                   legend_name = "Cohort",
+                   legend_name = "Outcome",
                    legend_value = c("Community + Hospital","Community","Hospital"),
                    footnote_col = "blue",
                    vertline_lty = c("dashed", "dotted"),
                    vertline_col = c("#d6604d", "#bababa"))
 
-plot.a1<- plot.a1 %>% add_row(type = "The type of antibiotic prescriptions", .before = 1,)
+plot.a1<- plot.a1 %>% add_row(type = "The number of prior antibiotic type", .before = 1,)
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
