@@ -1,13 +1,10 @@
 #### This script is for calculating mortality rate and draw the table ####
 
 require('tidyverse')
-require("gtsummary")
-require("ggplot2")
-library("survival")
-library(car)
-library(data.table)
-library(gridExtra)
-library("forestploter")
+library(purrr)
+library(dplyr)
+library(survival)
+library(rms)
 
 df <- readRDS("output/processed/input_model_c_h.rds")
 df <- df %>% filter(case==1)
