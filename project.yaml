@@ -265,12 +265,12 @@ actions:
       moderately_sensitive:
         html: output/model_RF_exp.html
   
-  model_RF_interval_total: # numeric and binary
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_interval_total.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  model_RF_total: # numeric and binary
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_total.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
-        html: output/model_RF_interval_total.html 
+        html: output/model_RF_total.html 
 
 
   
