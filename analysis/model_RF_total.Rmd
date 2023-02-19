@@ -150,7 +150,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 ## valid_all
 ```{r}
-rm(pred.y,train)
+rm(pred.y)
 pred.y <- predict(rf.model, valid, type = 'prob')[,2]
 roc_valid <- roc(valid$case ~ pred.y)
   
