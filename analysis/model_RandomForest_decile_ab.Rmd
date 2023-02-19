@@ -87,10 +87,8 @@ decile=prob
 decile=ifelse(prob <=vec[1],1,decile)
 
 for (i in 1:9) {
-decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+decile=ifelse(decile >vec[i] & decile <=vec[i+1],i+1,decile )  
 }
-
-decile=ifelse(prob > vec[10],10,decile)
 
 table(decile)
 prop.table(table(decile))*100 # % decile
@@ -137,7 +135,7 @@ rm(data)
 
 
 
-# development set
+# validation set
 ## predict probabilities 
 ```{r}
 data=valid_X
@@ -167,10 +165,9 @@ decile=prob
 decile=ifelse(prob <=vec[1],1,decile)
 
 for (i in 1:9) {
-decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+decile=ifelse(decile >vec[i] & decile <=vec[i+1],i+1,decile )  
 }
 
-decile=ifelse(prob > vec[10],10,decile)
 
 table(decile)
 prop.table(table(decile))*100 # % decile
