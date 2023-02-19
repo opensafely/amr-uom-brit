@@ -20,19 +20,19 @@ options(knitr.table.format="html")
 ```{r }
 #train_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_Y.rds")
 train <- read_rds(here::here("output","train_Y.rds"))
-train=as.factor(train_Y)
+train=as.factor(train)
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train <- read_rds(here::here("output","train_X.rds"))
-train$case=as.factor(train_X$case)
+train$case=as.factor(train$case)
 #col=c("patient_id","patient_index_date")
 #train_X = subset(train_X, select = -c(patient_id, patient_index_date))
 
 #valid_Y <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_Y.rds")
 valid <- read_rds(here::here("output","valid_Y.rds"))
-valid=as.factor(valid_Y)
+valid=as.factor(valid)
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid <- read_rds(here::here("output","valid_X.rds"))
-valid$case=as.factor(valid_X$case)
+valid$case=as.factor(valid$case)
 
 
 
@@ -79,7 +79,7 @@ set.seed(1024)
                            ntree =  3000,
                            sampsize = round(n*0.8),
                            nodesize = 25 ,
-                           mtry = sqrt(ncol(train_X)-1)
+                           mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
   varImpPlot(rf.model)
