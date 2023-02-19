@@ -55,14 +55,14 @@ df$case=as.factor(df$case)
 
 
 ```{r}
-corrplot(cor(df[,numeric]), method = "number")
+corrplot(cor(df[,numeric]), method = "number",number.cex = 0.2)
 ```
 
 ```{r}
 for (i in 1:length(factor)) {
 print(factor[i])  
-table(df$case, df[,factor[1]])
-prop.table(table(df$case, df[,factor[i]]))
+print(table(df$case, df[,factor[1]]))
+print(prop.table(table(df$case, df[,factor[i]])))
 }
 
 ```
