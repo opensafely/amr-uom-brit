@@ -209,13 +209,20 @@ rm(data)
 
 
 
+## identify ab users, make decile==0
+```{r}
+development$decile=ifelse(development$total_ab>0,development$decile,0)
+validation$decile=ifelse(validation$total_ab>0,validation$decile,0)
+```
+
+
 ```{r}
 
 nrow(development)
 nrow(validation)
 
-saveRDS(development,here::here("output","development.rds"))
-saveRDS(validation,here::here("output","validation.rds"))
+saveRDS(development,here::here("output","development_ab.rds"))
+saveRDS(validation,here::here("output","validation_ab.rds"))
 
 str(development)
 ```
