@@ -44,7 +44,7 @@ valid$case=as.factor(valid$case)
 names(train)
 
 abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("case","length_med")
+col=c("case","interval_CV")
       
       #"total_ab","ab_types",
       # "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",

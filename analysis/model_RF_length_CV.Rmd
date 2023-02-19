@@ -4,7 +4,7 @@ title: "Random Forest"
 
 ```{r setup, include=FALSE}
 #library(knitr)
-library(dplyr)
+library(plyr)
 #library(skimr)
 library('tidyverse')
 #library("ggplot2")

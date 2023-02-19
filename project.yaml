@@ -223,12 +223,19 @@ actions:
 
 # test each variables
 
-  model_RF_length: # length mean
+  model_RF_length: # length med
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_length.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
         html: output/model_RF_length.html
+  
+  model_RF_length_mean: # length mean
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_length_mean.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_length_mean.html
 
   model_RF_length_CV: # length cv
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_length_CV.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -244,8 +251,19 @@ actions:
       moderately_sensitive:
         html: output/model_RF_interval.html
 
+  model_RF_interval_CV: # interval mcv
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_interval_CV.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_interval_CV.html
 
-
+  model_RF_interval_exp: # interval mcv
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_interval_exp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_interval_exp.html
 
 
   
