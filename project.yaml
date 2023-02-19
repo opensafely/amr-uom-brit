@@ -685,3 +685,10 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/Figure_2_IMD_crude.jpeg
+
+  mortality_rate:
+    run: r:latest analysis/mortality_rate.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/model_mortality.csv

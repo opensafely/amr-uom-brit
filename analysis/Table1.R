@@ -17,7 +17,7 @@ df$age_band = case_when(
   df$age >= 18 & df$age < 40 ~ "18-39",
   df$age >= 40 & df$age < 50 ~ "40-49",
   df$age >= 50 & df$age < 60 ~ "50-59",
-  df$age >= 60 & df$age < 70 ~ "60-79",
+  df$age >= 60 & df$age < 70 ~ "60-69",
   df$age >= 70 & df$age < 80 ~ "70-79",
   df$age >= 80 ~ "80+")
 df1 <- df %>% filter(case == 1)
