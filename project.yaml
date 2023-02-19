@@ -230,6 +230,12 @@ actions:
       moderately_sensitive:
         html: output/model_RF_length.html
 
+  model_RF_length_CV: # length cv
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_length_CV.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_length_CV.html
 
 
 
@@ -237,7 +243,6 @@ actions:
 
 
 
-        
   
   model_tuneRF: #
     run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
