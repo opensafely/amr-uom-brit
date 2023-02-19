@@ -173,6 +173,22 @@ actions:
       moderately_sensitive:
         html: output/model_RF_ab_check.html
 
+  model_RF_decile_ab: # create decile groups for probabilities
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_ab.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process,model_RF_ab,process_ab_time,process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_decile_ab.html
+        rds1: output/development_ab.rds
+        rds2: output/validation_ab.rds
+
+  model_ab: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model_ab.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_decile_ab]
+    outputs:
+      moderately_sensitive:
+        html: output/mode_ab.html
+
 # conditional logistics
   model_clogit: # coditional logistic regression for expo variables
     run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

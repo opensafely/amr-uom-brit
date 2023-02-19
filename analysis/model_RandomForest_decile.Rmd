@@ -37,7 +37,7 @@ prop.table(table(valid_X$case))# % valid patients
 
 # import RF model
 ```{r }
-rf.model=readRDS(here::here("output","model_RandomForest.rds"))
+rf.model=readRDS(here::here("output","model_RF_ab.rds"))
 print(rf.model)
 input=rownames(data.frame(rf.model$importance))
 input
@@ -51,8 +51,11 @@ col=c("patient_id","patient_index_date","case","subclass",input,
 train_X=train_X[col]
 valid_X=valid_X[col]
 
+
 str(train_X)
 ```
+
+
 
 # development set
 ## predict probabilities 
@@ -119,11 +122,19 @@ for (i in 1:10) {
 
 }
 nrow(newdata)
+```
 
+
+
+```{r}
 development=newdata
 rm(newdata)
 rm(data)
 ```
+
+
+
+
 
 
 # development set
@@ -197,13 +208,21 @@ rm(data)
 ```
 
 
+
+## identify ab users, make decile==0
+```{r}
+development$decile=ifelse(development$total_ab>0,development$decile,0)
+validation$decile=ifelse(validation$total_ab>0,validation$decile,0)
+```
+
+
 ```{r}
 
 nrow(development)
 nrow(validation)
 
-saveRDS(development,here::here("output","development.rds"))
-saveRDS(validation,here::here("output","validation.rds"))
+saveRDS(development,here::here("output","development_ab.rds"))
+saveRDS(validation,here::here("output","validation_ab.rds"))
 
 str(development)
 ```
