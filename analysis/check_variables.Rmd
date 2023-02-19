@@ -55,7 +55,7 @@ df$case=as.factor(df$case)
 
 
 ```{r}
-corrplot(cor(df[,numeric]), method = "number",number.cex = 0.2)
+corrplot(cor(df[,numeric]), method = "number",number.cex = 0.5)
 ```
 
 ```{r}
