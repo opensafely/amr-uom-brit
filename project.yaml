@@ -274,7 +274,7 @@ actions:
       moderately_sensitive:
         html: output/model_RF_interval_CV.html
 
-  model_RF_interval_exp: # interval mcv
+  model_RF_exp: # interval mcv
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_exp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:

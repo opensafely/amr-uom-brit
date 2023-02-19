@@ -214,8 +214,8 @@ train["total_ab"]=train["total_ab"]%>%mutate_all(~replace(., .>=1, 1))
 valid["total_ab"]=valid["total_ab"]%>%mutate_all(~replace(., .>=1, 1)) 
 
 
-table(train$case, train$"total_ab")
-table(valid$case, valid$"total_ab")
+table(train$case, train$total_ab)
+table(valid$case, valid$total_ab)
 ```
 
 # train model
