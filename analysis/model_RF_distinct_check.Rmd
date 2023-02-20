@@ -25,7 +25,7 @@ table(valid$case)
 separate dataset: distinct
 ```{r}
 train.sub=train%>% distinct(patient_id,patient_index_date, .keep_all = TRUE)
-valid.sub=valid%<%distinct(patient_id,patient_index_date, .keep_all = TRUE)
+valid.sub=valid%>%distinct(patient_id,patient_index_date, .keep_all = TRUE)
 
 table(train.sub$case)
 table(valid.sub$case)
