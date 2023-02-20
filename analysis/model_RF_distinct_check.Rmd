@@ -7,7 +7,7 @@ title: "Random Forest- check results"
 library('tidyverse')
 library(pROC)
 library(randomForest)
-library(plyr)
+library(dplyr)
 ```
 
 import dataset

@@ -7,7 +7,7 @@ title: "Random Forest- check results"
 library('tidyverse')
 library(pROC)
 library(randomForest)
-library(plyr)
+library(dplyr)
 ```
 
 import dataset
@@ -29,6 +29,10 @@ valid.sub=valid%>%group_by(case, subclass)%>%sample_n(1)
 
 table(train.sub$case)
 table(valid.sub$case)
+
+train.sub=train.sub%>%ungroup(case,subclass)
+valid.sub=valid.sub%>%ungroup(case,subclass)
+
 ```
 
 import saved model
