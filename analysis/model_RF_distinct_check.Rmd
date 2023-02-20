@@ -59,7 +59,7 @@ O <- prop.table(table(train$case))[2]
 E <- mean(pred.y)
 E/O
 
-
+library(plyr)
 # calibration 
 # create 10 risk groups
 groups <- ntile(pred.y,10)
