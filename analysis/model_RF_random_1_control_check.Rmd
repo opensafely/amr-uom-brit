@@ -22,10 +22,10 @@ table(train$case)
 table(valid$case)
 ```
 
-separate dataset: filter ab>0
+separate dataset: random one control
 ```{r}
-train.sub=train%>%filter(total_ab>0)
-valid.sub=valid%>%filter(total_ab>0)
+train.sub=train%>%group_by(case, subclass)%>%sample_n(1)
+valid.sub=valid%>%group_by(case, subclass)%>%sample_n(1)
 
 table(train.sub$case)
 table(valid.sub$case)
@@ -158,7 +158,8 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```
 
 
-train_ab>0
+random one control
+train
 ```{r}
 
 train=train.sub
@@ -222,7 +223,8 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 
 
-valid_ab>0
+random one control
+valid
 ```{r}
 
 valid=valid.sub
