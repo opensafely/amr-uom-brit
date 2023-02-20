@@ -244,5 +244,17 @@ validation$decile=as.factor(validation$decile)
 # With transparency (right)
  ggplot(data=validation, aes(x=prob, group=decile, fill=decile)) +
     geom_density(adjust=1.5, alpha=.4) 
+ 
+ 
+development$decile=ifelse(development$decile==0,NA,development$decile)
+validation$decile=ifelse(validation==0,NA,validation$decile)
+ 
+  ggplot(data=development, aes(x=prob, group=decile, fill=decile)) +
+    geom_density(adjust=1.5, alpha=.4) 
+#p1
+
+# With transparency (right)
+ ggplot(data=validation, aes(x=prob, group=decile, fill=decile)) +
+    geom_density(adjust=1.5, alpha=.4) 
 ```
 
