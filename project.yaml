@@ -692,3 +692,13 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/model_mortality.csv
+
+  mortality_model_time:
+    run: r:latest analysis/mortality_model_time.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/model_mortality_1.csv
+        table2: output/model_mortality_2.csv
+        table3: output/model_mortality_3.csv
+        table4: output/model_mortality_all.csv
