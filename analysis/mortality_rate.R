@@ -1,6 +1,10 @@
 #### This script is for calculating mortality rate and draw the table ####
 
 require('tidyverse')
+require("gtsummary")
+library(car)
+library(data.table)
+library(gridExtra)
 library(purrr)
 library(dplyr)
 library(survival)
