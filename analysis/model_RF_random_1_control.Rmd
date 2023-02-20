@@ -90,8 +90,8 @@ set.seed(1024)
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.8),
-                           nodesize = 25 ,
-                           mtry = sqrt(ncol(train_X)-1)
+                           nodesize = 50 ,
+                           mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
 ```

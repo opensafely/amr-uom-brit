@@ -69,23 +69,6 @@ train=train[col]
 str(train)
 ```
 
-covert number to binary
-```{r eval=FALSE, include=FALSE}
-
-train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-
-
-summary(train_X[abtype])
-summary(valid_X[abtype])
-```
-
-filter ab users
-```{r}
-#train_X=train_X%>% filter(total_ab>0)
-#valid_X=valid_X%>% filter(total_ab>0)
-
-```
 
 train model
 ```{r}
@@ -106,8 +89,8 @@ set.seed(1024)
                            replace = TRUE,
                            ntree =  3000,
                            sampsize = round(n*0.8),
-                           nodesize = 25 ,
-                           mtry = sqrt(ncol(train_X)-1)
+                           nodesize = 50 ,
+                           mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
 ```
