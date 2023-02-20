@@ -200,7 +200,7 @@ actions:
 
 
 
-  # # main analysis
+  # # baseline
  
   table1_round: 
     run: r:latest analysis/table1.R
@@ -281,12 +281,19 @@ actions:
       moderately_sensitive:
         html: output/model_RF_exp.html
   
-  model_RF_total: # numeric and binary
+  model_RF_total: # numeric and binary # poor
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_total.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
         html: output/model_RF_total.html 
+
+  model_RF_key: # input 5 key variables
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_key.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_key.html 
 
 
   
