@@ -157,6 +157,23 @@ actions:
       moderately_sensitive:
         html: output/model_RF_distinct_check.html
 
+# random 1 control 
+  model_RF_random_1_control: # random pick one control in subclass
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_random_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_random_1_control.html
+        rds: output/model_RF_random_1_control.rds
+
+  model_RF_random_1_control_check: 
+    run: r:latest -e 'rmarkdown::render("analysis/model_RF_random_1_control_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process,model_RF_random_1_control]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RF_random_1_control_check.html
+
+
 # ab users 
   model_RF_ab: # pick variables for model training # distinct patients
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_ab.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
