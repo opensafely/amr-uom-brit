@@ -54,25 +54,23 @@ df$OR_ratio.2 <- df$OR.3/df$OR.1
 
 df$delta_facet = "Δ OR (2 vs 1)"
 delta_OR1 = ggplot(df, aes(y = OR_ratio.1, x = Plot_category)) + 
-    geom_bar(stat="identity", fill="#d94801") +
+    geom_bar(stat="identity", fill="#3C5488B2") +
     coord_flip() + facet_grid(Plot_group~delta_facet, scales = "free_y", space = "free_y") + 
     theme_bw() + theme(strip.background = element_blank()) + 
     geom_hline(yintercept=1, linetype="dotted") + 
     ylab("OR ratio") + xlab("") +
     theme(axis.title = element_text(size=12), axis.text = element_text(size=12), strip.text.x = element_text(size=12), strip.text.y = element_blank(), 
-         legend.position = "none", axis.text.y=element_blank())+
-    scale_color_jco()
+         legend.position = "none", axis.text.y=element_blank())
 ## Plot OR ratio 3 vs 1
 df$delta_facet = "Δ OR (3 vs 1)"
 delta_OR2 = ggplot(df, aes(y = OR_ratio.1, x = Plot_category)) + 
-    geom_bar(stat="identity", fill="#d94801") +
+    geom_bar(stat="identity", fill="#8491B4B2") +
     coord_flip() + facet_grid(Plot_group~delta_facet, scales = "free_y", space = "free_y") + 
     theme_bw() + theme(strip.background = element_blank()) + 
     geom_hline(yintercept=1, linetype="dotted") + 
     ylab("OR ratio") + xlab("") +
     theme(axis.title = element_text(size=12), axis.text = element_text(size=12), strip.text.x = element_text(size=12), strip.text.y = element_blank(), 
-         legend.position = "none", axis.text.y=element_blank())+
-    scale_color_jco()
+         legend.position = "none", axis.text.y=element_blank())
 ## Render grid of 3 plots above
 plot_grid(wave_ORs, delta_OR1, delta_OR2, ncol=3, rel_widths=c(4,1,1), align="h", axis="tb")
 ```
