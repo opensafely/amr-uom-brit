@@ -702,3 +702,10 @@ actions:
         table2: output/model_mortality_2.csv
         table3: output/model_mortality_3.csv
         table4: output/model_mortality_all.csv
+
+  plot_mortality_model:
+    run: r:latest -e 'rmarkdown::render("analysis/mortality_model_plot.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [mortality_model_time]
+    outputs:
+      moderately_sensitive:
+        csv: output/mortality_model_plot.html
