@@ -224,3 +224,25 @@ saveRDS(validation,here::here("output","validation_ab.rds"))
 str(development)
 ```
 
+
+
+```{r}
+# Libraries
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(viridis)
+
+
+development$decile=as.factor(development$decile)
+validation$decile=as.factor(validation$decile)
+# Without transparency (left)
+ ggplot(data=development, aes(x=prob, group=decile, fill=decile)) +
+    geom_density(adjust=1.5, alpha=.4) 
+#p1
+
+# With transparency (right)
+ ggplot(data=validation, aes(x=prob, group=decile, fill=decile)) +
+    geom_density(adjust=1.5, alpha=.4) 
+```
+
