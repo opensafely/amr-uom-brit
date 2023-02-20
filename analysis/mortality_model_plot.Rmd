@@ -23,7 +23,6 @@ df <- cbind(df1,df2[,2:4],df3[,2:4])
 ```{r, fig.width=13, fig.height=20}
 ## Reformat HRs to ggplot data frame
 collated = data.frame(
-  Characteristic = rep(df$Plot_group, 3),
   Plot_category = rep(df$Plot_category, 3),
   Plot_group = rep(df$Plot_group, 3),
   OR = c(df$OR.1, df$OR.2, df$OR.3),
@@ -43,8 +42,8 @@ wave_ORs = ggplot(collated, aes(y = OR, x = Plot_category, colour = Wave)) +
     coord_flip() + facet_grid(Plot_group~Wave, scales = "free_y", space = "free_y") + 
     theme_bw() + theme(strip.background = element_blank()) + 
     geom_hline(yintercept=1, linetype="dotted") + 
-    scale_colour_manual(values = c("Wave 1" = "#7f2704", "Wave 2" = "#a63603", "Wave 3" = "#d94801")) +
-    ylab("HR") + xlab("") +
+    scale_colour_manual(values = c("Period 1" = "#7f2704", "Period 2" = "#a63603", "Period 3" = "#d94801")) +
+    ylab("OR") + xlab("") +
     theme(axis.title = element_text(size=12), axis.text = element_text(size=12), strip.text.x = element_text(size=12), strip.text.y = element_blank(), 
           legend.position = "none")
 ## Plot OR ratio 2 vs 1
