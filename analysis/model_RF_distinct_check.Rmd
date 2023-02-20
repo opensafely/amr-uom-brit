@@ -60,7 +60,6 @@ E <- mean(pred.y)
 E/O
 
 
-library(dplyr)
 # calibration 
 # create 10 risk groups
 groups <- ntile(pred.y,10)
@@ -181,7 +180,6 @@ E <- mean(pred.y)
 E/O
 
 
-library(dplyr)
 # calibration 
 # create 10 risk groups
 groups <- ntile(pred.y,10)
