@@ -43,7 +43,7 @@ table(valid_X$case)
 
 random select one control
 ```{r}
-table(train$case)
+table(train_X$case)
 train=train_X%>% group_by(subclass,case)%>%sample_n(1)
 nrow(train)
 table(train$case)
@@ -70,23 +70,6 @@ train=train[col]
 str(train)
 ```
 
-covert number to binary
-```{r eval=FALSE, include=FALSE}
-
-train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-
-
-summary(train_X[abtype])
-summary(valid_X[abtype])
-```
-
-filter ab users
-```{r}
-#train_X=train_X%>% filter(total_ab>0)
-#valid_X=valid_X%>% filter(total_ab>0)
-
-```
 
 train model
 ```{r}
