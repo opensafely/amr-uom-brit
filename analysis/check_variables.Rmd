@@ -7,11 +7,9 @@ title: "conditional logistic regression"
 library(dplyr)
 #library(skimr)
 library('tidyverse')
-library("survival")
 library(car)
-library(pROC)
 library(ggplot2)
-library(viridis)
+library("corrplot")
 ```
 
 # import dataset
@@ -34,12 +32,25 @@ df=rbind(df1,df2)
 
 #abtype=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype.rds")
 abtype <- read_rds(here::here("output","abtype.rds"))
+```
 
-col=c("case",'total_ab',"ab_types","exposure_period" ,"recent_ab_days", "broad_prop" ,"interval_med" ,"interval_mean" , "interval_CV","interval_sd",
-"length_med","length_mean","length_CV","length_sd",
-abtype,"AB_6wk")
 
-df=df%>% select(col)
+```{r }
+col=c( "case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd","length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","interval_med" ,"length_med")
+    #  "AB_1_type","AB_6wk_type" , ,"ab_6w_binary" , "AB_6wk")
+
+numeric=c("total_ab","ab_types","prescribe_times",
+         "exposure_period","recent_ab_days", 
+         "broad_prop","broad_ab_prescriptions",
+         "interval_mean","interval_med" ,"interval_sd","interval_CV",
+         "length_mean","length_med", "length_sd","length_CV")
+   #      "AB_6wk")
+
+factor=c("prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
+        "AB_1_type")
+        #"AB_6wk_type","ab_6w_binary")
+
+df=df[col]
 rm(df1,df2)
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 table(df$case)
@@ -48,181 +59,26 @@ str(df)
 df$case=as.factor(df$case)
 ```
 
-case
+
 ```{r}
-sum(df$case==1)
-summary(df[df$case==1,])
-```
-control
-```{r}
-sum(df$case==0)
-summary(df[df$case==0,])
+corrplot(cor(df[,numeric]), method = "number",number.cex = 0.5)
 ```
 
-
-filter ab >0
 ```{r}
-df=df%>% filter(total_ab>0)
-```
-case
-```{r}
-sum(df$case==1)
-summary(df[df$case==1,])
-```
-control
-```{r}
-sum(df$case==0)
-summary(df[df$case==0,])
+for (i in 1:length(numeric)) {
+  print(numeric[i])
+  print(summary(df[,numeric[i]]))
+  
+}
 ```
 
 
-
-total ab
 ```{r}
+for (i in 1:length(factor)) {
+print(factor[i])  
+print(table(df$case, df[,factor[i]]))
+print(prop.table(table(df$case, df[,factor[i]]))*100)
+}
 
-ggplot(df,aes(case, y=total_ab)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=total_ab)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-
-ab types
-```{r}
-
-
-ggplot(df,aes(case, y=ab_types)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=ab_types)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-exposure_period
-```{r}
-
-ggplot(df,aes(case, y=exposure_period)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=exposure_period)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-recent_ab_days
-```{r}
-ggplot(df,aes(case, y=recent_ab_days)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=recent_ab_days)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-broad_prop
-```{r}
-ggplot(df,aes(case, y=broad_prop)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=broad_prop)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-interval_med
-```{r}
-ggplot(df,aes(case, y=interval_med)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=interval_med)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-interval_mean
-```{r}
-ggplot(df,aes(case, y=interval_mean)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=interval_mean)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-
-interval_CV
-```{r}
-ggplot(df,aes(case, y=interval_CV)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=interval_CV)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-
-interval_sd
-```{r}
-ggplot(df,aes(case, y=interval_sd)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=interval_sd)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-
-
-length_med
-```{r}
-ggplot(df,aes(case, y=length_med)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=length_med)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-length_mean
-```{r}
-ggplot(df,aes(case, y=length_mean)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=length_mean)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-length_CV
-```{r}
-ggplot(df,aes(case, y=length_CV)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=length_CV)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-length_sd
-```{r}
-ggplot(df,aes(case, y=length_sd)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=length_sd)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
-```
-
-AB_6wk
-```{r}
-ggplot(df,aes(case, y=AB_6wk)) + 
-    geom_boxplot()
-
-ggplot(df,aes(x=case, y=AB_6wk)) +
-    geom_violin() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6, option="A") 
 ```
 
