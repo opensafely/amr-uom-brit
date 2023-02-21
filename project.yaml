@@ -208,7 +208,7 @@ actions:
 
 
 ###### random 1 control #####
-  classification_check: # RF
+  classification_check: # RF # total_ab
     run: r:latest -e 'rmarkdown::render("analysis/classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
@@ -217,12 +217,19 @@ actions:
         rds1: output/train_1control.rds
         rds2: output/valid_1control.rds
 
-  classification_check_logi: #logistic
+  classification_check_logi: #logistic multiple controls
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
         html: output/classification_check_logi.html
+
+  classification_check_logi_1_control: #logistic # single control
+    run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_check_logi_1_control.html        
 
 
 # distinct  
