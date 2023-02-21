@@ -709,3 +709,12 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/mortality_model_plot.html
+
+  mortality_table:
+    run: r:latest analysis/mortality_table.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/mortality_table_all.csv
+        table2: output/mortality_table_c.csv
+        table3: output/mortality_table_h.csv
