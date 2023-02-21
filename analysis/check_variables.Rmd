@@ -34,7 +34,7 @@ df=rbind(df1,df2)
 abtype <- read_rds(here::here("output","abtype.rds"))
 ```
 
-
+# input variable
 ```{r }
 col=c( "case","total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd","length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3","interval_med" ,"length_med")
     #  "AB_1_type","AB_6wk_type" , ,"ab_6w_binary" , "AB_6wk")
@@ -46,8 +46,8 @@ numeric=c("total_ab","ab_types","prescribe_times",
          "length_mean","length_med", "length_sd","length_CV")
    #      "AB_6wk")
 
-factor=c("prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
-        "AB_1_type")
+factor=c("prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3")
+       # "AB_1_type")
         #"AB_6wk_type","ab_6w_binary")
 
 df=df[col]
@@ -63,7 +63,7 @@ df$case=as.factor(df$case)
 ```{r}
 corrplot(cor(df[,numeric]), method = "number",number.cex = 0.5)
 ```
-
+# continuous variable
 ```{r}
 for (i in 1:length(numeric)) {
   print(numeric[i])
@@ -72,7 +72,39 @@ for (i in 1:length(numeric)) {
 }
 ```
 
+# categorised variables 
+```{r}
+decile_value=vector()
 
+for (i in 1:length(numeric)){
+
+    print(numeric[i])
+    data=df[,numeric[i]]
+
+    for (j in 1:10) {
+    decile_value[j]=quantile(data,(j/10),na.rm=T)
+    }
+    
+    groups=decile_value
+    groups=ifelse(data <=decile_value[1],1,groups)
+    
+    for (k in 1:9) {
+          groups=ifelse(groups >decile_value[k] & groups <=decile_value[k+1],k+1,groups) 
+
+    }
+
+    
+    patient_number=table(groups)
+    patient_percent=prop.table(table(groups))*100
+    print(rbind(decile_value, patient_number,patient_percent))
+  
+  }
+
+
+
+```
+
+# category
 ```{r}
 for (i in 1:length(factor)) {
 print(factor[i])  
