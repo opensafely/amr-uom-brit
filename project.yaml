@@ -225,7 +225,7 @@ actions:
         html: output/classification_check_logi.html
 
   classification_check_logi_1_control: #logistic # single control
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
