@@ -242,7 +242,7 @@ for(i in 1:length(h$mids)){
 }
 
 # Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(train$case))~pred.y,span=1))
+obs_all <- predict(loess(as.numeric(as.character(valid$case))~pred.y,span=1))
 lines_data <- data.frame(pred.y,obs_all)
 lines_data2 <- lines_data[order(pred.y),] 
 lines(lines_data2[,1],lines_data2[,2],col="blue")
