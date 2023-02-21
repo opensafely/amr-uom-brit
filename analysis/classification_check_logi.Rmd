@@ -19,7 +19,7 @@ table(valid$case)
 ```
 
 # separate dataset: random one control
-```{r }
+```{r eval=FALSE, include=FALSE}
 set.seed(123)
 train=train%>%group_by(case, subclass)%>%sample_n(1)
 valid=valid%>%group_by(case, subclass)%>%sample_n(1)
