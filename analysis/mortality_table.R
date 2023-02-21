@@ -49,6 +49,7 @@ df5 <- merge(df_ethnicity,df_ethnicity_died,by =c("covid","ethnicity"))
 
 
 df<-bind_rows(df1,df2,df3,df4,df5)
+df$rate <- df$died_count/df$count
 write_csv(df, here::here("output", "mortality_table_all.csv"))
 
 df <- readRDS("output/processed/input_model_c.rds")
@@ -90,6 +91,7 @@ df5 <- merge(df_ethnicity,df_ethnicity_died,by =c("covid","ethnicity"))
 
 
 df<-bind_rows(df1,df2,df3,df4,df5)
+df$rate <- df$died_count/df$count
 write_csv(df, here::here("output", "mortality_table_c.csv"))
 
 
@@ -132,4 +134,5 @@ df5 <- merge(df_ethnicity,df_ethnicity_died,by =c("covid","ethnicity"))
 
 
 df<-bind_rows(df1,df2,df3,df4,df5)
+df$rate <- df$died_count/df$count
 write_csv(df, here::here("output", "mortality_table_h.csv"))
