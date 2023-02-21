@@ -127,10 +127,10 @@ prop.table(table(groups))*100 # % decile
 # average the observed and expected probabilities of patients in each risk group 
 gpdata <- cbind(train,groups,pred.y)
 
-obs=gpdata%>%group_by(groups)%>%summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=gpdata%>%group_by(groups)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
 obs=obs%>% pull(mean.obs)
 #obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(groups)%>% summarise(mean.exp=mean(pred.y))
+exp=gpdata%>% group_by(groups)%>% dplyr::summarise(mean.exp=mean(pred.y))
 exp=exp%>%pull(mean.exp)
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
 obsn <- table(train$case,groups)[1,] 
@@ -213,10 +213,10 @@ prop.table(table(groups))*100 # % decile
 # average the observed and expected probabilities of patients in each risk group 
 gpdata <- cbind(train,groups,pred.y)
 
-obs=gpdata%>%group_by(groups)%>%summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=gpdata%>%group_by(groups)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
 obs=obs%>% pull(mean.obs)
 #obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(groups)%>% summarise(mean.exp=mean(pred.y))
+exp=gpdata%>% group_by(groups)%>% dplyr::summarise(mean.exp=mean(pred.y))
 exp=exp%>%pull(mean.exp)
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
 obsn <- table(train$case,groups)[1,] 
