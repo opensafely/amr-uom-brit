@@ -219,7 +219,7 @@ obs=obs%>% pull(mean.obs)
 exp=gpdata%>% group_by(groups)%>% dplyr::summarise(mean.exp=mean(pred.y))
 exp=exp%>%pull(mean.exp)
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(train$case,groups)[1,] 
+obsn <- table(valid$case,groups)[1,] 
 
 cbind(exp,obs)# expected value vs. observed value
  
