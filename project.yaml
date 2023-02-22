@@ -217,6 +217,13 @@ actions:
         rds1: output/train_1control.rds
         rds2: output/valid_1control.rds
 
+  classification_check_6_control: # RF # total_ab #1:6
+    run: r:latest -e 'rmarkdown::render("analysis/classification_check_6_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_check_6_control.html
+
   classification_check_logi: #logistic multiple controls
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
