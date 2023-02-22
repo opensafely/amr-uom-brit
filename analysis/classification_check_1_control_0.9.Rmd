@@ -21,7 +21,37 @@ table(train$case)
 table(valid$case)
 ```
 
+## remove 90th outlier
+### train
+```{r }
+# 99 percentile
+train$total_ab=ifelse(train$total_ab==0,NA,train$total_ab)
+outlier=quantile(train$total_ab,0.9,na.rm=T)
+outlier # train
 
+train$total_ab=ifelse(is.na(train$total_ab),0,train$total_ab)
+
+train$exclude=ifelse(train$total_ab> outlier, 1, 0)
+train=train%>% dplyr::group_by(subclass)%>% dplyr::mutate(label=sum(exclude))
+
+train=train%>% dplyr::filter(label==0)
+train=train%>% dplyr::ungroup(subclass)
+```
+
+### valid
+```{r }
+valid$total_ab=ifelse(valid$total_ab==0,NA,valid$total_ab)
+outlier=quantile(valid$total_ab,0.9,na.rm=T)
+outlier # valid
+
+valid$total_ab=ifelse(is.na(valid$total_ab),0,valid$total_ab)
+
+valid$exclude=ifelse(valid$total_ab> outlier, 1, 0)
+valid=valid%>% dplyr::group_by(subclass)%>% dplyr::mutate(label=sum(exclude))
+
+valid=valid%>% dplyr::filter(label==0)
+valid=valid%>% dplyr::ungroup(subclass)
+```
 # pick variable
 ```{r}
 names(train)
