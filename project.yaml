@@ -208,7 +208,7 @@ actions:
 
 
 ###### random 1 control #####
-  classification_check: # RF # total_ab
+  classification_check: # RF # total_ab #1000trees used to compared with 6controls
     run: r:latest -e 'rmarkdown::render("analysis/classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
