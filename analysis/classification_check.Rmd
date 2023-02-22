@@ -226,7 +226,10 @@ cbind(exp,obs)# expected value vs. observed value
 # CIs for scatter points
 lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
 uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
+```
 
+
+```{r}
 # graph a simple calibration plot over 10 risk groups
 par(pty="s")
 plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
