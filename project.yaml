@@ -231,27 +231,27 @@ actions:
       moderately_sensitive:
         html: output/classification_check_6_control.html
 
-  classification_check_logi: #logistic multiple controls
+  classification_check_logi: #logistic #6 controls 
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
         html: output/classification_check_logi.html
 
-  classification_check_logi_1_control: #logistic # single control # ver2 add decile group
+  classification_check_logi_1_control: #logistic # single control # decile
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
         html: output/classification_check_logi_1_control.html        
 
-# decile check
+decile check
   classification_check_logi_1_control_decile: #logistic # single control # total ab decile
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
       moderately_sensitive:
-        html: output/classification_check_logi_1_control.html 
+        html: output/classification_check_logi_1_control_decile.html 
 
   classification_check_1_control_decile: # RF # all # 1 control # total ab decile
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
