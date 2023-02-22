@@ -33,7 +33,7 @@ valid=valid%>%ungroup(case,subclass)
 ```
 
 
-# pick variable
+# pick variable and create decile groups
 ```{r}
 names(train)
 col=c("case","subclass","total_ab","ab_types",
@@ -45,6 +45,24 @@ col=c("case","subclass","total_ab","ab_types",
 
 
 train=train[col]
+```
+
+
+```{r}
+# create deciles
+
+for (k in c(3,4,9,10,11,12,13,14,15,16,17,18,19,20)) {
+  
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+}
 
 str(train)
 ```

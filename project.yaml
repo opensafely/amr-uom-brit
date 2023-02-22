@@ -245,6 +245,22 @@ actions:
       moderately_sensitive:
         html: output/classification_check_logi_1_control.html        
 
+  classification_check_logi_1_decile: #logistic # single control # decile group
+    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_check_logi_1_control_decile.html     
+
+
+
+
+
+
+
+
+
+
 
 # distinct  
   model_RF_distinct: # pick variables for model training # distinct patients
