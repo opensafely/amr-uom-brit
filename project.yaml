@@ -254,6 +254,12 @@ actions:
       moderately_sensitive:
         html: output/classification_check_1_control_0.9.html
 
+  classification_check_logi_1_control_0.9: #logistic # single control remove90th outlier
+    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_0.9.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_check_logi_1_control_0.9.html  
 
 
   # classification_check_logi_1_decile: #logistic # single control # decile group
