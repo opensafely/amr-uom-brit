@@ -74,6 +74,7 @@ for (i in 1:length(numeric)) {
 
 # categorised variables 
 ```{r}
+
 decile_value=vector()
 
 for (i in 1:length(numeric)){
@@ -85,18 +86,18 @@ for (i in 1:length(numeric)){
     decile_value[j]=quantile(data,(j/10),na.rm=T)
     }
     
-    groups=decile_value
-    groups=ifelse(data <=decile_value[1],1,groups)
+    groups=vector()
+    groups=ifelse(data <=decile_value[1],1,NA)
     
     for (k in 1:9) {
-          groups=ifelse(groups >decile_value[k] & groups <=decile_value[k+1],k+1,groups) 
+          groups=ifelse(data >decile_value[k] & data <=decile_value[k+1],k+1,groups) 
 
     }
 
     
     patient_number=table(groups)
     patient_percent=prop.table(table(groups))*100
-    print(rbind(decile_value, patient_number,patient_percent))
+    rbind(decile_value, patient_number,patient_percent)
   
   }
 
