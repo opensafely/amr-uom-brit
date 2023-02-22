@@ -65,7 +65,21 @@ prop.table(table(train$total_ab_decile))
 #}
 ```
 
+```{r}
+#for (k in 3:20) {
 
+decile_value=quantile(valid$total_ab,c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+valid$total_ab_decile=NA
+for (i in 1:9) {
+valid$total_ab_decile=ifelse(valid$total_ab > decile_value[i] & valid$total_ab<=decile_value[i+1],i+1,valid$total_ab_decile)  
+}
+  
+valid$total_ab_decile=ifelse(valid$total_ab <= decile_value[1],1,valid$total_ab_decile)
+
+prop.table(table(valid$total_ab_decile))
+#}
+```
 
 # total ab
 ## logistic regression
