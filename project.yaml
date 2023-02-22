@@ -245,7 +245,7 @@ actions:
       moderately_sensitive:
         html: output/classification_check_logi_1_control.html        
 
-decile check
+#decile check
   classification_check_logi_1_control_decile: #logistic # single control # total ab decile
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
