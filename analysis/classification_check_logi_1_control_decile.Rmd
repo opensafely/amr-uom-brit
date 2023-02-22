@@ -73,7 +73,7 @@ prop.table(table(train$total_ab_decile))
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~total_ab,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~total_ab_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
