@@ -219,7 +219,7 @@ actions:
   
   classification_check_1_control: # RF # all # 1 control
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
+    needs: [model_RF_process,classification_check]
     outputs:
       moderately_sensitive:
         html: output/classification_check_1_control.html
