@@ -48,9 +48,8 @@ train=train[col]
 ```
 
 
-```{r}
-# create deciles
 
+```{r}
 #for (k in 3:20) {
   k=3
   decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
@@ -62,11 +61,184 @@ train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1
 train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
 
 prop.table(table(train[,k]))
-}
+#}
+```
 
+
+```{r}
+k=4
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
 #str(train)
 ```
 
+```{r}
+k=9
+
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+
+```{r}
+k=10
+decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=11
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+
+```{r}
+k=12
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=13
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=14
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=15
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=16
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=17
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+```{r}
+k=18
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+
+```{r}
+k=19
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
+
+
+```{r}
+k=20
+  decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+  
+for (i in 1:9) {
+train[,k]=ifelse(train[,k] > decile_value[i] & train[,k] <=decile_value[i+1],i+1,train[,k])  
+}
+  
+train[,k]=ifelse(train[,k] <= decile_value[1],1,train[,k])
+
+prop.table(table(train[,k]))
+```
 
 # total ab
 ## logistic regression
