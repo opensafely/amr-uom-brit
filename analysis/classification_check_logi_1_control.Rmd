@@ -50,19 +50,22 @@ train=train[col]
 
 # decile group
 ```{r}
-#for (k in 3:20) {
+for (k in 3:20) {
 
-decile_value=quantile(train$total_ab,c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
+decile_value=quantile(train[,k],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
   
-train$total_ab_decile=NA
+train[,k+18]=NA
+
 for (i in 1:9) {
-train$total_ab_decile=ifelse(train$total_ab > decile_value[i] & train$total_ab<=decile_value[i+1],i+1,train$total_ab_decile)  
+train[,k+18]=ifelse(train[,k] > decile_value[i] & train[,k]<=decile_value[i+1],i+1,train[,k+18])  
 }
   
-train$total_ab_decile=ifelse(train$total_ab <= decile_value[1],1,train$total_ab_decile)
+train[,k+18]=ifelse(train[,k] <= decile_value[1],1,train[,k+18])
 
-prop.table(table(train$total_ab_decile))
-#}
+colnames(train)[k+18]=paste0(col[3],"_decile")
+
+prop.table(table(train[,k+18]))
+}
 ```
 
 
@@ -72,7 +75,7 @@ prop.table(table(train$total_ab_decile))
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~total_ab,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~total_ab_decile_decile_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -259,7 +262,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~ab_types,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~ab_types_decile_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -445,7 +448,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~exposure_period,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~exposure_period_decile_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -633,7 +636,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~recent_ab_days,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~recent_ab_days_decile_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -820,7 +823,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~broad_ab_prescriptions,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~broad_ab_prescriptions_decile_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -1006,7 +1009,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~broad_prop,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~broad_prop_decile_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -1191,7 +1194,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~interval_med,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~interval_med_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -1375,7 +1378,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~interval_mean,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~interval_mean_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -1560,7 +1563,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~interval_CV,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~interval_CV_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -1746,7 +1749,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~interval_sd,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~interval_sd_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -1934,7 +1937,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~length_med,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~length_med_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -2122,7 +2125,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~length_mean,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~length_mean_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -2310,7 +2313,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~length_CV,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~length_CV_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
@@ -2497,7 +2500,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 library(MASS)
 
 train$case=as.numeric(as.character(train$case))
-rf.model=glm(case~length_sd,family="binomial",x=TRUE,y=TRUE,data = train)
+rf.model=glm(case~length_sd_decile,family="binomial",x=TRUE,y=TRUE,data = train)
 print(rf.model)
 ```
 
