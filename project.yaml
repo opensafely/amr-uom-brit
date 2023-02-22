@@ -247,7 +247,7 @@ actions:
 
 
 # remove outlier
- classification_check_1_control_0.9: # RF # all # 1 control # remove90th outlier
+  classification_check_1_control_0.9: # RF # all # 1 control # remove90th outlier
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control_0.9.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process,classification_check]
     outputs:
