@@ -97,7 +97,7 @@ for (i in 1:length(numeric)){
     
     patient_number=table(groups)
     patient_percent=prop.table(table(groups))*100
-    rbind(decile_value, patient_number,patient_percent)
+    print(rbind(decile_value, patient_number,patient_percent))
   
   }
 
