@@ -95,11 +95,11 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
 
 table(groups)
@@ -182,13 +182,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector() # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -297,13 +296,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -384,13 +382,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -499,13 +496,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -586,13 +582,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -701,13 +696,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -788,13 +782,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -906,13 +899,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -993,13 +985,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1108,13 +1099,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1195,13 +1185,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1310,13 +1299,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1397,13 +1385,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1512,13 +1499,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1599,13 +1585,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1714,13 +1699,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1801,13 +1785,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -1916,13 +1899,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2003,13 +1985,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2117,13 +2098,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2204,13 +2184,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2320,13 +2299,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2407,13 +2385,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2523,13 +2500,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
@@ -2610,13 +2586,12 @@ for (i in 1:10){
 
 vec# decile value
 
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
+groups=vector()  # vector to fill in
+groups=ifelse(pred.y <=vec[1],1,NA)
 
 for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
+groups=ifelse(pred.y >vec[i] & pred.y <=vec[i+1],i+1,groups)  
 }
-
 table(groups)
 prop.table(table(groups))*100 # % decile
 
