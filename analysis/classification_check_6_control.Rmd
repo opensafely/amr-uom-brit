@@ -21,22 +21,7 @@ table(train$case)
 table(valid$case)
 ```
 
-# separate dataset: random one control
-```{r }
 
-set.seed(123)
-train=train%>%group_by(case, subclass)%>%sample_n(1)
-valid=valid%>%group_by(case, subclass)%>%sample_n(1)
-
-table(train$case)
-table(valid$case)
-
-train=train%>%ungroup(case,subclass)
-valid=valid%>%ungroup(case,subclass)
-
-saveRDS(train, here::here("output","train_1control.rds"))
-saveRDS(valid, here::here("output","valid_1control.rds"))
-```
 
 
 # pick variable
