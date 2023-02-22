@@ -85,6 +85,8 @@ for (i in 1:length(numeric)){
     for (j in 1:10) {
     decile_value[j]=quantile(data,(j/10),na.rm=T)
     }
+    print(decile_value)
+    
     
     groups=vector()
     groups=ifelse(data <=decile_value[1],1,NA)
@@ -97,7 +99,7 @@ for (i in 1:length(numeric)){
     
     patient_number=table(groups)
     patient_percent=prop.table(table(groups))*100
-    print(rbind(decile_value, patient_number,patient_percent))
+    print(rbind(patient_number,patient_percent))
   
   }
 
