@@ -10,6 +10,7 @@ library('tidyverse')
 library("survival")
 library(car)
 library(pROC)
+library(MASS)
 ```
 
 # import dataset
@@ -100,7 +101,7 @@ str(df)
 model=glm(case~total_ab_group,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
-
+exp(cbind(coef(model), confint(model)))  
 
 df$pred_y <- predict(model, df, type = 'response')
 summary(df[,"pred_y"])
@@ -109,14 +110,13 @@ for (i in 0:4) {
   print(summary(df[df$total_ab_group==i, "pred_y"]))
 }
 
-
-
 ```
 
 ```{r }
 model=glm(case ~ab_types_group, family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -132,6 +132,7 @@ for (i in 0:4) {
 model=glm(case ~exposure_period_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -147,6 +148,7 @@ model=glm(case ~recent_ab_days_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -161,6 +163,7 @@ for (i in 0:4) {
 model=glm(case ~broad_prop_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -175,6 +178,7 @@ for (i in 0:4) {
 model=glm(case ~broad_ab_prescriptions_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 df$pred_y <- predict(model, df, type = 'response')
 summary(df[,"pred_y"])
@@ -190,6 +194,7 @@ model=glm(case ~interval_mean_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -204,6 +209,7 @@ for (i in 0:4) {
 model=glm(case ~interval_med_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -218,6 +224,7 @@ for (i in 0:4) {
 model=glm(case ~ interval_CV_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 
@@ -233,6 +240,7 @@ for (i in 0:4) {
 model=glm(case ~ interval_sd_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 
@@ -251,6 +259,7 @@ model=glm(case ~length_mean_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -265,6 +274,7 @@ for (i in 0:4) {
 model=glm(case ~length_med_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -279,6 +289,7 @@ for (i in 0:4) {
 model=glm(case ~ length_CV_group,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
@@ -293,6 +304,7 @@ for (i in 0:4) {
 model=glm(case ~ length_sd_group,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
+exp(cbind(coef(model), confint(model)))  
 
 
 df$pred_y <- predict(model, df, type = 'response')
