@@ -13,87 +13,74 @@ library(pROC)
 ```
 
 # import dataset
-# import dataset
 ```{r }
 #df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-df1 <- read_rds(here::here("output","development.rds"))
-
-df2 <- read_rds(here::here("output","validation.rds"))
-
-
+df1 <- read_rds(here::here("output","train.rds"))
+df2 <- read_rds(here::here("output","valid.rds"))
 df=rbind(df1,df2)
 rm(df1,df2)
-
-#abtype=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/abtype.rds")
-abtype <- read_rds(here::here("output","abtype.rds"))
-
-#pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 table(df$case)
 str(df)
 
-#df$case=as.factor(df$case)
+col=c("case","subclass",
+  "total_ab","ab_types","prescribe_times",
+         "exposure_period","recent_ab_days", 
+         "broad_prop","broad_ab_prescriptions",
+         "interval_mean","interval_med" ,"interval_sd","interval_CV",
+         "length_mean","length_med", "length_sd","length_CV")
 
+df=df[col]
 names(df)
-```
-
-
-# overall
-```{r }
-df$case=as.numeric(df$case) #1/0
-df$subclass=as.factor(df$subclass)#pair id
-df$CCI= relevel(as.factor(df$CCI), ref="Zero")
-df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
-df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
-df$care_home=relevel(as.factor(df$care_home),ref = "0")
-df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
-df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
-df$imd=relevel(as.factor(df$imd),ref="1")
-df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
-
 ```
 
 # set group
 ```{r }
-
-col=c("total_ab","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop","interval_med" ,"interval_mean","interval_sd","interval_CV",
-           "length_mean","length_med", "length_sd", "length_CV" , "AB_6wk",abtype)
-
-for (i in 1:length(col)) {
+for (i in 3:length(col)) { # skip case, subclass
  df[,col[i]]=ifelse(df[,col[i]]>0,df[,col[i]],NA)
 }
-
-for (i in 1:length(col)) {
- df[,paste0(col[i],"_group")]=ntile(df[,col[i]],3)
-}
-
-for (i in 1:length(col)) {
-  df[,paste0(col[i],"_group")]=ifelse(is.na(df[,paste0(col[i],"_group")]),0, df[,paste0(col[i],"_group")])
-}
-
-
-names(df)
-
-head(df[,c(105:115)])
-
 ```
 
-# correlation
-```{r }
+# group variables
+```{r}
+for (k in 3:17) {
 
-dat=df%>% select("total_ab","ab_types","exposure_period" ,"recent_ab_days", "broad_prop","interval_mean","interval_CV")
-round(cor(dat),
-  digits = 2 # rounded to 2 decimals
-)
+cut_value=quantile(df[,k],c(0.25,0.5,0.75),na.rm=TRUE)
+print(cut_value)
+  
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] <= cut_value[1],1,NA)  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[1] & df[,col[k]]<= cut_value[2],2, 
+  df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[2] & df[,col[k]]<= cut_value[3],3, 
+  df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[3],4,df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+ is.na( df[,col[k]]) ,0 ,df[,paste0(col[k],"_group")])  
+
+
+
+}
 ```
 
+
+
+
 ```{r }
 
-
+df$case=as.numeric(as.character(df$case))
 df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "0")
 df$ab_types_group=relevel(as.factor(df$ab_types_group),ref= "0")
 df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "0")
 df$recent_ab_days_group=relevel(as.factor(df$recent_ab_days_group),ref= "0")
 df$broad_prop_group=relevel(as.factor(df$broad_prop_group),ref= "0")
+df$broad_ab_prescriptions=relevel(as.factor(df$broad_ab_prescriptions),ref= "0")
 df$interval_mean_group=relevel(as.factor(df$interval_mean_group),ref= "0")
 df$interval_med_group=relevel(as.factor(df$interval_med_group),ref= "0")
 df$interval_CV_group=relevel(as.factor(df$interval_CV_group),ref= "0")
@@ -102,94 +89,189 @@ df$length_med_group=relevel(as.factor(df$length_med_group),ref= "0")
 df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
 df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
 df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
-df$AB_6wk_group=relevel(as.factor(df$AB_6wk_group),ref= "0")
 
 str(df)
 ```
 
 
-all
-```{r }
-model=clogit(case ~total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_prop_group+interval_mean_group +interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+conditional logistic
 
+```{r }
+model=clogit(case ~total_ab_group + strata(subclass),df) 
 summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$total_ab_group==i, "pred_y"]))
+}
+
+
+
 ```
 
 ```{r }
-model=clogit(case ~total_ab_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ab_types_group + strata(subclass),df) 
+
 summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$ab_types_group==i, "pred_y"]))
+}
+
 ```
 
 ```{r }
-model=clogit(case ~ab_types_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~exposure_period_group + strata(subclass),df) 
 
 summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$exposure_period_group==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~exposure_period_group+CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~recent_ab_days_group  + strata(subclass),df) 
 
 summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$recent_ab_days_group==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~recent_ab_days_group + CCI +covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~broad_prop_group  + strata(subclass),df) 
 
 summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$broad_prop_group==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~broad_prop_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df) 
 
 summary(model)
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$broad_ab_prescriptions_group==i, "pred_y"]))
+}
+
+
 ```
 
 ```{r }
-model=clogit(case ~interval_mean_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~interval_mean_group  + strata(subclass),df) 
 
 summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$interval_mean_group==i, "pred_y"]))
+}
+
 ```
 
 ```{r }
-model=clogit(case ~interval_med_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~interval_med_group  + strata(subclass),df) 
 
 summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$interval_med_group==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~ interval_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ interval_CV_group + strata(subclass),df) 
 
 summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$interval_CV_group==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~ interval_sd_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ interval_sd_group + strata(subclass),df) 
 
 summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$interval_sd_group==i, "pred_y"]))
+}
 ```
 
 
 
 ```{r }
-model=clogit(case ~length_mean_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~length_mean_group + strata(subclass),df) 
 
 summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$length_mean_group ==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~length_med_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~length_med_group +  strata(subclass),df) 
 
 summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$length_med_group ==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~ length_CV_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ length_CV_group+  strata(subclass),df) 
 
 summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$length_CV_group ==i, "pred_y"]))
+}
 ```
 
 ```{r }
-model=clogit(case ~ length_sd_group+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ length_sd_group+  strata(subclass),df) 
 
 summary(model)
+
+df$pred_y=predict(model, df, type = 'expected')
+for (i in 0:4) {
+  print(summary(df[df$length_sd_group ==i, "pred_y"]))
+}
 ```
