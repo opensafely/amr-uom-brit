@@ -15,8 +15,8 @@ library(pROC)
 # import dataset
 ```{r }
 #df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-df1 <- read_rds(here::here("output","train.rds"))
-df2 <- read_rds(here::here("output","valid.rds"))
+df1 <- read_rds(here::here("output","train_X.rds"))
+df2 <- read_rds(here::here("output","valid_X.rds"))
 df=rbind(df1,df2)
 rm(df1,df2)
 table(df$case)
