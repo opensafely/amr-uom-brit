@@ -893,19 +893,6 @@ actions:
   #     moderately_sensitive:
   #       html: output/report/baseline_table_pat_one_2022.html
 
-  describe_broad_proportion_measure:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/descriptive_ab_broad_2.Rmd", output_dir = "output/report")'
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        html: output/report/descriptive_ab_broad_2.html
-
-  describe_broad_type_analysis:   
-    run: r:latest -e 'rmarkdown::render("analysis/model/broad_type.Rmd", output_dir = "output/report")'
-    needs: [generate_measures]
-    outputs:
-      moderately_sensitive:
-        html: output/report/broad_type.html
 
   describe_broad_percentage_op:
     run: r:latest analysis/plot/broad_percentage_op.R
