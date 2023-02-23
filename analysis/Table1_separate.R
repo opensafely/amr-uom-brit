@@ -35,7 +35,6 @@ diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,oth
 colsfortab2 <- colnames(dttable2)
 dttable2 %>% summary_factorlist(explanatory = colsfortab2) -> t2
 #str(t)
-t2$all <- plyr::round_any(t2$all, 5)
 write_csv(t2, here::here("output", "table_1_control_com.csv"))
 
 rm(list=ls())
@@ -52,7 +51,6 @@ diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,oth
 colsfortab <- colnames(dttable)
 dttable %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
-t$all <- plyr::round_any(t$all, 5)
 write_csv(t, here::here("output", "table_1_case_hos.csv"))
 
 dttable2 <- select(df2,age,imd,
@@ -64,5 +62,4 @@ diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,oth
 colsfortab2 <- colnames(dttable2)
 dttable2 %>% summary_factorlist(explanatory = colsfortab2) -> t2
 #str(t)
-t2$all <- plyr::round_any(t2$all, 5)
 write_csv(t2, here::here("output", "table_1_control_hos.csv"))
