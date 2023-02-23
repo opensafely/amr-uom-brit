@@ -2249,6 +2249,13 @@ actions:
       moderately_sensitive:
         html: output/pneumonia_model.html
 
+  pneumonia_model_age:  
+    run: r:latest -e 'rmarkdown::render("analysis/new_model/pneumonia_model_age.Rmd", output_dir = "output")'
+    needs: [model_preparation]
+    outputs:
+      moderately_sensitive:
+        html: output/pneumonia_model_age.html
+
   sinusitis_model:  
     run: r:latest -e 'rmarkdown::render("analysis/new_model/sinusitis_model.Rmd", output_dir = "output")'
     needs: [model_preparation]
