@@ -94,14 +94,17 @@ str(df)
 ```
 
 
-conditional logistic
+ logistic
 
 ```{r }
-model=clogit(case ~total_ab_group + strata(subclass),df) 
+model=glm(case~total_ab_group,family="binomial",x=TRUE,y=TRUE,df)
+
 summary(model)
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$total_ab_group==i, "pred_y"]))
 }
@@ -111,12 +114,14 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~ab_types_group + strata(subclass),df) 
+model=glm(case ~ab_types_group, family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$ab_types_group==i, "pred_y"]))
 }
@@ -124,103 +129,116 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~exposure_period_group + strata(subclass),df) 
+model=glm(case ~exposure_period_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$exposure_period_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~recent_ab_days_group  + strata(subclass),df) 
+model=glm(case ~recent_ab_days_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
-  print(summary(df[df$recent_ab_days_group==i, "pred_y"]))
+  print(summary(df[df$rerecent_ab_days_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~broad_prop_group  + strata(subclass),df) 
+model=glm(case ~broad_prop_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$broad_prop_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df) 
+model=glm(case ~broad_ab_prescriptions_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$broad_ab_prescriptions_group==i, "pred_y"]))
 }
 
-
 ```
 
 ```{r }
-model=clogit(case ~interval_mean_group  + strata(subclass),df) 
+model=glm(case ~interval_mean_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$interval_mean_group==i, "pred_y"]))
 }
-
 ```
 
 ```{r }
-model=clogit(case ~interval_med_group  + strata(subclass),df) 
+model=glm(case ~interval_med_group  ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
 
-df$pred_y=predict(model, df, type = 'expected')
 for (i in 0:4) {
   print(summary(df[df$interval_med_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~ interval_CV_group + strata(subclass),df) 
+model=glm(case ~ interval_CV_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$interval_CV_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~ interval_sd_group + strata(subclass),df) 
+model=glm(case ~ interval_sd_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
   print(summary(df[df$interval_sd_group==i, "pred_y"]))
 }
@@ -229,49 +247,58 @@ for (i in 0:4) {
 
 
 ```{r }
-model=clogit(case ~length_mean_group + strata(subclass),df) 
+model=glm(case ~length_mean_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
-  print(summary(df[df$length_mean_group ==i, "pred_y"]))
+  print(summary(df[df$length_mean_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~length_med_group +  strata(subclass),df) 
+model=glm(case ~length_med_group ,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
-  print(summary(df[df$length_med_group ==i, "pred_y"]))
+  print(summary(df[df$length_med_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~ length_CV_group+  strata(subclass),df) 
+model=glm(case ~ length_CV_group,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
 
-df$pred_y=predict(model, df, type = 'expected')
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
-  print(summary(df[df$length_CV_group ==i, "pred_y"]))
+  print(summary(df[df$length_CV_group==i, "pred_y"]))
 }
 ```
 
 ```{r }
-model=clogit(case ~ length_sd_group+  strata(subclass),df) 
+model=glm(case ~ length_sd_group,family="binomial",x=TRUE,y=TRUE,df)
 
 summary(model)
 
-df$pred_y=predict(model, df, type = 'expected')
+
+df$pred_y <- predict(rf.model, train, type = 'response')
+summary(df[,"pred_y"])
+
 for (i in 0:4) {
-  print(summary(df[df$length_sd_group ==i, "pred_y"]))
+  print(summary(df[df$length_sd_group==i, "pred_y"]))
 }
 ```
