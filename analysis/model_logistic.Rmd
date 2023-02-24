@@ -111,9 +111,14 @@ for (i in 0:4) {
 }
 
 
-for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
-}
+nrow(df[df$total_ab_group=="0",])
+nrow(df[df$total_ab_group=="1",])
+
+nrow(df[df$total_ab_group=="2",])
+nrow(df[df$total_ab_group=="3",])
+nrow(df[df$total_ab_group=="4",])
+
+
 ```
 
 ```{r }
@@ -131,7 +136,7 @@ for (i in 0:4) {
 }
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$ab_types_group==i,]))
 }
 ```
 
@@ -150,7 +155,7 @@ for (i in 0:4) {
 }
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$exposure_period_group==i,]))
 }
 ```
 
@@ -170,7 +175,7 @@ for (i in 0:4) {
 }
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$recent_ab_days_group==i,]))
 }
 ```
 
@@ -190,7 +195,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$broad_prop_group==i,]))
 }
 ```
 
@@ -210,7 +215,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$broad_ab_prescriptions_group==i,]))
 }
 ```
 
@@ -231,7 +236,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$interval_mean_group==i,]))
 }
 ```
 
@@ -251,7 +256,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$interval_med_group==i,]))
 }
 ```
 
@@ -272,7 +277,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$total_ab_group==i,]))
 }
 ```
 
@@ -293,7 +298,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$interval_sd_group==i,]))
 }
 ```
 
@@ -316,7 +321,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$length_mean_group==i,]))
 }
 ```
 
@@ -336,7 +341,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$length_med_group==i,]))
 }
 ```
 
@@ -356,7 +361,7 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$length_CV_group==i,]))
 }
 ```
 
@@ -376,6 +381,6 @@ for (i in 0:4) {
 
 
 for (i in 0:4) {
-  print(nrow(df[df$total_ab_group==i]))
+  print(nrow(df[df$length_sd_group==i,]))
 }
 ```
