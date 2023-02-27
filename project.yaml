@@ -169,6 +169,13 @@ actions:
       moderately_sensitive:
         html: output/model_clogit.html
 
+  model_clogit_adjusted: # coditional logistic regression for expo variables
+    run: r:latest -e 'rmarkdown::render("analysis/model_clogit_adjusted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_decile,model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_clogit_adjusted.html
+
   model_logistic: #  logistic regression for expo variables
     run: r:latest -e 'rmarkdown::render("analysis/model_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RandomForest_decile,model_RF_process]
