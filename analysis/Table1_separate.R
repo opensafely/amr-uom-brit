@@ -23,7 +23,6 @@ diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,oth
 colsfortab <- colnames(dttable)
 dttable %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
-t$all <- plyr::round_any(t$all, 5)
 write_csv(t, here::here("output", "table_1_case_com.csv"))
 
 dttable2 <- select(df2,age,sex,imd,
