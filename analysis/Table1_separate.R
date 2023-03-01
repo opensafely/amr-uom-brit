@@ -14,7 +14,7 @@ library("finalfit")
 df <- readRDS("output/processed/input_model_c.rds")
 df1 <- df %>% filter(case == 1)
 df2 <- df %>% filter(case == 0)
-dttable <- select(df1,age,imd,
+dttable <- select(df1,age,sex,imd,
 region,ethnicity,bmi_adult,smoking_status,hypertension,chronic_respiratory_disease,asthma,chronic_cardiac_disease,
 diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,other_neuro,organ_kidney_transplant,asplenia,ra_sle_psoriasis,immunosuppression,
              learning_disability,sev_mental_ill,alcohol_problems,care_home_type_ba,ckd_rrt,ab_frequency,ab_type_num,died_any_30d)
@@ -26,7 +26,7 @@ dttable %>% summary_factorlist(explanatory = colsfortab) -> t
 t$all <- plyr::round_any(t$all, 5)
 write_csv(t, here::here("output", "table_1_case_com.csv"))
 
-dttable2 <- select(df2,age,imd,
+dttable2 <- select(df2,age,sex,imd,
 region,ethnicity,bmi_adult,smoking_status,hypertension,chronic_respiratory_disease,asthma,chronic_cardiac_disease,
 diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,other_neuro,organ_kidney_transplant,asplenia,ra_sle_psoriasis,immunosuppression,
              learning_disability,sev_mental_ill,alcohol_problems,care_home_type_ba,ckd_rrt,ab_frequency,ab_type_num,died_any_30d)
@@ -42,7 +42,7 @@ rm(list=ls())
 df <- readRDS("output/processed/input_model_h.rds")
 df1 <- df %>% filter(case == 1)
 df2 <- df %>% filter(case == 0)
-dttable <- select(df1,age,imd,
+dttable <- select(df1,age,sex,imd,
 region,ethnicity,bmi_adult,smoking_status,hypertension,chronic_respiratory_disease,asthma,chronic_cardiac_disease,
 diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,other_neuro,organ_kidney_transplant,asplenia,ra_sle_psoriasis,immunosuppression,
              learning_disability,sev_mental_ill,alcohol_problems,care_home_type_ba,ckd_rrt,ab_frequency,ab_type_num,died_any_30d)
@@ -53,7 +53,7 @@ dttable %>% summary_factorlist(explanatory = colsfortab) -> t
 #str(t)
 write_csv(t, here::here("output", "table_1_case_hos.csv"))
 
-dttable2 <- select(df2,age,imd,
+dttable2 <- select(df2,age,sex,imd,
 region,ethnicity,bmi_adult,smoking_status,hypertension,chronic_respiratory_disease,asthma,chronic_cardiac_disease,
 diabetes_controlled,cancer,haem_cancer,chronic_liver_disease,stroke,dementia,other_neuro,organ_kidney_transplant,asplenia,ra_sle_psoriasis,immunosuppression,
              learning_disability,sev_mental_ill,alcohol_problems,care_home_type_ba,ckd_rrt,ab_frequency,ab_type_num,died_any_30d)
