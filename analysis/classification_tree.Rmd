@@ -61,7 +61,7 @@ n=nrow(train)
 data=train[col[c(1,2)]] # select predicotr
 ```
 
-
+http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
 ```{r}
 set.seed(1024)
 #for (i in 1:nrow(result)) {
@@ -70,190 +70,23 @@ data$case=as.factor(data$case)
   rf.model <-train(case ~ ., 
                   data=data, 
                   method="rpart",
-                 trControl = trainControl(method = "cv"))
+  trControl = trainControl("cv", number = 10),
+  tuneLength = 10)
+  
   print(rf.model)
-```
-
-```{r}
-plot(rf.model$finalModel, uniform=TRUE,
-     main="Classification Tree")
-text(rf.model$finalModel, use.n.=TRUE, all=TRUE, cex=.8)
-```
-
-## model performance
-
-### train
-```{r}
-# probabilities of cases
-pred.y <- predict(rf.model, train, type = 'prob')[,2]
-
-#  c statistic / AUC
-roc_train <- roc(train$case ~ pred.y, smoothed = TRUE,
-            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
-            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
-            print.auc=TRUE, show.thres=TRUE)
-print(roc_train) #AUC
-
-
-# E/O
-O <- prop.table(table(train$case))[2]
-E <- mean(pred.y)
-E/O
-```
-
-## create decile group of risk probability
-```{r}
-
-vec=vector()
-
-for (i in 1:10){
-  vec[i]=quantile(pred.y,(i/10),na.rm=T)
-}
-
-vec# decile value
-
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
-
-for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
-}
-
-table(groups)
-prop.table(table(groups))*100 # % decile
-
-```
-
-```{r}
-# calibration 
-
-# average the observed and expected probabilities of patients in each risk group 
-gpdata <- cbind(train,groups,pred.y)
-
-obs=gpdata%>%group_by(groups)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
-obs=obs%>% pull(mean.obs)
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(groups)%>% dplyr::summarise(mean.exp=mean(pred.y))
-exp=exp%>%pull(mean.exp)
-#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(train$case,groups)[1,] 
-
-cbind(exp,obs)# expected value vs. observed value
- 
-# CIs for scatter points
-lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
-uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
-
-# graph a simple calibration plot over 10 risk groups
-par(pty="s")
-plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
-lines(c(0,1),c(0,1),lty=2)
-
-for(i in 1:10){
-lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
-}
-
-h <- hist(pred.y, breaks=50, plot=FALSE)
-for(i in 1:length(h$mids)){
-  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
-}
-
-# Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(train$case))~pred.y,span=1))
-lines_data <- data.frame(pred.y,obs_all)
-lines_data2 <- lines_data[order(pred.y),] 
-lines(lines_data2[,1],lines_data2[,2],col="blue")
-legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
-
-```
-
-
-
-### valid
-```{r}
-# probabilities of cases
-pred.y <- predict(rf.model, valid, type = 'prob')[,2]
-
-#  c statistic / AUC
-roc_valid <- roc(valid$case ~ pred.y, smoothed = TRUE,
-            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
-            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
-            print.auc=TRUE, show.thres=TRUE)
-print(roc_valid) #AUC
-
-
-# E/O
-O <- prop.table(table(valid$case))[2]
-E <- mean(pred.y)
-E/O
-```
-
-## create decile group of risk probability
-```{r}
-
-vec=vector()
-
-for (i in 1:10){
-  vec[i]=quantile(pred.y,(i/10),na.rm=T)
-}
-
-vec# decile value
-
-groups=pred.y # vector to fill in
-groups=ifelse(pred.y <=vec[1],1,groups)
-
-for (i in 1:9) {
-groups=ifelse(groups >vec[i] & groups <=vec[i+1],i+1,groups)  
-}
-
-table(groups)
-prop.table(table(groups))*100 # % decile
-
-```
-
-```{r}
-# calibration 
-# average the observed and expected probabilities of patients in each risk group 
-gpdata <- cbind(valid,groups,pred.y)
-
-obs=gpdata%>%group_by(groups)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
-obs=obs%>% pull(mean.obs)
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(groups)%>% dplyr::summarise(mean.exp=mean(pred.y))
-exp=exp%>%pull(mean.exp)
-#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(valid$case,groups)[1,] 
-
-cbind(exp,obs)# expected value vs. observed value
- 
-# CIs for scatter points
-lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
-uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
+  plot(rf.model)
+  rf.model$bestTune
 ```
 
 
 ```{r}
-# graph a simple calibration plot over 10 risk groups
-par(pty="s")
-plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
-lines(c(0,1),c(0,1),lty=2)
-
-for(i in 1:10){
-lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
-}
-
-h <- hist(pred.y, breaks=50, plot=FALSE)
-for(i in 1:length(h$mids)){
-  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
-}
-
-# Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(valid$case))~pred.y,span=1))
-lines_data <- data.frame(pred.y,obs_all)
-lines_data2 <- lines_data[order(pred.y),] 
-lines(lines_data2[,1],lines_data2[,2],col="blue")
-legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
-
+summary(rf.model$finalModel)
 ```
 
+# Plot the final tree model
+```{r eval=FALSE, include=FALSE}
+par(xpd = NA) # Avoid clipping the text in some device
+plot(rf.model$finalModel)
+text(rf.model$finalModel,  digits = 3)
+```
 
