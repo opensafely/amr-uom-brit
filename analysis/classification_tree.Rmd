@@ -43,21 +43,20 @@ saveRDS(valid, here::here("output","valid_1control.rds"))
 # pick variable
 ```{r}
 names(train)
-col=c("case","total_ab","ab_types","subclass",
-      "prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",
+col=c("case","total_ab","ab_types",
       "exposure_period","recent_ab_days",
-      "broad_ab_prescriptions","broad_prop",
-      "interval_med" ,"interval_mean","interval_CV","interval_sd",
-      "length_med","length_mean","length_CV","length_sd")
+      "broad_ab_prescriptions",
+      "interval_med" ,"interval_CV")
 #"broad_prop_total"
 
 train=train[col]
 
 str(train)
+data=train
 ```
 
 # Randomforest
-```{r}
+```{r eval=FALSE, include=FALSE}
 n=nrow(train)
 data=train[col[c(1,2)]] # select predicotr
 ```
