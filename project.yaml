@@ -123,14 +123,14 @@ actions:
   #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
         
-  model_RF_clust: # use proximity
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_clust.html
-  #      csv1: output/var_tree.csv
-  #      rds: output/model_RandomForest.rds
+  # model_RF_clust: # use proximity
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_RF_clust.html
+  # #      csv1: output/var_tree.csv
+  # #      rds: output/model_RandomForest.rds
 
   model_RandomForest_check: # check performance
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -229,6 +229,13 @@ actions:
         html: output/classification_check.html
         rds1: output/train_1control.rds
         rds2: output/valid_1control.rds
+  
+  classification_tree: # RF # total_ab #decision tree
+    run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_tree.html
   
   classification_check_1_control: # RF # all # 1 control
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
