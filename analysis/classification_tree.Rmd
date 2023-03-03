@@ -46,7 +46,7 @@ names(train)
 col=c("case","total_ab","ab_types",
       "exposure_period","recent_ab_days",
       "broad_ab_prescriptions",
-      "interval_med" ,"interval_CV")
+      "interval_med" ,"interval_sd")
 #"broad_prop_total"
 
 train=train[col]
@@ -55,11 +55,6 @@ str(train)
 data=train
 ```
 
-# Randomforest
-```{r eval=FALSE, include=FALSE}
-n=nrow(train)
-data=train[col[c(1,2)]] # select predicotr
-```
 
 http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
 ```{r}
@@ -68,10 +63,9 @@ set.seed(1024)
 
 data$case=as.factor(data$case)  
   rf.model <-train(case ~ ., 
-                  data=data, 
-                  method="rpart",
-  trControl = trainControl("cv", number = 10),
-  tuneLength = 10)
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 10),
+                  tuneLength = 10)
   
   print(rf.model)
   plot(rf.model)
@@ -84,9 +78,25 @@ summary(rf.model$finalModel)
 ```
 
 # Plot the final tree model
-```{r eval=FALSE, include=FALSE}
+```{r }
 par(xpd = NA) # Avoid clipping the text in some device
 plot(rf.model$finalModel)
 text(rf.model$finalModel,  digits = 3)
+```
+
+
+
+# ctree 2
+
+```{r}
+set.seed(123)
+model <- train(
+  case ~., data = data, method = "ctree2",
+  trControl = trainControl("cv", number = 10)
+#  tuneGrid = expand.grid(maxdepth =3, mincriterion = 0.95 )
+  )
+
+plot(model$finalModel)
+model$finalModel
 ```
 
