@@ -64,11 +64,11 @@ set.seed(1024)
 data$case=as.factor(data$case)  
   rf.model <-train(case ~ ., 
                   data=data, method="rpart2",
-                  trControl = trainControl("cv", number = 10),
-                  maxdepth= 10)
+                  trControl = trainControl("cv", number = 5),
+                  maxdepth= 5)
   
   print(rf.model)
-  plot(rf.model)
+#  plot(rf.model)
   rf.model$bestTune
 ```
 
