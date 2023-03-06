@@ -58,7 +58,7 @@ data=train
 
 
 http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
-```{r}
+```{r eval=FALSE, include=FALSE}
 set.seed(1024)
 #for (i in 1:nrow(result)) {
 
@@ -74,15 +74,28 @@ data$case=as.factor(data$case)
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 summary(rf.model$finalModel)
 ```
 
 # Plot the final tree model
-```{r }
+```{r eval=FALSE, include=FALSE}
 par(xpd = NA) # Avoid clipping the text in some device
 plot(rf.model$finalModel)
 text(rf.model$finalModel,  digits = 3)
 ```
 
+
+```{r}
+library(rpart)
+library(rpart.plot)
+rf.model<- rpart(
+  case ~ ., , 
+  data = data, 
+  method = "class", 
+  minsplit = 2, 
+  minbucket = 1
+)
+rpart.plot(rf.model)
+```
 
