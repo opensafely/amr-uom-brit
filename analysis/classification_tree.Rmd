@@ -78,7 +78,7 @@ summary(rf.model$finalModel)
 ```
 
 # Plot the final tree model
-```{r }
+```{r eval=FALSE, include=FALSE}
 par(xpd = NA) # Avoid clipping the text in some device
 plot(rf.model$finalModel)
 text(rf.model$finalModel,  digits = 3)
