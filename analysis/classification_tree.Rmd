@@ -13,6 +13,7 @@ library(caret) #dplyr
 ```{r }
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
+train=train%>%filter(total_ab>0)
 train= train%>% sample_n(1000)
 
 valid <- read_rds(here::here("output","valid_X.rds"))
@@ -69,7 +70,7 @@ data$case=as.factor(data$case)
   
   print(rf.model)
 #  plot(rf.model)
-  rf.model$bestTune
+  #  rf.model$bestTune
 ```
 
 
@@ -84,19 +85,4 @@ plot(rf.model$finalModel)
 text(rf.model$finalModel,  digits = 3)
 ```
 
-
-
-# ctree 2
-
-```{r eval=FALSE, include=FALSE}
-set.seed(123)
-model <- train(
-  case ~., data = data, method = "ctree2",
-  trControl = trainControl("cv", number = 10)
-#  tuneGrid = expand.grid(maxdepth =3, mincriterion = 0.95 )
-  )
-
-plot(model$finalModel)
-model$finalModel
-```
 
