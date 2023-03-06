@@ -57,7 +57,7 @@ data=train
 
 
 http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
-```{r}
+```{r eval=FALSE, include=FALSE}
 set.seed(1024)
 #for (i in 1:nrow(result)) {
 
@@ -73,7 +73,7 @@ data$case=as.factor(data$case)
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 summary(rf.model$finalModel)
 ```
 
