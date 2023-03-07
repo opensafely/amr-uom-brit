@@ -38,10 +38,9 @@ df3$type <-  case_when(
 
 df <- bind_rows(df1,df2,df3,df4)
 ## IMD = 1
-write_csv(df, here::here("output", "Figure_2_IMD_combine.csv"))
 
 df1 <-  df %>% filter(df$type == "IMD 1(Most deprived)")
-
+write_csv(df1, here::here("output", "Figure_2_IMD_combine.csv"))
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
 plot.a3 <- df1 %>% filter(df1$group == "H")
