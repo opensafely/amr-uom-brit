@@ -7,7 +7,7 @@ title: "Random Forest"
 library(dplyr)
 #library(skimr)
 library('tidyverse')
-#library("ggplot2")
+library("ggplot2")
 #library(caret)
 library(pROC)
 library(randomForest)
@@ -56,6 +56,15 @@ valid_X=valid_X[col]
 
 str(train_X)
 ```
+
+```{r}
+with(train_X, qplot(total_ab,ab_types, colour=case, cex=2))
+with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=2))
+with(train_X, qplot(interval_med,interval_sd, colour=case, cex=2))
+with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=2))
+
+```
+
 
 covert number to binary
 ```{r eval=FALSE, include=FALSE}
@@ -154,4 +163,5 @@ plot(roc_valid)
 print(roc_valid)
 
 ```
+
 
