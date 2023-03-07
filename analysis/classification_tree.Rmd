@@ -94,9 +94,9 @@ library(rpart)
 rf.model<- rpart(
   case ~ ., 
   data = data, 
-  method = "class", 
-  minsplit = 2, 
-  minbucket = 1)
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
 
 print(rf.model)
 par(xpd = NA)
