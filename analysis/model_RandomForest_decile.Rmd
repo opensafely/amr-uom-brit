@@ -114,7 +114,6 @@ prop.table(table(decile))*100 # % decile
 ```{r}
 head(decile)
 head(prob)
-head(exp.class)
 
 newdata <- cbind(data,decile)
 
@@ -186,7 +185,6 @@ prop.table(table(decile))*100 # % decile
 ```{r}
 head(decile)
 head(prob)
-head(exp.class)
 
 newdata <- cbind(data,decile)
 str(newdata)
