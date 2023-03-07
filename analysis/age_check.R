@@ -11,7 +11,7 @@ library("forestploter")
 df <- readRDS("output/processed/input_model_c_h.rds")
 df$case <- as.factor(df$case)
 
-p <- ggplot(df, aes(x=age, color=case)) +
+p <- ggplot(df, aes(x=age, fill=case)) +
     geom_histogram( color="#e9ecef", alpha=0.6, position = 'identity') +
     scale_fill_manual(values=c("#69b3a2", "#404080")) 
 
