@@ -57,11 +57,11 @@ str(train_X)
 split dataset
 ```{r}
 # ab users
-train_X=train_X%>% filter(total_ab>0)
 train_X_0=train_X%>%filter(!total_ab>0)
+train_X=train_X%>% filter(total_ab>0)
 
-valid_X=valid_X%>% filter(total_ab>0)
 valid_X_0=valid_X%>%filter(!total_ab>0)
+valid_X=valid_X%>% filter(total_ab>0)
 ```
 
 
