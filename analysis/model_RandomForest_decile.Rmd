@@ -103,8 +103,8 @@ sum(prob==0)/length(prob)# % zero
 
 vec=vector()
 
-for (i in 1:10){
-  vec[i]=quantile(prob,(i/10),na.rm=T)
+for (i in 1:5){
+  vec[i]=quantile(prob,(i/5),na.rm=T)
 }
 
 vec# decile value
@@ -112,7 +112,7 @@ vec# decile value
 decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
-for (i in 1:9) {
+for (i in 1:4) {
 decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
 }
 
@@ -173,8 +173,8 @@ sum(prob==0)/length(prob)# % zero
 
 vec=vector()
 
-for (i in 1:10){
-  vec[i]=quantile(prob,(i/10),na.rm=T)
+for (i in 1:5){
+  vec[i]=quantile(prob,(i/5),na.rm=T)
 }
 
 vec# decile value
@@ -182,7 +182,7 @@ vec# decile value
 decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
-for (i in 1:9) {
+for (i in 1:4) {
 decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
 }
 
