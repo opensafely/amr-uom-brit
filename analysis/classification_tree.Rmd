@@ -64,7 +64,7 @@ set.seed(1024)
 
 data$case=as.factor(data$case)  
   rf.model <-train(case ~ ., 
-                  data=data, method="rpart2",
+                  data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   maxdepth= 5)
   
@@ -88,7 +88,6 @@ text(rf.model$finalModel,  digits = 3)
 
 ```{r}
 library(rpart)
-set.seed(753)
 rf.model<- rpart(
   case ~ ., , 
   data = data, 
