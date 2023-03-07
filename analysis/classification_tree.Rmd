@@ -15,7 +15,7 @@ library(randomForest)
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
 train=train%>%filter(total_ab>0)
-train=train%>% distinct(patient_id)
+train=train%>% distinct(patient_id,.keep_all = TRUE)
 #train= train%>% group_by(subclass, case)%>%sample_n(1)
 #train=train%>% ungroup(subclass,case)
 
