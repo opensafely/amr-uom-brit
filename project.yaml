@@ -673,6 +673,7 @@ actions:
       moderately_sensitive:
         table1: output/imd_model.csv
         table2: output/imd_model_covid.csv
+        table3: output/imd_model_cardiometabolic.csv
         
   Figure_2_IMD:  
     run: r:latest analysis/Figure_2_IMD.R

@@ -42,6 +42,20 @@ names(DF)[1]="type"
 dfch_2 <- DF
 
 
+## Cardiometabolic comorbidities
+
+mod=clogit(case ~ imd + hypertension + chronic_cardiac_disease + diabetes_controlled + stroke + ckd_rrt + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfch_3 <- DF
+
 df <- readRDS("output/processed/input_model_c.rds")
 df$imd= relevel(as.factor(df$imd), ref="5")
 ### fit crude model by variables
@@ -70,6 +84,18 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
 dfc_2 <- DF
+
+mod=clogit(case ~ imd + hypertension + chronic_cardiac_disease + diabetes_controlled + stroke + ckd_rrt + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfc_3 <- DF
 
 df <- readRDS("output/processed/input_model_h.rds")
 df$imd= relevel(as.factor(df$imd), ref="5")
@@ -100,6 +126,18 @@ names(DF)[1]="type"
 
 dfh_2 <- DF
 
+mod=clogit(case ~ imd + hypertension + chronic_cardiac_disease + diabetes_controlled + stroke + ckd_rrt + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfh_3 <- DF
+
 dfch$group <- "H+C"
 dfc$group <- "C"
 dfh$group <- "H"
@@ -115,6 +153,14 @@ dfh_2$group <- "H"
 plot <- bind_rows(dfch_2,dfc_2,dfh_2)
 
 write_csv(plot, here::here("output", "imd_model_covid.csv"))
+
+dfch_3$group <- "H+C"
+dfc_3$group <- "C"
+dfh_3$group <- "H"
+
+plot <- bind_rows(dfch_3,dfc_3,dfh_3)
+
+write_csv(plot, here::here("output", "imd_model_cardiometabolic.csv"))
 
 
 
