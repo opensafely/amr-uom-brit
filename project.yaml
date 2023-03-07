@@ -651,6 +651,7 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
+        table6: output/adjusted_type_plotimd.csv
         table1: output/adjusted_type_plota.csv
         table2: output/adjusted_type_plotb.csv
         table3: output/adjusted_type_plotc.csv
