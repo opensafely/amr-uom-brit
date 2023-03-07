@@ -13,8 +13,8 @@ library(caret) #dplyr
 ```{r }
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
-train=train%>%filter(total_ab>0)
-train= train%>% sample_n(1000)
+#train=train%>%filter(total_ab>0)
+#train= train%>% sample_n(1000)
 
 valid <- read_rds(here::here("output","valid_X.rds"))
 valid$case=as.factor(valid$case)
@@ -88,7 +88,7 @@ text(rf.model$finalModel,  digits = 3)
 
 ```{r}
 library(rpart)
-
+set.seed(123)
 rf.model<- rpart(
   case ~ ., , 
   data = data, 
