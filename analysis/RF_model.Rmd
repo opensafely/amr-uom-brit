@@ -126,7 +126,7 @@ for (i in 1:10) {
 
 ```{r}
 
-newdata=newdata%>% select(train,decile)
+newdata=newdata%>% select(decile,petient_id)
 nrow(newdata)
 
 DF=merge(data, newdata, by="patient_id", all.x = TRUE)
