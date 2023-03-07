@@ -38,6 +38,7 @@ df3$type <-  case_when(
 
 df <- bind_rows(df1,df2,df3,df4)
 ## IMD = 1
+write_csv(df, here::here("output", "Figure_2_IMD_combine.csv"))
 
 df1 <-  df %>% filter(df$type == "IMD 1(Most deprived)")
 
