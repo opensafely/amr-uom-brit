@@ -87,27 +87,6 @@ dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
                                    dt$OR3, dt$CI_L3, dt$CI_U3))
 
 
-p <- forest(dt[,c(6,13:16)],  
-            est = list(dt$OR,
-                       dt$OR2,
-                       dt$OR3),
-            lower =list(dt$CI_L, 
-                        dt$CI_L2,
-                        dt$CI_L3),
-            upper =list(dt$CI_U,
-                        dt$CI_U2,
-                        dt$CI_U3),
-            ci_column = 2,
-            ref_line = 1,
-            nudge_y = 0.2,
-            theme = tm)
-
-Figure <- plot(p)
-
-ggsave(Figure, width = 12, height = 4,dpi = 700,
-       filename="Figure_2_IMD_combine_1.jpeg", path=here::here("output"),
-)  
-
 df1 <-  df %>% filter(df$type == "IMD 2")
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
@@ -137,45 +116,23 @@ plot.a1$type <- ifelse(is.na(plot.a1$OR),
                       plot.a1$type,
                       paste0("   ", plot.a1$type))
 
-dt <-plot.a1
+dt2 <-plot.a1
 # Add blank column for the forest plot to display CI.
 # Adjust the column width with space. 
-dt$` ` <- paste(rep(" ", 20), collapse = " ")
+dt2$` ` <- paste(rep(" ", 20), collapse = " ")
 
 # Create confidence interval column to display
-dt$`OR (95% CI)` <- ifelse(is.na(dt$OR), "",
+dt2$`OR (95% CI)` <- ifelse(is.na(dt2$OR), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR, dt$CI_L, dt$CI_U))
+                                   dt2$OR, dt2$CI_L, dt2$CI_U))
 
-dt$`OR2 (95% CI)` <- ifelse(is.na(dt$OR2), "",
+dt2$`OR2 (95% CI)` <- ifelse(is.na(dt2$OR2), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR2, dt$CI_L2, dt$CI_U2))
+                                   dt2$OR2, dt2$CI_L2, dt2$CI_U2))
 
-dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
+dt2$`OR3 (95% CI)` <- ifelse(is.na(dt2$OR3), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR3, dt$CI_L3, dt$CI_U3))
-
-
-p <- forest(dt[,c(6,13:16)],  
-            est = list(dt$OR,
-                       dt$OR2,
-                       dt$OR3),
-            lower =list(dt$CI_L, 
-                        dt$CI_L2,
-                        dt$CI_L3),
-            upper =list(dt$CI_U,
-                        dt$CI_U2,
-                        dt$CI_U3),
-            ci_column = 2,
-            ref_line = 1,
-            nudge_y = 0.2,
-            theme = tm)
-
-Figure <- plot(p)
-
-ggsave(Figure, width = 12, height = 4,dpi = 700,
-       filename="Figure_2_IMD_combine_2.jpeg", path=here::here("output"),
-)  
+                                   dt2$OR3, dt2$CI_L3, dt2$CI_U3))
 
 
 df1 <-  df %>% filter(df$type == "IMD 3")
@@ -207,45 +164,23 @@ plot.a1$type <- ifelse(is.na(plot.a1$OR),
                       plot.a1$type,
                       paste0("   ", plot.a1$type))
 
-dt <-plot.a1
+dt3 <-plot.a1
 # Add blank column for the forest plot to display CI.
 # Adjust the column width with space. 
-dt$` ` <- paste(rep(" ", 20), collapse = " ")
+dt3$` ` <- paste(rep(" ", 20), collapse = " ")
 
 # Create confidence interval column to display
-dt$`OR (95% CI)` <- ifelse(is.na(dt$OR), "",
+dt3$`OR (95% CI)` <- ifelse(is.na(dt3$OR), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR, dt$CI_L, dt$CI_U))
+                                   dt3$OR, dt3$CI_L, dt3$CI_U))
 
-dt$`OR2 (95% CI)` <- ifelse(is.na(dt$OR2), "",
+dt3$`OR2 (95% CI)` <- ifelse(is.na(dt3$OR2), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR2, dt$CI_L2, dt$CI_U2))
+                                   dt3$OR2, dt3$CI_L2, dt3$CI_U2))
 
-dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
+dt3$`OR3 (95% CI)` <- ifelse(is.na(dt3$OR3), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR3, dt$CI_L3, dt$CI_U3))
-
-
-p <- forest(dt[,c(6,13:16)],  
-            est = list(dt$OR,
-                       dt$OR2,
-                       dt$OR3),
-            lower =list(dt$CI_L, 
-                        dt$CI_L2,
-                        dt$CI_L3),
-            upper =list(dt$CI_U,
-                        dt$CI_U2,
-                        dt$CI_U3),
-            ci_column = 2,
-            ref_line = 1,
-            nudge_y = 0.2,
-            theme = tm)
-
-Figure <- plot(p)
-
-ggsave(Figure, width = 12, height = 4,dpi = 700,
-       filename="Figure_2_IMD_combine_3.jpeg", path=here::here("output"),
-)  
+                                   dt3$OR3, dt3$CI_L3, dt3$CI_U3))
 
 
 df1 <-  df %>% filter(df$type == "IMD 4")
@@ -277,24 +212,25 @@ plot.a1$type <- ifelse(is.na(plot.a1$OR),
                       plot.a1$type,
                       paste0("   ", plot.a1$type))
 
-dt <-plot.a1
+dt4 <-plot.a1
 # Add blank column for the forest plot to display CI.
 # Adjust the column width with space. 
-dt$` ` <- paste(rep(" ", 20), collapse = " ")
+dt4$` ` <- paste(rep(" ", 20), collapse = " ")
 
 # Create confidence interval column to display
-dt$`OR (95% CI)` <- ifelse(is.na(dt$OR), "",
+dt4$`OR (95% CI)` <- ifelse(is.na(dt4$OR), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR, dt$CI_L, dt$CI_U))
+                                   dt4$OR, dt4$CI_L, dt4$CI_U))
 
-dt$`OR2 (95% CI)` <- ifelse(is.na(dt$OR2), "",
+dt4$`OR2 (95% CI)` <- ifelse(is.na(dt4$OR2), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR2, dt$CI_L2, dt$CI_U2))
+                                   dt4$OR2, dt4$CI_L2, dt4$CI_U2))
 
-dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
+dt4$`OR3 (95% CI)` <- ifelse(is.na(dt4$OR3), "",
                            sprintf("%.2f (%.2f to %.2f)",
-                                   dt$OR3, dt$CI_L3, dt$CI_U3))
+                                   dt4$OR3, dt4$CI_L3, dt4$CI_U3))
 
+dt <- bind_rows(dt,dt2,dt3,dt4)
 
 p <- forest(dt[,c(6,13:16)],  
             est = list(dt$OR,
@@ -313,6 +249,6 @@ p <- forest(dt[,c(6,13:16)],
 
 Figure <- plot(p)
 
-ggsave(Figure, width = 12, height = 4,dpi = 700,
-       filename="Figure_2_IMD_combine_4.jpeg", path=here::here("output"),
+ggsave(Figure, width = 12, height = 10,dpi = 700,
+       filename="Figure_2_IMD_combine.jpeg", path=here::here("output"),
 )  
