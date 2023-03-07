@@ -32,18 +32,9 @@ rm(train_X,valid_X)
 train=data%>%filter(total_ab>0)
 train=train%>%distinct(patient_id, .keep_all = TRUE)
 nrow(train)
-
-```
-
-
-pick variable
-```{r}
 names(train)
-
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_med" , "interval_sd")
-# abtype
-data=data[col]
 ```
+
 
 
 RF model
@@ -51,7 +42,7 @@ RF model
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(formula = case ~ ., data = data, 
+  rf.model <- randomForest(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_med+interval_sd,data = train, 
                            replace = TRUE,
                            ntree =  1000,
                            sampsize = round(nrow(train)*0.6),
@@ -66,5 +57,113 @@ importance(rf.model)
 varImpPlot(rf.model)
 
 saveRDS(rf.model,here::here("output","RF_model.rds"))
+```
+
+
+# predict probabilities 
+```{r}
+
+prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(train,decile,prob)
+
+str(newdata)
+
+```
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+
+```
+
+```{r}
+
+newdata=newdata%>% select(train,decile)
+nrow(newdata)
+
+DF=merge(data, newdata, by="patient_id", all.x = TRUE)
+nrow(DF)
+
+DF$decile=ifelse(is.na(DF$decile),0,DF$decile)
+
+saveRDS(DF,here::here("output","RF_model_decile.rds"))
+
+```
+
+# model
+```{r}
+
+df=DF
+df$case=as.numeric(df$case) #1/0
+
+df$decile= relevel(as.factor(df$decile), ref="0")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+```{r}
+model=clogit(case ~ decile +strata(subclass),df) 
+
+summary(model)
 ```
 

@@ -194,15 +194,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/RF_model.html
-        rds: output/RF_model.rds
-
-  RF_model_decile: # create decile groups for probabilities
-    run: r:latest -e 'rmarkdown::render("analysis/RF_model_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,RF_model,process_ab_time,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_model_decile.html
-        rds1: output/RF_model_decile.rds
+        rds1: output/RF_model.rds
+        rds2: output/"RF_model_decile.rds
 
 
 
