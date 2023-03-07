@@ -1,4 +1,3 @@
-
 require('tidyverse')
 require("gtsummary")
 require("ggplot2")
@@ -10,7 +9,7 @@ library("forestploter")
 
 df <- readRDS("output/processed/input_model_c_h.rds")
 
-mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
+mod=clogit(case ~ imd + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + strata(set_id), df)
@@ -27,7 +26,7 @@ dfch <- DF
 
 df <- readRDS("output/processed/input_model_c.rds")
 
-mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
+mod=clogit(case ~ imd + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
@@ -45,7 +44,7 @@ dfc <- DF
 
 df <- readRDS("output/processed/input_model_h.rds")
 
-mod=clogit(case ~ region + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
+mod=clogit(case ~ imd + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
              learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + 
@@ -63,29 +62,24 @@ dfh <- DF
 
 DF <- dfch
 
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:19,]
-Smoking <- DF[20:22,]
-CKD <- DF[46:51,]
-CHT <- DF[45,]
-Other1 <- DF[c(23:24,27,31:36),]
-Asthma <- DF[25:26,]
-Diabetes <- DF[28:30,]
-Organ<- DF[37:38,]
-Other2 <-DF[39:44,]
-Antibiotic <- DF[52:54,]
+IMD <- DF[1:4,]
+Ethnicity <- DF[5:9,]
+BMI <- DF[10:15,]
+Smoking <- DF[16:18,]
+CKD <- DF[42:47,]
+CHT <- DF[41,]
+Other1 <- DF[c(19:20,23,27:32),]
+Asthma <- DF[21:22,]
+Diabetes <- DF[24:26,]
+Organ<- DF[33:34,]
+Other2 <-DF[35:40,]
+Antibiotic <- DF[48:50,]
 
-Region$type <-  case_when(
-  Region$type == "regionNorth East" ~ "North East",
-  Region$type == "regionNorth West" ~ "North West",
-  Region$type == "regionYorkshire and The Humber" ~ "Yorkshire and the Humber",
-  Region$type == "regionEast Midlands" ~ "East Midlands",
-  Region$type == "regionWest Midlands" ~ "West Midlands",
-  Region$type == "regionEast" ~ "East of England",
-  Region$type == "regionLondon" ~ "London",
-  Region$type == "regionSouth East" ~ "South East",
-  Region$type == "regionSouth West" ~ "South West")
+IMD$type <-  case_when(
+  IMD$type == "imd1" ~ "IMD 1(Most deprived)",
+  IMD$type == "imd2" ~ "IMD 2",
+  IMD$type == "imd3" ~ "IMD 3",
+  IMD$type == "imd4" ~ "IMD 4")
 
 Ethnicity$type = case_when(
   Ethnicity$type == "ethnicityMixed" ~ "Mixed",
@@ -158,7 +152,8 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
+plot0.1 <- IMD
+plot1.1 <- bind_rows(Ethnicity,BMI,Smoking,CHT)
 plot2.1 <- bind_rows(CKD,Asthma,Diabetes,Organ)
 plot3.1 <- Other1
 plot4.1 <- Other2
@@ -167,29 +162,24 @@ plot5.1 <- Antibiotic
 
 DF <- dfc
 
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:19,]
-Smoking <- DF[20:22,]
-CKD <- DF[46:51,]
-CHT <- DF[45,]
-Other1 <- DF[c(23:24,27,31:36),]
-Asthma <- DF[25:26,]
-Diabetes <- DF[28:30,]
-Organ<- DF[37:38,]
-Other2 <-DF[39:44,]
-Antibiotic <- DF[52:54,]
+IMD <- DF[1:4,]
+Ethnicity <- DF[5:9,]
+BMI <- DF[10:15,]
+Smoking <- DF[16:18,]
+CKD <- DF[42:47,]
+CHT <- DF[41,]
+Other1 <- DF[c(19:20,23,27:32),]
+Asthma <- DF[21:22,]
+Diabetes <- DF[24:26,]
+Organ<- DF[33:34,]
+Other2 <-DF[35:40,]
+Antibiotic <- DF[48:50,]
 
-Region$type <-  case_when(
-  Region$type == "regionNorth East" ~ "North East",
-  Region$type == "regionNorth West" ~ "North West",
-  Region$type == "regionYorkshire and The Humber" ~ "Yorkshire and the Humber",
-  Region$type == "regionEast Midlands" ~ "East Midlands",
-  Region$type == "regionWest Midlands" ~ "West Midlands",
-  Region$type == "regionEast" ~ "East of England",
-  Region$type == "regionLondon" ~ "London",
-  Region$type == "regionSouth East" ~ "South East",
-  Region$type == "regionSouth West" ~ "South West")
+IMD$type <-  case_when(
+  IMD$type == "imd1" ~ "IMD 1(Most deprived)",
+  IMD$type == "imd2" ~ "IMD 2",
+  IMD$type == "imd3" ~ "IMD 3",
+  IMD$type == "imd4" ~ "IMD 4")
 
 Ethnicity$type = case_when(
   Ethnicity$type == "ethnicityMixed" ~ "Mixed",
@@ -262,7 +252,8 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
+plot0.2 <- IMD
+plot1.2 <- bind_rows(Ethnicity,BMI,Smoking,CHT)
 plot2.2 <- bind_rows(CKD,Asthma,Diabetes,Organ)
 plot3.2 <- Other1
 plot4.2 <- Other2
@@ -270,29 +261,24 @@ plot5.2 <- Antibiotic
 
 DF <- dfh
 
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:19,]
-Smoking <- DF[20:22,]
-CKD <- DF[46:51,]
-CHT <- DF[45,]
-Other1 <- DF[c(23:24,27,31:36),]
-Asthma <- DF[25:26,]
-Diabetes <- DF[28:30,]
-Organ<- DF[37:38,]
-Other2 <-DF[39:44,]
-Antibiotic <- DF[52:54,]
+IMD <- DF[1:4,]
+Ethnicity <- DF[5:9,]
+BMI <- DF[10:15,]
+Smoking <- DF[16:18,]
+CKD <- DF[42:47,]
+CHT <- DF[41,]
+Other1 <- DF[c(19:20,23,27:32),]
+Asthma <- DF[21:22,]
+Diabetes <- DF[24:26,]
+Organ<- DF[33:34,]
+Other2 <-DF[35:40,]
+Antibiotic <- DF[48:50,]
 
-Region$type <-  case_when(
-  Region$type == "regionNorth East" ~ "North East",
-  Region$type == "regionNorth West" ~ "North West",
-  Region$type == "regionYorkshire and The Humber" ~ "Yorkshire and the Humber",
-  Region$type == "regionEast Midlands" ~ "East Midlands",
-  Region$type == "regionWest Midlands" ~ "West Midlands",
-  Region$type == "regionEast" ~ "East of England",
-  Region$type == "regionLondon" ~ "London",
-  Region$type == "regionSouth East" ~ "South East",
-  Region$type == "regionSouth West" ~ "South West")
+IMD$type <-  case_when(
+  IMD$type == "imd1" ~ "IMD 1(Most deprived)",
+  IMD$type == "imd2" ~ "IMD 2",
+  IMD$type == "imd3" ~ "IMD 3",
+  IMD$type == "imd4" ~ "IMD 4")
 
 Ethnicity$type = case_when(
   Ethnicity$type == "ethnicityMixed" ~ "Mixed",
@@ -365,60 +351,70 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.3 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
+plot0.3 <- IMD
+plot1.3 <- bind_rows(Ethnicity,BMI,Smoking,CHT)
 plot2.3 <- bind_rows(CKD,Asthma,Diabetes,Organ)
 plot3.3 <- Other1
 plot4.3 <- Other2
 plot5.3 <- Antibiotic
 
+label0 <- as.vector(plot0.1$type)
 label1 <- as.vector(plot1.1$type)
 label2 <- as.vector(plot2.1$type)
 label3 <- as.vector(plot3.1$type)
 label4 <- as.vector(plot4.1$type)
 label5 <- as.vector(plot5.1$type)
 
+plot0.1$type <- factor(plot0.1$type, levels = label0)
 plot1.1$type <- factor(plot1.1$type, levels = label1)
 plot2.1$type <- factor(plot2.1$type, levels = label2)
 plot3.1$type <- factor(plot3.1$type, levels = label3)
 plot4.1$type <- factor(plot4.1$type, levels = label4)
 plot5.1$type <- factor(plot5.1$type, levels = label5)
 
+plot0.2$type <- factor(plot0.2$type, levels = label0)
 plot1.2$type <- factor(plot1.2$type, levels = label1)
 plot2.2$type <- factor(plot2.2$type, levels = label2)
 plot3.2$type <- factor(plot3.2$type, levels = label3)
 plot4.2$type <- factor(plot4.2$type, levels = label4)
 plot5.2$type <- factor(plot5.2$type, levels = label5)
 
+plot0.3$type <- factor(plot0.3$type, levels = label0)
 plot1.3$type <- factor(plot1.3$type, levels = label1)
 plot2.3$type <- factor(plot2.3$type, levels = label2)
 plot3.3$type <- factor(plot3.3$type, levels = label3)
 plot4.3$type <- factor(plot4.3$type, levels = label4)
 plot5.3$type <- factor(plot5.3$type, levels = label5)
 
+plot0.1$group <- "H+C"
 plot1.1$group <- "H+C"
 plot2.1$group <- "H+C"
 plot3.1$group <- "H+C"
 plot4.1$group <- "H+C"
 plot5.1$group <- "H+C"
 
+plot0.2$group <- "C"
 plot1.2$group <- "C"
 plot2.2$group <- "C"
 plot3.2$group <- "C"
 plot4.2$group <- "C"
 plot5.2$group <- "C"
 
+plot0.3$group <- "H"
 plot1.3$group <- "H"
 plot2.3$group <- "H"
 plot3.3$group <- "H"
 plot4.3$group <- "H"
 plot5.3$group <- "H"
 
+plotimd <- bind_rows(plot0.1,plot0.2,plot0.3)
 plota <- bind_rows(plot1.1,plot1.2,plot1.3)
 plotb <- bind_rows(plot2.1,plot2.2,plot2.3)
 plotc <- bind_rows(plot3.1,plot3.2,plot3.3)
 plotd <- bind_rows(plot4.1,plot4.2,plot4.3)
 plote <- bind_rows(plot5.1,plot5.2,plot5.3)
 
+write_csv(plotimd, here::here("output", "adjusted_plotimd.csv"))
 write_csv(plota, here::here("output", "adjusted_plota.csv"))
 write_csv(plotb, here::here("output", "adjusted_plotb.csv"))
 write_csv(plotc, here::here("output", "adjusted_plotc.csv"))
