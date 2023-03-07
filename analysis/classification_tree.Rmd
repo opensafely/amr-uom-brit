@@ -93,8 +93,8 @@ rf.model<- rpart(
   case ~ ., , 
   data = data, 
   method = "class", 
-  minsplit = 20, 
-  minbucket = 100
+  minsplit = 2, 
+  minbucket = 1
 )
 
 print(rf.model)
