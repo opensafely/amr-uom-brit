@@ -694,8 +694,11 @@ actions:
     needs: [model_imd,model_adjusted_plot]
     outputs:
       moderately_sensitive:
-        table1: output/Figure_2_IMD_combine.csv
         plot1: output/Figure_2_IMD_combine_1.jpeg
+        plot2: output/Figure_2_IMD_combine_2.jpeg
+        plot3: output/Figure_2_IMD_combine_3.jpeg
+        plot4: output/Figure_2_IMD_combine_4.jpeg
+
 
   mortality_rate:
     run: r:latest analysis/mortality_rate.R
