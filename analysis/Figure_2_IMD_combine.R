@@ -66,7 +66,7 @@ tm <- forest_theme(base_size = 10,
 
 plot.a1 <- plot.a1[-c(1:2),]
 
-plot.a1<- plot.a1 %>% add_row(type = "IMD 1(Most deprived)", .before = 1,)
+plot.a1<- plot.a1 %>% add_row(Model = "IMD 1(Most deprived)", .before = 1,)
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
