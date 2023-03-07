@@ -15,7 +15,8 @@ library(randomForest)
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
 train=train%>%filter(total_ab>0)
-#train= train%>% sample_n(1000)
+train= train%>% group_by(subclass, case)%>%sample_n(1)
+train=train%>% ungroup(subclass,case)
 
 valid <- read_rds(here::here("output","valid_X.rds"))
 valid$case=as.factor(valid$case)
@@ -90,17 +91,16 @@ text(rf.model$finalModel,  digits = 3)
 ```{r}
 library(rpart)
 rf.model<- rpart(
-  case ~ ., , 
+  case ~ ., 
   data = data, 
   method = "class", 
-  minsplit = 20, 
-  minbucket = 10
-)
+  minsplit = 2, 
+  minbucket = 1)
 
 print(rf.model)
-#par(xpd = NA)
-#plot(rf.model)
-#text(rf.model,  digits = 3)
+par(xpd = NA)
+plot(rf.model)
+text(rf.model,  digits = 3)
 ```
 
 
