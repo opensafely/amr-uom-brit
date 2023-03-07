@@ -108,7 +108,7 @@ print(rf.model)
 rf.model <- randomForest(formula = case ~ ., data = data, 
                            replace = TRUE,
                            ntree =  10,
-                           sampsize = round(n*0.6),
+                           sampsize = round(nrow(data)*0.6),
                            nodesize = 25 ,
                            mtry = sqrt(ncol(data)-1)
                           )
