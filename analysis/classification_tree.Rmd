@@ -88,7 +88,7 @@ text(rf.model$finalModel,  digits = 3)
 
 ```{r}
 library(rpart)
-library(rpart.plot)
+
 rf.model<- rpart(
   case ~ ., , 
   data = data, 
@@ -96,6 +96,10 @@ rf.model<- rpart(
   minsplit = 2, 
   minbucket = 1
 )
-rpart.plot(rf.model)
+
+print(rf.model)
+#par(xpd = NA)
+#plot(rf.model)
+#text(rf.model,  digits = 3)
 ```
 
