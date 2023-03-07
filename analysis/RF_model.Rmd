@@ -29,16 +29,16 @@ data=rbind(train_X, valid_X)
 nrow(data)
 rm(train_X,valid_X)
 
-data=data%>%filter(total_ab>0)
-data=data%>%distinct(patient_id, .keep_all = TRUE)
-nrow(data)
+train=data%>%filter(total_ab>0)
+train=train%>%distinct(patient_id, .keep_all = TRUE)
+nrow(train)
 
 ```
 
 
 pick variable
 ```{r}
-names(train_X)
+names(train)
 
 col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_med" , "interval_sd")
 # abtype
@@ -48,18 +48,15 @@ data=data[col]
 
 RF model
 ```{r}
-
-n=nrow(train_X)
-
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = case ~ ., data = data, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.6),
+                           sampsize = round(nrow(train)*0.6),
                            nodesize = 25 ,
-                           mtry = sqrt(ncol(data)-1)
+                           mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
 ```
@@ -68,25 +65,6 @@ set.seed(1024)
 importance(rf.model)
 varImpPlot(rf.model)
 
-saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
+saveRDS(rf.model,here::here("output","RF_model.rds"))
 ```
-
-
-
-
-```{r}
-set.seed(1024)
-pred.y <- predict(rf.model, type = 'prob')[,2]
-  roc_valid <- roc(data$case~ pred.y)
-  
-   #result[i,'valid_auc'] <- roc_valid[['auc']]
-  
-  plot(roc_valid)
-  print(roc_valid)
-#}
-
-#result
-```
-
-
 

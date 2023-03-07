@@ -1,0 +1,143 @@
+---
+title: "Random Forest model_ decile groups of probabilities"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library('tidyverse')
+library(pROC)
+library(randomForest)
+
+```
+
+# train and valid dataset (matched)
+```{r}
+train_X <- read_rds(here::here("output","train_X.rds"))
+train_X$case=as.factor(train_X$case)
+valid_X <- read_rds(here::here("output","valid_X.rds"))
+valid_X$case=as.factor(valid_X$case)
+
+```
+
+## compare patient number (matched)
+```{r}
+
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
+
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
+
+data=rbind(train_X, valid_X)
+rm(train_X, valid_X)
+```
+
+
+
+
+# import RF model
+```{r }
+rf.model=readRDS(here::here("output","RF_model.rds"))
+print(rf.model)
+input=rownames(data.frame(rf.model$importance))
+input
+```
+
+# select columns
+```{r }
+col=c("patient_id","patient_index_date","case","subclass",input,
+       "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
+
+data=data[col]
+
+```
+
+# select patients
+```{r}
+# ab users
+train=data%>%filter(total_ab>0)
+train=train%>%distinct(patient_id, .keep_all = TRUE)
+```
+
+
+# development set
+## predict probabilities 
+```{r}
+
+prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(train,decile,prob)
+
+str(newdata)
+```
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+nrow(newdata)
+
+```
+
+
+```{r}
+
+DF=merge(data, newdata, by="patient_id", all.x = TRUE)
+
+nrow(DF)
+```
+
+
+```{r}
+saveRDS(DF,here::here("output","RF_model_decile.rds"))
+
+```
+
