@@ -724,4 +724,5 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        plot1: output/age_check.jpeg
+        plot1: output/age_check_1.jpeg
+        plot2: output/age_check_2.jpeg
