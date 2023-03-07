@@ -129,7 +129,7 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```{r}
 set.seed(1024)
 pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-  roc_valid <- roc(train_Y ~ pred.y)
+  roc_valid <- roc(train_X$case~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
   
@@ -164,7 +164,7 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 set.seed(1024)
 rm(pred.y)
 pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
-roc_valid <- roc(valid_Y ~ pred.y)
+roc_valid <- roc( valid_X$case ~ pred.y)
   
 plot(roc_valid)
 print(roc_valid)
