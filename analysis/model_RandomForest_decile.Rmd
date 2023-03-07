@@ -17,7 +17,7 @@ train_X$case=as.factor(train_X$case)
 valid_X <- read_rds(here::here("output","valid_X.rds"))
 valid_X$case=as.factor(valid_X$case)
 
-names(train_X)
+#names(train_X)
 ```
 
 ## compare patient number (matched)
@@ -51,7 +51,7 @@ col=c("patient_id","patient_index_date","case","subclass",input,
 train_X=train_X[col]
 valid_X=valid_X[col]
 
-str(train_X)
+#str(train_X)
 ```
 
 split dataset
@@ -62,6 +62,24 @@ train_X=train_X%>% filter(total_ab>0)
 
 valid_X_0=valid_X%>%filter(!total_ab>0)
 valid_X=valid_X%>% filter(total_ab>0)
+```
+
+```{r}
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
+
+nrow(train_X_0)# train patients (matched)
+table(train_X_0$case)# total train patients
+prop.table(table(train_X_0$case))# % train patients
+
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
+
+nrow(valid_X_0)# valid patients(matched)
+table(valid_X_0$case)# total valid patients
+prop.table(table(valid_X_0$case))# % valid patients
 ```
 
 
@@ -95,10 +113,9 @@ decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
 for (i in 1:9) {
-decile=ifelse(prob >vec[i] & prob <=vec[i+1],i,decile )  
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
 }
 
-decile=ifelse(prob > vec[10],10,decile)
 
 table(decile)
 prop.table(table(decile))*100 # % decile
@@ -166,10 +183,9 @@ decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
 for (i in 1:9) {
-decile=ifelse(prob >vec[i] & prob <=vec[i+1],i,decile )  
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
 }
 
-decile=ifelse(prob > vec[10],10,decile)
 
 table(decile)
 prop.table(table(decile))*100 # % decile
