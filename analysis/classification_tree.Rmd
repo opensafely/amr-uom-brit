@@ -98,8 +98,8 @@ rf.model<- rpart(
 )
 
 print(rf.model)
-#par(xpd = NA)
-#plot(rf.model)
-#text(rf.model,  digits = 3)
+par(xpd = NA)
+plot(rf.model)
+text(rf.model,  digits = 3)
 ```
 
