@@ -54,6 +54,17 @@ valid_X=valid_X[col]
 str(train_X)
 ```
 
+split dataset
+```{r}
+# ab users
+train_X=train_X%>% filter(total_ab>0)
+train_X_0=train_X%>%filter(!total_ab>0)
+
+valid_X=valid_X%>% filter(total_ab>0)
+valid_X_0=valid_X%>%filter(!total_ab>0)
+```
+
+
 # development set
 ## predict probabilities 
 ```{r}
@@ -65,8 +76,8 @@ summary(prob)
 hist(prob)
 sum(prob==0)/length(prob)# % zero
 
-exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-prop.table(summary(exp.class))
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
 ```
 
 ## create decile group
@@ -80,11 +91,11 @@ for (i in 1:10){
 
 vec# decile value
 
-decile=prob
+decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
 for (i in 1:9) {
-decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i,decile )  
 }
 
 decile=ifelse(prob > vec[10],10,decile)
@@ -105,7 +116,7 @@ head(decile)
 head(prob)
 head(exp.class)
 
-newdata <- cbind(data,decile,prob,exp.class)
+newdata <- cbind(data,decile)
 
 str(newdata)
 ```
@@ -137,8 +148,8 @@ summary(prob)
 hist(prob)
 sum(prob==0)/length(prob)# % zero
 
-exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-prop.table(summary(exp.class))
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
 ```
 
 ## create decile group
@@ -152,11 +163,11 @@ for (i in 1:10){
 
 vec# decile value
 
-decile=prob
+decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
 for (i in 1:9) {
-decile=ifelse(decile >vec[i] & decile <=vec[i+1],i,decile )  
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i,decile )  
 }
 
 decile=ifelse(prob > vec[10],10,decile)
@@ -177,7 +188,7 @@ head(decile)
 head(prob)
 head(exp.class)
 
-newdata <- cbind(data,decile,prob,exp.class)
+newdata <- cbind(data,decile)
 str(newdata)
 ```
 
@@ -198,10 +209,20 @@ rm(data)
 
 
 ```{r}
-
 nrow(development)
 nrow(validation)
+```
 
+```{r}
+train_X_0$decile=0# label for non ab users
+valid_X_0$decile=0
+
+development=rbind(development,train_X_0)
+validation=rbind(validation,valid_X_0)
+```
+
+
+```{r}
 saveRDS(development,here::here("output","development.rds"))
 saveRDS(validation,here::here("output","validation.rds"))
 

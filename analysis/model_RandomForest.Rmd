@@ -58,10 +58,10 @@ str(train_X)
 ```
 
 ```{r}
-with(train_X, qplot(total_ab,ab_types, colour=case, cex=2))
-with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=2))
-with(train_X, qplot(interval_med,interval_sd, colour=case, cex=2))
-with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=2))
+with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
+with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
+with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
+with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
 
 ```
 
@@ -79,11 +79,18 @@ summary(valid_X[abtype])
 
 filter ab users
 ```{r}
-#train_X=train_X%>% filter(total_ab>0)
-#valid_X=valid_X%>% filter(total_ab>0)
+train_X=train_X%>% filter(total_ab>0)
+valid_X=valid_X%>% filter(total_ab>0)
 
 ```
 
+```{r}
+with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
+with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
+with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
+with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
+
+```
 train model
 ```{r}
 
