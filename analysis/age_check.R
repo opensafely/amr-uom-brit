@@ -9,7 +9,7 @@ library(gridExtra)
 library("forestploter")
 
 df <- readRDS("output/processed/input_model_c_h.rds")
-
+df$case <- as.factor(df$case)
 
 p <- ggplot(df, aes(x=age, color=case)) +
     geom_histogram( color="#e9ecef", alpha=0.6, position = 'identity') +
