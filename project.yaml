@@ -726,3 +726,10 @@ actions:
       moderately_sensitive:
         plot1: output/age_check_1.jpeg
         plot2: output/age_check_2.jpeg
+
+  model_adjusted_plot_new:
+    run: r:latest analysis/model_adjusted_plot_new.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/model_adjusted_result.csv
