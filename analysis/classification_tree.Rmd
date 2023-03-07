@@ -7,6 +7,7 @@ library("survival")
 library('tidyverse')
 library(pROC) #plyr
 library(caret) #dplyr
+library(randomForest)
 ```
 
 # import dataset
