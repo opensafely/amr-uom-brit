@@ -718,3 +718,10 @@ actions:
         table1: output/mortality_table_all.csv
         table2: output/mortality_table_c.csv
         table3: output/mortality_table_h.csv
+
+  age_check:
+    run: r:latest analysis/age_check.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        plot1: output/age_check.jpeg
