@@ -23,7 +23,7 @@ options(knitr.table.format="html")
 ```{r }
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 data <- read_rds(here::here("output","train_X.rds"))
-data$case=as.factor(train_X$case)
+data$case=as.factor(data$case)
 
 nrow(data)
 

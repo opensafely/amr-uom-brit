@@ -23,7 +23,7 @@ options(knitr.table.format="html")
 ```{r }
 
 data <- read_rds(here::here("output","valid_X.rds"))
-data$case=as.factor(valid_X$case)
+data$case=as.factor(data$case)
 
 nrow(data)
 
