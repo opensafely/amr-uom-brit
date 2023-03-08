@@ -61,7 +61,7 @@ data=train
 
 
 http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
-```{r eval=FALSE, include=FALSE}
+```{r }
 set.seed(1024)
 #for (i in 1:nrow(result)) {
 
@@ -77,19 +77,19 @@ data$case=as.factor(data$case)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 summary(rf.model$finalModel)
 ```
 
 # Plot the final tree model
-```{r eval=FALSE, include=FALSE}
+```{r }
 par(xpd = NA) # Avoid clipping the text in some device
 plot(rf.model$finalModel)
 text(rf.model$finalModel,  digits = 3)
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 library(rpart)
 rf.model<- rpart(
   case ~ ., 
@@ -108,9 +108,9 @@ text(rf.model,  digits = 3)
 ```{r}
 rf.model <- randomForest(formula = case ~ ., data = data, 
                            replace = TRUE,
-                           ntree =  10,
+                           ntree =  1,
                            sampsize = round(nrow(data)*0.6),
-                           nodesize = 25 ,
+                           nodesize = 1 ,
                            mtry = sqrt(ncol(data)-1)
                           )
   print(rf.model)
@@ -119,10 +119,7 @@ rf.model <- randomForest(formula = case ~ ., data = data,
 
 ```{r}
 getTree(rf.model, k=1, labelVar=TRUE)
-getTree(rf.model, k=3, labelVar=TRUE)
-getTree(rf.model, k=5, labelVar=TRUE)
-getTree(rf.model, k=7, labelVar=TRUE)
-getTree(rf.model, k=9, labelVar=TRUE)
+
 
 ```
 
