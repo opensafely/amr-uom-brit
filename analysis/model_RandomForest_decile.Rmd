@@ -54,32 +54,16 @@ valid_X=valid_X[col]
 #str(train_X)
 ```
 
-split dataset
-```{r}
-# ab users
-train_X_0=train_X%>%filter(!total_ab>0)
-train_X=train_X%>% filter(total_ab>0)
-
-valid_X_0=valid_X%>%filter(!total_ab>0)
-valid_X=valid_X%>% filter(total_ab>0)
-```
 
 ```{r}
 nrow(train_X)# train patients (matched)
 table(train_X$case)# total train patients
 prop.table(table(train_X$case))# % train patients
 
-nrow(train_X_0)# train patients (matched)
-table(train_X_0$case)# total train patients
-prop.table(table(train_X_0$case))# % train patients
-
 nrow(valid_X)# valid patients(matched)
 table(valid_X$case)# total valid patients
 prop.table(table(valid_X$case))# % valid patients
 
-nrow(valid_X_0)# valid patients(matched)
-table(valid_X_0$case)# total valid patients
-prop.table(table(valid_X_0$case))# % valid patients
 ```
 
 
@@ -103,8 +87,8 @@ sum(prob==0)/length(prob)# % zero
 
 vec=vector()
 
-for (i in 1:5){
-  vec[i]=quantile(prob,(i/5),na.rm=T)
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
 }
 
 vec# decile value
@@ -112,19 +96,14 @@ vec# decile value
 decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
-for (i in 1:4) {
+for (i in 1:9) {
 decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
 }
 
 
 table(decile)
-prop.table(table(decile))*100 # % decile
+prop.table(table(decile))*100 
 
-#prob=ifelse(prob==0,NA,prob) # 0 as one group
-#summary(prob)
-#decile <- ntile(prob,10)
-#prob=ifelse(is.na(prob),0,prob)
-#decile=ifelse(is.na(decile),0,decile)
 ```
 
 ## combine columns
@@ -132,7 +111,7 @@ prop.table(table(decile))*100 # % decile
 head(decile)
 head(prob)
 
-newdata <- cbind(data,decile)
+newdata <- cbind(data,decile,prob)
 
 str(newdata)
 ```
@@ -153,7 +132,7 @@ rm(data)
 ```
 
 
-# development set
+# validation set
 ## predict probabilities 
 ```{r}
 data=valid_X
@@ -173,8 +152,8 @@ sum(prob==0)/length(prob)# % zero
 
 vec=vector()
 
-for (i in 1:5){
-  vec[i]=quantile(prob,(i/5),na.rm=T)
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
 }
 
 vec# decile value
@@ -182,19 +161,13 @@ vec# decile value
 decile=vector()
 decile=ifelse(prob <=vec[1],1,decile)
 
-for (i in 1:4) {
+for (i in 1:9) {
 decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
 }
 
 
 table(decile)
 prop.table(table(decile))*100 # % decile
-
-#prob=ifelse(prob==0,NA,prob) # 0 as one group
-#summary(prob)
-#decile <- ntile(prob,10)
-#prob=ifelse(is.na(prob),0,prob)
-#decile=ifelse(is.na(decile),0,decile)
 ```
 
 ## combine columns
@@ -202,7 +175,7 @@ prop.table(table(decile))*100 # % decile
 head(decile)
 head(prob)
 
-newdata <- cbind(data,decile)
+newdata <- cbind(data,decile,prob)
 str(newdata)
 ```
 
@@ -225,14 +198,6 @@ rm(data)
 ```{r}
 nrow(development)
 nrow(validation)
-```
-
-```{r}
-train_X_0$decile=0# label for non ab users
-valid_X_0$decile=0
-
-development=rbind(development,train_X_0)
-validation=rbind(validation,valid_X_0)
 ```
 
 

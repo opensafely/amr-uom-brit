@@ -23,7 +23,7 @@ prop.table(table(df$case,df$decile))
 
 df$case=as.numeric(df$case) #1/0
 
-df$decile= relevel(as.factor(df$decile), ref="0")
+df$decile= relevel(as.factor(df$decile), ref="1")
 
 df$subclass=as.factor(df$subclass)#pair id
 
@@ -65,7 +65,7 @@ prop.table(table(df$case,df$decile))
 
 df$case=as.numeric(df$case) #1/0
 
-df$decile= relevel(as.factor(df$decile), ref="0")
+df$decile= relevel(as.factor(df$decile), ref="1")
 
 df$subclass=as.factor(df$subclass)#pair id
 
@@ -83,11 +83,14 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 ```{r}
+model=clogit(case ~ decile+ strata(subclass),df) 
+
+summary(model)
+```
+
+```{r}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
-#pred.y <- predict(model, df, type = 'response')[,2]
-#roc<- roc(df$case ~ pred.y)
-#plot(roc)
-#print(roc)
+
 ```

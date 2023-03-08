@@ -108,7 +108,7 @@ set.seed(1024)
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree =  1000,
+                           ntree =  2000,
                            sampsize = round(n*0.6),
                            nodesize = 25 ,
                            mtry = sqrt(ncol(train_X)-1)
@@ -124,7 +124,19 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```
 
 
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
 
+#result
+```
 
 ```{r}
 set.seed(1024)
