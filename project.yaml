@@ -158,6 +158,13 @@ actions:
         rds1: output/development.rds
         rds2: output/validation.rds
 
+  RF_descriptive_stat: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_decile]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_descriptive_stat.html
+
   model: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RandomForest_decile]
