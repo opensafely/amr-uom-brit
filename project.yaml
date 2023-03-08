@@ -749,3 +749,10 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_adjusted_clinical.html
+
+  Figure_crude_demo:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_demo.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_crude_demo.html
