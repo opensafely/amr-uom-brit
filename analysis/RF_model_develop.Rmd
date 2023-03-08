@@ -61,7 +61,7 @@ saveRDS(rf.model,here::here("output","RF_model_develop.rds"))
 # predict probabilities 
 ```{r}
 
-prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+prob <- predict(rf.model, train,type = 'prob')[,2]# votes of being case
 
 summary(prob)
 hist(prob)
