@@ -764,6 +764,7 @@ actions:
       moderately_sensitive:
         csv: output/Figure_crude_clinical.html
 
+### adjusted model in period 1/2/3 ###
   model_adjusted_clinical_period_1:
     run: r:latest analysis/model_adjusted_clinical_period_1.R
     needs: [process_model_var]
@@ -790,3 +791,52 @@ actions:
         table6: output/adjusted_clinical_1_period_3.csv
         table1: output/adjusted_clinical_2_period_3.csv
         table2: output/adjusted_clinical_3_period_3.csv
+
+  Figure_adjusted_clinical_period_1:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_adjusted_clinical_period_1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_adjusted_clinical_period_1]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_adjusted_clinical_period_1.html
+
+  Figure_adjusted_clinical_period_2:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_adjusted_clinical_period_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_adjusted_clinical_period_2]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_adjusted_clinical_period_2.html
+
+  Figure_adjusted_clinical_period_3:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_adjusted_clinical_period_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_adjusted_clinical_period_3]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_adjusted_clinical_period_3.html
+
+### crude model in period 1/2/3 ###
+  model_crude_ch_period_1:
+    run: r:latest analysis/model_crude_ch_period_1.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_period_1.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_ch_period_1.rds
+
+  model_crude_ch_period_2:
+    run: r:latest analysis/model_crude_ch_period_2.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_period_2.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_ch_period_2.rds
+
+  model_crude_ch_period_3:
+    run: r:latest analysis/model_crude_ch_period_3.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_period_3.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_ch_period_3.rds
