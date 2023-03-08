@@ -902,3 +902,19 @@ actions:
       moderately_sensitive:
         table1: output/crude_plota_period_1.csv
         table2: output/crude_plotb_period_1.csv
+
+  model_crude_plot_period_2:
+    run: r:latest analysis/model_crude_plot_period_2.R
+    needs: [model_crude_h_period_2,model_crude_c_period_2,model_crude_ch_period_2]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_plota_period_2.csv
+        table2: output/crude_plotb_period_2.csv
+
+  model_crude_plot_period_3:
+    run: r:latest analysis/model_crude_plot_period_3.R
+    needs: [model_crude_h_period_3,model_crude_c_period_3,model_crude_ch_period_3]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_plota_period_3.csv
+        table2: output/crude_plotb_period_3.csv
