@@ -44,7 +44,7 @@ rf.model <- randomForest(formula = case ~ total_ab+ab_types+exposure_period+rece
                            replace = TRUE,
                            ntree =  2000,
                            sampsize = round(nrow(train)*0.6),
-                           nodesize = 25 ,
+                           nodesize = 50 ,
                            mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
