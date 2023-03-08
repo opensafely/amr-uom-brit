@@ -763,3 +763,30 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_clinical.html
+
+  model_adjusted_clinical_period_1:
+    run: r:latest analysis/model_adjusted_clinical_period_1.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/adjusted_clinical_1_period_1.csv
+        table1: output/adjusted_clinical_2_period_1.csv
+        table2: output/adjusted_clinical_3_period_1.csv
+
+  model_adjusted_clinical_period_2:
+    run: r:latest analysis/model_adjusted_clinical_period_2.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/adjusted_clinical_1_period_2.csv
+        table1: output/adjusted_clinical_2_period_2.csv
+        table2: output/adjusted_clinical_3_period_2.csv
+
+  model_adjusted_clinical_period_3:
+    run: r:latest analysis/model_adjusted_clinical_period_3.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/adjusted_clinical_1_period_3.csv
+        table1: output/adjusted_clinical_2_period_3.csv
+        table2: output/adjusted_clinical_3_period_3.csv
