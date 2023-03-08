@@ -43,6 +43,13 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 
 # train
+
+```{r}
+model=clogit(case ~ decile+ strata(subclass),df) 
+
+summary(model)
+```
+
 ```{r}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
