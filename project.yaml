@@ -736,3 +736,12 @@ actions:
       moderately_sensitive:
         plot1: output/age_check_1.jpeg
         plot2: output/age_check_2.jpeg
+
+  model_adjusted_clinical:
+    run: r:latest analysis/model_adjusted_clinical.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/adjusted_clinical_1.csv
+        table1: output/adjusted_clinical_2.csv
+        table2: output/adjusted_clinical_3.csv
