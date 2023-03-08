@@ -214,6 +214,12 @@ actions:
         html: output/RF_model_valid.html
         rds1: output/RF_model_decile_valid.rds
 
+  RF_classification_check: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF_classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_classification_check.html
 
 # # main analysis
  
