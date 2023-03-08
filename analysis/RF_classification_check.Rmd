@@ -12,9 +12,15 @@ library(randomForest) #dplyr
 # import dataset
 ```{r }
 train <- read_rds(here::here("output","RF_model_decile_develop.rds"))
+train=data%>%filter(total_ab>0)
+train=train%>%distinct(patient_id, .keep_all = TRUE)
+
 train$case=as.factor(train$case)
 
 valid <- read_rds(here::here("output","RF_model_decile_valid.rds"))
+valid=data%>%filter(total_ab>0)
+valid=valid%>%distinct(patient_id, .keep_all = TRUE)
+
 valid$case=as.factor(valid$case)
 table(train$case)
 table(valid$case)
