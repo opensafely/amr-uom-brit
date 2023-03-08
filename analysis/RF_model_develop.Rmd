@@ -42,7 +42,7 @@ set.seed(1024)
   
 rf.model <- randomForest(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_med+interval_sd,data = train, 
                            replace = TRUE,
-                           ntree =  2000,
+                           ntree =  3000,
                            sampsize = round(nrow(train)*0.6),
                            nodesize = 100 ,
                            mtry = sqrt(ncol(train)-1)
@@ -61,7 +61,7 @@ saveRDS(rf.model,here::here("output","RF_model_develop.rds"))
 # predict probabilities 
 ```{r}
 
-prob <- predict(rf.model, train,type = 'prob')[,2]# votes of being case
+prob <- predict(rf.model,type = 'prob')[,2]# votes of being case
 
 summary(prob)
 hist(prob)
