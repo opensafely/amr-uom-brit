@@ -6,10 +6,14 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 ## Import libraries
-library('here')
-library('tidyverse')
-library('cowplot')
-library("ggsci")
+require('tidyverse')
+require("gtsummary")
+require("ggplot2")
+library("survival")
+library(car)
+library(data.table)
+library(gridExtra)
+library("forestploter")
 ## Import data
 
 plot.a1 <- read_csv("output/adjusted_clinical_1.csv")
