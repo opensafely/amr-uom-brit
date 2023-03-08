@@ -58,7 +58,8 @@ E/O
 
 gpdata=train%>%select(decile, case, prob)
 
-table(decile)
+table(gpdata$decile)
+summary(gpdata[gpdata$decile==1,])
 head(gpdata)
 
 obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
@@ -103,7 +104,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 
 ### valid
-```{r}
+```{r eval=FALSE, include=FALSE}
 # probabilities of cases
 valid$prob <- predict(rf.model, valid, type = 'prob')[,2]
 
@@ -122,7 +123,7 @@ E/O
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # calibration 
 gpdata=valid%>%select(decile, case, prob)
 
@@ -142,7 +143,7 @@ uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # graph a simple calibration plot over 10 risk groups
 par(pty="s")
 plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
