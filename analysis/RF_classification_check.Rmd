@@ -66,7 +66,7 @@ exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(prob))
 exp=exp%>%pull(mean.exp)
 
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(train$case,decile)[1,] 
+obsn <- table(train$case,train$decile)[1,] 
 
 cbind(exp,obs)# expected value vs. observed value
  
@@ -129,7 +129,7 @@ obs=obs%>% pull(mean.obs)
 exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(valid$prob))
 exp=exp%>%pull(mean.exp)
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(valid$case,decile)[1,] 
+obsn <- table(valid$case,valid$decile)[1,] 
 
 cbind(exp,obs)# expected value vs. observed value
  
