@@ -188,7 +188,7 @@ actions:
 
 
 ## updated method
-  RF_model: # pick variables for model training #distinct # ab users
+  RF_model: # pick variables for model training #distinct # ab users # development
     run: r:latest -e 'rmarkdown::render("analysis/RF_model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
     outputs:
@@ -197,6 +197,13 @@ actions:
         rds1: output/RF_model.rds
         rds2: output/RF_model_decile.rds
 
+  RF_model_valid: # pick variables for model training #distinct # ab users # validation
+    run: r:latest -e 'rmarkdown::render("analysis/RF_model_valid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process,RF_model]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_model_valid.html
+        rds1: output/RF_model_decile_valid.rds
 
 
 # # main analysis

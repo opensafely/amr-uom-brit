@@ -1,5 +1,5 @@
 ---
-title: "Random Forest"
+title: "Random Forest classification + conditional losistic model"
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,7 @@ options(knitr.table.format="html")
 
 ```
 
-# import dataset
+# import dataset (merge train and valid subset)
 ```{r }
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
@@ -47,7 +47,7 @@ set.seed(1024)
   
   rf.model <- randomForest(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_med+interval_sd,data = train, 
                            replace = TRUE,
-                           ntree =  1000,
+                           ntree =  2000,
                            sampsize = round(nrow(train)*0.6),
                            nodesize = 25 ,
                            mtry = sqrt(ncol(train)-1)
@@ -107,12 +107,12 @@ prop.table(table(decile))*100 # % decile
 
 ## combine columns
 ```{r}
-head(decile)
-head(prob)
+#head(decile)
+#head(prob)
 
 newdata <- cbind(train,decile,prob)
 
-str(newdata)
+names(newdata)
 
 ```
 
