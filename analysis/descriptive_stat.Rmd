@@ -1,0 +1,50 @@
+---
+title: "classification comparison: RF "
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+
+library('tidyverse')
+library("ggplot2")
+library("plyr")
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+
+```
+
+# import dataset
+```{r }
+train <- read_rds(here::here("output","RF_model_decile_develop.rds"))
+valid <- read_rds(here::here("output","RF_model_decile_valid.rds"))
+
+```
+
+
+
+# descriptive stat 
+```{r}
+data=train
+data$decile=as.factor(data$decile)
+# select variables
+explanatory<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_med","interval_sd")
+dependent <- "decile"
+tbl=data %>% summary_factorlist(dependent, explanatory)
+tbl
+```
+
+```{r}
+data=valid
+data$decile=as.factor(data$decile)
+# select variables
+explanatory<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_med","interval_sd")
+dependent <- "decile"
+tbl=data %>% summary_factorlist(dependent, explanatory)
+tbl
+
+```
+

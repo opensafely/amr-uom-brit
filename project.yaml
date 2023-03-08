@@ -220,6 +220,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/RF_classification_check.html
+  
+  descriptive_stat: 
+    run: r:latest -e 'rmarkdown::render("analysis/descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process,RF_model_develop,RF_model_valid]
+    outputs:
+      moderately_sensitive:
+        html: output/descriptive_stat.html
 
 # # main analysis
  
