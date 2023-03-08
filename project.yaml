@@ -894,3 +894,11 @@ actions:
         table1: output/crude_model_result_h_period_3.csv
       highly_sensitive: 
         rds1: output/processed/input_crude_model_h_period_3.rds
+
+  model_crude_plot_period_1:
+    run: r:latest analysis/model_crude_plot_period_1.R
+    needs: [model_crude_h_period_1,model_crude_c_period_1,model_crude_ch_period_1]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_plota_period_1.csv
+        table2: output/crude_plotb_period_1.csv
