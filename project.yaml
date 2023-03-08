@@ -921,21 +921,21 @@ actions:
 
   Figure_crude_clinical_period_1:
     run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_clinical_period_1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [model_crude_plot]
+    needs: [model_crude_plot_period_1]
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_clinical_period_1.html
 
   Figure_crude_clinical_period_2:
     run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_clinical_period_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [model_crude_plot]
+    needs: [model_crude_plot_period_2]
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_clinical_period_2.html
 
   Figure_crude_clinical_period_3:
     run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_clinical_period_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [model_crude_plot]
+    needs: [model_crude_plot_period_3]
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_clinical_period_3.html

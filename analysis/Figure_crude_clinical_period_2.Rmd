@@ -16,7 +16,7 @@ library(gridExtra)
 library("forestploter")
 ## Import data
 
-df1 <- read_csv("output/crude_plotb_period_2.csv")
+df1 <- read_csv("output/crude_plota_period_2.csv")
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
 plot.a2 <- df1 %>% filter(df1$group == "C")
 plot.a3 <- df1 %>% filter(df1$group == "H")
