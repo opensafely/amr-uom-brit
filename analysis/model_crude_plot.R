@@ -109,11 +109,9 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.1 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
-plot2.1 <- bind_rows(CKD,Asthma,Diabetes,Organ)
-plot3.1 <- Other1
-plot4.1 <- Other2
-plot5.1 <- Antibiotic
+
+plot1.1 <- bind_rows(Region,Ethnicity,BMI,Smoking)
+plot2.1 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
 
 
 DF <- dfc
@@ -213,11 +211,8 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
-plot2.2 <- bind_rows(CKD,Asthma,Diabetes,Organ)
-plot3.2 <- Other1
-plot4.2 <- Other2
-plot5.2 <- Antibiotic
+plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking)
+plot2.2 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
 
 DF <- dfh
 
@@ -316,62 +311,33 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.3 <- bind_rows(Region,Ethnicity,BMI,Smoking,CHT)
-plot2.3 <- bind_rows(CKD,Asthma,Diabetes,Organ)
-plot3.3 <- Other1
-plot4.3 <- Other2
-plot5.3 <- Antibiotic
+plot1.3 <- bind_rows(Region,Ethnicity,BMI,Smoking)
+plot2.3 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
 
 label1 <- as.vector(plot1.1$type)
 label2 <- as.vector(plot2.1$type)
-label3 <- as.vector(plot3.1$type)
-label4 <- as.vector(plot4.1$type)
-label5 <- as.vector(plot5.1$type)
 
 plot1.1$type <- factor(plot1.1$type, levels = label1)
 plot2.1$type <- factor(plot2.1$type, levels = label2)
-plot3.1$type <- factor(plot3.1$type, levels = label3)
-plot4.1$type <- factor(plot4.1$type, levels = label4)
-plot5.1$type <- factor(plot5.1$type, levels = label5)
 
 plot1.2$type <- factor(plot1.2$type, levels = label1)
 plot2.2$type <- factor(plot2.2$type, levels = label2)
-plot3.2$type <- factor(plot3.2$type, levels = label3)
-plot4.2$type <- factor(plot4.2$type, levels = label4)
-plot5.2$type <- factor(plot5.2$type, levels = label5)
 
 plot1.3$type <- factor(plot1.3$type, levels = label1)
 plot2.3$type <- factor(plot2.3$type, levels = label2)
-plot3.3$type <- factor(plot3.3$type, levels = label3)
-plot4.3$type <- factor(plot4.3$type, levels = label4)
-plot5.3$type <- factor(plot5.3$type, levels = label5)
 
 plot1.1$group <- "H+C"
 plot2.1$group <- "H+C"
-plot3.1$group <- "H+C"
-plot4.1$group <- "H+C"
-plot5.1$group <- "H+C"
 
 plot1.2$group <- "C"
 plot2.2$group <- "C"
-plot3.2$group <- "C"
-plot4.2$group <- "C"
-plot5.2$group <- "C"
 
 plot1.3$group <- "H"
 plot2.3$group <- "H"
-plot3.3$group <- "H"
-plot4.3$group <- "H"
-plot5.3$group <- "H"
+
 
 plota <- bind_rows(plot1.1,plot1.2,plot1.3)
 plotb <- bind_rows(plot2.1,plot2.2,plot2.3)
-plotc <- bind_rows(plot3.1,plot3.2,plot3.3)
-plotd <- bind_rows(plot4.1,plot4.2,plot4.3)
-plote <- bind_rows(plot5.1,plot5.2,plot5.3)
 
 write_csv(plota, here::here("output", "crude_plota.csv"))
 write_csv(plotb, here::here("output", "crude_plotb.csv"))
-write_csv(plotc, here::here("output", "crude_plotc.csv"))
-write_csv(plotd, here::here("output", "crude_plotd.csv"))
-write_csv(plote, here::here("output", "crude_plote.csv"))

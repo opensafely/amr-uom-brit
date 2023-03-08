@@ -559,9 +559,6 @@ actions:
       moderately_sensitive:
         table1: output/crude_plota.csv
         table2: output/crude_plotb.csv
-        table3: output/crude_plotc.csv
-        table4: output/crude_plotd.csv
-        table5: output/crude_plote.csv
 
   Figure_2A_crude:  
     run: r:latest analysis/Figure_2A_crude.R
