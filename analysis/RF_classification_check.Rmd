@@ -36,7 +36,7 @@ print(rf.model)
 ### train
 ```{r}
 # probabilities of cases
-train$prob<- predict(rf.model,  type = 'prob')[,2]
+train$prob<- predict(rf.model,train,  type = 'prob')[,2]
 
 #  c statistic / AUC
 roc_train <- roc(train$case ~train$prob, smoothed = TRUE,
@@ -58,8 +58,12 @@ E/O
 
 gpdata=train%>%select(decile, case, prob)
 
+head(gpdata)
+
 obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
 obs=obs%>% pull(mean.obs)
+
+gpdata=gpdata%>%ungroup(decile)
 
 #obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
 exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(prob))
