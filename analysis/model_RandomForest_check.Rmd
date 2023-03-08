@@ -41,6 +41,25 @@ model performance
 train
 ```{r}
 
+pred.y <- predict(rf.model, type = 'prob')[,2]# votes of being case
+
+sum(pred.y==0)/length(pred.y)# % zero
+
+#  c statistic / AUC
+roc_train <- roc(train$case ~ pred.y, smoothed = TRUE,
+            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+            print.auc=TRUE, show.thres=TRUE)
+print(roc_train) #AUC
+
+
+# E/O
+O <- prop.table(table(train$case))[2]
+E <- mean(pred.y)
+E/O
+
+
+
 vec=vector()
 
 for (i in 1:10){
@@ -110,7 +129,7 @@ valid
 rm(pred.y,train_X,train_Y)
 # probabilities of cases
 pred.y <- predict(rf.model, valid, type = 'prob')[,2]
-
+sum(pred.y==0)/length(pred.y)# % zero
 #  c statistic / AUC
 roc_valid <- roc(valid$case ~ pred.y, smoothed = TRUE,
             ci=TRUE, ci.alpha=0.9, stratified=FALSE,
