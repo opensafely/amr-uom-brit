@@ -104,7 +104,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 
 ### valid
-```{r eval=FALSE, include=FALSE}
+```{r }
 # probabilities of cases
 valid$prob <- predict(rf.model, valid, type = 'prob')[,2]
 
@@ -123,14 +123,14 @@ E/O
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 # calibration 
 gpdata=valid%>%select(decile, case, prob)
 
 obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
 obs=obs%>% pull(mean.obs)
 #obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(valid$prob))
+exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(valid$prob)))
 exp=exp%>%pull(mean.exp)
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
 obsn <- table(valid$case,valid$decile)[1,] 
@@ -143,7 +143,7 @@ uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 # graph a simple calibration plot over 10 risk groups
 par(pty="s")
 plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
