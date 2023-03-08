@@ -763,11 +763,3 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_clinical.html
-
-  mortality_trend_rate:  
-    run: r:latest analysis/mortality_trend_rate.R
-    needs: [process_model_var]
-    outputs:
-      moderately_sensitive:
-        plot1: output/mortality_trend.jpeg
-        table1: output/figure_mortality_trend.csv
