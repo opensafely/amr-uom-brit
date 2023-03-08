@@ -78,7 +78,7 @@ data$case=as.factor(data$case)
 
 
 ```{r }
-summary(rf.model$finalModel)
+#summary(rf.model$finalModel)
 ```
 
 # Plot the final tree model
