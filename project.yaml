@@ -840,3 +840,57 @@ actions:
         table1: output/crude_model_result_period_3.csv
       highly_sensitive: 
         rds1: output/processed/input_crude_model_ch_period_3.rds
+
+  model_crude_c_period_1:
+    run: r:latest analysis/model_crude_c_period_1.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_c_period_1.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_c_period_1.rds
+
+  model_crude_c_period_2:
+    run: r:latest analysis/model_crude_c_period_2.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_c_period_2.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_c_period_2.rds
+
+  model_crude_c_period_3:
+    run: r:latest analysis/model_crude_c_period_3.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_c_period_3.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_c_period_3.rds
+
+  model_crude_h_period_1:
+    run: r:latest analysis/model_crude_h_period_1.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_h_period_1.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_h_period_1.rds
+
+  model_crude_h_period_2:
+    run: r:latest analysis/model_crude_h_period_2.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_h_period_2.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_h_period_2.rds
+
+  model_crude_h_period_3:
+    run: r:latest analysis/model_crude_h_period_3.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_h_period_3.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_h_period_3.rds
