@@ -195,7 +195,7 @@ actions:
       moderately_sensitive:
         html: output/RF_model.html
         rds1: output/RF_model.rds
-        rds2: output/"RF_model_decile.rds
+        rds2: output/RF_model_decile.rds
 
 
 
