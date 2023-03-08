@@ -918,3 +918,24 @@ actions:
       moderately_sensitive:
         table1: output/crude_plota_period_3.csv
         table2: output/crude_plotb_period_3.csv
+
+  Figure_crude_clinical_period_1:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_clinical_period_1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_crude_clinical_period_1.html
+
+  Figure_crude_clinical_period_2:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_clinical_period_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_crude_clinical_period_2.html
+
+  Figure_crude_clinical_period_3:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_crude_clinical_period_3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_crude_plot]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_crude_clinical_period_3.html
