@@ -1,0 +1,158 @@
+---
+title: "Random Forest classification + conditional losistic model"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+library("ggplot2")
+#library(caret)
+library(pROC)
+library(randomForest)
+library("survival")
+library(car)
+library(finalfit)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+# import dataset 
+```{r }
+
+data <- read_rds(here::here("output","valid_X.rds"))
+data$case=as.factor(valid_X$case)
+
+nrow(data)
+
+valid=data%>%filter(total_ab>0)
+valid=valid%>%distinct(patient_id, .keep_all = TRUE)
+nrow(valid)
+names(valid)
+```
+
+
+
+RF model
+```{r}
+rf.model <-readRDS(here::here("output","RF_model_develop.rds"))
+print(rf.model)
+```
+
+
+
+# predict probabilities 
+```{r}
+
+prob <- predict(rf.model,valid, type = 'prob')[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+
+#prob=ifelse(prob==0,NA,prob) # 0 as one group
+#summary(prob)
+#decile <- ntile(prob,10)
+#prob=ifelse(is.na(prob),0,prob)
+#decile=ifelse(is.na(decile),0,decile)
+```
+
+## combine columns
+```{r}
+#head(decile)
+#head(prob)
+
+newdata <- cbind(valid,decile,prob)
+
+names(newdata)
+
+```
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+
+```
+
+```{r}
+
+newdata=newdata%>% select(decile,patient_id)
+nrow(newdata)
+
+DF=merge(data, newdata, by="patient_id", all.x = TRUE)
+nrow(DF)
+
+DF$decile=ifelse(is.na(DF$decile),0,DF$decile)
+
+saveRDS(DF,here::here("output","RF_model_decile_valid.rds"))
+
+```
+
+# model
+```{r}
+
+df=DF
+df$case=as.numeric(df$case) #1/0
+
+df$decile= relevel(as.factor(df$decile), ref="0")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+crude model
+```{r}
+model=clogit(case ~ decile +strata(subclass),df) 
+
+summary(model)
+```
+
+adjusted model
+```{r}
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+summary(model)
+```
+
