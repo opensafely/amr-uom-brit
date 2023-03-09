@@ -88,7 +88,7 @@ text(rf.model$finalModel,  digits = 3)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 library(rpart)
 rf.model<- rpart(
   case ~ ., 
@@ -116,7 +116,7 @@ rf.model <- randomForest(formula = case ~ ., data = data,
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 getTree(rf.model, k=1, labelVar=TRUE)
 
 
