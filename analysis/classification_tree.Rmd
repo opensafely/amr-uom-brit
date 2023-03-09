@@ -1,5 +1,5 @@
 ---
-title: "classification comparison: RF "
+title: "classification_decision tree "
 ---
 
 ```{r setup, include=FALSE}
@@ -36,26 +36,7 @@ col=c("case","total_ab_group","ab_types_group",
 data=train[col]
 str(data)
 
-
 ```
-
-# rename variable
-```{r}
-data$case=ifelse(data$case==1,"case","control")
-table(data$case)
-
-for (i in 2:length(col)) {
-data[,paste0(col[i])]=ifelse(data[,paste0(col[i])]==0,paste0(col[i],"_0"),data[,paste0(col[i])])
-data[,paste0(col[i])]=ifelse(data[,paste0(col[i])]==1,paste0(col[i],"_1"),data[,paste0(col[i])])
-data[,paste0(col[i])]=ifelse(data[,paste0(col[i])]==2,paste0(col[i],"_2"),data[,paste0(col[i])])
-data[,paste0(col[i])]=ifelse(data[,paste0(col[i])]==3,paste0(col[i],"_3"),data[,paste0(col[i])])
-data[,paste0(col[i])]=ifelse(data[,paste0(col[i])]==4,paste0(col[i],"_4"),data[,paste0(col[i])])
-
-print(col[i])
-print(prop.table(table(data[,paste0(col[i])]))*100)
-}
-```
-
 
 
 # matched 
@@ -80,7 +61,7 @@ model$finalModel
 ```{r }
 try(par(xpd = NA)) # Avoid clipping the text in some device
 try(plot(model$finalModel))
-try(text(model$finalModel,  digits = 3))
+try(text(model$finalModel,  digits = 3,cex=0.7))
 
 ```
 
@@ -152,5 +133,5 @@ model$finalModel
 ```{r }
 try(par(xpd = NA)) # Avoid clipping the text in some device
 try(plot(model$finalModel))
-try(text(model$finalModel,  digits = 3))
+try(text(model$finalModel,  digits = 3,cex=0.7))
 ```
