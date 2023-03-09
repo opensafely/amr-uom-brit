@@ -24,29 +24,31 @@ rm(df1,df2)
 table(df$case)
 str(df)
 
-col=c("case","subclass",
+col=c("case","subclass","set",
   "total_ab","ab_types","prescribe_times",
          "exposure_period","recent_ab_days", 
          "broad_prop","broad_ab_prescriptions",
          "interval_mean","interval_med" ,"interval_sd","interval_CV",
-         "length_mean","length_med", "length_sd","length_CV","set")
+         "length_mean","length_med", "length_sd","length_CV")
 
 #df=df[col]
-
+df=df %>% mutate_at(col,as.numeric)
 #str(df)
+
+
 
 ```
 
 # set group
 ```{r }
-for (i in 3:17) { # skip case, subclass
+for (i in 4:length(col)) { # skip case, subclass,set
  df[,col[i]]=ifelse(df[,col[i]]>0,df[,col[i]],NA)
 }
 ```
 
 # group variables
 ```{r}
-for (k in 3:17) {
+for (k in 4:18) {
 
 cut_value=quantile(df[,k],c(0.25,0.5,0.75),na.rm=TRUE)
 print(cut_value)
