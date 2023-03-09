@@ -109,6 +109,13 @@ actions:
         rds1: output/train_cat.rds
         rds2: output/valid_cat.rds 
 
+  classification_tree:  #decision tree check
+    run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_tree.html
+
   # model_tuneRF: #mtry, 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [model_RF_process]
@@ -286,12 +293,7 @@ actions:
         rds1: output/train_1control.rds
         rds2: output/valid_1control.rds
   
-  classification_tree: # RF # total_ab #decision tree
-    run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RandomForest_decile]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree.html
+
   
   classification_check_1_control: # RF # all # 1 control
     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

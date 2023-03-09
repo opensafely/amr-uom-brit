@@ -12,44 +12,28 @@ library(randomForest)
 
 # import dataset
 ```{r }
-train <- read_rds(here::here("output","train_X.rds"))
+train <- read_rds(here::here("output","train_cat.rds"))
 train$case=as.factor(train$case)
 #train=train%>%filter(total_ab>0)
 #train=train%>% distinct(patient_id,.keep_all = TRUE)
 
 
-valid <- read_rds(here::here("output","valid_X.rds"))
+valid <- read_rds(here::here("output","valid_cat.rds"))
 valid$case=as.factor(valid$case)
 
 table(train$case)
 table(valid$case)
 ```
 
-# separate dataset: random one control
-```{r eval=FALSE, include=FALSE}
-
-set.seed(123)
-train=train%>%group_by(case, subclass)%>%sample_n(1)
-valid=valid%>%group_by(case, subclass)%>%sample_n(1)
-
-table(train$case)
-table(valid$case)
-
-train=train%>%ungroup(case,subclass)
-valid=valid%>%ungroup(case,subclass)
-
-saveRDS(train, here::here("output","train_1control.rds"))
-saveRDS(valid, here::here("output","valid_1control.rds"))
-```
 
 
 # pick variable
 ```{r}
 names(train)
-col=c("case","total_ab","ab_types",
-      "exposure_period","recent_ab_days",
-      "broad_ab_prescriptions",
-      "interval_med" ,"interval_sd")
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+      "interval_med_group" ,"interval_sd_group")
 #"broad_prop_total"
 
 train=train[col]
@@ -58,7 +42,7 @@ str(train)
 data=train
 ```
 
-
+# matched 
 http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
 ```{r }
 set.seed(1024)
@@ -77,7 +61,7 @@ data$case=as.factor(data$case)
 
 
 ```{r }
-#summary(rf.model$finalModel)
+rf.model$finalModel
 ```
 
 # Plot the final tree model
@@ -122,3 +106,36 @@ getTree(rf.model, k=1, labelVar=TRUE)
 
 ```
 
+
+# filter ab users (unmatched)
+```{r}
+train=train%>%filter(total_ab>0)
+train=train%>% distinct(patient_id,.keep_all = TRUE)
+```
+
+```{r }
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+
+data$case=as.factor(data$case)  
+  rf.model <-train(case ~ ., 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  maxdepth= 5)
+  
+  print(rf.model)
+#  plot(rf.model)
+  #  rf.model$bestTune
+```
+
+
+```{r }
+rf.model$finalModel
+```
+
+# Plot the final tree model
+```{r }
+par(xpd = NA) # Avoid clipping the text in some device
+plot(rf.model$finalModel)
+text(rf.model$finalModel,  digits = 3)
+```
