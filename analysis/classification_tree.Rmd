@@ -14,15 +14,12 @@ library(randomForest)
 ```{r }
 train <- read_rds(here::here("output","train_cat.rds"))
 train$case=as.factor(train$case)
-#train=train%>%filter(total_ab>0)
-#train=train%>% distinct(patient_id,.keep_all = TRUE)
 
-
-valid <- read_rds(here::here("output","valid_cat.rds"))
-valid$case=as.factor(valid$case)
+#valid <- read_rds(here::here("output","valid_cat.rds"))
+#valid$case=as.factor(valid$case)
 
 table(train$case)
-table(valid$case)
+#table(valid$case)
 ```
 
 
@@ -36,40 +33,35 @@ col=c("case","total_ab_group","ab_types_group",
       "interval_med_group" ,"interval_sd_group")
 #"broad_prop_total"
 
-train=train[col]
-str(train)
-data=train
+data=train[col]
+str(data)
+
+
 ```
 
 # matched 
 http://www.sthda.com/english/articles/35-statistical-machine-learning-essentials/141-cart-model-decision-tree-essentials/
 ```{r }
 set.seed(1024)
-#for (i in 1:nrow(result)) {
-
-data$case=as.factor(data$case)  
-  rf.model <-train(case ~ ., 
+model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   maxdepth= 5)
   
-  print(rf.model)
-#  plot(rf.model)
-  #  rf.model$bestTune
+print(model)
+
 ```
 
 
 ```{r }
-rf.model$finalModel
+model$finalModel
 ```
 
 # Plot the final tree model
 ```{r }
-
-
 try(par(xpd = NA)) # Avoid clipping the text in some device
-try(plot(rf.model$finalModel))
-try(text(rf.model$finalModel,  digits = 3))
+try(plot(model$finalModel))
+try(text(model$finalModel,  digits = 3))
 
 ```
 
@@ -111,8 +103,8 @@ getTree(rf.model, k=1, labelVar=TRUE)
 
 # filter ab users (unmatched)
 ```{r}
-data=data%>% distinct(patient_id,.keep_all = TRUE)
-data=data%>%filter(total_ab>0)
+data=train%>% distinct(patient_id,.keep_all = TRUE)
+data=train%>%filter(total_ab>0)
 ```
 
 ```{r }
@@ -120,24 +112,25 @@ set.seed(1024)
 #for (i in 1:nrow(result)) {
 
 data$case=as.factor(data$case)  
-  rf.model <-train(case ~ ., 
+
+model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   maxdepth= 5)
   
-  print(rf.model)
+print(model)
 #  plot(rf.model)
   #  rf.model$bestTune
 ```
 
 
 ```{r }
-rf.model$finalModel
+model$finalModel
 ```
 
 # Plot the final tree model
 ```{r }
 try(par(xpd = NA)) # Avoid clipping the text in some device
-try(plot(rf.model$finalModel))
-try(text(rf.model$finalModel,  digits = 3))
+try(plot(model$finalModel))
+try(text(model$finalModel,  digits = 3))
 ```
