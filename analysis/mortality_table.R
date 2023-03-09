@@ -24,32 +24,44 @@ df$agegroup = case_when(
 df_died <- df %>% filter(died_any_30d == 1) 
 ###Age###
 df_age <- df %>% group_by(covid,agegroup) %>% summarise(count= n())
+df_age$count <- plyr::round_any(df_age$count, 5)
 df_age_died <- df_died %>% group_by(covid,agegroup) %>% summarise(died_count= n())
+df_age_died$died_count <- plyr::round_any(df_age_died$died_count, 5)
 df1 <- merge(df_age,df_age_died,by =c("covid","agegroup"))
 
 ###Sex###
 df_sex <- df %>% group_by(covid,sex) %>% summarise(count= n())
+df_sex$count <- plyr::round_any(df_sex$count, 5)
 df_sex_died <- df_died %>% group_by(covid,sex) %>% summarise(died_count= n())
+df_sex_died$died_count <- plyr::round_any(df_sex_died$died_count, 5)
 df2 <- merge(df_sex,df_sex_died,by =c("covid","sex"))
 
 ### Region ###
 df_region <- df %>% group_by(covid,region) %>% summarise(count= n())
+df_region$count <- plyr::round_any(df_region$count, 5)
 df_region_died <- df_died %>% group_by(covid,region) %>% summarise(died_count= n())
+df_region_died$died_count <- plyr::round_any(df_region_died$died_count, 5)
 df3 <- merge(df_region,df_region_died,by =c("covid","region"))
 
 ### IMD ###
 df_imd <- df %>% group_by(covid,imd) %>% summarise(count= n())
+df_imd$count <- plyr::round_any(df_imd$count, 5)
 df_imd_died <- df_died %>% group_by(covid,imd) %>% summarise(died_count= n())
+df_imd_died$died_count <- plyr::round_any(df_imd_died$died_count, 5)
 df4 <- merge(df_imd,df_imd_died,by =c("covid","imd"))
 
 ### Ethnicity ###
 df_ethnicity <- df %>% group_by(covid,ethnicity) %>% summarise(count= n())
+df_ethnicity$count <- plyr::round_any(df_ethnicity$count, 5)
 df_ethnicity_died <- df_died %>% group_by(covid,ethnicity) %>% summarise(died_count= n())
+df_ethnicity_died$died_count <- plyr::round_any(df_ethnicity_died$died_count, 5)
 df5 <- merge(df_ethnicity,df_ethnicity_died,by =c("covid","ethnicity"))
 
 
 df<-bind_rows(df1,df2,df3,df4,df5)
 df$rate <- df$died_count/df$count
+### round to three digits
+df$rate <- round(df$rate,digits = 3)
 write_csv(df, here::here("output", "mortality_table_all.csv"))
 
 df <- readRDS("output/processed/input_model_c.rds")
@@ -66,32 +78,44 @@ df$agegroup = case_when(
 df_died <- df %>% filter(died_any_30d == 1) 
 ###Age###
 df_age <- df %>% group_by(covid,agegroup) %>% summarise(count= n())
+df_age$count <- plyr::round_any(df_age$count, 5)
 df_age_died <- df_died %>% group_by(covid,agegroup) %>% summarise(died_count= n())
+df_age_died$died_count <- plyr::round_any(df_age_died$died_count, 5)
 df1 <- merge(df_age,df_age_died,by =c("covid","agegroup"))
 
 ###Sex###
 df_sex <- df %>% group_by(covid,sex) %>% summarise(count= n())
+df_sex$count <- plyr::round_any(df_sex$count, 5)
 df_sex_died <- df_died %>% group_by(covid,sex) %>% summarise(died_count= n())
+df_sex_died$died_count <- plyr::round_any(df_sex_died$died_count, 5)
 df2 <- merge(df_sex,df_sex_died,by =c("covid","sex"))
 
 ### Region ###
 df_region <- df %>% group_by(covid,region) %>% summarise(count= n())
+df_region$count <- plyr::round_any(df_region$count, 5)
 df_region_died <- df_died %>% group_by(covid,region) %>% summarise(died_count= n())
+df_region_died$died_count <- plyr::round_any(df_region_died$died_count, 5)
 df3 <- merge(df_region,df_region_died,by =c("covid","region"))
 
 ### IMD ###
 df_imd <- df %>% group_by(covid,imd) %>% summarise(count= n())
+df_imd$count <- plyr::round_any(df_imd$count, 5)
 df_imd_died <- df_died %>% group_by(covid,imd) %>% summarise(died_count= n())
+df_imd_died$died_count <- plyr::round_any(df_imd_died$died_count, 5)
 df4 <- merge(df_imd,df_imd_died,by =c("covid","imd"))
 
 ### Ethnicity ###
 df_ethnicity <- df %>% group_by(covid,ethnicity) %>% summarise(count= n())
+df_ethnicity$count <- plyr::round_any(df_ethnicity$count, 5)
 df_ethnicity_died <- df_died %>% group_by(covid,ethnicity) %>% summarise(died_count= n())
+df_ethnicity_died$died_count <- plyr::round_any(df_ethnicity_died$died_count, 5)
 df5 <- merge(df_ethnicity,df_ethnicity_died,by =c("covid","ethnicity"))
 
 
 df<-bind_rows(df1,df2,df3,df4,df5)
 df$rate <- df$died_count/df$count
+### round to three digits
+df$rate <- round(df$rate,digits = 3)
 write_csv(df, here::here("output", "mortality_table_c.csv"))
 
 
@@ -109,30 +133,42 @@ df$agegroup = case_when(
 df_died <- df %>% filter(died_any_30d == 1) 
 ###Age###
 df_age <- df %>% group_by(covid,agegroup) %>% summarise(count= n())
+df_age$count <- plyr::round_any(df_age$count, 5)
 df_age_died <- df_died %>% group_by(covid,agegroup) %>% summarise(died_count= n())
+df_age_died$died_count <- plyr::round_any(df_age_died$died_count, 5)
 df1 <- merge(df_age,df_age_died,by =c("covid","agegroup"))
 
 ###Sex###
 df_sex <- df %>% group_by(covid,sex) %>% summarise(count= n())
+df_sex$count <- plyr::round_any(df_sex$count, 5)
 df_sex_died <- df_died %>% group_by(covid,sex) %>% summarise(died_count= n())
+df_sex_died$died_count <- plyr::round_any(df_sex_died$died_count, 5)
 df2 <- merge(df_sex,df_sex_died,by =c("covid","sex"))
 
 ### Region ###
 df_region <- df %>% group_by(covid,region) %>% summarise(count= n())
+df_region$count <- plyr::round_any(df_region$count, 5)
 df_region_died <- df_died %>% group_by(covid,region) %>% summarise(died_count= n())
+df_region_died$died_count <- plyr::round_any(df_region_died$died_count, 5)
 df3 <- merge(df_region,df_region_died,by =c("covid","region"))
 
 ### IMD ###
 df_imd <- df %>% group_by(covid,imd) %>% summarise(count= n())
+df_imd$count <- plyr::round_any(df_imd$count, 5)
 df_imd_died <- df_died %>% group_by(covid,imd) %>% summarise(died_count= n())
+df_imd_died$died_count <- plyr::round_any(df_imd_died$died_count, 5)
 df4 <- merge(df_imd,df_imd_died,by =c("covid","imd"))
 
 ### Ethnicity ###
 df_ethnicity <- df %>% group_by(covid,ethnicity) %>% summarise(count= n())
+df_ethnicity$count <- plyr::round_any(df_ethnicity$count, 5)
 df_ethnicity_died <- df_died %>% group_by(covid,ethnicity) %>% summarise(died_count= n())
+df_ethnicity_died$died_count <- plyr::round_any(df_ethnicity_died$died_count, 5)
 df5 <- merge(df_ethnicity,df_ethnicity_died,by =c("covid","ethnicity"))
 
 
 df<-bind_rows(df1,df2,df3,df4,df5)
 df$rate <- df$died_count/df$count
+### round to three digits
+df$rate <- round(df$rate,digits = 3)
 write_csv(df, here::here("output", "mortality_table_h.csv"))
