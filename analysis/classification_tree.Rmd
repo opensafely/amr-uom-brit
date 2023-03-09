@@ -12,13 +12,13 @@ library(randomForest)
 
 # import dataset
 ```{r }
-train <- read_rds(here::here("output","development.rds"))
+train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
 #train=train%>%filter(total_ab>0)
 #train=train%>% distinct(patient_id,.keep_all = TRUE)
 
 
-valid <- read_rds(here::here("output","validation.rds"))
+valid <- read_rds(here::here("output","valid_X.rds"))
 valid$case=as.factor(valid$case)
 
 table(train$case)
