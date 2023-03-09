@@ -16,7 +16,9 @@ library(pROC)
 ```{r }
 #df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 df1 <- read_rds(here::here("output","train_X.rds"))
+df1$set=1
 df2 <- read_rds(here::here("output","valid_X.rds"))
+df2$set=2
 df=rbind(df1,df2)
 rm(df1,df2)
 table(df$case)
@@ -96,9 +98,21 @@ str(df)
 ```
 
 
+```{r}
+
+rm(df1,df2)
+
+df1=df%>% filter(set==1)
+df2=df%>% filter(set==2)
+saveRDS(df1,here::here*"output","train_cat.rds")
+saveRDS(df2,here::here*"output","valid_cat.rds")
+rm(df1,df2)
+```
+
+
 conditional logistic
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~total_ab_group + strata(subclass),df) 
 summary(model)
 
@@ -114,7 +128,7 @@ for (i in 0:4) {
 
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ab_types_group + strata(subclass),df) 
 
 summary(model)
@@ -128,7 +142,7 @@ for (i in 0:4) {
 
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~exposure_period_group + strata(subclass),df) 
 
 summary(model)
@@ -141,7 +155,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~recent_ab_days_group  + strata(subclass),df) 
 
 summary(model)
@@ -155,7 +169,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~broad_prop_group  + strata(subclass),df) 
 
 summary(model)
@@ -168,7 +182,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df) 
 
 summary(model)
@@ -182,7 +196,7 @@ for (i in 0:4) {
 
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~interval_mean_group  + strata(subclass),df) 
 
 summary(model)
@@ -197,7 +211,7 @@ for (i in 0:4) {
 
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~interval_med_group  + strata(subclass),df) 
 
 summary(model)
@@ -211,7 +225,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ interval_CV_group + strata(subclass),df) 
 
 summary(model)
@@ -225,7 +239,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ interval_sd_group + strata(subclass),df) 
 
 summary(model)
@@ -241,7 +255,7 @@ for (i in 0:4) {
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~length_mean_group + strata(subclass),df) 
 
 summary(model)
@@ -255,7 +269,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~length_med_group +  strata(subclass),df) 
 
 summary(model)
@@ -268,7 +282,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ length_CV_group+  strata(subclass),df) 
 
 summary(model)
@@ -281,7 +295,7 @@ for (i in 0:4) {
 }
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ length_sd_group+  strata(subclass),df) 
 
 summary(model)

@@ -100,6 +100,15 @@ actions:
         rds4: output/valid_Y.rds
         rds5: output/abtype.rds
 
+  model_clogit: # coditional logistic regression for expo variables # create category variable
+    run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_decile,model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_clogit.html
+        rds1: output/train_cat.rds
+        rds2: output/valid_cat.rds 
+
   # model_tuneRF: #mtry, 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [model_RF_process]
@@ -172,12 +181,7 @@ actions:
       moderately_sensitive:
         html: output/model.html
   
-  model_clogit: # coditional logistic regression for expo variables
-    run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile,model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_clogit.html
+
 
   model_clogit_adjusted: # coditional logistic regression for expo variables
     run: r:latest -e 'rmarkdown::render("analysis/model_clogit_adjusted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
