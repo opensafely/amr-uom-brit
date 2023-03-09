@@ -24,12 +24,12 @@ rm(df1,df2)
 table(df$case)
 str(df)
 
-#col=c("case","subclass",
-#  "total_ab","ab_types","prescribe_times",
- #        "exposure_period","recent_ab_days", 
- #        "broad_prop","broad_ab_prescriptions",
- #        "interval_mean","interval_med" ,"interval_sd","interval_CV",
-  #       "length_mean","length_med", "length_sd","length_CV","set")
+col=c("case","subclass",
+  "total_ab","ab_types","prescribe_times",
+         "exposure_period","recent_ab_days", 
+         "broad_prop","broad_ab_prescriptions",
+         "interval_mean","interval_med" ,"interval_sd","interval_CV",
+         "length_mean","length_med", "length_sd","length_CV","set")
 
 #df=df[col]
 
