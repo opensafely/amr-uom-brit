@@ -109,8 +109,8 @@ getTree(rf.model, k=1, labelVar=TRUE)
 
 # filter ab users (unmatched)
 ```{r}
-train=train%>%filter(total_ab>0)
-train=train%>% distinct(patient_id,.keep_all = TRUE)
+data=data%>% distinct(patient_id,.keep_all = TRUE)
+data=data%>%filter(total_ab>0)
 ```
 
 ```{r }
