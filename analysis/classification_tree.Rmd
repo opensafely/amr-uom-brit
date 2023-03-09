@@ -37,7 +37,6 @@ col=c("case","total_ab_group","ab_types_group",
 #"broad_prop_total"
 
 train=train[col]
-
 str(train)
 data=train
 ```
@@ -66,9 +65,12 @@ rf.model$finalModel
 
 # Plot the final tree model
 ```{r }
-par(xpd = NA) # Avoid clipping the text in some device
-plot(rf.model$finalModel)
-text(rf.model$finalModel,  digits = 3)
+
+
+try(par(xpd = NA)) # Avoid clipping the text in some device
+try(plot(rf.model$finalModel))
+try(text(rf.model$finalModel,  digits = 3))
+
 ```
 
 
@@ -135,7 +137,7 @@ rf.model$finalModel
 
 # Plot the final tree model
 ```{r }
-par(xpd = NA) # Avoid clipping the text in some device
-plot(rf.model$finalModel)
-text(rf.model$finalModel,  digits = 3)
+try(par(xpd = NA)) # Avoid clipping the text in some device
+try(plot(rf.model$finalModel))
+try(text(rf.model$finalModel,  digits = 3))
 ```
