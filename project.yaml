@@ -149,7 +149,7 @@ actions:
       moderately_sensitive:
         html: output/model_RandomForest_tree.html
 
-  model_RandomForest_decile: # create decile groups for probabilities
+  model_RandomForest_decile: # create decile groups for probabilities # get counfounders
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process,model_RandomForest,process_ab_time,process_Rmatching]
     outputs:
@@ -284,7 +284,7 @@ actions:
   
   classification_tree: # RF # total_ab #decision tree
     run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
+    needs: [model_RF_process,model_RandomForest_decile]
     outputs:
       moderately_sensitive:
         html: output/classification_tree.html
