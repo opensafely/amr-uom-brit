@@ -50,7 +50,7 @@ for (i in 4:length(col)) { # skip case, subclass,set
 ```{r}
 for (k in 4:18) {
 
-cut_value=quantile(df[,k],c(0.25,0.5,0.75),na.rm=TRUE)
+cut_value=quantile(df[,col[k]],c(0.25,0.5,0.75),na.rm=TRUE)
 print(cut_value)
   
 df[,paste0(col[k],"_group")]=ifelse(
