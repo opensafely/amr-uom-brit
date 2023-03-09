@@ -39,7 +39,7 @@ col=c("case","subclass",
 
 # set group
 ```{r }
-for (i in 3:length(col)) { # skip case, subclass
+for (i in 3:17) { # skip case, subclass
  df[,col[i]]=ifelse(df[,col[i]]>0,df[,col[i]],NA)
 }
 ```
