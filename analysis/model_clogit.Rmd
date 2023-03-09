@@ -24,16 +24,16 @@ rm(df1,df2)
 table(df$case)
 str(df)
 
-col=c("case","subclass",
-  "total_ab","ab_types","prescribe_times",
-         "exposure_period","recent_ab_days", 
-         "broad_prop","broad_ab_prescriptions",
-         "interval_mean","interval_med" ,"interval_sd","interval_CV",
-         "length_mean","length_med", "length_sd","length_CV")
+#col=c("case","subclass",
+#  "total_ab","ab_types","prescribe_times",
+ #        "exposure_period","recent_ab_days", 
+ #        "broad_prop","broad_ab_prescriptions",
+ #        "interval_mean","interval_med" ,"interval_sd","interval_CV",
+  #       "length_mean","length_med", "length_sd","length_CV","set")
 
-df=df[col]
+#df=df[col]
 
-str(df)
+#str(df)
 
 ```
 
@@ -100,7 +100,6 @@ str(df)
 
 ```{r}
 
-rm(df1,df2)
 
 df1=df%>% filter(set==1)
 df2=df%>% filter(set==2)
