@@ -49,7 +49,7 @@ names(train)
 col=c("case","total_ab","ab_types",
       "exposure_period","recent_ab_days",
       "broad_ab_prescriptions",
-      "interval_med" ,"interval_sd","age.x")
+      "interval_med" ,"interval_sd")
 #"broad_prop_total"
 
 train=train[col]
@@ -88,7 +88,7 @@ text(rf.model$finalModel,  digits = 3)
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 library(rpart)
 rf.model<- rpart(
   case ~ ., 
@@ -104,7 +104,7 @@ text(rf.model,  digits = 3)
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 rf.model <- randomForest(formula = case ~ ., data = data, 
                            replace = TRUE,
                            ntree =  1,
