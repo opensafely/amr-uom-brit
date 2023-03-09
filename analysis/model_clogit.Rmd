@@ -105,8 +105,8 @@ str(df)
 
 df1=df%>% filter(set==1)
 df2=df%>% filter(set==2)
-saveRDS(df1,here::here*"output","train_cat.rds")
-saveRDS(df2,here::here*"output","valid_cat.rds")
+saveRDS(df1,here::here("output","train_cat.rds"))
+saveRDS(df2,here::here("output","valid_cat.rds"))
 rm(df1,df2)
 ```
 
