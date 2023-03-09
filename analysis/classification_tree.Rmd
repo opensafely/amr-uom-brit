@@ -14,10 +14,9 @@ library(randomForest)
 ```{r }
 train <- read_rds(here::here("output","train_X.rds"))
 train$case=as.factor(train$case)
-train=train%>%filter(total_ab>0)
-train=train%>% distinct(patient_id,.keep_all = TRUE)
-#train= train%>% group_by(subclass, case)%>%sample_n(1)
-#train=train%>% ungroup(subclass,case)
+#train=train%>%filter(total_ab>0)
+#train=train%>% distinct(patient_id,.keep_all = TRUE)
+
 
 valid <- read_rds(here::here("output","valid_X.rds"))
 valid$case=as.factor(valid$case)
@@ -50,7 +49,7 @@ names(train)
 col=c("case","total_ab","ab_types",
       "exposure_period","recent_ab_days",
       "broad_ab_prescriptions",
-      "interval_med" ,"interval_sd")
+      "interval_med" ,"interval_sd","age")
 #"broad_prop_total"
 
 train=train[col]
