@@ -109,12 +109,19 @@ actions:
         rds1: output/train_cat.rds
         rds2: output/valid_cat.rds 
 
-  classification_tree:  #decision tree check
+  classification_tree:  #decision tree check # category
     run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_clogit]
     outputs:
       moderately_sensitive:
         html: output/classification_tree.html
+
+  classification_tree_contd:  #decision tree check # contd
+    run: r:latest -e 'rmarkdown::render("analysis/classification_tree_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_tree_contd.html
 
   # model_tuneRF: #mtry, 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
