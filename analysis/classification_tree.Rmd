@@ -54,6 +54,8 @@ try(par(xpd = NA)) # Avoid clipping the text in some device
 try(plot(model$finalModel))
 try(text(model$finalModel,  digits = 3,cex=0.7))
 
+try(rpart.plot(model$finalModel))
+
 ```
 
 ### tree 2
@@ -67,9 +69,10 @@ model <-train(case ~ .,
 print(model)
 model$finalModel
 # Plot the final tree model
-try(par(xpd = NA)) # Avoid clipping the text in some device
-try(plot(model$finalModel))
-try(text(model$finalModel,  digits = 3,cex=0.7))
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+try(rpart.plot(model$finalModel))
 
 ```
 
@@ -85,9 +88,10 @@ model <-train(case ~ .,
 print(model)
 model$finalModel
 # Plot the final tree model
-try(par(xpd = NA)) # Avoid clipping the text in some device
-try(plot(model$finalModel))
-try(text(model$finalModel,  digits = 3,cex=0.7))
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+try(rpart.plot(model$finalModel))
 
 ```
 
@@ -147,6 +151,8 @@ model$finalModel
 try(par(xpd = NA)) # Avoid clipping the text in some device
 try(plot(model$finalModel))
 try(text(model$finalModel,  digits = 3,cex=0.7))
+try(rpart.plot(model$finalModel))
+
 ```
 
 ## tree 2
@@ -165,9 +171,11 @@ print(model)
 model$finalModel
 
 # Plot the final tree model
-try(par(xpd = NA)) # Avoid clipping the text in some device
-try(plot(model$finalModel))
-try(text(model$finalModel,  digits = 3,cex=0.7))
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+try(rpart.plot(model$finalModel))
+
 ```
 
 ## tree 3
@@ -186,7 +194,9 @@ print(model)
 model$finalModel
 
 # Plot the final tree model
-try(par(xpd = NA)) # Avoid clipping the text in some device
-try(plot(model$finalModel))
-try(text(model$finalModel,  digits = 3,cex=0.7))
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+try(rpart.plot(model$finalModel))
+
 ```
