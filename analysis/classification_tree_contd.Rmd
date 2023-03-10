@@ -46,8 +46,8 @@ set.seed(124)
 model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
-                  maxdepth= 5)
-  
+#                  maxdepth= 5)
+                  tuneLength=5)  
 print(model)
 model$finalModel
 # Plot the final tree model
@@ -64,8 +64,8 @@ set.seed(224)
 model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
-                  maxdepth= 5)
-  
+#                  maxdepth= 5)
+                  tuneLength=5)  
 print(model)
 model$finalModel
 # Plot the final tree model
@@ -83,8 +83,8 @@ set.seed(324)
 model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
-                  maxdepth= 5)
-  
+#                  maxdepth= 5)
+                  tuneLength=5)  
 print(model)
 model$finalModel
 # Plot the final tree model
@@ -142,8 +142,8 @@ data$case=as.factor(data$case)
 model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
-                  maxdepth= 5)
-  
+#                  maxdepth= 5)
+                  tuneLength=5)  
 print(model)
 model$finalModel
 
@@ -164,8 +164,8 @@ data$case=as.factor(data$case)
 model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
-                  maxdepth= 5)
-  
+#                  maxdepth= 5)
+                  tuneLength=5)  
 print(model)
 model$finalModel
 
@@ -186,8 +186,8 @@ data$case=as.factor(data$case)
 model <-train(case ~ ., 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
-                  maxdepth= 5)
-  
+#                  maxdepth= 5)
+                  tuneLength=5)  
 print(model)
 model$finalModel
 
