@@ -49,7 +49,7 @@ prop.table(table(data$interval_sd_group))
 ### total_ab_group
 ```{r, fig.width=13, fig.height=20 }
 set.seed(1024)
-model <-train(case ~total_ab_group, 
+model <-train(case ~total_ab_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -69,7 +69,7 @@ try(rpart.plot(model$finalModel))
 ### ab_types_group
 ```{r }
 set.seed(1024)
-model <-train(case ~ab_types_group, 
+model <-train(case ~ab_types_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -85,7 +85,7 @@ try(rpart.plot(model$finalModel))
 ### exposure_period_group
 ```{r }
 set.seed(1024)
-model <-train(case ~exposure_period_group, 
+model <-train(case ~exposure_period_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -101,7 +101,7 @@ try(rpart.plot(model$finalModel))
 ### recent_ab_days_group
 ```{r }
 set.seed(1024)
-model <-train(case ~recent_ab_days_group, 
+model <-train(case ~recent_ab_days_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -117,7 +117,7 @@ try(rpart.plot(model$finalModel))
 ### broad_ab_prescriptions_group
 ```{r }
 set.seed(1024)
-model <-train(case ~broad_ab_prescriptions_group, 
+model <-train(case ~broad_ab_prescriptions_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -133,7 +133,7 @@ try(rpart.plot(model$finalModel))
 ### interval_med_group
 ```{r }
 set.seed(1024)
-model <-train(case ~interval_med_group, 
+model <-train(case ~interval_med_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -149,7 +149,7 @@ try(rpart.plot(model$finalModel))
 ### interval_sd_group
 ```{r }
 set.seed(1024)
-model <-train(case ~interval_sd_group, 
+model <-train(case ~interval_sd_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -215,7 +215,7 @@ prop.table(table(data$interval_sd_group))
 ### total_ab_group
 ```{r }
 set.seed(1024)
-model <-train(case ~total_ab_group, 
+model <-train(case ~total_ab_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -234,7 +234,7 @@ try(rpart.plot(model$finalModel))
 ### ab_types_group
 ```{r }
 set.seed(1024)
-model <-train(case ~ab_types_group, 
+model <-train(case ~ab_types_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -250,7 +250,7 @@ try(rpart.plot(model$finalModel))
 ### exposure_period_group
 ```{r }
 set.seed(1024)
-model <-train(case ~exposure_period_group, 
+model <-train(case ~exposure_period_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -266,7 +266,7 @@ try(rpart.plot(model$finalModel))
 ### recent_ab_days_group
 ```{r }
 set.seed(1024)
-model <-train(case ~recent_ab_days_group, 
+model <-train(case ~recent_ab_days_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -282,7 +282,7 @@ try(rpart.plot(model$finalModel))
 ### broad_ab_prescriptions_group
 ```{r }
 set.seed(1024)
-model <-train(case ~broad_ab_prescriptions_group, 
+model <-train(case ~broad_ab_prescriptions_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -298,7 +298,7 @@ try(rpart.plot(model$finalModel))
 ### interval_med_group
 ```{r }
 set.seed(1024)
-model <-train(case ~interval_med_group, 
+model <-train(case ~interval_med_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
@@ -314,7 +314,7 @@ try(rpart.plot(model$finalModel))
 ### interval_sd_group
 ```{r }
 set.seed(1024)
-model <-train(case ~interval_sd_group, 
+model <-train(case ~interval_sd_group+age.x, 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
