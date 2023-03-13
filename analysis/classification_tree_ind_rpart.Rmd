@@ -51,7 +51,7 @@ prop.table(table(data$interval_sd_group))
 ### total_ab_group
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ total_ab_group, 
   data = data, 
   method = "class"
@@ -73,7 +73,7 @@ try(rpart.plot(model$finalModel))
 ### ab_types_group
 ```{r }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ ab_types_group, 
   data = data, 
   method = "class"
@@ -93,7 +93,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 
-rf.model<- rpart(
+model<- rpart(
   case ~ exposure_period_group, 
   data = data, 
   method = "class"
@@ -111,7 +111,7 @@ try(rpart.plot(model$finalModel))
 ### recent_ab_days_group
 ```{r }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ recent_ab_days_group, 
   data = data, 
   method = "class"
@@ -129,7 +129,7 @@ try(rpart.plot(model$finalModel))
 ### broad_ab_prescriptions_group
 ```{r }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ broad_ab_prescriptions_group, 
   data = data, 
   method = "class"
@@ -147,7 +147,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 
-rf.model<- rpart(
+model<- rpart(
   case ~interval_med_group, 
   data = data, 
   method = "class"
@@ -166,7 +166,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 
-rf.model<- rpart(
+model<- rpart(
   case ~interval_sd_group, 
   data = data, 
   method = "class"
@@ -208,7 +208,7 @@ prop.table(table(data$interval_sd_group))
 ### total_ab_group
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ total_ab_group, 
   data = data, 
   method = "class"
@@ -230,7 +230,7 @@ try(rpart.plot(model$finalModel))
 ### ab_types_group
 ```{r }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ ab_types_group, 
   data = data, 
   method = "class"
@@ -250,7 +250,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 
-rf.model<- rpart(
+model<- rpart(
   case ~ exposure_period_group, 
   data = data, 
   method = "class"
@@ -268,7 +268,7 @@ try(rpart.plot(model$finalModel))
 ### recent_ab_days_group
 ```{r }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ recent_ab_days_group, 
   data = data, 
   method = "class"
@@ -286,7 +286,7 @@ try(rpart.plot(model$finalModel))
 ### broad_ab_prescriptions_group
 ```{r }
 set.seed(324)
-rf.model<- rpart(
+model<- rpart(
   case ~ broad_ab_prescriptions_group, 
   data = data, 
   method = "class"
@@ -304,7 +304,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 
-rf.model<- rpart(
+model<- rpart(
   case ~interval_med_group, 
   data = data, 
   method = "class"
@@ -323,7 +323,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 
-rf.model<- rpart(
+model<- rpart(
   case ~interval_sd_group, 
   data = data, 
   method = "class"
