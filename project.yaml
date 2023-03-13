@@ -116,6 +116,13 @@ actions:
       moderately_sensitive:
         html: output/classification_tree.html
 
+  classification_tree_ind:  #decision tree check # category #per predictor
+    run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_tree_ind.html
+
   classification_tree_contd:  #decision tree check # contd
     run: r:latest -e 'rmarkdown::render("analysis/classification_tree_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_RF_process]
