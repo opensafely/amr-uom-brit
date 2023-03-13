@@ -28,7 +28,7 @@ names(train)
 col=c("case","total_ab_group","ab_types_group",
       "exposure_period_group","recent_ab_days_group",
       "broad_ab_prescriptions_group",
-      "interval_med_group" ,"interval_sd_group")
+      "interval_med_group" ,"interval_sd_group","age.x")
 #"broad_prop_total"
 
 data=train[col]
@@ -52,7 +52,7 @@ prop.table(table(data$interval_sd_group))
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
 model<- rpart(
-  case ~ total_ab_group, 
+  case ~ total_ab_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -74,7 +74,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ ab_types_group, 
+  case ~ ab_types_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -94,7 +94,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~ exposure_period_group, 
+  case ~ exposure_period_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -112,7 +112,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ recent_ab_days_group, 
+  case ~ recent_ab_days_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -130,7 +130,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ broad_ab_prescriptions_group, 
+  case ~ broad_ab_prescriptions_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -148,7 +148,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_med_group, 
+  case ~interval_med_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -167,7 +167,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_sd_group, 
+  case ~interval_sd_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -209,7 +209,7 @@ prop.table(table(data$interval_sd_group))
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
 model<- rpart(
-  case ~ total_ab_group, 
+  case ~ total_ab_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -231,7 +231,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ ab_types_group, 
+  case ~ ab_types_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -251,7 +251,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~ exposure_period_group, 
+  case ~ exposure_period_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -269,7 +269,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ recent_ab_days_group, 
+  case ~ recent_ab_days_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -287,7 +287,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ broad_ab_prescriptions_group, 
+  case ~ broad_ab_prescriptions_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -305,7 +305,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_med_group, 
+  case ~interval_med_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -324,7 +324,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_sd_group, 
+  case ~interval_sd_group+age.x, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
