@@ -71,8 +71,8 @@ set.seed(324)
 model<- rpart(
   case ~ ab_types_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)
   )
 
   
@@ -89,9 +89,8 @@ set.seed(324)
 model<- rpart(
   case ~ exposure_period_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
 print(model)
 
@@ -105,9 +104,8 @@ set.seed(324)
 model<- rpart(
   case ~ recent_ab_days_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
 print(model)
 
@@ -121,9 +119,8 @@ set.seed(324)
 model<- rpart(
   case ~ broad_ab_prescriptions_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
 print(model)
 
 try(rpart.plot(model))
@@ -137,9 +134,8 @@ set.seed(324)
 model<- rpart(
   case ~interval_med_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
 print(model)
 
@@ -154,9 +150,8 @@ set.seed(324)
 model<- rpart(
   case ~interval_sd_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
   
 print(model)
@@ -194,9 +189,8 @@ set.seed(324)
 model<- rpart(
   case ~ total_ab_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
 
 print(model)
 
@@ -211,9 +205,8 @@ set.seed(324)
 model<- rpart(
   case ~ ab_types_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
 
   
 print(model)
@@ -229,9 +222,8 @@ set.seed(324)
 model<- rpart(
   case ~ exposure_period_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
 print(model)
 
@@ -245,9 +237,8 @@ set.seed(324)
 model<- rpart(
   case ~ recent_ab_days_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
 print(model)
 
@@ -261,9 +252,8 @@ set.seed(324)
 model<- rpart(
   case ~ broad_ab_prescriptions_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
 print(model)
 
 try(rpart.plot(model))
@@ -277,9 +267,8 @@ set.seed(324)
 model<- rpart(
   case ~interval_med_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
 print(model)
 
@@ -294,9 +283,8 @@ set.seed(324)
 model<- rpart(
   case ~interval_sd_group, 
   data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
+  method = "class",
+ control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
   
   
 print(model)
