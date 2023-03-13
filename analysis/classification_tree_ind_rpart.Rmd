@@ -52,20 +52,15 @@ prop.table(table(data$interval_sd_group))
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
 model<- rpart(
-  case ~ total_ab_group+age.x, 
+  case ~ total_ab_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
 
 print(model)
-model$finalModel
-# Plot the final tree model
-#try(par(xpd = NA)) # Avoid clipping the text in some device
-#try(plot(model$finalModel))
-#try(text(model$finalModel,  digits = 3,cex=0.7))
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 <br/><br/>
@@ -74,7 +69,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ ab_types_group+age.x, 
+  case ~ ab_types_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -82,10 +77,8 @@ model<- rpart(
 
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -94,17 +87,15 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~ exposure_period_group+age.x, 
+  case ~ exposure_period_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -112,17 +103,15 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ recent_ab_days_group+age.x, 
+  case ~ recent_ab_days_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -130,16 +119,14 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ broad_ab_prescriptions_group+age.x, 
+  case ~ broad_ab_prescriptions_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -148,17 +135,15 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_med_group+age.x, 
+  case ~interval_med_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -167,7 +152,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_sd_group+age.x, 
+  case ~interval_sd_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -175,10 +160,8 @@ model<- rpart(
   
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -209,20 +192,15 @@ prop.table(table(data$interval_sd_group))
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
 model<- rpart(
-  case ~ total_ab_group+age.x, 
+  case ~ total_ab_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
 
 print(model)
-model$finalModel
-# Plot the final tree model
-#try(par(xpd = NA)) # Avoid clipping the text in some device
-#try(plot(model$finalModel))
-#try(text(model$finalModel,  digits = 3,cex=0.7))
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 <br/><br/>
@@ -231,7 +209,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ ab_types_group+age.x, 
+  case ~ ab_types_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -239,10 +217,8 @@ model<- rpart(
 
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -251,17 +227,15 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~ exposure_period_group+age.x, 
+  case ~ exposure_period_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -269,17 +243,15 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ recent_ab_days_group+age.x, 
+  case ~ recent_ab_days_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -287,16 +259,14 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(324)
 model<- rpart(
-  case ~ broad_ab_prescriptions_group+age.x, 
+  case ~ broad_ab_prescriptions_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -305,17 +275,15 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_med_group+age.x, 
+  case ~interval_med_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
   )
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
 
@@ -324,7 +292,7 @@ try(rpart.plot(model$finalModel))
 set.seed(324)
 
 model<- rpart(
-  case ~interval_sd_group+age.x, 
+  case ~interval_sd_group, 
   data = data, 
   method = "class"
  # minsplit = 2,  minbucket = 1
@@ -332,9 +300,7 @@ model<- rpart(
   
   
 print(model)
-model$finalModel
-# Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart.plot(model))
 
 ```
