@@ -1,5 +1,5 @@
 ---
-title: "classification_decision tree "
+title: "classification_decision tree - category predictor"
 ---
 
 ```{r setup, include=FALSE}
@@ -12,8 +12,7 @@ library("rpart.plot")
 ```
 
 
-# without age 
-# category
+# no age
 
 ```{r }
 # import dataset
@@ -133,6 +132,8 @@ rf.model <- randomForest(formula = case ~ ., data = data,
 ```{r}
 data=train%>% distinct(patient_id,.keep_all = TRUE) %>%filter(total_ab>0)
 data=data[col]
+table(data$case)
+prop.table(table(data$case))
 ```
 
 ## tree 1

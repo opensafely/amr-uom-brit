@@ -1,5 +1,5 @@
 ---
-title: "classification_decision tree "
+title: "classification_decision tree - continuous predictor"
 ---
 
 ```{r setup, include=FALSE}
@@ -11,10 +11,7 @@ library(randomForest)
 library("rpart.plot")
 ```
 
-
-# without age 
-# category
-
+# withouht age predictor
 ```{r }
 # import dataset
 train <- read_rds(here::here("output","train_X.rds"))
@@ -24,6 +21,7 @@ train$case=as.factor(train$case)
 #valid$case=as.factor(valid$case)
 
 table(train$case)
+prop.table(table(train$case))
 # pick variable
 names(train)
 col=c("case","total_ab","ab_types",
@@ -129,7 +127,11 @@ rf.model <- randomForest(formula = case ~ ., data = data,
 ```{r}
 rm(data)
 data=train%>% distinct(patient_id,.keep_all = TRUE) %>%filter(total_ab>0)
+
 data=data[col]
+
+table(data$case)
+prop.table(table(data$case))
 ```
 
 ## tree 1
