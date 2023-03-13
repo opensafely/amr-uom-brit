@@ -50,7 +50,7 @@ prop.table(table(data$interval_sd_group))
 ```{r }
 set.seed(124)
 model <-train(case ~total_ab_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -61,7 +61,7 @@ model$finalModel
 #try(plot(model$finalModel))
 #try(text(model$finalModel,  digits = 3,cex=0.7))
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -69,7 +69,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~ab_types_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -77,7 +77,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -85,7 +85,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~exposure_period_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -93,7 +93,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -101,7 +101,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~recent_ab_days_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -109,7 +109,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -117,7 +117,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~broad_ab_prescriptions_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -125,7 +125,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -133,7 +133,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~interval_med_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -141,7 +141,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -149,7 +149,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~interval_sd_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -157,13 +157,13 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
 ```{r eval=FALSE, include=FALSE}
-library(rpart)
-rf.model<- rpart(
+library(rpart2)
+rf.model<- rpart2(
   case ~ ., 
   data = data, 
   method = "class"
@@ -215,7 +215,7 @@ prop.table(table(data$interval_sd_group))
 ```{r }
 set.seed(124)
 model <-train(case ~total_ab_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -226,7 +226,7 @@ model$finalModel
 #try(plot(model$finalModel))
 #try(text(model$finalModel,  digits = 3,cex=0.7))
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -234,7 +234,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~ab_types_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -242,7 +242,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -250,7 +250,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~exposure_period_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -258,7 +258,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -266,7 +266,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~recent_ab_days_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -274,7 +274,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -282,7 +282,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~broad_ab_prescriptions_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -290,7 +290,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -298,7 +298,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~interval_med_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -306,7 +306,7 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
 
@@ -314,7 +314,7 @@ try(rpart.plot(model$finalModel))
 ```{r }
 set.seed(124)
 model <-train(case ~interval_sd_group, 
-                  data=data, method="rpart",
+                  data=data, method="rpart2",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -322,6 +322,6 @@ print(model)
 model$finalModel
 # Plot the final tree model
 
-try(rpart.plot(model$finalModel))
+try(rpart2.plot(model$finalModel))
 
 ```
