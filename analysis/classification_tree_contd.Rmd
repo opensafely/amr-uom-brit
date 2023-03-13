@@ -27,7 +27,7 @@ names(train)
 col=c("case","total_ab","ab_types",
       "exposure_period","recent_ab_days",
       "broad_ab_prescriptions",
-      "interval_med" ,"interval_sd")
+      "interval_med" ,"interval_sd","age.x")
 #"broad_prop_total"
 
 data=train[col]
