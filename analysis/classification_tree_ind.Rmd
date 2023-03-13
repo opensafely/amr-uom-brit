@@ -17,6 +17,8 @@ library("rpart.plot")
 train <- read_rds(here::here("output","train_cat.rds"))
 train$case=as.factor(train$case)
 
+train=train%>% group_by(subclass, case)%>% sample_n(1)
+train=train%>% ungroup(subclass,case)
 #valid <- read_rds(here::here("output","valid_cat.rds"))
 #valid$case=as.factor(valid$case)
 
