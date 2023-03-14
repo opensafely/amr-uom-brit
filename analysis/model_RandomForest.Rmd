@@ -57,7 +57,7 @@ valid_X=valid_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count contr
 valid_X=valid_X%>% ungroup(subclass)
 
 valid.1=valid_X%>%filter(case==1)# filter case
-valid.1 <- as.data.frame(lapply(valid.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
+valid.1 <- as.data.frame(lapply(valid.1, rep, valid.1$rep.no-1))# duplicate case (6case:6control)
 valid_X=rbind(valid.1,valid_X) #merge
 
 table(valid_X$case)
