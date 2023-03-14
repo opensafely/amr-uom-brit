@@ -1,0 +1,203 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+library("ggplot2")
+#library(caret)
+library(pROC)
+library(randomForest)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+# import dataset
+```{r }
+
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+train_X <- read_rds(here::here("output","train_cat.rds"))
+train_X$case=as.factor(train_X$case)
+#col=c("patient_id","patient_index_date")
+#train_X = subset(train_X, select = -c(patient_id, patient_index_date))
+
+table(train_X$case)
+prop.table(table(train_X$case))
+train_X=train_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
+train_X=train_X%>% ungroup(subclass)
+
+train.1=train_X%>%filter(case==1)# filter case
+train.1 <- as.data.frame(lapply(train.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
+train_X=rbind(train.1,train_X) #merge
+
+table(train_X$case)
+prop.table(table(train_X$case))
+
+rm(train.1)
+```
+
+
+```{r }
+
+#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
+valid_X <- read_rds(here::here("output","valid_cat.rds"))
+valid_X$case=as.factor(valid_X$case)
+
+table(valid_X$case)
+prop.table(table(valid_X$case))
+valid_X=valid_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
+valid_X=valid_X%>% ungroup(subclass)
+
+valid.1=valid_X%>%filter(case==1)# filter case
+valid.1 <- as.data.frame(lapply(valid.1, rep, valid.1$rep.no-1))# duplicate case (6case:6control)
+valid_X=rbind(valid.1,valid_X) #merge
+
+table(valid_X$case)
+prop.table(table(valid_X$case))
+
+
+
+```
+
+
+pick variable
+```{r}
+names(train_X)
+
+#pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
+
+#abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_med" , "interval_sd")
+# abtype
+train_X=train_X[col]
+valid_X=valid_X[col]
+
+str(train_X)
+```
+
+```{r eval=FALSE, include=FALSE}
+with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
+with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
+with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
+with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
+
+```
+
+
+covert number to binary
+```{r eval=FALSE, include=FALSE}
+
+train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
+
+
+summary(train_X[abtype])
+summary(valid_X[abtype])
+```
+
+
+
+```{r}
+with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
+with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
+with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
+with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
+
+```
+train model
+```{r}
+
+
+#result = expand.grid(
+ #  ntree=c(1000,2000),
+#  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
+ #  nodesize = c( 5,50),
+ # mtry=1:round(sqrt(ncol(train_X)-1)),
+ # valid_auc = NA)
+n=nrow(train_X)
+
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
+  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           ntree =  1000,
+                           sampsize = round(n*0.5),
+                           nodesize = 100 ,
+                           mtry = sqrt(ncol(train_X)-1)
+                          )
+  print(rf.model)
+```
+
+```{r}
+importance(rf.model)
+varImpPlot(rf.model)
+
+saveRDS(rf.model,here::here("output","model_RandomForest_cat.rds"))
+```
+
+
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+
+```{r}
+#names(train_X)
+#used_count <- varUsed(rf.model)
+#train_X=train_X[,-train_X$case]
+#names(used_count) <- colnames(train_X)
+#sort(used_count, decreasing = TRUE)
+#used_count
+```
+
+
+```{r}
+#count_table <- varUsed(rf.model, by.tree = TRUE)
+#rownames(count_table) <- colnames(train_X)
+#write.csv(count_table,here::here("output","var_tree.csv"))
+
+```
+
+
+
+```{r}
+set.seed(1024)
+rm(pred.y)
+pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+roc_valid <- roc( valid_X$case ~ pred.y)
+  
+plot(roc_valid)
+print(roc_valid)
+
+```
+
+
