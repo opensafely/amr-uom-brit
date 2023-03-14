@@ -9,8 +9,7 @@ library(dplyr)
 library('tidyverse')
 library("ggplot2")
 #library(caret)
-library(pROC)
-library(randomForest)
+
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 
@@ -79,39 +78,10 @@ valid_X=valid_X[col]
 str(train_X)
 ```
 
-```{r eval=FALSE, include=FALSE}
-with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
-with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
-with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
-with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
 
-```
-
-
-covert number to binary
-```{r eval=FALSE, include=FALSE}
-
-train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-
-
-summary(train_X[abtype])
-summary(valid_X[abtype])
-```
-
-
-
-```{r}
-with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
-with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
-with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
-with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
-
-```
 train model
 ```{r}
-
-train_X$case=as.factor(as.character(train_X$case))
+library(randomForest)
 
 n=nrow(train_X)
 
@@ -137,6 +107,8 @@ saveRDS(rf.model,here::here("output","model_RandomForest_cat.rds"))
 
 
 ```{r}
+library(pROC)
+
 set.seed(1024)
 pred.y <- predict(rf.model, type = 'prob')[,2]
   roc_valid <- roc(train_X$case~ pred.y)
