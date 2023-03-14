@@ -40,6 +40,18 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
+## select 1 case per subclass
+```{r}
+table(df$case)
+prop.table(table(df$case))
+df0=df%>%filter(case==0)
+df1=df%>%filter(case==1)%>% distinct(patient_id, .keep_all = TRUE)
+
+df=rbind(df0,df1)
+
+table(df$case)
+prop.table(table(df$case))
+```
 
 
 # train
@@ -87,6 +99,19 @@ df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
 df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+## select 1 case per subclass
+```{r}
+table(df$case)
+prop.table(table(df$case))
+df0=df%>%filter(case==0)
+df1=df%>%filter(case==1)%>% distinct(patient_id, .keep_all = TRUE)
+
+df=rbind(df0,df1)
+
+table(df$case)
+prop.table(table(df$case))
 ```
 
 ```{r}

@@ -37,6 +37,9 @@ table(train_X$case)
 prop.table(table(train_X$case))
 
 rm(train.1)
+
+saveRDS(train_X, here::here("output","train_6_cat.rds"))
+
 ```
 
 
@@ -58,6 +61,7 @@ valid_X=rbind(valid.1,valid_X) #merge
 table(valid_X$case)
 prop.table(table(valid_X$case))
 
+saveRDS(valid_X, here::here("output","valid_6_cat.rds"))
 
 
 ```

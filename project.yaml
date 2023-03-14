@@ -168,15 +168,17 @@ actions:
         html: output/model_RandomForest_cat.html
   #      csv1: output/var_tree.csv
         rds: output/model_RandomForest_cat.rds
+        train: output/train_6_cat.rds
+        valid: output/valid_6_cat.rds
 
-  model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders
+  model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_clogit,model_RandomForest_cat]
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_decile_cat.html
-        rds1: output/development_cat.rds
-        rds2: output/validation_cat.rds
+        rds1: output/development_cat.rds 
+        rds2: output/validation_cat.rds 
 
   model_cat: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
