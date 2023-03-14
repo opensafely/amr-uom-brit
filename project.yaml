@@ -178,7 +178,12 @@ actions:
         rds1: output/development_cat.rds
         rds2: output/validation_cat.rds
 
-        
+   model_cat: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_decile_cat]
+    outputs:
+      moderately_sensitive:
+        html: output/model_cat.html       
   # model_RF_clust: # use proximity
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [model_RF_process]
