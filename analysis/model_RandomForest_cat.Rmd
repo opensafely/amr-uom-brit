@@ -111,13 +111,8 @@ with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
 train model
 ```{r}
 
+train_X$case=as.factor(as.character(train_X$case))
 
-#result = expand.grid(
- #  ntree=c(1000,2000),
-#  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
- #  nodesize = c( 5,50),
- # mtry=1:round(sqrt(ncol(train_X)-1)),
- # valid_auc = NA)
 n=nrow(train_X)
 
 set.seed(1024)
