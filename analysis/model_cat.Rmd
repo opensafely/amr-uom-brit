@@ -45,7 +45,10 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 table(df$case)
 prop.table(table(df$case))
 df0=df%>%filter(case==0)
-df1=df%>%filter(case==1)%>% distinct(patient_id, .keep_all = TRUE)
+df1=df%>%filter(case==1)
+df1=df1%>% group_by(subclass)%>% sample_n(1)
+head(df1)
+df1=df1%>% ungroup(subclass)
 
 df=rbind(df0,df1)
 
@@ -106,7 +109,10 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 table(df$case)
 prop.table(table(df$case))
 df0=df%>%filter(case==0)
-df1=df%>%filter(case==1)%>% distinct(patient_id, .keep_all = TRUE)
+df1=df%>%filter(case==1)
+df1=df1%>% group_by(subclass)%>% sample_n(1)
+head(df1)
+df1=df1%>% ungroup(subclass)
 
 df=rbind(df0,df1)
 
