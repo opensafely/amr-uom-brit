@@ -70,7 +70,10 @@ names(train_X)
 #pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
 
 #abtype <- read_rds(here::here("output","abtype.rds"))
-col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_med" , "interval_sd")
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+      "interval_med_group" ,"interval_sd_group")
 # abtype
 train_X=train_X[col]
 valid_X=valid_X[col]
