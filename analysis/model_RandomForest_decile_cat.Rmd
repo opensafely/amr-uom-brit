@@ -1,0 +1,210 @@
+---
+title: "Random Forest model_ decile groups of probabilities"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library('tidyverse')
+library(pROC)
+library(randomForest)
+
+```
+
+# train and valid dataset (matched)
+```{r }
+train_X <- read_rds(here::here("output","train_cat.rds"))
+train_X$case=as.factor(train_X$case)
+valid_X <- read_rds(here::here("output","valid_cat.rds"))
+valid_X$case=as.factor(valid_X$case)
+
+#names(train_X)
+```
+
+## compare patient number (matched)
+```{r}
+
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
+
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
+```
+
+
+
+
+# import RF model
+```{r }
+rf.model=readRDS(here::here("output","model_RandomForest_cat.rds"))
+print(rf.model)
+input=rownames(data.frame(rf.model$importance))
+input
+```
+
+# select columns
+```{r }
+col=c("patient_id","patient_index_date","case","subclass",input,
+       "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
+
+train_X=train_X[col]
+valid_X=valid_X[col]
+
+#str(train_X)
+```
+
+
+```{r}
+nrow(train_X)# train patients (matched)
+table(train_X$case)# total train patients
+prop.table(table(train_X$case))# % train patients
+
+nrow(valid_X)# valid patients(matched)
+table(valid_X$case)# total valid patients
+prop.table(table(valid_X$case))# % valid patients
+
+```
+
+
+# development set
+## predict probabilities 
+```{r}
+data=train_X
+
+prob <- predict(rf.model,data, type = 'prob')[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(data,decile,prob)
+
+str(newdata)
+```
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+nrow(newdata)
+
+development=newdata
+rm(newdata)
+rm(data)
+```
+
+
+# validation set
+## predict probabilities 
+```{r}
+data=valid_X
+
+prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(data,decile,prob)
+str(newdata)
+```
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+nrow(newdata)
+
+validation=newdata
+rm(newdata)
+rm(data)
+```
+
+
+```{r}
+nrow(development)
+nrow(validation)
+```
+
+
+```{r}
+saveRDS(development,here::here("output","development_cat.rds"))
+saveRDS(validation,here::here("output","validation_cat.rds"))
+
+str(development)
+```
+
