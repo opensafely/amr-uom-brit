@@ -19,13 +19,15 @@ train$case=as.factor(train$case)
 
 table(train$case)
 prop.table(table(train$case))
-train=train%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
-train=train%>% ungroup(subclass)
+#train=train%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
+#train=train%>% ungroup(subclass)
 
-train.1=train%>%filter(case==1)# filter case
-train.1 <- as.data.frame(lapply(train.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
-train=rbind(train.1,train) #merge
+#train.1=train%>%filter(case==1)# filter case
+#train.1 <- as.data.frame(lapply(train.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
+#train=rbind(train.1,train) #merge
 
+train=train%>%group_by(subclass,case)%>%sample_n(1)
+train=train%>%ungroup(subclass,case)
 #table(train$case)
 prop.table(table(train$case))
 # pick variable
