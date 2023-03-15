@@ -179,11 +179,11 @@ actions:
         valid: output/valid_6_cat.rds
 
   model_RandomForest_cat_ind: # pick variables for model training # category #6:6 # individual variables
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_clogit]
     outputs:
       moderately_sensitive:
-        html: output/model_RandomForest_cat.html
+        html: output/model_RandomForest_cat_ind.html
   
   model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
