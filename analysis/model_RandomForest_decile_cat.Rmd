@@ -46,7 +46,7 @@ input
 # select columns
 ```{r }
 col=c("patient_id","patient_index_date","case","subclass",input,
-       "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
+       "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts","total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_med" ,"interval_sd")
 
 train_X=train_X[col]
 valid_X=valid_X[col]
@@ -116,6 +116,17 @@ newdata <- cbind(data,decile,prob)
 str(newdata)
 ```
 
+## check non-antibiotics users%
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$total_ab))
+
+}
+```
+
+
 ## check decile distribution
 ```{r}
 for (i in 1:10) {
@@ -130,6 +141,7 @@ development=newdata
 rm(newdata)
 rm(data)
 ```
+
 
 
 # validation set
@@ -177,6 +189,16 @@ head(prob)
 
 newdata <- cbind(data,decile,prob)
 str(newdata)
+```
+
+## check non-antibiotics users%
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$total_ab))
+
+}
 ```
 
 ## check decile distribution
