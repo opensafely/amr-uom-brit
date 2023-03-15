@@ -21,7 +21,7 @@ table(df$decile)
 table(df$case)
 prop.table(table(df$case,df$decile))
 
-df$case=as.numeric(df$case) #1/0
+df$case=as.factor(df$case) #1/0
 
 df$decile= relevel(as.factor(df$decile), ref="1")
 
@@ -45,9 +45,10 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 table(df$case)
 prop.table(table(df$case))
 df0=df%>%filter(case==0)
+str(df0)
 df1=df%>%filter(case==1)
 df1=df1%>% group_by(subclass)%>% sample_n(1)
-head(df1)
+str(df1)
 df1=df1%>% ungroup(subclass)
 
 df=rbind(df0,df1)
@@ -59,13 +60,15 @@ prop.table(table(df$case))
 
 # train
 
-```{r}
+```{r eval=FALSE, include=FALSE}
+df$case=as.numeric(df$case) #1/0
+
 model=clogit(case ~ decile+ strata(subclass),df) 
 
 summary(model)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
@@ -78,7 +81,7 @@ summary(model)
 
 
 # valid
-```{r}
+```{r eval=FALSE, include=FALSE}
 rm(df)
 df <- read_rds(here::here("output","validation_cat.rds"))
 table(df$decile)
@@ -105,7 +108,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 ## select 1 case per subclass
-```{r}
+```{r eval=FALSE, include=FALSE}
 table(df$case)
 prop.table(table(df$case))
 df0=df%>%filter(case==0)
@@ -120,13 +123,13 @@ table(df$case)
 prop.table(table(df$case))
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ decile+ strata(subclass),df) 
 
 summary(model)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
