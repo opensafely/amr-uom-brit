@@ -66,6 +66,30 @@ print(model)
 
 try(rpart.plot(model))
 
+set.seed(400)
+model<- rpart(
+  case ~ ., 
+  data = data, 
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
+
+print(model)
+
+try(rpart.plot(model))
+
+set.seed(599)
+model<- rpart(
+  case ~ ., 
+  data = data, 
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
+
+print(model)
+
+try(rpart.plot(model))
+
 ```
 
 ### total_ab_group
@@ -224,10 +248,35 @@ try(rpart.plot(model))
 ```{r, fig.width=13, fig.height=20 }
 set.seed(324)
 model<- rpart(
-  case ~ total_ab_group+age.x, 
+  case ~ ., 
   data = data, 
-  method = "class",
- control=rpart.control(minsplit=2, minbucket=1, cp=0.001)  )
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
+
+print(model)
+
+try(rpart.plot(model))
+
+set.seed(400)
+model<- rpart(
+  case ~ ., 
+  data = data, 
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
+
+print(model)
+
+try(rpart.plot(model))
+
+set.seed(599)
+model<- rpart(
+  case ~ ., 
+  data = data, 
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
 
 print(model)
 
