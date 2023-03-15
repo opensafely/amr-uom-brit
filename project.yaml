@@ -173,10 +173,17 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_cat.html
-  #      csv1: output/var_tree.csv
+      highly_sensitive:
         rds: output/model_RandomForest_cat.rds
         train: output/train_6_cat.rds
         valid: output/valid_6_cat.rds
+
+  model_RandomForest_check_cat: # check performance
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_cat]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_check_cat.html
 
   model_RandomForest_cat_ind: # pick variables for model training # category #6:6 # individual variables
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
