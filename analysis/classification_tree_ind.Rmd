@@ -42,13 +42,13 @@ str(data)
 
 ```{r}
 
-prop.table(table(data$total_ab_group +age.x))
-prop.table(table(data$ab_types_group +age.x))
-prop.table(table(data$exposure_period_group +age.x))
-prop.table(table(data$recent_ab_days_group +age.x))
-prop.table(table(data$broad_ab_prescriptions_group +age.x))
-prop.table(table(data$interval_med_group +age.x))
-prop.table(table(data$interval_sd_group +age.x))
+prop.table(table(data$total_ab_group))
+prop.table(table(data$ab_types_group ))
+prop.table(table(data$exposure_period_group ))
+prop.table(table(data$recent_ab_days_group ))
+prop.table(table(data$broad_ab_prescriptions_group ))
+prop.table(table(data$interval_med_group))
+prop.table(table(data$interval_sd_group))
 ```
 
 
@@ -272,14 +272,13 @@ prop.table(table(data$case))
 ```
 
 ```{r}
-
-prop.table(table(data$total_ab_group +age.x))
-prop.table(table(data$ab_types_group +age.x))
-prop.table(table(data$exposure_period_group +age.x))
-prop.table(table(data$recent_ab_days_group +age.x))
-prop.table(table(data$broad_ab_prescriptions_group +age.x))
-prop.table(table(data$interval_med_group +age.x))
-prop.table(table(data$interval_sd_group +age.x))
+prop.table(table(data$total_ab_group))
+prop.table(table(data$ab_types_group ))
+prop.table(table(data$exposure_period_group ))
+prop.table(table(data$recent_ab_days_group ))
+prop.table(table(data$broad_ab_prescriptions_group ))
+prop.table(table(data$interval_med_group))
+prop.table(table(data$interval_sd_group))
 ```
 
 ### overall tree1
