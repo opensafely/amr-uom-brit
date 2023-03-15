@@ -64,7 +64,7 @@ prop.table(table(df$case))
 
 ###  crude model
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 df$case=as.numeric(df$case) #1/0
 
 model=clogit(case ~ decile+ strata(subclass),df) 
@@ -73,7 +73,7 @@ summary(model)
 ```
 
 ### adjusted model
-```{r eval=FALSE, include=FALSE}
+```{r}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
@@ -87,7 +87,7 @@ summary(model)
 
 # valid
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 rm(df)
 df <- read_rds(here::here("output","validation_cat.rds"))
 table(df$decile)
