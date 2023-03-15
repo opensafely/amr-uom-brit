@@ -70,6 +70,7 @@ model$finalModel
 
 try(rpart.plot(model$finalModel))
 
+summary(predict(model, type = 'prob')[,2])
 ```
 <br/><br/>
 
@@ -86,7 +87,7 @@ model$finalModel
 # Plot the final tree model
 
 try(rpart.plot(model$finalModel))
-
+summary(predict(model, type = 'prob')[,2])
 ```
 
 ### exposure_period_group
@@ -102,7 +103,7 @@ model$finalModel
 # Plot the final tree model
 
 try(rpart.plot(model$finalModel))
-
+summary(predict(model, type = 'prob')[,2])
 ```
 
 ### recent_ab_days_group
@@ -118,7 +119,7 @@ model$finalModel
 # Plot the final tree model
 
 try(rpart.plot(model$finalModel))
-
+summary(predict(model, type = 'prob')[,2])
 ```
 
 ### broad_ab_prescriptions_group
@@ -134,7 +135,7 @@ model$finalModel
 # Plot the final tree model
 
 try(rpart.plot(model$finalModel))
-
+summary(predict(model, type = 'prob')[,2])
 ```
 
 ### interval_med_group
@@ -150,7 +151,7 @@ model$finalModel
 # Plot the final tree model
 
 try(rpart.plot(model$finalModel))
-
+summary(predict(model, type = 'prob')[,2])
 ```
 
 ### interval_sd_group
@@ -166,7 +167,7 @@ model$finalModel
 # Plot the final tree model
 
 try(rpart.plot(model$finalModel))
-
+summary(predict(model, type = 'prob')[,2])
 ```
 
 ```{r eval=FALSE, include=FALSE}
