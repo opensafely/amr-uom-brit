@@ -97,8 +97,8 @@ set.seed(1024)
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree =  1000,
-                           sampsize = round(n*0.5),
+                           ntree =  2000,
+                           sampsize = round(n*0.6),
                            nodesize = 100 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
