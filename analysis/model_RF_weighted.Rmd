@@ -31,7 +31,7 @@ prop.table(table(train$case))
 ```{r }
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
-valid_<- read_rds(here::here("output","valid_cat.rds"))
+valid<- read_rds(here::here("output","valid_cat.rds"))
 valid$case=as.factor(valid$case)
 
 table(valid$case)
