@@ -45,7 +45,7 @@ nrow(df1)
 ```{r}
 df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
 nrow(df2)
-df2=df2%>%filter(patient_index_date <= as.Date("2021-12-31"))
+df2=df2%>%filter(patient_index_date <= as.Date("2022-12-31"))
 nrow(df2)
 
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
@@ -97,7 +97,7 @@ nrow(df.0)
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
 df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
 now(df.1)
-df.1=df.1%>%filter(patient_index_date <= as.Date("2021-12-31"))
+df.1=df.1%>%filter(patient_index_date <= as.Date("2022-12-31"))
 now(df.1)
 
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
