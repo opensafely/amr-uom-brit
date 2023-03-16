@@ -175,8 +175,8 @@ actions:
         html: output/model_RandomForest_cat.html
       highly_sensitive:
         rds: output/model_RandomForest_cat.rds
-        train: output/train_6_cat.rds
-        valid: output/valid_6_cat.rds
+       # train: output/train_6_cat.rds
+       # valid: output/valid_6_cat.rds
 
   model_RF_weighted: # pick variables for model training # category 
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_weighted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
