@@ -37,7 +37,7 @@ actions:
         html:  output/pre_matching.Rmd
 
   matching: #R MatchIt  matching with replacement
-    run: r:latest -e 'rmarkdown::render("analysis/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/matching/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [pre_matching]
     outputs:
       moderately_sensitive:
@@ -54,15 +54,16 @@ actions:
       moderately_sensitive:
         html: output/check_unmatched.html
 
-  extract_variables: # confounders
+# extract
+  extract_variables: # confounders # ab exposure
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome --with-end-date-fix
     needs: [matching]
     outputs:
       highly_sensitive:
         cohort: output/input_outcome.csv
 
-  process_Rmatching: #  confounders
-    run: r:latest analysis/process_Rmatching.R
+  process_Rmatching: # confounders # ab exposure
+    run: r:latest analysis/process/process_Rmatching.R
     needs: [extract_variables,matching]
     outputs:
       highly_sensitive:
@@ -71,8 +72,7 @@ actions:
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
 
-# extract ab for RF
-  extract_variables_ab_time:   # exposure variables
+  extract_variables_ab_time:   # per ab exposure
     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix # unique matched patient ID
     needs: [matching]
     outputs:
@@ -80,7 +80,7 @@ actions:
         cohort: output/input_ab_time.csv
 
   process_ab_time: # exposures #merge ab time with mathced patients
-    run: r:latest -e 'rmarkdown::render("analysis/process_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [extract_variables_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
@@ -88,18 +88,16 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-  model_RF_process: # merge 79 types of ab, split train and valid set
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# RF
+  pre_RF_process: # merge 79 types of ab, split train and valid set
+    run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
     outputs:
       moderately_sensitive:
-        html: output/model_RF_process.html
+        html: output/pre_RF_process.html
       highly_sensitive: 
-        rds1: output/train_X.rds
-        rds2: output/train_Y.rds
-        rds3: output/valid_X.rds
-        rds4: output/valid_Y.rds
-        rds5: output/abtype.rds
+        rds1: output/train.rds
+        rds2: output/valid.rds
 
   model_clogit: # coditional logistic regression for expo variables # create category variable
     run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
