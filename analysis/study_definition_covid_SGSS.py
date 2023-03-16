@@ -15,7 +15,7 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2020-02-01"
-end_date = "2021-12-31"
+end_date = "2022-12-31"
 
 ###### Import variables
 
