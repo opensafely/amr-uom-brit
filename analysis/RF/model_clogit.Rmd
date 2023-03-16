@@ -1,0 +1,253 @@
+---
+title: "conditional logistic regression"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+library("survival")
+library(car)
+library(pROC)
+```
+
+# import training dataset
+```{r }
+#df<- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+df <- read_rds(here::here("output","train_cat.rds"))
+#df2 <- read_rds(here::here("output","valid_cat.rds"))
+
+```
+
+
+
+```{r }
+
+
+df$case=as.numeric(as.character(df$case))
+df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "0")
+df$ab_types_group=relevel(as.factor(df$ab_types_group),ref= "0")
+df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "0")
+df$recent_ab_days_group=relevel(as.factor(df$recent_ab_days_group),ref= "0")
+df$broad_prop_group=relevel(as.factor(df$broad_prop_group),ref= "0")
+df$broad_ab_prescriptions_group=relevel(as.factor(df$broad_ab_prescriptions_group),ref= "0")
+df$interval_mean_group=relevel(as.factor(df$interval_mean_group),ref= "0")
+df$interval_med_group=relevel(as.factor(df$interval_med_group),ref= "0")
+df$interval_CV_group=relevel(as.factor(df$interval_CV_group),ref= "0")
+df$interval_sd_group=relevel(as.factor(df$interval_sd_group),ref= "0")
+df$length_med_group=relevel(as.factor(df$length_med_group),ref= "0")
+df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
+df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
+df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
+```
+
+
+```{r}
+prop.table(table(df$total_ab_group))
+prop.table(table(df$ab_types_group))
+prop.table(table(df$exposure_period_group))
+prop.table(table(df$recent_ab_days_group))
+prop.table(table(df$broad_ab_prescriptions_group))
+prop.table(table(df$interval_med_group))
+prop.table(table(df$interval_sd_group))
+
+```
+
+
+# conditional logistic regression
+
+```{r }
+model=clogit(case ~total_ab_group + strata(subclass),df1) 
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+ 
+for (i in 0:4) {
+  print(summary(df[df$total_ab_group==i, "pred_y"]))
+}
+
+
+
+```
+
+```{r }
+model=clogit(case ~ab_types_group + strata(subclass),df1) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$ab_types_group==i, "pred_y"]))
+}
+
+```
+
+```{r }
+model=clogit(case ~exposure_period_group + strata(subclass),df1) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$exposure_period_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~recent_ab_days_group  + strata(subclass),df1) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$recent_ab_days_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~broad_prop_group  + strata(subclass),df1) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$broad_prop_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df1) 
+
+summary(model)
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$broad_ab_prescriptions_group==i, "pred_y"]))
+}
+
+
+```
+
+```{r }
+model=clogit(case ~interval_mean_group  + strata(subclass),df1) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$interval_mean_group==i, "pred_y"]))
+}
+
+```
+
+```{r }
+model=clogit(case ~interval_med_group  + strata(subclass),df1) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$interval_med_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ interval_CV_group + strata(subclass),df1) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$interval_CV_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ interval_sd_group + strata(subclass),df1) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$interval_sd_group==i, "pred_y"]))
+}
+```
+
+
+
+```{r }
+model=clogit(case ~length_mean_group + strata(subclass),df1) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$length_mean_group ==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~length_med_group +  strata(subclass),df1) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$length_med_group ==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ length_CV_group+  strata(subclass),df1) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$length_CV_group ==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ length_sd_group+  strata(subclass),df1) 
+
+summary(model)
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 0:4) {
+  print(summary(df[df$length_sd_group ==i, "pred_y"]))
+}
+```

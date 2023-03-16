@@ -89,7 +89,7 @@ actions:
          rds: output/matched_ab.rds
 
 # RF
-  pre_RF_process: # merge 79 types of ab, split train and valid set
+  pre_RF_process: # split train and valid set # create category variables of ab exposure
     run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
     outputs:
@@ -98,16 +98,16 @@ actions:
       highly_sensitive: 
         rds1: output/train.rds
         rds2: output/valid.rds
+        rds3: output/train_cat.rds
+        rds4: output/valid_cat.rds 
 
-  model_clogit: # coditional logistic regression for expo variables # create category variable
-    run: r:latest -e 'rmarkdown::render("analysis/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile,model_RF_process]
+  model_clogit: # coditional logistic regression for picking exposure variables 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
     outputs:
       moderately_sensitive:
         html: output/model_clogit.html
-        rds1: output/train_cat.rds
-        rds2: output/valid_cat.rds 
-
+  ### check over    
   classification_tree:  #decision tree check # category
     run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_clogit]

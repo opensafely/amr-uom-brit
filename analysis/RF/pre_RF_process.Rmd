@@ -102,3 +102,96 @@ saveRDS(valid_X, here::here("output","valid.rds"))
 
 ```
 
+
+# categorised ab exposure variables
+```{r}
+train_X$set=1
+valid_X$set=2
+df=rbind(train_X, valid_X)
+nrow(df)
+
+col=c("case","subclass","set",
+  "total_ab","ab_types","prescribe_times",
+         "exposure_period","recent_ab_days", 
+         "broad_prop","broad_ab_prescriptions",
+         "interval_mean","interval_med" ,"interval_sd","interval_CV",
+         "length_mean","length_med", "length_sd","length_CV")
+
+df=df %>% mutate_at(col,as.numeric)
+df=df[col]
+names(df)
+```
+
+
+### set group
+```{r }
+for (i in 4:length(col)) { # skip case, subclass,set
+ df[,col[i]]=ifelse(df[,col[i]]>0,df[,col[i]],NA)
+}
+```
+
+### group variables
+```{r}
+for (k in 4:18) {
+
+cut_value=quantile(df[,col[k]],c(0.25,0.5,0.75),na.rm=TRUE)
+print(cut_value)
+  
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] <= cut_value[1],1,NA)  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[1] & df[,col[k]]<= cut_value[2],2, 
+  df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[2] & df[,col[k]]<= cut_value[3],3, 
+  df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[3],4,df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+ is.na( df[,col[k]]) ,0 ,df[,paste0(col[k],"_group")])  
+
+
+
+}
+```
+
+
+```{r }
+df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "0")
+df$ab_types_group=relevel(as.factor(df$ab_types_group),ref= "0")
+df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "0")
+df$recent_ab_days_group=relevel(as.factor(df$recent_ab_days_group),ref= "0")
+df$broad_prop_group=relevel(as.factor(df$broad_prop_group),ref= "0")
+df$broad_ab_prescriptions_group=relevel(as.factor(df$broad_ab_prescriptions_group),ref= "0")
+df$interval_mean_group=relevel(as.factor(df$interval_mean_group),ref= "0")
+df$interval_med_group=relevel(as.factor(df$interval_med_group),ref= "0")
+df$interval_CV_group=relevel(as.factor(df$interval_CV_group),ref= "0")
+df$interval_sd_group=relevel(as.factor(df$interval_sd_group),ref= "0")
+df$length_med_group=relevel(as.factor(df$length_med_group),ref= "0")
+df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
+df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
+df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
+```
+
+
+```{r}
+prop.table(table(df$total_ab_group))
+prop.table(table(df$ab_types_group))
+prop.table(table(df$exposure_period_group))
+prop.table(table(df$recent_ab_days_group))
+prop.table(table(df$broad_ab_prescriptions_group))
+prop.table(table(df$interval_med_group))
+prop.table(table(df$interval_sd_group))
+
+```
+
+```{r}
+
+df1=df%>% filter(set==1)
+df2=df%>% filter(set==2)
+saveRDS(df1,here::here("output","train_cat.rds"))
+saveRDS(df2,here::here("output","valid_cat.rds"))
