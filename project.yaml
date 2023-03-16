@@ -34,7 +34,7 @@ actions:
         case: output/case_covid_hosp.csv 
         control: output/control_covid_infection.csv 
       moderately_sensitive:
-        html:  output/pre_matching.Rmd
+        html:  output/pre_matching.html
 
   matching: #R MatchIt  matching with replacement
     run: r:latest -e 'rmarkdown::render("analysis/matching/matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
