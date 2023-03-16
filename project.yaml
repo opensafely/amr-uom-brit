@@ -136,493 +136,493 @@ actions:
       moderately_sensitive:
         html: output/classification_tree_ind_rpart.html
 
-  classification_tree_contd:  #decision tree check # contd
-    run: r:latest -e 'rmarkdown::render("analysis/classification_tree_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree_contd.html
-
-  # model_tuneRF: #mtry, 
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_tuneRF.html
-
-  # model_RF_training: #
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_RF_training.html
-
-  model_RandomForest: # pick variables for model training # contd
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest.html
-  #      csv1: output/var_tree.csv
-        rds: output/model_RandomForest.rds
-
-  model_RandomForest_cat: # pick variables for model training # category #6:6
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_cat.html
-      highly_sensitive:
-        rds: output/model_RandomForest_cat.rds
-        train: output/train_6_cat.rds
-        valid: output/valid_6_cat.rds
-
-  model_RandomForest_check_cat: # check performance
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_cat]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_check_cat.html
-
-  model_RandomForest_cat_ind: # pick variables for model training # category #6:6 # individual variables
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_cat_ind.html
-  
-  model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit,model_RandomForest_cat]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_decile_cat.html
-        rds1: output/development_cat.rds 
-        rds2: output/validation_cat.rds 
-
-  model_cat: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile_cat]
-    outputs:
-      moderately_sensitive:
-        html: output/model_cat.html    
-
-  RF_descriptive_stat_cat: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile_cat]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_descriptive_stat_cat.html   
-  # model_RF_clust: # use proximity
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_RF_clust.html
-  # #      csv1: output/var_tree.csv
-  # #      rds: output/model_RandomForest.rds
-
-  model_RandomForest_check: # check performance
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RandomForest]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_check.html
-
-  model_RandomForest_tree: # check tree
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RandomForest]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_tree.html
-
-  model_RandomForest_decile: # create decile groups for probabilities # get counfounders
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RandomForest,process_ab_time,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_decile.html
-        rds1: output/development.rds
-        rds2: output/validation.rds
-
-  RF_descriptive_stat: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_descriptive_stat.html
-
-  model: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile]
-    outputs:
-      moderately_sensitive:
-        html: output/model.html
-  
-
-
-  model_clogit_adjusted: # coditional logistic regression for expo variables
-    run: r:latest -e 'rmarkdown::render("analysis/model_clogit_adjusted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile,model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_clogit_adjusted.html
-
-  model_logistic: #  logistic regression for expo variables
-    run: r:latest -e 'rmarkdown::render("analysis/model_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile,model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_logistic.html
-
-
-## updated method
-  RF_model: # pick variables for model training #distinct # ab users # merge
-    run: r:latest -e 'rmarkdown::render("analysis/RF_model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_model.html
-        rds1: output/RF_model.rds
-        rds2: output/RF_model_decile.rds
-
-  RF_model_develop: # pick variables for model training #distinct # ab users # development
-    run: r:latest -e 'rmarkdown::render("analysis/RF_model_develop.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,RF_model]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_model_develop.html
-        rds1: output/RF_model_develop.rds
-        rds2: output/RF_model_decile_develop.rds
-
-  RF_model_valid: # pick variables for model training #distinct # ab users # validation
-    run: r:latest -e 'rmarkdown::render("analysis/RF_model_valid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,RF_model_develop]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_model_valid.html
-        rds1: output/RF_model_decile_valid.rds
-
-  RF_classification_check: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF_classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,RF_model_develop,RF_model_valid]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_classification_check.html
-  
-  descriptive_stat: 
-    run: r:latest -e 'rmarkdown::render("analysis/descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,RF_model_develop,RF_model_valid]
-    outputs:
-      moderately_sensitive:
-        html: output/descriptive_stat.html
-
-# # main analysis
- 
-  table1_round: 
-    run: r:latest analysis/table1.R
-    needs: [pre_matching,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table1_unmatched.csv
-        csv2: output/table1_matched.csv
-        csv3: output/table1_random.csv
-
-  table2_round: 
-    run: r:latest analysis/table2.R
-    needs: [process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table2_matched.csv
-        csv3: output/table2_random.csv
-  
-  table3_round: # baseline table of exposure variables/ training &validation 
-    run: r:latest analysis/table3.R
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table3_train.csv
-        csv2: output/table3_valid.csv
-        csv3: output/table3_all.csv
-
-# variables check
-  check_variables: # check input
-    run: r:latest -e 'rmarkdown::render("analysis/check_variables.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/check_variables.html
-
-
-###### random 1 control #####
-  classification_check: # RF # total_ab #1000trees used to compared with 6controls
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check.html
-        rds1: output/train_1control.rds
-        rds2: output/valid_1control.rds
-  
-
-  
-  classification_check_1_control: # RF # all # 1 control
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,classification_check]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_1_control.html
-
-  classification_check_6_control: # RF # total_ab #1:6
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_6_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_6_control.html
-
-  classification_check_logi: #logistic #6 controls 
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_logi.html
-
-  classification_check_logi_1_control: #logistic # single control # decile
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_logi_1_control.html        
-
-#decile check
-  classification_check_logi_1_control_decile: #logistic # single control # total ab decile
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_logi_1_control_decile.html 
-
-  classification_check_1_control_decile: # RF # all # 1 control # total ab decile
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,classification_check]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_1_control_decile.html
-
-# remove outlier
-  classification_check_1_control_0.9: # RF # all # 1 control # remove90th outlier
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control_0.9.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,classification_check]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_1_control_0.9.html
-
-  classification_check_logi_1_control_0.9: #logistic # single control remove90th outlier
-    run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_0.9.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_check_logi_1_control_0.9.html  
-
-
-  # classification_check_logi_1_decile: #logistic # single control # decile group
-  #   run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/classification_check_logi_1_control_decile.html     
-
-
-
-
-
-
-
-
-
-
-
-# distinct  
-  model_RF_distinct: # pick variables for model training # distinct patients
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_distinct.html
-        rds: output/model_RF_distinct.rds
-
-  model_RF_distinct_check: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RF_distinct]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_distinct_check.html
-
-# random 1 control 
-  model_RF_random_1_control: # random pick one control in subclass
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_random_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_random_1_control.html
-        rds: output/model_RF_random_1_control.rds
-
-  model_RF_random_1_control_check: 
-    run: r:latest -e 'rmarkdown::render("analysis/model_RF_random_1_control_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process,model_RF_random_1_control]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RF_random_1_control_check.html
-
-
-#   #######
-#   model_tuneRF: #
-#     run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   classification_tree_contd:  #decision tree check # contd
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_tree_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
 #     needs: [model_RF_process]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/model_tuneRF.html
+#         html: output/classification_tree_contd.html
 
-#   check_ab_time:  
-#     run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [process_ab_time]
+#   # model_tuneRF: #mtry, 
+#   #   run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_RF_process]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/model_tuneRF.html
+
+#   # model_RF_training: #
+#   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_training.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_RF_process]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/model_RF_training.html
+
+#   model_RandomForest: # pick variables for model training # contd
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_ab_time.html
-#       # highly_sensitive: 
-#       #   rds: output/matched_patients_monthly_ab.rds
+#         html: output/model_RandomForest.html
+#   #      csv1: output/var_tree.csv
+#         rds: output/model_RandomForest.rds
 
-
-#   check_RF_grid: 
-#     run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [process_ab_time]
+#   model_RandomForest_cat: # pick variables for model training # category #6:6
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_clogit]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_RF_grid.html
-
-#   check_RF: 
-#     run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [process_ab_time]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/check_RF.html
-
-#   model_RF: 
-#     run: r:latest -e 'rmarkdown::render("analysis/model_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [process_ab_time]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/model_RF.html
-
-#   model_RF_process_subclass: # random sampling by subclass
-#     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_subclass.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [process_ab_time]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/model_RF_process_subclass.html
-
-#   model_RF_process_check_sample: # check sample method
-#     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_check_sample.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [process_ab_time, process_Rmatching]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/model_RF_process_check_sample.html
-
-# # check
-
-#   process_filter_ab: # filter ab users
-#     run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [process_Rmatching]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/process_filter_ab.html
-#       highly_sensitive: 
-#         csv: output/matched_patients_id_ab.csv
-
-#   extract_variables_ab_yr1: 
-#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr1 --with-end-date-fix
-#     needs: [process_filter_ab]
-#     outputs:
+#         html: output/model_RandomForest_cat.html
 #       highly_sensitive:
-#         cohort: output/input_ab_yr1.csv
+#         rds: output/model_RandomForest_cat.rds
+#         train: output/train_6_cat.rds
+#         valid: output/valid_6_cat.rds
 
-#   extract_variables_ab_yr2: 
-#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr2 --with-end-date-fix
-#     needs: [process_filter_ab]
-#     outputs:
-#       highly_sensitive:
-#         cohort: output/input_ab_yr2.csv
-
-#   extract_variables_ab_yr3: 
-#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3 --with-end-date-fix
-#     needs: [process_filter_ab]
-#     outputs:
-#       highly_sensitive:
-#         cohort: output/input_ab_yr3.csv
-
-#   extract_variables_ab_yr3_15d: 
-#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3_15d --with-end-date-fix
-#     needs: [process_filter_ab]
-#     outputs:
-#       highly_sensitive:
-#         cohort: output/input_ab_yr3_15d.csv
-
-
-#   process_merge_ab: # merge 1-2-3 year ab 
-#     run: r:latest -e 'rmarkdown::render("analysis/process_merge_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [process_Rmatching,extract_variables_ab_yr3_15d, extract_variables_ab_yr3,extract_variables_ab_yr2,extract_variables_ab_yr1]
+#   model_RandomForest_check_cat: # check performance
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_cat]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/process_merge_ab.html
-#       highly_sensitive: 
-#         rds: output/matched_patients_monthly_ab.rds
+#         html: output/model_RandomForest_check_cat.html
 
-#   check_ab_yr1:
-#     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [extract_variables_ab_yr1,matching,process_Rmatching]
+#   model_RandomForest_cat_ind: # pick variables for model training # category #6:6 # individual variables
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_clogit]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_ab_yr1.html
-
-#   check_ab_yr3:
-#     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-#     needs: [process_Rmatching]
+#         html: output/model_RandomForest_cat_ind.html
+  
+#   model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_clogit,model_RandomForest_cat]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_ab_yr3.html
+#         html: output/model_RandomForest_decile_cat.html
+#         rds1: output/development_cat.rds 
+#         rds2: output/validation_cat.rds 
+
+#   model_cat: # coditional logistic regression for decile groups
+#     run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_decile_cat]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_cat.html    
+
+#   RF_descriptive_stat_cat: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_decile_cat]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_descriptive_stat_cat.html   
+#   # model_RF_clust: # use proximity
+#   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_clust.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_RF_process]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/model_RF_clust.html
+#   # #      csv1: output/var_tree.csv
+#   # #      rds: output/model_RandomForest.rds
+
+#   model_RandomForest_check: # check performance
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,model_RandomForest]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RandomForest_check.html
+
+#   model_RandomForest_tree: # check tree
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,model_RandomForest]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RandomForest_tree.html
+
+#   model_RandomForest_decile: # create decile groups for probabilities # get counfounders
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,model_RandomForest,process_ab_time,process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RandomForest_decile.html
+#         rds1: output/development.rds
+#         rds2: output/validation.rds
+
+#   RF_descriptive_stat: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_decile]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_descriptive_stat.html
+
+#   model: # coditional logistic regression for decile groups
+#     run: r:latest -e 'rmarkdown::render("analysis/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_decile]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model.html
+  
+
+
+#   model_clogit_adjusted: # coditional logistic regression for expo variables
+#     run: r:latest -e 'rmarkdown::render("analysis/model_clogit_adjusted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_decile,model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_clogit_adjusted.html
+
+#   model_logistic: #  logistic regression for expo variables
+#     run: r:latest -e 'rmarkdown::render("analysis/model_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RandomForest_decile,model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_logistic.html
+
+
+# ## updated method
+#   RF_model: # pick variables for model training #distinct # ab users # merge
+#     run: r:latest -e 'rmarkdown::render("analysis/RF_model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_model.html
+#         rds1: output/RF_model.rds
+#         rds2: output/RF_model_decile.rds
+
+#   RF_model_develop: # pick variables for model training #distinct # ab users # development
+#     run: r:latest -e 'rmarkdown::render("analysis/RF_model_develop.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,RF_model]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_model_develop.html
+#         rds1: output/RF_model_develop.rds
+#         rds2: output/RF_model_decile_develop.rds
+
+#   RF_model_valid: # pick variables for model training #distinct # ab users # validation
+#     run: r:latest -e 'rmarkdown::render("analysis/RF_model_valid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,RF_model_develop]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_model_valid.html
+#         rds1: output/RF_model_decile_valid.rds
+
+#   RF_classification_check: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF_classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,RF_model_develop,RF_model_valid]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_classification_check.html
+  
+#   descriptive_stat: 
+#     run: r:latest -e 'rmarkdown::render("analysis/descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,RF_model_develop,RF_model_valid]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/descriptive_stat.html
+
+# # # main analysis
  
-#   check_abtype:
-#     run: r:latest -e 'rmarkdown::render("analysis/check_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#   table1_round: 
+#     run: r:latest analysis/table1.R
+#     needs: [pre_matching,process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         csv1: output/table1_unmatched.csv
+#         csv2: output/table1_matched.csv
+#         csv3: output/table1_random.csv
+
+#   table2_round: 
+#     run: r:latest analysis/table2.R
 #     needs: [process_Rmatching]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_abtype.html
-
-#   check_process_1: 
-#     run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [generate_study_population_covid_primarycare,generate_study_population_covid_SGSS,generate_study_population_covid_admission]
+#         csv1: output/table2_matched.csv
+#         csv3: output/table2_random.csv
+  
+#   table3_round: # baseline table of exposure variables/ training &validation 
+#     run: r:latest analysis/table3.R
+#     needs: [model_RF_process]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_process_1.html
+#         csv1: output/table3_train.csv
+#         csv2: output/table3_valid.csv
+#         csv3: output/table3_all.csv
 
-#   # check_RF: 
-#   #   run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#   #   needs: [process_Rmatching]
-#   #   outputs:
-#   #     moderately_sensitive:
-#   #       html: output/check_RF.html
-  
-#   # check_RF_grid: 
-#   #   run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#   #   needs: [process_Rmatching]
-#   #   outputs:
-#   #     moderately_sensitive:
-#   #       html: output/check_RF_grid.html
-  
-#   check_RF_yr1: 
-#     run: r:latest -e 'rmarkdown::render("analysis/check_RF_yr1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [extract_variables_ab_yr1,matching,process_Rmatching]
+# # variables check
+#   check_variables: # check input
+#     run: r:latest -e 'rmarkdown::render("analysis/check_variables.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
 #     outputs:
 #       moderately_sensitive:
-#         html: output/check_RF_yr1.html
+#         html: output/check_variables.html
+
+
+# ###### random 1 control #####
+#   classification_check: # RF # total_ab #1000trees used to compared with 6controls
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check.html
+#         rds1: output/train_1control.rds
+#         rds2: output/valid_1control.rds
+  
+
+  
+#   classification_check_1_control: # RF # all # 1 control
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,classification_check]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_1_control.html
+
+#   classification_check_6_control: # RF # total_ab #1:6
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_6_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_6_control.html
+
+#   classification_check_logi: #logistic #6 controls 
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_logi.html
+
+#   classification_check_logi_1_control: #logistic # single control # decile
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_logi_1_control.html        
+
+# #decile check
+#   classification_check_logi_1_control_decile: #logistic # single control # total ab decile
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_logi_1_control_decile.html 
+
+#   classification_check_1_control_decile: # RF # all # 1 control # total ab decile
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,classification_check]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_1_control_decile.html
+
+# # remove outlier
+#   classification_check_1_control_0.9: # RF # all # 1 control # remove90th outlier
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_1_control_0.9.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,classification_check]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_1_control_0.9.html
+
+#   classification_check_logi_1_control_0.9: #logistic # single control remove90th outlier
+#     run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_0.9.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_check_logi_1_control_0.9.html  
+
+
+#   # classification_check_logi_1_decile: #logistic # single control # decile group
+#   #   run: r:latest -e 'rmarkdown::render("analysis/classification_check_logi_1_control_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_RF_process]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/classification_check_logi_1_control_decile.html     
+
+
+
+
+
+
+
+
+
+
+
+# # distinct  
+#   model_RF_distinct: # pick variables for model training # distinct patients
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RF_distinct.html
+#         rds: output/model_RF_distinct.rds
+
+#   model_RF_distinct_check: 
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RF_distinct_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,model_RF_distinct]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RF_distinct_check.html
+
+# # random 1 control 
+#   model_RF_random_1_control: # random pick one control in subclass
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RF_random_1_control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RF_random_1_control.html
+#         rds: output/model_RF_random_1_control.rds
+
+#   model_RF_random_1_control_check: 
+#     run: r:latest -e 'rmarkdown::render("analysis/model_RF_random_1_control_check.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [model_RF_process,model_RF_random_1_control]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_RF_random_1_control_check.html
+
+
+# #   #######
+# #   model_tuneRF: #
+# #     run: r:latest -e 'rmarkdown::render("analysis/model_tuneRF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [model_RF_process]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/model_tuneRF.html
+
+# #   check_ab_time:  
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_ab_time.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+# #     needs: [process_ab_time]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_ab_time.html
+# #       # highly_sensitive: 
+# #       #   rds: output/matched_patients_monthly_ab.rds
+
+
+# #   check_RF_grid: 
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [process_ab_time]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_RF_grid.html
+
+# #   check_RF: 
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [process_ab_time]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_RF.html
+
+# #   model_RF: 
+# #     run: r:latest -e 'rmarkdown::render("analysis/model_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [process_ab_time]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/model_RF.html
+
+# #   model_RF_process_subclass: # random sampling by subclass
+# #     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_subclass.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [process_ab_time]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/model_RF_process_subclass.html
+
+# #   model_RF_process_check_sample: # check sample method
+# #     run: r:latest -e 'rmarkdown::render("analysis/model_RF_process_check_sample.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [process_ab_time, process_Rmatching]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/model_RF_process_check_sample.html
+
+# # # check
+
+# #   process_filter_ab: # filter ab users
+# #     run: r:latest -e 'rmarkdown::render("analysis/process_filter_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+# #     needs: [process_Rmatching]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/process_filter_ab.html
+# #       highly_sensitive: 
+# #         csv: output/matched_patients_id_ab.csv
+
+# #   extract_variables_ab_yr1: 
+# #     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr1 --with-end-date-fix
+# #     needs: [process_filter_ab]
+# #     outputs:
+# #       highly_sensitive:
+# #         cohort: output/input_ab_yr1.csv
+
+# #   extract_variables_ab_yr2: 
+# #     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr2 --with-end-date-fix
+# #     needs: [process_filter_ab]
+# #     outputs:
+# #       highly_sensitive:
+# #         cohort: output/input_ab_yr2.csv
+
+# #   extract_variables_ab_yr3: 
+# #     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3 --with-end-date-fix
+# #     needs: [process_filter_ab]
+# #     outputs:
+# #       highly_sensitive:
+# #         cohort: output/input_ab_yr3.csv
+
+# #   extract_variables_ab_yr3_15d: 
+# #     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_yr3_15d --with-end-date-fix
+# #     needs: [process_filter_ab]
+# #     outputs:
+# #       highly_sensitive:
+# #         cohort: output/input_ab_yr3_15d.csv
+
+
+# #   process_merge_ab: # merge 1-2-3 year ab 
+# #     run: r:latest -e 'rmarkdown::render("analysis/process_merge_ab.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+# #     needs: [process_Rmatching,extract_variables_ab_yr3_15d, extract_variables_ab_yr3,extract_variables_ab_yr2,extract_variables_ab_yr1]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/process_merge_ab.html
+# #       highly_sensitive: 
+# #         rds: output/matched_patients_monthly_ab.rds
+
+# #   check_ab_yr1:
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+# #     needs: [extract_variables_ab_yr1,matching,process_Rmatching]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_ab_yr1.html
+
+# #   check_ab_yr3:
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_ab_yr3.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+# #     needs: [process_Rmatching]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_ab_yr3.html
+ 
+# #   check_abtype:
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_abtype.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+# #     needs: [process_Rmatching]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_abtype.html
+
+# #   check_process_1: 
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_process_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [generate_study_population_covid_primarycare,generate_study_population_covid_SGSS,generate_study_population_covid_admission]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_process_1.html
+
+# #   # check_RF: 
+# #   #   run: r:latest -e 'rmarkdown::render("analysis/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #   #   needs: [process_Rmatching]
+# #   #   outputs:
+# #   #     moderately_sensitive:
+# #   #       html: output/check_RF.html
+  
+# #   # check_RF_grid: 
+# #   #   run: r:latest -e 'rmarkdown::render("analysis/check_RF_grid.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #   #   needs: [process_Rmatching]
+# #   #   outputs:
+# #   #     moderately_sensitive:
+# #   #       html: output/check_RF_grid.html
+  
+# #   check_RF_yr1: 
+# #     run: r:latest -e 'rmarkdown::render("analysis/check_RF_yr1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+# #     needs: [extract_variables_ab_yr1,matching,process_Rmatching]
+# #     outputs:
+# #       moderately_sensitive:
+# #         html: output/check_RF_yr1.html
 
