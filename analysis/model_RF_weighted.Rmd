@@ -17,7 +17,7 @@ options(knitr.table.format="html")
 # import dataset
 ```{r }
 
-#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+#train <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train.rds")
 train <- read_rds(here::here("output","train_cat.rds"))
 train$case=as.factor(train$case)
 
@@ -30,7 +30,7 @@ prop.table(table(train$case))
 
 ```{r }
 
-#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
+#valid <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid.rds")
 valid<- read_rds(here::here("output","valid_cat.rds"))
 valid$case=as.factor(valid$case)
 
@@ -59,24 +59,27 @@ train model
 ```{r}
 library(ranger)
 
-n=nrow(train_X)
+n=nrow(train)
 
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- ranger(formula = case ~ ., data = train_X, 
-                           replace = TRUE,
-                           num.trees =  1000,
-                           sampsize = round(n*0.5),
-                          min.node.size = 100 ,
-                           mtry = 3
+rf.model <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  500,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity_corrected",
+                   replace = TRUE,
+                   sample.fraction = c(0.5,0.5)
                           )
   print(rf.model)
 ```
 
 ```{r}
 importance(rf.model)
-varImpPlot(rf.model)
+importance_pvalues(rf.model)
+print(rf.model)
 
 saveRDS(rf.model,here::here("output","model_RF_weighted.rds"))
 ```
@@ -87,7 +90,7 @@ library(pROC)
 
 set.seed(1024)
 pred.y <- predict(rf.model, type = 'prob')[,2]
-  roc_valid <- roc(train_X$case~ pred.y)
+  roc_valid <- roc(train$case~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
   
@@ -100,8 +103,8 @@ pred.y <- predict(rf.model, type = 'prob')[,2]
 
 ```{r}
 set.seed(1024)
-pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-  roc_valid <- roc(train_X$case~ pred.y)
+pred.y <- predict(rf.model, train, type = 'prob')[,2]
+  roc_valid <- roc(train$case~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
   
@@ -114,10 +117,10 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 
 
 ```{r}
-#names(train_X)
+#names(train)
 #used_count <- varUsed(rf.model)
-#train_X=train_X[,-train_X$case]
-#names(used_count) <- colnames(train_X)
+#train=train[,-train$case]
+#names(used_count) <- colnames(train)
 #sort(used_count, decreasing = TRUE)
 #used_count
 ```
@@ -125,7 +128,7 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 
 ```{r}
 #count_table <- varUsed(rf.model, by.tree = TRUE)
-#rownames(count_table) <- colnames(train_X)
+#rownames(count_table) <- colnames(train)
 #write.csv(count_table,here::here("output","var_tree.csv"))
 
 ```
@@ -135,8 +138,8 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 ```{r}
 set.seed(1024)
 rm(pred.y)
-pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
-roc_valid <- roc( valid_X$case ~ pred.y)
+pred.y <- predict(rf.model, valid, type = 'prob')[,2]
+roc_valid <- roc( valid$case ~ pred.y)
   
 plot(roc_valid)
 print(roc_valid)
