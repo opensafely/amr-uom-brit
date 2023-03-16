@@ -1,0 +1,146 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+
+library(dplyr)
+library('tidyverse')
+library("ggplot2")
+library(ranger)
+
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+# import dataset
+```{r }
+
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+train <- read_rds(here::here("output","train_cat.rds"))
+train$case=as.factor(train$case)
+
+table(train$case)
+prop.table(table(train$case))
+
+
+```
+
+
+```{r }
+
+#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
+valid_<- read_rds(here::here("output","valid_cat.rds"))
+valid$case=as.factor(valid$case)
+
+table(valid$case)
+prop.table(table(valid$case))
+
+```
+
+
+pick variable
+```{r}
+names(train)
+
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+      "interval_med_group" ,"interval_sd_group")
+
+# abtype
+train=train[col]
+valid=valid[col]
+```
+
+
+train model
+```{r}
+library(ranger)
+
+n=nrow(train_X)
+
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
+  rf.model <- ranger(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           num.trees =  1000,
+                           sampsize = round(n*0.5),
+                          min.node.size = 100 ,
+                           mtry = 3
+                          )
+  print(rf.model)
+```
+
+```{r}
+importance(rf.model)
+varImpPlot(rf.model)
+
+saveRDS(rf.model,here::here("output","model_RF_weighted.rds"))
+```
+
+
+```{r}
+library(pROC)
+
+set.seed(1024)
+pred.y <- predict(rf.model, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+  roc_valid <- roc(train_X$case~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+
+```{r}
+#names(train_X)
+#used_count <- varUsed(rf.model)
+#train_X=train_X[,-train_X$case]
+#names(used_count) <- colnames(train_X)
+#sort(used_count, decreasing = TRUE)
+#used_count
+```
+
+
+```{r}
+#count_table <- varUsed(rf.model, by.tree = TRUE)
+#rownames(count_table) <- colnames(train_X)
+#write.csv(count_table,here::here("output","var_tree.csv"))
+
+```
+
+
+
+```{r}
+set.seed(1024)
+rm(pred.y)
+pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+roc_valid <- roc( valid_X$case ~ pred.y)
+  
+plot(roc_valid)
+print(roc_valid)
+
+```
+
+
