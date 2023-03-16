@@ -63,7 +63,7 @@ nrow(df2)
 ## merge covid infection
 ```{r}
 df=rbind
-norw(df1)
+nrow(df1)
 nrow(df2)
 nrow(df)
 
@@ -139,11 +139,11 @@ now(df1)
 
 df.0=df.0%>% filter(had_antibiotic>1)# filter ab>1
 nrow(df.0)
-norw(df.0[df.0$had_antibiotic_include_6wk>1,])
+nrow(df.0[df.0$had_antibiotic_include_6wk>1,])
 
 df.1=df.1%>% filter(had_antibiotic>1)# filter ab>1
 nrow(df.1)
-norw(df.1[df.1$had_antibiotic_include_6wk>1,])
+nrow(df.1[df.1$had_antibiotic_include_6wk>1,])
 
 write_csv(df0, here::here("output", "control_covid_infection.csv"))
 write_csv(df1, here::here("output", "case_covid_hosp.csv"))
