@@ -23,46 +23,14 @@ train_X <- read_rds(here::here("output","train_cat.rds"))
 train_X$case=as.factor(train_X$case)
 #col=c("patient_id","patient_index_date")
 #train_X = subset(train_X, select = -c(patient_id, patient_index_date))
-
-table(train_X$case)
-prop.table(table(train_X$case))
-train_X=train_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
-train_X=train_X%>% ungroup(subclass)
-
-train.1=train_X%>%filter(case==1)# filter case
-train.1 <- as.data.frame(lapply(train.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
-train_X=rbind(train.1,train_X) #merge
-
 table(train_X$case)
 prop.table(table(train_X$case))
 
-rm(train.1)
-
-saveRDS(train_X, here::here("output","train_6_cat.rds"))
-
-```
-
-
-```{r }
-
-#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
 valid_X <- read_rds(here::here("output","valid_cat.rds"))
 valid_X$case=as.factor(valid_X$case)
 
 table(valid_X$case)
 prop.table(table(valid_X$case))
-valid_X=valid_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
-valid_X=valid_X%>% ungroup(subclass)
-
-valid.1=valid_X%>%filter(case==1)# filter case
-valid.1 <- as.data.frame(lapply(valid.1, rep, valid.1$rep.no-1))# duplicate case (6case:6control)
-valid_X=rbind(valid.1,valid_X) #merge
-
-table(valid_X$case)
-prop.table(table(valid_X$case))
-
-saveRDS(valid_X, here::here("output","valid_6_cat.rds"))
-
 
 ```
 
@@ -90,15 +58,17 @@ train model
 ```{r}
 library(randomForest)
 
-n=nrow(train_X)
+sample_n=as.numeric(table(train_X$case)[2]*0.8)
+sample_n
 
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
+                           sampsize=c(sample_n,sample_n),
+                           strata=train_X$case,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
                            nodesize = 100 ,
                            mtry = 3
                           )
