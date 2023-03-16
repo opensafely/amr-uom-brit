@@ -48,7 +48,7 @@ actions:
         csv: output/matched_patients_id.csv # unique patient ID
         
   check_unmatched:
-    run: r:latest -e 'rmarkdown::render("analysis/check_unmatched.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/matching/check_unmatched.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [matching]
     outputs:
       moderately_sensitive:
