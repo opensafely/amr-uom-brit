@@ -64,7 +64,15 @@ sample_n
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
-  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+rf1<- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           sampsize=round(nrow(train_X)*0.8),
+                           ntree =  1000,
+                           nodesize = 100 ,
+                           mtry = 3
+                          )
+
+rf2<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            sampsize=c(sample_n,sample_n),
                            strata=train_X$case,
@@ -72,14 +80,32 @@ set.seed(1024)
                            nodesize = 100 ,
                            mtry = 3
                           )
-  print(rf.model)
+
+rf3<- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           sampsize=c(sample_n*2,sample_n),
+                           strata=train_X$case,
+                           ntree =  1000,
+                           nodesize = 100 ,
+                           mtry = 3
+                          )
+
+rf4<- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           sampsize=c(sample_n*3,sample_n),
+                           strata=train_X$case,
+                           ntree =  1000,
+                           nodesize = 100 ,
+                           mtry = 3
+                          )
 ```
 
 ```{r}
-importance(rf.model)
-varImpPlot(rf.model)
-
-saveRDS(rf.model,here::here("output","model_RandomForest_cat.rds"))
+varImpPlot(rf1)
+varImpPlot(rf2)
+varImpPlot(rf3)
+varImpPlot(rf4)
+saveRDS(rf2,here::here("output","model_RandomForest_cat.rds"))
 ```
 
 
@@ -87,30 +113,31 @@ saveRDS(rf.model,here::here("output","model_RandomForest_cat.rds"))
 library(pROC)
 
 set.seed(1024)
-pred.y <- predict(rf.model, type = 'prob')[,2]
-  roc_valid <- roc(train_X$case~ pred.y)
-  
+pred.y.1 <- predict(rf1, type = 'prob')[,2]
+pred.y.2 <- predict(rf2, type = 'prob')[,2]
+pred.y.3 <- predict(rf3, type = 'prob')[,2]
+pred.y.4 <- predict(rf4, type = 'prob')[,2]
+
+plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")
+plot(roc <- roc(train_X$case~ pred.y.2),col=2,add=T)
+plot(roc <- roc(train_X$case~ pred.y.3),col=3,add=T)
+plot(roc <- roc(train_X$case~ pred.y.4),col=4,add=T)
    #result[i,'valid_auc'] <- roc_valid[['auc']]
-  
-  plot(roc_valid)
-  print(roc_valid)
-#}
 
 #result
 ```
 
 ```{r}
 set.seed(1024)
-pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-  roc_valid <- roc(train_X$case~ pred.y)
-  
-   #result[i,'valid_auc'] <- roc_valid[['auc']]
-  
-  plot(roc_valid)
-  print(roc_valid)
-#}
+pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
+pred.y.2 <- predict(rf2, train_X,type = 'prob')[,2]
+pred.y.3 <- predict(rf3, train_X,type = 'prob')[,2]
+pred.y.4 <- predict(rf4, train_X,type = 'prob')[,2]
 
-#result
+plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")
+plot(roc <- roc(train_X$case~ pred.y.2),col=2,add=T)
+plot(roc <- roc(train_X$case~ pred.y.3),col=3,add=T)
+plot(roc <- roc(train_X$case~ pred.y.4),col=4,add=T)
 ```
 
 
@@ -135,13 +162,16 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 
 ```{r}
 set.seed(1024)
-rm(pred.y)
-pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
-roc_valid <- roc( valid_X$case ~ pred.y)
-  
-plot(roc_valid)
-print(roc_valid)
 
+pred.y.1 <- predict(rf1, valid_X,type = 'prob')[,2]
+pred.y.2 <- predict(rf2, valid_X,type = 'prob')[,2]
+pred.y.3 <- predict(rf3, valid_X,type = 'prob')[,2]
+pred.y.4 <- predict(rf4, valid_X,type = 'prob')[,2]
+
+plot(roc <- roc(valid_X$case~ pred.y.1),main="ROC curves for four models predicting case")
+plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)
+plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)
+plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)
 ```
 
 
