@@ -16,8 +16,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library('tidyverse')
-library('dplyr')
 library('lubridate')
+library('dplyr')
 ```
 
 # COVID INFECTION
@@ -62,7 +62,7 @@ nrow(df2)
 
 ## merge covid infection
 ```{r}
-df=rbind
+df=rbind(df1,df2)
 nrow(df1)
 nrow(df2)
 nrow(df)
