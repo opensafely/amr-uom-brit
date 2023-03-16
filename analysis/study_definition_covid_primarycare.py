@@ -15,7 +15,7 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2020-02-01"
-end_date = "2021-12-31"
+end_date = "2022-12-31"
 
 # # ###### Import variables
 
@@ -213,6 +213,25 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
     ),
 
+    had_antibiotic=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["patient_index_date- 1137 days", "patient_index_date - 43 days"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    had_antibiotic_include_6wk=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["patient_index_date- 1137 days", "patient_index_date"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
     # # **ab_variables,
     # # **confounding_variables,
     **covid_variables,
