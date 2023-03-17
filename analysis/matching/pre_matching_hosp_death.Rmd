@@ -1,0 +1,72 @@
+---
+title: "pre_matching precess"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library('tidyverse')
+library('lubridate')
+library('dplyr')
+```
+
+
+# covid hospital admission
+```{r}
+## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+df <- read_csv(here::here("output", "input_covid_admission.csv"))
+nrow(df)
+df=df%>%filter(patient_index_date <= as.Date("2022-12-31"))
+nrow(df)
+
+df =df%>%filter( !is.na(patient_index_date)) # hospital patient
+nrow(df)
+
+
+## cohort for covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+df=df%>%filter(
+         is.na(SGSS_positive_test_date_before),
+         is.na(primary_care_covid_date_before), 
+         is.na(died_date_cpns_before),
+         is.na(died_date_ons_covid_before))
+nrow(df)
+
+# calendar month for matching
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+```
+
+# CASE
+```{r}
+## CASE - covid death within 1 month
+df1=df%>%
+  filter(icu_days>0|
+           !is.na(died_date_ons_covid_after)|
+           !is.na(died_date_cpns_after))
+nrow(df1)
+write_csv(df1, here::here("output", "case_covid_icu_death.csv"))
+
+
+```
+
+# CONTROL
+```{r}
+## Control - covid hospital without any covid severe outcome within 1 month
+df0=df%>%
+  filter(
+    icu_days== 0 | is.na(icu_days),
+    is.na(died_date_cpns_after),
+    is.na(died_date_ons_covid_after))
+
+write_csv(df0, here::here("output", "control_covid_hosp.csv"))
+```
+

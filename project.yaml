@@ -137,6 +137,17 @@ actions:
   #       html: output/classification_tree_ind_rpart.html
 
 
+##### COVID hospital admission
+# matching
+  pre_matching_hosp: # filter incident cases # filter antibiotics 
+    run: r:latest -e 'rmarkdown::render("analysis/matching/pre_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [generate_study_population_covid_admission]
+    outputs:
+      highly_sensitive:
+        csv1: output/case_covid_icu_death.csv
+        csv2: output/control_covid_hosp.csv
+      moderately_sensitive:
+        html:  output/pre_matching_hosp.html
 
 ##### general population
   generate_study_population_general_population: 
