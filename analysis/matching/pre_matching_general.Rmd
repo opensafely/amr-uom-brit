@@ -40,7 +40,7 @@ sum(!is.na(df$no_covid_date))
 
 # follow-up end date 
 df=df%>%mutate(end_date=pmin(dereg_date,ons_died_date,na.rm = TRUE))
-df$end_date=as.Date(df$end_date)
+df$end_date=as.Date(df$end_date)-30
 sum(!is.na(df$end_date))
 
 # determine censoring date
@@ -61,12 +61,12 @@ sum(!is.na(df$censored_date))
 # split by month
 ```{r}
 date_seq=seq(as.Date("2020-03-01"), as.Date("2023-01-01"), "months")
-col_name=c("20200201","20200301","20200401","20200501","20200601","2020070120200801","20200901","20201001","20201101","20201201","20210101","20210201","20210301","20210401","20210501","20210601","20210701","20210801","2021090","20211001","20211101","20211201","20220101","20220201","20220301","20220401","20220501","20220601","202207020220801","20220901","20221001","20221101","20221201")
+col_name=c("20200101","20200201","20200301","20200401","20200501","20200601","2020070120200801","20200901","20201001","20201101","20201201","20210101","20210201","20210301","20210401","20210501","20210601","20210701","20210801","2021090","20211001","20211101","20211201","20220101","20220201","20220301","20220401","20220501","20220601","202207020220801","20220901","20221001","20221101","20221201")
 
 
 for (i in 1:34) {
   
- DF=df%>% filter(censored_date > date_seq[i])
+ DF=df%>% filter(censored_date >= date_seq[i])
  DF$index_date=date_seq[i]-months(1)
  print(paste0(date_seq[i]-months(1),",patient number=",nrow(DF)))
  
@@ -83,7 +83,7 @@ for (i in 1:34) {
 
 DF=df%>% filter(censored_date > as.Date("2022-11-30"))
 DF$index_date=as.Date("2022-12-31")
-paste0("2022-12-3,patient number=",nrow(DF))
+paste0("2022-12-01,patient number=",nrow(DF))
 
 DF=DF%>% filter(antibiotic_20221201>1)
 nrow(DF)

@@ -229,6 +229,15 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
     ),
 
+    antibiotic_20200101=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-01-01", "2020-01-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
     antibiotic_20200201=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["2017-02-01", "2020-02-01"],
@@ -553,7 +562,7 @@ study = StudyDefinition(
             "incidence": 0.5,
         },
     ),
-    
+
     antibiotic_20221101=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["2019-11-01", "2022-11-01"],
