@@ -58,7 +58,6 @@ prop.table(table(df$interval_sd_group))
 # conditional logistic regression
 
 ```{r }
-model=clogit(case ~total_ab_group + strata(subclass),df1) 
 model=clogit(case ~total_ab_group + strata(subclass),df) 
 summary(model)
 
@@ -89,7 +88,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~exposure_period_group + strata(subclass),df1) 
+model=clogit(case ~exposure_period_group + strata(subclass),df) 
 
 summary(model)
 
