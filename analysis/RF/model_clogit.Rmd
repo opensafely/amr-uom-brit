@@ -59,6 +59,7 @@ prop.table(table(df$interval_sd_group))
 
 ```{r }
 model=clogit(case ~total_ab_group + strata(subclass),df1) 
+model=clogit(case ~total_ab_group + strata(subclass),df) 
 summary(model)
 
 
@@ -74,7 +75,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~ab_types_group + strata(subclass),df1) 
+model=clogit(case ~ab_types_group + strata(subclass),df) 
 
 summary(model)
 
@@ -101,7 +102,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~recent_ab_days_group  + strata(subclass),df1) 
+model=clogit(case ~recent_ab_days_group  + strata(subclass),df) 
 
 summary(model)
 
@@ -115,7 +116,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~broad_prop_group  + strata(subclass),df1) 
+model=clogit(case ~broad_prop_group  + strata(subclass),df) 
 
 summary(model)
 
@@ -128,7 +129,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df1) 
+model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df) 
 
 summary(model)
 
@@ -142,7 +143,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~interval_mean_group  + strata(subclass),df1) 
+model=clogit(case ~interval_mean_group  + strata(subclass),df) 
 
 summary(model)
 
@@ -157,7 +158,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~interval_med_group  + strata(subclass),df1) 
+model=clogit(case ~interval_med_group  + strata(subclass),df) 
 
 summary(model)
 
@@ -171,7 +172,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~ interval_CV_group + strata(subclass),df1) 
+model=clogit(case ~ interval_CV_group + strata(subclass),df) 
 
 summary(model)
 
@@ -185,7 +186,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~ interval_sd_group + strata(subclass),df1) 
+model=clogit(case ~ interval_sd_group + strata(subclass),df) 
 
 summary(model)
 
@@ -201,7 +202,7 @@ for (i in 0:4) {
 
 
 ```{r }
-model=clogit(case ~length_mean_group + strata(subclass),df1) 
+model=clogit(case ~length_mean_group + strata(subclass),df) 
 
 summary(model)
 
@@ -215,7 +216,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~length_med_group +  strata(subclass),df1) 
+model=clogit(case ~length_med_group +  strata(subclass),df) 
 
 summary(model)
 
@@ -228,7 +229,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~ length_CV_group+  strata(subclass),df1) 
+model=clogit(case ~ length_CV_group+  strata(subclass),df) 
 
 summary(model)
 
@@ -241,7 +242,7 @@ for (i in 0:4) {
 ```
 
 ```{r }
-model=clogit(case ~ length_sd_group+  strata(subclass),df1) 
+model=clogit(case ~ length_sd_group+  strata(subclass),df) 
 
 summary(model)
 
