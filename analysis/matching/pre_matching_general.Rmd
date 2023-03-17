@@ -66,9 +66,9 @@ date_seq=seq(as.Date("2020-03-01"), as.Date("2023-01-01"), "months")
 
 for (i in 1:35) {
   
- DF=df%>% filter(censored_date<date_seq[i])
+ DF=df%>% filter(censored_date > date_seq[i])
  DF$index_date=date_seq[i]-months(1)
- print(paste0(date_seq[i],",patient number=",nrow(DF)))
+ print(paste0(date_seq[i]-months(1),",patient number=",nrow(DF)))
  DF=DF%>%select(patient_id, index_date)
  write.csv(DF, here::here("output", paste0("general_id_",date_seq[i]-months(1),".csv")))
 
