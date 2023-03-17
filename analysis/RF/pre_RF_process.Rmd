@@ -161,20 +161,20 @@ df[,paste0(col[k],"_group")]=ifelse(
 
 
 ```{r }
-df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "0")
-df$ab_types_group=relevel(as.factor(df$ab_types_group),ref= "0")
-df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "0")
-df$recent_ab_days_group=relevel(as.factor(df$recent_ab_days_group),ref= "0")
-df$broad_prop_group=relevel(as.factor(df$broad_prop_group),ref= "0")
-df$broad_ab_prescriptions_group=relevel(as.factor(df$broad_ab_prescriptions_group),ref= "0")
-df$interval_mean_group=relevel(as.factor(df$interval_mean_group),ref= "0")
-df$interval_med_group=relevel(as.factor(df$interval_med_group),ref= "0")
-df$interval_CV_group=relevel(as.factor(df$interval_CV_group),ref= "0")
-df$interval_sd_group=relevel(as.factor(df$interval_sd_group),ref= "0")
-df$length_med_group=relevel(as.factor(df$length_med_group),ref= "0")
-df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "0")
-df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "0")
-df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "0")
+df$total_ab_group=relevel(as.factor(df$total_ab_group),ref= "1")
+df$ab_types_group=relevel(as.factor(df$ab_types_group),ref= "1")
+df$exposure_period_group=relevel(as.factor(df$exposure_period_group),ref= "1")
+df$recent_ab_days_group=relevel(as.factor(df$recent_ab_days_group),ref= "1")
+df$broad_prop_group=relevel(as.factor(df$broad_prop_group),ref= "1")
+df$broad_ab_prescriptions_group=relevel(as.factor(df$broad_ab_prescriptions_group),ref= "1")
+df$interval_mean_group=relevel(as.factor(df$interval_mean_group),ref= "1")
+df$interval_med_group=relevel(as.factor(df$interval_med_group),ref= "1")
+df$interval_CV_group=relevel(as.factor(df$interval_CV_group),ref= "1")
+df$interval_sd_group=relevel(as.factor(df$interval_sd_group),ref= "1")
+df$length_med_group=relevel(as.factor(df$length_med_group),ref= "1")
+df$length_mean_group=relevel(as.factor(df$length_mean_group),ref= "1")
+df$length_CV_group=relevel(as.factor(df$length_CV_group),ref= "1")
+df$length_sd_group=relevel(as.factor(df$length_sd_group),ref= "1")
 ```
 
 
