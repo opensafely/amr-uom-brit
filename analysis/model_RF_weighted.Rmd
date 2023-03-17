@@ -145,17 +145,17 @@ pred.y4<- predictions(rf.model4)[,2]
 pred.y5 <- predictions(rf.model5)[,2]
 
 
-plot(roc(train_X$case~ pred.y),main="ROC curves for four models predicting case")#black
-plot(roc(train_X$case~ pred.y2),col=2,add=T)#red
-plot(roc(train_X$case~ pred.y3),col=3,add=T)#green
-plot(roc(train_X$case~ pred.y4),col=4,add=T)#blue
-plot(roc(train_X$case~ pred.y5),col=5,add=T)#blue
+plot(roc(train$case~ pred.y),main="ROC curves for four models predicting case")#black
+plot(roc(train$case~ pred.y2),col=2,add=T)#red
+plot(roc(train$case~ pred.y3),col=3,add=T)#green
+plot(roc(train$case~ pred.y4),col=4,add=T)#blue
+plot(roc(train$case~ pred.y5),col=5,add=T)#blue
 
-print(roc(train_X$case~ pred.y))
-print(roc(train_X$case~ pred.y2))
-print(roc(train_X$case~ pred.y3))
-print(roc(train_X$case~ pred.y4))
-print(roc(train_X$case~ pred.y5))
+print(roc(train$case~ pred.y))
+print(roc(train$case~ pred.y2))
+print(roc(train$case~ pred.y3))
+print(roc(train$case~ pred.y4))
+print(roc(train$case~ pred.y5))
       
 
 ```
@@ -168,17 +168,17 @@ pred.y3 <- predict(rf.model3, data=train)$prediction[,2]
 pred.y4 <- predict(rf.model4, data=train)$prediction[,2]
 pred.y5 <- predict(rf.model5, data=train)$prediction[,2]
 
-plot(roc(train_X$case~ pred.y),main="ROC curves for four models predicting case")#black
-plot(roc(train_X$case~ pred.y2),col=2,add=T)#red
-plot(roc(train_X$case~ pred.y3),col=3,add=T)#green
-plot(roc(train_X$case~ pred.y4),col=4,add=T)#blue
-plot(roc(train_X$case~ pred.y5),col=5,add=T)#blue
+plot(roc(train$case~ pred.y),main="ROC curves for four models predicting case")#black
+plot(roc(train$case~ pred.y2),col=2,add=T)#red
+plot(roc(train$case~ pred.y3),col=3,add=T)#green
+plot(roc(train$case~ pred.y4),col=4,add=T)#blue
+plot(roc(train$case~ pred.y5),col=5,add=T)#blue
 
-print(roc(train_X$case~ pred.y))
-print(roc(train_X$case~ pred.y2))
-print(roc(train_X$case~ pred.y3))
-print(roc(train_X$case~ pred.y4))
-print(roc(train_X$case~ pred.y5))
+print(roc(train$case~ pred.y))
+print(roc(train$case~ pred.y2))
+print(roc(train$case~ pred.y3))
+print(roc(train$case~ pred.y4))
+print(roc(train$case~ pred.y5))
 #result
 ```
 
@@ -210,17 +210,17 @@ pred.y3 <- predict(rf.model3, data=valid)$prediction[,2]
 pred.y4 <- predict(rf.model4, data=valid)$prediction[,2]
 pred.y5 <- predict(rf.model5, data=valid)$prediction[,2]
 
-plot(roc(valid_X$case~ pred.y),main="ROC curves for four models predicting case")#black
-plot(roc(valid_X$case~ pred.y2),col=2,add=T)#red
-plot(roc(valid_X$case~ pred.y3),col=3,add=T)#green
-plot(roc(valid_X$case~ pred.y4),col=4,add=T)#blue
-plot(roc(valid_X$case~ pred.y5),col=5,add=T)#blue
+plot(roc(valid$case~ pred.y),main="ROC curves for four models predicting case")#black
+plot(roc(valid$case~ pred.y2),col=2,add=T)#red
+plot(roc(valid$case~ pred.y3),col=3,add=T)#green
+plot(roc(valid$case~ pred.y4),col=4,add=T)#blue
+plot(roc(valid$case~ pred.y5),col=5,add=T)#blue
 
-print(roc(valid_X$case~ pred.y))
-print(roc(valid_X$case~ pred.y2))
-print(roc(valid_X$case~ pred.y3))
-print(roc(valid_X$case~ pred.y4))
-print(roc(valid_X$case~ pred.y5))
+print(roc(valid$case~ pred.y))
+print(roc(valid$case~ pred.y2))
+print(roc(valid$case~ pred.y3))
+print(roc(valid$case~ pred.y4))
+print(roc(valid$case~ pred.y5))
 ```
 
 
