@@ -140,7 +140,7 @@ actions:
 ##### COVID hospital admission
 # matching
   pre_matching_hosp: # filter incident cases # filter antibiotics 
-    run: r:latest -e 'rmarkdown::render("analysis/matching/pre_matching.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/matching/pre_matching_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [generate_study_population_covid_admission]
     outputs:
       highly_sensitive:
