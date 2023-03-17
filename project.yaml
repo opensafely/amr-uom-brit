@@ -37,41 +37,41 @@ actions:
     needs: [generate_study_population_general_population]
     outputs:
       highly_sensitive:
-        csv: output/general_population_2020-02-01.csv 
-        csv: output/general_population_2020-03-01.csv 
-        csv: output/general_population_2020-04-01.csv 
-        csv: output/general_population_2020-05-01.csv 
-        csv: output/general_population_2020-06-01.csv 
-        csv: output/general_population_2020-07-01.csv 
-        csv: output/general_population_2020-08-01.csv 
-        csv: output/general_population_2020-09-01.csv 
-        csv: output/general_population_2020-10-01.csv 
-        csv: output/general_population_2020-11-01.csv 
-        csv: output/general_population_2020-12-01.csv 
-        csv: output/general_population_2021-01-01.csv 
-        csv: output/general_population_2021-02-01.csv 
-        csv: output/general_population_2021-03-01.csv 
-        csv: output/general_population_2021-04-01.csv 
-        csv: output/general_population_2021-05-01.csv 
-        csv: output/general_population_2021-06-01.csv 
-        csv: output/general_population_2021-07-01.csv 
-        csv: output/general_population_2021-08-01.csv 
-        csv: output/general_population_2021-09-01.csv 
-        csv: output/general_population_2021-10-01.csv 
-        csv: output/general_population_2021-11-01.csv 
-        csv: output/general_population_2021-12-01.csv 
-        csv: output/general_population_2022-01-01.csv 
-        csv: output/general_population_2022-02-01.csv 
-        csv: output/general_population_2022-03-01.csv 
-        csv: output/general_population_2022-04-01.csv 
-        csv: output/general_population_2022-05-01.csv 
-        csv: output/general_population_2022-06-01.csv 
-        csv: output/general_population_2022-07-01.csv 
-        csv: output/general_population_2022-08-01.csv 
-        csv: output/general_population_2022-09-01.csv 
-        csv: output/general_population_2022-10-01.csv 
-        csv: output/general_population_2022-11-01.csv 
-        csv: output/general_population_2022-12-01.csv 
+        csv1: output/general_population_2020-02-01.csv 
+        csv2: output/general_population_2020-03-01.csv 
+        csv3: output/general_population_2020-04-01.csv 
+        csv4: output/general_population_2020-05-01.csv 
+        csv5: output/general_population_2020-06-01.csv 
+        csv6: output/general_population_2020-07-01.csv 
+        csv7: output/general_population_2020-08-01.csv 
+        csv8: output/general_population_2020-09-01.csv 
+        csv9: output/general_population_2020-10-01.csv 
+        csv10: output/general_population_2020-11-01.csv 
+        csv11: output/general_population_2020-12-01.csv 
+        csv12: output/general_population_2021-01-01.csv 
+        csv13: output/general_population_2021-02-01.csv 
+        csv14: output/general_population_2021-03-01.csv 
+        csv15: output/general_population_2021-04-01.csv 
+        csv16: output/general_population_2021-05-01.csv 
+        csv17: output/general_population_2021-06-01.csv 
+        csv18: output/general_population_2021-07-01.csv 
+        csv19: output/general_population_2021-08-01.csv 
+        csv20: output/general_population_2021-09-01.csv 
+        csv21: output/general_population_2021-10-01.csv 
+        csv22: output/general_population_2021-11-01.csv 
+        csv23: output/general_population_2021-12-01.csv 
+        csv24: output/general_population_2022-01-01.csv 
+        csv25: output/general_population_2022-02-01.csv 
+        csv26: output/general_population_2022-03-01.csv 
+        csv27: output/general_population_2022-04-01.csv 
+        csv28: output/general_population_2022-05-01.csv 
+        csv29: output/general_population_2022-06-01.csv 
+        csv30: output/general_population_2022-07-01.csv 
+        csv31: output/general_population_2022-08-01.csv 
+        csv32: output/general_population_2022-09-01.csv 
+        csv33: output/general_population_2022-10-01.csv 
+        csv34: output/general_population_2022-11-01.csv 
+        csv35: output/general_population_2022-12-01.csv 
       moderately_sensitive:
         html:  output/pre_matching_general.html
 
