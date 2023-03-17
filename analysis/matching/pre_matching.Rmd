@@ -145,7 +145,7 @@ df.1=df.1%>% filter(had_antibiotic>1)# filter ab>1
 nrow(df.1)
 nrow(df.1[df.1$had_antibiotic_include_6wk>1,])
 
-write_csv(df0, here::here("output", "control_covid_infection.csv"))
-write_csv(df1, here::here("output", "case_covid_hosp.csv"))
+write_csv(df.0, here::here("output", "control_covid_infection.csv"))
+write_csv(df.1, here::here("output", "case_covid_hosp.csv"))
 ```
 
