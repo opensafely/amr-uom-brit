@@ -1,0 +1,75 @@
+---
+title: "pre_matching precess"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library('tidyverse')
+library('lubridate')
+library('dplyr')
+```
+
+# COVID INFECTION
+## SGSS
+```{r}
+# impoprt data
+df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/input_general_population.csv")
+df <- read.csv(here::here("output", "input_general_population.csv"))
+nrow(df)
+
+df[df == ''] <- NA
+
+
+# filter antibiotic users
+df=df%>%filter(antibiotic>1)
+nrow(df)
+
+# find first covid date
+df=df%>%mutate(covid_date=pmin(covid_hosp_date,covid_primarycare_date,covid_SGSS_date,covid_died_date_cpns,covid_died_date_ons,na.rm = TRUE))
+
+# covid date - 1month: eligible controls(free of disease) date
+df$covid_date=as.Date(df$covid_date)
+df$no_covid_date=df$covid_date-30 # 1 month apart from covid onset
+sum(!is.na(df$no_covid_date))
+
+# follow-up end date 
+df=df%>%mutate(end_date=pmin(dereg_date,ons_died_date,na.rm = TRUE))
+sum(!is.na(df$end_date))
+
+# determine censoring date
+df=df%>%mutate(censored_date=pmin(no_covid_date,end_date,na.rm = TRUE))
+df$censored_date=as.Date(df$censored_date)
+sum(!is.na(df$censored_date))
+nrow(df)
+
+# fill NA with study end date
+df[is.na(df$censored_date),"censored_date"]<-as.Date("2022-12-31")
+sum(!is.na(df$censored_date))
+
+
+```
+
+# split by month
+```{r}
+date_seq=seq(as.Date("2020-03-01"), as.Date("2023-01-01"), "months")
+
+for (i in 1:35) {
+  
+ DF=df%>% filter(censored_date<date_seq[i])
+ write.csv(DF, here::here("output", paste0("general_population_",date_seq[i]-months(1),".csv")))
+
+}
+
+
+```
