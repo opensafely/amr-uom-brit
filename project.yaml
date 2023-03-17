@@ -268,6 +268,17 @@ actions:
       moderately_sensitive:
         html:  output/pre_matching_general.html
 
+  matching_general: #R MatchIt  matching with replacement
+    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [pre_matching_general,pre_matching]
+    outputs:
+      moderately_sensitive:
+        html: output/matching_hosp.html
+      highly_sensitive: 
+        rds1: output/matched_patients_hosp.rds
+        rds2: output/unmatched_cases_hosp.rds
+        csv: output/matched_patients_id_hosp.csv # unique patient ID
+
   # extract_ab_general_20200201: #prior 3-yr ab of index date
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_general_20200201 --with-end-date-fix
   #   needs: [pre_matching_general]

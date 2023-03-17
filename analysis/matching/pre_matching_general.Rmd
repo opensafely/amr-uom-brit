@@ -73,9 +73,11 @@ for (i in 1:34) {
  # filter antibiotic users
  col=paste0("antibiotic_",col_name[i])
  DF=DF%>%filter(DF[col]>1)
- DF=DF%>%select(patient_id, index_date,col)
- colnames(DF)<-c("patient_id","index_date","total_ab")
+ DF=DF%>%select(patient_id, index_date,col,age,sex,stp)
+ colnames(DF)<-c("patient_id","index_date","total_ab","age","sex","stp")
  print(nrow(DF))
+ 
+ DF$cal_YM=format(DF$index_date,"%Y-%m")
 
  write.csv(DF, here::here("output", paste0("general_id_",date_seq[i]-months(1),".csv")))
 
@@ -88,8 +90,10 @@ paste0("2022-12-01,patient number=",nrow(DF))
 DF=DF%>% filter(antibiotic_20221201>1)
 nrow(DF)
 
-DF=DF%>%select(patient_id, index_date, antibiotic_20221201)
-colnames(DF)<-c("patient_id","index_date","total_ab")
+DF=DF%>%select(patient_id, index_date, antibiotic_20221201,age,sex,stp)
+ colnames(DF)<-c("patient_id","index_date","total_ab","age","sex","stp")
+ 
+  DF$cal_YM=format(DF$index_date,"%Y-%m")
 write.csv(DF, here::here("output", "general_id_2022-12-01.csv"))
 
 
