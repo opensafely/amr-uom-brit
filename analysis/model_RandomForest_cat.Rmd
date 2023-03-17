@@ -90,7 +90,7 @@ rf3<- randomForest(formula = case ~ ., data = train_X,
                            nodesize = 100 ,
                            mtry = 3
                           )
-# 1:3
+# 1:6
 rf4<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            sampsize=c(sample_n*6,sample_n),
@@ -120,9 +120,9 @@ pred.y.3 <- predict(rf3, type = 'prob')[,2]
 pred.y.4 <- predict(rf4, type = 'prob')[,2]
 
 plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")#black
-plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)#red
-plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)#green
-plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)#blue
+plot(roc <- roc(train_X$case~ pred.y.2),col=2,add=T)#red
+plot(roc <- roc(train_X$case~ pred.y.3),col=3,add=T)#green
+plot(roc <- roc(train_X$case~ pred.y.4),col=4,add=T)#blue
    #result[i,'valid_auc'] <- roc_valid[['auc']]
 
 #result
@@ -136,9 +136,9 @@ pred.y.3 <- predict(rf3, train_X,type = 'prob')[,2]
 pred.y.4 <- predict(rf4, train_X,type = 'prob')[,2]
 
 plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")
-plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)#red
-plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)#green
-plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)#blue
+plot(roc <- roc(train_X$case~ pred.y.2),col=2,add=T)#red
+plot(roc <- roc(train_X$case~ pred.y.3),col=3,add=T)#green
+plot(roc <- roc(train_X$case~ pred.y.4),col=4,add=T)#blue
 ```
 
 
