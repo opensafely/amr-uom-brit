@@ -20,11 +20,10 @@ library('lubridate')
 library('dplyr')
 ```
 
-# COVID INFECTION
-## SGSS
+# general population
 ```{r}
 # impoprt data
-df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/input_general_population.csv")
+#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/input_general_population.csv")
 df <- read.csv(here::here("output", "input_general_population.csv"))
 nrow(df)
 
@@ -67,7 +66,10 @@ date_seq=seq(as.Date("2020-03-01"), as.Date("2023-01-01"), "months")
 for (i in 1:35) {
   
  DF=df%>% filter(censored_date<date_seq[i])
- write.csv(DF, here::here("output", paste0("general_population_",date_seq[i]-months(1),".csv")))
+ DF$index_date=date_seq[i]-months(1)
+ print(paste0(date_seq[i],",patient number=",nrow(DF)))
+ DF=DF%>%select(patient_id, index_date)
+ write.csv(DF, here::here("output", paste0("general_id_",date_seq[i]-months(1),".csv")))
 
 }
 
