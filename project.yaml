@@ -266,7 +266,7 @@ actions:
         cohort: output/input_ab_general_20201201.csv
 
   extract_ab_general_20210101: #prior 3-yr ab of index date
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_general_20210201 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_general_20210101 --with-end-date-fix
     needs: [pre_matching_general]
     outputs:
       highly_sensitive:
