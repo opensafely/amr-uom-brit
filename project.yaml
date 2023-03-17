@@ -149,6 +149,24 @@ actions:
       moderately_sensitive:
         html:  output/pre_matching_hosp.html
 
+  matching_hosp: #R MatchIt  matching with replacement
+    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [pre_matching_hosp]
+    outputs:
+      moderately_sensitive:
+        html: output/matching_hosp.html
+      highly_sensitive: 
+        rds1: output/matched_patients_hosp.rds
+        rds2: output/unmatched_cases_hosp.rds
+        csv: output/matched_patients_id_hosp.csv # unique patient ID
+
+  check_unmatched_hosp:
+    run: r:latest -e 'rmarkdown::render("analysis/matching/check_unmatched_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching_hosp]
+    outputs:
+      moderately_sensitive:
+        html: output/check_unmatched_hosp.html
+        
 ##### general population
   generate_study_population_general_population: 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population
