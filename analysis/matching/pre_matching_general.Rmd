@@ -44,6 +44,7 @@ sum(!is.na(df$no_covid_date))
 
 # follow-up end date 
 df=df%>%mutate(end_date=pmin(dereg_date,ons_died_date,na.rm = TRUE))
+df$end_date=as.Date(df$end_date)
 sum(!is.na(df$end_date))
 
 # determine censoring date
