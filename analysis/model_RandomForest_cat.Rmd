@@ -72,6 +72,7 @@ rf1<- randomForest(formula = case ~ ., data = train_X,
                            mtry = 3
                           )
 
+# 1:1
 rf2<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            sampsize=c(sample_n,sample_n),
@@ -80,7 +81,7 @@ rf2<- randomForest(formula = case ~ ., data = train_X,
                            nodesize = 100 ,
                            mtry = 3
                           )
-
+# 1:2
 rf3<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            sampsize=c(sample_n*2,sample_n),
@@ -89,10 +90,10 @@ rf3<- randomForest(formula = case ~ ., data = train_X,
                            nodesize = 100 ,
                            mtry = 3
                           )
-
+# 1:3
 rf4<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           sampsize=c(sample_n*3,sample_n),
+                           sampsize=c(sample_n*6,sample_n),
                            strata=train_X$case,
                            ntree =  1000,
                            nodesize = 100 ,
