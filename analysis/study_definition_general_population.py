@@ -229,9 +229,9 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
     ),
 
-    antibiotic=patients.with_these_medications(
+    antibiotic_20200201=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["index_date- 1137 days", "2022-12-31"],
+        between=["2017-02-01", "2020-02-01"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
@@ -239,9 +239,334 @@ study = StudyDefinition(
         },
     ),
 
-    antibiotic_include_6wk=patients.with_these_medications(
+    antibiotic_20200301=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=["index_date- 1137 days", "2022-12-31"],
+        between=["2017-03-01", "2020-03-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+    antibiotic_20200401=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-04-01", "2020-04-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20200501=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-05-01", "2020-05-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20200601=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-06-01", "2020-06-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20200701=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-07-01", "2020-07-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20200801=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-08-01", "2020-08-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20200901=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-09-01", "2020-09-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20201001=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-10-01", "2020-10-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+    antibiotic_20201101=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-11-01", "2020-11-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20201201=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2017-12-01", "2020-12-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210101=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-01-01", "2021-01-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210201=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-02-01", "2021-02-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210301=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-03-01", "2021-03-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+    antibiotic_20210401=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-04-01", "2021-04-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210501=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-05-01", "2021-05-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210601=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-06-01", "2021-06-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210701=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-07-01", "2021-07-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210801=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-08-01", "2021-08-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20210901=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-09-01", "2021-09-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20211001=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-10-01", "2021-10-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+    antibiotic_20211101=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-11-01", "2021-11-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20211201=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2018-12-01", "2021-12-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220101=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-01-01", "2022-01-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220201=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-02-01", "2022-02-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220301=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-03-01", "2022-03-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+    antibiotic_20220401=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-04-01", "2022-04-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220501=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-05-01", "2022-05-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220601=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-06-01", "2022-06-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220701=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-07-01", "2022-07-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220801=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-08-01", "2022-08-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20220901=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-09-01", "2022-09-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20221001=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-10-01", "2022-10-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+    
+    antibiotic_20221101=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-11-01", "2022-11-01"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
+
+    antibiotic_20221201=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["2019-12-01", "2022-12-01"],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
