@@ -129,12 +129,12 @@ actions:
   #     moderately_sensitive:
   #       html: output/classification_tree_all.html
 
-  classification_tree_ind_rpart:  #decision tree check # category #per predictor
-    run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind_rpart.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree_ind_rpart.html
+  # classification_tree_ind_rpart:  #decision tree check # category #per predictor
+  #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind_rpart.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_clogit]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/classification_tree_ind_rpart.html
 
 
 

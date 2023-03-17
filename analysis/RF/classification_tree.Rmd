@@ -319,4 +319,5 @@ model$finalModel
 
 try(rpart.plot(model$finalModel))
 
-summary(predict(model, t
+summary(predict(model, type = 'prob')[,2])
+```
