@@ -118,10 +118,10 @@ pred.y.2 <- predict(rf2, type = 'prob')[,2]
 pred.y.3 <- predict(rf3, type = 'prob')[,2]
 pred.y.4 <- predict(rf4, type = 'prob')[,2]
 
-plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")
-plot(roc <- roc(train_X$case~ pred.y.2),col=2,add=T)
-plot(roc <- roc(train_X$case~ pred.y.3),col=3,add=T)
-plot(roc <- roc(train_X$case~ pred.y.4),col=4,add=T)
+plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")#black
+plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)#red
+plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)#green
+plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)#blue
    #result[i,'valid_auc'] <- roc_valid[['auc']]
 
 #result
@@ -135,9 +135,9 @@ pred.y.3 <- predict(rf3, train_X,type = 'prob')[,2]
 pred.y.4 <- predict(rf4, train_X,type = 'prob')[,2]
 
 plot(roc <- roc(train_X$case~ pred.y.1),main="ROC curves for four models predicting case")
-plot(roc <- roc(train_X$case~ pred.y.2),col=2,add=T)
-plot(roc <- roc(train_X$case~ pred.y.3),col=3,add=T)
-plot(roc <- roc(train_X$case~ pred.y.4),col=4,add=T)
+plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)#red
+plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)#green
+plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)#blue
 ```
 
 
@@ -169,9 +169,9 @@ pred.y.3 <- predict(rf3, valid_X,type = 'prob')[,2]
 pred.y.4 <- predict(rf4, valid_X,type = 'prob')[,2]
 
 plot(roc <- roc(valid_X$case~ pred.y.1),main="ROC curves for four models predicting case")
-plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)
-plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)
-plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)
+plot(roc <- roc(valid_X$case~ pred.y.2),col=2,add=T)#red
+plot(roc <- roc(valid_X$case~ pred.y.3),col=3,add=T)#green
+plot(roc <- roc(valid_X$case~ pred.y.4),col=4,add=T)#blue
 ```
 
 
