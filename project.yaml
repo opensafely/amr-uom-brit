@@ -107,27 +107,27 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_clogit.html
-  ### check over    
-  classification_tree:  #decision tree check # category
-    run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree.html
 
-  classification_tree_ind:  #decision tree check # category #per predictor
-    run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit]
+  # classification_tree:  #decision tree check # category  
+  #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_clogit]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/classification_tree.html
+
+  classification_tree:  #decision tree check # category 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
     outputs:
       moderately_sensitive:
         html: output/classification_tree_ind.html
 
-  classification_tree_all:  #decision tree check # category #all predictor
-    run: r:latest -e 'rmarkdown::render("analysis/classification_tree_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree_all.html
+  # classification_tree_all:  #decision tree check # category #all predictor
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_clogit]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/classification_tree_all.html
 
   classification_tree_ind_rpart:  #decision tree check # category #per predictor
     run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind_rpart.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

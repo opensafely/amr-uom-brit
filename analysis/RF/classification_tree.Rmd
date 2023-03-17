@@ -1,0 +1,322 @@
+---
+title: "classification_decision tree - category predictor "
+---
+
+```{r setup, include=FALSE}
+library("survival")
+library('tidyverse')
+library(pROC) #plyr
+library(caret) #dplyr
+library(randomForest)
+library("rpart.plot")
+```
+
+
+```{r }
+# import dataset
+train <- read_rds(here::here("output","train_cat.rds"))
+train$case=as.factor(train$case)
+
+table(train$case)
+prop.table(table(train$case))
+train=train%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
+train=train%>% ungroup(subclass)
+
+train.1=train%>%filter(case==1)# filter case
+train.1 <- as.data.frame(lapply(train.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
+train=rbind(train.1,train) #merge
+
+#table(train$case)
+prop.table(table(train$case))
+# pick variable
+names(train)
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+      "interval_med_group" ,"interval_sd_group")
+#"broad_prop_total"
+
+data=train[col]
+str(data)
+```
+
+```{r}
+
+prop.table(table(data$total_ab_group))
+prop.table(table(data$ab_types_group ))
+prop.table(table(data$exposure_period_group ))
+prop.table(table(data$recent_ab_days_group ))
+prop.table(table(data$broad_ab_prescriptions_group ))
+prop.table(table(data$interval_med_group))
+prop.table(table(data$interval_sd_group))
+```
+
+
+## matched 
+
+### overall tree1
+```{r  }
+set.seed(1024)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+### overall tree 2
+```{r  }
+set.seed(999)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+
+### overall tree 3
+```{r  }
+set.seed(3)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+### total_ab_group 
+```{r, fig.width=13, fig.height=20 }
+set.seed(1024)
+model <-train(case ~total_ab_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+<br/><br/>
+
+### ab_types_group
+```{r }
+set.seed(1024)
+model <-train(case ~ab_types_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+### exposure_period_group
+```{r }
+set.seed(1024)
+model <-train(case ~exposure_period_group , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+### recent_ab_days_group
+```{r }
+set.seed(1024)
+model <-train(case ~recent_ab_days_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+### broad_ab_prescriptions_group
+```{r }
+set.seed(1024)
+model <-train(case ~broad_ab_prescriptions_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+### interval_med_group
+```{r }
+set.seed(1024)
+model <-train(case ~interval_med_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+### interval_sd_group
+```{r }
+set.seed(1024)
+model <-train(case ~interval_sd_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+```{r eval=FALSE, include=FALSE}
+library(rpart)
+rf.model<- rpart(
+  case ~ ., 
+  data = data, 
+  method = "class"
+ # minsplit = 2,  minbucket = 1
+  )
+
+print(rf.model)
+par(xpd = NA)
+plot(rf.model)
+text(rf.model,  digits = 3)
+```
+
+
+```{r eval=FALSE, include=FALSE}
+rf.model <- randomForest(formula = case ~ ., data = data, 
+                           replace = TRUE,
+                           ntree =  1,
+                           sampsize = round(nrow(data)*0.6),
+                           nodesize = 1 ,
+                           mtry = sqrt(ncol(data)-1)
+                          )
+  print(rf.model)
+  getTree(rf.model, k=1, labelVar=TRUE)
+
+```
+
+### overall tree1
+```{r  }
+set.seed(1024)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+### overall tree 2
+```{r  }
+set.seed(999)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+
+### overall tree 3
+```{r  }
+set.seed(3)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, t
