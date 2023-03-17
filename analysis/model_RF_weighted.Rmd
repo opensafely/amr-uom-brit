@@ -101,7 +101,7 @@ pred.y <- predictions(rf.model)[,2]
 
 ```{r}
 set.seed(1024)
-pred.y <- predict(rf.model, data=train)$prediction
+pred.y <- predict(rf.model, data=train)$prediction[,2]
   roc_valid <- roc(train$case~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
@@ -136,7 +136,7 @@ pred.y <- predict(rf.model, data=train)$prediction
 ```{r}
 set.seed(1024)
 rm(pred.y)
-pred.y <- predict(rf.model, data=valid)$prediction
+pred.y <- predict(rf.model, data=valid)$prediction[,2]
 roc_valid <- roc(valid$case ~ pred.y)
   
 plot(roc_valid)
