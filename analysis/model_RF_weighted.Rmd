@@ -149,13 +149,13 @@ plot(roc(train_X$case~ pred.y),main="ROC curves for four models predicting case"
 plot(roc(train_X$case~ pred.y2),col=2,add=T)#red
 plot(roc(train_X$case~ pred.y3),col=3,add=T)#green
 plot(roc(train_X$case~ pred.y4),col=4,add=T)#blue
-plot(roc(train_X$case~ pred.y5),col=4,add=T)#blue
+plot(roc(train_X$case~ pred.y5),col=5,add=T)#blue
 
-print(roc(train_X$case~ pred.y)
-print(roc(train_X$case~ pred.y2)
-print(roc(train_X$case~ pred.y3)
-print(roc(train_X$case~ pred.y4)
-print(roc(train_X$case~ pred.y5)
+print(roc(train_X$case~ pred.y))
+print(roc(train_X$case~ pred.y2))
+print(roc(train_X$case~ pred.y3))
+print(roc(train_X$case~ pred.y4))
+print(roc(train_X$case~ pred.y5))
       
 
 ```
@@ -172,13 +172,13 @@ plot(roc(train_X$case~ pred.y),main="ROC curves for four models predicting case"
 plot(roc(train_X$case~ pred.y2),col=2,add=T)#red
 plot(roc(train_X$case~ pred.y3),col=3,add=T)#green
 plot(roc(train_X$case~ pred.y4),col=4,add=T)#blue
-plot(roc(train_X$case~ pred.y5),col=4,add=T)#blue
+plot(roc(train_X$case~ pred.y5),col=5,add=T)#blue
 
-print(roc(train_X$case~ pred.y)
-print(roc(train_X$case~ pred.y2)
-print(roc(train_X$case~ pred.y3)
-print(roc(train_X$case~ pred.y4)
-print(roc(train_X$case~ pred.y5)
+print(roc(train_X$case~ pred.y))
+print(roc(train_X$case~ pred.y2))
+print(roc(train_X$case~ pred.y3))
+print(roc(train_X$case~ pred.y4))
+print(roc(train_X$case~ pred.y5))
 #result
 ```
 
@@ -214,13 +214,13 @@ plot(roc(valid_X$case~ pred.y),main="ROC curves for four models predicting case"
 plot(roc(valid_X$case~ pred.y2),col=2,add=T)#red
 plot(roc(valid_X$case~ pred.y3),col=3,add=T)#green
 plot(roc(valid_X$case~ pred.y4),col=4,add=T)#blue
-plot(roc(valid_X$case~ pred.y5),col=4,add=T)#blue
+plot(roc(valid_X$case~ pred.y5),col=5,add=T)#blue
 
-print(roc(valid_X$case~ pred.y)
-print(roc(valid_X$case~ pred.y2)
-print(roc(valid_X$case~ pred.y3)
-print(roc(valid_X$case~ pred.y4)
-print(roc(valid_X$case~ pred.y5)
+print(roc(valid_X$case~ pred.y))
+print(roc(valid_X$case~ pred.y2))
+print(roc(valid_X$case~ pred.y3))
+print(roc(valid_X$case~ pred.y4))
+print(roc(valid_X$case~ pred.y5))
 ```
 
 
