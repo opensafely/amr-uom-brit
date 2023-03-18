@@ -43,10 +43,11 @@ nrow(df1)
 ```{r}
 setwd(here::here("output"))
 listFiles <- list.files(pattern="general_id_+.*csv")
+listFiles =listFiles[24:35]
 
 list=list()
 
-for (i in 24:35) {
+for (i in 1:12) {
   
   list[[i]]=read.csv(here::here("output",listFiles[i]))
 }
