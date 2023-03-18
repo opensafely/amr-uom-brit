@@ -32,6 +32,8 @@ setwd(here::here("output"))
 df1=read_csv(here::here("output","control_covid_infection.csv"))
 df1$case=1
 
+df1=df1%>% filter(patient_index_date <= as.Date("2020-12-31"))
+
 df1=df1%>% select("case","patient_id","patient_index_date","had_antibiotic","age","sex","stp","cal_YM")
 colnames(df1)=c("case","patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
 nrow(df1)
@@ -44,7 +46,7 @@ listFiles <- list.files(pattern="general_id_+.*csv")
 
 list=list()
 
-for (i in 1:35) {
+for (i in 1:11) {
   
   list[[i]]=read.csv(here::here("output",listFiles[i]))
 }
@@ -77,19 +79,21 @@ https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9
 ```{r }
 # 1:1 NN PS matching w/o replacement
 
-year=unique(length(DF$cal_YM))
-df1=df%>% filter(cal_YM %in% year[1])
+#year=unique(length(DF$cal_YM))
+#df1=df%>% filter(cal_YM %in% year[1])
 table(df1$case)
+table(df0$case)
+table(DF$case)
 
 caliper_variables <- c(age = 5,NULL)
 
 exact_variables <- c("sex","stp","cal_YM", NULL)
 
-m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = df1,
+m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = DF,
                  method = "nearest", distance = "glm", # these two options don't really do anything because we only want exact + caliper matching
                  exact = exact_variables,
                  caliper = caliper_variables, std.caliper=FALSE,
-                 replace=TRUE, ratio=6)
+                 replace=TRUE, ratio=3)
 
 ```
 
