@@ -29,9 +29,9 @@ options(knitr.table.format="html")
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 setwd(here::here("output"))
 
-df=read_csv(here::here("output","control_covid_infection.csv"))
-df$case=1
-nrow(df)
+df1=read_csv(here::here("output","control_covid_infection.csv"))
+df1$case=1
+nrow(df1)
 ```
 
 # all control

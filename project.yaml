@@ -217,6 +217,33 @@ actions:
         rds3: output/train_cat_hosp.rds
         rds4: output/valid_cat_hosp.rds 
 
+  model_RandomForest_cat_ind: # pick variables for model training # category #6:6 # individual variables
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat_ind.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_cat_ind.html
+  
+  model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit,model_RandomForest_cat]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_decile_cat.html
+        rds1: output/development_cat.rds 
+        rds2: output/validation_cat.rds 
+
+  model_cat: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_RandomForest_decile_cat]
+    outputs:
+      moderately_sensitive:
+        html: output/model_cat.html  
+
+        
+
+
+
 
 ##### general population
   generate_study_population_general_population: 
