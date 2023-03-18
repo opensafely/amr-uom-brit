@@ -97,7 +97,7 @@ m.out1
 ```{r }
 
 m.data1 <- get_matches(m.out1) # repeated id between sets(subclasses)
-m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","age_cat","region") # key variables for merging
+m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","total_ab") # key variables for merging
 write_rds(m.data1, here::here("output", "matched_patients_general.rds"))
 
 m.data2 <- match.data(m.out1) # unique patient ID
