@@ -78,7 +78,8 @@ https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9
 # 1:1 NN PS matching w/o replacement
 
 year=unique(length(DF$cal_YM))
-df1=df%>% filter(cal_YM==year[1])
+df1=df%>% filter(cal_YM %in% year[1])
+table(df1$case)
 
 caliper_variables <- c(age = 5,NULL)
 
