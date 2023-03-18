@@ -137,7 +137,7 @@ actions:
   #       html: output/classification_tree_ind_rpart.html
 
   RF_uni: # category # individual variables
-    run: r:latest -e 'rmarkdown::render("analysis/RF_uni.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [pre_RF_process]
     outputs:
       moderately_sensitive:
