@@ -69,6 +69,7 @@ for (i in 1:34) {
 # filter monthly population  
  DF=df%>% filter(censored_date >= date_seq[i])
  DF$index_date=date_seq[i]-months(1)
+ DF$index_date=as.Date(DF$index_date)
  print(paste0(date_seq[i]-months(1),",patient number=",nrow(DF)))
  
  # filter antibiotic users
@@ -76,6 +77,8 @@ for (i in 1:34) {
  DF=DF%>%filter(DF[col]>1)
  
  # calculate age
+ DF$dob=paste0(DF$dob,"-01")
+ DF$dob=as.Date(DF$dob)
  DF$age=round(as.numeric(difftime(DF$index_date,DF$dob, units="days"))/365.25)
  
  # filter variables for matching
@@ -97,6 +100,8 @@ DF=DF%>% filter(antibiotic_20221201>1)
 nrow(DF)
 
 head(DF$age)
+DF$dob=paste0(DF$dob,"-01")
+DF$dob=as.Date(DF$dob)
 DF$age=round(as.numeric(difftime(DF$index_date,DF$dob, units="days"))/365.25)
 head(DF$age)
 
