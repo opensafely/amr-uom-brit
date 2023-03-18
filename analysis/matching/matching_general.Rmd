@@ -35,7 +35,7 @@ nrow(df)
 
 # all control
 ```{r}
-setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+setwd(here::here("output"))
 listFiles <- list.files(pattern="general_id_+.*csv")
 
 list=list()
@@ -67,7 +67,7 @@ nrow(DF.test)
 https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9bb307eefb24586c32/analysis/design.R
 https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9bb307eefb24586c32/analysis/match_seqtrialcox.R
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 # 1:1 NN PS matching w/o replacement
 
 caliper_variables <- c(age = 5,NULL)
@@ -88,19 +88,19 @@ m.out1
 
 
 # output
-```{r eval=FALSE, include=FALSE}
+```{r }
 
 m.data1 <- get_matches(m.out1) # repeated id between sets(subclasses)
 m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","age_cat","region") # key variables for merging
-write_rds(m.data1, here::here("output", "matched_patients.rds"))
+write_rds(m.data1, here::here("output", "matched_patients_general.rds"))
 
 m.data2 <- match.data(m.out1) # unique patient ID
 m.data2=m.data2%>%select("patient_id","patient_index_date") 
-write.csv(m.data2,here::here("output","matched_patients_id.csv"))
+write.csv(m.data2,here::here("output","matched_patients_id_general.csv"))
 
 unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
 unmatched=unmatched%>%filter(case==1)
-write_rds(unmatched,here::here("output","unmatched_cases.rds"))
+write_rds(unmatched,here::here("output","unmatched_cases_general.rds"))
 
 
 ```
