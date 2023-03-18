@@ -111,7 +111,7 @@ m.data2 <- match.data(m.out1) # unique patient ID
 m.data2=m.data2%>%select("patient_id","patient_index_date") 
 write.csv(m.data2,here::here("output","matched_patients_id_general_2021.csv"))
 
-unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
+unmatched=subset(DF, !DF$patient_id %in% m.data1$patient_id)
 unmatched=unmatched%>%filter(case==1)
 write_rds(unmatched,here::here("output","unmatched_cases_general_2021.rds"))
 
