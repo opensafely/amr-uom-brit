@@ -20,7 +20,7 @@ input ab_time
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 
-DF=read.csv(here::here("output","input_ab_time_hosp_hosp.csv"))
+DF=read.csv(here::here("output","input_ab_time_hosp.csv"))
 nrow(DF)
 names(DF)
 
