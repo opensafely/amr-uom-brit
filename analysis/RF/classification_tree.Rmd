@@ -33,7 +33,8 @@ names(train)
 col=c("case","total_ab_group","ab_types_group",
       "exposure_period_group","recent_ab_days_group",
       "broad_ab_prescriptions_group",
-      "interval_med_group" ,"interval_sd_group")
+      "interval_med_group" ,"interval_mean_group","interval_sd_group","interval_CV_group",
+      "length_med_group" ,"length_mean_group","length_sd_group","length_CV_group",)
 #"broad_prop_total"
 
 data=train[col]
@@ -48,7 +49,13 @@ prop.table(table(data$exposure_period_group ))
 prop.table(table(data$recent_ab_days_group ))
 prop.table(table(data$broad_ab_prescriptions_group ))
 prop.table(table(data$interval_med_group))
+prop.table(table(data$interval_mean_group))
 prop.table(table(data$interval_sd_group))
+prop.table(table(data$interval_CV_group))
+prop.table(table(data$length_med_group))
+prop.table(table(data$length_mean_group))
+prop.table(table(data$length_sd_group))
+prop.table(table(data$length_CV_group))
 ```
 
 
@@ -215,7 +222,21 @@ model$finalModel
 try(rpart.plot(model$finalModel))
 summary(predict(model, type = 'prob')[,2])
 ```
+### interval_mean_group
+```{r }
+set.seed(1024)
+model <-train(case ~interval_mean_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
 
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
 ### interval_sd_group
 ```{r }
 set.seed(1024)
@@ -231,6 +252,87 @@ model$finalModel
 try(rpart.plot(model$finalModel))
 summary(predict(model, type = 'prob')[,2])
 ```
+
+### interval_CV_group
+```{r }
+set.seed(1024)
+model <-train(case ~interval_CV_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+
+### length_med_group
+```{r }
+set.seed(1024)
+model <-train(case ~length_med_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+### length_mean_group
+```{r }
+set.seed(1024)
+model <-train(case ~length_mean_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+### length_sd_group
+```{r }
+set.seed(1024)
+model <-train(case ~length_sd_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+### length_CV_group
+```{r }
+set.seed(1024)
+model <-train(case ~length_CV_group, 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+
+try(rpart.plot(model$finalModel))
+summary(predict(model, type = 'prob')[,2])
+```
+
+
 
 ```{r eval=FALSE, include=FALSE}
 library(rpart)
