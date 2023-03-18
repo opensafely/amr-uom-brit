@@ -21,7 +21,7 @@ options(knitr.table.format="html")
 # import dataset
 ```{r }
 #df <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-df <- read_rds(here::here("output","matched_ab_hosp_hosp.rds"))
+df <- read_rds(here::here("output","matched_ab_hosp.rds"))
 table(df$case)
 nrow(df)
 prop.table(table(df$case))
