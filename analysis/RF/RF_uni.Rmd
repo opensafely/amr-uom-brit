@@ -9,6 +9,7 @@ library(dplyr)
 library('tidyverse')
 library("ggplot2")
 #library(caret)
+library(pROC)
 
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
