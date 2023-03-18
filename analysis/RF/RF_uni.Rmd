@@ -43,8 +43,6 @@ pick variable
 ```{r}
 names(train)
 
-#pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
-
 #abtype <- read_rds(here::here("output","abtype.rds"))
 col=c("case","total_ab_group","ab_types_group",
       "exposure_period_group","recent_ab_days_group",
@@ -72,13 +70,21 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~ total_ab_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+              #             mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -96,13 +102,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~ ab_types_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -120,13 +133,21 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~exposure_period_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+                       #    mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -143,13 +164,21 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~recent_ab_days_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
+                           sampsize = round(n*0.7),
                            nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                   #        mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -167,13 +196,21 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~broad_ab_prescriptions_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+                       #    mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -189,13 +226,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~interval_med_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+                        #   mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
-  
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -212,13 +256,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~interval_mean_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+                  #         mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
-  
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -235,13 +286,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~interval_sd_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -259,13 +317,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~interval_CV_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -282,13 +347,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~length_med_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -305,13 +377,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~length_mean_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+                        #   mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
-  
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -328,13 +407,20 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~length_sd_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
@@ -352,13 +438,21 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~length_CV_group, data = train, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
-                           nodesize = 100 ,
-                           mtry = sqrt(ncol(train)-1)
+                           sampsize = round(n*0.7),
+                           nodesize = 100 
+                 #          mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=train, type = 'prob')[,2])
+print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+
+summary(predict(rf.model,data=valid, type = 'prob')[,2])
 print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
 ```
