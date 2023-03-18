@@ -165,7 +165,7 @@ set.seed(1024)
                            replace = TRUE,
                            ntree =  1000,
                            sampsize = round(n*0.7),
-                           nodesize = 100 ,
+                           nodesize = 100 
                    #        mtry = sqrt(ncol(train)-1)
                           )
   print(rf.model)
