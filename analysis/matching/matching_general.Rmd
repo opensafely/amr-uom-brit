@@ -32,8 +32,8 @@ setwd(here::here("output"))
 df1=read_csv(here::here("output","control_covid_infection.csv"))
 df1$case=1
 
-df1=df1%>% select("patient_id","patient_index_date","had_antibiotic","age","sex","stp","cal_YM")
-colnames(df1)=c("patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
+df1=df1%>% select("case","patient_id","patient_index_date","had_antibiotic","age","sex","stp","cal_YM")
+colnames(df1)=c("case","patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
 nrow(df1)
 ```
 
@@ -51,9 +51,10 @@ for (i in 1:35) {
 
 df0=rbindlist(list)
 nrow(df0)
+df0$case=0
 
-df0=df0%>%select("patient_id","index_date","total_ab","age","sex","stp","cal_YM")
-colnames(df0)=c("patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
+df0=df0%>%select("case","patient_id","index_date","total_ab","age","sex","stp","cal_YM")
+colnames(df0)=c("case","patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
 
 DF=rbind(df1,df0)
 nrow(DF)
