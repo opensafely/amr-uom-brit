@@ -1,0 +1,121 @@
+---
+title: "Matching with replacement"
+author: "YT Y"
+date: "07/04/2022"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library('MatchIt')
+library("ggplot2")
+library(knitr)
+library(dplyr)
+library(kableExtra)
+library(data.table)#rbinlist
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+# all case
+```{r}
+# import
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+setwd(here::here("output"))
+
+df1=read_csv(here::here("output","control_covid_infection.csv"))
+df1$case=1
+
+df1=df1%>% filter(patient_index_date > as.Date("2021-12-31"))
+
+df1=df1%>% select("case","patient_id","patient_index_date","had_antibiotic","age","sex","stp","cal_YM")
+colnames(df1)=c("case","patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
+nrow(df1)
+```
+
+# all control
+```{r}
+setwd(here::here("output"))
+listFiles <- list.files(pattern="general_id_+.*csv")
+
+list=list()
+
+for (i in 24:35) {
+  
+  list[[i]]=read.csv(here::here("output",listFiles[i]))
+}
+
+df0=rbindlist(list)
+nrow(df0)
+df0$case=0
+
+df0=df0%>%select("case","patient_id","index_date","total_ab","age","sex","stp","cal_YM")
+colnames(df0)=c("case","patient_id","patient_index_date","total_ab","age","sex","stp","cal_YM")
+
+DF=rbind(df1,df0)
+nrow(DF)
+
+
+DF.test=DF%>%distinct(patient_id)
+nrow(DF.test)
+```
+
+
+
+
+# Matching
+
+## Exact matching
+ methods from wjchulme
+https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9bb307eefb24586c32/analysis/design.R
+https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9bb307eefb24586c32/analysis/match_seqtrialcox.R
+
+```{r }
+# 1:1 NN PS matching w/o replacement
+
+#year=unique(length(DF$cal_YM))
+#df1=df%>% filter(cal_YM %in% year[1])
+table(df1$case)
+table(df0$case)
+table(DF$case)
+
+caliper_variables <- c(age = 5,NULL)
+
+exact_variables <- c("sex","stp","cal_YM", NULL)
+
+m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = DF,
+                 method = "nearest", distance = "glm", # these two options don't really do anything because we only want exact + caliper matching
+                 exact = exact_variables,
+                 caliper = caliper_variables, std.caliper=FALSE,
+                 replace=TRUE, ratio=3)
+
+```
+
+
+
+
+# output
+```{r }
+
+m.data1 <- get_matches(m.out1) # repeated id between sets(subclasses)
+m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","total_ab") # key variables for merging
+write_rds(m.data1, here::here("output", "matched_patients_general_2022.rds"))
+
+m.data2 <- match.data(m.out1) # unique patient ID
+m.data2=m.data2%>%select("patient_id","patient_index_date") 
+write.csv(m.data2,here::here("output","matched_patients_id_general_2022.csv"))
+
+unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
+unmatched=unmatched%>%filter(case==1)
+write_rds(unmatched,here::here("output","unmatched_cases_general_2022.rds"))
+
+
+```
+
+
