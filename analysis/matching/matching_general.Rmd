@@ -77,17 +77,18 @@ https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9
 ```{r }
 # 1:1 NN PS matching w/o replacement
 
+year=unique(length(DF$cal_YM))
+df1=df%>% filter(cal_YM==year[1])
+
 caliper_variables <- c(age = 5,NULL)
 
 exact_variables <- c("sex","stp","cal_YM", NULL)
 
-m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = DF,
+m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = df1,
                  method = "nearest", distance = "glm", # these two options don't really do anything because we only want exact + caliper matching
                  exact = exact_variables,
                  caliper = caliper_variables, std.caliper=FALSE,
                  replace=TRUE, ratio=6)
-m.out1
-
 
 ```
 
