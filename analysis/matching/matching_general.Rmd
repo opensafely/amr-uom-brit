@@ -80,7 +80,7 @@ caliper_variables <- c(age = 5,NULL)
 
 exact_variables <- c("sex","stp","cal_YM", NULL)
 
-m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = df,
+m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = DF,
                  method = "nearest", distance = "glm", # these two options don't really do anything because we only want exact + caliper matching
                  exact = exact_variables,
                  caliper = caliper_variables, std.caliper=FALSE,
