@@ -247,14 +247,14 @@ actions:
 
   classification_tree_hosp:  #decision tree check # category 
     run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
+    needs: [pre_RF_process_hosp]
     outputs:
       moderately_sensitive:
         html: output/classification_tree_hosp.html        
 
   RF_uni_hosp: # category # individual variables
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
+    needs: [pre_RF_process_hosp]
     outputs:
       moderately_sensitive:
         html: output/RF_uni_hosp.html
