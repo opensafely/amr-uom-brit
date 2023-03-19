@@ -384,68 +384,68 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_general_20200301.csv
 
-  # # extract_variable_general_20200401: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200401 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20200401.csv
+  extract_variable_general_20200401: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200401 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20200401.csv
 
-  # # extract_variable_general_20200501: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200501 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20200501.csv
+  extract_variable_general_20200501: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200501 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20200501.csv
 
-  # # extract_variable_general_20200601: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200601 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20200601.csv
+  extract_variable_general_20200601: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200601 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20200601.csv
 
-  # # extract_variable_general_20200701: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200701 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20200701.csv
+  extract_variable_general_20200701: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200701 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20200701.csv
 
-  # # extract_variable_general_20200801: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200801 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20200801.csv
+  extract_variable_general_20200801: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200801 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20200801.csv
 
-  # # extract_variable_general_20200901: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200901 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20200901.csv
+  extract_variable_general_20200901: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200901 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20200901.csv
 
-  # # extract_variable_general_20201001: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20201001 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20201001.csv
+  extract_variable_general_20201001: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20201001 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20201001.csv
 
-  # # extract_variable_general_20201101: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20201101 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20201101.csv
+  extract_variable_general_20201101: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20201101 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20201101.csv
 
-  # # extract_variable_general_20201201: 
-  # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20201201 --with-end-date-fix
-  # #   needs: [pre_extraction_general]
-  # #   outputs:
-  # #     highly_sensitive:
-  # #       cohort: output/input_outcome_general_20201201.csv
+  extract_variable_general_20201201: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20201201 --with-end-date-fix
+    needs: [pre_extraction_general]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_general_20201201.csv
 
   # # extract_variable_general_20210101: #prior 3-yr ab of index date
   # #   run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20210101 --with-end-date-fix
