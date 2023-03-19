@@ -303,7 +303,7 @@ actions:
       highly_sensitive: 
         rds1: output/matched_patients_general.rds
         rds2: output/unmatched_cases_general.rds
-        csv: output/matched_patients_id_general.csv # unique patient ID
+        csv: output/matched_patients_id_general.csv # unique patient ID # no use
 
   matching_general_2021: #R MatchIt  matching with replacement #2021
     run: r:latest -e 'rmarkdown::render("analysis/matching/matching_general_2021.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -326,6 +326,15 @@ actions:
         rds1: output/matched_patients_general_2022.rds
         rds2: output/unmatched_cases_general_2022.rds
         csv: output/matched_patients_id_general_2022.csv
+
+  pre_extraction_general: # duplicate id
+    run: r:latest -e 'rmarkdown::render("analysis/matching/pre_extraction_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching_general_2021,matching_general_2022,matching_general]
+    outputs:
+      moderately_sensitive:
+        html: output/pre_extraction_general.html
+
+
   # extract_ab_general_20200201: #prior 3-yr ab of index date
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_general_20200201 --with-end-date-fix
   #   needs: [pre_matching_general]

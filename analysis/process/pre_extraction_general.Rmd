@@ -1,0 +1,41 @@
+---
+title: "data preparation: measure antibiotics exposure"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library('dplyr')
+library('lubridate')
+```
+
+input matched patient ID
+```{r}
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+
+df1=read.csv(here::here("output","matched_patients_id_general.csv"))
+#df2=read.csv(here::here("output","matched_patients_general.rds"))
+nrow(df1)
+
+
+df1=df1%>%select(cal_YM=="2020-02")
+nrow(df1)
+
+df2=df1%>%distinct(patient_id,patient_index_date)
+nrow(df2)
+
+
+df3=df1%>%distinct(patient_id)
+nrow(df3)
+
+# 2020-03-01
+
+```
+
