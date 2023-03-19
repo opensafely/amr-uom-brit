@@ -25,7 +25,7 @@ df1=readRDS(here::here("output","matched_patients_general.rds"))
 nrow(df1)
 
 
-df1=df1%>%filter(cal_YM=="2020-02")
+df1=df1%>%filter(cal_YM=="2020-12")
 nrow(df1)
 
 df2=df1%>%distinct(patient_id,patient_index_date)
