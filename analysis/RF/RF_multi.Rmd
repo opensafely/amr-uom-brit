@@ -56,7 +56,7 @@ library(randomForest)
 n=nrow(train_X)
 
 set.seed(1024)
-#for (i in 1:nrow(result)) {
+sample_n=as.numeric(table(train_X$case)[2]*0.8)
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
