@@ -37,7 +37,7 @@ for (i in 1:11) {
    df=DF%>%filter(cal_YM==index[i])
    df=df%>% distinct(patient_id,patient_index_date)
    print(nrow(df))
-   write.csv(df, paste0("general_id_",index[i],".csv"))
+   write.csv(df, here::here("output",paste0("general_id_",index[i],".csv")))
    rm(df)
 }
 
@@ -61,7 +61,7 @@ for (i in 1:12) {
    df=DF%>%filter(cal_YM==index[i])
    df=df%>% distinct(patient_id,patient_index_date)
    print(nrow(df))
-   write.csv(df, paste0("general_id_",index[i],".csv"))
+   write.csv(df, here::here("output",paste0("general_id_",index[i],".csv")))
    rm(df)
 }
 
@@ -87,7 +87,7 @@ for (i in 1:12) {
    df=DF%>%filter(cal_YM==index[i])
    df=df%>% distinct(patient_id,patient_index_date)
    print(nrow(df))
-   write.csv(df, paste0("general_id_",index[i],".csv"))
+   write.csv(df, here::here("output",paste0("general_id_",index[i],".csv")))
    rm(df)
 }
 
