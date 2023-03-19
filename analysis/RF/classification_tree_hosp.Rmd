@@ -187,10 +187,10 @@ summary(predict(model, type = 'prob')[,2])
 ### broad_ab_prescriptions_group
 ```{r }
 set.seed(1024)
-try(model <-train(case ~broad_ab_prescriptions_group, 
-                  data=data, method="rpart",
-                  trControl = trainControl("cv", number = 5),
-                  tuneLength=5))
+#try(model <-train(case ~broad_ab_prescriptions_group, 
+#                  data=data, method="rpart",
+ #                 trControl = trainControl("cv", number = 5),
+  #                tuneLength=5))
 table(data$broad_ab_prescriptions_group)
   
 print(model)
