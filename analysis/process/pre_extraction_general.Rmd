@@ -35,6 +35,9 @@ nrow(df2)
 df3=df1%>%distinct(patient_id)
 nrow(df3)
 
+df=df1%>%filter(case=="1")
+nrow(df)
+
 # 2020-03-01
 
 ```
@@ -47,11 +50,11 @@ nrow(DF)
 DF=DF%>% filter(cal_YM=="2020-12")
 nrow(DF)
 
-DF2=DF1%>%distinct(patient_id,patient_index_date)
+DF2=DF%>%distinct(patient_id,patient_index_date)
 nrow(DF2)
 
 
-DF3=DF1%>%distinct(patient_id)
+DF3=DF%>%distinct(patient_id)
 nrow(DF3)
 ```
 
