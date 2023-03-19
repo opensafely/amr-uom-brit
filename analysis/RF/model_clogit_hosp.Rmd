@@ -1,0 +1,226 @@
+---
+title: "conditional logistic regression"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+library("survival")
+library(car)
+library(pROC)
+```
+
+# import training dataset
+```{r }
+df <- read_rds(here::here("output","train_cat_hosp.rds"))
+
+```
+
+
+
+```{r }
+
+
+df$case=as.numeric(as.character(df$case))
+
+```
+
+
+# conditional logistic regression
+
+```{r }
+model=clogit(case ~total_ab_group + strata(subclass),df) 
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+ 
+for (i in 1:4) {
+  print(summary(df[df$total_ab_group==i, "pred_y"]))
+}
+
+
+
+```
+
+```{r }
+model=clogit(case ~ab_types_group + strata(subclass),df) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$ab_types_group==i, "pred_y"]))
+}
+
+```
+
+```{r }
+model=clogit(case ~exposure_period_group + strata(subclass),df) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$exposure_period_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~recent_ab_days_group  + strata(subclass),df) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$recent_ab_days_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~broad_prop_group  + strata(subclass),df) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$broad_prop_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~broad_ab_prescriptions_group  + strata(subclass),df) 
+
+summary(model)
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$broad_ab_prescriptions_group==i, "pred_y"]))
+}
+
+
+```
+
+```{r }
+model=clogit(case ~interval_mean_group  + strata(subclass),df) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$interval_mean_group==i, "pred_y"]))
+}
+
+```
+
+```{r }
+model=clogit(case ~interval_med_group  + strata(subclass),df) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$interval_med_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ interval_CV_group + strata(subclass),df) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$interval_CV_group==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ interval_sd_group + strata(subclass),df) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$interval_sd_group==i, "pred_y"]))
+}
+```
+
+
+
+```{r }
+model=clogit(case ~length_mean_group + strata(subclass),df) 
+
+summary(model)
+
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$length_mean_group ==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~length_med_group +  strata(subclass),df) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$length_med_group ==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ length_CV_group+  strata(subclass),df) 
+
+summary(model)
+
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$length_CV_group ==i, "pred_y"]))
+}
+```
+
+```{r }
+model=clogit(case ~ length_sd_group+  strata(subclass),df) 
+
+summary(model)
+
+df$pred_y=predict(model, df, type = 'expected')
+ print(summary(df[, "pred_y"]))
+for (i in 1:4) {
+  print(summary(df[df$length_sd_group ==i, "pred_y"]))
+}
+```

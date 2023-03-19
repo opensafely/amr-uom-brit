@@ -1,5 +1,5 @@
 ---
-title: "Random Forest model_ decile groups of probabilities"
+title: "Random Forest model_"
 ---
 
 ```{r setup, include=FALSE}
@@ -12,15 +12,15 @@ library(randomForest)
 
 # train and valid dataset (matched)
 ```{r }
-train_X <- read_rds(here::here("output","train_6_cat.rds"))
+train_X <- read_rds(here::here("output","train_cat.rds"))
 train_X$case=as.factor(train_X$case)
-valid_X <- read_rds(here::here("output","valid_6_cat.rds"))
+valid_X <- read_rds(here::here("output","valid_cat.rds"))
 valid_X$case=as.factor(valid_X$case)
 
 #names(train_X)
 ```
 
-## compare patient number (matched)
+## compare patient number 
 ```{r}
 
 nrow(train_X)# train patients (matched)
@@ -33,38 +33,41 @@ prop.table(table(valid_X$case))# % valid patients
 ```
 
 
+pick variable
+```{r}
+names(train_X)
 
 
-# import RF model
-```{r }
-rf.model=readRDS(here::here("output","model_RandomForest_cat.rds"))
-print(rf.model)
-input=rownames(data.frame(rf.model$importance))
-input
-```
-
-# select columns
-```{r }
-col=c("patient_id","patient_index_date","case","subclass",input,
-       "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts","total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_med" ,"interval_sd")
-
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+    "interval_mean_group","interval_sd_group")
+# abtype
 train_X=train_X[col]
 valid_X=valid_X[col]
 
-#str(train_X)
+str(train_X)
 ```
 
-
+# RF
 ```{r}
-nrow(train_X)# train patients (matched)
-table(train_X$case)# total train patients
-prop.table(table(train_X$case))# % train patients
+library(randomForest)
 
-nrow(valid_X)# valid patients(matched)
-table(valid_X$case)# total valid patients
-prop.table(table(valid_X$case))# % valid patients
+n=nrow(train_X)
 
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
+  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           ntree =  1000,
+                           sampsize = round(n*0.5),
+                           nodesize = 100 ,
+                           mtry = 3
+                          )
+  print(rf.model)
 ```
+
 
 
 # development set
@@ -224,8 +227,8 @@ nrow(validation)
 
 
 ```{r}
-saveRDS(development,here::here("output","development_cat.rds"))
-saveRDS(validation,here::here("output","validation_cat.rds"))
+saveRDS(development,here::here("output","development.rds"))
+saveRDS(validation,here::here("output","validation.rds"))
 
 str(development)
 ```

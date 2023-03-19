@@ -143,14 +143,14 @@ actions:
       moderately_sensitive:
         html: output/RF_uni.html
   
-  # model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
-  #   run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_clogit,model_RandomForest_cat]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_RandomForest_decile_cat.html
-  #       rds1: output/development_cat.rds 
-  #       rds2: output/validation_cat.rds 
+  RF_multi: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_decile_cat.html
+        rds1: output/development.rds 
+        rds2: output/validation.rds 
 
   # model_cat: # coditional logistic regression for decile groups
   #   run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -238,10 +238,26 @@ actions:
         rds3: output/train_cat_hosp.rds
         rds4: output/valid_cat_hosp.rds 
 
+  model_clogit_hosp: # coditional logistic regression for picking exposure variables 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process_hosp]
+    outputs:
+      moderately_sensitive:
+        html: output/model_clogit_hosp.html
 
-        
+  classification_tree_hosp:  #decision tree check # category 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/classification_tree.html        
 
-
+  RF_uni_hosp: # category # individual variables
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_uni.html
 
 
 ##### general population
