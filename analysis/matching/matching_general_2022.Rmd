@@ -86,6 +86,8 @@ table(df1$case)
 table(df0$case)
 table(DF$case)
 
+DF=data.frame(DF)
+
 caliper_variables <- c(age = 5,NULL)
 
 exact_variables <- c("sex","stp","cal_YM", NULL)
