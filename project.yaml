@@ -148,7 +148,7 @@ actions:
     needs: [pre_RF_process]
     outputs:
       moderately_sensitive:
-        html: output/model_RandomForest_decile_cat.html
+        html: output/RF_multi.html
         rds1: output/development.rds 
         rds2: output/validation.rds 
 
@@ -259,6 +259,14 @@ actions:
       moderately_sensitive:
         html: output/RF_uni_hosp.html
 
+  RF_multi_hosp: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process_hosp]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_multi_hosp.html
+        rds1: output/development_hosp.rds 
+        rds2: output/validation_hosp.rds 
 
 ##### general population
   generate_study_population_general_population: 
