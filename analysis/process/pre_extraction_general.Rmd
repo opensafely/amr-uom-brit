@@ -25,7 +25,7 @@ df1=read.csv(here::here("output","matched_patients_id_general.csv"))
 nrow(df1)
 
 
-df1=df1%>%select(cal_YM=="2020-02")
+df1=df1%>%filter(cal_YM=="2020-02")
 nrow(df1)
 
 df2=df1%>%distinct(patient_id,patient_index_date)

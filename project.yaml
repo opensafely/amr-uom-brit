@@ -328,7 +328,7 @@ actions:
         csv: output/matched_patients_id_general_2022.csv
 
   pre_extraction_general: # duplicate id
-    run: r:latest -e 'rmarkdown::render("analysis/matching/pre_extraction_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/process/pre_extraction_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [matching_general_2021,matching_general_2022,matching_general]
     outputs:
       moderately_sensitive:
