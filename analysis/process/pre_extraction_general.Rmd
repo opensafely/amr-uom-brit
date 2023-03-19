@@ -20,7 +20,7 @@ input matched patient ID
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 
-df1=read.csv(here::here("output","matched_patients_general.csv"))
+df1=readRDS(here::here("output","matched_patients_general.rds"))
 #df2=read.csv(here::here("output","matched_patients_general.rds"))
 nrow(df1)
 
