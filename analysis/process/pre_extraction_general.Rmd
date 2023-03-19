@@ -39,3 +39,19 @@ nrow(df3)
 
 ```
 
+```{r}
+
+DF=read.csv(here::here("output","control_covid_infection.csv"))
+nrow(DF)
+
+DF=DF%>% filter(cal_YM=="2020-12")
+nrow(DF)
+
+DF2=DF1%>%distinct(patient_id,patient_index_date)
+nrow(DF2)
+
+
+DF3=DF1%>%distinct(patient_id)
+nrow(DF3)
+```
+

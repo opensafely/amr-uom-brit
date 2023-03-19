@@ -329,7 +329,7 @@ actions:
 
   pre_extraction_general: # duplicate id
     run: r:latest -e 'rmarkdown::render("analysis/process/pre_extraction_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [matching_general_2021,matching_general_2022,matching_general]
+    needs: [matching_general_2021,matching_general_2022,matching_general,pre_matching]
     outputs:
       moderately_sensitive:
         html: output/pre_extraction_general.html
