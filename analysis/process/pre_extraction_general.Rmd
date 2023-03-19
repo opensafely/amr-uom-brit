@@ -16,45 +16,75 @@ library('dplyr')
 library('lubridate')
 ```
 
-input matched patient ID
+split matched patients by month
+
+# 2020
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 
-df1=readRDS(here::here("output","matched_patients_general.rds"))
-#df2=read.csv(here::here("output","matched_patients_general.rds"))
-nrow(df1)
-
-
-df1=df1%>%filter(cal_YM=="2020-12")
-nrow(df1)
-
-df2=df1%>%distinct(patient_id,patient_index_date)
-nrow(df2)
-
-
-df3=df1%>%distinct(patient_id)
-nrow(df3)
-
-df=df1%>%filter(case=="1")
+df=readRDS(here::here("output","matched_patients_general.rds"))
 nrow(df)
 
-# 2020-03-01
+df=df%>% select(cal_YM, patient_id, patient_index_date)
+
+index=c("2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12")
+
+
+
+for (i in index) {
+
+   df=df%>%filter(cal_YM==index[i])
+   df=df%>% distinct(patient_id,patient_index_date)
+   print(nrow(df))
+   write.csv(df, paste0("general_id_",index[i]))
+}
 
 ```
 
+# 2021
 ```{r}
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 
-DF=read.csv(here::here("output","control_covid_infection.csv"))
-nrow(DF)
+df=readRDS(here::here("output","matched_patients_general_2021.rds"))
+nrow(df)
 
-DF=DF%>% filter(cal_YM=="2020-12")
-nrow(DF)
+df=df%>% select(cal_YM, patient_id, patient_index_date)
 
-DF2=DF%>%distinct(patient_id,patient_index_date)
-nrow(DF2)
+index=c("2021-01","2021-02","2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12")
 
 
-DF3=DF%>%distinct(patient_id)
-nrow(DF3)
+
+for (i in index) {
+
+   df=df%>%filter(cal_YM==index[i])
+   df=df%>% distinct(patient_id,patient_index_date)
+   print(nrow(df))
+   write.csv(df, paste0("general_id_",index[i]))
+}
+
 ```
 
+
+
+# 2022
+```{r}
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+
+df=readRDS(here::here("output","matched_patients_general_2022.rds"))
+nrow(df)
+
+df=df%>% select(cal_YM, patient_id, patient_index_date)
+
+index=c("2022-01","2022-02","2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12")
+
+
+
+for (i in index) {
+
+   df=df%>%filter(cal_YM==index[i])
+   df=df%>% distinct(patient_id,patient_index_date)
+   print(nrow(df))
+   write.csv(df, paste0("general_id_",index[i]))
+}
+
+```

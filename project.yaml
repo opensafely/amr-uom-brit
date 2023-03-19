@@ -329,10 +329,46 @@ actions:
 
   pre_extraction_general: # duplicate id
     run: r:latest -e 'rmarkdown::render("analysis/process/pre_extraction_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [matching_general_2021,matching_general_2022,matching_general,pre_matching]
+    needs: [matching_general_2021,matching_general_2022,matching_general]
     outputs:
       moderately_sensitive:
         html: output/pre_extraction_general.html
+      highly_sensitive:
+        csv1: output/general_id_2020-02.csv 
+        csv2: output/general_id_2020-03.csv 
+        csv3: output/general_id_2020-04.csv 
+        csv4: output/general_id_2020-05.csv 
+        csv5: output/general_id_2020-06.csv 
+        csv6: output/general_id_2020-07.csv 
+        csv7: output/general_id_2020-08.csv 
+        csv8: output/general_id_2020-09.csv 
+        csv9: output/general_id_2020-10.csv 
+        csv10: output/general_id_2020-11.csv 
+        csv11: output/general_id_2020-12.csv 
+        csv12: output/general_id_2021-01.csv 
+        csv13: output/general_id_2021-02.csv 
+        csv14: output/general_id_2021-03.csv 
+        csv15: output/general_id_2021-04.csv 
+        csv16: output/general_id_2021-05.csv 
+        csv17: output/general_id_2021-06.csv 
+        csv18: output/general_id_2021-07.csv 
+        csv19: output/general_id_2021-08.csv 
+        csv20: output/general_id_2021-09.csv 
+        csv21: output/general_id_2021-10.csv 
+        csv22: output/general_id_2021-11.csv 
+        csv23: output/general_id_2021-12.csv 
+        csv24: output/general_id_2022-01.csv 
+        csv25: output/general_id_2022-02.csv 
+        csv26: output/general_id_2022-03.csv 
+        csv27: output/general_id_2022-04.csv 
+        csv28: output/general_id_2022-05.csv 
+        csv29: output/general_id_2022-06.csv 
+        csv30: output/general_id_2022-07.csv 
+        csv31: output/general_id_2022-08.csv 
+        csv32: output/general_id_2022-09.csv 
+        csv33: output/general_id_2022-10.csv 
+        csv34: output/general_id_2022-11.csv 
+        csv35: output/general_id_2022-12.csv 
 
 
   # extract_ab_general_20200201: #prior 3-yr ab of index date
