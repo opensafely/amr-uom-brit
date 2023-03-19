@@ -52,7 +52,7 @@ for (i in 1:12) {
   list[[i]]=read.csv(here::here("output",listFiles[i]))
 }
 
-df0=rbindlist(list)
+df0=rbindlist(list, fill=T)
 nrow(df0)
 df0$case=0
 
