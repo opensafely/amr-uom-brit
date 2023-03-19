@@ -306,7 +306,7 @@ actions:
         csv: output/matched_patients_id_general.csv # unique patient ID
 
   matching_general_2021: #R MatchIt  matching with replacement #2021
-    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_genera_2021.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_general_2021.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [pre_matching_general,pre_matching]
     outputs:
       moderately_sensitive:
@@ -317,7 +317,7 @@ actions:
         csv: output/matched_patients_id_general_2021.csv
 
   matching_general_2022: #R MatchIt  matching with replacement #2022
-    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_genera_2022.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_general_2022.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [pre_matching_general,pre_matching]
     outputs:
       moderately_sensitive:
