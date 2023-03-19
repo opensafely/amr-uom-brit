@@ -1,5 +1,5 @@
 ---
-title: "data preparation: measure antibiotics exposure"
+title: "split matched patients by month"
 output: 
   html_document:
    toc: true
@@ -16,27 +16,29 @@ library('dplyr')
 library('lubridate')
 ```
 
-split matched patients by month
+
 
 # 2020
 ```{r}
+#
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+#df=read.csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/control_covid_infection.csv")
+DF=readRDS(here::here("output","matched_patients_general.rds"))
+nrow(DF)
 
-df=readRDS(here::here("output","matched_patients_general.rds"))
-nrow(df)
-
-df=df%>% select(cal_YM, patient_id, patient_index_date)
+DF=DF%>% select(cal_YM, patient_id, patient_index_date)
 
 index=c("2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12")
 
 
 
-for (i in index) {
+for (i in 1:11) {
 
-   df=df%>%filter(cal_YM==index[i])
+   df=DF%>%filter(cal_YM==index[i])
    df=df%>% distinct(patient_id,patient_index_date)
    print(nrow(df))
-   write.csv(df, paste0("general_id_",index[i]))
+   write.csv(df, paste0("general_id_",index[i],".rds"))
+   rm(df)
 }
 
 ```
@@ -44,22 +46,23 @@ for (i in index) {
 # 2021
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+rm(DF)
+DF=readRDS(here::here("output","matched_patients_general_2021.rds"))
+nrow(DF)
 
-df=readRDS(here::here("output","matched_patients_general_2021.rds"))
-nrow(df)
-
-df=df%>% select(cal_YM, patient_id, patient_index_date)
+DF=DF%>% select(cal_YM, patient_id, patient_index_date)
 
 index=c("2021-01","2021-02","2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12")
 
 
 
-for (i in index) {
+for (i in 1:12) {
 
-   df=df%>%filter(cal_YM==index[i])
+   df=DF%>%filter(cal_YM==index[i])
    df=df%>% distinct(patient_id,patient_index_date)
    print(nrow(df))
-   write.csv(df, paste0("general_id_",index[i]))
+   write.csv(df, paste0("general_id_",index[i],".rds"))
+   rm(df)
 }
 
 ```
@@ -69,22 +72,23 @@ for (i in index) {
 # 2022
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+rm(DF)
+DF=readRDS(here::here("output","matched_patients_general_2022.rds"))
+nrow(DF)
 
-df=readRDS(here::here("output","matched_patients_general_2022.rds"))
-nrow(df)
-
-df=df%>% select(cal_YM, patient_id, patient_index_date)
+DF=DF%>% select(cal_YM, patient_id, patient_index_date)
 
 index=c("2022-01","2022-02","2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12")
 
 
 
-for (i in index) {
+for (i in 1:12) {
 
-   df=df%>%filter(cal_YM==index[i])
+   df=DF%>%filter(cal_YM==index[i])
    df=df%>% distinct(patient_id,patient_index_date)
    print(nrow(df))
-   write.csv(df, paste0("general_id_",index[i]))
+   write.csv(df, paste0("general_id_",index[i],".rds"))
+   rm(df)
 }
 
 ```
