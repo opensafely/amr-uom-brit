@@ -421,7 +421,7 @@ actions:
 
   extract_variables_ab_time_general_20200201:   ### multiple extractions
     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200201 --with-end-date-fix # unique matched patient ID
-    needs: [matching_general,matching_general_2021,matching_general_2022]
+    needs: [pre_extraction_general]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200201.csv
