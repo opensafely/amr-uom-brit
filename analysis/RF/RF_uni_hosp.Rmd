@@ -76,16 +76,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -107,16 +107,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -139,16 +139,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 # recent_ab_days_group
@@ -170,16 +170,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -202,16 +202,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 # interval_med_group
@@ -231,16 +231,16 @@ set.seed(1024)
                           )
   print(rf.model)
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -261,16 +261,16 @@ set.seed(1024)
                           )
   print(rf.model)
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 # interval_sd_group
@@ -289,18 +289,17 @@ set.seed(1024)
                            nodesize = 100 
                           )
   print(rf.model)
-  
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -322,16 +321,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -352,16 +351,16 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -382,16 +381,16 @@ set.seed(1024)
                           )
   print(rf.model)
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 # length_sd_group
@@ -410,18 +409,17 @@ set.seed(1024)
                            nodesize = 100 
                           )
   print(rf.model)
-  
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```
 
 
@@ -444,14 +442,14 @@ set.seed(1024)
   print(rf.model)
   
 summary(predict(rf.model, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=train, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 
 summary(predict(rf.model,data=valid, type = 'prob')[,2])
-print(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
-plot(plot(roc(train$case,predict(rf.model, type = 'prob')[,2])))
+print(roc(train$case,predict(rf.model, type = 'prob')[,2]))
+plot(roc(train$case,predict(rf.model, type = 'prob')[,2]))
 ```

@@ -91,7 +91,7 @@ summary(predict(rf.model, data=train)$prediction[,2])
 plot(roc(train$case,predict(rf.model, data=train)$prediction[,2]))
 
 summary(predict(rf.model, data=valid)$prediction[,2])
-plot(roc(vlid$case,predict(rf.model, data=valid)$prediction[,2]))
+plot(roc(valid$case,predict(rf.model, data=valid)$prediction[,2]))
 ```
 # total_ab_group
 ```{r }
