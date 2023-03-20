@@ -678,243 +678,242 @@ actions:
 
 # ab time extraction
   extract_variables_ab_time_general_20200301:
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200301 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200301 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200301.csv
 
   extract_variables_ab_time_general_20200401: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200401 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200401 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200401.csv
 
   extract_variables_ab_time_general_20200501: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200501 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200501 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200501.csv
 
   extract_variables_ab_time_general_20200601: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200601 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200601 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200601.csv
 
   extract_variables_ab_time_general_20200701: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200701 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200701 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200701.csv
 
   extract_variables_ab_time_general_20200801: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200801 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200801 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200801.csv
 
   extract_variables_ab_time_general_20200901: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20200901 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20200901 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200901.csv
 
   extract_variables_ab_time_general_20201001: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20201001 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20201001 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20201001.csv
 
   extract_variables_ab_time_general_20201101: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20201101 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20201101 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20201101.csv
 
   extract_variables_ab_time_general_20201201: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20201201 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20201201 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20201201.csv
 
   extract_variables_ab_time_general_20210101: #prior 3-yr ab of index date
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210101 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210101 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210101.csv
 
   extract_variables_ab_time_general_20210201: #prior 3-yr ab of index date
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210201 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210201 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210201.csv
 
   extract_variables_ab_time_general_20210301:
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210301 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210301 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210301.csv
 
   extract_variables_ab_time_general_20210401: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210401 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210401 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210401.csv
 
   extract_variables_ab_time_general_20210501: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210501 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210501 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210501.csv
 
   extract_variables_ab_time_general_20210601: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210601 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210601 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210601.csv
 
   extract_variables_ab_time_general_20210701: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210701 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210701 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210701.csv
 
   extract_variables_ab_time_general_20210801: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210801 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210801 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210801.csv
 
   extract_variables_ab_time_general_20210901: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20210901 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20210901 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20210901.csv
 
   extract_variables_ab_time_general_20211001: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20211001 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20211001 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20211001.csv
 
   extract_variables_ab_time_general_20211101: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20211101 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20211101 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20211101.csv
 
   extract_variables_ab_time_general_20211201: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20211201 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20211201 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20211201.csv
 
   extract_variables_ab_time_general_20220101:
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220101 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220101 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220101.csv 
 
   extract_variables_ab_time_general_20220201: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220201 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220201 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220201.csv
 
   extract_variables_ab_time_general_20220301:
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220301 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220301 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220301.csv
 
   extract_variables_ab_time_general_20220401: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220401 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220401 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220401.csv
 
   extract_variables_ab_time_general_20220501: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220501 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220501 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220501.csv
 
   extract_variables_ab_time_general_20220601: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220601 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220601 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220601.csv
 
   extract_variables_ab_time_general_20220701: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220701 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220701 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220701.csv
 
   extract_variables_ab_time_general_20220801: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220801 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220801 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220801.csv
 
   extract_variables_ab_time_general_20220901: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20220901 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20220901 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20220901.csv
 
   extract_variables_ab_time_general_20221001: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20221001 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20221001 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20221001.csv
 
   extract_variables_ab_time_general_20221101: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20221101 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20221101 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20221101.csv
 
   extract_variables_ab_time_general_20221201: 
-    run: cohortextractor:latest generate_cohort --study-definition study_definitionl_ab_time_general_20221201 --with-end-date-fix
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general_20221201 --with-end-date-fix
     needs: [matching_general,matching_general_2021,matching_general_2022]
     outputs:
       highly_sensitive:
         cohort: output/input_ab_time_general_20221201.csv
-
 
 
 
