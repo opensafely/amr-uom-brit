@@ -36,7 +36,7 @@ str(data)
 ```
 
 ```{r}
-
+prop.table(table(data$case))
 prop.table(table(data$total_ab_group))
 prop.table(table(data$ab_types_group ))
 prop.table(table(data$exposure_period_group ))
