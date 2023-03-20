@@ -95,7 +95,7 @@ rf.model <- ranger(formula = case ~ .,
                    mtry = 3,
                    importance = "impurity",
                    replace = TRUE,
-                   sample.fraction = c(0.66,0.34),
+                   sample.fraction = c(0.34,0.66),
                    probability = TRUE
                           )
   print(rf.model3)
@@ -106,7 +106,7 @@ rf.model <- ranger(formula = case ~ .,
                    mtry = 3,
                    importance = "impurity",
                    replace = TRUE,
-                   sample.fraction = c(0.75,0.25),
+                   sample.fraction = c(0.25,0.75),
                    probability = TRUE
                           )
   print(rf.model4)
@@ -118,7 +118,7 @@ rf.model <- ranger(formula = case ~ .,
                    mtry = 3,
                    importance = "impurity",
                    replace = TRUE,
-                   sample.fraction = c(0.86,0.14),
+                   sample.fraction = c(0.14,0.86),
                    probability = TRUE
                           )
   print(rf.model5)
