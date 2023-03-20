@@ -53,15 +53,13 @@ str(train_X)
 ```{r}
 library(randomForest)
 
-n=nrow(train_X)
-
 set.seed(1024)
 sample_n=as.numeric(table(train_X$case)[2]*0.8)
 
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree =  1000,
-                           sampsize=c(sample_n,sample_n),
+                           ntree =  3000,
+                          sampsize=nrow(train_X)*0.7,
                            nodesize = 100 ,
                            mtry = 3
                           )
