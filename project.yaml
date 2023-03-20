@@ -401,6 +401,16 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome_general_20200201.csv
 
+  process_Rmatching_general: # confounders # ab exposure
+    run: r:latest analysis/process/process_Rmatching.R
+    needs: [matching_general,matching_general_2021,matching_general_2022,extract_variable_general_20200201,extract_variable_general_20200301,extract_variable_general_20200401,extract_variable_general_20200501,extract_variable_general_20200601,extract_variable_general_20200701,extract_variable_general_20200801,extract_variable_general_20200901,extract_variable_general_20201001,extract_variable_general_20201101,extract_variable_general_20201201,extract_variable_general_20210101,extract_variable_general_20210201,extract_variable_general_20210301,extract_variable_general_20210401,extract_variable_general_20210501,extract_variable_general_20210601,extract_variable_general_20210701,extract_variable_general_20210801,extract_variable_general_20210901,extract_variable_general_20211001,extract_variable_general_20211101,extract_variable_general_20211201,extract_variable_general_20220101,extract_variable_general_20220201,extract_variable_general_20220301,extract_variable_general_20220401,extract_variable_general_20220501,extract_variable_general_20220601,extract_variable_general_20220701,extract_variable_general_20220801,extract_variable_general_20220901,extract_variable_general_20221001,extract_variable_general_20221101,extract_variable_general_20221201]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome.rds
+        cohort2: output/matched_outcome_check.rds # filter died & de-regist again
+        rds1: output/abtype79.rds
+        rds2: output/comor17.rds
+
   extract_variable_general_20200301:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200301 --with-end-date-fix
     needs: [pre_extraction_general]
