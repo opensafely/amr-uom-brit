@@ -72,7 +72,7 @@ df[col]=df[col]%>%mutate_all(~replace(., is.na(.), 0)) # recode NA -> 0
 df$total_ab=rowSums(df[col])# total types number -> total ab prescription
 
 DF_type=df%>%select(col,"case","subclass","patient_id","patient_index_date","wave","sex","age","age_cat","stp","region")
-write_rds(DF_type, here::here("output", "abtype79.rds"))
+write_rds(DF_type, here::here("output", "abtype79_general.rds"))
 
 df[col]=ifelse(df[col]>0,1,0) # number of matches-> binary flag(1,0)
 df$ab_types=rowSums(df[col]>0)# count number of types
@@ -300,7 +300,7 @@ df$cerebrovascular_disease_comor=df$cardiovascular_comor #correct name
 
 comor=c("cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "hiv_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor")
 df$Charlson=rowSums(df[comor])
-write_rds(df[comor], here::here("output", "comor17.rds"))
+write_rds(df[comor], here::here("output", "comor17_general.rds"))
 
 #df= df[!names(df)%in%comor]
 
@@ -344,13 +344,13 @@ df2=subset(df,select=c("wave","patient_index_date","patient_id","subclass","case
 "care_home_type","hospital_counts"
 ))
 
-write_rds(df2, here::here("output", "matched_outcome.rds"))
+write_rds(df2, here::here("output", "matched_outcome_general.rds"))
 
 
 # check again
 df=df%>%filter(is.na(ons_died_date_before))
 df=df%>%filter(is.na(dereg_date))
-write_rds(df, here::here("output", "matched_outcome_check.rds"))
+write_rds(df, here::here("output", "matched_outcome_check_general.rds"))
 
 rm(list=ls())
 
