@@ -50,16 +50,18 @@ str(train_X)
 ```
 
 # RF
-```{r}
+```{r eval=FALSE, include=FALSE}
 library(randomForest)
 
-set.seed(1024)
-sample_n=as.numeric(table(train_X$case)[2]*0.8)
+n=nrow(train_X)
 
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            ntree =  3000,
-                          sampsize=nrow(train_X)*0.7,
+                           sampsize = round(n*0.7),
                            nodesize = 100 ,
                            mtry = 3
                           )
@@ -68,12 +70,55 @@ sample_n=as.numeric(table(train_X$case)[2]*0.8)
 
 
 
+# RF_ranger
+```{r eval=FALSE, include=FALSE}
+library(ranger)
+
+#Compute weights to balance the RF
+w <- 1/table(train$case)
+w <- w/sum(w)
+w
+weights <- rep(0, nrow(train))
+weights[train$case == 0] <- w['0']
+weights[train$case == 1] <- w['1']
+table(weights, train$case)
+
+set.seed(1024)
+
+    rf.model <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  3000,
+                   min.node.size = 100,
+                   importance = "impurity",
+                   replace = TRUE,
+                   probability = TRUE,
+                   case.weights=weights
+                   )
+
+  print(rf.model)
+  
+  
+```
+
 # development set
 ## predict probabilities 
-```{r}
+```{r eval=FALSE, include=FALSE}
 data=train_X
 
 prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+```{r }
+data=train_X
+
+prob <- predict(rf.model, data=train)$prediction[,2]# probabilities
 
 summary(prob)
 hist(prob)
@@ -147,7 +192,7 @@ rm(data)
 
 # validation set
 ## predict probabilities 
-```{r}
+```{r eval=FALSE, include=FALSE}
 data=valid_X
 
 prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
@@ -158,6 +203,18 @@ sum(prob==0)/length(prob)# % zero
 
 #exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
 #prop.table(summary(exp.class))
+```
+
+```{r eval=FALSE, include=FALSE}
+data=valid_X
+
+prob <- predict(rf.model, data=valid)$prediction[,2]# probabiliteis
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+
 ```
 
 ## create decile group
