@@ -393,8 +393,9 @@ actions:
         csv33: output/general_id_2022-10.csv
         csv34: output/general_id_2022-11.csv
         csv35: output/general_id_2022-12.csv
-
-  extract_variable_general_20200201:
+        
+# extraction
+  extract_variable_general_20200201: ### multiple extractions
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200201 --with-end-date-fix
     needs: [pre_extraction_general]
     outputs:
@@ -410,6 +411,22 @@ actions:
         cohort2: output/matched_outcome_check_general.rds # filter died & de-regist again
         rds1: output/abtype79_general.rds
         rds2: output/comor17_general.rds
+
+  extract_variables_ab_time_general_20200201:   ### multiple extractions
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_general --with-end-date-fix # unique matched patient ID
+    needs: [matching_general,matching_general_2021,matching_general_2022]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_time_general_20200201.csv
+
+  # process_ab_time_general: # exposures #merge ab time with mathced patients
+  #   run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+  #   needs: [extract_variables_ab_time_20200201,process_Rmatching_general]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/process_ab_time_general.html
+  #     highly_sensitive: 
+  #        rds: output/matched_ab_general.rds
 
   extract_variable_general_20200301:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200301 --with-end-date-fix
