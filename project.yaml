@@ -204,7 +204,7 @@ actions:
   
   model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit,model_RandomForest_cat]
+    needs: [model_clogit,model_RandomForest_cat,model_RF_weighted]
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_decile_cat.html
