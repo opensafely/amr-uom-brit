@@ -40,32 +40,6 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
-## Check non-antibiotics users %
-```{r}
-
-prop.table(df[df$decile==1,"total_ab"])
-```
-
-
-
-## select 1 case per subclass
-```{r}
-table(df$case)
-prop.table(table(df$case))
-df0=df%>%filter(case==0)
-
-df1=df%>%filter(case==1)
-
-df1=df1%>% group_by(subclass)%>% sample_n(1)
-
-df1=df1%>% ungroup(subclass)
-
-df=rbind(df0,df1)
-
-table(df$case)
-prop.table(table(df$case))
-```
-
 
 ###  crude model
 
@@ -130,21 +104,7 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
-## select 1 case per subclass
-```{r }
-table(df$case)
-prop.table(table(df$case))
-df0=df%>%filter(case==0)
-df1=df%>%filter(case==1)
-df1=df1%>% group_by(subclass)%>% sample_n(1)
-head(df1)
-df1=df1%>% ungroup(subclass)
 
-df=rbind(df0,df1)
-
-table(df$case)
-prop.table(table(df$case))
-```
 ### crude model
 ```{r }
 df$case=as.numeric(df$case) #1/0
@@ -153,6 +113,18 @@ model=clogit(case ~ decile+ strata(subclass),df)
 
 summary(model)
 ```
+
+### adjust model 1
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+
+model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
+
+summary(model)
+```
+
+
 
 ### adjusted model
 ```{r }
