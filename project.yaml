@@ -149,6 +149,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/RF_multi.html
+      highly_sensitive:
         rds1: output/development.rds 
         rds2: output/validation.rds 
 
@@ -265,6 +266,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/RF_multi_hosp.html
+      highly_sensitive:
         rds1: output/development_hosp.rds 
         rds2: output/validation_hosp.rds 
 
