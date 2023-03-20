@@ -33,6 +33,8 @@ col_spec <-cols_only(patient_index_date = col_date(format = ""),
 df <- read_csv(here::here("output", "input_case.csv"),
                 col_types = col_spec)
 
+df <- df %>% filter(patient_index_date <= as.Date("2022-06-30"))
+
 # raw count in step 0 #
 step0 <- length(df$patient_id)
 # Identify incident sepsis only, Check any historic record of sepsis in their GP & Hosp record (14 days)#
