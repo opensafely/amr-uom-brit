@@ -15,7 +15,7 @@ library("rpart.plot")
 ```{r }
 # import dataset
 train <- read_rds(here::here("output","train_cat_hosp.rds"))
-train$case=as.factor(as.character(train$case))
+train$case=as.character(train$case)
 
 table(train$case)
 #table(train$case)
