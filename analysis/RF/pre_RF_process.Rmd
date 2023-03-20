@@ -118,7 +118,7 @@ col=c("case","subclass","set",
          "length_mean","length_med", "length_sd","length_CV")
 
 df=df %>% mutate_at(col,as.numeric)
-df=df[col]
+#df=df[col]
 names(df)
 ```
 
