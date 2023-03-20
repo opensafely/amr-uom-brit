@@ -205,7 +205,7 @@ sum(prob==0)/length(prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 data=valid
 
 prob <- predict(rf.model, data=valid)$prediction[,2]# probabiliteis
