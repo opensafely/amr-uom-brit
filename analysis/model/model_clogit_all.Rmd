@@ -32,16 +32,13 @@ table(df3$case)
 prop.table(table(df3$case))
 df3$set=3
 
-#df=rbind(df1,df2,df3)
-#rm(df1,df2,df3)
+df=rbind(df1,df2,df3)
+rm(df1,df2,df3)
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 
-
-df$case=as.factor(df$case) #1/0
-
-
+df$total_ab=as.factor(df$total_ab)
 df$subclass=as.factor(df$subclass)#pair id
 
 df$CCI= relevel(as.factor(df$CCI), ref="Zero")
@@ -58,52 +55,56 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 
-##  crude model
+
 # general
+###  crude model
 ```{r}
-#data=df%>%filter(set==3)
-df3$case=as.numeric(df3$case) #1/0
-
-model=clogit(case ~ total_ab+ strata(subclass),df3) 
-
+data=df%>%filter(set==3)
+data$case=as.numeric(data$case) #1/0
+model=clogit(case ~ total_ab+ strata(subclass),data) 
 summary(model)
 ```
-# hosp
-```{r}
-#data=df%>%filter(set==1)
-df1$case=as.numeric(df1$case) #1/0
-
-model=clogit(case ~ total_ab+ strata(subclass),df1) 
-
-summary(model)
-```
-
-# hosp
-```{r}
-#data=df%>%filter(set==3)
-df2$case=as.numeric(df2$case) #1/0
-
-model=clogit(case ~ total_ab+ strata(subclass),df2) 
-
-summary(model)
-```
-### adjust model 1
-
-```{r eval=FALSE, include=FALSE}
-df$case=as.numeric(df$case) #1/0
-
-model=clogit(case ~ total_ab+ CCI+ covrx_ever + strata(subclass),df) 
-
-summary(model)
-```
-
-
 
 ### adjusted model
-```{r eval=FALSE, include=FALSE}
-model=clogit(case ~ total_ab + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+```{r }
+model=clogit(case ~ total_ab + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 
 summary(model)
 
 ```
+
+# hosp
+##  crude model
+```{r}
+data=df%>%filter(set==1)
+data$case=as.numeric(data$case) #1/0
+model=clogit(case ~ total_ab+ strata(subclass),data) 
+summary(model)
+```
+
+### adjusted model
+```{r }
+model=clogit(case ~ total_ab + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+
+```
+
+# death
+##  crude model
+```{r}
+data=df%>%filter(set==2)
+data$case=as.numeric(data$case) #1/0
+model=clogit(case ~ total_ab+ strata(subclass),data) 
+summary(model)
+```
+
+### adjusted model
+```{r }
+model=clogit(case ~ total_ab + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+summary(model)
+
+```
+
 
