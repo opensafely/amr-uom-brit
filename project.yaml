@@ -153,6 +153,13 @@ actions:
         rds1: output/development.rds 
         rds2: output/validation.rds 
 
+  prob_decile: # check prob dist
+    run: r:latest -e 'rmarkdown::render("analysis/RF/prob_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi]
+    outputs:
+      moderately_sensitive:
+        html: output/prob_decile.html  
+
 # final model
   model: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -920,7 +927,7 @@ actions:
 
 # overall model comparison
   model_colgit_all: # coditional logistic regression # 3 dataset
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_colgit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]
     outputs:
       moderately_sensitive:
