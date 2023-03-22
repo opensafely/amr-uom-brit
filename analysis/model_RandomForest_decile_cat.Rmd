@@ -6,7 +6,6 @@ title: "Random Forest model_ decile groups of probabilities"
 library(dplyr)
 library('tidyverse')
 library(pROC)
-library(randomForest)
 
 ```
 
@@ -36,7 +35,7 @@ prop.table(table(valid_X$case))# % valid patients
 
 
 # import RF model
-```{r }
+```{r eval=FALSE, include=FALSE}
 #rf.model=readRDS(here::here("output","model_RandomForest_cat.rds"))
 rf.model=readRDS(here::here("output","model_RF_weighted.rds"))
 print(rf.model)
@@ -45,7 +44,7 @@ input
 ```
 
 # select columns
-```{r }
+```{r eval=FALSE, include=FALSE}
 col=c("patient_id","patient_index_date","case","subclass","case","total_ab_group","ab_types_group",
       "exposure_period_group","recent_ab_days_group",
       "broad_ab_prescriptions_group",
@@ -60,6 +59,21 @@ valid_X=valid_X[col]
 
 
 ```{r}
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+      "interval_med_group" ,"interval_sd_group")
+# abtype
+train_X=train_X[col]
+valid_X=valid_X[col]
+
+str(train_X)
+
+
+```
+
+
+```{r}
 nrow(train_X)# train patients (matched)
 table(train_X$case)# total train patients
 prop.table(table(train_X$case))# % train patients
@@ -70,14 +84,28 @@ prop.table(table(valid_X$case))# % valid patients
 
 ```
 
+```{r}
+library(randomForest)
+
+sample_n=as.numeric(table(train_X$case)[2]*0.8)
+sample_n
+rf.model<- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           sampsize=c(sample_n,sample_n),
+                           strata=train_X$case,
+                           ntree =  1000,
+                           nodesize = 100 ,
+                           mtry = 3
+                          )
+```
 
 # development set
 ## predict probabilities 
 ```{r}
 data=train_X
 
-#prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
-prob = predict(rf.model, data=train)$prediction[,2]
+prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+#prob = predict(rf.model, data=train)$prediction[,2]
 summary(prob)
 hist(prob)
 sum(prob==0)/length(prob)# % zero
@@ -153,8 +181,8 @@ rm(data)
 ```{r}
 data=valid_X
 
-#prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
-prob = predict(rf.model, data=valid)$prediction[,2]
+prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+#prob = predict(rf.model, data=valid)$prediction[,2]
 
 summary(prob)
 hist(prob)
