@@ -153,6 +153,7 @@ actions:
         rds1: output/development.rds 
         rds2: output/validation.rds 
 
+# final model
   model: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi]
@@ -917,8 +918,13 @@ actions:
 
 
 
-
-
+# overall model comparison
+  model_colgit_all: # coditional logistic regression # 3 dataset
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_colgit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]
+    outputs:
+      moderately_sensitive:
+        html: output/model.html  
 
   # extract_ab_general_20200201: #prior 3-yr ab of index date
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_general_20200201 --with-end-date-fix

@@ -1,0 +1,110 @@
+---
+title: "conditional logistic regression"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+require("gtsummary")
+library("survival")
+library(car)
+library(finalfit)
+```
+
+```{r}
+df1=readRDS(here::here("output","matched_outcome.rds"))
+nrow(df1)
+table(df1$case)
+prop.table(table(df1$case))
+df1$set=1
+
+df2=readRDS(here::here("output","matched_outcome_hosp.rds"))
+nrow(df2)
+table(df2$case)
+prop.table(table(df2$case))
+df2$set=2
+
+df3=readRDS(here::here("output","matched_outcome_general.rds"))
+nrow(df3)
+table(df3$case)
+prop.table(table(df3$case))
+df3$set=3
+
+#df=rbind(df1,df2,df3)
+#rm(df1,df2,df3)
+```
+
+```{r }
+
+
+df$case=as.factor(df$case) #1/0
+
+df$decile= relevel(as.factor(df$decile), ref="1")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+
+##  crude model
+# general
+```{r}
+#data=df%>%filter(set==3)
+df3$case=as.numeric(df3$case) #1/0
+
+model=clogit(case ~ decile+ strata(subclass),df3) 
+
+summary(model)
+```
+# hosp
+```{r}
+#data=df%>%filter(set==1)
+df1$case=as.numeric(df1$case) #1/0
+
+model=clogit(case ~ decile+ strata(subclass),df1) 
+
+summary(model)
+```
+
+# hosp
+```{r}
+#data=df%>%filter(set==3)
+df2$case=as.numeric(df2$case) #1/0
+
+model=clogit(case ~ decile+ strata(subclass),df2) 
+
+summary(model)
+```
+### adjust model 1
+
+```{r eval=FALSE, include=FALSE}
+df$case=as.numeric(df$case) #1/0
+
+model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
+
+summary(model)
+```
+
+
+
+### adjusted model
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+summary(model)
+
+```
+
