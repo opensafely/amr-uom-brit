@@ -177,26 +177,6 @@ def generate_ab_variables_6w(index_date_variable):
             "incidence": 0.5,
         },
     ),
-    
-    ## time period ab prescriptions 
-    ab_first_date_6w=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=[f'{index_date_variable}- 41 days', f'{index_date_variable}'],
-        returning="date",
-        find_first_match_in_period=True,  
-        date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.5},
-    ),
-
-    ab_last_date_6w=patients.with_these_medications(
-        antibacterials_codes_brit,
-        between=[f'{index_date_variable}- 41 days', f'{index_date_variable}'],
-        returning="date",
-        find_last_match_in_period=True,  
-        date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.5},
-    ),
-
 
   )
     return ab_variables_6w

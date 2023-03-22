@@ -960,3 +960,59 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_demo_period_3.html
+### extract ab from -42days to index date
+  extract_case_ab_in6w: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ab_6w
+    needs: [process2_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ab_6w.csv
+
+  extract_control_ab_in6w_191: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_191
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_191.csv
+
+  extract_control_ab_in6w_192: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_192
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_192.csv
+
+  extract_control_ab_in6w_201: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_201
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_201.csv
+
+  extract_control_ab_in6w_202: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_202
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_202.csv
+
+  extract_control_ab_in6w_211: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_211
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_211.csv
+
+  extract_control_ab_in6w_212: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_212
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_212.csv
+
+  extract_control_ab_in6w_221: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_221
+    needs: [process3_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ab_6w_221.csv
