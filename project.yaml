@@ -436,14 +436,14 @@ actions:
       highly_sensitive:
         cohort: output/input_ab_time_general_20200201.csv
 
-  # process_ab_time_general: # exposures #merge ab time with mathced patients
-  #   run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-  #   needs: [extract_variables_ab_time_20200201,process_Rmatching_general]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/process_ab_time_general.html
-  #     highly_sensitive: 
-  #        rds: output/matched_ab_general.rds
+  process_ab_time_general_2021: # exposures #merge ab time with mathced patients
+    run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_general_2021.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_time_general_20200201,process_Rmatching_general,extract_variables_ab_time_general_20200301,extract_variables_ab_time_general_20200401,extract_variables_ab_time_general_20200501,extract_variables_ab_time_general_20200601,extract_variables_ab_time_general_20200701,extract_variables_ab_time_general_20200801,extract_variables_ab_time_general_20200901,extract_variables_ab_time_general_20201001,extract_variables_ab_time_general_20201101,extract_variables_ab_time_general_20201201]
+    outputs:
+      moderately_sensitive:
+        html: output/process_ab_time_general_2021.html
+      highly_sensitive: 
+         rds: output/matched_ab_general_2021.rds
 
   extract_variable_general_20200301:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200301 --with-end-date-fix
