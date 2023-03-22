@@ -22,10 +22,10 @@ input ab_time
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 # extracted dataset after matching
-listFiles <- list.files(pattern="input_ab_time_general_2021+.*csv")
+listFiles <- list.files(pattern="input_ab_time_general_2020+.*csv")
 listFiles
 list=list()
-for (i in 1:12) {
+for (i in 1:11) {
   
   list[[i]]=read.csv(here::here("output",listFiles[i]))
 }
