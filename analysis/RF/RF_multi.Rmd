@@ -49,29 +49,25 @@ train_X=train[col]
 str(train)
 ```
 
-# RF
-```{r eval=FALSE, include=FALSE}
+# RF. fraction.sample
+```{r}
 library(randomForest)
 
-n=nrow(train_X)
-
-set.seed(1024)
-#for (i in 1:nrow(result)) {
-  
-  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+sample_n=as.numeric(table(train_X$case)[2]*0.6)
+sample_n
+rf.model<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           ntree =  3000,
-                           sampsize = round(n*0.7),
+                           sampsize=c(sample_n,sample_n),
+                           strata=train_X$case,
+                           ntree =  1000,
                            nodesize = 100 ,
                            mtry = 3
                           )
-  print(rf.model)
 ```
 
 
-
 # RF_ranger
-```{r }
+```{r eval=FALSE, include=FALSE}
 library(ranger)
 
 #Compute weights to balance the RF
@@ -102,7 +98,7 @@ set.seed(1024)
 
 # development set
 ## predict probabilities 
-```{r eval=FALSE, include=FALSE}
+```{r }
 data=train
 
 prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
@@ -115,7 +111,7 @@ sum(prob==0)/length(prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 data=train
 
 prob <- predict(rf.model, data=train)$prediction[,2]# probabilities
@@ -162,16 +158,6 @@ newdata <- cbind(data,decile,prob)
 str(newdata)
 ```
 
-## check non-antibiotics users%
-```{r}
-for (i in 1:10) {
-  
-  print(paste0("decile=",i))
-  print(summary(newdata[decile==i,]$total_ab))
-
-}
-```
-
 
 ## check decile distribution
 ```{r}
@@ -192,7 +178,7 @@ rm(data)
 
 # validation set
 ## predict probabilities 
-```{r eval=FALSE, include=FALSE}
+```{r }
 data=valid
 
 prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
@@ -205,7 +191,7 @@ sum(prob==0)/length(prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 data=valid
 
 prob <- predict(rf.model, data=valid)$prediction[,2]# probabiliteis
@@ -249,15 +235,6 @@ newdata <- cbind(data,decile,prob)
 str(newdata)
 ```
 
-## check non-antibiotics users%
-```{r}
-for (i in 1:10) {
-  
-  print(paste0("decile=",i))
-  print(summary(newdata[decile==i,]$total_ab))
-
-}
-```
 
 ## check decile distribution
 ```{r}
