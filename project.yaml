@@ -924,7 +924,7 @@ actions:
     needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]
     outputs:
       moderately_sensitive:
-        html: output/model.html  
+        html: output/model_colgit_all.html  
 
   # extract_ab_general_20200201: #prior 3-yr ab of index date
   #   run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_general_20200201 --with-end-date-fix
