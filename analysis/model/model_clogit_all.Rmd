@@ -36,12 +36,11 @@ df3$set=3
 #rm(df1,df2,df3)
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 
 df$case=as.factor(df$case) #1/0
 
-df$decile= relevel(as.factor(df$decile), ref="1")
 
 df$subclass=as.factor(df$subclass)#pair id
 
