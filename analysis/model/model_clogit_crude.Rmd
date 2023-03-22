@@ -14,52 +14,38 @@ library(finalfit)
 ```
 
 ```{r}
-df1=readRDS(here::here("output","matched_outcome.rds"))
-nrow(df1)
-table(df1$case)
-prop.table(table(df1$case))
-df1$set=1
+DF1=readRDS(here::here("output","matched_outcome.rds"))
+nrow(DF1)
+table(DF1$case)
+prop.table(table(DF1$case))
+DF1$set=1
 
-df2=readRDS(here::here("output","matched_outcome_hosp.rds"))
-nrow(df2)
-table(df2$case)
-prop.table(table(df2$case))
-df2$set=2
+DF2=readRDS(here::here("output","matched_outcome_hosp.rds"))
+nrow(DF2)
+table(DF2$case)
+prop.table(table(DF2$case))
+DF2$set=2
 
-df3=readRDS(here::here("output","matched_outcome_general.rds"))
-nrow(df3)
-table(df3$case)
-prop.table(table(df3$case))
-df3$set=3
+DF3=readRDS(here::here("output","matched_outcome_general.rds"))
+nrow(DF3)
+table(DF3$case)
+prop.table(table(DF3$case))
+DF3$set=3
 
-df=rbind(df1,df2,df3)
-rm(df1,df2,df3)
+
 ```
 
-```{r}
 
-df$total_ab=as.factor(df$total_ab)
-df$subclass=as.factor(df$subclass)#pair id
-
-df$CCI= relevel(as.factor(df$CCI), ref="Zero")
-df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
-
-df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
-df$care_home=relevel(as.factor(df$care_home),ref = "0")
-
-df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
-
-df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
-df$imd=relevel(as.factor(df$imd),ref="1")
-df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
-```
 
 
 
 # general
-###  crude model
+##  crude model
 ```{r}
-data=df%>%filter(set==3)
+data=DF3
+data$total_ab=as.factor(data$total_ab)
+data$subclass=as.factor(data$subclass)#pair id
+
 data$case=as.numeric(data$case) #1/0
 model=clogit(case ~ total_ab+ strata(subclass),data) 
 summary(model)
@@ -68,7 +54,10 @@ summary(model)
 # hosp
 ##  crude model
 ```{r}
-data=df%>%filter(set==1)
+data=DF1
+data$total_ab=as.factor(data$total_ab)
+data$subclass=as.factor(data$subclass)#pair id
+
 data$case=as.numeric(data$case) #1/0
 model=clogit(case ~ total_ab+ strata(subclass),data) 
 summary(model)
@@ -78,7 +67,10 @@ summary(model)
 # death
 ##  crude model
 ```{r}
-data=df%>%filter(set==2)
+data=DF2
+data$total_ab=as.factor(data$total_ab)
+data$subclass=as.factor(data$subclass)#pair id
+
 data$case=as.numeric(data$case) #1/0
 model=clogit(case ~ total_ab+ strata(subclass),data) 
 summary(model)
