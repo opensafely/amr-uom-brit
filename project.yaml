@@ -1016,3 +1016,18 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_ab_6w_221.csv
+
+  process_ab_case_6w:
+    run: r:latest analysis/process_ab_case_6w.R
+    needs: [extract_case_ab_in6w]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed/input_case_ab_6w.rds
+
+  process_ab_control_6w:
+    run: r:latest analysis/process_ab_control_6w.R
+    needs: [extract_control_ab_in6w_191,extract_control_ab_in6w_192,extract_control_ab_in6w_201,
+    extract_control_ab_in6w_202,extract_control_ab_in6w_211,extract_control_ab_in6w_212,extract_control_ab_in6w_221]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed/input_control_ab_6w.rds
