@@ -64,7 +64,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 #data=df%>%filter(set==3)
 df3$case=as.numeric(df3$case) #1/0
 
-model=clogit(case ~ decile+ strata(subclass),df3) 
+model=clogit(case ~ total_ab+ strata(subclass),df3) 
 
 summary(model)
 ```
@@ -73,7 +73,7 @@ summary(model)
 #data=df%>%filter(set==1)
 df1$case=as.numeric(df1$case) #1/0
 
-model=clogit(case ~ decile+ strata(subclass),df1) 
+model=clogit(case ~ total_ab+ strata(subclass),df1) 
 
 summary(model)
 ```
@@ -83,7 +83,7 @@ summary(model)
 #data=df%>%filter(set==3)
 df2$case=as.numeric(df2$case) #1/0
 
-model=clogit(case ~ decile+ strata(subclass),df2) 
+model=clogit(case ~ total_ab+ strata(subclass),df2) 
 
 summary(model)
 ```
@@ -92,7 +92,7 @@ summary(model)
 ```{r eval=FALSE, include=FALSE}
 df$case=as.numeric(df$case) #1/0
 
-model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
+model=clogit(case ~ total_ab+ CCI+ covrx_ever + strata(subclass),df) 
 
 summary(model)
 ```
@@ -101,7 +101,7 @@ summary(model)
 
 ### adjusted model
 ```{r eval=FALSE, include=FALSE}
-model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ total_ab + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
 
