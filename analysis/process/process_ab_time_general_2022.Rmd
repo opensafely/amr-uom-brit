@@ -22,7 +22,7 @@ input ab_time
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 # extracted dataset after matching
-listFiles <- list.files(pattern="input_ab_time_general_2021+.*csv")
+listFiles <- list.files(pattern="input_ab_time_general_2022+.*csv")
 
 list=list()
 for (i in 1:12) {
@@ -267,6 +267,6 @@ data$prescribe_time_3=ifelse(data$prescribe_times>=3,1,0) # missing SD, CV
 ```
 
 ```{r}
-write_rds(data, here::here("output", "matched_ab_general_2021.rds"))
+write_rds(data, here::here("output", "matched_ab_general_2022.rds"))
 ```
 
