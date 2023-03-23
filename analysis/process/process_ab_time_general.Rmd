@@ -9,17 +9,11 @@ output:
      smooth_scorll: false
 ---
 
-```{r setup, include=FALSE}
-library('tidyverse')
-library("ggplot2")
-library('dplyr')
-library
-library(data.table)#rbinlist
 
-```
 
 input ab_time
 ```{r}
+library(data.table)#rbinlist
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
 setwd(here::here("output"))
 
@@ -35,6 +29,7 @@ for (i in 1:11) {
 
 DF=rbindlist(list)
 rm(list)
+remove.packages("data.table")
 
 nrow(DF)
 names(DF)
@@ -45,8 +40,16 @@ ab_conut=colnames(DF[,67:126])
 ab_conut
 nrow(DF)
 
+
 ```
 
+```{r}
+library('tidyverse')
+library("ggplot2")
+library('dplyr')
+library('lubridate')
+
+```
 
 ```{r }
 #replace NA
