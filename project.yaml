@@ -481,6 +481,7 @@ actions:
     needs: [matching1,matching2,matching3,matching4,
     process_data,process_data_control,
     process_ab_case,process_ab_control,
+    process_ab_case_6w,process_ab_control_6w,
     extract_case_var_add,extract_case_var_add_191,
     extract_case_var_add_192,extract_case_var_add_201,
     extract_case_var_add_202,extract_case_var_add_211,

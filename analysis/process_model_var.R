@@ -71,6 +71,15 @@ control_ab <- select(control_ab,patient_id,patient_index_date,ab_frequency,ab_ty
 case <-merge(case,case_ab,by=c("patient_id","patient_index_date"))
 control <-merge(control,control_ab,by=c("patient_id","patient_index_date"))
 
+## add ab prescription within 6 weeks
+case_ab <- readRDS("output/processed/input_case_ab_6w.rds")
+control_ab <- readRDS("output/processed/input_control_ab_6w.rds")
+case_ab <- select(case_ab,patient_id,patient_index_date,ab_frequency_6w,ab_type_num_6w)
+control_ab <- select(control_ab,patient_id,patient_index_date,ab_frequency_6w,ab_type_num_6w)
+
+case <-merge(case,case_ab,by=c("patient_id","patient_index_date"))
+control <-merge(control,control_ab,by=c("patient_id","patient_index_date"))
+
 ## add fixed bmi & 30-day death
 var_add <-cols_only(patient_index_date = col_date(format = ""),
                      bmi = col_character(),
