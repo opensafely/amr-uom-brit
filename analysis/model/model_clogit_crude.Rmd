@@ -43,11 +43,11 @@ DF3$set=3
 ##  crude model
 ```{r}
 data=DF3
-data$total_ab=as.factor(data$total_ab)
+data$level=as.factor(data$level)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ total_ab+ strata(subclass),data) 
+model=clogit(case ~ level+ strata(subclass),data) 
 summary(model)
 ```
 
@@ -55,11 +55,11 @@ summary(model)
 ##  crude model
 ```{r}
 data=DF1
-data$total_ab=as.factor(data$total_ab)
+data$level=as.factor(data$level)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ total_ab+ strata(subclass),data) 
+model=clogit(case ~ level+ strata(subclass),data) 
 summary(model)
 ```
 
@@ -68,11 +68,11 @@ summary(model)
 ##  crude model
 ```{r}
 data=DF2
-data$total_ab=as.factor(data$total_ab)
+data$level=as.factor(data$level)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ total_ab+ strata(subclass),data) 
+model=clogit(case ~ level+ strata(subclass),data) 
 summary(model)
 ```
 
