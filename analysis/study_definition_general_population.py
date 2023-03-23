@@ -79,7 +79,7 @@ study = StudyDefinition(
         between=["index_date- 1137 days", "2022-12-31"],
         returning="binary_flag",
         return_expectations={
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -92,7 +92,7 @@ study = StudyDefinition(
         on_or_after="index_date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.1},
     ),
     
     covid_primarycare_date=patients.with_these_clinical_events(
@@ -101,7 +101,7 @@ study = StudyDefinition(
         on_or_after="index_date",
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.1},
     ),
 
     covid_SGSS_date=patients.with_test_result_in_sgss(
@@ -111,7 +111,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         returning="date",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
+        return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 0.1},
     ),
 
     covid_died_date_cpns=patients.with_death_recorded_in_cpns(
@@ -140,7 +140,7 @@ study = StudyDefinition(
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
-            "incidence": 0.001
+            "incidence": 1
         },
     ),
 
@@ -202,31 +202,31 @@ study = StudyDefinition(
                   "South East": 0.1, }, },
         },
     ),
-    	
-# data check	
-    ## de-register after start date	
-    dereg_date=patients.date_deregistered_from_all_supported_practices(	
-        between=["index_date" , "2022-12-31"],        	
-        date_format="YYYY-MM-DD",	
-        return_expectations={	
-        "date": {"earliest": "2020-02-01"},	
-        "incidence": 0.05	
-        }	
-    ),	
-    ## died after patient index date	
-    ons_died_date=patients.died_from_any_cause(	
-        between=["index_date" , "2022-12-31"],        	
-        returning="date_of_death",	
-        date_format="YYYY-MM-DD",	
-        return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.1},	
+        
+# data check    
+    ## de-register after start date 
+    dereg_date=patients.date_deregistered_from_all_supported_practices( 
+        between=["index_date" , "2022-12-31"],          
+        date_format="YYYY-MM-DD",   
+        return_expectations={   
+        "date": {"earliest": "2020-02-01"}, 
+        "incidence": 0.05   
+        }   
+    ),  
+    ## died after patient index date    
+    ons_died_date=patients.died_from_any_cause( 
+        between=["index_date" , "2022-12-31"],          
+        returning="date_of_death",  
+        date_format="YYYY-MM-DD",   
+        return_expectations={"date": {"earliest": "2020-03-01"},"incidence": 0.1},  
     ),
 
-    ## died before patient index date	
-    ons_died_date_before=patients.died_from_any_cause(	
-        on_or_before="index_date - 1 day",        	
-        returning="date_of_death",	
-        date_format="YYYY-MM-DD",	
-        return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},	
+    ## died before patient index date   
+    ons_died_date_before=patients.died_from_any_cause(  
+        on_or_before="index_date - 1 day",          
+        returning="date_of_death",  
+        date_format="YYYY-MM-DD",   
+        return_expectations={"date": {"earliest": "2020-02-01"},"incidence": 0.1},  
     ),
 
     antibiotic_20200101=patients.with_these_medications(
@@ -235,7 +235,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
     antibiotic_20200201=patients.with_these_medications(
@@ -244,7 +244,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -254,7 +254,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
     antibiotic_20200401=patients.with_these_medications(
@@ -263,7 +263,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -273,7 +273,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -283,7 +283,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -293,7 +293,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -303,7 +303,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -313,7 +313,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -323,7 +323,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
     antibiotic_20201101=patients.with_these_medications(
@@ -332,7 +332,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -342,7 +342,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -352,7 +352,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -362,7 +362,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -372,7 +372,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
     antibiotic_20210401=patients.with_these_medications(
@@ -381,7 +381,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -391,7 +391,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -401,7 +401,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -411,7 +411,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -421,7 +421,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -431,7 +431,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -441,7 +441,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
     antibiotic_20211101=patients.with_these_medications(
@@ -450,7 +450,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -460,7 +460,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -470,7 +470,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -480,7 +480,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -490,7 +490,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
     antibiotic_20220401=patients.with_these_medications(
@@ -499,7 +499,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -509,7 +509,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -519,7 +519,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -529,7 +529,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -539,7 +539,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -549,7 +549,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -559,7 +559,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -569,7 +569,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
@@ -579,7 +579,7 @@ study = StudyDefinition(
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
-            "incidence": 0.5,
+            "incidence": 0.8,
         },
     ),
 
