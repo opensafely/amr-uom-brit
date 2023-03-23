@@ -20,17 +20,40 @@ table(DF1$case)
 prop.table(table(DF1$case))
 DF1$set=1
 
+table(DF1$level)
+summary(DF1[DF1$level==1,"total_ab"])
+summary(DF1[DF1$level==2,"total_ab"])
+summary(DF1[DF1$level==3,"total_ab"])
+summary(DF1[DF1$level==4,"total_ab"])
+summary(DF1[DF1$level==5,"total_ab"])
+
+
 DF2=readRDS(here::here("output","matched_outcome_hosp.rds"))
 nrow(DF2)
 table(DF2$case)
 prop.table(table(DF2$case))
 DF2$set=2
 
+table(DF2$level)
+summary(DF2[DF2$level==1,"total_ab"])
+summary(DF2[DF2$level==2,"total_ab"])
+summary(DF2[DF2$level==3,"total_ab"])
+summary(DF2[DF2$level==4,"total_ab"])
+summary(DF2[DF2$level==5,"total_ab"])
+
 DF3=readRDS(here::here("output","matched_outcome_general.rds"))
 nrow(DF3)
 table(DF3$case)
 prop.table(table(DF3$case))
 DF3$set=3
+
+table(DF3$level)
+summary(DF3[DF3$level==1,"total_ab"])
+summary(DF3[DF3$level==2,"total_ab"])
+summary(DF3[DF3$level==3,"total_ab"])
+summary(DF3[DF3$level==4,"total_ab"])
+summary(DF3[DF3$level==5,"total_ab"])
+
 
 
 ```
@@ -41,7 +64,7 @@ DF3$set=3
 
 # general
 ##  crude model
-```{r}
+```{r eval=FALSE, include=FALSE}
 data=DF3
 data$level=as.factor(data$level)
 data$subclass=as.factor(data$subclass)#pair id
@@ -53,7 +76,7 @@ summary(model)
 
 # hosp
 ##  crude model
-```{r}
+```{r eval=FALSE, include=FALSE}
 data=DF1
 data$level=as.factor(data$level)
 data$subclass=as.factor(data$subclass)#pair id
@@ -66,7 +89,7 @@ summary(model)
 
 # death
 ##  crude model
-```{r}
+```{r eval=FALSE, include=FALSE}
 data=DF2
 data$level=as.factor(data$level)
 data$subclass=as.factor(data$subclass)#pair id
