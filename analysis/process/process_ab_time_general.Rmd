@@ -21,12 +21,15 @@ library(data.table)#rbinlist
 input ab_time
 ```{r}
 #setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+setwd(here::here("output"))
+
 # extracted dataset after matching
 listFiles <- list.files(pattern="input_ab_time_general_2020+.*csv")
 listFiles
+
 list=list()
 for (i in 1:11) {
-  
+
   list[[i]]=read.csv(here::here("output",listFiles[i]))
 }
 
@@ -36,9 +39,9 @@ rm(list)
 nrow(DF)
 names(DF)
 
-ab_date=colnames(DF[,9:68])
+ab_date=colnames(DF[,5:64])
 ab_date
-ab_conut=colnames(DF[,70:129])
+ab_conut=colnames(DF[,67:126])
 ab_conut
 nrow(DF)
 
@@ -48,12 +51,12 @@ nrow(DF)
 ```{r }
 #replace NA
 # all date+ab variables 
-for (i in 7:129) {
+for (i in 3:126) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
 # all 60 ab counts+AB_0
-for (i in 69:129) {
+for (i in 65:126) {
  DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
  
 }

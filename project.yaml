@@ -445,7 +445,6 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab_general.rds 
 
-
   process_ab_time_general_2021:
     run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_general_2021.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [extract_variables_ab_time_general_20210101,process_Rmatching_general,extract_variables_ab_time_general_20210201,extract_variables_ab_time_general_20210301,extract_variables_ab_time_general_20210401,extract_variables_ab_time_general_20210501,extract_variables_ab_time_general_20210601,extract_variables_ab_time_general_20210701,extract_variables_ab_time_general_20210801,extract_variables_ab_time_general_20210901,extract_variables_ab_time_general_20211001,extract_variables_ab_time_general_20211101,extract_variables_ab_time_general_20211201]
@@ -464,6 +463,7 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab_general_2022.rds     
 
+# extract covariates
   extract_variable_general_20200301:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_general_20200301 --with-end-date-fix
     needs: [pre_extraction_general]
