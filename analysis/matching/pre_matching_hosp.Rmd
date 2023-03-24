@@ -53,9 +53,11 @@ df1=df%>%
            !is.na(died_date_ons_covid_after)|
            !is.na(died_date_cpns_after))
 nrow(df1)
+df1=df1%>% filter(had_antibiotic>1)# filter ab>1
+nrow(df1)
 write_csv(df1, here::here("output", "case_covid_icu_death.csv"))
 
-
+nrow(df1[df1$had_antibiotic_include_6wk>1,])
 ```
 
 # CONTROL
@@ -67,6 +69,13 @@ df0=df%>%
     is.na(died_date_cpns_after),
     is.na(died_date_ons_covid_after))
 
+nrow(df0)
+df0=df0%>% filter(had_antibiotic>1)# filter ab>1
+
+nrow(df0)
+
 write_csv(df0, here::here("output", "control_covid_hosp.csv"))
+
+nrow(df0[df0$had_antibiotic_include_6wk>1,])
 ```
 
