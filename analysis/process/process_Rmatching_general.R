@@ -16,7 +16,7 @@ setwd(here::here("output"))
 # extracted dataset after matching
 listFiles <- list.files(pattern="input_outcome_general_+.*csv")
 list=list()
-for (i in 1:11) {
+for (i in 1:35) {
   
   list[[i]]=read.csv(here::here("output",listFiles[i]))
 }
