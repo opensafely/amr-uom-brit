@@ -105,6 +105,9 @@ prop.table(table(DF1$case))
 
 #table(DF1$case,DF1$quintile)
 #prop.table(table(DF1$case,DF1$quintile))
+
+length(DF1$case)
+length(DF1$quintile)
 summary(DF1$total_ab)
 
 saveRDS(DF1,here::here("output","study_2.rds"))
