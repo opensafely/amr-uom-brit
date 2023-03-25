@@ -23,7 +23,7 @@ data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ level+ strata(subclass),data) 
+model=clogit(case ~ quintile+ strata(subclass),data) 
 summary(model)
 ```
 
@@ -36,7 +36,7 @@ data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ level+ strata(subclass),data) 
+model=clogit(case ~ quintile+ strata(subclass),data) 
 summary(model)
 ```
 
@@ -50,7 +50,7 @@ data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ level+ strata(subclass),data) 
+model=clogit(case ~ quintile+ strata(subclass),data) 
 summary(model)
 ```
 
