@@ -945,7 +945,7 @@ actions:
 
 
 # overall model comparison
-   process_outlier: # remove outlier # check quintile group
+  process_outlier: # remove outlier # check quintile group
     run: r:latest -e 'rmarkdown::render("analysis/process/process_outlier.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]
     outputs:
