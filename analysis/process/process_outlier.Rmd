@@ -74,27 +74,26 @@ row(DF[DF$set==3,])
 ### create quintile ab group
 ```{r}
 DF1=DF%>%filter(set==1)
+
 vec=vector()
-total_ab=DF1$total_ab
 
 for (i in 1:5){
-  vec[i]=quantile(total_ab,(i/5),na.rm=T)
+  vec[i]=quantile(DF1$total_ab,(i/5),na.rm=T)
 }
 
 vec# decile value
 
-quintile=vector()
-quintile=ifelse(total_ab <=vec[1],1,quintile)
+DF1$quintile=vector()
+DF1$quintile=ifelse(DF1$total_ab <=vec[1],1,DF1$quintile)
 
 for (i in 1:5) {
-quintile=ifelse(total_ab >vec[i] & total_ab <=vec[i+1],i+1,quintile )  
+DF1$quintile=ifelse(DF1$total_ab >vec[i] & DF1$total_ab <=vec[i+1],i+1,DF1$quintile )  
 }
 
 
-table(quintile)
-prop.table(table(quintile))*100 
+table(DF1$quintile)
+prop.table(table(DF1$quintile))*100 
 
-DF1=cbind(DF1,quintile)
 
 ```
 
@@ -106,8 +105,7 @@ prop.table(table(DF1$case))
 #table(DF1$case,DF1$quintile)
 #prop.table(table(DF1$case,DF1$quintile))
 
-length(DF1$case)
-length(DF1$quintile)
+table(DF1$case,DF1$quintile)
 summary(DF1$total_ab)
 
 saveRDS(DF1,here::here("output","study_2.rds"))
@@ -120,27 +118,25 @@ rm(DF1)
 ### create quintile ab group
 ```{r}
 DF2=DF%>%filter(set==2)
+
 vec=vector()
-total_ab=DF2$total_ab
 
 for (i in 1:5){
-  vec[i]=quantile(total_ab,(i/5),na.rm=T)
+  vec[i]=quantile(DF2$total_ab,(i/5),na.rm=T)
 }
 
 vec# decile value
 
-quintile=vector()
-quintile=ifelse(total_ab <=vec[1],1,quintile)
+DF2$quintile=vector()
+DF2$quintile=ifelse(DF2$total_ab <=vec[1],1,DF2$quintile)
 
 for (i in 1:5) {
-quintile=ifelse(total_ab >vec[i] & total_ab <=vec[i+1],i+1,quintile )  
+DF2$quintile=ifelse(DF2$total_ab >vec[i] & DF2$total_ab <=vec[i+1],i+1,DF2$quintile )  
 }
 
 
-table(quintile)
-prop.table(table(quintile))*100 
-
-DF2=cbind(DF2,quintile)
+table(DF2$quintile)
+prop.table(table(DF2$quintile))*100 
 
 ```
 
@@ -149,8 +145,7 @@ nrow(DF2)
 table(DF2$case)
 prop.table(table(DF2$case))
 
-length(DF2$case)
-length(DF2$quintile)
+table(DF2$case,DF2$quintile)
 
 summary(DF2$total_ab)
 
@@ -170,26 +165,24 @@ rm(DF2)
 DF3=DF%>%filter(set==3)
 
 vec=vector()
-total_ab=DF3$total_ab
 
 for (i in 1:5){
-  vec[i]=quantile(total_ab,(i/5),na.rm=T)
+  vec[i]=quantile(DF3$total_ab,(i/5),na.rm=T)
 }
 
 vec# decile value
 
-quintile=vector()
-quintile=ifelse(total_ab <=vec[1],1,quintile)
+DF3$quintile=vector()
+DF3$quintile=ifelse(DF3$total_ab <=vec[1],1,DF3$quintile)
 
 for (i in 1:5) {
-quintile=ifelse(total_ab >vec[i] & total_ab <=vec[i+1],i+1,quintile )  
+DF3$quintile=ifelse(DF3$total_ab >vec[i] & DF3$total_ab <=vec[i+1],i+1,DF3$quintile )  
 }
 
 
-table(quintile)
-prop.table(table(quintile))*100 
+table(DF3$quintile)
+prop.table(table(DF3$quintile))*100 
 
-DF3=cbind(DF3,quintile)
 
 ```
 
@@ -199,8 +192,8 @@ table(DF3$case)
 prop.table(table(DF3$case))
 
 
-length(DF3$case)
-length(DF3$quintile)
+table(DF3$case,DF3$quintile)
+
 
 summary(DF3$total_ab)
 
