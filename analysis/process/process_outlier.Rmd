@@ -49,23 +49,23 @@ outlier=quantile(DF$total_ab,0.9)
 outlier
 
 DF=DF%>% filter(total_ab < outlier)
-row(DF[DF$set==1,])
-row(DF[DF$set==2,])
-row(DF[DF$set==3,])
+nrow(DF[DF$set==1,])
+nrow(DF[DF$set==2,])
+nrow(DF[DF$set==3,])
 
 DF=DF%>% filter(total_ab >1)
-row(DF[DF$set==1,])
-row(DF[DF$set==2,])
-row(DF[DF$set==3,])
+nrow(DF[DF$set==1,])
+nrow(DF[DF$set==2,])
+nrow(DF[DF$set==3,])
 
 
 DF$case=as.numeric(DF$case)
 # delet controls if case is removed
 DF=DF%>%group_by(set,subclass)%>%mutate(keep=sum(case))
 DF=DF%>%filter(keep==1)
-row(DF[DF$set==1,])
-row(DF[DF$set==2,])
-row(DF[DF$set==3,])
+nrow(DF[DF$set==1,])
+nrow(DF[DF$set==2,])
+nrow(DF[DF$set==3,])
 
 ```
 
@@ -83,7 +83,7 @@ for (i in 1:5){
 
 vec# decile value
 
-DF1$quintile=vector()
+DF1$quintile=NA
 DF1$quintile=ifelse(DF1$total_ab <=vec[1],1,DF1$quintile)
 
 for (i in 1:5) {
@@ -127,7 +127,7 @@ for (i in 1:5){
 
 vec# decile value
 
-DF2$quintile=vector()
+DF2$quintile=NA
 DF2$quintile=ifelse(DF2$total_ab <=vec[1],1,DF2$quintile)
 
 for (i in 1:5) {
@@ -172,7 +172,7 @@ for (i in 1:5){
 
 vec# decile value
 
-DF3$quintile=vector()
+DF3$quintile=NA
 DF3$quintile=ifelse(DF3$total_ab <=vec[1],1,DF3$quintile)
 
 for (i in 1:5) {
