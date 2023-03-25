@@ -16,15 +16,7 @@ table(DF1$case)
 prop.table(table(DF1$case))
 DF1$set=1
 
-table(DF1$case,DF1$level)
-prop.table(table(DF1$case,DF1$level))
 summary(DF1$total_ab)
-
-summary(DF1[DF1$level==1,"total_ab"])
-summary(DF1[DF1$level==2,"total_ab"])
-summary(DF1[DF1$level==3,"total_ab"])
-summary(DF1[DF1$level==4,"total_ab"])
-summary(DF1[DF1$level==5,"total_ab"])
 ```
 
 
@@ -35,17 +27,7 @@ nrow(DF2)
 table(DF2$case)
 prop.table(table(DF2$case))
 DF2$set=2
-
-table(DF2$case,DF2$level)
-prop.table(table(DF2$case,DF2$level))
-
 summary(DF2$total_ab)
-summary(DF2[DF2$level==0,"total_ab"])
-summary(DF2[DF2$level==1,"total_ab"])
-summary(DF2[DF2$level==2,"total_ab"])
-summary(DF2[DF2$level==3,"total_ab"])
-summary(DF2[DF2$level==4,"total_ab"])
-summary(DF2[DF2$level==5,"total_ab"])
 ```
 
 # general patients
@@ -56,17 +38,7 @@ table(DF3$case)
 prop.table(table(DF3$case))
 DF3$set=3
 
-table(DF3$level)
-prop.table(table(DF3$case,DF3$level))
-
 summary(DF3$total_ab)
-summary(DF3[DF3$level==0,"total_ab"])
-summary(DF3[DF3$level==1,"total_ab"])
-summary(DF3[DF3$level==2,"total_ab"])
-summary(DF3[DF3$level==3,"total_ab"])
-summary(DF3[DF3$level==4,"total_ab"])
-summary(DF3[DF3$level==5,"total_ab"])
-
 ```
 
 # remove outlier
@@ -77,15 +49,23 @@ outlier=quantile(DF$total_ab,0.9)
 outlier
 
 DF=DF%>% filter(total_ab < outlier)
-nrow(DF$set==1)
-nrow(DF$set==2)
-nrow(DF$set==3)
+row(DF[DF$set==1,])
+row(DF[DF$set==2,])
+row(DF[DF$set==3,])
 
 DF=DF%>% filter(total_ab >1)
-nrow(DF$set==1)
-nrow(DF$set==2)
-nrow(DF$set==3)
+row(DF[DF$set==1,])
+row(DF[DF$set==2,])
+row(DF[DF$set==3,])
 
+
+DF$case=as.numeric(DF$case)
+# delet controls if case is removed
+DF=DF%>%group_by(set,subclass)%>%mutate(keep=sum(case))
+DF=DF%>%filter(keep==1)
+row(DF[DF$set==1,])
+row(DF[DF$set==2,])
+row(DF[DF$set==3,])
 
 ```
 
@@ -123,15 +103,9 @@ nrow(DF1)
 table(DF1$case)
 prop.table(table(DF1$case))
 
-table(DF1$case,DF1$level)
-prop.table(table(DF1$case,DF1$level))
+table(DF1$case,DF1$quintile)
+prop.table(table(DF1$case,DF1$quintile))
 summary(DF1$total_ab)
-
-summary(DF1[DF1$level==1,"total_ab"])
-summary(DF1[DF1$level==2,"total_ab"])
-summary(DF1[DF1$level==3,"total_ab"])
-summary(DF1[DF1$level==4,"total_ab"])
-summary(DF1[DF1$level==5,"total_ab"])
 
 saveRDS(DF1,here::here("output","study_2.rds"))
 rm(DF1)
@@ -140,7 +114,6 @@ rm(DF1)
 
 
 # in hospital death
-
 ### create quintile ab group
 ```{r}
 DF2=DF%>%filter(set==2)
@@ -173,16 +146,11 @@ nrow(DF2)
 table(DF2$case)
 prop.table(table(DF2$case))
 
-table(DF2$case,DF2$level)
-prop.table(table(DF2$case,DF2$level))
+table(DF2$case,DF2$quintile)
+prop.table(table(DF2$case,DF2$quintile))
 
 summary(DF2$total_ab)
-summary(DF2[DF2$level==0,"total_ab"])
-summary(DF2[DF2$level==1,"total_ab"])
-summary(DF2[DF2$level==2,"total_ab"])
-summary(DF2[DF2$level==3,"total_ab"])
-summary(DF2[DF2$level==4,"total_ab"])
-summary(DF2[DF2$level==5,"total_ab"])
+
 
 saveRDS(DF2,here::here("output","study_3.rds"))
 rm(DF2)
@@ -227,16 +195,12 @@ nrow(DF3)
 table(DF3$case)
 prop.table(table(DF3$case))
 
-table(DF3$level)
-prop.table(table(DF3$case,DF3$level))
+
+table(DF3$case,DF3$quintile)
+prop.table(table(DF3$case,DF3$quintile))
 
 summary(DF3$total_ab)
-summary(DF3[DF3$level==0,"total_ab"])
-summary(DF3[DF3$level==1,"total_ab"])
-summary(DF3[DF3$level==2,"total_ab"])
-summary(DF3[DF3$level==3,"total_ab"])
-summary(DF3[DF3$level==4,"total_ab"])
-summary(DF3[DF3$level==5,"total_ab"])
+
 
 saveRDS(DF3,here::here("output","study_1.rds"))
 
