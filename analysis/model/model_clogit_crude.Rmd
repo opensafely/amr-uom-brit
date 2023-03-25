@@ -14,18 +14,7 @@ library(finalfit)
 ```
 
 ```{r}
-DF1=readRDS(here::here("output","matched_outcome.rds"))
-nrow(DF1)
-table(DF1$case)
-prop.table(table(DF1$case))
-DF1$set=1
-
-table(DF1$level)
-summary(DF1[DF1$level==1,"total_ab"])
-summary(DF1[DF1$level==2,"total_ab"])
-summary(DF1[DF1$level==3,"total_ab"])
-summary(DF1[DF1$level==4,"total_ab"])
-summary(DF1[DF1$level==5,"total_ab"])
+DF1=readRDS(here::here("output","study_1.rds"))
 
 
 DF2=readRDS(here::here("output","matched_outcome_hosp.rds"))
@@ -64,9 +53,10 @@ summary(DF3[DF3$level==5,"total_ab"])
 
 # general
 ##  crude model
-```{r eval=FALSE, include=FALSE}
-data=DF3
-data$level=as.factor(data$level)
+```{r }
+data=readRDS(here::here("output","study_1.rds"))
+
+data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
@@ -76,9 +66,10 @@ summary(model)
 
 # hosp
 ##  crude model
-```{r eval=FALSE, include=FALSE}
-data=DF1
-data$level=as.factor(data$level)
+```{r }
+data=readRDS(here::here("output","study_2.rds"))
+
+data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0
@@ -89,9 +80,10 @@ summary(model)
 
 # death
 ##  crude model
-```{r eval=FALSE, include=FALSE}
-data=DF2
-data$level=as.factor(data$level)
+```{r }
+data=readRDS(here::here("output","study_3.rds"))
+
+data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$case=as.numeric(data$case) #1/0

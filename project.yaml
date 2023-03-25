@@ -965,7 +965,7 @@ actions:
 
   model_colgit_crude: # coditional logistic regression # 3 dataset
     run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_crude.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]
+    needs: [process_outlier]
     outputs:
       moderately_sensitive:
         html: output/model_clogit_crude.html  
