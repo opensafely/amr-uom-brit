@@ -945,6 +945,17 @@ actions:
 
 
 # overall model comparison
+   process_outlier: # remove outlier # check quintile group
+    run: r:latest -e 'rmarkdown::render("analysis/process/process_outlier.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]
+    outputs:
+      moderately_sensitive:
+        html: output/process_outlier.html 
+      highly_sensitive:
+        cohort1: output/study_1.rds #covid infection
+        cohort2: output/study_2.rds #covid hospital admission
+        cohort3: output/study_3.rds #covid death
+
   model_colgit_all: # coditional logistic regression # 3 dataset
     run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_Rmatching,process_Rmatching_hosp,process_Rmatching_general]

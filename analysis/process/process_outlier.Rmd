@@ -1,0 +1,243 @@
+---
+title: "conditional logistic regression"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library('tidyverse')
+```
+
+# covid hospitalisation
+```{r}
+DF1=readRDS(here::here("output","matched_outcome.rds"))
+nrow(DF1)
+table(DF1$case)
+prop.table(table(DF1$case))
+DF1$set=1
+
+table(DF1$case,DF1$level)
+prop.table(table(DF1$case,DF1$level))
+summary(DF1$total_ab)
+
+summary(DF1[DF1$level==1,"total_ab"])
+summary(DF1[DF1$level==2,"total_ab"])
+summary(DF1[DF1$level==3,"total_ab"])
+summary(DF1[DF1$level==4,"total_ab"])
+summary(DF1[DF1$level==5,"total_ab"])
+```
+
+
+# in hospital death
+```{r}
+DF2=readRDS(here::here("output","matched_outcome_hosp.rds"))
+nrow(DF2)
+table(DF2$case)
+prop.table(table(DF2$case))
+DF2$set=2
+
+table(DF2$case,DF2$level)
+prop.table(table(DF2$case,DF2$level))
+
+summary(DF2$total_ab)
+summary(DF2[DF2$level==0,"total_ab"])
+summary(DF2[DF2$level==1,"total_ab"])
+summary(DF2[DF2$level==2,"total_ab"])
+summary(DF2[DF2$level==3,"total_ab"])
+summary(DF2[DF2$level==4,"total_ab"])
+summary(DF2[DF2$level==5,"total_ab"])
+```
+
+# general patients
+```{r}
+DF3=readRDS(here::here("output","matched_outcome_general.rds"))
+nrow(DF3)
+table(DF3$case)
+prop.table(table(DF3$case))
+DF3$set=3
+
+table(DF3$level)
+prop.table(table(DF3$case,DF3$level))
+
+summary(DF3$total_ab)
+summary(DF3[DF3$level==0,"total_ab"])
+summary(DF3[DF3$level==1,"total_ab"])
+summary(DF3[DF3$level==2,"total_ab"])
+summary(DF3[DF3$level==3,"total_ab"])
+summary(DF3[DF3$level==4,"total_ab"])
+summary(DF3[DF3$level==5,"total_ab"])
+
+```
+
+# remove outlier
+```{r}
+DF=rbind(DF1,DF2,DF3)
+
+outlier=quantile(DF$total_ab,0.9)
+outlier
+
+DF=DF%>% filter(total_ab < outlier)
+nrow(DF$set==1)
+nrow(DF$set==2)
+nrow(DF$set==3)
+
+DF=DF%>% filter(total_ab >1)
+nrow(DF$set==1)
+nrow(DF$set==2)
+nrow(DF$set==3)
+
+
+```
+
+
+## covid hospitalisation
+### create quintile ab group
+```{r}
+DF1=DF%>%filter(set==1)
+vec=vector()
+total_ab=DF1$total_ab
+
+for (i in 1:5){
+  vec[i]=quantile(total_ab,(i/5),na.rm=T)
+}
+
+vec# decile value
+
+quintile=vector()
+quintile=ifelse(total_ab <=vec[1],1,quintile)
+
+for (i in 1:5) {
+quintile=ifelse(total_ab >vec[i] & total_ab <=vec[i+1],i+1,quintile )  
+}
+
+
+table(quintile)
+prop.table(table(quintile))*100 
+
+DF1=cbind(DF1,quintile)
+
+```
+
+```{r}
+nrow(DF1)
+table(DF1$case)
+prop.table(table(DF1$case))
+
+table(DF1$case,DF1$level)
+prop.table(table(DF1$case,DF1$level))
+summary(DF1$total_ab)
+
+summary(DF1[DF1$level==1,"total_ab"])
+summary(DF1[DF1$level==2,"total_ab"])
+summary(DF1[DF1$level==3,"total_ab"])
+summary(DF1[DF1$level==4,"total_ab"])
+summary(DF1[DF1$level==5,"total_ab"])
+
+saveRDS(DF1,here::here("output","study_2.rds"))
+rm(DF1)
+```
+
+
+
+# in hospital death
+
+### create quintile ab group
+```{r}
+DF2=DF%>%filter(set==2)
+vec=vector()
+total_ab=DF1$total_ab
+
+for (i in 1:5){
+  vec[i]=quantile(total_ab,(i/5),na.rm=T)
+}
+
+vec# decile value
+
+quintile=vector()
+quintile=ifelse(total_ab <=vec[1],1,quintile)
+
+for (i in 1:5) {
+quintile=ifelse(total_ab >vec[i] & total_ab <=vec[i+1],i+1,quintile )  
+}
+
+
+table(quintile)
+prop.table(table(quintile))*100 
+
+DF2=cbind(DF2,quintile)
+
+```
+
+```{r}
+nrow(DF2)
+table(DF2$case)
+prop.table(table(DF2$case))
+
+table(DF2$case,DF2$level)
+prop.table(table(DF2$case,DF2$level))
+
+summary(DF2$total_ab)
+summary(DF2[DF2$level==0,"total_ab"])
+summary(DF2[DF2$level==1,"total_ab"])
+summary(DF2[DF2$level==2,"total_ab"])
+summary(DF2[DF2$level==3,"total_ab"])
+summary(DF2[DF2$level==4,"total_ab"])
+summary(DF2[DF2$level==5,"total_ab"])
+
+saveRDS(DF2,here::here("output","study_3.rds"))
+rm(DF2)
+
+```
+
+
+
+
+# general patients
+
+### create quintile ab group
+```{r}
+DF2=DF%>%filter(set==3)
+
+vec=vector()
+total_ab=DF1$total_ab
+
+for (i in 1:5){
+  vec[i]=quantile(total_ab,(i/5),na.rm=T)
+}
+
+vec# decile value
+
+quintile=vector()
+quintile=ifelse(total_ab <=vec[1],1,quintile)
+
+for (i in 1:5) {
+quintile=ifelse(total_ab >vec[i] & total_ab <=vec[i+1],i+1,quintile )  
+}
+
+
+table(quintile)
+prop.table(table(quintile))*100 
+
+DF3=cbind(DF3,quintile)
+
+```
+
+```{r}
+nrow(DF3)
+table(DF3$case)
+prop.table(table(DF3$case))
+
+table(DF3$level)
+prop.table(table(DF3$case,DF3$level))
+
+summary(DF3$total_ab)
+summary(DF3[DF3$level==0,"total_ab"])
+summary(DF3[DF3$level==1,"total_ab"])
+summary(DF3[DF3$level==2,"total_ab"])
+summary(DF3[DF3$level==3,"total_ab"])
+summary(DF3[DF3$level==4,"total_ab"])
+summary(DF3[DF3$level==5,"total_ab"])
+
+saveRDS(DF3,here::here("output","study_1.rds"))
+
+```
