@@ -145,7 +145,7 @@ rm(DF1)
 ```{r}
 DF2=DF%>%filter(set==2)
 vec=vector()
-total_ab=DF1$total_ab
+total_ab=DF2$total_ab
 
 for (i in 1:5){
   vec[i]=quantile(total_ab,(i/5),na.rm=T)
@@ -196,10 +196,10 @@ rm(DF2)
 
 ### create quintile ab group
 ```{r}
-DF2=DF%>%filter(set==3)
+DF3=DF%>%filter(set==3)
 
 vec=vector()
-total_ab=DF1$total_ab
+total_ab=DF3$total_ab
 
 for (i in 1:5){
   vec[i]=quantile(total_ab,(i/5),na.rm=T)
