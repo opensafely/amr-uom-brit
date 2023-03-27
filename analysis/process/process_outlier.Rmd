@@ -45,7 +45,7 @@ summary(DF3$total_ab)
 ```{r}
 DF=rbind(DF1,DF2,DF3)
 
-outlier=quantile(DF$total_ab,0.9)
+outlier=quantile(DF$total_ab,0.95)
 outlier
 
 DF=DF%>% filter(total_ab < outlier)
