@@ -18,8 +18,11 @@ library("forestploter")
 
 df1 <- read_csv("output/sen_crude_ab_6w_plot.csv")
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
+plot.a1 <- plot.a1[c(2:3,1),]
 plot.a2 <- df1 %>% filter(df1$group == "C")
+plot.a2 <- plot.a2[c(2:3,1),]
 plot.a3 <- df1 %>% filter(df1$group == "H")
+plot.a3 <- plot.a3[c(2:3,1),]
 
 plot.a1$OR2 <- plot.a2$OR
 plot.a1$CI_L2 <- plot.a2$CI_L
@@ -65,7 +68,7 @@ dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
 ```
 
 ```{r, fig.width=13, fig.height=20}
-p <- forest(dt[c(1,3:4,2),c(1,12:15)],  
+p <- forest(dt[,c(1,12:15)],  
             est = list(dt$OR,
                        dt$OR2,
                        dt$OR3),
