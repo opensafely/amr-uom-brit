@@ -6,6 +6,7 @@ library("tidyverse")
 library("lubridate")
 library("patchwork")
 library("scales")
+library("here")
 library("ggsci")
 
 
@@ -31,7 +32,8 @@ ave_population_3 <- df %>% filter(date>=as.Date("2021-04-01") & date<as.Date("20
 ave_population_3 <- ave_population_3 %>% group_by(age) %>% summarise(count = mean(population))
 ave_population_3$count<-round(ave_population_3$count,0)
 
-df <- readRDS("output/processed/input_model_c.rds")
+setwd(here::here("output","processed"))
+df <- readRDS("input_model_c.rds")
 df <- df %>% filter(case==1)
 df1 <- df %>% filter (covid == 1)
 df2 <- df %>% filter (covid == 2)
