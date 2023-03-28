@@ -98,7 +98,7 @@ Antibiotic$type = case_when(
 
 plot3 <- Antibiotic
 
-label1 <- as.vector(plot1$type)
+label1 <- as.vector(c("Antibiotic count(6 weeks): 1","Antibiotic count(6 weeks): 2-3","Antibiotic count(6 weeks): 3+"))
 
 
 plot1$type <- factor(plot1$type, levels = label1)

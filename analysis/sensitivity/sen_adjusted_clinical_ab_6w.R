@@ -59,60 +59,7 @@ names(DF)[1]="type"
 dfh <- DF
 
 DF <- dfch
-
-CKD <- DF[24:29,]
-CHT <- DF[23,]
-Other1 <- DF[c(1:2,5,9:14),]
-Asthma <- DF[3:4,]
-Diabetes <- DF[6:8,]
-Organ<- DF[15:16,]
-Other2 <-DF[17:22,]
 Antibiotic <- DF[30:32,]
-
-
-CKD$type = case_when(
-  CKD$type == "ckd_rrtCKD stage 3a" ~ "CKD stage 3a",
-  CKD$type == "ckd_rrtCKD stage 3b" ~ "CKD stage 3b",
-  CKD$type == "ckd_rrtCKD stage 4" ~ "CKD stage 4",
-  CKD$type == "ckd_rrtCKD stage 5" ~ "CKD stage 5",
-  CKD$type == "ckd_rrtRRT (dialysis)" ~ "RRT (dialysis)",
-  CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
-
-CHT$type = case_when(
-  CHT$type == "care_home_type_baTRUE" ~ "Potential Care Home")
-
-Other1$type = case_when(
-  Other1$type == "hypertensionTRUE" ~ "Hypertension",
-  Other1$type == "chronic_respiratory_diseaseTRUE" ~ "Chronic respiratory disease",
-  Other1$type == "chronic_cardiac_diseaseTRUE" ~ "Chronic cardiac disease",
-  Other1$type == "cancerTRUE" ~ "Cancer (non haematological)",
-  Other1$type == "haem_cancerTRUE" ~ "Haematological malignancy",
-  Other1$type == "chronic_liver_diseaseTRUE" ~ "Chronic liver disease",
-  Other1$type == "strokeTRUE" ~ "Stroke",
-  Other1$type == "dementiaTRUE" ~ "Dementia",
-  Other1$type == "other_neuroTRUE" ~ "Other neurological disease")
-
-Asthma$type = case_when(
-  Asthma$type == "asthmaWith no oral steroid use" ~ "With no oral steroid use",
-  Asthma$type == "asthmaWith oral steroid use" ~ "With oral steroid use")
-
-Diabetes$type = case_when(
-  Diabetes$type == "diabetes_controlledControlled" ~ "Controlled",
-  Diabetes$type == "diabetes_controlledNot controlled" ~ "Not controlled",
-  Diabetes$type == "diabetes_controlledWithout recent Hb1ac measure" ~ "Without recent Hb1ac measure")
-
-Organ$type = case_when(
-  Organ$type == "organ_kidney_transplantKidney transplant" ~ "Kidney transplant",
-  Organ$type == "organ_kidney_transplantOther organ transplant" ~ "Other organ transplant")
-
-Other2$type = case_when(
-  Other2$type == "aspleniaTRUE" ~ "Asplenia",
-  Other2$type == "ra_sle_psoriasisTRUE" ~ "Rheumatoid arthritis/ lupus/ psoriasis",
-  Other2$type == "immunosuppressionTRUE" ~ "Immunosuppressive condition",
-  Other2$type == "learning_disabilityTRUE" ~ "Learning disability",
-  Other2$type == "sev_mental_illTRUE" ~ "Severe mental illness",
-  Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
-
 Antibiotic$type = case_when(
   Antibiotic$type == "ab_frequency_6w1" ~ "Antibiotic count(6 weeks): 1",
   Antibiotic$type == "ab_frequency_6w2-3" ~ "Antibiotic count(6 weeks): 2-3",
@@ -121,63 +68,12 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
+plot1 <- Antibiotic
 
 
 DF <- dfc
 
-CKD <- DF[24:29,]
-CHT <- DF[23,]
-Other1 <- DF[c(1:2,5,9:14),]
-Asthma <- DF[3:4,]
-Diabetes <- DF[6:8,]
-Organ<- DF[15:16,]
-Other2 <-DF[17:22,]
 Antibiotic <- DF[30:32,]
-
-CKD$type = case_when(
-  CKD$type == "ckd_rrtCKD stage 3a" ~ "CKD stage 3a",
-  CKD$type == "ckd_rrtCKD stage 3b" ~ "CKD stage 3b",
-  CKD$type == "ckd_rrtCKD stage 4" ~ "CKD stage 4",
-  CKD$type == "ckd_rrtCKD stage 5" ~ "CKD stage 5",
-  CKD$type == "ckd_rrtRRT (dialysis)" ~ "RRT (dialysis)",
-  CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
-
-CHT$type = case_when(
-  CHT$type == "care_home_type_baTRUE" ~ "Potential Care Home")
-
-Other1$type = case_when(
-  Other1$type == "hypertensionTRUE" ~ "Hypertension",
-  Other1$type == "chronic_respiratory_diseaseTRUE" ~ "Chronic respiratory disease",
-  Other1$type == "chronic_cardiac_diseaseTRUE" ~ "Chronic cardiac disease",
-  Other1$type == "cancerTRUE" ~ "Cancer (non haematological)",
-  Other1$type == "haem_cancerTRUE" ~ "Haematological malignancy",
-  Other1$type == "chronic_liver_diseaseTRUE" ~ "Chronic liver disease",
-  Other1$type == "strokeTRUE" ~ "Stroke",
-  Other1$type == "dementiaTRUE" ~ "Dementia",
-  Other1$type == "other_neuroTRUE" ~ "Other neurological disease")
-
-Asthma$type = case_when(
-  Asthma$type == "asthmaWith no oral steroid use" ~ "With no oral steroid use",
-  Asthma$type == "asthmaWith oral steroid use" ~ "With oral steroid use")
-
-Diabetes$type = case_when(
-  Diabetes$type == "diabetes_controlledControlled" ~ "Controlled",
-  Diabetes$type == "diabetes_controlledNot controlled" ~ "Not controlled",
-  Diabetes$type == "diabetes_controlledWithout recent Hb1ac measure" ~ "Without recent Hb1ac measure")
-
-Organ$type = case_when(
-  Organ$type == "organ_kidney_transplantKidney transplant" ~ "Kidney transplant",
-  Organ$type == "organ_kidney_transplantOther organ transplant" ~ "Other organ transplant")
-
-Other2$type = case_when(
-  Other2$type == "aspleniaTRUE" ~ "Asplenia",
-  Other2$type == "ra_sle_psoriasisTRUE" ~ "Rheumatoid arthritis/ lupus/ psoriasis",
-  Other2$type == "immunosuppressionTRUE" ~ "Immunosuppressive condition",
-  Other2$type == "learning_disabilityTRUE" ~ "Learning disability",
-  Other2$type == "sev_mental_illTRUE" ~ "Severe mental illness",
-  Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
-
 Antibiotic$type = case_when(
   Antibiotic$type == "ab_frequency_6w1" ~ "Antibiotic count(6 weeks): 1",
   Antibiotic$type == "ab_frequency_6w2-3" ~ "Antibiotic count(6 weeks): 2-3",
@@ -186,62 +82,10 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot2 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
+plot2 <- Antibiotic
 
 DF <- dfh
-
-CKD <- DF[24:29,]
-CHT <- DF[23,]
-Other1 <- DF[c(1:2,5,9:14),]
-Asthma <- DF[3:4,]
-Diabetes <- DF[6:8,]
-Organ<- DF[15:16,]
-Other2 <-DF[17:22,]
 Antibiotic <- DF[30:32,]
-
-CKD$type = case_when(
-  CKD$type == "ckd_rrtCKD stage 3a" ~ "CKD stage 3a",
-  CKD$type == "ckd_rrtCKD stage 3b" ~ "CKD stage 3b",
-  CKD$type == "ckd_rrtCKD stage 4" ~ "CKD stage 4",
-  CKD$type == "ckd_rrtCKD stage 5" ~ "CKD stage 5",
-  CKD$type == "ckd_rrtRRT (dialysis)" ~ "RRT (dialysis)",
-  CKD$type == "ckd_rrtRRT (transplant)" ~ "RRT (transplant)")
-
-CHT$type = case_when(
-  CHT$type == "care_home_type_baTRUE" ~ "Potential Care Home")
-
-Other1$type = case_when(
-  Other1$type == "hypertensionTRUE" ~ "Hypertension",
-  Other1$type == "chronic_respiratory_diseaseTRUE" ~ "Chronic respiratory disease",
-  Other1$type == "chronic_cardiac_diseaseTRUE" ~ "Chronic cardiac disease",
-  Other1$type == "cancerTRUE" ~ "Cancer (non haematological)",
-  Other1$type == "haem_cancerTRUE" ~ "Haematological malignancy",
-  Other1$type == "chronic_liver_diseaseTRUE" ~ "Chronic liver disease",
-  Other1$type == "strokeTRUE" ~ "Stroke",
-  Other1$type == "dementiaTRUE" ~ "Dementia",
-  Other1$type == "other_neuroTRUE" ~ "Other neurological disease")
-
-Asthma$type = case_when(
-  Asthma$type == "asthmaWith no oral steroid use" ~ "With no oral steroid use",
-  Asthma$type == "asthmaWith oral steroid use" ~ "With oral steroid use")
-
-Diabetes$type = case_when(
-  Diabetes$type == "diabetes_controlledControlled" ~ "Controlled",
-  Diabetes$type == "diabetes_controlledNot controlled" ~ "Not controlled",
-  Diabetes$type == "diabetes_controlledWithout recent Hb1ac measure" ~ "Without recent Hb1ac measure")
-
-Organ$type = case_when(
-  Organ$type == "organ_kidney_transplantKidney transplant" ~ "Kidney transplant",
-  Organ$type == "organ_kidney_transplantOther organ transplant" ~ "Other organ transplant")
-
-Other2$type = case_when(
-  Other2$type == "aspleniaTRUE" ~ "Asplenia",
-  Other2$type == "ra_sle_psoriasisTRUE" ~ "Rheumatoid arthritis/ lupus/ psoriasis",
-  Other2$type == "immunosuppressionTRUE" ~ "Immunosuppressive condition",
-  Other2$type == "learning_disabilityTRUE" ~ "Learning disability",
-  Other2$type == "sev_mental_illTRUE" ~ "Severe mental illness",
-  Other2$type == "alcohol_problemsTRUE" ~ "Alcohol problems")
-
 Antibiotic$type = case_when(
   Antibiotic$type == "ab_frequency_6w1" ~ "Antibiotic count(6 weeks): 1",
   Antibiotic$type == "ab_frequency_6w2-3" ~ "Antibiotic count(6 weeks): 2-3",
@@ -250,15 +94,14 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot3 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
+plot3 <- Antibiotic
 
-label1 <- as.vector(plot1$type)
-label2 <- as.vector(plot2$type)
-label3 <- as.vector(plot3$type)
+label1 <- as.vector(c("Antibiotic count(6 weeks): 1","Antibiotic count(6 weeks): 2-3","Antibiotic count(6 weeks): 3+"))
+
 
 plot1$type <- factor(plot1$type, levels = label1)
-plot2$type <- factor(plot2$type, levels = label2)
-plot3$type <- factor(plot3$type, levels = label3)
+plot2$type <- factor(plot2$type, levels = label1)
+plot3$type <- factor(plot3$type, levels = label1)
 
 
 plot1$group <- "H+C"

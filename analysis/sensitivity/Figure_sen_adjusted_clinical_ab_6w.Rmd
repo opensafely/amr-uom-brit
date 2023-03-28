@@ -38,13 +38,7 @@ tm <- forest_theme(base_size = 10,
                    vertline_lty = c("dashed", "dotted"),
                    vertline_col = c("#d6604d", "#bababa"))
 
-plot.a1<- plot.a1 %>% add_row(type = "Care homes status", .before = 1, )
-plot.a1<- plot.a1 %>% add_row(type = "Chronic kidney disease or renal replacement therapy", .before = 3,)
-plot.a1<- plot.a1 %>% add_row(type = "Asthma", .before = 10,)
-plot.a1<- plot.a1 %>% add_row(type = "Diabetes", .before = 13,)
-plot.a1<- plot.a1 %>% add_row(type = "Organ transplant", .before = 17,)
-plot.a1<- plot.a1 %>% add_row(type = "Other clinical characteristics ", .before = 20,)
-plot.a1<- plot.a1 %>% add_row(type = "The number of prior antibiotic prescriptions", .before = 36,)
+plot.a1<- plot.a1 %>% add_row(type = "The number of prior antibiotic prescriptions", .before = 1, )
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
