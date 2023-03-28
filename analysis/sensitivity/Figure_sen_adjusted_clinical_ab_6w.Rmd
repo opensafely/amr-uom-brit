@@ -64,7 +64,7 @@ dt$`OR3 (95% CI)` <- ifelse(is.na(dt$OR3), "",
 ```
 
 ```{r, fig.width=13, fig.height=20}
-p <- forest(dt[,c(1,12:15)],  
+p <- forest(dt[c(2:3,1),c(1,12:15)],  
             est = list(dt$OR,
                        dt$OR2,
                        dt$OR3),
