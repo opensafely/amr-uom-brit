@@ -1075,3 +1075,10 @@ actions:
         table6: output/adjusted_clinical_18_1.csv
         table1: output/adjusted_clinical_18_2.csv
         table2: output/adjusted_clinical_18_3.csv
+
+  Figure_adjusted_clinical_18:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_adjusted_clinical_18.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_adjusted_clinical_18]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_adjusted_clinical_18.html
