@@ -1131,3 +1131,19 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_clinical_18.html
+
+  model_imd_18:
+    run: r:latest analysis/sensitivity/model_imd_18.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/imd_model_18.csv
+        table2: output/imd_model_covid_18.csv
+        table3: output/imd_model_cardiometabolic_18.csv
+
+  model_imd_fully_18:
+    run: r:latest analysis/model_imd_fully_18.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/model_imd_fully_18.csv
