@@ -1124,3 +1124,10 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_crude_demo_18.html
+
+  Figure_crude_clinical_18:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_crude_clinical_18.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [model_crude_plot_18]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_crude_clinical_18.html
