@@ -1065,3 +1065,13 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_sen_crude_ab_6w.html
+
+##### including 18+ only #####
+  model_adjusted_clinical_18:
+    run: r:latest analysis/sensitivity/model_adjusted_clinical_18.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/adjusted_clinical_18_1.csv
+        table1: output/adjusted_clinical_18_2.csv
+        table2: output/adjusted_clinical_18_3.csv
