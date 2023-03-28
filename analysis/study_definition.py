@@ -141,5 +141,16 @@ measures = [
             denominator="population",
             group_by=["imd"]
             ),
-            
+
+    Measure(id="person_age",
+            numerator="population",
+            denominator="population",
+            group_by=["age"]
+            ),
+
+    Measure(id="person_sex",
+            numerator="population",
+            denominator="population",
+            group_by=["sex"]
+            ),
 ]
