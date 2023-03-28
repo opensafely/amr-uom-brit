@@ -1147,3 +1147,10 @@ actions:
     outputs:
       moderately_sensitive:
         table6: output/model_imd_fully_18.csv
+
+  Figure_IMD_18:  
+    run: r:latest analysis/sensitivity/Figure_IMD_18.R
+    needs: [model_imd_18,model_imd_fully_18]
+    outputs:
+      moderately_sensitive:
+        plot1: output/Figure_IMD_18.jpeg
