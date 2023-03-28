@@ -1142,7 +1142,7 @@ actions:
         table3: output/imd_model_cardiometabolic_18.csv
 
   model_imd_fully_18:
-    run: r:latest analysis/model_imd_fully_18.R
+    run: r:latest analysis/sensitivity/model_imd_fully_18.R
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
