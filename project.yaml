@@ -1033,6 +1033,15 @@ actions:
       highly_sensitive: 
         rds: output/processed/input_control_ab_6w.rds
 
+  Figure_age_community:  
+    run: r:latest analysis/Figure_age_community.R
+    needs: [process_model_var,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_age_1.jpeg
+        plot2: output/figure_age_2.jpeg
+        plot3: output/figure_age_3.jpeg
+
 ##### sensitivity #####
 
 ##### antibiotic use within six weeks #####
