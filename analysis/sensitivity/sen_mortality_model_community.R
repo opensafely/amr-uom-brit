@@ -146,13 +146,13 @@ mod <- glm(died_any_30d~ ckd_rrt + rcs(age, 4) + sex + strata(region),family="bi
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result27 <- result[2:7,]
 
-mod <- glm(died_any_30d~ ab_frequency + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+mod <- glm(died_any_30d~ ab_type_num + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
-result28 <- result[2:4,]
+result29 <- result[2:4,]
 
 result <- bind_rows(result1,result2,result3,result4,result5,result6,result7,result8,result9,result10,
                     result11,result12,result13,result14,result15,result16,result17,result18,result19,result20,
-                    result21,result22,result23,result24,result25,result26,result27,result28)
+                    result21,result22,result23,result24,result25,result26,result27,result28,result29)
 
 setDT(result, keep.rownames = TRUE)
 names(result)[1]="type"
@@ -241,7 +241,8 @@ result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "IMD","IMD","IMD","IMD","Ethnicity","Ethnicity","Ethnicity","Ethnicity","Ethnicity",
                       "BMI","BMI","BMI","BMI","BMI","Smoking","Smoking","Smoking","Asthma","Asthma",
                       "Diabetes","Diabetes","Diabetes","Tx","Tx","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT",
-                      "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Others","Others","Others","Others","Others",
+                      "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Antibiotic type",
+                      "Antibiotic type","Antibiotic type","Others","Others","Others","Others","Others",
                       "Others","Others","Others","Others","Others","Others","Others","Others","Others",
                       "Others","Others")
 
@@ -371,9 +372,13 @@ mod <- glm(died_any_30d~ ab_frequency + rcs(age, 4) + sex + strata(region),famil
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result28 <- result[2:4,]
 
+mod <- glm(died_any_30d~ ab_type_num + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
+result29 <- result[2:4,]
+
 result <- bind_rows(result1,result2,result3,result4,result5,result6,result7,result8,result9,result10,
                     result11,result12,result13,result14,result15,result16,result17,result18,result19,result20,
-                    result21,result22,result23,result24,result25,result26,result27,result28)
+                    result21,result22,result23,result24,result25,result26,result27,result28,result29)
 
 setDT(result, keep.rownames = TRUE)
 names(result)[1]="type"
@@ -462,7 +467,8 @@ result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "IMD","IMD","IMD","IMD","Ethnicity","Ethnicity","Ethnicity","Ethnicity","Ethnicity",
                       "BMI","BMI","BMI","BMI","BMI","Smoking","Smoking","Smoking","Asthma","Asthma",
                       "Diabetes","Diabetes","Diabetes","Tx","Tx","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT",
-                      "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Others","Others","Others","Others","Others",
+                      "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Antibiotic type",
+                      "Antibiotic type","Antibiotic type","Others","Others","Others","Others","Others",
                       "Others","Others","Others","Others","Others","Others","Others","Others","Others",
                       "Others","Others")
 
@@ -591,9 +597,13 @@ mod <- glm(died_any_30d~ ab_frequency + rcs(age, 4) + sex + strata(region),famil
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result28 <- result[2:4,]
 
+mod <- glm(died_any_30d~ ab_type_num + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
+result29 <- result[2:4,]
+
 result <- bind_rows(result1,result2,result3,result4,result5,result6,result7,result8,result9,result10,
                     result11,result12,result13,result14,result15,result16,result17,result18,result19,result20,
-                    result21,result22,result23,result24,result25,result26,result27,result28)
+                    result21,result22,result23,result24,result25,result26,result27,result28,result29)
 
 setDT(result, keep.rownames = TRUE)
 names(result)[1]="type"
@@ -682,7 +692,8 @@ result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "IMD","IMD","IMD","IMD","Ethnicity","Ethnicity","Ethnicity","Ethnicity","Ethnicity",
                       "BMI","BMI","BMI","BMI","BMI","Smoking","Smoking","Smoking","Asthma","Asthma",
                       "Diabetes","Diabetes","Diabetes","Tx","Tx","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT",
-                      "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Others","Others","Others","Others","Others",
+                      "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Antibiotic type",
+                      "Antibiotic type","Antibiotic type","Others","Others","Others","Others","Others",
                       "Others","Others","Others","Others","Others","Others","Others","Others","Others",
                       "Others","Others")
 
