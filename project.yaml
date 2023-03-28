@@ -1154,3 +1154,15 @@ actions:
     outputs:
       moderately_sensitive:
         plot1: output/Figure_IMD_18.jpeg
+
+##### mortality study #####
+
+  mortality_model_time:
+    run: r:latest analysis/sensitivity/sen_mortality_model_community.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/sen_model_mortality_community_1.csv
+        table2: output/sen_model_mortality_community_2.csv
+        table3: output/sen_model_mortality_community_3.csv
+        table4: output/sen_model_mortality_community_all.csv
