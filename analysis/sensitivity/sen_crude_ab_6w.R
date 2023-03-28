@@ -14,7 +14,7 @@ library(here)
 
 df <- readRDS("output/processed/input_model_c_h.rds")
 ### fit crude model by variables
-
+df$ab_frequency_6w= relevel(as.factor(df$ab_frequency_6w), ref="0")
 mod25=clogit(case ~ ab_frequency_6w + strata(set_id), df)
 sum.mod25=summary(mod25)
 result=data.frame(sum.mod25$conf.int)
@@ -28,7 +28,7 @@ names(DF)[1]="type"
 
 df <- readRDS("output/processed/input_model_c.rds")
 ### fit crude model by variables
-
+df$ab_frequency_6w= relevel(as.factor(df$ab_frequency_6w), ref="0")
 mod25=clogit(case ~ ab_frequency_6w + strata(set_id), df)
 sum.mod25=summary(mod25)
 result=data.frame(sum.mod25$conf.int)
@@ -42,7 +42,7 @@ names(DF1)[1]="type"
 
 df <- readRDS("output/processed/input_model_h.rds")
 ### fit crude model by variables
-
+df$ab_frequency_6w= relevel(as.factor(df$ab_frequency_6w), ref="0")
 mod25=clogit(case ~ ab_frequency_6w + strata(set_id), df)
 sum.mod25=summary(mod25)
 result=data.frame(sum.mod25$conf.int)

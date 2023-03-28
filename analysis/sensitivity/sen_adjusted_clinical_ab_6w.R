@@ -8,7 +8,7 @@ library(gridExtra)
 library("forestploter")
 
 df <- readRDS("output/processed/input_model_c_h.rds")
-
+df$ab_frequency_6w= relevel(as.factor(df$ab_frequency_6w), ref="0")
 mod=clogit(case ~  hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
@@ -25,7 +25,7 @@ names(DF)[1]="type"
 dfch <- DF
 
 df <- readRDS("output/processed/input_model_c.rds")
-
+df$ab_frequency_6w= relevel(as.factor(df$ab_frequency_6w), ref="0")
 mod=clogit(case ~  hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
@@ -42,7 +42,7 @@ names(DF)[1]="type"
 dfc <- DF
 
 df <- readRDS("output/processed/input_model_h.rds")
-
+df$ab_frequency_6w= relevel(as.factor(df$ab_frequency_6w), ref="0")
 mod=clogit(case ~ hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
