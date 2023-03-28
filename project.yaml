@@ -1111,7 +1111,7 @@ actions:
         rds1: output/processed/input_crude_model_h_18.rds
 
   model_crude_plot_18:
-    run: r:latest analysis/model_crude_plot_18.R
+    run: r:latest analysis/sensitivity/model_crude_plot_18.R
     needs: [model_crude_h_18,model_crude_c_18,model_crude_ch_18]
     outputs:
       moderately_sensitive:
