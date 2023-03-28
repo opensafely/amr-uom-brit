@@ -1032,3 +1032,15 @@ actions:
     outputs:
       highly_sensitive: 
         rds: output/processed/input_control_ab_6w.rds
+
+##### sensitivity #####
+  sen_adjusted_clinical_ab_6w:
+    run: r:latest analysis/sensitivity/sen_adjusted_clinical_ab_6w.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/sen_adjusted_clinical_ab_6w_1.csv
+        table1: output/sen_adjusted_clinical_ab_6w_2.csv
+        table2: output/sen_adjusted_clinical_ab_6w_3.csv
+
+
