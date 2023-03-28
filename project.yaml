@@ -1082,3 +1082,12 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_adjusted_clinical_18.html
+
+  model_crude_c_18:
+    run: r:latest analysis/sensitivity/model_crude_c_18.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/crude_model_result_c_18.csv
+      highly_sensitive: 
+        rds1: output/processed/input_crude_model_c_18.rds
