@@ -1034,6 +1034,8 @@ actions:
         rds: output/processed/input_control_ab_6w.rds
 
 ##### sensitivity #####
+
+##### antibiotic use within six weeks #####
   sen_adjusted_clinical_ab_6w:
     run: r:latest analysis/sensitivity/sen_adjusted_clinical_ab_6w.R
     needs: [process_model_var]
@@ -1049,4 +1051,11 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_sen_adjusted_clinical_ab_6w.html
+
+  sen_crude_ab_6w:
+    run: r:latest analysis/sensitivity/sen_crude_ab_6w.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/sen_crude_ab_6w_plot.csv
 
