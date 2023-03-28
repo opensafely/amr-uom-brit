@@ -1157,7 +1157,7 @@ actions:
 
 ##### mortality study #####
 
-  mortality_model_time:
+  sen_mortality_model_community:
     run: r:latest analysis/sensitivity/sen_mortality_model_community.R
     needs: [process_model_var]
     outputs:
