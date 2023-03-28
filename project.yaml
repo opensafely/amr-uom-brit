@@ -1059,3 +1059,9 @@ actions:
       moderately_sensitive:
         table6: output/sen_crude_ab_6w_plot.csv
 
+  Figure_sen_crude_ab_6w:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_sen_crude_ab_6w.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [sen_crude_ab_6w]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_sen_crude_ab_6w.html
