@@ -1043,4 +1043,10 @@ actions:
         table1: output/sen_adjusted_clinical_ab_6w_2.csv
         table2: output/sen_adjusted_clinical_ab_6w_3.csv
 
+  Figure_sen_adjusted_clinical_ab_6w:
+    run: r:latest -e 'rmarkdown::render("analysis/Figure_sen_adjusted_clinical_ab_6w.Rmd", knit_root_dir = "/workspace/sensitivity", output_dir="/workspace/output")'
+    needs: [sen_adjusted_clinical_ab_6w]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_sen_adjusted_clinical_ab_6w.html
 
