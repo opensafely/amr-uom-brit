@@ -18,8 +18,11 @@ library("forestploter")
 
 df1 <- read_csv("output/crude_plota_18.csv")
 plot.a1 <- df1 %>% filter(df1$group == "H+C")
+plot.a1 <- plot.a1[c(1:12,19,18,15:17,21,22),]
 plot.a2 <- df1 %>% filter(df1$group == "C")
+plot.a2  <- plot.a2[c(1:12,19,18,15:17,21,22),]
 plot.a3 <- df1 %>% filter(df1$group == "H")
+plot.a3 <- plot.a3[c(1:12,19,18,15:17,21,22),]
 
 plot.a1$OR2 <- plot.a2$OR
 plot.a1$CI_L2 <- plot.a2$CI_L
@@ -41,8 +44,8 @@ tm <- forest_theme(base_size = 10,
 
 plot.a1<- plot.a1 %>% add_row(type = "Region", .before = 1, )
 plot.a1<- plot.a1 %>% add_row(type = "Ethnicity", .before = 10, )
-plot.a1<- plot.a1 %>% add_row(type = "BMI", .before = 16, )
-plot.a1<- plot.a1 %>% add_row(type = "Smoking", .before = 23, )
+plot.a1<- plot.a1 %>% add_row(type = "BMI", .before = 15, )
+plot.a1<- plot.a1 %>% add_row(type = "Smoking", .before = 21, )
 
 plot.a1$type <- ifelse(is.na(plot.a1$OR), 
                       plot.a1$type,
