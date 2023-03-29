@@ -238,4 +238,5 @@ names(result)[2]="OR.1"
 names(result)[3]="LowerCI.1"
 names(result)[4]="UpperCI.1"
 
+result <-result[c(1:19,22,20,23,21,30,29,26:28,33,32,36,37,39:41,48,49,57:62,64,65,63,34,35,38,42:47,50:56),]
 write_csv(result, here::here("output", "sen_model_mortality_community_test.csv"))
