@@ -22,7 +22,8 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
-predicted_probs <- predict(mod, type = "response")
+linear_predictors <- predict(mod, type = "lp")
+predicted_probs <- exp(linear_predictors) / (1 + exp(linear_predictors))
 true_outcomes <- df$case
 
 auc_trapezoidal <- function(predicted_probs, true_outcomes) {
@@ -38,7 +39,9 @@ auc_trapezoidal <- function(predicted_probs, true_outcomes) {
   
   return(auc)
 }
+
 c_stat <- auc_trapezoidal(predicted_probs, true_outcomes)
+
 print(c_stat)
 
 dfch <- DF
