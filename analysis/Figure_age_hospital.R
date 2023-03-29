@@ -33,7 +33,7 @@ ave_population_3 <- ave_population_3 %>% group_by(age) %>% summarise(count = mea
 ave_population_3$count<-round(ave_population_3$count,0)
 
 setwd(here::here("output","processed"))
-df <- readRDS("input_model_c.rds")
+df <- readRDS("input_model_h.rds")
 df <- df %>% filter(case==1)
 df1 <- df %>% filter (covid == 1)
 df2 <- df %>% filter (covid == 2)
@@ -71,7 +71,7 @@ plot2 <- ggplot(plot2, aes(x = age, y = rate)) +
        x = "Age",
        y = "Incident rate per 1000 people") +
   scale_x_continuous(breaks = seq(0, 100, by = 5))+
-  scale_y_continuous(breaks = seq(0, max(plot2$rate), by = 5)) +
+  scale_y_continuous(breaks = seq(0, max(plot1$rate), by = 5)) +
   theme_minimal()
 
 
@@ -81,16 +81,16 @@ plot3 <- ggplot(plot3, aes(x = age, y = rate)) +
        x = "Age",
        y = "Incident rate per 1000 people") +
   scale_x_continuous(breaks = seq(0, 100, by = 5))+
-  scale_y_continuous(breaks = seq(0, max(plot3$rate), by = 5)) +
+  scale_y_continuous(breaks = seq(0, max(plot1$rate), by = 5)) +
   theme_minimal()
 
 
 ggsave(plot1, width = 8, height = 4, dpi = 320,
-       filename="figure_age_1.jpeg", path=here::here("output"),
+       filename="figure_age_hos_1.jpeg", path=here::here("output"),
 )  
 ggsave(plot2, width = 8, height = 4, dpi = 320,
-       filename="figure_age_2.jpeg", path=here::here("output"),
+       filename="figure_age_hos_2.jpeg", path=here::here("output"),
 )  
 ggsave(plot3, width = 8, height = 4, dpi = 320,
-       filename="figure_age_3.jpeg", path=here::here("output"),
+       filename="figure_age_hos_3.jpeg", path=here::here("output"),
 )  

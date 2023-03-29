@@ -1042,6 +1042,15 @@ actions:
         plot2: output/figure_age_2.jpeg
         plot3: output/figure_age_3.jpeg
 
+  Figure_age_hospital:  
+    run: r:latest analysis/Figure_age_hospital.R
+    needs: [process_model_var,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_age_hos_1.jpeg
+        plot2: output/figure_age_hos_2.jpeg
+        plot3: output/figure_age_hos_3.jpeg
+
 ##### sensitivity #####
 
 ##### antibiotic use within six weeks #####
