@@ -33,7 +33,7 @@ negative_probs <- data$predicted_probs[data$true_outcomes == 0]
 mw_test <- wilcox.test(positive_probs, negative_probs)
 
 # Compute the C-statistic (AUC)
-c_statistic <- mw_test$statistic / (length(positive_probs) * length(negative_probs))
+c_statistic <- as.numeric(mw_test$statistic) / (as.numeric(length(positive_probs)) * as.numeric(length(negative_probs)))
 print(c_statistic)
 
 dfch <- DF
