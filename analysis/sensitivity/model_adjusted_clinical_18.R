@@ -8,6 +8,7 @@ library(gridExtra)
 library("forestploter")
 
 df <- readRDS("output/processed/input_model_c_h.rds")
+df <- df%>%filter(df$age >=18)
 mod=clogit(case ~  hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
@@ -23,7 +24,8 @@ names(DF)[1]="type"
 
 linear_predictors <- predict(mod, type = "lp")
 predicted_probs <- exp(linear_predictors) / (1 + exp(linear_predictors))
-true_outcomes <- df$case
+true_outcomes <- df$case[1:1536264]
+
 auc_trapezoidal <- function(predicted_probs, true_outcomes) {
   data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
   data <- data[order(data$predicted_probs, decreasing = TRUE), ]
@@ -45,6 +47,7 @@ print(c_stat)
 dfch <- DF
 
 df <- readRDS("output/processed/input_model_c.rds")
+df <- df%>%filter(df$age >=18)
 mod=clogit(case ~  hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
@@ -61,6 +64,7 @@ names(DF)[1]="type"
 dfc <- DF
 
 df <- readRDS("output/processed/input_model_h.rds")
+df <- df%>%filter(df$age >=18)
 mod=clogit(case ~ hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
              stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
