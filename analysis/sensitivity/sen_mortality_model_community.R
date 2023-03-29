@@ -146,6 +146,10 @@ mod <- glm(died_any_30d~ ckd_rrt + rcs(age, 4) + sex + strata(region),family="bi
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result27 <- result[2:7,]
 
+mod <- glm(died_any_30d~ ab_frequency + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
+result28 <- result[2:4,]
+
 mod <- glm(died_any_30d~ ab_type_num + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result29 <- result[2:4,]
