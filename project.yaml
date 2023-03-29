@@ -1180,18 +1180,14 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        table1: output/sen_model_mortality_community.csv
-        
+        table1: output/sen_mortality_model_community.csv
+        table2: output/sen_mortality_model_community_1.csv
+        table3: output/sen_mortality_model_community_2.csv
+        table4: output/sen_mortality_model_community_3.csv
+
   Figure_mortality_community:
     run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_community.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [sen_mortality_model_community]
     outputs:
       moderately_sensitive:
         csv: output/Figure_mortality_community.html
-
-  sen_mortality_model_community_test:
-    run: r:latest analysis/sensitivity/sen_mortality_model_community_test.R
-    needs: [process_model_var]
-    outputs:
-      moderately_sensitive:
-        table1: output/sen_model_mortality_community_test.csv
