@@ -237,13 +237,13 @@ names(result)[1]="Plot_category"
 names(result)[2]="OR.1"
 names(result)[3]="LowerCI.1"
 names(result)[4]="UpperCI.1"
-result <-result[c(1:32,35,36,38:40,47,48,56:67,33,34,37,41:46,49:55),]
+result <-result[c(1:33,36,37,38:41,48,49,57:68,34,35,38,42:47,50:56),]
 
 
 result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "Region","Region","Region","Region","Region","Region","Region","Region",
                       "IMD","IMD","IMD","IMD","Ethnicity","Ethnicity","Ethnicity","Ethnicity","Ethnicity",
-                      "BMI","BMI","BMI","BMI","BMI","Smoking","Smoking","Smoking","Asthma","Asthma",
+                      "BMI","BMI","BMI","BMI","BMI","BMI","Smoking","Smoking","Smoking","Asthma","Asthma",
                       "Diabetes","Diabetes","Diabetes","Tx","Tx","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT","CKD/RRT",
                       "CKD/RRT","Antibiotic count","Antibiotic count","Antibiotic count","Antibiotic type",
                       "Antibiotic type","Antibiotic type","Others","Others","Others","Others","Others",
