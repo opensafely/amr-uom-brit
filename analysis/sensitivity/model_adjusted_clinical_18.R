@@ -24,7 +24,7 @@ names(DF)[1]="type"
 
 linear_predictors <- predict(mod, type = "lp")
 predicted_probs <- exp(linear_predictors) / (1 + exp(linear_predictors))
-true_outcomes <- df$case[1:1536264]
+true_outcomes <- df$case[1:(as.numeric(length(predicted_probs)))]
 data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
 positive_probs <- data$predicted_probs[data$true_outcomes == 1]
 negative_probs <- data$predicted_probs[data$true_outcomes == 0]
@@ -53,6 +53,20 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
+linear_predictors <- predict(mod, type = "lp")
+predicted_probs <- exp(linear_predictors) / (1 + exp(linear_predictors))
+true_outcomes <- df$case[1:(as.numeric(length(predicted_probs)))]
+data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
+positive_probs <- data$predicted_probs[data$true_outcomes == 1]
+negative_probs <- data$predicted_probs[data$true_outcomes == 0]
+
+# Perform the Mann-Whitney U test
+mw_test <- wilcox.test(positive_probs, negative_probs)
+
+# Compute the C-statistic (AUC)
+c_statistic <- as.numeric(mw_test$statistic) / (as.numeric(length(positive_probs)) * as.numeric(length(negative_probs)))
+print(c_statistic)
+
 dfc <- DF
 
 df <- readRDS("output/processed/input_model_h.rds")
@@ -69,6 +83,20 @@ names(DF)[2]="CI_L"
 names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
+
+linear_predictors <- predict(mod, type = "lp")
+predicted_probs <- exp(linear_predictors) / (1 + exp(linear_predictors))
+true_outcomes <- df$case[1:(as.numeric(length(predicted_probs)))]
+data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
+positive_probs <- data$predicted_probs[data$true_outcomes == 1]
+negative_probs <- data$predicted_probs[data$true_outcomes == 0]
+
+# Perform the Mann-Whitney U test
+mw_test <- wilcox.test(positive_probs, negative_probs)
+
+# Compute the C-statistic (AUC)
+c_statistic <- as.numeric(mw_test$statistic) / (as.numeric(length(positive_probs)) * as.numeric(length(negative_probs)))
+print(c_statistic)
 
 dfh <- DF
 
