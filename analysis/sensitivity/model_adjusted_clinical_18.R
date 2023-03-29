@@ -22,6 +22,25 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
+predicted_probs <- predict(mod, type = "response")
+true_outcomes <- df$case
+
+auc_trapezoidal <- function(predicted_probs, true_outcomes) {
+  data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
+  data <- data[order(data$predicted_probs, decreasing = TRUE), ]
+  
+  n_pos <- sum(data$true_outcomes == 1)
+  n_neg <- sum(data$true_outcomes == 0)
+  
+  rank_sum_pos <- sum(rank(data$predicted_probs[data$true_outcomes == 1]))
+  
+  auc <- (rank_sum_pos - n_pos * (n_pos + 1) / 2) / (n_pos * n_neg)
+  
+  return(auc)
+}
+c_stat <- auc_trapezoidal(predicted_probs, true_outcomes)
+print(c_stat)
+
 dfch <- DF
 
 df <- readRDS("output/processed/input_model_c.rds")
