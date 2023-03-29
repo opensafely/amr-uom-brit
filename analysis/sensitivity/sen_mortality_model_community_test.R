@@ -33,9 +33,10 @@ df <-df1
 
 mod <- glm(died_any_30d~ bmi_adult+ rcs(age, 4) + sex + strata(region),family="binomial",data = df)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
-setDT(result, keep.rownames = TRUE)
-names(result)[1]="type"
+result6 <- result[2:7,]
+setDT(result6, keep.rownames = TRUE)
+names(result6)[1]="type"
 
 
 
-write_csv(result, here::here("output", "sen_model_mortality_community_test.csv"))
+write_csv(result6, here::here("output", "sen_model_mortality_community_test.csv"))

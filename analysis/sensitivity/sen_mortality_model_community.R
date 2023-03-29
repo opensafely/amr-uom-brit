@@ -57,7 +57,7 @@ result5 <- result[2:6,]
 
 mod <- glm(died_any_30d~ bmi_adult+ rcs(age, 4) + sex + strata(region),family="binomial",data = df)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
-result6 <- result[2:6,]
+result6 <- result[2:7,]
 
 
 mod <- glm(died_any_30d~ smoking_status+ rcs(age, 4) + sex + strata(region),family="binomial",data = df)
