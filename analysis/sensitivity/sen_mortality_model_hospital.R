@@ -10,7 +10,7 @@ library(dplyr)
 library(survival)
 library(rms)
 
-df <- readRDS("output/processed/input_model_c.rds")
+df <- readRDS("output/processed/input_model_h.rds")
 df <- df %>% filter(case==1)
 df$agegroup = case_when(
   df$age < 18 ~ "<18",
@@ -251,7 +251,7 @@ result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "Others","Others")
 
 relrisks1 <- result
-write_csv(relrisks1, here::here("output", "sen_mortality_model_community_1.csv"))
+write_csv(relrisks1, here::here("output", "sen_mortality_model_hospital_1.csv"))
 
 df <-df2
 ###Age###
@@ -475,7 +475,7 @@ result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "Others","Others")
 
 relrisks2 <- result
-write_csv(relrisks2, here::here("output", "sen_mortality_model_community_2.csv"))
+write_csv(relrisks2, here::here("output", "sen_mortality_model_hospital_2.csv"))
 
 df <-df3
 
@@ -700,9 +700,9 @@ result$Plot_group <-c("Age","Age","Age","Age","Age","Age","Sex",
                       "Others","Others")
 
 relrisks3 <- result
-write_csv(relrisks3, here::here("output", "sen_mortality_model_community_3.csv"))
+write_csv(relrisks3, here::here("output", "sen_mortality_model_hospital_3.csv"))
 
 relrisks <- merge(relrisks1,relrisks2,by = "Plot_category")
 relrisks <- merge(relrisks,relrisks3,by = "Plot_category")
 
-write_csv(relrisks, here::here("output", "sen_mortality_model_community.csv"))
+write_csv(relrisks, here::here("output", "sen_mortality_model_hospital.csv"))

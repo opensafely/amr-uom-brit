@@ -1191,3 +1191,21 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_mortality_community.html
+
+
+  sen_mortality_model_hospital:
+    run: r:latest analysis/sensitivity/sen_mortality_model_hospital.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/sen_mortality_model_hospital.csv
+        table2: output/sen_mortality_model_hospital_1.csv
+        table3: output/sen_mortality_model_hospital_2.csv
+        table4: output/sen_mortality_model_hospital_3.csv
+
+  Figure_mortality_hospital:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_hospital.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [sen_mortality_model_hospital]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_mortality_hospital.html

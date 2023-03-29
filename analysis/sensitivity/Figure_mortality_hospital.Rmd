@@ -12,9 +12,9 @@ library('cowplot')
 library("ggsci")
 ## Import data
 
-df1 <- read_csv("output/sen_mortality_model_community_1.csv")
-df2 <- read_csv("output/sen_mortality_model_community_2.csv")
-df3 <- read_csv("output/sen_mortality_model_community_3.csv")
+df1 <- read_csv("output/sen_mortality_model_hospital_1.csv")
+df2 <- read_csv("output/sen_mortality_model_hospital_2.csv")
+df3 <- read_csv("output/sen_mortality_model_hospital_3.csv")
 
 
 df <- cbind(df1,df2[,2:4],df3[,2:4])
