@@ -1191,3 +1191,10 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_mortality_community.html
+
+  sen_mortality_model_community_test:
+    run: r:latest analysis/sensitivity/sen_mortality_model_community_test.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/sen_model_mortality_community_test.csv
