@@ -25,24 +25,16 @@ names(DF)[1]="type"
 linear_predictors <- predict(mod, type = "lp")
 predicted_probs <- exp(linear_predictors) / (1 + exp(linear_predictors))
 true_outcomes <- df$case[1:1536264]
+data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
+positive_probs <- data$predicted_probs[data$true_outcomes == 1]
+negative_probs <- data$predicted_probs[data$true_outcomes == 0]
 
-auc_trapezoidal <- function(predicted_probs, true_outcomes) {
-  data <- data.frame(predicted_probs = predicted_probs, true_outcomes = true_outcomes)
-  data <- data[order(data$predicted_probs, decreasing = TRUE), ]
-  
-  n_pos <- sum(data$true_outcomes == 1)
-  n_neg <- sum(data$true_outcomes == 0)
-  
-  rank_sum_pos <- sum(rank(data$predicted_probs[data$true_outcomes == 1]))
-  
-  auc <- (rank_sum_pos - n_pos * (n_pos + 1) / 2) / (n_pos * n_neg)
-  
-  return(auc)
-}
+# Perform the Mann-Whitney U test
+mw_test <- wilcox.test(positive_probs, negative_probs)
 
-c_stat <- auc_trapezoidal(predicted_probs, true_outcomes)
-
-print(c_stat)
+# Compute the C-statistic (AUC)
+c_statistic <- mw_test$statistic / (length(positive_probs) * length(negative_probs))
+print(c_statistic)
 
 dfch <- DF
 
