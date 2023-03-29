@@ -62,6 +62,7 @@ plot1 <- ggplot(plot1, aes(x = age, y = rate)) +
        x = "Age",
        y = "Incident rate per 1000 people") +
   scale_x_continuous(breaks = seq(0, 100, by = 5))+
+  scale_y_continuous(breaks = seq(0, max(plot1$rate), by = 5)) +
   theme_minimal()
 
 plot2 <- ggplot(plot2, aes(x = age, y = rate)) +
@@ -70,6 +71,7 @@ plot2 <- ggplot(plot2, aes(x = age, y = rate)) +
        x = "Age",
        y = "Incident rate per 1000 people") +
   scale_x_continuous(breaks = seq(0, 100, by = 5))+
+  scale_y_continuous(breaks = seq(0, max(plot1$rate), by = 5)) +
   theme_minimal()
 
 
@@ -79,6 +81,7 @@ plot3 <- ggplot(plot3, aes(x = age, y = rate)) +
        x = "Age",
        y = "Incident rate per 1000 people") +
   scale_x_continuous(breaks = seq(0, 100, by = 5))+
+  scale_y_continuous(breaks = seq(0, max(plot1$rate), by = 5)) +
   theme_minimal()
 
 
