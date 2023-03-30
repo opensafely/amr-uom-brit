@@ -1255,6 +1255,7 @@ actions:
         table1: output/sen_mortality_full_model_community_1.csv
         table2: output/sen_mortality_full_model_community_2.csv
         table3: output/sen_mortality_full_model_community_3.csv
+        table4: output/sen_mortality_full_model_community.csv
 
   Figure_mortality_full_community:
     run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_full_community.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -1271,6 +1272,7 @@ actions:
         table1: output/sen_mortality_full_model_hospital_1.csv
         table2: output/sen_mortality_full_model_hospital_2.csv
         table3: output/sen_mortality_full_model_hospital_3.csv
+        table4: output/sen_mortality_full_model_hospital.csv
 
   Figure_mortality_full_hospital:
     run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_full_hospital.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
@@ -1287,6 +1289,8 @@ actions:
         table1: output/sen_mortality_full_model_all_1.csv
         table2: output/sen_mortality_full_model_all_2.csv
         table3: output/sen_mortality_full_model_all_3.csv
+        table4: output/sen_mortality_full_model_all.csv
+
 
   Figure_mortality_full_all:
     run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_full_all.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'

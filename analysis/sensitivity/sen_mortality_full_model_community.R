@@ -319,3 +319,9 @@ result$Plot_group <-c("Asthma","Asthma",
 
 relrisks3 <- result
 write_csv(relrisks3, here::here("output", "sen_mortality_full_model_community_3.csv"))
+
+
+relrisks <- merge(relrisks1,relrisks2,by = "Plot_category")
+relrisks <- merge(relrisks,relrisks3,by = "Plot_category")
+
+write_csv(relrisks, here::here("output", "sen_mortality_full_model_community.csv"))
