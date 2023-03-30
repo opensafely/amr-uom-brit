@@ -1255,3 +1255,42 @@ actions:
         table1: output/sen_mortality_full_model_community_1.csv
         table2: output/sen_mortality_full_model_community_2.csv
         table3: output/sen_mortality_full_model_community_3.csv
+
+  Figure_mortality_full_community:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_full_community.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [sen_mortality_full_model_community]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_mortality_full_community.html
+
+  sen_mortality_full_model_hospital:
+    run: r:latest analysis/sensitivity/sen_mortality_full_model_hospital.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/sen_mortality_full_model_hospital_1.csv
+        table2: output/sen_mortality_full_model_hospital_2.csv
+        table3: output/sen_mortality_full_model_hospital_3.csv
+
+  Figure_mortality_full_hospital:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_full_hospital.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [sen_mortality_full_model_hospital]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_mortality_full_hospital.html
+
+  sen_mortality_full_model_all:
+    run: r:latest analysis/sensitivity/sen_mortality_full_model_all.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/sen_mortality_full_model_all_1.csv
+        table2: output/sen_mortality_full_model_all_2.csv
+        table3: output/sen_mortality_full_model_all_3.csv
+
+  Figure_mortality_full_all:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_full_all.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [sen_mortality_full_model_all]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_mortality_full_all.html

@@ -1,0 +1,84 @@
+---
+title: "Model mortality"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+## Import libraries
+library('here')
+library('tidyverse')
+library('cowplot')
+library("ggsci")
+## Import data
+
+df1 <- read_csv("output/sen_mortality_full_model_hospital_1.csv")
+df2 <- read_csv("output/sen_mortality_full_model_hospital_2.csv")
+df3 <- read_csv("output/sen_mortality_full_model_hospital_3.csv")
+
+
+df <- cbind(df1,df2[,2:4],df3[,2:4])
+```
+
+#### Wave-specific hazard ratios
+```{r, fig.width=13, fig.height=20}
+## Reformat HRs to ggplot data frame
+collated = data.frame(
+  Plot_category = rep(df$Plot_category, 3),
+  Plot_group = rep(df$Plot_group, 3),
+  OR = c(df$OR.1, df$OR.2, df$OR.3),
+  LowerCI = c(df$LowerCI.1, df$LowerCI.2, df$LowerCI.3),
+  UpperCI = c(df$UpperCI.1, df$UpperCI.2, df$UpperCI.3),
+  Wave = c(rep("Period 1", nrow(df)), rep("Period 2", nrow(df)), rep("Period 3", nrow(df)))
+)
+## Set factor levels
+df$Plot_category = factor(df$Plot_category, levels = rev(unique(df$Plot_category)))
+df$Plot_group = factor(df$Plot_group, levels = unique(df$Plot_group))
+collated$Plot_category = factor(collated$Plot_category, levels = rev(unique(collated$Plot_category)))
+collated$Plot_group = factor(collated$Plot_group, levels = unique(collated$Plot_group))
+## Plot collated HRs
+wave_ORs = ggplot(collated, aes(y = OR, x = Plot_category, colour = Wave)) + 
+    geom_point(size = 3, alpha=0.8) +
+    geom_errorbar(aes(ymin=as.numeric(LowerCI), ymax=as.numeric(UpperCI), colour = Wave), width=0) + 
+    coord_flip() + facet_grid(Plot_group~Wave, scales = "free_y", space = "free_y") + 
+    theme_bw() + theme(strip.background = element_blank()) + 
+    geom_hline(yintercept=1, linetype="dotted") + 
+    ylab("OR") + xlab("") +
+    theme(axis.title = element_text(size=12), axis.text = element_text(size=12), strip.text.x = element_text(size=12), strip.text.y = element_blank(), 
+          legend.position = "none")+
+    scale_color_jco()
+
+## Plot OR ratio 2 vs 1
+df$OR_ratio.1 <- df$OR.2/df$OR.1
+df$OR_ratio.2 <- df$OR.3/df$OR.1
+
+df$delta_facet = "Δ OR (2 vs 1)"
+delta_OR1 = ggplot(df, aes(y = OR_ratio.1, x = Plot_category)) + 
+    geom_bar(stat="identity", fill="#3C5488B2") +
+    coord_flip() + facet_grid(Plot_group~delta_facet, scales = "free_y", space = "free_y") + 
+    theme_bw() + theme(strip.background = element_blank()) + 
+    geom_hline(yintercept=1, linetype="dotted") + 
+    ylab("OR ratio") + xlab("") +
+    theme(axis.title = element_text(size=12), axis.text = element_text(size=12), strip.text.x = element_text(size=12), strip.text.y = element_blank(), 
+         legend.position = "none", axis.text.y=element_blank())
+## Plot OR ratio 3 vs 1
+df$delta_facet = "Δ OR (3 vs 1)"
+delta_OR2 = ggplot(df, aes(y = OR_ratio.1, x = Plot_category)) + 
+    geom_bar(stat="identity", fill="#8491B4B2") +
+    coord_flip() + facet_grid(Plot_group~delta_facet, scales = "free_y", space = "free_y") + 
+    theme_bw() + theme(strip.background = element_blank()) + 
+    geom_hline(yintercept=1, linetype="dotted") + 
+    ylab("OR ratio") + xlab("") +
+    theme(axis.title = element_text(size=12), axis.text = element_text(size=12), strip.text.x = element_text(size=12), strip.text.y = element_blank(), 
+         legend.position = "none", axis.text.y=element_blank())
+## Render grid of 3 plots above
+plot_grid(wave_ORs, delta_OR1, delta_OR2, ncol=3, rel_widths=c(4,1,1), align="h", axis="tb")
+```
+<br/><br/>
+
+
+#### Session info
+```{r}
+print(sessionInfo())
+```
+
