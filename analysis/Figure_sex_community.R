@@ -93,4 +93,4 @@ ggsave(plot2, width = 8, height = 4, dpi = 320,
 )  
 ggsave(plot3, width = 8, height = 4, dpi = 320,
        filename="figure_sex_3.jpeg", path=here::here("output"),
-)  0
+) 
