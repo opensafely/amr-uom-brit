@@ -1209,3 +1209,20 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_mortality_hospital.html
+
+  sen_mortality_model_all:
+    run: r:latest analysis/sensitivity/sen_mortality_model_all.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/sen_mortality_model_all.csv
+        table2: output/sen_mortality_model_all_1.csv
+        table3: output/sen_mortality_model_all_2.csv
+        table4: output/sen_mortality_model_all_3.csv
+
+  Figure_mortality_all:
+    run: r:latest -e 'rmarkdown::render("analysis/sensitivity/Figure_mortality_all.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [sen_mortality_model_all]
+    outputs:
+      moderately_sensitive:
+        csv: output/Figure_mortality_all.html
