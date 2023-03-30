@@ -61,7 +61,7 @@ plot1 <- ggplot(plot1, aes(x = sex, y = rate, fill = sex)) +
   labs(title = "",
        x = "Sex",
        y = "Incident rate per 1000 people") +
-  scale_y_continuous(breaks = seq(0, max(plot1$rate), by = 0.5)) +
+  scale_y_continuous(breaks = seq(0, 5, by = 0.5)) +
   scale_fill_manual(values = c("F" = "#EFC000FF", "M" = "#CD534CFF")) +
   theme_minimal()
 
@@ -70,7 +70,7 @@ plot2 <- ggplot(plot2, aes(x = sex, y = rate, fill = sex)) +
   labs(title = "",
        x = "Sex",
        y = "Incident rate per 1000 people") +
-  scale_y_continuous(breaks = seq(0, max(plot2$rate), by = 0.5)) +
+  scale_y_continuous(breaks = seq(0, 2, by = 0.2)) +
   scale_fill_manual(values = c("F" = "#EFC000FF", "M" = "#CD534CFF")) +
   theme_minimal()
 
@@ -80,7 +80,7 @@ plot3 <- ggplot(plot3, aes(x = sex, y = rate, fill = sex)) +
   labs(title = "",
        x = "Sex",
        y = "Incident rate per 1000 people") +
-  scale_y_continuous(breaks = seq(0, max(plot3$rate), by = 0.5)) +
+  scale_y_continuous(breaks = seq(0, 5, by = 0.5)) +
   scale_fill_manual(values = c("F" = "#EFC000FF", "M" = "#CD534CFF")) +
   theme_minimal()
 
@@ -93,4 +93,4 @@ ggsave(plot2, width = 8, height = 4, dpi = 320,
 )  
 ggsave(plot3, width = 8, height = 4, dpi = 320,
        filename="figure_sex_3.jpeg", path=here::here("output"),
-)  
+)  0
