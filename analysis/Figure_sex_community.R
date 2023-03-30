@@ -57,7 +57,7 @@ plot3$rate <- plot3$case*1000/plot3$count
 plot3$rate <- round(plot3$rate,1)
 
 plot1 <- ggplot(plot1, aes(x = sex, y = rate, fill = sex)) +
-  geom_bar(stat = "identity", color = "black") +
+  geom_bar(stat = "identity", color = "black", width=0.2) +
   labs(title = "",
        x = "Sex",
        y = "Incident rate per 1000 people") +
@@ -66,21 +66,21 @@ plot1 <- ggplot(plot1, aes(x = sex, y = rate, fill = sex)) +
   theme_minimal()
 
 plot2 <- ggplot(plot2, aes(x = sex, y = rate, fill = sex)) +
-  geom_bar(stat = "identity", color = "black") +
+  geom_bar(stat = "identity", color = "black", width=0.2) +
   labs(title = "",
        x = "Sex",
        y = "Incident rate per 1000 people") +
-  scale_y_continuous(breaks = seq(0, 2, by = 0.2)) +
+  scale_y_continuous(breaks = seq(0, 3, by = 0.2)) +
   scale_fill_manual(values = c("F" = "#EFC000FF", "M" = "#CD534CFF")) +
   theme_minimal()
 
 
 plot3 <- ggplot(plot3, aes(x = sex, y = rate, fill = sex)) +
-  geom_bar(stat = "identity", color = "black") +
+  geom_bar(stat = "identity", color = "black", width=0.2) +
   labs(title = "",
        x = "Sex",
        y = "Incident rate per 1000 people") +
-  scale_y_continuous(breaks = seq(0, 5, by = 0.5)) +
+  scale_y_continuous(breaks = seq(0, 3, by = 0.2)) +
   scale_fill_manual(values = c("F" = "#EFC000FF", "M" = "#CD534CFF")) +
   theme_minimal()
 
