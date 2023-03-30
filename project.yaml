@@ -1051,6 +1051,15 @@ actions:
         plot2: output/figure_age_hos_2.jpeg
         plot3: output/figure_age_hos_3.jpeg
 
+  Figure_sex_community:  
+    run: r:latest analysis/Figure_sex_community.R
+    needs: [process_model_var,generate_measures]
+    outputs:
+      moderately_sensitive:
+        plot1: output/figure_sex_1.jpeg
+        plot2: output/figure_sex_2.jpeg
+        plot3: output/figure_sex_3.jpeg
+
 ##### sensitivity #####
 
 ##### antibiotic use within six weeks #####

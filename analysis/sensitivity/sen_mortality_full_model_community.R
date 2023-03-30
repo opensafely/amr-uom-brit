@@ -37,4 +37,7 @@ mod <- glm(died_any_30d~ hypertension + chronic_respiratory_disease + asthma + c
  learning_disability + sev_mental_ill + alcohol_problems +  care_home_type_ba + ckd_rrt + ab_frequency +  rcs(age, 4) + sex + strata(region),family="binomial",data = df)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 
+setDT(result, keep.rownames = TRUE)
+names(result)[1]="type"
+
 write_csv(result, here::here("output", "sen_mortality_full_model_community.csv"))
