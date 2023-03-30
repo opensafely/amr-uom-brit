@@ -1252,4 +1252,6 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        table1: output/sen_mortality_full_model_community.csv
+        table1: output/sen_mortality_full_model_community_1.csv
+        table2: output/sen_mortality_full_model_community_2.csv
+        table3: output/sen_mortality_full_model_community_3.csv
