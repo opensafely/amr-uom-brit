@@ -55,6 +55,9 @@ plot2$rate <- plot2$case*1000/plot2$count
 plot2$rate <- round(plot2$rate,1)
 plot3$rate <- plot3$case*1000/plot3$count
 plot3$rate <- round(plot3$rate,1)
+write_csv(plot1, here::here("output", "figure_sex_hos_1.csv"))
+write_csv(plot2, here::here("output", "figure_sex_hos_2.csv"))
+write_csv(plot3, here::here("output", "figure_sex_hos_3.csv"))
 
 plot1 <- ggplot(plot1, aes(x = sex, y = rate, fill = sex)) +
   geom_bar(stat = "identity", color = "black", width=0.2) +
@@ -89,16 +92,12 @@ ggsave(plot1, width = 8, height = 4, dpi = 320,
        filename="figure_sex_hos_1.jpeg", path=here::here("output"),
 )  
 
-write_csv(plot1, here::here("output", "figure_sex_hos_1.csv"))
-
 ggsave(plot2, width = 8, height = 4, dpi = 320,
        filename="figure_sex_hos_2.jpeg", path=here::here("output"),
 )  
 
-write_csv(plot2, here::here("output", "figure_sex_hos_2.csv"))
 
 ggsave(plot3, width = 8, height = 4, dpi = 320,
        filename="figure_sex_hos_3.jpeg", path=here::here("output"),
 ) 
 
-write_csv(plot3, here::here("output", "figure_sex_hos_3.csv"))
