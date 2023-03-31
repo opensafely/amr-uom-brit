@@ -1,4 +1,4 @@
-opensafely/antibacterials/01fff52f
+opensafely/ethnicity/2020-04-27
 opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
 opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
@@ -10,13 +10,11 @@ opensafely/influenza-vaccination/01ec0c67
 opensafely/influenza-vaccination-clinical-codes-given/443b7295
 opensafely/influenza-vaccination-clinical-codes-not-given/5ffda5c0
 primis-covid19-vacc-uptake/covrx/65aef8fb
-user/rriefu/asthma_copd/24430cba
 user/rriefu/asthma/5914b31a
-user/rriefu/cold_subset/53af332e
+user/rriefu/cold_subset/0c46abca
 user/rriefu/copd/40053fe5
-user/rriefu/cough_cold/031b59a3
 user/rriefu/cough/6a0be66d
-user/rriefu/lrti/1edd8cce
+user/rriefu/lrti/5cda8555
 user/rriefu/ot_externa/05ce1999
 user/rriefu/otmedia/3a9fbff9
 user/rriefu/pneumonia/0b339985
@@ -32,24 +30,6 @@ user/alifahmi/hospital-admissions-with-infection-related-complication/1906959f
 user/rriefu/antibiotics_dmd/15f53060
 user/rriefu/broad-spectrum-antibiotics/3d9e533e
 user/BillyZhongUOM/brit_new_dmd/792101bd
-user/yayang/charlson01_cancer/796c49a5
-user/yayang/charlson02_cvd/605cd670
-user/yayang/charlson03_copd/474d633b
-user/yayang/charlson04_heart_failure/2e3df006
-user/yayang/charlson05_connective_tissue/152e7cd1
-user/yayang/charlson06_dementia/7c1f099b
-user/yayang/charlson07_diabetes/630f9666
-user/yayang/charlson08_diabetes_with_complications/4a002331
-user/yayang/charlson09_hemiplegia/30f0affc
-user/yayang/charlson10_hiv/17e13cc7
-user/yayang/charlson11_metastatic_cancer/7ed1c991
-user/yayang/charlson12_mild_liver/65c2565c
-user/yayang/charlson13_mod_severe_liver/4cb2e327
-user/yayang/charlson14_moderate_several_renaldiseae/33a36ff2
-user/yayang/charlson15_mi/1a93fcbd
-user/yayang/charlson16_peptic_ulcer/36562fe8
-user/yayang/charlson17_peripheral_vascular/68751652
-user/yayang/antibiotics_indications/69efab76
 user/BillyZhongUOM/broad_spectrum_op/70090cf7
 
 user/yayang/codes_ab_type_trimethoprimcsv/1653d5a9
@@ -61,4 +41,4 @@ opensafely/trimethoprim-and-nitrofurantoin/251c9243
 
 user/BillyZhongUOM/broad_spec_op_codelist/46b64804
 user/jon_massey/nitrofurantoin-vtm-based-drugs/542135d8/
-opensafely/co-amoxiclav-cephalosporins-and-quinolones/7f4d3538
+opensafely/co-amoxiclav-cephalosporins-and-quinolones/0d299a50
