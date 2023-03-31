@@ -1059,6 +1059,9 @@ actions:
         plot1: output/figure_sex_1.jpeg
         plot2: output/figure_sex_2.jpeg
         plot3: output/figure_sex_3.jpeg
+        table1: output/figure_sex_1.csv
+        table2: output/figure_sex_2.csv
+        table3: output/figure_sex_3.csv
 
   Figure_sex_hospital:  
     run: r:latest analysis/Figure_sex_hospital.R
@@ -1068,6 +1071,9 @@ actions:
         plot1: output/figure_sex_hos_1.jpeg
         plot2: output/figure_sex_hos_2.jpeg
         plot3: output/figure_sex_hos_3.jpeg
+        table1: output/figure_sex_hos_1.csv
+        table2: output/figure_sex_hos_2.csv
+        table3: output/figure_sex_hos_3.csv
 
 ##### sensitivity #####
 

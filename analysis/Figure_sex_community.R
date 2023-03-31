@@ -88,9 +88,14 @@ plot3 <- ggplot(plot3, aes(x = sex, y = rate, fill = sex)) +
 ggsave(plot1, width = 8, height = 4, dpi = 320,
        filename="figure_sex_1.jpeg", path=here::here("output"),
 )  
+write_csv(plot1, here::here("output", "figure_sex_1.csv"))
+
 ggsave(plot2, width = 8, height = 4, dpi = 320,
        filename="figure_sex_2.jpeg", path=here::here("output"),
 )  
+write_csv(plot2, here::here("output", "figure_sex_2.csv"))
+
 ggsave(plot3, width = 8, height = 4, dpi = 320,
        filename="figure_sex_3.jpeg", path=here::here("output"),
 ) 
+write_csv(plot3, here::here("output", "figure_sex_3.csv"))
