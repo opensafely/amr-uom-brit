@@ -123,6 +123,8 @@ actions:
         plot1: output/figure_2.1.jpeg
         plot2: output/figure_2.2.jpeg
         plot3: output/figure_2.3.jpeg
+        plot4: output/figure_2.4.jpeg
+        plot5: output/figure_2.5.jpeg
         table1: output/figure_2.1_table.csv
 
   generate_study_population_weekly:
