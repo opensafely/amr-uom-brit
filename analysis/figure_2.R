@@ -67,14 +67,14 @@ df.plot$braod_count <- plyr::round_any(df.plot$braod_count, 5)
 df.plot$ab_count <- plyr::round_any(df.plot$ab_count, 5)
 
 
-figure_age_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(age_cat), col = factor(age_cat), fill = factor(age_cat))) +
+figure_age_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(age_cat), col = factor(age_cat), fill = factor(age_cat))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = date, y = value),size = 0.8)+ 
+  geom_line(aes(x = date, y = value*100),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  ylim(0, max(df.plot$value)) +
+  ylim(0, max(df.plot$value*100)) +
   labs(x = "", y = "", title = "", colour = "Age", fill = "Age") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -99,14 +99,14 @@ df2$sex <- recode(df2$sex,
 
 df2$value <- round(df2$value,digits = 3)
 
-figure_sex_strata <- ggplot(df2, aes(x = as.Date("2019-01-01"), y = value, group = factor(sex), col = factor(sex), fill = factor(sex))) +
+figure_sex_strata <- ggplot(df2, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(sex), col = factor(sex), fill = factor(sex))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = date, y = value),size = 0.8)+ 
+  geom_line(aes(x = date, y = value*100),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  ylim(0, max(df2$value)) +
+  ylim(0, max(df2$value*100)) +
   labs(x = "", y = "", title = "", colour = "Sex", fill = "Sex") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -129,14 +129,14 @@ df3 <- read_csv("measure_broad-spectrum-ratio_region.csv",
 df3 <- df3 %>% filter(!is.na(region))
 df3$value <- round(df3$value,digits = 3)
 
-figure_region_strata <- ggplot(df3, aes(x = as.Date("2019-01-01"), y = value, group = factor(region), col = factor(region), fill = factor(region))) +
+figure_region_strata <- ggplot(df3, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(region), col = factor(region), fill = factor(region))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = date, y = value),size = 0.8)+ 
+  geom_line(aes(x = date, y = value*100),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  ylim(0, max(df3$value)) +
+  ylim(0, max(df3$value*100)) +
   labs(x = "", y = "", title = "", colour = "Region", fill = "Region") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -164,14 +164,14 @@ df5$imd <- recode(df5$imd,
 df5 <- df5 %>% filter(!imd=="NA")
 df5$value <- round(df5$value,digits = 3)
 
-figure_imd_strata <- ggplot(df5, aes(x = as.Date("2019-01-01"), y = value, group = factor(imd), col = factor(imd), fill = factor(imd))) +
+figure_imd_strata <- ggplot(df5, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(imd), col = factor(imd), fill = factor(imd))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = date, y = value),size = 0.8)+ 
+  geom_line(aes(x = date, y = value*100),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  ylim(0, max(df5$value)) +
+  ylim(0, max(df5$value*100)) +
   labs(x = "", y = "", title = "", colour = "IMD quintiles", fill = "IMD quintiles") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -199,14 +199,14 @@ df4$ethnicity <- recode(df4$ethnicity,
 df4 <- df4 %>% filter(!ethnicity=="Unknown")
 df4$value <- round(df4$value,digits = 3)
 
-figure_ethnicity_strata <- ggplot(df4, aes(x = as.Date("2019-01-01"), y = value, group = factor(ethnicity), col = factor(ethnicity), fill = factor(ethnicity))) +
+figure_ethnicity_strata <- ggplot(df4, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(ethnicity), col = factor(ethnicity), fill = factor(ethnicity))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = date, y = value),size = 0.8)+ 
+  geom_line(aes(x = date, y = value*100),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  ylim(0, max(df4$value)) +
+  ylim(0, max(df4$value*100)) +
   labs(x = "", y = "", title = "", colour = "Ethnicity", fill = "Ethnicity") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),

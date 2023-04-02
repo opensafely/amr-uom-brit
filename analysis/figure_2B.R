@@ -82,15 +82,15 @@ df.model$value <- round(df.model$value,digits = 3)
 
 ### broad-spectrum rate by indication
 
-figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value, group = factor(indication), col = factor(indication), fill = factor(indication))) +
+figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(indication), col = factor(indication), fill = factor(indication))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
+  geom_line(aes(x = monPlot, y = value*100),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  ylim(0, max(df.model$value)) +
-  labs(x = "", y = "rate of broad-sepctrum antibiotic", title = "", colour = "Indication", fill = "Indication") +
+  ylim(0, max(df.model$value*100)) +
+  labs(x = "", y = "", title = "", colour = "Indication", fill = "Indication") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
