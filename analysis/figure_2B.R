@@ -81,7 +81,6 @@ df.model$value <- df.model$numOutcome/df.model$numEligible
 df.model$value <- round(df.model$value,digits = 3)
 
 ### broad-spectrum rate by indication
-
 figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(indication), col = factor(indication), fill = factor(indication))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+

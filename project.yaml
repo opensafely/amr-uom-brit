@@ -126,6 +126,10 @@ actions:
         plot4: output/figure_2.4.jpeg
         plot5: output/figure_2.5.jpeg
         table1: output/figure_2.1_table.csv
+        table2: output/figure_2.2_table.csv
+        table3: output/figure_2.3_table.csv
+        table4: output/figure_2.4_table.csv
+        table5: output/figure_2.5_table.csv
 
   generate_study_population_weekly:
     run: cohortextractor:latest generate_cohort

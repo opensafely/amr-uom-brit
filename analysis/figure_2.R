@@ -65,8 +65,7 @@ df.plot <- df.plot %>% filter(!age_cat == 0)
 df.plot$value <- round(df.plot$value,digits = 3)
 df.plot$braod_count <- plyr::round_any(df.plot$braod_count, 5)
 df.plot$ab_count <- plyr::round_any(df.plot$ab_count, 5)
-
-
+write_csv(df.plot, here::here("output", "figure_2.1_table.csv"))
 figure_age_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(age_cat), col = factor(age_cat), fill = factor(age_cat))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -98,7 +97,7 @@ df2$sex <- recode(df2$sex,
        "M"= "Male")
 
 df2$value <- round(df2$value,digits = 3)
-
+write_csv(df2, here::here("output", "figure_2.2_table.csv"))
 figure_sex_strata <- ggplot(df2, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(sex), col = factor(sex), fill = factor(sex))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -128,7 +127,7 @@ df3 <- read_csv("measure_broad-spectrum-ratio_region.csv",
 
 df3 <- df3 %>% filter(!is.na(region))
 df3$value <- round(df3$value,digits = 3)
-
+write_csv(df3, here::here("output", "figure_2.3_table.csv"))
 figure_region_strata <- ggplot(df3, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(region), col = factor(region), fill = factor(region))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -163,7 +162,7 @@ df5$imd <- recode(df5$imd,
        "5"= "IMD 5 (least deprived)")
 df5 <- df5 %>% filter(!imd=="NA")
 df5$value <- round(df5$value,digits = 3)
-
+write_csv(df5, here::here("output", "figure_2.5_table.csv"))
 figure_imd_strata <- ggplot(df5, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(imd), col = factor(imd), fill = factor(imd))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -198,7 +197,7 @@ df4$ethnicity <- recode(df4$ethnicity,
        "5"= "Other")
 df4 <- df4 %>% filter(!ethnicity=="Unknown")
 df4$value <- round(df4$value,digits = 3)
-
+write_csv(df4, here::here("output", "figure_2.4_table.csv"))
 figure_ethnicity_strata <- ggplot(df4, aes(x = as.Date("2019-01-01"), y = value*100, group = factor(ethnicity), col = factor(ethnicity), fill = factor(ethnicity))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
   annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
@@ -237,8 +236,6 @@ figure_ethnicity_strata
 ggsave(figure_age_strata, width = 10, height = 6, dpi = 640,
        filename="figure_2.1.jpeg", path=here::here("output"),
 )  
-
-write_csv(df.plot, here::here("output", "figure_2.1_table.csv"))
 
 ggsave(figure_sex_strata, width = 10, height = 6, dpi = 640,
        filename="figure_2.2.jpeg", path=here::here("output"),
