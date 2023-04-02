@@ -71,8 +71,8 @@ df.model <- df.model %>% mutate(mon = case_when(time>=1 & time<=12 ~ time,
   mutate(day = 1) 
 df.model$monPlot <- as.Date(with(df.model,paste(year,mon,day,sep="-")),"%Y-%m-%d")
 df.model$indication <- recode(df.model$indication,
-       "1" = "coded", 
-       "0"= "uncoded")
+       "1" = "coded: with same-day infection record", 
+       "0"= "uncoded: without same-day infection record")
 
 
 df.model$numOutcome <- plyr::round_any(df.model$numOutcome, 5)
@@ -89,6 +89,7 @@ figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = 
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
+  ylim(0, max(df.model$value)) +
   labs(x = "", y = "rate of broad-sepctrum antibiotic", title = "", colour = "Indication", fill = "Indication") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -103,7 +104,7 @@ figure_indication_strata <- ggplot(df.model, aes(x = as.Date("2019-01-01"), y = 
 figure_indication_strata
 
 
-ggsave(figure_indication_strata, width = 12, height = 6, dpi = 640,
+ggsave(figure_indication_strata, width = 10, height = 6, dpi = 640,
        filename="figure_2B.jpeg", path=here::here("output"),
 )  
 write_csv(df.model, here::here("output", "figure_2B_table.csv"))
