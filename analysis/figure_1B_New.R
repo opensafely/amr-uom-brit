@@ -31,7 +31,7 @@ p <- ggplot(df, aes(date)) +
   geom_rect(aes(xmin=lockdown_3_start, xmax=lockdown_3_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_line(aes(y = df$value), colour = "#BA6A16") +
   scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2022-01-01"), by = "3 months")) +
-  ylim(0, max(df$value)) +
+  scale_y_continuous(limits = c(0, 12.5), breaks = seq(0, 12.5, by = 2.5), labels = function(x) sprintf("%0.1f", x)) +
   labs(x = "", y = "") +
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
