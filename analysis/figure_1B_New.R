@@ -38,3 +38,5 @@ p <- ggplot(df, aes(date)) +
 
 ggsave(p, width = 10, height = 6, dpi = 640,
   filename="figure_1B_New.jpeg", path=here::here("output"))
+
+write_csv(df, here::here("output", "figure_1B_New.csv"))
