@@ -121,6 +121,7 @@ actions:
     outputs:
        moderately_sensitive:
         plot1: output/figure_1B_New.jpeg
+        talbe1: output/figure_1B_New.csv
 
   figure_2: 
     run: r:latest analysis/figure_2.R
