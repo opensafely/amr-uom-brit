@@ -22,14 +22,6 @@ data=readRDS(here::here("output","study_1.rds"))
 data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
-
-data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
-summary(model)
-
-```
-
-```{r eval=FALSE, include=FALSE}
 data$CCI= relevel(as.factor(data$CCI), ref="Zero")
 data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
 
@@ -42,11 +34,22 @@ data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
 data$imd=relevel(as.factor(data$imd),ref="1")
 data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
 
+data$case=as.numeric(data$case) #1/0
+
+str(data)
 ```
 
 
+```{r eval=FALSE, include=FALSE}
+model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+summary(model)
+
+```
+
+
+
 # hosp
-```{r }
+```{r eval=FALSE, include=FALSE}
 data=readRDS(here::here("output","study_2.rds"))
 
 data$quintile=as.factor(data$quintile)
@@ -60,7 +63,7 @@ summary(model)
 
 # death
 ##  crude model
-```{r }
+```{r eval=FALSE, include=FALSE}
 data=readRDS(here::here("output","study_3.rds"))
 
 data$quintile=as.factor(data$quintile)
