@@ -42,7 +42,7 @@ str(data)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 summary(model)
 
@@ -51,8 +51,9 @@ summary(model)
 
 
 # hosp
-```{r eval=FALSE, include=FALSE}
+```{r }
 data=readRDS(here::here("output","study_2.rds"))
+data=data%>%ungroup(subclass)
 
 data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
@@ -65,8 +66,9 @@ summary(model)
 
 # death
 ##  crude model
-```{r eval=FALSE, include=FALSE}
+```{r }
 data=readRDS(here::here("output","study_3.rds"))
+data=data%>%ungroup(subclass)
 
 data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
