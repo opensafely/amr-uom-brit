@@ -115,6 +115,13 @@ actions:
         plot1: output/figure_1B.jpeg
         table1: output/figure_1B_table.csv
 
+  figure_1B_New: 
+    run: r:latest analysis/figure_1B_New.R
+    needs: [generate_measures]
+    outputs:
+       moderately_sensitive:
+        plot1: output/figure_1B_New.jpeg
+
   figure_2: 
     run: r:latest analysis/figure_2.R
     needs: [generate_measures]

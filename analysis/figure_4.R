@@ -60,7 +60,7 @@ p1 <- ggplot(df_coded, aes(x=date)) +
   geom_rect(aes(xmin=lockdown_3_start, xmax=lockdown_3_end, ymin=-Inf, ymax=Inf),fill = "#DEC0A0")+
   geom_line(aes(y = ab_rate), colour = "#0F5DC9",size = 0.8) +
   geom_line(aes(y = broad_rate), colour = "#BA6A16") +
-  scale_x_date(date_labels = "%Y %b", breaks = "1 months") +
+  scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2022-01-01"), by = "3 months")) +
   scale_y_continuous(limits = c(0, 0.9), breaks = seq(0, 0.9, 0.05),labels = scales::percent)+
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
