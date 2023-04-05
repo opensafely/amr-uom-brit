@@ -1,5 +1,5 @@
 ---
-title: "conditional logistic regression"
+title: "conditional logistic regression: adjusted model"
 ---
 
 ```{r setup, include=FALSE}
@@ -13,98 +13,82 @@ library(car)
 library(finalfit)
 ```
 
-```{r}
-df1=readRDS(here::here("output","matched_outcome.rds"))
-nrow(df1)
-table(df1$case)
-prop.table(table(df1$case))
-df1$set=1
-
-df2=readRDS(here::here("output","matched_outcome_hosp.rds"))
-nrow(df2)
-table(df2$case)
-prop.table(table(df2$case))
-df2$set=2
-
-df3=readRDS(here::here("output","matched_outcome_general.rds"))
-nrow(df3)
-table(df3$case)
-prop.table(table(df3$case))
-df3$set=3
-
-df=rbind(df1,df2,df3)
-rm(df1,df2,df3)
-```
-
-```{r}
-
-df$level=as.factor(df$level)
-df$subclass=as.factor(df$subclass)#pair id
-
-df$CCI= relevel(as.factor(df$CCI), ref="Zero")
-df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
-
-df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
-df$care_home=relevel(as.factor(df$care_home),ref = "0")
-
-df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
-
-df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
-df$imd=relevel(as.factor(df$imd),ref="1")
-df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
-```
-
-
 
 # general
-###  crude model
-```{r}
-data=df%>%filter(set==3)
-data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ level+ strata(subclass),data) 
-summary(model)
-```
 
-### adjusted model
 ```{r }
-model=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+data=readRDS(here::here("output","study_1.rds"))
 
+data$quintile=as.factor(data$quintile)
+data$subclass=as.factor(data$subclass)#pair id
+
+data$CCI= relevel(as.factor(data$CCI), ref="Zero")
+data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+
+data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+data$care_home=relevel(as.factor(data$care_home),ref = "0")
+
+data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+
+data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+data$imd=relevel(as.factor(data$imd),ref="1")
+data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+
+data$case=as.numeric(data$case) #1/0
+model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 summary(model)
-
 ```
 
 # hosp
-##  crude model
-```{r}
-data=df%>%filter(set==1)
-data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ level+ strata(subclass),data) 
-summary(model)
-```
-
-### adjusted model
 ```{r }
-model=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+data=readRDS(here::here("output","study_2.rds"))
 
+data$quintile=as.factor(data$quintile)
+data$subclass=as.factor(data$subclass)#pair id
+
+data$CCI= relevel(as.factor(data$CCI), ref="Zero")
+data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+
+data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+data$care_home=relevel(as.factor(data$care_home),ref = "0")
+
+data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+
+data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+data$imd=relevel(as.factor(data$imd),ref="1")
+data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+
+data$case=as.numeric(data$case) #1/0
+model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 summary(model)
-
 ```
+
 
 # death
 ##  crude model
-```{r}
-data=df%>%filter(set==2)
-data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ level+ strata(subclass),data) 
-summary(model)
-```
-
-### adjusted model
 ```{r }
-model=clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+data=readRDS(here::here("output","study_3.rds"))
 
+data$quintile=as.factor(data$quintile)
+data$subclass=as.factor(data$subclass)#pair id
+
+data$CCI= relevel(as.factor(data$CCI), ref="Zero")
+data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+
+data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+data$care_home=relevel(as.factor(data$care_home),ref = "0")
+
+data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+
+data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+data$imd=relevel(as.factor(data$imd),ref="1")
+data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+
+data$case=as.numeric(data$case) #1/0
+model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 summary(model)
-
 ```
+
+
 
 
