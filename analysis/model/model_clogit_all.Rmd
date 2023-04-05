@@ -18,6 +18,7 @@ library(finalfit)
 
 ```{r }
 data=readRDS(here::here("output","study_1.rds"))
+names(data)
 data=data%>%ungroup(subclass)
 
 data$quintile=as.factor(data$quintile)
