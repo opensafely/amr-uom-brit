@@ -96,6 +96,4 @@ ggsave(p, width = 10, height = 6, dpi = 640,
        filename="figure_1B.jpeg", path=here::here("output"),
 )  
 
-
-df <- select(df,Positive_test_event,date)
 write_csv(df, here::here("output", "figure_1B_table.csv"))
