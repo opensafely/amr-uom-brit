@@ -58,6 +58,10 @@ for (i in 3:126) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
+```
+
+
+```{r }
 # all 60 ab counts+AB_0
 for (i in 65:126) {
  DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
