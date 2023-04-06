@@ -42,7 +42,7 @@ summary(DF3$total_ab)
 ```
 
 # remove outlier
-```{r}
+```{r eval=FALSE, include=FALSE}
 DF=rbind(DF1,DF2,DF3)
 
 outlier=quantile(DF$total_ab,0.9999)
