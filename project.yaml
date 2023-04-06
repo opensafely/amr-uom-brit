@@ -430,7 +430,7 @@ actions:
   #       rds2: output/comor17_general.rds
 
   process_Rmatching_general:  # exposures #merge ab time with mathced patients
-    run: r:latest -e 'rmarkdown::render("analysis/process/ process_Rmatching_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    run: r:latest -e 'rmarkdown::render("analysis/process/process_Rmatching_general.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
     needs: [matching_general,matching_general_2021,matching_general_2022,extract_variable_general_20200201,extract_variable_general_20200301,extract_variable_general_20200401,extract_variable_general_20200501,extract_variable_general_20200601,extract_variable_general_20200701,extract_variable_general_20200801,extract_variable_general_20200901,extract_variable_general_20201001,extract_variable_general_20201101,extract_variable_general_20201201,extract_variable_general_20210101,extract_variable_general_20210201,extract_variable_general_20210301,extract_variable_general_20210401,extract_variable_general_20210501,extract_variable_general_20210601,extract_variable_general_20210701,extract_variable_general_20210801,extract_variable_general_20210901,extract_variable_general_20211001,extract_variable_general_20211101,extract_variable_general_20211201,extract_variable_general_20220101,extract_variable_general_20220201,extract_variable_general_20220301,extract_variable_general_20220401,extract_variable_general_20220501,extract_variable_general_20220601,extract_variable_general_20220701,extract_variable_general_20220801,extract_variable_general_20220901,extract_variable_general_20221001,extract_variable_general_20221101,extract_variable_general_20221201]
     outputs:
       moderately_sensitive:
