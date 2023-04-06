@@ -153,6 +153,13 @@ actions:
         rds1: output/development.rds 
         rds2: output/validation.rds 
 
+  generate_notebook_RF:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/RF.ipynb --execute --to html --output-dir=/workspace/output/RF --ExecutePreprocessor.timeout=86400
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        notebook: output/RF/RF.html 
+        
   prob_decile: # check prob dist
     run: r:latest -e 'rmarkdown::render("analysis/RF/prob_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi]
