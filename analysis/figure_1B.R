@@ -88,7 +88,7 @@ p <- ggplot(df, aes(x=date, y=sec$fwd(Positive_test_event/1000))) +
   geom_line(aes(y = starpurate), colour = "#0F5DC9",size = 0.8) +
   scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
   scale_y_continuous(sec.axis = sec_axis(~sec$rev(.), name = "Number of cases tested positive for SARS-Cov-2 (Thousands)"))+
-  labs(x = "", y = "STAR-PU adjusted antibiotic items per 1000 patient") +
+  labs(x = "", y = "STAR-PU adjusted antibiotic items per 1000 patients") +
   theme_bw() +
   theme(axis.text.x=element_text(angle=60,hjust=1))
 
