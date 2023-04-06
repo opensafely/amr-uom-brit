@@ -73,7 +73,7 @@ for (i in 65:126) {
 ```{r}
 
 DF["",]=NA
-DF[is.na(DF)]=0
+DF[is.na(DF),]=0
 ```
 
 
