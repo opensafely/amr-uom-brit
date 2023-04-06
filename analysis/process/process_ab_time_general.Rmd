@@ -51,23 +51,31 @@ library('lubridate')
 
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 #replace NA
 # all date+ab variables 
 for (i in 3:126) {
  DF[,i]=ifelse(DF[,i]=="",NA,DF[,i])
  
 }
+
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 # all 60 ab counts+AB_0
 for (i in 65:126) {
  DF[,i]=ifelse(is.na(DF[,i]),0,DF[,i])
  
 }
 ```
+
+```{r}
+
+DF["",]=NA
+DF[is.na(DF)]=0
+```
+
 
 all ab: sum of total 60 extractions
 ```{r }
@@ -77,7 +85,10 @@ DF$all_ab=rowSums(DF[,ab_conut])
 filter ab users (from all matched patient cohort)
 ```{r}
 DF=DF%>% filter(all_ab>0)
-count(DF)
+nrow(DF)
+
+DF=DF%>% filter(all_ab>1)
+nrow(DF)
 ```
 
 exposure period
