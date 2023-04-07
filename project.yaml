@@ -153,6 +153,7 @@ actions:
         rds1: output/development.rds 
         rds2: output/validation.rds 
 
+# python RF
   pre_generate_notebook_RF: # rds to csv
     run: r:latest -e 'rmarkdown::render("analysis/RF/pre_generate_notebook_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
@@ -165,10 +166,9 @@ actions:
         csv3: output/train.csv
         csv4: output/valid.csv
 
-
   generate_notebook_RF:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/RF/RF.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
-    needs: [pre_RF_process]
+    needs: [pre_generate_notebook_RF]
     outputs:
       moderately_sensitive:
         notebook: output/RF.html 
