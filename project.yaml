@@ -62,15 +62,7 @@ actions:
       highly_sensitive:
         cohort: output/input_outcome.csv
 
-  process_Rmatching: # confounders # ab exposure
-    run: r:latest analysis/process/process_Rmatching.R
-    needs: [extract_variables,matching]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome.rds
-        cohort2: output/matched_outcome_check.rds # filter died & de-regist again
-        rds1: output/abtype79.rds
-        rds2: output/comor17.rds
+
 
   extract_variables_ab_time:   # per ab exposure
     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time --with-end-date-fix # unique matched patient ID
@@ -98,8 +90,8 @@ actions:
       highly_sensitive: 
         rds1: output/train.rds
         rds2: output/valid.rds
-        rds3: output/train_cat.rds
-        rds4: output/valid_cat.rds 
+        rds3: output/train_cat.csv
+        rds4: output/valid_cat.csv 
 
   model_clogit: # coditional logistic regression for picking exposure variables 
     run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
