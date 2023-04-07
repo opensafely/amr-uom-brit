@@ -21,6 +21,7 @@ library(data.table)#rbinlist
 
 # extracted dataset after matching
 ```{r}
+setwd(here::here("output"))
 
 listFiles <- list.files(pattern="input_outcome_general_+.*csv")
 list=list()
