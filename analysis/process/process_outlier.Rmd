@@ -39,11 +39,12 @@ prop.table(table(DF3$case))
 DF3$set=3
 
 summary(DF3$total_ab)
+DF=rbind(DF1,DF2,DF3)
 ```
 
 # remove outlier
 ```{r eval=FALSE, include=FALSE}
-DF=rbind(DF1,DF2,DF3)
+
 
 outlier=quantile(DF$total_ab,0.9999)
 outlier
