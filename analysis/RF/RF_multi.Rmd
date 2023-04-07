@@ -57,7 +57,7 @@ sample_n=as.numeric(table(train_X$case)[2]*0.6)
 sample_n
 rf.model<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           sampsize=c(sample_n,sample_n),
+                           sampsize=c(1000,1000),
                            strata=train_X$case,
                            ntree =  1000,
                            nodesize = 100 ,
