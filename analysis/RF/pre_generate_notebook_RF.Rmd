@@ -95,9 +95,9 @@ nrow(valid_X)
 
 
 ```{r}
-saveRDS(train_X, here::here("output","train.rds"))
+write.csv(train_X, here::here("output","train.csv"))
 #saveRDS(train_Y, here::here("output","train_Y.rds"))
-saveRDS(valid_X, here::here("output","valid.rds"))
+write.csv(valid_X, here::here("output","valid.csv"))
 #saveRDS(valid_Y, here::here("output","valid_Y.rds"))
 
 ```
@@ -186,5 +186,5 @@ prop.table(table(df$interval_sd_group))
 
 df1=df%>% filter(set==1)
 df2=df%>% filter(set==2)
-saveRDS(df1,here::here("output","train_cat.rds"))
-saveRDS(df2,here::here("output","valid_cat.rds"))
+write.csv(df1,here::here("output","train_cat.csv"))
+write.csv(df2,here::here("output","valid_cat.csv"))
