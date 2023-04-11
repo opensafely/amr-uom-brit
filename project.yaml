@@ -167,7 +167,7 @@ actions:
   #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
         
-  model_RandomForest_cat: # pick variables for model training # category #6:6
+  model_RandomForest_cat: # pick variables for model training # category #1:1 vs 1:6
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_clogit]
     outputs:
@@ -177,6 +177,13 @@ actions:
         rds: output/model_RandomForest_cat.rds
        # train: output/train_6_cat.rds
        # valid: output/valid_6_cat.rds
+
+  model_RandomForest_tune: # check prob
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_tune.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_tune.html
 
   model_RF_weighted: # pick variables for model training # category 
     run: r:latest -e 'rmarkdown::render("analysis/model_RF_weighted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
