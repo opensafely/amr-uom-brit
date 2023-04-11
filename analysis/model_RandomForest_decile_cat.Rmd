@@ -91,7 +91,7 @@ prop.table(table(valid_X$case))# % valid patients
 ```{r}
 data=train_X
 
-prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+prob <- predict(rf.model,data, type = 'prob')[,2]# votes of being case
 #prob = predict(rf.model, data=train)$prediction[,2]
 summary(prob)
 hist(prob)
