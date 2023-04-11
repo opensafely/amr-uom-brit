@@ -30,7 +30,7 @@ model <-train(case ~total_ab_group+ab_types_group+
       exposure_period_group+recent_ab_days_group+
       broad_ab_prescriptions_group+
       interval_med_group+interval_sd_group , 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -53,7 +53,7 @@ model <-train(case ~total_ab_group+ab_types_group+
       exposure_period_group+recent_ab_days_group+
       broad_ab_prescriptions_group+
       interval_med_group+interval_sd_group , 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -77,7 +77,7 @@ model <-train(case ~total_ab_group+ab_types_group+
       exposure_period_group+recent_ab_days_group+
       broad_ab_prescriptions_group+
       interval_med_group+interval_sd_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -96,7 +96,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r, fig.width=13, fig.height=20 }
 set.seed(1024)
 model <-train(case ~total_ab_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -117,7 +117,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r }
 set.seed(1024)
 model <-train(case ~ab_types_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -133,7 +133,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r }
 set.seed(1024)
 model <-train(case ~exposure_period_group , 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -149,7 +149,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r }
 set.seed(1024)
 model <-train(case ~recent_ab_days_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -165,7 +165,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r }
 set.seed(1024)
 model <-train(case ~broad_ab_prescriptions_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -181,7 +181,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r }
 set.seed(1024)
 model <-train(case ~interval_med_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
@@ -197,7 +197,7 @@ summary(predict(model, type = 'prob')[,2])
 ```{r }
 set.seed(1024)
 model <-train(case ~interval_sd_group, 
-                  data=data, method="rpart",
+                  data=train, method="rpart",
                   trControl = trainControl("cv", number = 5),
                   tuneLength=5)
   
