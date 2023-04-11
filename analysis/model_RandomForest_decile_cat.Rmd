@@ -37,7 +37,7 @@ prop.table(table(valid_X$case))# % valid patients
 # import RF model
 ```{r eval=FALSE, include=FALSE}
 #rf.model=readRDS(here::here("output","model_RandomForest_cat.rds"))
-rf.model=readRDS(here::here("output","model_RF_weighted.rds"))
+rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
 #input=rownames(data.frame(rf.model$importance))
 input
@@ -84,20 +84,7 @@ prop.table(table(valid_X$case))# % valid patients
 
 ```
 
-```{r}
-library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.8)
-sample_n
-rf.model<- randomForest(formula = case ~ ., data = train_X, 
-                           replace = TRUE,
-                           sampsize=c(sample_n,sample_n),
-                           strata=train_X$case,
-                           ntree =  1000,
-                           nodesize = 100 ,
-                           mtry = 3
-                          )
-```
 
 # development set
 ## predict probabilities 
