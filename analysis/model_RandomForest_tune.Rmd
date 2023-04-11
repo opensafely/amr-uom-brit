@@ -58,7 +58,7 @@ train model
 ```{r}
 library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.8)
+sample_n=as.numeric(table(train_X$case)[2]*0.7)
 sample_n
 
 set.seed(1024)
@@ -93,7 +93,6 @@ summary(pred.y.1)
 ```{r}
 prob0=train_X%>% filter(pred.y==0)
 prop.table(table(prob0$case))
-
 
 prob1=train_X%>% filter(pred.y==1)
 prop.table(table(prob1$case))
