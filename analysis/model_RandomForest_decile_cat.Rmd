@@ -6,7 +6,7 @@ title: "Random Forest model_ decile groups of probabilities"
 library(dplyr)
 library('tidyverse')
 library(pROC)
-
+library(randomForest)
 ```
 
 # train and valid dataset (matched)
