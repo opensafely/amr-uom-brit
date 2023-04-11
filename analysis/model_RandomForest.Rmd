@@ -24,17 +24,6 @@ train_Y=as.factor(train_Y)
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 train_X <- read_rds(here::here("output","train_X.rds"))
 train_X$case=as.factor(train_X$case)
-#col=c("patient_id","patient_index_date")
-#train_X = subset(train_X, select = -c(patient_id, patient_index_date))
-
-table(train_X$case)
-prop.table(table(train_X$case))
-train_X=train_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
-train_X=train_X%>% ungroup(subclass)
-
-train.1=train_X%>%filter(case==1)# filter case
-train.1 <- as.data.frame(lapply(train.1, rep, train.1$rep.no-1))# duplicate case (6case:6control)
-train_X=rbind(train.1,train_X) #merge
 
 table(train_X$case)
 prop.table(table(train_X$case))
@@ -53,12 +42,7 @@ valid_X$case=as.factor(valid_X$case)
 
 table(valid_X$case)
 prop.table(table(valid_X$case))
-valid_X=valid_X%>% group_by(subclass)%>% dplyr::mutate(rep.no=n()-1)#count control no. in subclass
-valid_X=valid_X%>% ungroup(subclass)
 
-valid.1=valid_X%>%filter(case==1)# filter case
-valid.1 <- as.data.frame(lapply(valid.1, rep, valid.1$rep.no-1))# duplicate case (6case:6control)
-valid_X=rbind(valid.1,valid_X) #merge
 
 table(valid_X$case)
 prop.table(table(valid_X$case))
@@ -83,35 +67,8 @@ valid_X=valid_X[col]
 str(train_X)
 ```
 
-```{r eval=FALSE, include=FALSE}
-with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
-with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
-with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
-with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
-
-```
 
 
-covert number to binary
-```{r eval=FALSE, include=FALSE}
-
-train_X[abtype]=train_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-valid_X[abtype]=valid_X[abtype]%>%mutate_all(~replace(., .>=1, 1)) 
-
-
-summary(train_X[abtype])
-summary(valid_X[abtype])
-```
-
-
-
-```{r}
-with(train_X, qplot(total_ab,ab_types, colour=case, cex=0.2))
-with(train_X, qplot(recent_ab_days,exposure_period, colour=case, cex=0.2))
-with(train_X, qplot(interval_med,interval_sd, colour=case, cex=0.2))
-with(train_X, qplot(total_ab,broad_ab_prescriptions, colour=case, cex=0.2))
-
-```
 train model
 ```{r}
 
@@ -122,15 +79,16 @@ train model
  #  nodesize = c( 5,50),
  # mtry=1:round(sqrt(ncol(train_X)-1)),
  # valid_auc = NA)
-n=nrow(train_X)
+n=table(train_X$case)[2]
 
 set.seed(1024)
 #for (i in 1:nrow(result)) {
   
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
-                           replace = TRUE,
+                           replace = FALSE,
                            ntree =  1000,
-                           sampsize = round(n*0.5),
+                           sampsize = c(n/1000,n/1000),
+                           strata=train_X$case
                            nodesize = 100 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
