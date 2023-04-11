@@ -68,7 +68,7 @@ rf1<- randomForest(formula = case ~ ., data = train_X,
                            replace = TRUE,
                            sampsize=c(sample_n,sample_n),
                            ntree =  2000,
-                           nodesize = 100 ,
+                           nodesize = 10 ,
                            mtry = 3
                           )
 
