@@ -88,7 +88,7 @@ set.seed(1024)
                            replace = FALSE,
                            ntree =  1000,
                            sampsize = c(n/1000,n/1000),
-                           strata=train_X$case
+                           strata=train_X$case,
                            nodesize = 100 ,
                            mtry = sqrt(ncol(train_X)-1)
                           )
