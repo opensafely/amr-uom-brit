@@ -67,6 +67,7 @@ set.seed(1024)
 rf1<- randomForest(formula = case ~ ., data = train_X, 
                            replace =TRUE,
                            sampsize=c(sample_n,sample_n),
+                           strata=train_X$case,
                            ntree =  1000,
                            nodesize = 100 ,
                            mtry = 3
@@ -98,3 +99,46 @@ prob1=train_X%>% filter(pred.y==1)
 prop.table(table(prob1$case))
 ```
 
+
+```{r}
+
+set.seed(1024)
+pred.y <- predict(rf1, train_X, type = 'prob')[,2]
+summary(pred.y)
+
+train_X=cbind(pred.y, train_X)
+
+pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
+summary(pred.y.1)
+```
+
+
+```{r}
+prob0=train_X%>% filter(pred.y==0)
+prop.table(table(prob0$case))
+
+prob1=train_X%>% filter(pred.y==1)
+prop.table(table(prob1$case))
+```
+
+
+```{r}
+
+set.seed(1024)
+pred.y <- predict(rf1,valid_X, type = 'prob')[,2]
+summary(pred.y)
+
+train_X=cbind(pred.y, train_X)
+
+pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
+summary(pred.y.1)
+```
+
+
+```{r}
+prob0=train_X%>% filter(pred.y==0)
+prop.table(table(prob0$case))
+
+prob1=train_X%>% filter(pred.y==1)
+prop.table(table(prob1$case))
+```
