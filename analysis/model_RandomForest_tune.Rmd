@@ -68,7 +68,7 @@ rf1<- randomForest(formula = case ~ ., data = train_X,
                            replace = TRUE,
                            sampsize=c(sample_n,sample_n),
                            ntree =  2000,
-                           nodesize = 10 ,
+                           nodesize = 100 ,
                            mtry = 3
                           )
 
@@ -80,8 +80,10 @@ varImpPlot(rf1)
 ```{r}
 
 set.seed(1024)
-pred.y.1 <- predict(rf1, type = 'prob')[,2]
-summary(pred.y.1)
+pred.y <- predict(rf1, type = 'prob')[,2]
+summary(pred.y)
+
+train_X=cbind(pred.y, train_X)
 
 pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
 summary(pred.y.1)
@@ -89,14 +91,11 @@ summary(pred.y.1)
 
 
 ```{r}
-set.seed(333)
+prob0=train_X%>% filter(pred.y==0)
+prop.table(table(prob0$case))
 
-pred.y.1 <- predict(rf1, type = 'prob')[,2]
-summary(pred.y.1)
 
-pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
-summary(pred.y.1)
-
+prob1=train_X%>% filter(pred.y==1)
+prop.table(table(prob1$case))
 ```
-
 
