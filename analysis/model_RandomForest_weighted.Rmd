@@ -50,7 +50,16 @@ col=c("case","total_ab_group","ab_types_group",
 train_X=train_X[col]
 valid_X=valid_X[col]
 
+
+
 str(train_X)
+```
+
+
+weighted
+```{r}
+w0 = sum(train_X$case==0)/length(train_X$case)
+w1 = 1
 ```
 
 
@@ -58,7 +67,7 @@ train model
 ```{r}
 library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.9)
+sample_n=as.numeric(table(train_X$case)[2]*0.8)
 sample_n
 
 set.seed(1024)
@@ -69,6 +78,7 @@ rf1<- randomForest(formula = case ~ ., data = train_X,
                            sampsize=c(sample_n,sample_n),
                            strata=train_X$case,
                            ntree =  1000,
+                           classwt=c("0"==w0,"1"==w1),
                            nodesize = 100 ,
                            mtry = 3
                           )
