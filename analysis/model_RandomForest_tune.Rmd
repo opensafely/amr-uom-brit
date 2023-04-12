@@ -84,10 +84,6 @@ set.seed(1024)
 pred.y <- predict(rf1, type = 'prob')[,2]
 summary(pred.y)
 
-train_X=cbind(pred.y, train_X)
-
-pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
-summary(pred.y.1)
 ```
 
 
@@ -106,10 +102,6 @@ set.seed(1024)
 pred.y <- predict(rf1, train_X, type = 'prob')[,2]
 summary(pred.y)
 
-train_X=cbind(pred.y, train_X)
-
-pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
-summary(pred.y.1)
 ```
 
 
@@ -128,10 +120,6 @@ set.seed(1024)
 pred.y <- predict(rf1,valid_X, type = 'prob')[,2]
 summary(pred.y)
 
-train_X=cbind(pred.y, train_X)
-
-pred.y.1 <- predict(rf1, train_X,type = 'prob')[,2]
-summary(pred.y.1)
 ```
 
 
