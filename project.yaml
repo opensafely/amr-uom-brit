@@ -193,7 +193,7 @@ actions:
         html: output/model_RandomForest_tune.html
 
   model_RandomForest_weighted:
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_weighted", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_weighte.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [model_clogit]
     outputs:
       moderately_sensitive:
