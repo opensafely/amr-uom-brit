@@ -54,7 +54,7 @@ set.seed(1024)
 
 tree.model_list <- list()
 
-for (i in 1:1000){
+for (i in 1:100){
 tree.model_list[[i]] <-train(case ~. , 
                   data=data, method="rpart",
                   trControl = trainControl("cv", number = 5),
