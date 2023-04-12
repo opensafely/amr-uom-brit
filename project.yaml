@@ -277,8 +277,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_decile.html
-        rds1: output/development.rds
-        rds2: output/validation.rds
+        # rds1: output/development.rds
+        # rds2: output/validation.rds
 
   RF_descriptive_stat: 
     run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
