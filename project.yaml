@@ -171,8 +171,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest.html
-  #      csv1: output/var_tree.csv
         rds: output/model_RandomForest.rds
+      highly_sensitive:
+        rds1: output/development.rds 
+        rds2: output/validation.rds 
         
   # model_RandomForest_cat: # pick variables for model training # category #1:1 vs 1:6
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

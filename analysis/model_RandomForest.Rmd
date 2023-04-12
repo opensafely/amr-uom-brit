@@ -80,7 +80,7 @@ set.seed(1024)
   rf.model <- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
                            ntree =  1000,
-                           sampsize = c(n,n),
+                           sampsize = c(78,78),
                            strata=train_X$case,
                            nodesize = 100 ,
                            mtry = sqrt(ncol(train_X)-1)
@@ -96,7 +96,7 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 set.seed(1024)
 rm(pred.y)
 pred.y <- predict(rf.model, type = 'prob')[,2]
@@ -112,13 +112,14 @@ summary(pred.y)
 #result
 ```
 
+predict train data
 ```{r}
 set.seed(1024)
 rm(pred.y)
-pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
-summary(pred.y)
+prob <- predict(rf.model, train_X, type = 'prob')[,2]
+summary(prob)
 
-  roc_valid <- roc(train_X$case~ pred.y)
+  roc_valid <- roc(train_X$case~ prob)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
   
@@ -129,6 +130,41 @@ summary(pred.y)
 #result
 ```
 
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,NA)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(train_X,decile,prob)
+
+str(newdata)
+
+saveRDS(newdata,"development.rds")
+```
 
 ```{r}
 #names(train_X)
@@ -149,17 +185,57 @@ summary(pred.y)
 
 
 
+predict validation data
 ```{r}
 set.seed(1024)
 rm(pred.y)
-pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
-summary(pred.y)
+prob <- predict(rf.model, valid_X, type = 'prob')[,2]
+summary(prob)
 
-roc_valid <- roc( valid_X$case ~ pred.y)
+  roc_valid <- roc(train_X$case~ prob)
   
-plot(roc_valid)
-print(roc_valid)
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,NA)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
 
 ```
 
+## combine columns
+```{r}
+head(decile)
+head(prob)
 
+newdata <- cbind(data,valid_X,prob)
+
+str(newdata)
+
+saveRDS(newdata,"validation.rds")
+
+```
