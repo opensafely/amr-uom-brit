@@ -1,0 +1,226 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+
+library(dplyr)
+library('tidyverse')
+library("ggplot2")
+library(ranger)
+
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+# import dataset
+```{r }
+
+#train <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train.rds")
+train <- read_rds(here::here("output","train_cat.rds"))
+train$case=as.factor(train$case)
+
+table(train$case)
+prop.table(table(train$case))
+
+
+```
+
+
+```{r }
+
+#valid <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid.rds")
+valid<- read_rds(here::here("output","valid_cat.rds"))
+valid$case=as.factor(valid$case)
+
+table(valid$case)
+prop.table(table(valid$case))
+
+```
+
+
+pick variable
+```{r}
+names(train)
+
+col=c("case","total_ab_group","ab_types_group",
+      "exposure_period_group","recent_ab_days_group",
+      "broad_ab_prescriptions_group",
+      "interval_med_group" ,"interval_sd_group")
+
+# abtype
+train=train[col]
+valid=valid[col]
+```
+
+
+train model
+```{r}
+library(ranger)
+
+n=nrow(train)
+
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
+rf.model <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  1000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+  #                 sample.fraction = c(0.5,0.5),
+                   probability = TRUE
+                          )
+  print(rf.model)
+  
+  rf.model2 <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  1000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+                   sample.fraction = c(0.5,0.5),
+                   probability = TRUE
+                          )
+  print(rf.model2)
+  
+    rf.model3 <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  1000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+                   sample.fraction = c(0.34,0.66),
+                   probability = TRUE
+                          )
+  print(rf.model3)
+    rf.model4 <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  1000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+                   sample.fraction = c(0.25,0.75),
+                   probability = TRUE
+                          )
+  print(rf.model4)
+  
+      rf.model5 <- ranger(formula = case ~ ., 
+                   data = train,
+                   num.trees =  1000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+                   sample.fraction = c(0.14,0.86),
+                   probability = TRUE
+                          )
+  print(rf.model5)
+```
+
+```{r}
+sort(rf.model$variable.importance)
+sort(rf.model2$variable.importance)
+sort(rf.model3$variable.importance)
+sort(rf.model4$variable.importance)
+sort(rf.model5$variable.importance)
+saveRDS(rf.model,here::here("output","model_RF_weighted.rds"))
+```
+
+
+```{r}
+library(pROC)
+
+set.seed(1024)
+pred.y <- predictions(rf.model)[,2]
+pred.y2 <-predictions(rf.model2)[,2]
+pred.y3<- predictions(rf.model3)[,2]
+pred.y4<- predictions(rf.model4)[,2]
+pred.y5 <- predictions(rf.model5)[,2]
+
+
+plot(roc(train$case~ pred.y),main="ROC curves for four models predicting case")#black
+plot(roc(train$case~ pred.y2),col=2,add=T)#red
+plot(roc(train$case~ pred.y3),col=3,add=T)#green
+plot(roc(train$case~ pred.y4),col=4,add=T)#blue
+plot(roc(train$case~ pred.y5),col=5,add=T)#blue
+
+print(roc(train$case~ pred.y))
+print(roc(train$case~ pred.y2))
+print(roc(train$case~ pred.y3))
+print(roc(train$case~ pred.y4))
+print(roc(train$case~ pred.y5))
+      
+
+```
+
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, data=train)$prediction[,2]
+pred.y2 <- predict(rf.model2, data=train)$prediction[,2]
+pred.y3 <- predict(rf.model3, data=train)$prediction[,2]
+pred.y4 <- predict(rf.model4, data=train)$prediction[,2]
+pred.y5 <- predict(rf.model5, data=train)$prediction[,2]
+
+plot(roc(train$case~ pred.y),main="ROC curves for four models predicting case")#black
+plot(roc(train$case~ pred.y2),col=2,add=T)#red
+plot(roc(train$case~ pred.y3),col=3,add=T)#green
+plot(roc(train$case~ pred.y4),col=4,add=T)#blue
+plot(roc(train$case~ pred.y5),col=5,add=T)#blue
+
+print(roc(train$case~ pred.y))
+print(roc(train$case~ pred.y2))
+print(roc(train$case~ pred.y3))
+print(roc(train$case~ pred.y4))
+print(roc(train$case~ pred.y5))
+#result
+```
+
+
+```{r}
+#names(train)
+#used_count <- varUsed(rf.model)
+#train=train[,-train$case]
+#names(used_count) <- colnames(train)
+#sort(used_count, decreasing = TRUE)
+#used_count
+```
+
+
+```{r}
+#count_table <- varUsed(rf.model, by.tree = TRUE)
+#rownames(count_table) <- colnames(train)
+#write.csv(count_table,here::here("output","var_tree.csv"))
+
+```
+
+
+
+```{r}
+set.seed(1024)
+pred.y <- predict(rf.model, data=valid)$prediction[,2]
+pred.y2 <- predict(rf.model2, data=valid)$prediction[,2]
+pred.y3 <- predict(rf.model3, data=valid)$prediction[,2]
+pred.y4 <- predict(rf.model4, data=valid)$prediction[,2]
+pred.y5 <- predict(rf.model5, data=valid)$prediction[,2]
+
+plot(roc(valid$case~ pred.y),main="ROC curves for four models predicting case")#black
+plot(roc(valid$case~ pred.y2),col=2,add=T)#red
+plot(roc(valid$case~ pred.y3),col=3,add=T)#green
+plot(roc(valid$case~ pred.y4),col=4,add=T)#blue
+plot(roc(valid$case~ pred.y5),col=5,add=T)#blue
+
+print(roc(valid$case~ pred.y))
+print(roc(valid$case~ pred.y2))
+print(roc(valid$case~ pred.y3))
+print(roc(valid$case~ pred.y4))
+print(roc(valid$case~ pred.y5))
+```
+
+

@@ -58,7 +58,7 @@ train model
 ```{r}
 library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*1)
+sample_n=as.numeric(table(train_X$case)[2]*0.9)
 sample_n
 
 set.seed(1024)

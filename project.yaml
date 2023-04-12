@@ -192,7 +192,14 @@ actions:
       moderately_sensitive:
         html: output/model_RandomForest_tune.html
 
-  # model_RF_weighted: # pick variables for model training # category 
+  model_RandomForest_weighted:
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_weighted", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_weighted.html
+  
+  # model_RF_ranger: # pick variables for model training # category 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_weighted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [model_clogit]
   #   outputs:
@@ -222,6 +229,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_decile_cat.html
+      highly_sensitive:
         rds1: output/development_cat.rds 
         rds2: output/validation_cat.rds 
 
