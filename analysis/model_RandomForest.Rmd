@@ -28,7 +28,6 @@ train_X$case=as.factor(train_X$case)
 table(train_X$case)
 prop.table(table(train_X$case))
 
-rm(train.1)
 ```
 
 
@@ -42,12 +41,6 @@ valid_X$case=as.factor(valid_X$case)
 
 table(valid_X$case)
 prop.table(table(valid_X$case))
-
-
-table(valid_X$case)
-prop.table(table(valid_X$case))
-
-
 
 ```
 
@@ -105,7 +98,9 @@ saveRDS(rf.model,here::here("output","model_RandomForest.rds"))
 
 ```{r}
 set.seed(1024)
+rm(pred.y)
 pred.y <- predict(rf.model, type = 'prob')[,2]
+summary(pred.y)
   roc_valid <- roc(train_X$case~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
@@ -119,7 +114,10 @@ pred.y <- predict(rf.model, type = 'prob')[,2]
 
 ```{r}
 set.seed(1024)
+rm(pred.y)
 pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
+summary(pred.y)
+
   roc_valid <- roc(train_X$case~ pred.y)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
@@ -155,6 +153,8 @@ pred.y <- predict(rf.model, train_X, type = 'prob')[,2]
 set.seed(1024)
 rm(pred.y)
 pred.y <- predict(rf.model, valid_X, type = 'prob')[,2]
+summary(pred.y)
+
 roc_valid <- roc( valid_X$case ~ pred.y)
   
 plot(roc_valid)
