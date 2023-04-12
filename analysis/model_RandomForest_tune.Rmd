@@ -65,8 +65,8 @@ set.seed(1024)
 #for (i in 1:nrow(result)) {
   
 rf1<- randomForest(formula = case ~ ., data = train_X, 
-                           replace =TRUE,
-                           sampsize=c(sample_n,sample_n),
+                           replace =FALSE,
+                           sampsize=c(78,78),
                            strata=train_X$case,
                            ntree =  1000,
                            nodesize = 100 ,
