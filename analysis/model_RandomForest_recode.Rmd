@@ -20,7 +20,7 @@ options(knitr.table.format="html")
 # import dataset
 ```{r }
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-train_X <- read_rds(here::here("output","train_X_cat.rds"))
+train_X <- read_rds(here::here("output","train_cat.rds"))
 train_X$case=as.factor(train_X$case)
 
 table(train_X$case)
@@ -30,7 +30,7 @@ prop.table(table(train_X$case))
 
 
 ```{r }
-valid_X <- read_rds(here::here("output","valid_X_cat.rds"))
+valid_X <- read_rds(here::here("output","valid_cat.rds"))
 valid_X$case=as.factor(valid_X$case)
 
 table(valid_X$case)
