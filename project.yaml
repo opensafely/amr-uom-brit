@@ -200,6 +200,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest_weighted.html
+
+  model_RandomForest_recode:
+    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_recode.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/model_RandomForest_recode.html
   
   # model_RF_ranger: # pick variables for model training # category 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_weighted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

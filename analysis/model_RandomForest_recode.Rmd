@@ -1,0 +1,199 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+library("ggplot2")
+#library(caret)
+library(pROC)
+library(randomForest)
+library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+# import dataset
+```{r }
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+train_X <- read_rds(here::here("output","train_X_cat.rds"))
+train_X$case=as.factor(train_X$case)
+
+table(train_X$case)
+prop.table(table(train_X$case))
+
+```
+
+
+```{r }
+valid_X <- read_rds(here::here("output","valid_X_cat.rds"))
+valid_X$case=as.factor(valid_X$case)
+
+table(valid_X$case)
+prop.table(table(valid_X$case))
+
+```
+
+
+pick variable
+```{r}
+names(train_X)
+
+#pred_col=c("patient_id","patient_index_date", "case","total_ab", "ab_prescriptions","ab_types","prescribe_times","exposure_period","recent_ab_days", "broad_prop" ,"broad_ab_prescriptions","interval_mean","interval_sd","interval_CV","length_mean", "length_sd", "length_CV","prescribe_time_0","prescribe_time_1","prescribe_time_2","prescribe_time_3",col,"AB_1_type","AB_6wk_type" ,"interval_med" ,"length_med" ,"ab_6w_binary" , "AB_6wk")
+
+#abtype <- read_rds(here::here("output","abtype.rds"))
+col=c("case","total_ab_group","ab_types_group","exposure_period_group" ,"recent_ab_days_group","broad_ab_prescriptions_group" ,"interval_med_group" , "interval_sd_group")
+# abtype
+train_X=train_X[col]
+valid_X=valid_X[col]
+
+str(train_X)
+```
+
+dummy var (one-cot encording)
+```{r}
+dummy <- dummyVars(" ~ .", data=train_X)
+newdata <- data.frame(predict(dummy, newdata = train_X)) 
+```
+
+
+
+
+
+train model
+```{r}
+
+
+#result = expand.grid(
+ #  ntree=c(1000,2000),
+#  sampsize = c(round(n*0.6), round(n*0.8), round(n*0.9)),
+ #  nodesize = c( 5,50),
+ # mtry=1:round(sqrt(ncol(train_X)-1)),
+ # valid_auc = NA)
+n=as.numeric(table(train_X$case)[2]*0.8)
+
+set.seed(1024)
+#for (i in 1:nrow(result)) {
+  
+  rf.model <- randomForest(formula = case ~ ., data = train_X, 
+                           replace = TRUE,
+                           ntree =  1000,
+                        #   sampsize = c(n,n),
+                         #  strata=train_X$case,
+                           nodesize = 100 ,
+                           mtry = sqrt(ncol(train_X)-1)
+                          )
+  print(rf.model)
+```
+
+```{r}
+importance(rf.model)
+varImpPlot(rf.model)
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
+set.seed(1024)
+rm(pred.y)
+pred.y <- predict(rf.model, type = 'prob')[,2]
+summary(pred.y)
+  roc_valid <- roc(train_X$case~ pred.y)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+predict train data
+```{r}
+set.seed(1024)
+prob <- predict(rf.model, train_X, type = 'prob')[,2]
+summary(prob)
+
+  roc_valid <- roc(train_X$case~ prob)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,NA)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+
+
+
+predict validation data
+```{r}
+set.seed(1024)
+prob <- predict(rf.model, valid_X, type = 'prob')[,2]
+summary(prob)
+
+  roc_valid <- roc(valid_X$case~ prob)
+  
+   #result[i,'valid_auc'] <- roc_valid[['auc']]
+  
+  plot(roc_valid)
+  print(roc_valid)
+#}
+
+#result
+```
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,NA)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
