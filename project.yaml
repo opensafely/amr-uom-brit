@@ -208,6 +208,30 @@ actions:
       moderately_sensitive:
         html: output/model_RandomForest_recode.html
   
+
+
+  # python
+
+  # python RF
+  pre_generate_notebook_RF: # rds to csv
+    run: r:latest -e 'rmarkdown::render("analysis/python/pre_generate_notebook_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [model_clogit]
+    outputs:
+      moderately_sensitive:
+        html: output/pre_generate_notebook_RF.html
+      highly_sensitive: 
+        csv1: output/train_cat.csv
+        csv2: output/valid_cat.csv
+        csv3: output/train.csv
+        csv4: output/valid.csv
+
+  generate_notebook_RF:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/RF/RF.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+    needs: [pre_generate_notebook_RF]
+    outputs:
+      moderately_sensitive:
+        notebook: output/RF.html 
+
   # model_RF_ranger: # pick variables for model training # category 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_weighted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [model_clogit]
