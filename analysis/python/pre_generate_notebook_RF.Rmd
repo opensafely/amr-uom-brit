@@ -1,0 +1,28 @@
+---
+title: "transform csv"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(skimr)
+library('tidyverse')
+
+library("ggplot2")
+
+library(caret)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+
+```
+
+
+`
+```{r}
+df1 <- read_rds(here::here("output","train_X_cat.rds"))
+df2 <- read_rds(here::here("output","valid_X_cat.rds"))
+nrow(df1)
+nrow(df2)
+write.csv(df1,here::here("output","train_cat.csv"))
+write.csv(df2,here::here("output","valid_cat.csv"))
+```

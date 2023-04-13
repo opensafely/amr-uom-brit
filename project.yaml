@@ -222,11 +222,9 @@ actions:
       highly_sensitive: 
         csv1: output/train_cat.csv
         csv2: output/valid_cat.csv
-        csv3: output/train.csv
-        csv4: output/valid.csv
 
   generate_notebook_RF:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/RF/RF.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/python/RF.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
     needs: [pre_generate_notebook_RF]
     outputs:
       moderately_sensitive:
