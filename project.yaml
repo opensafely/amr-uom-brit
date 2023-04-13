@@ -167,7 +167,7 @@ actions:
 
   model_RandomForest: # pick variables for model training # contd
     run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RF_process]
+    needs: [model_clogit]
     outputs:
       moderately_sensitive:
         html: output/model_RandomForest.html
@@ -225,15 +225,15 @@ actions:
   #     moderately_sensitive:
   #       html: output/model_RandomForest_cat_ind.html
   
-  model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
-    run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_clogit,model_RandomForest]
-    outputs:
-      moderately_sensitive:
-        html: output/model_RandomForest_decile_cat.html
-      highly_sensitive:
-        rds1: output/development_cat.rds 
-        rds2: output/validation_cat.rds 
+  # model_RandomForest_decile_cat: # create decile groups for probabilities # get counfounders  #6:6
+  #   run: r:latest -e 'rmarkdown::render("analysis/model_RandomForest_decile_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [model_clogit,model_RandomForest]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_RandomForest_decile_cat.html
+  #     highly_sensitive:
+  #       rds1: output/development_cat.rds 
+  #       rds2: output/validation_cat.rds 
 
   model_cat: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
