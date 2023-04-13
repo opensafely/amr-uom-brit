@@ -237,14 +237,14 @@ actions:
 
   model_cat: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile_cat]
+    needs: [model_RandomForest]
     outputs:
       moderately_sensitive:
         html: output/model_cat.html    
 
   RF_descriptive_stat_cat: 
     run: r:latest -e 'rmarkdown::render("analysis/RF_descriptive_stat_cat.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [model_RandomForest_decile_cat]
+    needs: [model_RandomForest]
     outputs:
       moderately_sensitive:
         html: output/RF_descriptive_stat_cat.html   
