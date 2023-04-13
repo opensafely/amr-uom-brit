@@ -19,8 +19,8 @@ options(knitr.table.format="html")
 
 `
 ```{r}
-df1 <- read_rds(here::here("output","train_X_cat.rds"))
-df2 <- read_rds(here::here("output","valid_X_cat.rds"))
+df1 <- read_rds(here::here("output","train_cat.rds"))
+df2 <- read_rds(here::here("output","valid_cat.rds"))
 nrow(df1)
 nrow(df2)
 write.csv(df1,here::here("output","train_cat.csv"))

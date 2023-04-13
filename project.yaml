@@ -230,6 +230,13 @@ actions:
       moderately_sensitive:
         notebook: output/RF.html 
 
+  generate_notebook_boost:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/python/boost.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+    needs: [pre_generate_notebook_RF]
+    outputs:
+      moderately_sensitive:
+        notebook: output/boost.html 
+
   # model_RF_ranger: # pick variables for model training # category 
   #   run: r:latest -e 'rmarkdown::render("analysis/model_RF_weighted.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [model_clogit]
