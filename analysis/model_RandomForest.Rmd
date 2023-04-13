@@ -115,7 +115,6 @@ summary(pred.y)
 predict train data
 ```{r}
 set.seed(1024)
-rm(pred.y)
 prob <- predict(rf.model, train_X, type = 'prob')[,2]
 summary(prob)
 
@@ -188,11 +187,10 @@ saveRDS(newdata,"development.rds")
 predict validation data
 ```{r}
 set.seed(1024)
-rm(pred.y)
 prob <- predict(rf.model, valid_X, type = 'prob')[,2]
 summary(prob)
 
-  roc_valid <- roc(train_X$case~ prob)
+  roc_valid <- roc(valid_X$case~ prob)
   
    #result[i,'valid_auc'] <- roc_valid[['auc']]
   
