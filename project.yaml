@@ -312,8 +312,22 @@ actions:
         html: output/model_hosp.html  
 
 # performance check
+  check_RF: # ROC, calibration
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi,pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF.html      
+
+  check_RF_descript: # descriptive stat
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript.html   
+
   check_RF_hosp: # ROC, calibration
-    run: r:latest -e 'rmarkdown::render("analysis/RF/check_RF_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_hosp,pre_RF_process_hosp]
     outputs:
       moderately_sensitive:
