@@ -38,13 +38,18 @@ tbl
 ```
 
 ```{r}
- # library
 library(ggplot2)
 
 for (i in explanatory) {
- print(ggplot(data = data, aes(x =decile, fill=i)) +
-  geom_bar() )
+  tbl=data.frame(table(data$decile,data[,explanatory[i]]))
+  print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
+   geom_col() +
+  ggtitle(explanatory[i]))
+
+
 }
+
+
 
 
 
@@ -63,12 +68,13 @@ tbl
 ```
 
 ```{r}
- # library
-library(ggplot2)
-
 for (i in explanatory) {
- print(ggplot(data = data, aes(x =decile, fill=i)) +
-  geom_bar() )
+  tbl=data.frame(table(data$decile,data[,explanatory[i]]))
+  print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
+   geom_col() +
+  ggtitle(explanatory[i]))
+
+
 }
 
 
