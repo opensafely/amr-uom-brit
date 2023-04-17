@@ -59,7 +59,7 @@ rf.model<- randomForest(formula = case ~ ., data = train_X,
                            replace = TRUE,
                            sampsize=c(sample_n,sample_n),
                            strata=train_X$case,
-                           ntree =  1000,
+                           ntree =  2000,
                            nodesize = 100 ,
                            mtry = 3
                           )
