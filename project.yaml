@@ -298,12 +298,12 @@ actions:
         rds1: output/development_hosp.rds 
         rds2: output/validation_hosp.rds 
 
-  # model_hosp: # coditional logistic regression for decile groups
-  #   run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [RF_multi_hosp]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_hosp.html  
+  model_hosp: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_hosp]
+    outputs:
+      moderately_sensitive:
+        html: output/model_hosp.html  
 
 
 
