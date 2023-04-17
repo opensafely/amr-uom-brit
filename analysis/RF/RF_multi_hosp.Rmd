@@ -66,35 +66,6 @@ rf.model<- randomForest(formula = case ~ ., data = train_X,
 ```
 
 
-# RF_ranger
-```{r eval=FALSE, include=FALSE}
-library(ranger)
-
-#Compute weights to balance the RF
-w <- 1/table(train_X$case)
-w <- w/sum(w)
-w
-weights <- rep(0, nrow(train_X))
-weights[train$case == 0] <- w['0']
-weights[train$case == 1] <- w['1']
-table(weights, train_X$case)
-
-set.seed(1024)
-
-    rf.model <- ranger(formula = case ~ ., 
-                   data = train_X,
-                   num.trees =  3000,
-                   min.node.size = 100,
-                   importance = "impurity",
-                   replace = TRUE,
-                   probability = TRUE,
-                   case.weights=weights
-                   )
-
-  print(rf.model)
-  
-  
-```
 
 # development set
 ## predict probabilities 
@@ -111,18 +82,6 @@ sum(prob==0)/length(prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
-```{r eval=FALSE, include=FALSE}
-data=train
-
-prob <- predict(rf.model, data=train)$prediction[,2]# probabilities
-
-summary(prob)
-hist(prob)
-sum(prob==0)/length(prob)# % zero
-
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-#prop.table(summary(exp.class))
-```
 
 ## create decile group
 ```{r}
@@ -191,17 +150,7 @@ sum(prob==0)/length(prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
-```{r eval=FALSE, include=FALSE}
-data=valid
 
-prob <- predict(rf.model, data=valid)$prediction[,2]# probabiliteis
-
-summary(prob)
-hist(prob)
-sum(prob==0)/length(prob)# % zero
-
-
-```
 
 ## create decile group
 ```{r}
@@ -265,3 +214,53 @@ saveRDS(validation,here::here("output","validation_hosp.rds"))
 str(development)
 ```
 
+
+
+
+
+# RF_ranger
+```{r eval=FALSE, include=FALSE}
+library(ranger)
+
+#Compute weights to balance the RF
+w <- 1/table(train_X$case)
+w <- w/sum(w)
+w
+weights <- rep(0, nrow(train_X))
+weights[train$case == 0] <- w['0']
+weights[train$case == 1] <- w['1']
+table(weights, train_X$case)
+
+set.seed(1024)
+
+    rf.model <- ranger(formula = case ~ ., 
+                   data = train_X,
+                   num.trees =  3000,
+                   min.node.size = 100,
+                   importance = "impurity",
+                   replace = TRUE,
+                   probability = TRUE,
+                   case.weights=weights
+                   )
+
+  print(rf.model)
+  
+  data=train
+
+prob <- predict(rf.model, data=train)$prediction[,2]# probabilities
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+
+data=valid
+
+prob <- predict(rf.model, data=valid)$prediction[,2]# probabiliteis
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```

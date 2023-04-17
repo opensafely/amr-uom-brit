@@ -152,6 +152,8 @@ actions:
       highly_sensitive:
         rds1: output/development.rds 
         rds2: output/validation.rds 
+        rds3: output/RF_model.rds 
+
 
 # python RF
   pre_generate_notebook_RF: # rds to csv
@@ -297,6 +299,7 @@ actions:
       highly_sensitive:
         rds1: output/development_hosp.rds 
         rds2: output/validation_hosp.rds 
+        rds3: output/RF_model_hosp.rds 
 
   model_hosp: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
