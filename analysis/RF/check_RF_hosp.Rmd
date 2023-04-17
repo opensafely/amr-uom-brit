@@ -14,11 +14,11 @@ library(randomForest) #dplyr
 ```{r }
 
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-train<- read_rds(here::here("output","train_cat_hosp.rds"))
+train<- read_rds(here::here("output","development_hosp.rds"))
 train$case=as.factor(train$case)
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
-valid <- read_rds(here::here("output","valid_cat_hosp.rds"))
+valid <- read_rds(here::here("output","validation_hosp.rds"))
 valid$case=as.factor(valid$case)
 
 #df=sample_n(df,5000)
