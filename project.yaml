@@ -317,7 +317,7 @@ actions:
     needs: [RF_multi_hosp,pre_RF_process_hosp]
     outputs:
       moderately_sensitive:
-        html: output/model_hosp.html      
+        html: output/check_RF_hosp.html      
 
   check_RF_descript_hosp: # descriptive stat
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
