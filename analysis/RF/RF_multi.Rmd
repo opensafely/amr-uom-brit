@@ -1,5 +1,5 @@
 ---
-title: "Random Forest model_"
+title: "Random Forest model_hospital admission"
 ---
 
 ```{r setup, include=FALSE}
@@ -66,8 +66,9 @@ rf.model<- randomForest(formula = case ~ ., data = train_X,
 ```
 
 
-# RF_ranger
+
 ```{r eval=FALSE, include=FALSE}
+# RF_ranger
 library(ranger)
 
 #Compute weights to balance the RF

@@ -1,5 +1,5 @@
 ---
-title: "Random Forest model_"
+title: "Random Forest model_hosp death"
 ---
 
 ```{r setup, include=FALSE}
@@ -57,7 +57,7 @@ sample_n=as.numeric(table(train_X$case)[2]*0.6)
 sample_n
 rf.model<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           sampsize=c(50,50),
+                           sampsize=c(sample_n,sample_n),
                            strata=train_X$case,
                            ntree =  1000,
                            nodesize = 100 ,
