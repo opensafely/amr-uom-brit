@@ -305,7 +305,7 @@ actions:
         rds3: output/RF_model_hosp.rds 
 
   model_hosp: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/RF/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_hosp]
     outputs:
       moderately_sensitive:
