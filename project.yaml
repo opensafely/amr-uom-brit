@@ -313,7 +313,7 @@ actions:
 
 # performance check
   check_RF: # ROC, calibration
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi,pre_RF_process]
     outputs:
       moderately_sensitive:
