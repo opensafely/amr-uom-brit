@@ -1,5 +1,5 @@
 ---
-title: "classification comparison: RF "
+title: "descriptive stat"
 ---
 
 ```{r setup, include=FALSE}
@@ -38,6 +38,20 @@ tbl
 ```
 
 ```{r}
+ # library
+library(ggplot2)
+
+for (i in explanatory) {
+ print(ggplot(data = data, aes(x =decile, fill=i)) +
+  geom_bar() )
+}
+
+
+
+```
+
+
+```{r}
 data=valid
 data$decile=as.factor(data$decile)
 # select variables
@@ -48,3 +62,15 @@ tbl
 
 ```
 
+```{r}
+ # library
+library(ggplot2)
+
+for (i in explanatory) {
+ print(ggplot(data = data, aes(x =decile, fill=i)) +
+  geom_bar() )
+}
+
+
+
+```
