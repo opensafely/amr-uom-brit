@@ -63,6 +63,9 @@ rf.model<- randomForest(formula = case ~ ., data = train_X,
                            nodesize = 100 ,
                            mtry = 3
                           )
+
+saveRDS(rf.model,here::here("output","RF_model_hosp.rds"))
+
 ```
 
 
