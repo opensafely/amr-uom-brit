@@ -173,12 +173,12 @@ actions:
       moderately_sensitive:
         notebook: output/RF.html 
         
-  prob_decile: # check prob dist
-    run: r:latest -e 'rmarkdown::render("analysis/RF/prob_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi]
-    outputs:
-      moderately_sensitive:
-        html: output/prob_decile.html  
+  # prob_decile: # check prob dist
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/prob_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/prob_decile.html  
 
 # final model
   model: # coditional logistic regression for decile groups
