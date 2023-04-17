@@ -16,7 +16,7 @@ library(finalfit)
 
 # general
 ##  crude model
-```{r }
+```{r eval=FALSE, include=FALSE}
 data=readRDS(here::here("output","study_1.rds"))
 
 data$quintile=as.factor(data$quintile)

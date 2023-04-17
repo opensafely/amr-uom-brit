@@ -31,15 +31,18 @@ summary(DF2$total_ab)
 ```
 
 # general patients
-```{r}
+```{r eval=FALSE, include=FALSE}
 DF3=readRDS(here::here("output","matched_outcome_general.rds"))
 nrow(DF3)
 table(DF3$case)
 prop.table(table(DF3$case))
 DF3$set=3
+```
 
+
+```{r eval=FALSE, include=FALSE}
 summary(DF3$total_ab)
-DF=rbind(DF1,DF2,DF3)
+DF=rbind(DF1,DF2)#,DF3
 ```
 
 # remove outlier
@@ -52,12 +55,12 @@ outlier
 DF=DF%>% filter(total_ab < outlier)
 nrow(DF[DF$set==1,])
 nrow(DF[DF$set==2,])
-nrow(DF[DF$set==3,])
+#nrow(DF[DF$set==3,])
 
 DF=DF%>% filter(total_ab >1)
 nrow(DF[DF$set==1,])
 nrow(DF[DF$set==2,])
-nrow(DF[DF$set==3,])
+#nrow(DF[DF$set==3,])
 
 
 DF$case=as.numeric(DF$case)
@@ -66,7 +69,7 @@ DF=DF%>%group_by(set,subclass)%>%mutate(keep=sum(case))
 DF=DF%>%filter(keep==1)
 nrow(DF[DF$set==1,])
 nrow(DF[DF$set==2,])
-nrow(DF[DF$set==3,])
+#nrow(DF[DF$set==3,])
 
 ```
 
@@ -162,7 +165,7 @@ rm(DF2)
 # general patients
 
 ### create quintile ab group
-```{r}
+```{r eval=FALSE, include=FALSE}
 DF3=DF%>%filter(set==3)
 
 vec=vector()
@@ -187,7 +190,7 @@ prop.table(table(DF3$quintile))*100
 
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 nrow(DF3)
 table(DF3$case)
 prop.table(table(DF3$case))
