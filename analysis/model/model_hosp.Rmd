@@ -105,21 +105,7 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
-## select 1 case per subclass
-```{r }
-table(df$case)
-prop.table(table(df$case))
-df0=df%>%filter(case==0)
-df1=df%>%filter(case==1)
-df1=df1%>% group_by(subclass)%>% sample_n(1)
-head(df1)
-df1=df1%>% ungroup(subclass)
 
-df=rbind(df0,df1)
-
-table(df$case)
-prop.table(table(df$case))
-```
 ### crude model
 ```{r }
 df$case=as.numeric(df$case) #1/0

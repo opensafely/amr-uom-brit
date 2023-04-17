@@ -53,11 +53,11 @@ str(train)
 ```{r}
 library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.6)
+sample_n=as.numeric(table(train_X$case)[2]*0.5)
 sample_n
 rf.model<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           sampsize=c(10000,10000),
+                           sampsize=c(sample_n,sample_n),
                            strata=train_X$case,
                            ntree =  1000,
                            nodesize = 100 ,
@@ -102,7 +102,7 @@ set.seed(1024)
 ```{r }
 data=train
 
-prob <- predict(rf.model, type = 'prob')[,2]# votes of being case
+prob <- predict(rf.model,data, type = 'prob')[,2]# votes of being case
 
 summary(prob)
 hist(prob)
