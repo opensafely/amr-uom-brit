@@ -53,17 +53,17 @@ str(train)
 ```{r}
 library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.6)
+sample_n=as.numeric(table(train_X$case)[2]*0.5)
 sample_n
 rf.model<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           sampsize=c(sample_n,sample_n),
+                           sampsize=c(sample_n,sample_n), 
                            strata=train_X$case,
-                           ntree =  1000,
+                           ntree =  2000,
                            nodesize = 100 ,
                            mtry = 3
                           )
-
+# run over 1 wk: 0.6 size 1000 trees
 saveRDS(rf.model,here::here("output","RF_model.rds"))
 
 ```
