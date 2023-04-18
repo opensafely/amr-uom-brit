@@ -28,7 +28,7 @@ table(valid$case)
 nrow(train)
 nrow(valid)
 
-rf.model=readRDS(here::here("output","RF_model_hosp.rds"))
+rf.model=readRDS(here::here("output","RF_model.rds"))
 print(rf.model)
 ```
 
