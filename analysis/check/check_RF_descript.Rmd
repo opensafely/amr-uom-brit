@@ -38,6 +38,22 @@ tbl
 ```
 
 ```{r}
+library(ggplot2)
+
+for (i in explanatory) {
+  tbl=data.frame(table(data$decile,data[,explanatory[i]]))
+  print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
+   geom_col() +
+  ggtitle(explanatory[i]))
+
+
+}
+
+
+
+```
+
+```{r}
 data=valid
 data$decile=as.factor(data$decile)
 # select variables
@@ -48,3 +64,15 @@ tbl
 
 ```
 
+```{r}
+
+for (i in explanatory) {
+  tbl=data.frame(table(data$decile,data[,explanatory[i]]))
+  print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
+   geom_col() +
+  ggtitle(explanatory[i]))
+
+
+}
+
+```
