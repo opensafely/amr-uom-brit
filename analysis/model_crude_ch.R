@@ -14,6 +14,9 @@ library(here)
 
 df <- readRDS("output/processed/input_model_c_h.rds")
 ### fit crude model by variables
+mod0=clogit(case ~ imd + strata(set_id), df)
+sum.mod0=summary(mod0)
+result0=data.frame(sum.mod0$conf.int)
 
 mod1=clogit(case ~ region + strata(set_id), df)
 sum.mod1=summary(mod1)
@@ -119,7 +122,7 @@ mod26=clogit(case ~ ab_type_num + strata(set_id), df)
 sum.mod26=summary(mod26)
 result26=data.frame(sum.mod26$conf.int)
 
-result <- bind_rows(result1,result2,result3,result4,result5,result6,result7,result8,result9,
+result <- bind_rows(result0,result1,result2,result3,result4,result5,result6,result7,result8,result9,
 result10,result11,result12,result13,result14,result15,result16,result17,result18,result19,
 result20,result21,result22,result23,result24,result25,result26)
 DF=result[,-2]
