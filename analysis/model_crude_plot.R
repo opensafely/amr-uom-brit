@@ -14,18 +14,25 @@ dfh <- readRDS("output/processed/input_crude_model_h.rds")
 
 DF <- dfch
 
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:19,]
-Smoking <- DF[20:22,]
-CKD <- DF[46:51,]
-CHT <- DF[45,]
-Other1 <- DF[c(23:24,27,31:36),]
-Asthma <- DF[25:26,]
-Diabetes <- DF[28:30,]
-Organ<- DF[37:38,]
-Other2 <-DF[39:44,]
-Antibiotic <- DF[52:57,]
+IMD <- DF[1:4]
+Region <- DF[5:12,]
+Ethnicity <- DF[13:17,]
+BMI <- DF[18:23,]
+Smoking <- DF[24:26,]
+CKD <- DF[50:55,]
+CHT <- DF[49,]
+Other1 <- DF[c(27:28,31,35:40),]
+Asthma <- DF[29:30,]
+Diabetes <- DF[32:34,]
+Organ<- DF[41:42,]
+Other2 <-DF[43:48,]
+Antibiotic <- DF[56:61,]
+
+IMD$type = case_when(
+  IMD$type == "imd1" ~ "IMD 1(Most deprived)",
+  IMD$type == "imd2" ~ "IMD 2",
+  IMD$type == "imd3" ~ "IMD 3",
+  IMD$type == "imd4" ~ "IMD 4")
 
 Region$type <-  case_when(
   Region$type == "regionNorth East" ~ "North East",
@@ -110,24 +117,31 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
 
-plot1.1 <- bind_rows(Region,Ethnicity,BMI,Smoking)
+plot1.1 <- bind_rows(IMD,Region,Ethnicity,BMI,Smoking)
 plot2.1 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
 
 
 DF <- dfc
 
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:19,]
-Smoking <- DF[20:22,]
-CKD <- DF[46:51,]
-CHT <- DF[45,]
-Other1 <- DF[c(23:24,27,31:36),]
-Asthma <- DF[25:26,]
-Diabetes <- DF[28:30,]
-Organ<- DF[37:38,]
-Other2 <-DF[39:44,]
-Antibiotic <- DF[52:57,]
+IMD <- DF[1:4]
+Region <- DF[5:12,]
+Ethnicity <- DF[13:17,]
+BMI <- DF[18:23,]
+Smoking <- DF[24:26,]
+CKD <- DF[50:55,]
+CHT <- DF[49,]
+Other1 <- DF[c(27:28,31,35:40),]
+Asthma <- DF[29:30,]
+Diabetes <- DF[32:34,]
+Organ<- DF[41:42,]
+Other2 <-DF[43:48,]
+Antibiotic <- DF[56:61,]
+
+IMD$type = case_when(
+  IMD$type == "imd1" ~ "IMD 1(Most deprived)",
+  IMD$type == "imd2" ~ "IMD 2",
+  IMD$type == "imd3" ~ "IMD 3",
+  IMD$type == "imd4" ~ "IMD 4")
 
 Region$type <-  case_when(
   Region$type == "regionNorth East" ~ "North East",
@@ -211,23 +225,30 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.2 <- bind_rows(Region,Ethnicity,BMI,Smoking)
+plot1.2 <- bind_rows(IMD,Region,Ethnicity,BMI,Smoking)
 plot2.2 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
 
 DF <- dfh
 
-Region <- DF[1:8,]
-Ethnicity <- DF[9:13,]
-BMI <- DF[14:19,]
-Smoking <- DF[20:22,]
-CKD <- DF[46:51,]
-CHT <- DF[45,]
-Other1 <- DF[c(23:24,27,31:36),]
-Asthma <- DF[25:26,]
-Diabetes <- DF[28:30,]
-Organ<- DF[37:38,]
-Other2 <-DF[39:44,]
-Antibiotic <- DF[52:57,]
+IMD <- DF[1:4]
+Region <- DF[5:12,]
+Ethnicity <- DF[13:17,]
+BMI <- DF[18:23,]
+Smoking <- DF[24:26,]
+CKD <- DF[50:55,]
+CHT <- DF[49,]
+Other1 <- DF[c(27:28,31,35:40),]
+Asthma <- DF[29:30,]
+Diabetes <- DF[32:34,]
+Organ<- DF[41:42,]
+Other2 <-DF[43:48,]
+Antibiotic <- DF[56:61,]
+
+IMD$type = case_when(
+  IMD$type == "imd1" ~ "IMD 1(Most deprived)",
+  IMD$type == "imd2" ~ "IMD 2",
+  IMD$type == "imd3" ~ "IMD 3",
+  IMD$type == "imd4" ~ "IMD 4")
 
 Region$type <-  case_when(
   Region$type == "regionNorth East" ~ "North East",
@@ -311,7 +332,7 @@ Antibiotic$type = case_when(
   Antibiotic$type == "ab_type_num2-3" ~ "Antibiotic type: 2-3",
   Antibiotic$type == "ab_type_num>3" ~ "Antibiotic type: 3+")
 
-plot1.3 <- bind_rows(Region,Ethnicity,BMI,Smoking)
+plot1.3 <- bind_rows(IMD,Region,Ethnicity,BMI,Smoking)
 plot2.3 <- bind_rows(CHT,CKD,Asthma,Diabetes,Organ,Other1,Other2,Antibiotic)
 
 label1 <- as.vector(plot1.1$type)
