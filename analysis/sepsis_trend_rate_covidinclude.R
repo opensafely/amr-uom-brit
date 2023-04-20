@@ -73,7 +73,8 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
-  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
+  scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2022-07-01"), by = "3 months")) +
+  scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, by = 0.1), labels = function(x) sprintf("%0.1f", x)) +
   labs(x = "", y = "", title = "", colour = "IMD", fill = "IMD") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -88,10 +89,12 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
 figure_imd_strata
 
 
-ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
+ggsave(figure_imd_strata, width = 10, height = 6, dpi = 640,
        filename="figure_rate_covidinclude.jpeg", path=here::here("output"),
 )  
+
 write_csv(df.plot, here::here("output", "figure_rate_covidinclude_table.csv"))
+
 
 df1 <- df %>% filter(sepsis_type == 1) 
 
@@ -122,8 +125,9 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
-  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  labs(x = "", y = "rate of spesis hospital admission", title = "", colour = "IMD", fill = "IMD") +
+  scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2022-07-01"), by = "3 months")) +
+  scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, by = 0.1), labels = function(x) sprintf("%0.1f", x)) +
+  labs(x = "", y = "", title = "", colour = "IMD", fill = "IMD") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
@@ -137,9 +141,12 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
 figure_imd_strata
 
 
-ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
+ggsave(figure_imd_strata, width = 10, height = 6, dpi = 640,
        filename="figure_rate_covidinclude_com.jpeg", path=here::here("output"),
 )  
+
+write_csv(df.plot, here::here("output", "figure_rate_covidinclude_com_table.csv"))
+
 
 
 df2 <- df %>% filter(sepsis_type == 2) 
@@ -171,8 +178,9 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
   annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
-  scale_x_date(date_labels = "%Y %b", breaks = "3 months") +
-  labs(x = "", y = "rate of spesis hospital admission", title = "", colour = "IMD", fill = "IMD") +
+  scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2022-07-01"), by = "3 months")) +
+  scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, by = 0.1), labels = function(x) sprintf("%0.1f", x)) +
+  labs(x = "", y = "", title = "", colour = "IMD", fill = "IMD") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
@@ -186,7 +194,8 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
 figure_imd_strata
 
 
-ggsave(figure_imd_strata, width = 8, height = 4, dpi = 640,
+ggsave(figure_imd_strata, width = 10, height = 6, dpi = 640,
        filename="figure_rate_covidinclude_hos.jpeg", path=here::here("output"),
 )  
 
+write_csv(df.plot, here::here("output", "figure_rate_covidinclude_hos_table.csv"))

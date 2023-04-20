@@ -75,7 +75,7 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
   geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
   scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2022-07-01"), by = "3 months")) +
   scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, by = 0.1), labels = function(x) sprintf("%0.1f", x)) +
-  labs(x = "", y = "rate of spesis hospital admission", title = "", colour = "IMD", fill = "IMD") +
+  labs(x = "", y = "", title = "", colour = "IMD", fill = "IMD") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
         axis.text = element_text(size = 12),
