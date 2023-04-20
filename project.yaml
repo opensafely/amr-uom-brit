@@ -222,9 +222,9 @@ actions:
         plot1: output/figure_rate_covidinclude.jpeg
         table1: output/figure_rate_covidinclude_table.csv
         plot2: output/figure_rate_covidinclude_com.jpeg
-        table2: output/figure_rate_covidinclude_com.csv
+        table2: output/figure_rate_covidinclude_com_table.csv
         plot3: output/figure_rate_covidinclude_hos.jpeg
-        table3: output/figure_rate_covidinclude_hos.csv
+        table3: output/figure_rate_covidinclude_hos_table.csv
 
   process_noexclude:  
     run: r:latest analysis/process_noexclude.R
