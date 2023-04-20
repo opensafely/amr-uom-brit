@@ -56,6 +56,14 @@ plot2$rate <- round(plot2$rate,1)
 plot3$rate <- plot3$case*1000/plot3$count
 plot3$rate <- round(plot3$rate,1)
 
+plot1 <- select(plot1,age,rate)
+plot2 <- select(plot2,age,rate)
+plot3 <- select(plot3,age,rate)
+
+write_csv(plot1, here::here("output", "figure_age_1_table.csv"))
+write_csv(plot2, here::here("output", "figure_age_2_table.csv"))
+write_csv(plot3, here::here("output", "figure_age_3_table.csv"))
+
 plot1 <- ggplot(plot1, aes(x = age, y = rate)) +
   geom_bar(stat = "identity", width = 1, color = "black", fill = "#EFC000FF") +
   labs(title = "",
@@ -94,11 +102,3 @@ ggsave(plot2, width = 8, height = 4, dpi = 320,
 ggsave(plot3, width = 8, height = 4, dpi = 320,
        filename="figure_age_3.jpeg", path=here::here("output"),
 )  
-
-plot1 <- select(plot1,age,rate)
-plot2 <- select(plot2,age,rate)
-plot3 <- select(plot3,age,rate)
-
-write_csv(plot1, here::here("output", "figure_age_1_table.csv"))
-write_csv(plot2, here::here("output", "figure_age_2_table.csv"))
-write_csv(plot3, here::here("output", "figure_age_3_table.csv"))
