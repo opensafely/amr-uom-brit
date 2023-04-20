@@ -1057,6 +1057,9 @@ actions:
         plot1: output/figure_age_hos_1.jpeg
         plot2: output/figure_age_hos_2.jpeg
         plot3: output/figure_age_hos_3.jpeg
+        table1: output/figure_age_hos_1_table.csv
+        table2: output/figure_age_hos_2_table.csv
+        table3: output/figure_age_hos_3_table.csv
 
   Figure_sex_community:  
     run: r:latest analysis/Figure_sex_community.R

@@ -56,13 +56,21 @@ plot2$rate <- round(plot2$rate,1)
 plot3$rate <- plot3$case*1000/plot3$count
 plot3$rate <- round(plot3$rate,1)
 
+plot1 <- select(plot1,age,rate)
+plot2 <- select(plot2,age,rate)
+plot3 <- select(plot3,age,rate)
+
+write_csv(plot1, here::here("output", "figure_age_hos_1_table.csv"))
+write_csv(plot2, here::here("output", "figure_age_hos_2_table.csv"))
+write_csv(plot3, here::here("output", "figure_age_hos_3_table.csv"))
+
 plot1 <- ggplot(plot1, aes(x = age, y = rate)) +
   geom_bar(stat = "identity", width = 1, color = "black", fill = "#EFC000FF") +
   labs(title = "",
        x = "Age",
        y = "Incident rate per 1000 people") +
-  scale_x_continuous(breaks = seq(0, 100, by = 5))+
-  scale_y_continuous(breaks = seq(0, max(plot1$rate, na.rm = TRUE), by = 0.5)) + 
+  scale_x_continuous(breaks = seq(0, max(plot1$age), by = 5))+
+  scale_y_continuous(limits = c(0, 6), breaks = seq(0, 6, by = 0.5), labels = function(x) sprintf("%0.1f", x)) +
   theme_minimal()
 
 plot2 <- ggplot(plot2, aes(x = age, y = rate)) +
@@ -70,8 +78,8 @@ plot2 <- ggplot(plot2, aes(x = age, y = rate)) +
   labs(title = "",
        x = "Age",
        y = "Incident rate per 1000 people") +
-  scale_x_continuous(breaks = seq(0, 100, by = 5))+
-  scale_y_continuous(breaks = seq(0, max(plot2$rate, na.rm = TRUE), by = 0.1)) + 
+  scale_x_continuous(breaks = seq(0, max(plot2$age), by = 5))+
+  scale_y_continuous(limits = c(0, 6), breaks = seq(0, 6, by = 0.5), labels = function(x) sprintf("%0.1f", x)) +
   theme_minimal()
 
 
@@ -80,8 +88,8 @@ plot3 <- ggplot(plot3, aes(x = age, y = rate)) +
   labs(title = "",
        x = "Age",
        y = "Incident rate per 1000 people") +
-  scale_x_continuous(breaks = seq(0, 100, by = 5))+
-  scale_y_continuous(breaks = seq(0, max(plot3$rate, na.rm = TRUE), by = 0.5)) + 
+  scale_x_continuous(breaks = seq(0, max(plot3$age), by = 5))+
+  scale_y_continuous(limits = c(0, 6), breaks = seq(0, 6, by = 0.5), labels = function(x) sprintf("%0.1f", x)) +
   theme_minimal()
 
 
