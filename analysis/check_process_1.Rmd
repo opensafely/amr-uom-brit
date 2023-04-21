@@ -197,4 +197,13 @@ DF[13,2]=paste0(round(nrow(df1)/5)*5)
 write_csv(DF,here::here("output","check_process_1.csv"))
 ```
 
+# all included patients
+```{r}
+
+df=df%>%distinct(patinet_id)
+nrow(df)
+round(nrow(df)/5)*5
+
+
+```
 
