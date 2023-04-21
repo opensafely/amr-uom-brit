@@ -97,6 +97,13 @@ actions:
         csv1: output/table3.csv
         csv3: output/table3_ab.csv
 
+  model_uni:  #uni var analysis for confounders
+    run: r:latest -e 'rmarkdown::render("analysis/model_uni.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/model_uni.html
+
   model: 
     run: r:latest analysis/model/model.R
     needs: [process_Rmatching]
