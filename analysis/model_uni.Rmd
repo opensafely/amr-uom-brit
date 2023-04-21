@@ -55,9 +55,9 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 #### crude model
 
 df%>%
-  summary_factorlist("case", c("CCI"), fit_id = TRUE) %>% 
+  summary_factorlist("case", "CCI", fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
+    survival::clogit(case ~  CCI + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
@@ -71,9 +71,9 @@ df%>%
 #### crude model
 
 df%>%
-  summary_factorlist("case", c("covrx_ever"), fit_id = TRUE) %>% 
+  summary_factorlist("case", "covrx_ever", fit_id = TRUE) %>% 
   ff_merge(
-    survival::clogit(case ~ level + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) %>% 
+    survival::clogit(case ~ covrx_ever + strata(subclass),df) %>% 
       fit2df(estimate_name = "OR (95% CI; case-control)"),
     last_merge = TRUE
   )%>% select(-c("unit","value"))
