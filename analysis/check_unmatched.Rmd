@@ -24,7 +24,7 @@ options(knitr.table.format="html")
 ```{r}
 df <- read_csv(here::here("output","matched_patients_id.csv"))
 nrow(df)
-em(df)
+rm(df)
 ```
 
 # patients within subclass
