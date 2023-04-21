@@ -20,6 +20,13 @@ knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
 
+# individuals 
+```{r}
+df <- read_csv(here::here("output","matched_patients_id.csv"))
+nrow(df)
+em(df)
+```
+
 # patients within subclass
 ```{r}
 df <- read_rds(here::here("output","matched_patients.rds"))
