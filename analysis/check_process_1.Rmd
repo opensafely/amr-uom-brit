@@ -200,7 +200,7 @@ write_csv(DF,here::here("output","check_process_1.csv"))
 # all included patients
 ```{r}
 
-df=df%>%distinct(patinet_id)
+df=df%>%distinct(patient_id)
 nrow(df)
 round(nrow(df)/5)*5
 
