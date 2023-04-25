@@ -47,9 +47,9 @@ print(rf.model)
 ```{r}
 
 train$prob <- predict(rf.model,train, type = 'response')# votes of being case
-
+prob <- predict(rf.model,train, type = 'response')
 summary(train$prob)
-hist(train$prob )
+hist(train$prob)
 sum(train$prob ==0)/length(train$prob)# % zero
 
 
@@ -179,7 +179,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```{r}
 rm(train,prob,decile,vec)
 valid$prob <- predict(rf.model,valid,type = 'response')# votes of being case
-
+prob <- predict(rf.model,train, type = 'response')
 summary(valid$prob)
 hist(valid$prob)
 sum(valid$prob==0)/length(valid$prob)# % zero
