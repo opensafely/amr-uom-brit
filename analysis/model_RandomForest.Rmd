@@ -156,7 +156,7 @@ newdata <- cbind(train_X,decile,prob)
 
 str(newdata)
 
-saveRDS(newdata,"development.rds")
+saveRDS(newdata,here::here("output","development.rds")
 ```
 
 ```{r}
@@ -229,6 +229,6 @@ newdata <- cbind(valid_X,valid_X,prob)
 
 str(newdata)
 
-saveRDS(newdata,"validation.rds")
+saveRDS(newdata,here::here("output","validation.rds"))
 
 ```
