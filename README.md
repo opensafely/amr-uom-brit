@@ -62,13 +62,17 @@ This is the code and configuration for appropriateness of type and repeat prescr
 * Developers and epidemiologists interested in the framework should review [the OpenSAFELY documentation](https://docs.opensafely.org/)
 
 
-# Project: Investigating the impact of COVID-19 on primary care broad-spectrum antibiotic prescribing in England: An OpenSAFELY cohort study and interrupted time-series analysis
+# Project: Impact of COVID-19 on broad-spectrum antibiotic prescribing for common infections in primary care in England: a time-series analyses using OpenSAFELY and effects of predictors including deprivation
+
 
 [View on OpenSAFELY](https://jobs.opensafely.org/university-of-manchester/brit-antibiotic-research/broad-spectrum-its/)
 
 Details of the purpose and any published outputs from this project can be found at the link above.
 
 [View all the code](https://github.com/opensafely/amr-uom-brit/tree/broad_ITS)
+
+* If you are interested in how we defined our variables, take a look at the study definitions for [cohort definition](https://github.com/opensafely/amr-uom-brit/blob/broad_ITS/analysis/study_definition.py); these are written in `python`.
+* If you are interested in how we defined our code lists, look in the [codelists folder](https://github.com/opensafely/amr-uom-brit/tree/broad_ITS/codelists).
 
 # Licences
 As standard, research projects have a MIT license. 
