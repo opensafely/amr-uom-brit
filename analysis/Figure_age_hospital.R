@@ -56,9 +56,9 @@ plot2$rate <- round(plot2$rate,1)
 plot3$rate <- plot3$case*1000/plot3$count
 plot3$rate <- round(plot3$rate,1)
 
-plot1 <- select(plot1,age,rate)
-plot2 <- select(plot2,age,rate)
-plot3 <- select(plot3,age,rate)
+plot1 <- select(plot1,age,rate,case,count)
+plot2 <- select(plot2,age,rate,case,count)
+plot3 <- select(plot3,age,rate,case,count)
 
 write_csv(plot1, here::here("output", "figure_age_hos_1_table.csv"))
 write_csv(plot2, here::here("output", "figure_age_hos_2_table.csv"))
