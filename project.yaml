@@ -319,6 +319,13 @@ actions:
       moderately_sensitive:
         html: output/check_RF.html      
 
+  check_logistic: # compared with logistic model
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi,pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_logistic.html 
+
   check_RF_descript: # descriptive stat
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi]
