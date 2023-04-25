@@ -72,7 +72,10 @@ Details of the purpose and any published outputs from this project can be found 
 [View all the code](https://github.com/opensafely/amr-uom-brit/tree/broad_ITS)
 
 * If you are interested in how we defined our variables, take a look at the study definitions for [cohort definition](https://github.com/opensafely/amr-uom-brit/blob/broad_ITS/analysis/study_definition.py); these are written in `python`.
+
 * If you are interested in how we defined our code lists, look in the [codelists folder](https://github.com/opensafely/amr-uom-brit/tree/broad_ITS/codelists).
+
+* Developers and epidemiologists interested in the framework should review [the OpenSAFELY documentation](https://docs.opensafely.org/)
 
 # Licences
 As standard, research projects have a MIT license. 
