@@ -25,8 +25,8 @@ valid$case=as.factor(valid$case)
 table(train$case)
 table(valid$case)
 
-row(train)
-row(valid)
+nrow(train)
+nrow(valid)
 
 rf.model=readRDS(here::here("output","model_RandomForest.rds"))
 print(rf.model)
