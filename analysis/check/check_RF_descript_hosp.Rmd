@@ -1,5 +1,5 @@
 ---
-title: "descriptive stat"
+title: "descriptive stat "
 ---
 
 ```{r setup, include=FALSE}
@@ -40,21 +40,18 @@ tbl
 ```{r}
 library(ggplot2)
 
-for (i in explanatory) {
-  tbl=data.frame(table(data$decile,data[,explanatory[i]]))
+for (i in 1:length(explanatory)) {
+  
+  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  
   print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
    geom_col() +
-  ggtitle(explanatory[i]))
-
+ ggtitle(explanatory[i]))
 
 }
 
 
-
-
-
 ```
-
 
 ```{r}
 data=valid
@@ -68,15 +65,15 @@ tbl
 ```
 
 ```{r}
-for (i in explanatory) {
-  tbl=data.frame(table(data$decile,data[,explanatory[i]]))
+
+for (i in 1:length(explanatory)) {
+  
+  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  
   print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
    geom_col() +
-  ggtitle(explanatory[i]))
-
+ ggtitle(explanatory[i]))
 
 }
-
-
 
 ```
