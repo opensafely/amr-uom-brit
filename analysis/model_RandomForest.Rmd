@@ -225,7 +225,7 @@ prop.table(table(decile))*100
 head(decile)
 head(prob)
 
-newdata <- cbind(data,valid_X,prob)
+newdata <- cbind(valid_X,valid_X,prob)
 
 str(newdata)
 
