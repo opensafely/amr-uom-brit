@@ -58,7 +58,52 @@ sum(train$prob ==0)/length(train$prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
+## create decile group
+```{r}
 
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+train <- cbind(train,decile,prob)
+
+str(newdata)
+```
+
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(train[decile==i,]$prob))
+
+}
+nrow(train)
+
+```
 
 ```{r}
 
@@ -143,7 +188,52 @@ sum(valid$prob==0)/length(valid$prob)# % zero
 #prop.table(summary(exp.class))
 ```
 
+## create decile group
+```{r}
 
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+valid <- cbind(valid,decile,prob)
+
+str(valid)
+```
+
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(valid[decile==i,]$prob))
+
+}
+nrow(valid)
+
+```
 
 ```{r}
 
