@@ -180,6 +180,7 @@ saveRDS(newdata,"development.rds")
 
 predict validation data
 ```{r}
+rm(prob)
 set.seed(1024)
 prob <- predict(rf.model, valid_X, type = 'prob')[,2]
 summary(prob)
