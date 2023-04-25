@@ -45,7 +45,7 @@ model performance
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(train[decile==i,]$prob))
+  print(summary(train["decile"==i,]$prob))
 
 }
 
@@ -126,7 +126,7 @@ valid
 for (i in 1:10) {
   
   print(paste0("decile=",i))
-  print(summary(valid[decile==i,]$prob))
+  print(summary(valid["decile"==i,]$prob))
 
 }
 
