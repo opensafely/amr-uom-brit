@@ -89,7 +89,7 @@ head(prob)
 
 train <- cbind(train,decile,prob)
 
-str(newdata)
+str(train)
 ```
 
 
