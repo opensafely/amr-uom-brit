@@ -65,6 +65,12 @@ rf.model<- randomForest(formula = case ~ ., data = train_X,
                           )
 # run over 1 wk: 0.6 size 1000 trees
 saveRDS(rf.model,here::here("output","RF_model.rds"))
+```
+
+
+```{r}
+importance(rf.model)
+varImpPlot(rf.model)
 
 ```
 

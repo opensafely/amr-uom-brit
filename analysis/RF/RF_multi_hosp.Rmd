@@ -68,6 +68,11 @@ saveRDS(rf.model,here::here("output","RF_model_hosp.rds"))
 
 ```
 
+```{r}
+importance(rf.model)
+varImpPlot(rf.model)
+
+```
 
 
 # development set
