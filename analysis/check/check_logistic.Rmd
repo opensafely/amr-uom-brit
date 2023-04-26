@@ -87,7 +87,7 @@ prop.table(table(decile))*100
 head(decile)
 head(prob)
 
-train <- cbind(train,decile,prob)
+train <- cbind(train,decile)
 
 str(train)
 ```
@@ -217,7 +217,7 @@ prop.table(table(decile))*100
 head(decile)
 head(prob)
 
-valid <- cbind(valid,decile,prob)
+valid <- cbind(valid,decile)
 
 str(valid)
 ```
