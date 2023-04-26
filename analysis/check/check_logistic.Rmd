@@ -29,8 +29,8 @@ nrow(valid)
 
 col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_med" , "interval_sd")
 # abtype
-train=train[col]
-valid=valid[col]
+#train=train[col]
+#valid=valid[col]
 ```
 
 logistic model
@@ -102,6 +102,7 @@ for (i in 1:10) {
 
 }
 nrow(train)
+saveRDS(train, here::here("output","development_logi.rds"))
 
 ```
 
@@ -233,6 +234,7 @@ for (i in 1:10) {
 }
 nrow(valid)
 
+saveRDS(valid, here::here("output","validation_logi.rds"))
 ```
 
 ```{r}
