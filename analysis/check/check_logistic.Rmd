@@ -29,13 +29,13 @@ nrow(valid)
 
 col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_med" , "interval_sd")
 # abtype
-#train=train[col]
+#train.dev=train[col]
 #valid=valid[col]
 ```
 
 logistic model
 ```{r }
-rf.model <- glm( case ~., data = train, family = binomial)
+rf.model <- glm( case ~total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_med+interval_sd, data = train, family = binomial)
 print(rf.model)
 ```
 
