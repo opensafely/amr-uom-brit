@@ -153,8 +153,6 @@ actions:
         rds1: output/development.rds 
         rds2: output/validation.rds 
         rds3: output/RF_model.rds 
-  
-
 
 # final model
   model: # coditional logistic regression for decile groups
@@ -311,6 +309,11 @@ actions:
       moderately_sensitive:
         html: output/model_hosp.html  
 
+
+
+
+
+
 # performance check
   check_RF: # ROC, calibration
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -378,6 +381,18 @@ actions:
   #       html: output/model_clogit_all.html  
 
 
+  # probability machine
+  
+  RF_multi_ranger: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_multi_ranger.html
+      highly_sensitive:
+        rds1: output/development_ranger.rds 
+        rds2: output/validation_ranger.rds 
+        rds3: output/RF_model_ranger.rds 
 
 
 
