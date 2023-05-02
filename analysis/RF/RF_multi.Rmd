@@ -55,7 +55,7 @@ train_X=train %>% group_by(case, subclass) %>% sample_n(1)
 train_X=train_X%>% ungroup(case, subclass)
 nrow(train_X)
 
-train_X=ttrain_X[col]
+train_X=train_X[col]
 
 ```
 
