@@ -49,22 +49,28 @@ train_X=train[col]
 str(train)
 ```
 
-# RF. fraction.sample
+# RF. ranger probability machine
 ```{r}
-library(randomForest)
+library(ranger)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.5)
-sample_n
-rf.model<- randomForest(formula = case ~ ., data = train_X, 
-                           replace = TRUE,
-                           sampsize=c(sample_n,sample_n), 
-                           strata=train_X$case,
-                           ntree =  2000,
-                           nodesize = 100 ,
-                           mtry = 3
+n=as.numeric(table(train_X$case)[2]*0.5)
+n
+
+train_X_sub=train_X%>% group_by(case) %>% sample_n(n)
+train_X_sub=train_X_sub%>% ungroup(case)
+
+rf.model= ranger(formula = case ~ ., 
+                   data =  train_X_sub,
+                   num.trees =   2000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+                   sample.fraction = c(0.5,0.5),
+                   probability = TRUE
                           )
 # run over 1 wk: 0.6 size 1000 trees
-saveRDS(rf.model,here::here("output","RF_model.rds"))
+saveRDS(rf.model,here::here("output","RF_model_ranger.rds"))
 ```
 
 
@@ -81,7 +87,7 @@ varImpPlot(rf.model)
 ```{r }
 data=train
 
-prob <- predict(rf.model,data, type = 'prob')[,2]# votes of being case
+prob <-   predict(rf.model, data=train)$prediction[,2]# votes of being case
 
 summary(prob)
 hist(prob)
@@ -149,7 +155,7 @@ rm(data)
 ```{r }
 data=valid
 
-prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+prob <-   predict(rf.model, data=valid)$prediction[,2]# votes of being case
 
 summary(prob)
 hist(prob)
@@ -217,8 +223,8 @@ nrow(validation)
 
 
 ```{r}
-saveRDS(development,here::here("output","development.rds"))
-saveRDS(validation,here::here("output","validation.rds"))
+saveRDS(development,here::here("output","development_ranger.rds"))
+saveRDS(validation,here::here("output","validation_ranger.rds"))
 
 str(development)
 ```
