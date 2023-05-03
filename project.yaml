@@ -378,7 +378,7 @@ actions:
 
   check_RF_ranger: # ROC, calibration
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger,pre_RF_process_ranger]
+    needs: [RF_multi_ranger,pre_RF_process]
     outputs:
       moderately_sensitive:
         html: output/check_RF_ranger.html    
