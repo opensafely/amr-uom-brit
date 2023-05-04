@@ -9,12 +9,11 @@ library(pROC)
 library(randomForest)
 
 ```
-
 # train and valid dataset (matched)
 ```{r }
-train <- read_rds(here::here("output","train_cat_hosp.rds"))
+train <- read_rds(here::here("output","train_cat.rds"))
 train$case=as.factor(train$case)
-valid <- read_rds(here::here("output","valid_cat_hosp.rds"))
+valid <- read_rds(here::here("output","valid_cat.rds"))
 valid$case=as.factor(valid$case)
 
 #names(train)
@@ -43,27 +42,39 @@ col=c("case","total_ab_group","ab_types_group",
       "broad_ab_prescriptions_group",
     "interval_mean_group","interval_sd_group")
 # abtype
-train_X=train[col]
 #valid_X=valid[col]
 
 str(train)
 ```
 
+# random select subclass
+```{r}
+nrow(train)
+train_X=train %>% group_by(case, subclass) %>% sample_n(1)
+train_X=train_X%>% ungroup(case, subclass)
+nrow(train_X)
+
+train_X=train_X[col]
+
+```
+
+
 # RF. fraction.sample
 ```{r}
 library(randomForest)
 
-sample_n=as.numeric(table(train_X$case)[2]*0.6)
+sample_n=as.numeric(table(train_X$case)[2]*0.5)
 sample_n
 rf.model<- randomForest(formula = case ~ ., data = train_X, 
                            replace = TRUE,
-                           sampsize=c(sample_n,sample_n),
-                           strata=train_X$case,
+                      #     sampsize=c(sample_n,sample_n), 
+                     #      strata=train_X$case,
+                           samplsize=0.8,
                            ntree =  2000,
                            nodesize = 100 ,
                            mtry = 3
                           )
-
+# run over 1 wk: 0.6 size 1000 trees
 saveRDS(rf.model,here::here("output","RF_model_hosp.rds"))
 
 ```
