@@ -11,9 +11,9 @@ library(randomForest)
 ```
 # train and valid dataset (matched)
 ```{r }
-train <- read_rds(here::here("output","train_cat.rds"))
+train <- read_rds(here::here("output","train_cat_hosp.rds"))
 train$case=as.factor(train$case)
-valid <- read_rds(here::here("output","valid_cat.rds"))
+valid <- read_rds(here::here("output","valid_cat_hosp.rds"))
 valid$case=as.factor(valid$case)
 
 #names(train)
