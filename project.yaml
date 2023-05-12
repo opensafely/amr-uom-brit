@@ -160,7 +160,10 @@ actions:
     needs: [RF_multi]
     outputs:
       moderately_sensitive:
-        html: output/model.html  
+        html: output/model.html
+        rds1: output/model.rds
+        rds2: output/model_adj.rds
+        rds3: output/model_adj_all.rds
 
  
 
@@ -283,6 +286,9 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_hosp.html  
+        rds1: output/model_hosp.rds
+        rds2: output/model_adj_hosp.rds
+        rds3: output/model_adj_all_hosp.rds
 
 
 
@@ -303,6 +309,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_RF_1control.html    
+
+  check_clogit: # ROC, calibration
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi,model]
+    outputs:
+      moderately_sensitive:
+        html: output/check_clogit.html 
 
   check_logistic: # compared with logistic model
     run: r:latest -e 'rmarkdown::render("analysis/check/check_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

@@ -49,6 +49,8 @@ df$case=as.numeric(df$case) #1/0
 
 model=clogit(case ~ decile+ strata(subclass),df) 
 
+saveRDS(model,here::here("output","model_hosp.rds"))
+
 summary(model)
 ```
 
@@ -58,6 +60,7 @@ summary(model)
 df$case=as.numeric(df$case) #1/0
 
 model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
+saveRDS(model,here::here("output","model_adj_hosp.rds"))
 
 summary(model)
 ```
@@ -67,6 +70,7 @@ summary(model)
 ### adjusted model
 ```{r}
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+saveRDS(model,here::here("output","model_adj_all_hosp.rds"))
 
 summary(model)
 
