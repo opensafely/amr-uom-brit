@@ -153,6 +153,8 @@ actions:
         rds1: output/development.rds 
         rds2: output/validation.rds 
         rds3: output/RF_model.rds 
+        rds5: output/development_1control.rds 
+
 
 # final model
   model: # coditional logistic regression for decile groups
@@ -279,6 +281,7 @@ actions:
         rds1: output/development_hosp.rds 
         rds2: output/validation_hosp.rds 
         rds3: output/RF_model_hosp.rds 
+        rds4: output/development_1control_hosp.rds 
 
   model_hosp: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -388,6 +391,8 @@ actions:
         rds1: output/development_ranger.rds 
         rds2: output/validation_ranger.rds 
         rds3: output/RF_model_ranger.rds 
+        rds1: output/development_ranger_1control.rds 
+
 
   model_ranger: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -396,7 +401,7 @@ actions:
       moderately_sensitive:
         html: output/model_ranger.html  
 
-  check_RF_ranger: # ROC, calibration
+  check_RF_ranger: # ROC, calibration #1control
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_ranger,pre_RF_process]
     outputs:

@@ -58,6 +58,8 @@ nrow(train_X)
 
 train_X=train_X[col]
 
+saveRDS(train_X,here::here("output","development_ranger_1control.rds"))
+
 ```
 
 # RF. ranger probability machine

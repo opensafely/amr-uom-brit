@@ -14,7 +14,7 @@ library(randomForest) #dplyr
 ```{r }
 
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
-train<- read_rds(here::here("output","development_ranger.rds"))
+train<- read_rds(here::here("output","development_ranger_1control.rds"))
 train$case=as.factor(train$case)
 
 #valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
@@ -33,6 +33,15 @@ print(rf.model)
 ```
 
 
+# random select subclass
+```{r}
+nrow(train)
+
+nrow(valid)
+valid=valid %>% group_by(case, subclass) %>% sample_n(1)
+valid=valid %>% ungroup(case, subclass)
+nrow(valid)
+```
 
 # train
 

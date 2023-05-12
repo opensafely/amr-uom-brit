@@ -56,7 +56,7 @@ train_X=train_X%>% ungroup(case, subclass)
 nrow(train_X)
 
 train_X=train_X[col]
-
+saveRDS(train_X,here::here("output","development_1control.rds"))
 ```
 
 # RF. fraction.sample
