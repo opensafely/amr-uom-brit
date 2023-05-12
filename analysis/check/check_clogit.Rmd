@@ -28,8 +28,11 @@ model=readRDS(here::here("output","model.rds"))
 
 ## predict probabilities 
 ```{r}
+prob <- predict(model, train, type = 'risk')
+```
 
-prob <- predict(model, type = 'expected')# votes of being case
+
+```{r}
 train$prob= prob
 summary(train$prob)
 hist(train$prob)
@@ -164,7 +167,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 valid <- read_rds(here::here("output","validation.rds"))
 
 rm(train,prob,decile,vec)
-prob <- predict(rf.model,valid,type = 'expected')# votes of being case
+prob <- predict(model,valid,type = 'risk')# votes of being case
 valid$prob <- prob 
 summary(valid$prob)
 hist(valid$prob)
