@@ -13,35 +13,11 @@ library(randomForest) #dplyr
 # train
 ```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
-df <- read_rds(here::here("output","development.rds"))
-table(df$decile)
-table(df$case)
-prop.table(table(df$case,df$decile))
+train <- read_rds(here::here("output","development.rds"))
 
-df$case=as.factor(df$case) #1/0
-
-df$decile= relevel(as.factor(df$decile), ref="1")
-
-df$subclass=as.factor(df$subclass)#pair id
-
-df$CCI= relevel(as.factor(df$CCI), ref="Zero")
-df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
-
-df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
-df$care_home=relevel(as.factor(df$care_home),ref = "0")
-
-df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
-
-df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
-df$imd=relevel(as.factor(df$imd),ref="1")
-df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
-
 ###  crude model
-
-
-logistic model
 ```{r }
 model=readRDS(here::here("output","model.rds"))
 ```
@@ -53,7 +29,7 @@ model=readRDS(here::here("output","model.rds"))
 ## predict probabilities 
 ```{r}
 
-prob <- predict(model,df, type = 'expected')# votes of being case
+prob <- predict(model, type = 'expected')# votes of being case
 train$prob= prob
 summary(train$prob)
 hist(train$prob)
@@ -184,6 +160,9 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 ## predict probabilities 
 ```{r}
+
+valid <- read_rds(here::here("output","validation.rds"))
+
 rm(train,prob,decile,vec)
 prob <- predict(rf.model,valid,type = 'expected')# votes of being case
 valid$prob <- prob 
