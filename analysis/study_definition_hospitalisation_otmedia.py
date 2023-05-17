@@ -257,8 +257,8 @@ study = StudyDefinition(
         returning="group_6",
         use_most_frequent_code=True,
         return_expectations={
-                "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
-                "incidence": 0.75,
+                "category": {"ratios": {"1": 0.5, "2": 0.1, "3": 0.1, "4": 0.1, "5": 0.1, "6": 0.1}},
+                "incidence": 0.95,
             },
     ),
 
