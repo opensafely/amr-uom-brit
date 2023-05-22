@@ -92,11 +92,12 @@ for (i in 1:length(explanatory)) {
     ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
  #  geom_col() +
     geom_bar(position="fill", stat="identity")+
-   
+
+# label  
  ggtitle(explanatory[i])+
   xlab("") + ylab("") + labs(fill="quartiles")+
    
-# label
+# percent
  geom_text(aes(label = paste0(Freq*100,"%")), 
             position = position_stack(vjust = 0.5), size = 2) +
    
@@ -105,5 +106,5 @@ for (i in 1:length(explanatory)) {
  
  )
 
-
+}
 ```
