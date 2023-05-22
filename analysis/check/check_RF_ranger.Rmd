@@ -37,7 +37,7 @@ print(rf.model)
 # train
 
 ## predict probabilities 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 train$prob <- predict(rf.model,train, type = 'response')$prediction[,2]# votes of being case
 
@@ -70,7 +70,7 @@ E/O
 ```
 
 ## create decile group
-```{r}
+```{r eval=FALSE, include=FALSE}
 prob=train$prob
 vec=vector()
 
@@ -147,7 +147,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 #valid
 
 ## predict probabilities 
-```{r}
+```{r eval=FALSE, include=FALSE}
 rm(train,prob,decile,vec)
 valid$prob <- predict(rf.model,valid,type = 'response')$prediction[,2]# votes of being case
 
@@ -178,7 +178,7 @@ E/O
 ```
 
 ## create decile group
-```{r}
+```{r eval=FALSE, include=FALSE}
 prob=valid$prob
 vec=vector()
 
@@ -265,9 +265,6 @@ rf.model=readRDS(here::here("output","RF_model_ranger.rds"))
 print(rf.model)
 ```
 
-
-# train
-
 ## predict probabilities 
 ```{r}
 
@@ -284,7 +281,7 @@ sum(train$prob ==0)/length(train$prob)# % zero
 ```
 
 
-
+#  c statistic / AUC
 ```{r}
 
 #  c statistic / AUC
@@ -323,6 +320,8 @@ decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )
 table(decile)
 prop.table(table(decile))*100 
 
+train$decile=decile
+
 ```
 
 
@@ -331,9 +330,9 @@ prop.table(table(decile))*100
 
 gpdata=train%>%select(decile, case, prob)
 
-table(gpdata$decile)
-summary(gpdata[gpdata$decile==1,])
-head(gpdata)
+#table(gpdata$decile)
+#summary(gpdata[gpdata$decile==1,])
+#head(gpdata)
 ```
 
 
