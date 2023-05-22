@@ -369,25 +369,16 @@ uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
 par(pty="s")
 plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
 lines(c(0,1),c(0,1),lty=2)
-```
 
-
-```{r}
 for(i in 1:10){
 lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
 }
-```
 
-
-```{r}
 h <- hist(train$prob, breaks=50, plot=FALSE)
 for(i in 1:length(h$mids)){
   lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
 }
-```
 
-
-```{r}
 # Add a loess smoother to the plot
 obs_all <- predict(loess(as.numeric(as.character(train$case))~train$prob,span=1))
 lines_data <- data.frame(train$prob,obs_all)
