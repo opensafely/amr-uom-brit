@@ -43,7 +43,7 @@ library(ggplot2)
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  tbl=tbl%>% group_by(Var1)%>% mutate(value=Freq/sum(Freq))
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
 
   print(
     
@@ -78,13 +78,13 @@ tbl=data %>% summary_factorlist(dependent, explanatory)
 tbl
 
 ```
-
+ 
 ```{r}
 
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  tbl=tbl%>% group_by(Var1)%>% mutate(value=Freq/sum(Freq))
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
 
   print(
     
