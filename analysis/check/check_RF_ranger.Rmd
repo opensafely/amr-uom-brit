@@ -7,7 +7,8 @@ title: "Random Forest"
 library("survival")
 library('tidyverse')
 library(pROC) #plyr
-library(randomForest) #dplyr
+#library(randomForest) #dplyr
+library(ranger)
 ```
 
 # import dataset
@@ -32,23 +33,28 @@ rf.model=readRDS(here::here("output","RF_model_ranger.rds"))
 print(rf.model)
 ```
 
-
-# random select subclass
 ```{r}
-nrow(train)
-
-nrow(valid)
-valid=valid %>% group_by(case, subclass) %>% sample_n(1)
-valid=valid %>% ungroup(case, subclass)
-nrow(valid)
+col=c("case","total_ab_group","ab_types_group")
+train=train[c(3:25)]
+rf.model= ranger(formula = case ~ ., 
+                   data =  train,
+                   num.trees =   2000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+              #     sample.fraction = c(0.5,0.5),
+                   probability = TRUE
+                          )
 ```
+
 
 # train
 
 ## predict probabilities 
 ```{r}
 
-train$prob <- predict(rf.model,train, type = 'prob')[,2]# votes of being case
+train$prob <- predict(rf.model,train, type = 'response')$prediction[,2]# votes of being case
 
 summary(train$prob)
 hist(train$prob )
@@ -135,7 +141,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ## predict probabilities 
 ```{r}
 rm(train,prob,decile,vec)
-valid$prob <- predict(rf.model,valid,type = 'prob')[,2]# votes of being case
+valid$prob <- predict(rf.model,valid,type = 'response')$prediction[,2]# votes of being case
 
 summary(valid$prob)
 hist(valid$prob)
