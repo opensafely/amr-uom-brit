@@ -45,19 +45,19 @@ library(ggplot2)
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=Freq/sum(Freq))
 
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
- #  geom_col() +
+    ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
     geom_bar(position="fill", stat="identity")+
    
  ggtitle(explanatory[i])+
-  xlab("") + ylab("") + labs(fill="quartiles")+
- 
+  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+  scale_y_continuous(labels = scales::percent)+
  
 # label
- geom_text(aes(label = paste0(Freq*100,"%")), 
+ geom_text(aes(label = paste0(value*100,"%")), 
             position = position_stack(vjust = 0.5), size = 2) +
    
 # colour
@@ -83,22 +83,23 @@ tbl
 
 ```{r}
 
+
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=Freq/sum(Freq))
+
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
- #  geom_col() +
+    ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
     geom_bar(position="fill", stat="identity")+
-
-# label  
- ggtitle(explanatory[i])+
-  xlab("") + ylab("") + labs(fill="quartiles")+
    
-# percent
- geom_text(aes(label = paste0(Freq*100,"%")), 
+ ggtitle(explanatory[i])+
+  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+  scale_y_continuous(labels = scales::percent)+
+ 
+# label
+ geom_text(aes(label = paste0(value*100,"%")), 
             position = position_stack(vjust = 0.5), size = 2) +
    
 # colour
