@@ -45,7 +45,7 @@ library(ggplot2)
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  
+
   print(
     
     ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
@@ -53,7 +53,15 @@ for (i in 1:length(explanatory)) {
     geom_bar(position="fill", stat="identity")+
    
  ggtitle(explanatory[i])+
-  xlab("") + ylab("") + labs(fill="quartiles")
+  xlab("") + ylab("") + labs(fill="quartiles")+
+ 
+ 
+# label
+ geom_text(aes(label = paste0(Freq*100,"%")), 
+            position = position_stack(vjust = 0.5), size = 2) +
+   
+# colour
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
  
  )
 
@@ -86,11 +94,16 @@ for (i in 1:length(explanatory)) {
     geom_bar(position="fill", stat="identity")+
    
  ggtitle(explanatory[i])+
-  xlab("") + ylab("") + labs(fill="quartiles")
+  xlab("") + ylab("") + labs(fill="quartiles")+
+   
+# label
+ geom_text(aes(label = paste0(Freq*100,"%")), 
+            position = position_stack(vjust = 0.5), size = 2) +
+   
+# colour
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
  
  )
-
-}
 
 
 ```
