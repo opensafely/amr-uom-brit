@@ -316,7 +316,7 @@ prop.table(table(decile))*100
 ## combine columns
 ```{r}
 head(decile)
-head($prob)
+head(prob)
 
 newdata <- cbind(data,decile,prob)
 
