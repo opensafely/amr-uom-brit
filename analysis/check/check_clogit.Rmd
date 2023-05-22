@@ -14,7 +14,7 @@ library(randomForest) #dplyr
 ```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 train <- read_rds(here::here("output","development.rds"))
-
+train=data.frame(train)
 ```
 
 ###  crude model
@@ -165,9 +165,11 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```{r}
 
 valid <- read_rds(here::here("output","validation.rds"))
+valid=data.frame(valid)
 
 rm(train,prob,decile,vec)
-prob <- predict(model,valid,type = 'risk')# votes of being case
+prob <- predict(model,valid,type = 'risk')
+
 valid$prob <- prob 
 summary(valid$prob)
 hist(valid$prob)
