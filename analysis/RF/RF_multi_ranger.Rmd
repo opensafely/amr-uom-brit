@@ -57,7 +57,6 @@ train_X=train_X%>% ungroup(case, subclass)
 nrow(train_X)
 
 train_X=train_X[col]
-
 saveRDS(train_X,here::here("output","development_ranger_1control.rds"))
 
 ```
@@ -66,20 +65,13 @@ saveRDS(train_X,here::here("output","development_ranger_1control.rds"))
 ```{r}
 library(ranger)
 
-n=as.numeric(table(train_X$case)[2]*0.5)
-n
-
-train_X_sub=train_X%>% group_by(case) %>% sample_n(n)
-train_X_sub=train_X_sub%>% ungroup(case)
-
 rf.model= ranger(formula = case ~ ., 
-                   data =  train_X_sub,
+                   data =  train_X,
                    num.trees =   2000,
                    min.node.size = 100,
                    mtry = 3,
                    importance = "impurity",
                    replace = TRUE,
-              #     sample.fraction = c(0.5,0.5),
                    probability = TRUE
                           )
 # run over 1 wk: 0.6 size 1000 trees
@@ -100,7 +92,7 @@ rf.model$variable.importance
 ```{r }
 data=train
 
-prob <-   predict(rf.model, data=train)$prediction[,2]# votes of being case
+prob <- predict(rf.model, data=train)$prediction[,2]# votes of being case
 
 summary(prob)
 hist(prob)
