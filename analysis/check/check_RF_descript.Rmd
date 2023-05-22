@@ -74,7 +74,8 @@ for (i in 1:length(explanatory)) {
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
   
   print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
-   geom_col() +
+ #  geom_col() +
+    geom_bar(position="fill", stat="identity")+
  ggtitle(explanatory[i]))
 
 }
