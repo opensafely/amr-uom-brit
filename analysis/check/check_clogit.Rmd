@@ -13,14 +13,15 @@ library(randomForest) #dplyr
 # train
 ```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
-train <- read_rds(here::here("output","development.rds"))
+train<- read_rds(here::here("output","development.rds"))
 table(train$decile)
 table(train$case)
 prop.table(table(train$case,train$decile))
 
-col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
-
-train=train%>% mutate_at(col, as.factor)
+train$case=as.numeric(train$case) #1/0
+train$decile=as.factor(train$decile)
+#col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
+#train=train%>% mutate_at(col, as.factor)
 
 ```
 
@@ -35,7 +36,7 @@ model=readRDS(here::here("output","model.rds"))
 
 ## predict probabilities 
 ```{r}
-prob <- predict(model, train, type = 'risk')
+prob <- predict(model, newdata=data.frame(train), type = 'risk')
 ```
 
 
@@ -172,10 +173,11 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```{r}
 
 valid <- read_rds(here::here("output","validation.rds"))
-col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
 
-valid=valid%>% mutate_at(col, as.factor)
-
+valid$case=as.numeric(valid$case) #1/0
+valid$decile=as.factor(valid$decile)
+#col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
+#train=train%>% mutate_at(col, as.factor)
 
 
 rm(train,prob,decile,vec)
