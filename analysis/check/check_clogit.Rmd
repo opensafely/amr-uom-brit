@@ -14,7 +14,14 @@ library(randomForest) #dplyr
 ```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 train <- read_rds(here::here("output","development.rds"))
-train=data.frame(train)
+table(train$decile)
+table(train$case)
+prop.table(table(train$case,train$decile))
+
+col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
+
+train=train%>% mutate_at(col, as.factor)
+
 ```
 
 ###  crude model
@@ -165,7 +172,11 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```{r}
 
 valid <- read_rds(here::here("output","validation.rds"))
-valid=data.frame(valid)
+col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
+
+valid=valid%>% mutate_at(col, as.factor)
+
+
 
 rm(train,prob,decile,vec)
 prob <- predict(model,valid,type = 'risk')
