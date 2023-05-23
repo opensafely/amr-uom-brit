@@ -21,7 +21,6 @@ library("finalfit")
 ```{r }
 
 train <- read_rds(here::here("output","development.rds"))
-valid <- read_rds(here::here("output","validation.rds"))
 
 ```
 
