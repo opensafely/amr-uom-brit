@@ -17,18 +17,12 @@ library("finalfit")
 
 ```
 
-# import dataset
-```{r }
-train <- read_rds(here::here("output","development_hosp.rds"))
-valid <- read_rds(here::here("output","validation_hosp.rds"))
-
-```
 
 
 
 # descriptive stat 
 ```{r}
-data=train
+data=read_rds(here::here("output","development_hosp.rds"))
 data$decile=as.factor(data$decile)
 # select variables
 explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
@@ -37,27 +31,109 @@ tbl=data %>% summary_factorlist(dependent, explanatory)
 tbl
 ```
 
-```{r}
-library(ggplot2)
 
+# staked bar chart
+## overall
+```{r}
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
+
+  print(
+    
+    ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
+    geom_bar(position="fill", stat="identity")+
+   
+ ggtitle(explanatory[i])+
+  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+  scale_y_continuous(labels = scales::percent)+
+ 
+# label
+ geom_text(aes(label = paste0(value*100,"%")), 
+            position = position_stack(vjust = 0.5), size = 2) +
+   
+# colour
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
+ 
+ )
+
+}
+```
+
+## case/control
+```{r}
+
+for (i in 1:length(explanatory)) {
   
-  print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
-   geom_col() +
- ggtitle(explanatory[i]))
+  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]],data[,"case"]))
+  names(tbl) = c("decile","quartiles", "case","freq")
+  
+  tbl=tbl%>% group_by(decile,case)%>% mutate(value=round(freq/sum(freq),2))
+
+
+  print(
+    
+    ggplot(data=tbl,aes(x=decile,y=value, fill=quartiles))+
+    geom_bar(position="fill", stat="identity")+
+   
+ ggtitle(explanatory[i])+
+  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+  scale_y_continuous(labels = scales::percent)+
+ 
+# label
+ geom_text(aes(label = paste0(value*100,"%")), 
+            position = position_stack(vjust = 0.5), size = 2) +
+   
+# colour
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))+
+ 
+# separate case/control
+  facet_wrap(~case,  ncol=1)
+ )
 
 }
 
 
 ```
 
+## scatter plot
 ```{r}
-data=valid
+for (i in 1:length(explanatory)) {
+
+dat=data%>% select(decile, explanatory[i], case)
+
+names(dat)[2]="quartile"
+
+print(
+ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile) )) + 
+  geom_point(aes(color=as.factor(case)))+
+  
+  ggtitle(explanatory[i])+
+  xlab("exposure quartile") + 
+  ylab("probability decile") + 
+  labs(fill="outcome")
+
+
+
+)
+
+rm(dat)
+}
+```
+
+
+
+
+```{r}
+
+rm(list=ls())
+
+data <- read_rds(here::here("output","validation_hosp.rds"))
+
 data$decile=as.factor(data$decile)
 # select variables
-explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_med_group","interval_sd_group")
+explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
 dependent <- "decile"
 tbl=data %>% summary_factorlist(dependent, explanatory)
 tbl
@@ -66,14 +142,86 @@ tbl
 
 ```{r}
 
+
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
+
+  print(
+    
+    ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
+    geom_bar(position="fill", stat="identity")+
+   
+ ggtitle(explanatory[i])+
+  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+  scale_y_continuous(labels = scales::percent)+
+ 
+# label
+ geom_text(aes(label = paste0(value*100,"%")), 
+            position = position_stack(vjust = 0.5), size = 2) +
+   
+# colour
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
+ 
+ )
+
+}
+```
+
+## case/control
+```{r}
+
+for (i in 1:length(explanatory)) {
   
-  print(ggplot(data=tbl,aes(x=Var1,y=Freq, fill=Var2))+
-   geom_col() +
- ggtitle(explanatory[i]))
+  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]],data[,"case"]))
+  names(tbl) = c("decile","quartiles", "case","freq")
+  
+  tbl=tbl%>% group_by(decile,case)%>% mutate(value=round(freq/sum(freq),2))
+
+
+  print(
+    
+    ggplot(data=tbl,aes(x=decile,y=value, fill=quartiles))+
+    geom_bar(position="fill", stat="identity")+
+   
+ ggtitle(explanatory[i])+
+  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+  scale_y_continuous(labels = scales::percent)+
+ 
+# label
+ geom_text(aes(label = paste0(value*100,"%")), 
+            position = position_stack(vjust = 0.5), size = 2) +
+   
+# colour
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))+
+ 
+# separate case/control
+  facet_wrap(~case,  ncol=1)
+ )
 
 }
 
+
+``` 
+
+## scatter plot
+```{r}
+for (i in 1:length(explanatory)) {
+
+dat=data%>% select(decile, explanatory[i], case)
+
+names(dat)[2]="quartile"
+
+print(
+ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile), )) + 
+  geom_point(aes(color=as.factor(case)))+
+  
+  ggtitle(explanatory[i])+
+  xlab("exposure quartile") + ylab("probability decile") + labs(fill="outcome")
+
+
+
+)
+}
 ```
