@@ -49,6 +49,9 @@ case_3$case <- plyr::round_any(case_3$case, 5)
 plot1<-merge(case_1,ave_population_1,by="age")
 plot2<-merge(case_2,ave_population_2,by="age")
 plot3<-merge(case_3,ave_population_3,by="age")
+plot1$count <- plyr::round_any(plot1$count, 5)
+plot2$count <- plyr::round_any(plot2$count, 5)
+plot3$count <- plyr::round_any(plot3$count, 5)
 plot1$rate <- plot1$case*1000/plot1$count
 plot1$rate <- round(plot1$rate,1)
 plot2$rate <- plot2$case*1000/plot2$count
