@@ -135,6 +135,9 @@ rm(dat)
 
 rm(list=ls())
 
+valid <- read_rds(here::here("output","validation.rds"))
+
+
 data=valid
 data$decile=as.factor(data$decile)
 # select variables
@@ -214,23 +217,19 @@ for (i in 1:length(explanatory)) {
 ```{r}
 for (i in 1:length(explanatory)) {
 
-dat=data%>% select(decile, explanatory[i], case)
+data=data%>% select(decile, explanatory[i], case)
 
-names(dat)[2]="quartile"
+names(data)[2]="quartile"
 
 print(
-ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile) )) + 
+ggplot(data, aes(x=as.factor(quartile), y=as.factor(decile), )) + 
   geom_point(aes(color=as.factor(case)))+
   
   ggtitle(explanatory[i])+
-  xlab("exposure quartile") + 
-  ylab("probability decile") + 
-  labs(fill="outcome")
+  xlab("exposure quartile") + ylab("probability decile") + labs(fill="outcome")
 
 
 
 )
-
-rm(dat)
-}
+]
 ```
