@@ -107,21 +107,25 @@ for (i in 1:length(explanatory)) {
 ```{r}
 for (i in 1:length(explanatory)) {
 
-data=data%>% select(decile, explanatory[i], case)
+dat=data%>% select(decile, explanatory[i], case)
 
-names(data)[2]="quartile"
+names(dat)[2]="quartile"
 
 print(
-ggplot(data, aes(x=as.factor(quartile), y=as.factor(decile), )) + 
+ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile) )) + 
   geom_point(aes(color=as.factor(case)))+
   
   ggtitle(explanatory[i])+
-  xlab("exposure quartile") + ylab("probability decile") + labs(fill="outcome")
+  xlab("exposure quartile") + 
+  ylab("probability decile") + 
+  labs(fill="outcome")
 
 
 
 )
-]
+
+rm(dat)
+}
 ```
 
 
@@ -210,19 +214,23 @@ for (i in 1:length(explanatory)) {
 ```{r}
 for (i in 1:length(explanatory)) {
 
-data=data%>% select(decile, explanatory[i], case)
+dat=data%>% select(decile, explanatory[i], case)
 
-names(data)[2]="quartile"
+names(dat)[2]="quartile"
 
 print(
-ggplot(data, aes(x=as.factor(quartile), y=as.factor(decile), )) + 
+ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile) )) + 
   geom_point(aes(color=as.factor(case)))+
   
   ggtitle(explanatory[i])+
-  xlab("exposure quartile") + ylab("probability decile") + labs(fill="outcome")
+  xlab("exposure quartile") + 
+  ylab("probability decile") + 
+  labs(fill="outcome")
 
 
 
 )
-]
+
+rm(dat)
+}
 ```
