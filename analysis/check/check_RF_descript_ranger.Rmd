@@ -17,18 +17,12 @@ library("finalfit")
 
 ```
 
-# import dataset
-```{r }
-
-train <- read_rds(here::here("output","development_ranger.rds"))
-
-```
 
 
 
 # descriptive stat 
 ```{r}
-data=train
+data=read_rds(here::here("output","development_ranger.rds"))
 data$decile=as.factor(data$decile)
 # select variables
 explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
@@ -102,6 +96,7 @@ for (i in 1:length(explanatory)) {
 
 
 ```
+
 ## scatter plot
 ```{r}
 for (i in 1:length(explanatory)) {
@@ -134,10 +129,8 @@ rm(dat)
 
 rm(list=ls())
 
-valid <- read_rds(here::here("output","validation_ranger.rds"))
+data <- read_rds(here::here("output","validation_ranger.rds"))
 
-
-data=valid
 data$decile=as.factor(data$decile)
 # select variables
 explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
@@ -216,12 +209,12 @@ for (i in 1:length(explanatory)) {
 ```{r}
 for (i in 1:length(explanatory)) {
 
-data=data%>% select(decile, explanatory[i], case)
+dat=data%>% select(decile, explanatory[i], case)
 
-names(data)[2]="quartile"
+names(dat)[2]="quartile"
 
 print(
-ggplot(data, aes(x=as.factor(quartile), y=as.factor(decile), )) + 
+ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile), )) + 
   geom_point(aes(color=as.factor(case)))+
   
   ggtitle(explanatory[i])+
