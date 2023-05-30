@@ -19,14 +19,14 @@ def generate_infection_variables(index_date_variable):
     uti_record=patients.with_these_clinical_events(
         uti_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),  
     #  --LRTI 
     lrti_record=patients.with_these_clinical_events(
         lrti_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),  
 
@@ -34,7 +34,7 @@ def generate_infection_variables(index_date_variable):
     urti_record=patients.with_these_clinical_events(
         all_urti_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),  
 
@@ -42,7 +42,7 @@ def generate_infection_variables(index_date_variable):
     sinusitis_record=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),  
 
@@ -50,7 +50,7 @@ def generate_infection_variables(index_date_variable):
     ot_externa_record=patients.with_these_clinical_events(
         ot_externa_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),   
 
@@ -58,7 +58,7 @@ def generate_infection_variables(index_date_variable):
     ot_media_record=patients.with_these_clinical_events(
         otmedia_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),   
 
@@ -66,7 +66,7 @@ def generate_infection_variables(index_date_variable):
     pneumonia_record=patients.with_these_clinical_events(
         pneumonia_codes,
         returning="binary_flag",
-        between=[f'{index_date_variable}- 43 days', f'{index_date_variable}'],
+        between=[f'{index_date_variable}- 30 days', f'{index_date_variable}'],
         return_expectations={"incidence":0.5}
     ),   
   )

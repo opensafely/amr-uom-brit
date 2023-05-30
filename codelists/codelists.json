@@ -1,5 +1,29 @@
 {
   "files": {
+    "opensafely-ethnicity.csv": {
+      "id": "opensafely/ethnicity/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
+      "downloaded_at": "2023-05-30 16:48:26.679374Z",
+      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856/",
+      "downloaded_at": "2023-05-30 17:14:11.247159Z",
+      "sha": "5de38f993b166d6ef97c6ea822635317a6c7ae85"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b/",
+      "downloaded_at": "2023-05-30 17:14:11.419933Z",
+      "sha": "563b536aaf850da011233653e91e10030a5bc15f"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521/",
+      "downloaded_at": "2023-05-30 17:14:11.628003Z",
+      "sha": "38dc0c0a34e2b8b376ba72819923f442c30b4946"
+    },
     "user-rriefu-cold_subset.csv": {
       "id": "user/rriefu/cold_subset/0c46abca",
       "url": "https://codelists.opensafely.org/codelist/user/rriefu/cold_subset/0c46abca/",
@@ -60,23 +84,95 @@
       "downloaded_at": "2021-09-27 19:42:34.383859Z",
       "sha": "6f1ce1b5a9c1504ebb622336afd06bfbfeccabce"
     },
-    "user-BillyZhongUOM-infection-related-complication.csv": {
-      "id": "user/BillyZhongUOM/infection-related-complication/1d3ddf1d",
-      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/infection-related-complication/1d3ddf1d/",
-      "downloaded_at": "2022-12-07 14:03:05.690636Z",
-      "sha": "6cc685ccea6cf12be7010a076b1c648fbeaaa713"
+    "user-BillyZhongUOM-ae_-hematologic.csv": {
+      "id": "user/BillyZhongUOM/ae_-hematologic/6c86bbdc",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_-hematologic/6c86bbdc/",
+      "downloaded_at": "2023-05-30 16:16:32.212449Z",
+      "sha": "91bc2aee9b9a0ff935641dd8462250e1d3a3b1cd"
     },
-    "user-BillyZhongUOM-adverse-event-hospital-admission.csv": {
-      "id": "user/BillyZhongUOM/adverse-event-hospital-admission/520f857d",
-      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/adverse-event-hospital-admission/520f857d/",
-      "downloaded_at": "2022-12-08 16:36:32.009948Z",
-      "sha": "02a29e8cb18746b019623a979066fe2d1615c798"
+    "user-BillyZhongUOM-ae_behavioral-syndromes.csv": {
+      "id": "user/BillyZhongUOM/ae_behavioral-syndromes/02e36f1c",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_behavioral-syndromes/02e36f1c/",
+      "downloaded_at": "2023-05-30 16:16:32.562695Z",
+      "sha": "9aaa4f50293f4dba6e790131cdbb528bbfe5c042"
     },
-    "user-BillyZhongUOM-codes_for_sepsis.csv": {
-      "id": "user/BillyZhongUOM/codes_for_sepsis/00ab8f66",
-      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/codes_for_sepsis/00ab8f66/",
-      "downloaded_at": "2023-01-16 12:40:20.314608Z",
-      "sha": "c44af20f83744b1f989dfaa75e0a1f0ab3374fc0"
+    "user-BillyZhongUOM-ae_circulatory-system.csv": {
+      "id": "user/BillyZhongUOM/ae_circulatory-system/69d3fbe6",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_circulatory-system/69d3fbe6/",
+      "downloaded_at": "2023-05-30 16:16:32.862528Z",
+      "sha": "16741633d48d67cf8102b2cd6663ee592ae34a56"
+    },
+    "user-BillyZhongUOM-ae_digestive-system.csv": {
+      "id": "user/BillyZhongUOM/ae_digestive-system/50c488b1",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_digestive-system/50c488b1/",
+      "downloaded_at": "2023-05-30 16:16:33.052445Z",
+      "sha": "029835fa701380850061de21d178add23bfc51ad"
+    },
+    "user-BillyZhongUOM-ae_endocrine.csv": {
+      "id": "user/BillyZhongUOM/ae_endocrine/37b5157c",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_endocrine/37b5157c/",
+      "downloaded_at": "2023-05-30 16:16:33.246628Z",
+      "sha": "1553a956ac33a7a7977e89a6c2495aae777dc66a"
+    },
+    "user-BillyZhongUOM-ae_eye-and-ear.csv": {
+      "id": "user/BillyZhongUOM/ae_eye-and-ear/1ea5a247",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_eye-and-ear/1ea5a247/",
+      "downloaded_at": "2023-05-30 16:16:33.588363Z",
+      "sha": "3d4d684314752e299fc92ce612f65b712868a183"
+    },
+    "user-BillyZhongUOM-ae_genitourinary-system-other-than-kidney.csv": {
+      "id": "user/BillyZhongUOM/ae_genitourinary-system-other-than-kidney/05962f12",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_genitourinary-system-other-than-kidney/05962f12/",
+      "downloaded_at": "2023-05-30 16:16:33.905030Z",
+      "sha": "6d3f98e71950d225b38beb15509df554464e09e1"
+    },
+    "user-BillyZhongUOM-ae_liver.csv": {
+      "id": "user/BillyZhongUOM/ae_liver/537748a7",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_liver/537748a7/",
+      "downloaded_at": "2023-05-30 16:16:34.127099Z",
+      "sha": "688769fbf4f80a589b03fc54269b2477a72b04f5"
+    },
+    "user-BillyZhongUOM-ae_musculoskeletal-system-and-connective-tissue.csv": {
+      "id": "user/BillyZhongUOM/ae_musculoskeletal-system-and-connective-tissue/3a67d572",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_musculoskeletal-system-and-connective-tissue/3a67d572/",
+      "downloaded_at": "2023-05-30 16:16:34.343670Z",
+      "sha": "26848449a4e4eae9e332bf3c05988dafe653e1c9"
+    },
+    "user-BillyZhongUOM-ae_nervous-system.csv": {
+      "id": "user/BillyZhongUOM/ae_nervous-system/2158623d",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_nervous-system/2158623d/",
+      "downloaded_at": "2023-05-30 16:16:34.742078Z",
+      "sha": "fa132c5112de6f5538ef9e6add130cb5ea0db58e"
+    },
+    "user-BillyZhongUOM-ae_poisoning.csv": {
+      "id": "user/BillyZhongUOM/ae_poisoning/0848ef08",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_poisoning/0848ef08/",
+      "downloaded_at": "2023-05-30 16:16:35.058669Z",
+      "sha": "5be12b01cee447c712b1a1cc133a43868ef1aa47"
+    },
+    "user-BillyZhongUOM-ae_renal.csv": {
+      "id": "user/BillyZhongUOM/ae_renal/6f397bd2",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_renal/6f397bd2/",
+      "downloaded_at": "2023-05-30 16:16:35.306132Z",
+      "sha": "e1ab374644f2f8b88a5bd583751a7525f7419352"
+    },
+    "user-BillyZhongUOM-ae_respiratory-system.csv": {
+      "id": "user/BillyZhongUOM/ae_respiratory-system/562a089d",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_respiratory-system/562a089d/",
+      "downloaded_at": "2023-05-30 16:16:35.724622Z",
+      "sha": "57a4f7714217772cfb79cc5fd57b3af042a095ce"
+    },
+    "user-BillyZhongUOM-ae_skin-and-subcutaneous-tissue.csv": {
+      "id": "user/BillyZhongUOM/ae_skin-and-subcutaneous-tissue/3d1a9568",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_skin-and-subcutaneous-tissue/3d1a9568/",
+      "downloaded_at": "2023-05-30 16:16:36.084518Z",
+      "sha": "9a32d29a51fdda59275f9b58b3914a5c846b5d54"
+    },
+    "user-BillyZhongUOM-ae_unclassified.csv": {
+      "id": "user/BillyZhongUOM/ae_unclassified/240b2233",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/ae_unclassified/240b2233/",
+      "downloaded_at": "2023-05-30 16:16:36.408370Z",
+      "sha": "363639ce19791ccac3f2e32e0d021c32609b4d9a"
     },
     "user-yayang-charlson01_cancer.csv": {
       "id": "user/yayang/charlson01_cancer/796c49a5",

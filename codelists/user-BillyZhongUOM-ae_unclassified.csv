@@ -1,0 +1,20 @@
+code,term
+R410,"Disorientation, unspecified"
+R42,Dizziness and giddiness
+R44,Other symptoms and signs involving general sensations and perceptions
+R440,Auditory hallucinations
+R441,Visual hallucinations
+R442,Other hallucinations
+R443,"Hallucinations, unspecified"
+R502,Drug-induced fever
+R51,Headache
+R55,Syncope and collapse
+R58,"Haemorrhage, not elsewhere classified"
+S064,Epidural hemorrhage
+X44,"Accidental poisoning by and exposure to other and unspecified drugs, medicaments, and biological substances"
+Y40,"Drugs, medicaments, and biological substances causing adverse effects in therapeutic use - systemic antibiotic"
+Y41,"Drugs, medicaments, and biological substances causing adverse effects in therapeutic use - other systemic anti-infectives and antiparasitics"
+Y57,"Drugs, medicaments and biological substances causing adverse effects in therapeutic use -Other and unspecified drugs and medicaments"
+Y579,"Drugs, medicaments and biological substances causing adverse effects in therapeutic use -Other and unspecified drugs and medicaments, Drug or medicament, unspecified"
+Y880,"Sequelae of adverse effects caused by drugs, medicaments and biological substances in therapeutic use"
+Z88,"Personal history of allergy to drugs, medicaments, and biological substances"

@@ -1,0 +1,39 @@
+code,term
+L105,Drug-induced pemphigus
+L20,Atopic dermatitis
+L21,Seborrhoeic dermatitis
+L210,Seborrhoea capitis
+L211,Seborrhoeic infantile dermatitis
+L26,Exfoliative dermatitis
+L27,Dermatitis due to substances taken internally
+L270,Generalized skin eruption due to drugs and medicaments
+L271,Localized skin eruption due to drugs and medicaments
+L278,Dermatitis due to other substances taken internally
+L279,Dermatitis due to unspecified substance taken internally
+L28,Lichen simplex chronicus and prurigo
+L29,Pruritis
+L290,Pruritus ani
+L291,Pruritus scroti
+L292,Pruritus vulvae
+L293,"Anogenital pruritus, unspecified"
+L298,Other pruritus
+L299,"Pruritus, unspecified"
+L30,Other dermatitis
+L432,Lichenoid drug reaction
+L500,Allergic urticaria
+L51,Erythema multiforme
+L510,Nonbullous erythema multiforme
+L511,Bullous erythema multiforme
+L512,Toxic epidermal necrolysis [Lyell]
+L518,Other erythema multiforme
+L519,"Erythema multiforme, unspecified"
+L52,Erythema nodosum
+L560,Drug phototoxic response
+L561,Drug photoallergic response
+L562,Photocontact dermatitis [berloque dermatitis]
+L640,Drug-induced androgenic alopecia
+L710,Perioral dermatitis
+R20,Disturbances of skin sensation
+R21,Rash and other nonspecific skin eruption
+R23,Other skin changes
+R233,Spontaneous ecchymoses

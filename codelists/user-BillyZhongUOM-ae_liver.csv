@@ -1,0 +1,19 @@
+code,term
+K71,Toxic liver disease
+K710,Toxic liver disease with cholestasis
+K711,Toxic liver disease with hepatic necrosis
+K714,Toxic liver disease with chronic lobular hepatitis
+K715,Toxic liver disease with chronic active hepatitis
+K716,"Toxic liver disease with hepatitis, not elsewhere classified"
+K717,Toxic liver disease with fibrosis and cirrhosis of liver
+K718,Toxic liver disease with other disorders of liver
+K719,"Toxic liver disease, unspecified"
+K72,"Hepatic failure, not elsewhere classified"
+K720,Acute and subacute hepatic failure
+K729,"Hepatic failure, unspecified"
+K759,"Inflammatory liver disease, unspecified"
+K762,Central hemorrhagic necrosis of liver
+K767,Hepatorenal syndrome
+R740,Elevation of levels of transaminase and lactic acid dehydrogenase [LDH]
+K712,Toxic liver disease with acute hepatitis
+K713,Toxic liver disease with chronic persistent hepatitis

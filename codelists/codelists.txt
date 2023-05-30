@@ -1,3 +1,7 @@
+opensafely/ethnicity/2020-04-27
+opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
+opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
+opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
 
 user/rriefu/cold_subset/0c46abca
 user/rriefu/cough/6a0be66d
@@ -10,10 +14,21 @@ user/rriefu/throat/0880d98f
 user/rriefu/urti/6f716659
 user/rriefu/uti/5661f324
 
-
-user/BillyZhongUOM/infection-related-complication/1d3ddf1d
-user/BillyZhongUOM/adverse-event-hospital-admission/520f857d
-user/BillyZhongUOM/codes_for_sepsis/00ab8f66
+user/BillyZhongUOM/ae_-hematologic/6c86bbdc
+user/BillyZhongUOM/ae_behavioral-syndromes/02e36f1c
+user/BillyZhongUOM/ae_circulatory-system/69d3fbe6
+user/BillyZhongUOM/ae_digestive-system/50c488b1
+user/BillyZhongUOM/ae_endocrine/37b5157c
+user/BillyZhongUOM/ae_eye-and-ear/1ea5a247
+user/BillyZhongUOM/ae_genitourinary-system-other-than-kidney/05962f12
+user/BillyZhongUOM/ae_liver/537748a7
+user/BillyZhongUOM/ae_musculoskeletal-system-and-connective-tissue/3a67d572
+user/BillyZhongUOM/ae_nervous-system/2158623d
+user/BillyZhongUOM/ae_poisoning/0848ef08
+user/BillyZhongUOM/ae_renal/6f397bd2
+user/BillyZhongUOM/ae_respiratory-system/562a089d
+user/BillyZhongUOM/ae_skin-and-subcutaneous-tissue/3d1a9568
+user/BillyZhongUOM/ae_unclassified/240b2233
 
 user/yayang/charlson01_cancer/796c49a5
 user/yayang/charlson02_cvd/605cd670

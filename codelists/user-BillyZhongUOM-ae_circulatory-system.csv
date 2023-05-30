@@ -1,0 +1,43 @@
+code,term
+I158,Other secondary hypertension
+I159,"Secondary hypertension, unspecified"
+I260,Pulmonary embolism with mention of acute cor pulmonale
+I269,Pulmonary embolism without mention of acute cor pulmonale
+I312,"Haemopericardium, not elsewhere classified"
+I427,Cardiomyopathy due to drugs and other external agents
+I44,Atrioventricular and left bundle-branch block
+I440,"Atrioventricular block, first degree"
+I441,"Atrioventricular block, second degree"
+I442,"Atrioventricular block, complete"
+I443,Other and unspecified atrioventricular block
+I444,Left anterior fascicular block
+I445,Left posterior fascicular block
+I446,Other and unspecified fascicular block
+I447,"Left bundle-branch block, unspecified"
+I458,Other specified conduction disorders
+I461,"Sudden cardiac death, so described"
+I472,Ventricular tachycardia
+I490,Ventricular fibrillation and flutter
+I60,Subarachanoid hemorrhage
+I61,Intracerebral hemorrhage
+I610,"Intracerebral haemorrhage in hemisphere, subcortical"
+I611,"Intracerebral haemorrhage in hemisphere, cortical"
+I612,"Intracerebral haemorrhage in hemisphere, unspecified"
+I613,Intracerebral haemorrhage in brain stem
+I614,Intracerebral haemorrhage in cerebellum
+I615,"Intracerebral haemorrhage, intraventricular"
+I616,"Intracerebral haemorrhage, multiple localized"
+I618,Other intracerebral haemorrhage
+I619,"Intracerebral haemorrhage, unspecified"
+I62,Other nontraumatic intracranial hemorrhage
+I80,Phlebitis and thrombophlebitis
+I800,Phlebitis and thrombophlebitis of superficial vessels of lower extremities
+I801,Phlebitis and thrombophlebitis of femoral vein
+I802,Phlebitis and thrombophlebitis of other deep vessels of lower extremities
+I803,"Phlebitis and thrombophlebitis of lower extremities, unspecified"
+I808,Phlebitis and thrombophlebitis of other sites
+I809,Phlebitis and thrombophlebitis of unspecified site
+I850,Esophageal varices with bleeding
+I95,Hypotension
+I952,Hypotension due to drugs
+R001,"Bradycardia, unspecified"

@@ -1,0 +1,25 @@
+code,term
+T36,Poisoning by systemic antibiotics
+T360,Penicillins
+T361,Cefalosporins and other beta-lactam antibiotics
+T362,Chloramphenicol group
+T363,Macrolides
+T364,Tetracyclines
+T365,Aminoglycosides
+T366,Rifamycins
+T367,"Antifungal antibiotics, systemically used"
+T368,Other systemic antibiotics
+T369,"Systemic antibiotic, unspecified"
+T378,Other specified systemic anti-infectives and antiparasitics
+T379,"Systemic anti-infective and antiparasitic, unspecified"
+T478,Other agents primarily affecting the gastrointestinal system
+T479,"Agent primarily affecting the gastrointestinal system, unspecified"
+T509,"Poisoning: Other and unspecified drugs, medicaments and biological substances"
+T78,"Adverse effects, not elsewhere classified"
+T782,"Anaphylactic shock, unspecified"
+T783,Angioneurotic oedema
+T784,"Allergy, unspecified"
+T788,"Other adverse effects, not elsewhere classified"
+T789,"Adverse effect, unspecified"
+T887,Unspecified adverse event of drug or medicament
+T887,Unspecified adverse drug effect

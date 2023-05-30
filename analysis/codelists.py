@@ -16,6 +16,44 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 # --- CODELISTS ---
 
 ### The following should be our own codelists in the future
+ethnicity_codes = codelist_from_csv(
+    "codelists/opensafely-ethnicity.csv",
+    system="ctv3",
+    column="Code",
+    category_column="Grouping_6",
+)
+
+#Covid diagnosis
+covid_primary_care_code = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+covid_primary_care_positive_test = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+covid_primary_care_sequalae = codelist_from_csv(
+    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
+    system="ctv3",
+    column="CTV3ID",
+    )
+
+any_primary_care_code = combine_codelists(
+    covid_primary_care_code,
+    covid_primary_care_positive_test,
+    covid_primary_care_sequalae,
+    )
+
+## COVID codelist
+
+covid_codelist = codelist(["U071", "U072"], system="icd10")
+confirmed_covid_codelist = codelist(["U071"], system="icd10")
+suspected_covid_codelist = codelist(["U072"], system="icd10")
+
 
 
 ### cold
@@ -99,34 +137,91 @@ all_urti_codes = combine_codelists(urti_codes,cough_codes,cold_codes,throat_code
 ## all infection code
 all_infection_codes = combine_codelists(lrti_codes,ot_externa_codes,otmedia_codes,pneumonia_codes,sinusitis_codes,uti_codes,all_urti_codes)
 
-### infection-related-complication
-
-infection_related_complication_codes = codelist_from_csv(
-  "codelists/user-BillyZhongUOM-infection-related-complication.csv",
-  system = "icd10",
-  column = "code"
-)
 
 ### adverse-event
-adverse_event_codes = codelist_from_csv(
-  "codelists/user-BillyZhongUOM-adverse-event-hospital-admission.csv",
+
+### by type
+ae_hematologic_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_-hematologic.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_behavioral_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_behavioral-syndromes.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_circulatory_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_circulatory-system.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_digestive_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_digestive-system.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_endocrine_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_endocrine.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_eyeear_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_eye-and-ear.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_genitourinary_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_genitourinary-system-other-than-kidney.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_liver_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_liver.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_nervous_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_nervous-system.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_musculoskeletal_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_musculoskeletal-system-and-connective-tissue.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_poisoning_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_poisoning.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_renal_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_renal.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_respiratory_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_respiratory-system.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_skin_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_skin-and-subcutaneous-tissue.csv",
+  system = "icd10",
+  column = "code"
+)
+ae_unclassified_code = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-ae_unclassified.csv",
   system = "icd10",
   column = "code"
 )
 
-### sepsis_hosp
-sepsis_hosp = codelist_from_csv(
-  "codelists/user-BillyZhongUOM-codes_for_sepsis.csv",
-  system = "icd10",
-  column = "code"
-)
-
-outcome_code = combine_codelists(
-    infection_related_complication_codes,
-    adverse_event_codes,
-    )
-
-
+###all adverse-event
+all_ae_codes = combine_codelists(ae_hematologic_code,ae_behavioral_code,ae_circulatory_code,ae_digestive_code,
+                                 ae_endocrine_code,ae_eyeear_code,ae_genitourinary_code,ae_liver_code,
+                                 ae_nervous_code,ae_musculoskeletal_code,ae_poisoning_code,ae_renal_code,
+                                 ae_respiratory_code,ae_skin_code,ae_unclassified_code)
 
 ##Charlson comobidities
 charlson01_cancer= codelist_from_csv(
