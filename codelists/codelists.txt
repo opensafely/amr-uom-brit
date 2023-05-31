@@ -2,6 +2,7 @@ opensafely/ethnicity/2020-04-27
 opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/24391856
 opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d488b8b
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
+user/BillyZhongUOM/brit_new_dmd/792101bd
 
 user/rriefu/cold_subset/0c46abca
 user/rriefu/cough/6a0be66d

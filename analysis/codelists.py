@@ -55,6 +55,10 @@ confirmed_covid_codelist = codelist(["U071"], system="icd10")
 suspected_covid_codelist = codelist(["U072"], system="icd10")
 
 
+antibacterials_codes_brit = codelist_from_csv(
+    "codelists/user-BillyZhongUOM-brit_new_dmd.csv", system="snomed", column="dmd_id", category_column="type",
+)
+
 
 ### cold
 cold_codes = codelist_from_csv(

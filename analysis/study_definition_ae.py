@@ -94,6 +94,14 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.05},
     ),
 
+    ## antibiotic use
+    antibiotic_treatment=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="binary_flag",
+        between=['patient_index_date - 30 days', 'patient_index_date'],
+        return_expectations={"incidence":0.5}
+    ),  
+
     #  --UTI
     uti_record=patients.with_these_clinical_events(
         uti_codes,
@@ -236,7 +244,7 @@ measures = [
         id="ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="population",
+        group_by="antibiotic_treatment",
         small_number_suppression=True,
     ),
 
@@ -245,55 +253,55 @@ measures = [
         id="uti_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="uti_record",
+        group_by=["uti_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
     # 3a.LRTI Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="lrti_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="lrti_record",
+        group_by=["lrti_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
     # 3a.URTI Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="urti_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="urti_record",
+        group_by=["urti_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
     # 3a.sinusitis Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="sinusitis_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="sinusitis_record",
+        group_by=["sinusitis_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
     # 3a.otitis externa Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="ot_externa_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="ot_externa_record",
+        group_by=["ot_externa_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
     # 3a.otitis media Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="ot_media_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="ot_media_record",
+        group_by=["ot_media_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
     # 3a.pneumonia Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="pneumonia_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="pneumonia_record",
+        group_by=["pneumonia_record","antibiotic_treatment"],
         small_number_suppression=True,
     ),
 ]

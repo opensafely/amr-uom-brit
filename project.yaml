@@ -24,3 +24,11 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/measures/measure_*.csv
+
+  ae_rate_table:  
+    run: r:latest analysis/figure/ae_rate.R
+    needs: [generate_measures_ae]
+    outputs:
+      moderately_sensitive:
+        table1: output/ae_rate_table.csv
+        table2: output/ae_rate_forplot.csv
