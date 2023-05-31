@@ -15,36 +15,44 @@ col_spec1 <-cols_only( admitted = col_number(),
 )
 ## ae
 col_spec2 <-cols_only( ae_admitted = col_number(),
+                       antibiotic_treatment = col_number(),
                        population = col_number(),
                        date = col_date(format = "")
 )
 
 ## infection
 col_spec3 <-cols_only( uti_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
 col_spec4 <-cols_only( lrti_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
 col_spec5 <-cols_only( urti_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
 col_spec6 <-cols_only( sinusitis_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
 col_spec7 <-cols_only( ot_externa_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
 col_spec8 <-cols_only( ot_media_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
 col_spec9 <-cols_only( pneumonia_record = col_number(),
+                       antibiotic_treatment = col_number(),
                        ae_admitted = col_number(),
                        date = col_date(format = "")
 )
@@ -62,27 +70,27 @@ df2 <- read_csv("measure_ae_admission.csv",
                 col_types = col_spec2)%>%select(ae_admitted,date)
 ## select and filter infection patient
 df3 <- read_csv("measure_uti_ae_admission.csv",
-                col_types = col_spec3)%>%filter(uti_record==1)%>%select(ae_admitted,date)
+                col_types = col_spec3)%>%filter(uti_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)
 # Rename 'ae_admitted' column for each dataset
-df3 <- read_csv("measure_uti_ae_admission.csv", col_types = col_spec3) %>%filter(uti_record==1)%>%select(ae_admitted,date)%>%
+df3 <- read_csv("measure_uti_ae_admission.csv", col_types = col_spec3) %>%filter(uti_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(uti_ae = ae_admitted)
 
-df4 <- read_csv("measure_lrti_ae_admission.csv", col_types = col_spec4) %>%filter(lrti_record==1)%>%select(ae_admitted,date)%>%
+df4 <- read_csv("measure_lrti_ae_admission.csv", col_types = col_spec4) %>%filter(lrti_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(lrti_ae = ae_admitted)
 
-df5 <- read_csv("measure_urti_ae_admission.csv", col_types = col_spec5) %>%filter(urti_record==1)%>%select(ae_admitted,date)%>%
+df5 <- read_csv("measure_urti_ae_admission.csv", col_types = col_spec5) %>%filter(urti_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(urti_ae = ae_admitted)
 
-df6 <- read_csv("measure_sinusitis_ae_admission.csv", col_types = col_spec6) %>%filter(sinusitis_record==1)%>%select(ae_admitted,date)%>%
+df6 <- read_csv("measure_sinusitis_ae_admission.csv", col_types = col_spec6) %>%filter(sinusitis_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(sinusitis_ae = ae_admitted)
 
-df7 <- read_csv("measure_ot_externa_ae_admission.csv", col_types = col_spec7) %>%filter(ot_externa_record==1)%>%select(ae_admitted,date)%>%
+df7 <- read_csv("measure_ot_externa_ae_admission.csv", col_types = col_spec7) %>%filter(ot_externa_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(ot_externa_ae = ae_admitted)
 
-df8 <- read_csv("measure_ot_media_ae_admission.csv", col_types = col_spec8) %>%filter(ot_media_record==1)%>%select(ae_admitted,date)%>%
+df8 <- read_csv("measure_ot_media_ae_admission.csv", col_types = col_spec8) %>%filter(ot_media_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(ot_media_ae = ae_admitted)
 
-df9 <- read_csv("measure_pneumonia_ae_admission.csv", col_types = col_spec9) %>%filter(pneumonia_record==1)%>%select(ae_admitted,date)%>%
+df9 <- read_csv("measure_pneumonia_ae_admission.csv", col_types = col_spec9) %>%filter(pneumonia_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)%>%
   rename(pneumonia_ae = ae_admitted)
 
 df <- merge(df1,df2,by="date")
@@ -120,7 +128,7 @@ write_csv(df, here::here("output", "ae_rate_table.csv"))
 
 df <- df %>% select(date,ae_admitted_rate,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
                     sinusitis_ae_rate,ot_externa_ae_rate,ot_media_ae_rate,pneumonia_ae_rate) %>%pivot_longer(
-    cols = c(admitted_rate,ae_admitted_rate,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
+    cols = c(ae_admitted_rate,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
              sinusitis_ae_rate,ot_externa_ae_rate,ot_media_ae_rate,pneumonia_ae_rate),
     names_to = "InfectionType",
     values_to = "Value"
