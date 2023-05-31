@@ -159,7 +159,7 @@ for (i in 1:length(explanatory)) {
 ```{r }
 for (i in 1:length(explanatory)) {
 
-dat=data%>% select(decile, explanatory[i], case)
+dat=data%>% select(decile, explanatory[i], explanatory[1]), case)
 
 names(dat)[2]="quartile"
 
