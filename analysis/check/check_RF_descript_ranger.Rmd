@@ -156,20 +156,20 @@ for (i in 1:length(explanatory)) {
 
 
 ## scatter plot
-```{r eval=FALSE, include=FALSE}
+```{r }
 for (i in 1:length(explanatory)) {
 
-dat=data%>% select(decile, explanatory[i], case)
+dat=data%>% select(decile, explanatory[i],total_ab_group, case)
 
 names(dat)[2]="quartile"
 
 print(
-ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile) )) + 
+ggplot(dat, aes(x="total_ab_group",y=as.factor(quartile) )) + 
   geom_point(aes(color=as.factor(case)))+
   
   ggtitle(explanatory[i])+
-  xlab("exposure quartile") + 
-  ylab("probability decile") + 
+  xlab("total_ab_group") + 
+  ylab(explanatory[i]) + 
   labs(fill="outcome")
 
 
