@@ -68,7 +68,7 @@ library(ranger)
 rf.model= ranger(formula = case ~ ., 
                    data =  train_X,
                    num.trees =   2000,
-                   min.node.size = 1,
+                   min.node.size = 50,
                    mtry = 3,
                    importance = "impurity",
                    replace = TRUE,
