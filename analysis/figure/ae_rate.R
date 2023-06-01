@@ -132,6 +132,30 @@ df <- df %>% select(date,ae_admitted_rate,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
              sinusitis_ae_rate,ot_externa_ae_rate,ot_media_ae_rate,pneumonia_ae_rate),
     names_to = "InfectionType",
     values_to = "Value"
-  )
+  )%>%mutate(InfectionType = recode(InfectionType, 
+                                 ae_admitted_rate = "AE admitted", 
+                                 uti_ae_rate = "UTI", 
+                                 lrti_ae_rate = "LRTI", 
+                                 urti_ae_rate = "URTI",
+                                 sinusitis_ae_rate = "Sinusitis",
+                                 ot_externa_ae_rate = "Otitis externa",
+                                 ot_media_ae_rate = "Otitis media",
+                                 pneumonia_ae_rate = "Pneumonia"
+                                ))
+
 
 write_csv(df, here::here("output", "ae_rate_forplot.csv"))
+
+
+p<-ggplot(df, aes(x = date, y = Value)) +
+  geom_rect(aes(xmin = lockdown_1_start, xmax = lockdown_1_end, ymin = -Inf, ymax = Inf), fill = 'grey', alpha = 0.5) +
+  geom_rect(aes(xmin = lockdown_2_start, xmax = lockdown_2_end, ymin = -Inf, ymax = Inf), fill = 'grey', alpha = 0.5) +
+  geom_rect(aes(xmin = lockdown_3_start, xmax = lockdown_3_end, ymin = -Inf, ymax = Inf), fill = 'grey', alpha = 0.5) +
+  geom_line(aes(color = InfectionType, linetype = InfectionType)) +
+  labs(x = "Date", y = "Monthly admission rates per 1000 person", color = "", linetype = "", shape = "") +
+  theme_minimal() +
+  theme(legend.position = "bottom")  + scale_color_nejm()
+
+ggsave(p, width = 10, height = 6, dpi = 640,
+       filename="figure_ae_rate.jpeg", path=here::here("output"),
+)  
