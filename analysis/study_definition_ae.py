@@ -236,7 +236,6 @@ measures = [
         numerator="admitted",
         denominator="population",
         group_by="population", 
-        small_number_suppression=True,
     ),
 
     # 2a. Adverse event only
@@ -245,7 +244,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by="antibiotic_treatment",
-        small_number_suppression=True,
     ),
 
     # 3a.UTI Adverse event only  
@@ -254,7 +252,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["uti_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
     # 3a.LRTI Adverse event only  
     Measure(
@@ -262,7 +259,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["lrti_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
     # 3a.URTI Adverse event only  
     Measure(
@@ -270,7 +266,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["urti_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
     # 3a.sinusitis Adverse event only  
     Measure(
@@ -278,7 +273,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["sinusitis_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
     # 3a.otitis externa Adverse event only  
     Measure(
@@ -286,7 +280,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["ot_externa_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
     # 3a.otitis media Adverse event only  
     Measure(
@@ -294,7 +287,6 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["ot_media_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
     # 3a.pneumonia Adverse event only  
     Measure(
@@ -302,6 +294,5 @@ measures = [
         numerator="ae_admitted",
         denominator="population",
         group_by=["pneumonia_record","antibiotic_treatment"],
-        small_number_suppression=True,
     ),
 ]
