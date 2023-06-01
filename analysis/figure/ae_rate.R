@@ -67,7 +67,7 @@ lockdown_3_end = as.Date("2021-03-08")
 df1 <- read_csv("measure_admission_overall.csv",
                 col_types = col_spec1)
 df2 <- read_csv("measure_ae_admission.csv",
-                col_types = col_spec2)%>%select(ae_admitted,date)
+                col_types = col_spec2)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)
 ## select and filter infection patient
 df3 <- read_csv("measure_uti_ae_admission.csv",
                 col_types = col_spec3)%>%filter(uti_record==1)%>%filter(antibiotic_treatment==1)%>%select(ae_admitted,date)
