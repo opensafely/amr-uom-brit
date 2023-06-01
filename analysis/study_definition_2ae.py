@@ -71,7 +71,7 @@ study = StudyDefinition(
     # Admitted to hospital - all emergency admissions
     patient_index_date=patients.admitted_to_hospital(
         returning= "date_admitted",  
-        with_admission_method=0,  
+        with_admission_method=emergency_admission_codes,  
         between=["index_date", "last_day_of_month(index_date)"],
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
@@ -106,14 +106,14 @@ study = StudyDefinition(
     uti_record=patients.with_these_clinical_events(
         uti_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.5}
     ),  
     #  --LRTI 
     lrti_record=patients.with_these_clinical_events(
         lrti_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.6}
     ),  
 
@@ -121,7 +121,7 @@ study = StudyDefinition(
     urti_record=patients.with_these_clinical_events(
         all_urti_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.4}
     ),  
 
@@ -129,7 +129,7 @@ study = StudyDefinition(
     sinusitis_record=patients.with_these_clinical_events(
         sinusitis_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.3}
     ),  
 
@@ -137,7 +137,7 @@ study = StudyDefinition(
     ot_externa_record=patients.with_these_clinical_events(
         ot_externa_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.2}
     ),   
 
@@ -145,7 +145,7 @@ study = StudyDefinition(
     ot_media_record=patients.with_these_clinical_events(
         otmedia_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.1}
     ),   
 
@@ -153,7 +153,7 @@ study = StudyDefinition(
     pneumonia_record=patients.with_these_clinical_events(
         pneumonia_codes,
         returning="binary_flag",
-        between=['patient_index_date - 30 days', 'patient_index_date'],
+        between=['patient_index_date - 42 days', 'patient_index_date'],
         return_expectations={"incidence":0.05}
     ),   
 
@@ -223,6 +223,52 @@ study = StudyDefinition(
             },
         },
     ),   
+    #Check COVID-diagnsis within +/- 6 weeks #
+
+        ## covid infection record sgss+gp ##
+    SGSS_positive_6weeks=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
+        returning="binary_flag",
+        return_expectations={
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},
+    ),
+    
+    GP_positive_6weeks=patients.with_these_clinical_events(
+        any_primary_care_code,        
+        returning="binary_flag",
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
+         return_expectations={
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},  ),
+
+        ## covid infection record hosp ##
+    covid_admission_6weeks=patients.admitted_to_hospital(
+        returning="binary_flag",
+        with_these_diagnoses=covid_codelist,
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
+        return_expectations={
+        "rate" : "exponential_increase",
+        "incidence" : 0.25},    ),
+    
+    covid_6weeks=patients.categorised_as(
+        {
+            "0": "DEFAULT",
+            "1": """
+                  SGSS_positive_6weeks OR GP_positive_6weeks OR covid_admission_6weeks
+            """,
+        },
+        return_expectations={
+                                "category": {
+                                    "ratios": {
+                                        "0": 0.8,
+                                        "1": 0.2
+                                        }
+                                    },
+                                },
+    ),
 )
 ### Create monthly measures of summary statistics ###
 
@@ -232,7 +278,7 @@ measures = [
     
     # 1a. Overall
         Measure(
-        id="admission_overall",
+        id="2ae_admission_overall",
         numerator="admitted",
         denominator="population",
         group_by="population", 
@@ -240,59 +286,59 @@ measures = [
 
     # 2a. Adverse event only
     Measure(
-        id="ae_admission",
+        id="2ae_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by="antibiotic_treatment",
+        group_by=["antibiotic_treatment","covid_6weeks"]
     ),
 
     # 3a.UTI Adverse event only  
     Measure(
-        id="uti_ae_admission",
+        id="2ae_uti_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["uti_record","antibiotic_treatment"],
+        group_by=["uti_record","antibiotic_treatment","covid_6weeks"],
     ),
     # 3a.LRTI Adverse event only  
     Measure(
-        id="lrti_ae_admission",
+        id="2ae_lrti_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["lrti_record","antibiotic_treatment"],
+        group_by=["lrti_record","antibiotic_treatment","covid_6weeks"],
     ),
     # 3a.URTI Adverse event only  
     Measure(
-        id="urti_ae_admission",
+        id="2ae_urti_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["urti_record","antibiotic_treatment"],
+        group_by=["urti_record","antibiotic_treatment","covid_6weeks"],
     ),
     # 3a.sinusitis Adverse event only  
     Measure(
-        id="sinusitis_ae_admission",
+        id="2ae_sinusitis_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["sinusitis_record","antibiotic_treatment"],
+        group_by=["sinusitis_record","antibiotic_treatment","covid_6weeks"],
     ),
     # 3a.otitis externa Adverse event only  
     Measure(
-        id="ot_externa_ae_admission",
+        id="2ae_ot_externa_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["ot_externa_record","antibiotic_treatment"],
+        group_by=["ot_externa_record","antibiotic_treatment","covid_6weeks"],
     ),
     # 3a.otitis media Adverse event only  
     Measure(
-        id="ot_media_ae_admission",
+        id="2ae_ot_media_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["ot_media_record","antibiotic_treatment"],
+        group_by=["ot_media_record","antibiotic_treatment","covid_6weeks"],
     ),
     # 3a.pneumonia Adverse event only  
     Measure(
-        id="pneumonia_ae_admission",
+        id="2ae_pneumonia_ae_admission",
         numerator="ae_admitted",
         denominator="population",
-        group_by=["pneumonia_record","antibiotic_treatment"],
+        group_by=["pneumonia_record","antibiotic_treatment","covid_6weeks"],
     ),
 ]

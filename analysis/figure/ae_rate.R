@@ -152,7 +152,7 @@ p<-ggplot(df, aes(x = date, y = Value)) +
   geom_rect(aes(xmin = lockdown_2_start, xmax = lockdown_2_end, ymin = -Inf, ymax = Inf), fill = 'grey', alpha = 0.5) +
   geom_rect(aes(xmin = lockdown_3_start, xmax = lockdown_3_end, ymin = -Inf, ymax = Inf), fill = 'grey', alpha = 0.5) +
   geom_line(aes(color = InfectionType, linetype = InfectionType)) +
-  labs(x = "Date", y = "Monthly admission rates per 1000 person", color = "", linetype = "", shape = "") +
+  labs(x = "Date", y = "Monthly admission rates per 10000 person", color = "", linetype = "", shape = "") +
   theme_minimal() +
   theme(legend.position = "bottom")  + scale_color_nejm()
 

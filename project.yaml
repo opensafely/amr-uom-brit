@@ -33,3 +33,16 @@ actions:
         table1: output/ae_rate_table.csv
         table2: output/ae_rate_forplot.csv
         plot1: output/figure_ae_rate.jpeg
+
+  generate_study_population_2ae:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_2ae --index-date-range "2019-01-01 to 2023-03-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/measures/input_2ae_*.csv.gz
+
+  generate_measures_2ae:
+    run: cohortextractor:latest generate_measures --study-definition study_definition_2ae --skip-existing --output-dir=output/measures
+    needs: [generate_study_population_2ae]
+    outputs:
+      moderately_sensitive:
+        measure_csv: output/measures/measure_2ae_*.csv
