@@ -140,7 +140,10 @@ actions:
 
   process_1:  
     run: r:latest analysis/casecontrol/process_1.R
-    needs: [generate_study_population_case,generate_study_population_control_1]
+    needs: [generate_study_population_case,generate_study_population_control_1,generate_study_population_control_2,
+    generate_study_population_control_3,generate_study_population_control_4,generate_study_population_control_5,
+    generate_study_population_control_6,generate_study_population_control_7,generate_study_population_control_8,
+    generate_study_population_control_9]
     outputs:
       highly_sensitive:
         table1: output/case_1_uti.csv
@@ -150,14 +153,125 @@ actions:
         table5: output/case_1_ot_externa.csv
         table6: output/case_1_ot_media.csv
         table7: output/case_1_pneumonia.csv
-        table8: output/control_1_uti.csv
-        table9: output/control_1_lrti.csv
-        table10: output/control_1_urti.csv
-        table11: output/control_1_sinusitis.csv
-        table12: output/control_1_ot_externa.csv
-        table13: output/control_1_ot_media.csv
-        table14: output/control_1_pneumonia.csv
-
+        table8:  output/case_2_uti.csv
+        table9:  output/case_2_lrti.csv
+        table10: output/case_2_urti.csv
+        table11: output/case_2_sinusitis.csv
+        table12: output/case_2_ot_externa.csv
+        table13: output/case_2_ot_media.csv
+        table14: output/case_2_pneumonia.csv
+        table15: output/case_3_uti.csv
+        table16: output/case_3_lrti.csv
+        table17: output/case_3_urti.csv
+        table18: output/case_3_sinusitis.csv
+        table19: output/case_3_ot_externa.csv
+        table20: output/case_3_ot_media.csv
+        table21: output/case_3_pneumonia.csv
+        table22: output/case_4_uti.csv
+        table23: output/case_4_lrti.csv
+        table24: output/case_4_urti.csv
+        table25: output/case_4_sinusitis.csv
+        table26: output/case_4_ot_externa.csv
+        table27: output/case_4_ot_media.csv
+        table28: output/case_4_pneumonia.csv
+        table29: output/case_5_uti.csv
+        table30: output/case_5_lrti.csv
+        table31: output/case_5_urti.csv
+        table32: output/case_5_sinusitis.csv
+        table33: output/case_5_ot_externa.csv
+        table34: output/case_5_ot_media.csv
+        table35: output/case_5_pneumonia.csv
+        table36: output/case_6_uti.csv
+        table37: output/case_6_lrti.csv
+        table38: output/case_6_urti.csv
+        table39: output/case_6_sinusitis.csv
+        table40: output/case_6_ot_externa.csv
+        table41: output/case_6_ot_media.csv
+        table42: output/case_6_pneumonia.csv
+        table43: output/case_7_uti.csv
+        table44: output/case_7_lrti.csv
+        table45: output/case_7_urti.csv
+        table46: output/case_7_sinusitis.csv
+        table47: output/case_7_ot_externa.csv
+        table48: output/case_7_ot_media.csv
+        table49: output/case_7_pneumonia.csv
+        table50: output/case_8_uti.csv
+        table51: output/case_8_lrti.csv
+        table52: output/case_8_urti.csv
+        table53: output/case_8_sinusitis.csv
+        table54: output/case_8_ot_externa.csv
+        table55: output/case_8_ot_media.csv
+        table56: output/case_8_pneumonia.csv
+        table57: output/case_9_uti.csv
+        table58: output/case_9_lrti.csv
+        table59: output/case_9_urti.csv
+        table60: output/case_9_sinusitis.csv
+        table61: output/case_9_ot_externa.csv
+        table62: output/case_9_ot_media.csv
+        table63: output/case_9_pneumonia.csv
+        table64: output/control_1_uti.csv
+        table65: output/control_1_lrti.csv
+        table66: output/control_1_urti.csv
+        table67: output/control_1_sinusitis.csv
+        table68: output/control_1_ot_externa.csv
+        table69: output/control_1_ot_media.csv
+        table70: output/control_1_pneumonia.csv
+        table71: output/control_2_uti.csv
+        table72: output/control_2_lrti.csv
+        table73: output/control_2_urti.csv
+        table74: output/control_2_sinusitis.csv
+        table75: output/control_2_ot_externa.csv
+        table76: output/control_2_ot_media.csv
+        table77: output/control_2_pneumonia.csv
+        table78:  output/control_3_uti.csv
+        table79:  output/control_3_lrti.csv
+        table80:  output/control_3_urti.csv
+        table81:  output/control_3_sinusitis.csv
+        table82:  output/control_3_ot_externa.csv
+        table83:  output/control_3_ot_media.csv
+        table84:  output/control_3_pneumonia.csv
+        table85:  output/control_4_uti.csv
+        table86:  output/control_4_lrti.csv
+        table87:  output/control_4_urti.csv
+        table88:  output/control_4_sinusitis.csv
+        table89:  output/control_4_ot_externa.csv
+        table90:  output/control_4_ot_media.csv
+        table91:  output/control_4_pneumonia.csv
+        table92:  output/control_5_uti.csv
+        table93:  output/control_5_lrti.csv
+        table94:  output/control_5_urti.csv
+        table95:  output/control_5_sinusitis.csv
+        table96:  output/control_5_ot_externa.csv
+        table97:  output/control_5_ot_media.csv
+        table98:  output/control_5_pneumonia.csv
+        table99:  output/control_6_uti.csv
+        table100: output/control_6_lrti.csv
+        table101: output/control_6_urti.csv
+        table102: output/control_6_sinusitis.csv
+        table103: output/control_6_ot_externa.csv
+        table104: output/control_6_ot_media.csv
+        table105: output/control_6_pneumonia.csv
+        table106: output/control_7_uti.csv
+        table107: output/control_7_lrti.csv
+        table108: output/control_7_urti.csv
+        table109: output/control_7_sinusitis.csv
+        table110: output/control_7_ot_externa.csv
+        table111: output/control_7_ot_media.csv
+        table112: output/control_7_pneumonia.csv
+        table113: output/control_8_uti.csv
+        table114: output/control_8_lrti.csv
+        table115: output/control_8_urti.csv
+        table116: output/control_8_sinusitis.csv
+        table117: output/control_8_ot_externa.csv
+        table118: output/control_8_ot_media.csv
+        table119: output/control_8_pneumonia.csv
+        table120: output/control_9_uti.csv
+        table121: output/control_9_lrti.csv
+        table122: output/control_9_urti.csv
+        table123: output/control_9_sinusitis.csv
+        table124: output/control_9_ot_externa.csv
+        table125: output/control_9_ot_media.csv
+        table126: output/control_9_pneumonia.csv
 
   matching_1:
     run: python:latest python analysis/matching_1.py
@@ -167,5 +281,29 @@ actions:
         table1: output/matched_cases_1_uti.csv
         table2: output/matched_matches_1_uti.csv
         table3: output/matched_combined_1_uti.csv
+        table4: output/matched_cases_1_lrti.csv
+        table5: output/matched_matches_1_lrti.csv
+        table6: output/matched_combined_1_lrti.csv
+        table7: output/matched_cases_1_urti.csv
+        table8: output/matched_matches_1_urti.csv
+        table9: output/matched_combined_1_urti.csv
+        table10: output/matched_cases_1_sinusitis.csv
+        table11: output/matched_matches_1_sinusitis.csv
+        table12: output/matched_combined_1_sinusitis.csv
+        table13: output/matched_cases_1_ot_externa.csv
+        table14: output/matched_matches_1_ot_externa.csv
+        table15: output/matched_combined_1_ot_externa.csv
+        table16: output/matched_cases_1_ot_media.csv
+        table17: output/matched_matches_1_ot_media.csv
+        table18: output/matched_combined_1_ot_media.csv
+        table19: output/matched_cases_1_pneumonia.csv
+        table20: output/matched_matches_1_pneumonia.csv
+        table21: output/matched_combined_1_pneumonia.csv
       moderately_sensitive: 
         report1: output/matching_report_1_uti.txt
+        report2: output/matching_report_1_lrti.txt
+        report3: output/matching_report_1_urti.txt
+        report4: output/matching_report_1_sinusitis.txt
+        report5: output/matching_report_1_ot_externa.txt
+        report6: output/matching_report_1_ot_media.txt
+        report7: output/matching_report_1_pneumonia.txt

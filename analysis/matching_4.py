@@ -1,8 +1,8 @@
 from osmatching import match
 
 match(
-    case_csv="case_1_uti",
-    match_csv="control_1_uti",
+    case_csv="case_4_uti",
+    match_csv="control_4_uti",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -11,13 +11,13 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_uti",
+    output_suffix="_4_uti",
     output_path="output",
 )
 
 match(
-    case_csv="case_1_lrti",
-    match_csv="control_1_lrti",
+    case_csv="case_4_lrti",
+    match_csv="control_4_lrti",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -26,13 +26,13 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_lrti",
+    output_suffix="_4_lrti",
     output_path="output",
 )
 
 match(
-    case_csv="case_1_urti",
-    match_csv="control_1_urti",
+    case_csv="case_4_urti",
+    match_csv="control_4_urti",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -41,13 +41,13 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_urti",
+    output_suffix="_4_urti",
     output_path="output",
 )
 
 match(
-    case_csv="case_1_sinusitis",
-    match_csv="control_1_sinusitis",
+    case_csv="case_4_sinusitis",
+    match_csv="control_4_sinusitis",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -56,13 +56,13 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_sinusitis",
+    output_suffix="_4_sinusitis",
     output_path="output",
 )
 
 match(
-    case_csv="case_1_ot_externa",
-    match_csv="control_1_ot_externa",
+    case_csv="case_4_ot_externa",
+    match_csv="control_4_ot_externa",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -71,13 +71,13 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_ot_externa",
+    output_suffix="_4_ot_externa",
     output_path="output",
 )
 
 match(
-    case_csv="case_1_ot_media",
-    match_csv="control_1_ot_media",
+    case_csv="case_4_ot_media",
+    match_csv="control_4_ot_media",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -86,13 +86,13 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_ot_media",
+    output_suffix="_4_ot_media",
     output_path="output",
 )
 
 match(
-    case_csv="case_1_pneumonia",
-    match_csv="control_1_pneumonia",
+    case_csv="case_4_pneumonia",
+    match_csv="control_4_pneumonia",
     matches_per_case=6,
     match_variables={
         "sex": "category",
@@ -101,6 +101,6 @@ match(
     },
     index_date_variable="patient_index_date",
     closest_match_variables=["age"],
-    output_suffix="_1_pneumonia",
+    output_suffix="_4_pneumonia",
     output_path="output",
 )
