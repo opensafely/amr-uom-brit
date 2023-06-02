@@ -55,3 +55,12 @@ actions:
         table1: output/ae_rate_42days_table.csv
         table2: output/ae_rate_42days_forplot.csv
         plot1: output/figure_ae_42days_rate.jpeg
+
+  ae_rate_42days_nocovid_table:  
+    run: r:latest analysis/figure/ae_rate_42days_nocovid.R
+    needs: [generate_measures_2ae]
+    outputs:
+      moderately_sensitive:
+        table1: output/ae_rate_42days_nocovid_table.csv
+        table2: output/ae_rate_42days_nocovid_forplot.csv
+        plot1: output/figure_ae_42days_nocovid_rate.jpeg
