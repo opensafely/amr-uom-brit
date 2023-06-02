@@ -83,7 +83,7 @@ study = StudyDefinition(
         has_outcome=patients.admitted_to_hospital(
             with_these_primary_diagnoses=all_ae_codes,
             with_admission_method=emergency_admission_codes, 
-            between=["patient_index_date","patient_index_date + 30 days"],
+            between=["patient_index_date - 365 days","patient_index_date + 30 days"],
         ),
 
         has_infection=patients.with_these_clinical_events(

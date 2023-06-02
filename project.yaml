@@ -89,3 +89,35 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_1.csv
+
+  process_1:  
+    run: r:latest analysis/casecontrol/process_1.R
+    needs: [generate_study_population_case,generate_study_population_control_1]
+    outputs:
+      highly_sensitive:
+        table1: output/case_1_uti.csv
+        table2: output/case_1_lrti.csv
+        table3: output/case_1_urti.csv
+        table4: output/case_1_sinusitis.csv
+        table5: output/case_1_ot_externa.csv
+        table6: output/case_1_ot_media.csv
+        table7: output/case_1_pneumonia.csv
+        table8: output/control_1_uti.csv
+        table9: output/control_1_lrti.csv
+        table10: output/control_1_urti.csv
+        table11: output/control_1_sinusitis.csv
+        table12: output/control_1_ot_externa.csv
+        table13: output/control_1_ot_media.csv
+        table14: output/control_1_pneumonia.csv
+
+
+  matching_1:
+    run: python:latest python analysis/matching_1.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_1_uti.csv
+        table2: output/matched_matches_1_uti.csv
+        table3: output/matched_combined_1_uti.csv
+      moderately_sensitive: 
+        report1: output/matching_report_1_uti.txt
