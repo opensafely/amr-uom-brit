@@ -181,9 +181,8 @@ print(
   labs(fill="case%")
 
 
-
 )
-
+  head(dat)
 rm(dat)
 }
 ```
