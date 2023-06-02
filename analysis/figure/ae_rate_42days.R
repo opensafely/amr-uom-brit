@@ -157,6 +157,6 @@ p<-ggplot(df, aes(x = date, y = Value)) +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "white"), legend.position = "bottom")  + 
   scale_color_nejm()
-ggsave(p, bg="white",width = 10, height = 6, dpi = 640,
+ggsave(p, width = 10, height = 6, dpi = 640,bg="white",
        filename="figure_ae_42days_rate.jpeg", path=here::here("output"),
 )  
