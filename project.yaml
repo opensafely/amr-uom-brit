@@ -34,6 +34,15 @@ actions:
         table2: output/ae_rate_forplot.csv
         plot1: output/figure_ae_rate.jpeg
 
+  infection_table:  
+    run: r:latest analysis/figure/infection_table.R
+    needs: [generate_measures_ae]
+    outputs:
+      moderately_sensitive:
+        table1: output/infection_table.csv
+        table2: output/infection_forplot.csv
+        plot1: output/figure_infection.jpeg
+
   generate_study_population_2ae:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_2ae --index-date-range "2019-01-01 to 2023-03-31 by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
     outputs:
