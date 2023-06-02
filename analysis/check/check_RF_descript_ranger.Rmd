@@ -164,18 +164,19 @@ names(dat)[2]="quartile"
 
 dat$case=as.numeric(dat$case)
 
-dat=dat %>% dplyr::group_by(quartile, total_ab_group) %>% dplyr::summarise(N=n(),
-                             case=sum(case),
-                             prop=case/N)
+df1= dat%>% dplyr::count(quartile, total_ab_group)
 
+df2=dat %>% dplyr::group_by(quartile, total_ab_group) %>% dplyr::summarise(case=sum(case))
 
+dat=merge(df1,df2,by=c("quartile","total_ab_group"))
+dat$prop=dat$case/dat$n
 print(
 
   ggplot(dat, aes(total_ab_group, quartile)) +                         
   geom_tile(aes(fill = prop))+
   
   ggtitle(explanatory[i])+
-  xlab("") + 
+  xlab("total antibiotics quartiles") + 
   ylab(explanatory[i]) + 
   labs(fill="case%")
 
@@ -185,6 +186,11 @@ print(
 
 rm(dat)
 }
+```
+```{r}
+install.packages("reshape")                                       # Install reshape package
+library("reshape")   
+data_melt <- melt(data)      
 ```
 
 
@@ -198,7 +204,7 @@ dat=data%>% select(decile, explanatory[i], total_ab_group, case)
 names(dat)[2]="quartile"
 dat[,c(1:4)]<- sapply(dat[,c(1:4)],as.factor)
 
-dat=dat%>%group_by(quartile,total_ab_group)%>% mutate(n=n())
+dat=dat%>%group_by(quartile,total_ab_group)%>% mutate(n=())
 
 print(
 ggplot(dat, aes(x=as.factor(total_ab_group),y=as.factor(quartile) )) + 
