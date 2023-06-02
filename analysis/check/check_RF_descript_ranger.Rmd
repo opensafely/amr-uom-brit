@@ -163,6 +163,7 @@ names(dat)[2]="quartile"
 #dat[,c(1:4)]<- sapply(dat[,c(1:4)],as.factor)
 
 dat$case=as.numeric(dat$case)
+ print(range(dat$case))
 
 df1= dat%>% dplyr::count(quartile, total_ab_group)
 
@@ -182,7 +183,7 @@ print(
 
 
 )
-  head(dat)
+ print(head(dat))
 rm(dat)
 }
 ```
