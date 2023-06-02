@@ -73,3 +73,19 @@ actions:
         table1: output/ae_rate_42days_nocovid_table.csv
         table2: output/ae_rate_42days_nocovid_forplot.csv
         plot1: output/figure_ae_42days_nocovid_rate.jpeg
+
+###########################################################################
+##########                      case control                      #########
+###########################################################################
+### study cohort ###
+  generate_study_population_case:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case.csv
+
+  generate_study_population_control_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1.csv
