@@ -1,6 +1,6 @@
 ###################################################################
 
-## This script is to extract the controls pre covid    2019-1    ##
+## This script is to extract the controls pre covid  2019-2      ##
 
 ###################################################################
 
@@ -19,8 +19,8 @@ from codelists import *
 
 ###### Define study time variables
 from datetime import datetime
-start_date = "2019-01-01"
-end_date = "2019-06-30"
+start_date = "2019-07-01"
+end_date = "2019-12-31"
 
 ###### Controls definition ######
 ## 1. any age 

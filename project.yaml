@@ -83,12 +83,18 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case.csv
-
+### 2019-1 ###
   generate_study_population_control_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1
     outputs:
       highly_sensitive:
         cohort: output/input_control_1.csv
+### 2019-2 ###
+  generate_study_population_control_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2.csv
 
   process_1:  
     run: r:latest analysis/casecontrol/process_1.R
