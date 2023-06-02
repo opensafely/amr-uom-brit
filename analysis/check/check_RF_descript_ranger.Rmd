@@ -164,7 +164,6 @@ names(dat)[2]="quartile"
 
 dat$case=as.numeric(dat$case)
 dat$case=ifelse(dat$case==2,1,0) # 1,2 -> 0,1
- print(range(dat$case))
 
 df1= dat%>% dplyr::count(quartile, total_ab_group)
 
@@ -374,5 +373,39 @@ ggplot(dat, aes(x=as.factor(quartile), y=as.factor(decile), )) +
 
 
 )
+}
+```
+
+# heatmap
+```{r}
+for (i in 2:length(explanatory)) {
+
+dat=data%>% select(decile, explanatory[i], total_ab_group, case)
+
+names(dat)[2]="quartile"
+#dat[,c(1:4)]<- sapply(dat[,c(1:4)],as.factor)
+
+dat$case=as.numeric(dat$case)
+dat$case=ifelse(dat$case==2,1,0) # 1,2 -> 0,1
+
+df1= dat%>% dplyr::count(quartile, total_ab_group)
+
+df2=dat %>% dplyr::group_by(quartile, total_ab_group) %>% dplyr::summarise(case=sum(case))
+
+dat=merge(df1,df2,by=c("quartile","total_ab_group"))
+dat$prop=dat$case/dat$n
+print(
+
+  ggplot(dat, aes(total_ab_group, quartile)) +                         
+  geom_tile(aes(fill = prop))+
+  
+  ggtitle(explanatory[i])+
+  xlab("total antibiotics quartiles") + 
+  ylab(explanatory[i]) + 
+  labs(fill="case%")
+
+
+)
+rm(dat)
 }
 ```
