@@ -95,6 +95,48 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_2.csv
+### 2020-1 ###
+  generate_study_population_control_3:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_3
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_3.csv
+### 2020-2 ###
+  generate_study_population_control_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_4
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_4.csv
+### 2021-1 ###
+  generate_study_population_control_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_5
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_5.csv
+### 2021-2 ###
+  generate_study_population_control_6:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_6
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_6.csv
+### 2022-1 ###
+  generate_study_population_control_7:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_7
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_7.csv
+### 2022-2 ###
+  generate_study_population_control_8:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_8
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_8.csv
+### 2023-1 ###
+  generate_study_population_control_9:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_9
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_9.csv
 
   process_1:  
     run: r:latest analysis/casecontrol/process_1.R
