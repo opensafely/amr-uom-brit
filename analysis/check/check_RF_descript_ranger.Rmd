@@ -162,6 +162,8 @@ dat=data%>% select(decile, explanatory[i], total_ab_group, case)
 names(dat)[2]="quartile"
 #dat[,c(1:4)]<- sapply(dat[,c(1:4)],as.factor)
 
+dat$case=as.numeric(dat$case)
+
 dat=dat %>% dplyr::group_by(quartile, total_ab_group) %>% dplyr::summarise(N=n(),
                              case=sum(case),
                              prop=case/N)
