@@ -129,14 +129,13 @@ df$pneumonia_ae_rate <- round((df$pneumonia_ae*10000/df$population), 3)
 
 write_csv(df, here::here("output", "ae_rate_42days_nocovid_table.csv"))
 
-df <- df %>% select(date,ae_admitted_rate,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
+df <- df %>% select(date,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
                     sinusitis_ae_rate,ot_externa_ae_rate,ot_media_ae_rate,pneumonia_ae_rate) %>%pivot_longer(
-                      cols = c(ae_admitted_rate,uti_ae_rate,lrti_ae_rate,urti_ae_rate,
+                      cols = c(uti_ae_rate,lrti_ae_rate,urti_ae_rate,
                                sinusitis_ae_rate,ot_externa_ae_rate,ot_media_ae_rate,pneumonia_ae_rate),
                       names_to = "InfectionType",
                       values_to = "Value"
                     )%>%mutate(InfectionType = recode(InfectionType, 
-                                                      ae_admitted_rate = "AE admitted", 
                                                       uti_ae_rate = "UTI", 
                                                       lrti_ae_rate = "LRTI", 
                                                       urti_ae_rate = "URTI",
@@ -156,7 +155,8 @@ p<-ggplot(df, aes(x = date, y = Value)) +
   geom_line(aes(color = InfectionType, linetype = InfectionType)) +
   labs(x = "Date", y = "Monthly admission rates per 10000 person", color = "", linetype = "", shape = "") +
   theme_minimal() +
-  theme(legend.position = "bottom")  + scale_color_nejm()
+  theme(panel.background = element_rect(fill = "white"), legend.position = "bottom")  + 
+  scale_color_nejm()
 
 ggsave(p, width = 10, height = 6, dpi = 640,
        filename="figure_ae_42days_nocovid_rate.jpeg", path=here::here("output"),
