@@ -187,12 +187,6 @@ print(
 rm(dat)
 }
 ```
-```{r}
-install.packages("reshape")                                       # Install reshape package
-library("reshape")   
-data_melt <- melt(data)      
-```
-
 
 ## scatter plot
 ```{r eval=FALSE, include=FALSE}
