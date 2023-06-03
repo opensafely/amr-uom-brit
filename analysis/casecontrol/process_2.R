@@ -40,7 +40,8 @@ for (disease in diseases) {
   output_filename <- paste0("output/cases_", disease, ".csv")
   write_csv(combined_df, here::here(output_filename))
   
-  # calculate summary statistics
+ # calculate summary statistics
+  mean_age <- round(mean(combined_df$age, na.rm = TRUE), 3)
   sd_age <- round(sd(combined_df$age, na.rm = TRUE), 3)
   perc_sex <- round(table(combined_df$sex) / nrow(combined_df) * 100, 3)
   n_samples <- nrow(combined_df)
@@ -48,6 +49,7 @@ for (disease in diseases) {
   # append summary statistics to the summary table
   summary_table <- rbind(summary_table, data.frame(
     Disease = disease,
+    Mean_Age = mean_age,
     SD_Age = sd_age,
     Perc_Female = perc_sex["F"],
     Perc_Male = perc_sex["M"],
