@@ -307,3 +307,283 @@ actions:
         report5: output/matching_report_1_ot_externa.txt
         report6: output/matching_report_1_ot_media.txt
         report7: output/matching_report_1_pneumonia.txt
+
+  matching_2:
+    run: python:latest python analysis/matching_2.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_2_uti.csv
+        table23: output/matched_matches_2_uti.csv
+        table24: output/matched_combined_2_uti.csv
+        table25: output/matched_cases_2_lrti.csv
+        table26: output/matched_matches_2_lrti.csv
+        table27: output/matched_combined_2_lrti.csv
+        table28: output/matched_cases_2_urti.csv
+        table29: output/matched_matches_2_urti.csv
+        table30: output/matched_combined_2_urti.csv
+        table31: output/matched_cases_2_sinusitis.csv
+        table32: output/matched_matches_2_sinusitis.csv
+        table33: output/matched_combined_2_sinusitis.csv
+        table34: output/matched_cases_2_ot_externa.csv
+        table35: output/matched_matches_2_ot_externa.csv
+        table36: output/matched_combined_2_ot_externa.csv
+        table37: output/matched_cases_2_ot_media.csv
+        table38: output/matched_matches_2_ot_media.csv
+        table39: output/matched_combined_2_ot_media.csv
+        table40: output/matched_cases_2_pneumonia.csv
+        table41: output/matched_matches_2_pneumonia.csv
+        table42: output/matched_combined_2_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_2_uti.txt
+        report9: output/matching_report_2_lrti.txt
+        report10: output/matching_report_2_urti.txt
+        report11: output/matching_report_2_sinusitis.txt
+        report12: output/matching_report_2_ot_externa.txt
+        report13: output/matching_report_2_ot_media.txt
+        report14: output/matching_report_2_pneumonia.txt
+
+  matching_3:
+    run: python:latest python analysis/matching_3.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_3_uti.csv
+        table23: output/matched_matches_3_uti.csv
+        table24: output/matched_combined_3_uti.csv
+        table25: output/matched_cases_3_lrti.csv
+        table26: output/matched_matches_3_lrti.csv
+        table27: output/matched_combined_3_lrti.csv
+        table28: output/matched_cases_3_urti.csv
+        table29: output/matched_matches_3_urti.csv
+        table30: output/matched_combined_3_urti.csv
+        table31: output/matched_cases_3_sinusitis.csv
+        table32: output/matched_matches_3_sinusitis.csv
+        table33: output/matched_combined_3_sinusitis.csv
+        table34: output/matched_cases_3_ot_externa.csv
+        table35: output/matched_matches_3_ot_externa.csv
+        table36: output/matched_combined_3_ot_externa.csv
+        table37: output/matched_cases_3_ot_media.csv
+        table38: output/matched_matches_3_ot_media.csv
+        table39: output/matched_combined_3_ot_media.csv
+        table40: output/matched_cases_3_pneumonia.csv
+        table41: output/matched_matches_3_pneumonia.csv
+        table42: output/matched_combined_3_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_3_uti.txt
+        report9: output/matching_report_3_lrti.txt
+        report10: output/matching_report_3_urti.txt
+        report11: output/matching_report_3_sinusitis.txt
+        report12: output/matching_report_3_ot_externa.txt
+        report13: output/matching_report_3_ot_media.txt
+        report14: output/matching_report_3_pneumonia.txt
+
+  matching_4:
+    run: python:latest python analysis/matching_4.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_4_uti.csv
+        table23: output/matched_matches_4_uti.csv
+        table24: output/matched_combined_4_uti.csv
+        table25: output/matched_cases_4_lrti.csv
+        table26: output/matched_matches_4_lrti.csv
+        table27: output/matched_combined_4_lrti.csv
+        table28: output/matched_cases_4_urti.csv
+        table29: output/matched_matches_4_urti.csv
+        table30: output/matched_combined_4_urti.csv
+        table31: output/matched_cases_4_sinusitis.csv
+        table32: output/matched_matches_4_sinusitis.csv
+        table33: output/matched_combined_4_sinusitis.csv
+        table34: output/matched_cases_4_ot_externa.csv
+        table35: output/matched_matches_4_ot_externa.csv
+        table36: output/matched_combined_4_ot_externa.csv
+        table37: output/matched_cases_4_ot_media.csv
+        table38: output/matched_matches_4_ot_media.csv
+        table39: output/matched_combined_4_ot_media.csv
+        table40: output/matched_cases_4_pneumonia.csv
+        table41: output/matched_matches_4_pneumonia.csv
+        table42: output/matched_combined_4_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_4_uti.txt
+        report9: output/matching_report_4_lrti.txt
+        report10: output/matching_report_4_urti.txt
+        report11: output/matching_report_4_sinusitis.txt
+        report12: output/matching_report_4_ot_externa.txt
+        report13: output/matching_report_4_ot_media.txt
+        report14: output/matching_report_4_pneumonia.txt
+
+  matching_5:
+    run: python:latest python analysis/matching_5.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_5_uti.csv
+        table23: output/matched_matches_5_uti.csv
+        table24: output/matched_combined_5_uti.csv
+        table25: output/matched_cases_5_lrti.csv
+        table26: output/matched_matches_5_lrti.csv
+        table27: output/matched_combined_5_lrti.csv
+        table28: output/matched_cases_5_urti.csv
+        table29: output/matched_matches_5_urti.csv
+        table30: output/matched_combined_5_urti.csv
+        table31: output/matched_cases_5_sinusitis.csv
+        table32: output/matched_matches_5_sinusitis.csv
+        table33: output/matched_combined_5_sinusitis.csv
+        table34: output/matched_cases_5_ot_externa.csv
+        table35: output/matched_matches_5_ot_externa.csv
+        table36: output/matched_combined_5_ot_externa.csv
+        table37: output/matched_cases_5_ot_media.csv
+        table38: output/matched_matches_5_ot_media.csv
+        table39: output/matched_combined_5_ot_media.csv
+        table40: output/matched_cases_5_pneumonia.csv
+        table41: output/matched_matches_5_pneumonia.csv
+        table42: output/matched_combined_5_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_5_uti.txt
+        report9: output/matching_report_5_lrti.txt
+        report10: output/matching_report_5_urti.txt
+        report11: output/matching_report_5_sinusitis.txt
+        report12: output/matching_report_5_ot_externa.txt
+        report13: output/matching_report_5_ot_media.txt
+        report14: output/matching_report_5_pneumonia.txt
+
+  matching_6:
+    run: python:latest python analysis/matching_6.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_6_uti.csv
+        table23: output/matched_matches_6_uti.csv
+        table24: output/matched_combined_6_uti.csv
+        table25: output/matched_cases_6_lrti.csv
+        table26: output/matched_matches_6_lrti.csv
+        table27: output/matched_combined_6_lrti.csv
+        table28: output/matched_cases_6_urti.csv
+        table29: output/matched_matches_6_urti.csv
+        table30: output/matched_combined_6_urti.csv
+        table31: output/matched_cases_6_sinusitis.csv
+        table32: output/matched_matches_6_sinusitis.csv
+        table33: output/matched_combined_6_sinusitis.csv
+        table34: output/matched_cases_6_ot_externa.csv
+        table35: output/matched_matches_6_ot_externa.csv
+        table36: output/matched_combined_6_ot_externa.csv
+        table37: output/matched_cases_6_ot_media.csv
+        table38: output/matched_matches_6_ot_media.csv
+        table39: output/matched_combined_6_ot_media.csv
+        table40: output/matched_cases_6_pneumonia.csv
+        table41: output/matched_matches_6_pneumonia.csv
+        table42: output/matched_combined_6_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_6_uti.txt
+        report9: output/matching_report_6_lrti.txt
+        report10: output/matching_report_6_urti.txt
+        report11: output/matching_report_6_sinusitis.txt
+        report12: output/matching_report_6_ot_externa.txt
+        report13: output/matching_report_6_ot_media.txt
+        report14: output/matching_report_6_pneumonia.txt
+
+  matching_7:
+    run: python:latest python analysis/matching_7.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_7_uti.csv
+        table23: output/matched_matches_7_uti.csv
+        table24: output/matched_combined_7_uti.csv
+        table25: output/matched_cases_7_lrti.csv
+        table26: output/matched_matches_7_lrti.csv
+        table27: output/matched_combined_7_lrti.csv
+        table28: output/matched_cases_7_urti.csv
+        table29: output/matched_matches_7_urti.csv
+        table30: output/matched_combined_7_urti.csv
+        table31: output/matched_cases_7_sinusitis.csv
+        table32: output/matched_matches_7_sinusitis.csv
+        table33: output/matched_combined_7_sinusitis.csv
+        table34: output/matched_cases_7_ot_externa.csv
+        table35: output/matched_matches_7_ot_externa.csv
+        table36: output/matched_combined_7_ot_externa.csv
+        table37: output/matched_cases_7_ot_media.csv
+        table38: output/matched_matches_7_ot_media.csv
+        table39: output/matched_combined_7_ot_media.csv
+        table40: output/matched_cases_7_pneumonia.csv
+        table41: output/matched_matches_7_pneumonia.csv
+        table42: output/matched_combined_7_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_7_uti.txt
+        report9: output/matching_report_7_lrti.txt
+        report10: output/matching_report_7_urti.txt
+        report11: output/matching_report_7_sinusitis.txt
+        report12: output/matching_report_7_ot_externa.txt
+        report13: output/matching_report_7_ot_media.txt
+        report14: output/matching_report_7_pneumonia.txt
+
+  matching_8:
+    run: python:latest python analysis/matching_8.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_8_uti.csv
+        table23: output/matched_matches_8_uti.csv
+        table24: output/matched_combined_8_uti.csv
+        table25: output/matched_cases_8_lrti.csv
+        table26: output/matched_matches_8_lrti.csv
+        table27: output/matched_combined_8_lrti.csv
+        table28: output/matched_cases_8_urti.csv
+        table29: output/matched_matches_8_urti.csv
+        table30: output/matched_combined_8_urti.csv
+        table31: output/matched_cases_8_sinusitis.csv
+        table32: output/matched_matches_8_sinusitis.csv
+        table33: output/matched_combined_8_sinusitis.csv
+        table34: output/matched_cases_8_ot_externa.csv
+        table35: output/matched_matches_8_ot_externa.csv
+        table36: output/matched_combined_8_ot_externa.csv
+        table37: output/matched_cases_8_ot_media.csv
+        table38: output/matched_matches_8_ot_media.csv
+        table39: output/matched_combined_8_ot_media.csv
+        table40: output/matched_cases_8_pneumonia.csv
+        table41: output/matched_matches_8_pneumonia.csv
+        table42: output/matched_combined_8_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_8_uti.txt
+        report9: output/matching_report_8_lrti.txt
+        report10: output/matching_report_8_urti.txt
+        report11: output/matching_report_8_sinusitis.txt
+        report12: output/matching_report_8_ot_externa.txt
+        report13: output/matching_report_8_ot_media.txt
+        report14: output/matching_report_8_pneumonia.txt
+
+  matching_9:
+    run: python:latest python analysis/matching_9.py
+    needs: [process_1]
+    outputs:
+      highly_sensitive: 
+        table22: output/matched_cases_9_uti.csv
+        table23: output/matched_matches_9_uti.csv
+        table24: output/matched_combined_9_uti.csv
+        table25: output/matched_cases_9_lrti.csv
+        table26: output/matched_matches_9_lrti.csv
+        table27: output/matched_combined_9_lrti.csv
+        table28: output/matched_cases_9_urti.csv
+        table29: output/matched_matches_9_urti.csv
+        table30: output/matched_combined_9_urti.csv
+        table31: output/matched_cases_9_sinusitis.csv
+        table32: output/matched_matches_9_sinusitis.csv
+        table33: output/matched_combined_9_sinusitis.csv
+        table34: output/matched_cases_9_ot_externa.csv
+        table35: output/matched_matches_9_ot_externa.csv
+        table36: output/matched_combined_9_ot_externa.csv
+        table37: output/matched_cases_9_ot_media.csv
+        table38: output/matched_matches_9_ot_media.csv
+        table39: output/matched_combined_9_ot_media.csv
+        table40: output/matched_cases_9_pneumonia.csv
+        table41: output/matched_matches_9_pneumonia.csv
+        table42: output/matched_combined_9_pneumonia.csv
+      moderately_sensitive: 
+        report8: output/matching_report_9_uti.txt
+        report9: output/matching_report_9_lrti.txt
+        report10: output/matching_report_9_urti.txt
+        report11: output/matching_report_9_sinusitis.txt
+        report12: output/matching_report_9_ot_externa.txt
+        report13: output/matching_report_9_ot_media.txt
+        report14: output/matching_report_9_pneumonia.txt
