@@ -602,3 +602,54 @@ actions:
         table7: output/cases_pneumonia.csv
       moderately_sensitive: 
         table8: output/summary_table.csv
+
+#### Extracting variables for each infection type ####
+# UTI
+  generate_study_population_case_uti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_var_1.csv
+# LRTI
+  generate_study_population_case_lrti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_var_1.csv
+# URTI
+  generate_study_population_case_urti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_var_1.csv
+# Sinusitis
+  generate_study_population_case_sinusitis_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_sinusitis_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_sinusitis_var_1.csv
+# Otitis Externa
+  generate_study_population_case_ot_externa_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_externa_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ot_externa_var_1.csv
+# Otitis Media
+  generate_study_population_case_ot_media_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_media_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ot_media_var_1.csv
+# Pneumonia
+  generate_study_population_case_pneumonia_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_pneumonia_var_1
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_pneumonia_var_1.csv
