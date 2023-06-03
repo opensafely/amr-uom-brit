@@ -3,7 +3,6 @@ library("dplyr")
 library("tidyverse")
 library("lubridate")
 
-
 # define the disease types and cases
 diseases <- c("uti", "lrti", "urti", "sinusitis", "ot_externa", "ot_media", "pneumonia")
 cases <- 1:9
@@ -15,6 +14,9 @@ col_spec <- cols_only(patient_index_date = col_date(format = ""),
                       set_id = col_number(),
                       case = col_number(),
                       patient_id = col_number())
+
+# create an empty data frame for the summary table
+summary_table <- data.frame()
 
 # iterate over each disease
 for (disease in diseases) {
@@ -37,5 +39,22 @@ for (disease in diseases) {
   # write the combined data frame to a new CSV file
   output_filename <- paste0("output/cases_", disease, ".csv")
   write_csv(combined_df, here::here(output_filename))
+  
+  # calculate summary statistics
+  sd_age <- round(sd(combined_df$age, na.rm = TRUE), 3)
+  perc_sex <- round(table(combined_df$sex) / nrow(combined_df) * 100, 3)
+  n_samples <- nrow(combined_df)
+  
+  # append summary statistics to the summary table
+  summary_table <- rbind(summary_table, data.frame(
+    Disease = disease,
+    SD_Age = sd_age,
+    Perc_Female = perc_sex["F"],
+    Perc_Male = perc_sex["M"],
+    N_Samples = n_samples,
+    row.names = NULL
+  ))
 }
 
+# write the summary table to a new CSV file
+write_csv(summary_table, here::here("output/summary_table.csv"))

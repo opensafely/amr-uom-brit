@@ -600,3 +600,5 @@ actions:
         table5: output/cases_ot_externa.csv
         table6: output/cases_ot_media.csv
         table7: output/cases_pneumonia.csv
+      moderately_sensitive: 
+        table8: output/summary_table.csv
