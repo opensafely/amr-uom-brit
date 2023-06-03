@@ -587,3 +587,16 @@ actions:
         report12: output/matching_report_9_ot_externa.txt
         report13: output/matching_report_9_ot_media.txt
         report14: output/matching_report_9_pneumonia.txt
+
+  process_2:  
+    run: r:latest analysis/casecontrol/process_2.R
+    needs: [matching_1,matching_2,matching_3,matching_4,matching_5,matching_6,matching_7,matching_8,matching_9]
+    outputs:
+      highly_sensitive:
+        table1: output/cases_uti.csv
+        table2: output/cases_lrti.csv
+        table3: output/cases_urti.csv
+        table4: output/cases_sinusitis.csv
+        table5: output/cases_ot_externa.csv
+        table6: output/cases_ot_media.csv
+        table7: output/cases_pneumonia.csv

@@ -1,0 +1,41 @@
+### This script extract the id for all cases, group by infection type ###
+library("dplyr")
+library("tidyverse")
+library("lubridate")
+
+
+# define the disease types and cases
+diseases <- c("uti", "lrti", "urti", "sinusitis", "ot_externa", "ot_media", "pneumonia")
+cases <- 1:9
+
+# define the column specifications
+col_spec <- cols_only(patient_index_date = col_date(format = ""),
+                      age = col_number(),
+                      sex = col_character(),
+                      set_id = col_number(),
+                      case = col_number(),
+                      patient_id = col_number())
+
+# iterate over each disease
+for (disease in diseases) {
+  
+  # create an empty list to store data frames
+  df_list <- list()
+  
+  # iterate over each case
+  for (case in cases) {
+    
+    # read the CSV file and append it to the list
+    filename <- paste0("output/matched_cases_", case, "_", disease, ".csv")
+    df <- read_csv(here::here(filename), col_types = col_spec)
+    df_list[[case]] <- df
+  }
+  
+  # bind all data frames in the list into one data frame
+  combined_df <- bind_rows(df_list)
+  
+  # write the combined data frame to a new CSV file
+  output_filename <- paste0("output/cases_", disease, ".csv")
+  write_csv(combined_df, here::here(output_filename))
+}
+
