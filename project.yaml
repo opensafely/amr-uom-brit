@@ -611,6 +611,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_uti_var_1.csv
+
+  generate_study_population_case_uti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_var_2.csv
 # LRTI
   generate_study_population_case_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_1
@@ -618,6 +625,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_lrti_var_1.csv
+
+  generate_study_population_case_lrti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_var_2.csv
 # URTI
   generate_study_population_case_urti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_1
@@ -625,6 +639,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_urti_var_1.csv
+
+  generate_study_population_case_urti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_var_2.csv
 # Sinusitis
   generate_study_population_case_sinusitis_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_sinusitis_var_1
@@ -632,6 +653,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_sinusitis_var_1.csv
+
+  generate_study_population_case_sinusitis_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_sinusitis_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_sinusitis_var_2.csv
 # Otitis Externa
   generate_study_population_case_ot_externa_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_externa_var_1
@@ -639,6 +667,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_ot_externa_var_1.csv
+
+  generate_study_population_case_ot_externa_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_externa_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ot_externa_var_2.csv
 # Otitis Media
   generate_study_population_case_ot_media_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_media_var_1
@@ -646,6 +681,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_ot_media_var_1.csv
+
+  generate_study_population_case_ot_media_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_media_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ot_media_var_2.csv
 # Pneumonia
   generate_study_population_case_pneumonia_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_pneumonia_var_1
@@ -653,3 +695,10 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_pneumonia_var_1.csv
+
+  generate_study_population_case_pneumonia_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_pneumonia_var_2
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_pneumonia_var_2.csv
