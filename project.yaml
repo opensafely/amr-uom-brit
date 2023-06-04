@@ -603,7 +603,7 @@ actions:
       moderately_sensitive: 
         table8: output/summary_table.csv
 
-#### Extracting variables for each infection type ####
+#### Extracting cases variables for each infection type ####
 # UTI
   generate_study_population_case_uti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_var_1
@@ -702,3 +702,201 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_pneumonia_var_2.csv
+
+#### Extracting controls variables  ####
+# UTI
+  generate_study_population_control_1_uti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_uti_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_uti_var_1.csv
+
+  generate_study_population_control_1_uti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_uti_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_uti_var_2.csv
+
+  generate_study_population_control_2_uti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_uti_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_uti_var_1.csv
+
+  generate_study_population_control_2_uti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_uti_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_uti_var_2.csv
+# LRTI
+  generate_study_population_control_1_lrti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_lrti_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_lrti_var_1.csv
+
+  generate_study_population_control_1_lrti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_lrti_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_lrti_var_2.csv
+
+  generate_study_population_control_2_lrti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_lrti_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_lrti_var_1.csv
+
+  generate_study_population_control_2_lrti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_lrti_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_lrti_var_2.csv
+# URTI
+  generate_study_population_control_1_urti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_urti_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_urti_var_1.csv
+
+  generate_study_population_control_1_urti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_urti_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_urti_var_2.csv
+
+  generate_study_population_control_2_urti_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_urti_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_urti_var_1.csv
+
+  generate_study_population_control_2_urti_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_urti_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_urti_var_2.csv
+# Sinusitis
+  generate_study_population_control_1_sinusitis_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_sinusitis_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_sinusitis_var_1.csv
+
+  generate_study_population_control_1_sinusitis_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_sinusitis_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_sinusitis_var_2.csv
+
+  generate_study_population_control_2_sinusitis_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_sinusitis_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_sinusitis_var_1.csv
+
+  generate_study_population_control_2_sinusitis_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_sinusitis_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_sinusitis_var_2.csv
+# Otitis Externa
+  generate_study_population_control_1_ot_externa_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_ot_externa_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_ot_externa_var_1.csv
+
+  generate_study_population_control_1_ot_externa_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_ot_externa_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_ot_externa_var_2.csv
+
+  generate_study_population_control_2_ot_externa_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_ot_externa_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_ot_externa_var_1.csv
+
+  generate_study_population_control_2_ot_externa_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_ot_externa_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_ot_externa_var_2.csv
+# Otitis Media
+  generate_study_population_control_1_ot_media_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_ot_media_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_ot_media_var_1.csv
+
+  generate_study_population_control_1_ot_media_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_ot_media_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_ot_media_var_2.csv
+
+  generate_study_population_control_2_ot_media_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_ot_media_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_ot_media_var_1.csv
+
+  generate_study_population_control_2_ot_media_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_ot_media_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_ot_media_var_2.csv
+  # Pneumonia
+  generate_study_population_control_1_pneumonia_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_pneumonia_var_1
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_pneumonia_var_1.csv
+
+  generate_study_population_control_1_pneumonia_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_pneumonia_var_2
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_pneumonia_var_2.csv
+
+  generate_study_population_control_2_pneumonia_var_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_pneumonia_var_1
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_pneumonia_var_1.csv
+
+  generate_study_population_control_2_pneumonia_var_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_pneumonia_var_2
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_pneumonia_var_2.csv
