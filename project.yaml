@@ -1660,3 +1660,70 @@ actions:
     outputs:
       highly_sensitive: 
         rds1: output/processed/input_control_uti_var_2.rds
+
+  control_var_2_process_lrti:
+    run: r:latest analysis/control_var_2_process_lrti.R
+    needs: [generate_study_population_control_1_lrti_var_2,generate_study_population_control_2_lrti_var_2,generate_study_population_control_3_lrti_var_2,
+    generate_study_population_control_4_lrti_var_2,generate_study_population_control_5_lrti_var_2,generate_study_population_control_6_lrti_var_2,
+    generate_study_population_control_7_lrti_var_2,generate_study_population_control_8_lrti_var_2,generate_study_population_control_9_lrti_var_2]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_lrti_var_2.rds
+
+  control_var_2_process_urti:
+    run: r:latest analysis/control_var_2_process_urti.R
+    needs: [generate_study_population_control_1_urti_var_2,generate_study_population_control_2_urti_var_2,generate_study_population_control_3_urti_var_2,
+    generate_study_population_control_4_urti_var_2,generate_study_population_control_5_urti_var_2,generate_study_population_control_6_urti_var_2,
+    generate_study_population_control_7_urti_var_2,generate_study_population_control_8_urti_var_2,generate_study_population_control_9_urti_var_2]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_urti_var_2.rds
+
+  control_var_2_process_sinusitis:
+    run: r:latest analysis/control_var_2_process_sinusitis.R
+    needs: [generate_study_population_control_1_sinusitis_var_2,generate_study_population_control_2_sinusitis_var_2,generate_study_population_control_3_sinusitis_var_2,
+    generate_study_population_control_4_sinusitis_var_2,generate_study_population_control_5_sinusitis_var_2,generate_study_population_control_6_sinusitis_var_2,
+    generate_study_population_control_7_sinusitis_var_2,generate_study_population_control_8_sinusitis_var_2,generate_study_population_control_9_sinusitis_var_2]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_sinusitis_var_2.rds
+
+  control_var_2_process_ot_externa:
+    run: r:latest analysis/control_var_2_process_ot_externa.R
+    needs: [generate_study_population_control_1_ot_externa_var_2,generate_study_population_control_2_ot_externa_var_2,generate_study_population_control_3_ot_externa_var_2,
+    generate_study_population_control_4_ot_externa_var_2,generate_study_population_control_5_ot_externa_var_2,generate_study_population_control_6_ot_externa_var_2,
+    generate_study_population_control_7_ot_externa_var_2,generate_study_population_control_8_ot_externa_var_2,generate_study_population_control_9_ot_externa_var_2]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_ot_externa_var_2.rds
+
+  control_var_2_process_ot_media:
+    run: r:latest analysis/control_var_2_process_ot_media.R
+    needs: [generate_study_population_control_1_ot_media_var_2,generate_study_population_control_2_ot_media_var_2,generate_study_population_control_3_ot_media_var_2,
+    generate_study_population_control_4_ot_media_var_2,generate_study_population_control_5_ot_media_var_2,generate_study_population_control_6_ot_media_var_2,
+    generate_study_population_control_7_ot_media_var_2,generate_study_population_control_8_ot_media_var_2,generate_study_population_control_9_ot_media_var_2]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_ot_media_var_2.rds
+
+  control_var_2_process_pneumonia:
+    run: r:latest analysis/control_var_2_process_pneumonia.R
+    needs: [generate_study_population_control_1_pneumonia_var_2,generate_study_population_control_2_pneumonia_var_2,generate_study_population_control_3_pneumonia_var_2,
+    generate_study_population_control_4_pneumonia_var_2,generate_study_population_control_5_pneumonia_var_2,generate_study_population_control_6_pneumonia_var_2,
+    generate_study_population_control_7_pneumonia_var_2,generate_study_population_control_8_pneumonia_var_2,generate_study_population_control_9_pneumonia_var_2]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_pneumonia_var_2.rds
+
+  process_3:
+    run: r:latest analysis/casecontrol/process_3.R
+    needs: [process_2,case_var_1_process,case_var_2_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/case_uti.rds
+        rds2: output/processed/case_lrti.rds        
+        rds3: output/processed/case_urti.rds
+        rds4: output/processed/case_sinusitis.rds
+        rds5: output/processed/case_ot_externa.rds
+        rds6: output/processed/case_ot_media.rds
+        rds7: output/processed/case_pneumonia.rds
