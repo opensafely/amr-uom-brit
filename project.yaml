@@ -1727,3 +1727,18 @@ actions:
         rds5: output/processed/case_ot_externa.rds
         rds6: output/processed/case_ot_media.rds
         rds7: output/processed/case_pneumonia.rds
+
+  process_4:  
+    run: r:latest analysis/casecontrol/process_4.R
+    needs: [matching_1,matching_2,matching_3,matching_4,matching_5,matching_6,matching_7,matching_8,matching_9]
+    outputs:
+      highly_sensitive:
+        table1: output/controls_uti.csv
+        table2: output/controls_lrti.csv
+        table3: output/controls_urti.csv
+        table4: output/controls_sinusitis.csv
+        table5: output/controls_ot_externa.csv
+        table6: output/controls_ot_media.csv
+        table7: output/controls_pneumonia.csv
+      moderately_sensitive: 
+        table8: output/summary_controls_table.csv
