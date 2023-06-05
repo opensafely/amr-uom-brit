@@ -78,15 +78,14 @@ df$charlson_score=rowSums(df[charlson])
 
 ## Charlson - as a catergorical group variable
 df <- df %>%
-  mutate(charlsonGrp = case_when(charlson_score >0 & charlson_score <=2 ~ 2,
-                                 charlson_score >2 & charlson_score <=4 ~ 3,
-                                 charlson_score >4 & charlson_score <=6 ~ 4,
-                                 charlson_score >=7 ~ 5,
-                                 charlson_score == 0 ~ 1))
+  mutate(charlsonGrp = case_when(charlson_score >0 & charlson_score <=2 ~ "low",
+                                 charlson_score >2 & charlson_score <=4 ~ "medium",
+                                 charlson_score >4 & charlson_score <=6 ~ "high",
+                                 charlson_score >=7 ~ "very high",
+                                 charlson_score == 0 ~ "zero"))
 
 df$charlsonGrp <- as.factor(df$charlsonGrp)
-df$charlsonGrp <- factor(df$charlsonGrp, 
-                                 labels = c("zero", "low", "medium", "high", "very high"))
+
 
   # Save final dataset
   saveRDS(df, file.path(output_dir, "input_control_ot_media_var_2.rds"))
