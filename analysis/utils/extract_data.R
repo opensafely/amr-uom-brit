@@ -1,0 +1,76 @@
+## ###########################################################
+
+##  This script:
+## - Contains a general function that is used to extract data to create table 1
+
+## linda.nab@thedatalab.com - 20220328
+## ###########################################################
+
+# Load libraries & functions ---
+library(dplyr)
+library(here)
+library(lubridate)
+library(jsonlite)
+library(readr)
+
+# Function ---
+## Extracts data and maps columns to the correct format (integer, factor etc)
+## args:
+## - file_name: string with the location of the input file extracted by the 
+##   cohortextracter
+## output:
+## data.frame of the input file, with columns of the correct type
+extract_data <- function(file_name) {
+  ## read all data with default col_types 
+  data_extracted <-
+    read_csv(
+      file_name,
+      col_types = cols_only(
+        patient_id = col_integer(),
+        patient_index_date = col_date(format = ""),
+        # demographics
+        age = col_integer(),
+        agegroup = col_character(),
+        sex = col_character(),
+        region = col_character(),
+        bmi = col_character(),
+        ethnicity = col_number(),
+        smoking_status = col_character(),
+        smoking_status_comb = col_character(),
+        imd = col_number(),
+        # comorbidities (multilevel)
+        asthma = col_number(),
+        bp = col_number(),
+        diabetes_controlled = col_number(),
+        ## ckd/rrt
+        ### dialysis or kidney transplant
+        rrt_cat = col_number(),
+        ### calc of egfr
+        creatinine = col_number(), 
+        creatinine_operator = col_character(),
+        creatinine_age = col_number(),
+        ## organ or kidney transplant
+        organ_kidney_transplant = col_character(),
+        # comorbidities (binary)
+        hypertension = col_logical(),
+        chronic_respiratory_disease = col_logical(),
+        chronic_cardiac_disease = col_logical(),
+        cancer = col_logical(),
+        haem_cancer = col_logical(),
+        chronic_liver_disease = col_logical(),
+        stroke = col_logical(),
+        dementia = col_logical(),
+        other_neuro = col_logical(),
+        asplenia = col_logical(),
+        ra_sle_psoriasis = col_logical(),
+        immunosuppression = col_logical(),
+        learning_disability = col_logical(),
+        sev_mental_ill = col_logical(),
+        ## other var of interest
+        alcohol_problems = col_logical(),
+        care_home_type = col_character(),
+        household_size = col_integer()
+      )
+    )
+  data_extracted
+}
