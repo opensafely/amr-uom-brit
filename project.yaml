@@ -1742,3 +1742,18 @@ actions:
         table7: output/controls_pneumonia.csv
       moderately_sensitive: 
         table8: output/summary_controls_table.csv
+
+  process_5:
+    run: r:latest analysis/casecontrol/process_5.R
+    needs: [process_4,control_var_1_process,control_var_2_process_uti,control_var_2_process_lrti,
+    control_var_2_process_urti,control_var_2_process_sinusitis,control_var_2_process_ot_externa,
+    control_var_2_process_ot_media,control_var_2_process_pneumonia]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/control_uti.rds
+        rds2: output/processed/control_lrti.rds        
+        rds3: output/processed/control_urti.rds
+        rds4: output/processed/control_sinusitis.rds
+        rds5: output/processed/control_ot_externa.rds
+        rds6: output/processed/control_ot_media.rds
+        rds7: output/processed/control_pneumonia.rds
