@@ -1685,3 +1685,16 @@ actions:
         rds5: output/processed/input_control_ot_externa_var_2.rds
         rds6: output/processed/input_control_ot_media_var_2.rds
         rds7: output/processed/input_control_pneumonia_var_2.rds
+
+  process_3:
+    run: r:latest analysis/casecontrol/process_3.R
+    needs: [process_2,case_var_1_process,case_var_2_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/case_uti.rds
+        rds2: output/processed/case_lrti.rds        
+        rds3: output/processed/case_urti.rds
+        rds4: output/processed/case_sinusitis.rds
+        rds5: output/processed/case_ot_externa.rds
+        rds6: output/processed/case_ot_media.rds
+        rds7: output/processed/case_pneumonia.rds
