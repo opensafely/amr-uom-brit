@@ -106,8 +106,7 @@ process_data <- function(input_files, output_file) {
 
       # Save final dataset
       saveRDS(df_combined, here::here("output", "processed", output_file))
-    })
-  } else {
+    } else {
     stop(paste("Some input files do not exist:", input_files[!file.exists(input_files_path)]))
   }
 }
