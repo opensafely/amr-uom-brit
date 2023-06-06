@@ -8,11 +8,17 @@ library(car)
 library(data.table)
 library(gridExtra)
 library(here)
+# Define the list of infections
+infections <- c("uti", "lrti", "urti", "sinusitis", "ot_externa", "pneumonia")
 
+# Iterate over each infection in the list
+for (infection in infections) {
 
-case_uti <- readRDS(here::here("output", "processed","case_uti.rds"))
-control_uti <- readRDS(here::here("output", "processed","control_uti.rds"))
-df <- rbind(case_uti,control_uti)
+  # Load data for the current infection
+  case_infection <- readRDS(here::here("output", "processed", paste0("case_",infection,".rds")))
+  control_infection <- readRDS(here::here("output", "processed",paste0("control_",infection,".rds")))
+  
+  df <- rbind(case_infection, control_infection)
 
 df$care_home_type_ba <- df %>% mutate() 
 df$care_home_type_ba<-  case_when(
@@ -57,7 +63,7 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
-write_csv(DF, here::here("output", "uti_model_1.csv"))
+write_csv(DF, here::here("output", paste0(infection,"_model_1.csv")))
 
 mod=clogit(case ~ covid*ab_frequency + ab_frequency + strata(set_id), df)
 
@@ -70,7 +76,7 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
-write_csv(DF, here::here("output", "uti_model_2.csv"))
+write_csv(DF, here::here("output", paste0(infection,"_model_2.csv")))
 ## Renal 
 
 mod=clogit(case ~ ab_frequency + ckd_rrt + strata(set_id), df)
@@ -83,7 +89,7 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
-write_csv(DF, here::here("output", "uti_model_3.csv"))
+write_csv(DF, here::here("output", paste0(infection,"_model_3.csv")))
 ## CCI
 
 mod=clogit(case ~ ab_frequency + charlsonGrp + strata(set_id), df)
@@ -96,4 +102,5 @@ names(DF)[3]="CI_U"
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
-write_csv(DF, here::here("output", "uti_model_4.csv"))
+write_csv(DF, here::here("output", paste0(infection,"_model_4.csv")))
+}

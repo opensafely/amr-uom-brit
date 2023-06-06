@@ -1772,3 +1772,8 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/uti_model_*.csv
+        table2: output/lrti_model_*.csv
+        table3: output/urti_model_*.csv
+        table4: output/ot_externa_model_*.csv
+        table5: output/sinusitis_*.csv
+        table6: output/pneumonia_*.csv
