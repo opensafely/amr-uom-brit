@@ -1757,3 +1757,11 @@ actions:
         rds5: output/processed/control_ot_externa.rds
         rds6: output/processed/control_ot_media.rds
         rds7: output/processed/control_pneumonia.rds
+
+  table_1:  
+    run: r:latest analysis/casecontrol/table_1.R
+    needs: [process_3,process_5]
+    outputs:
+      moderately_sensitive:
+        table1: output/table_1_*_case.csv
+        table2: output/table_1_*_control.csv

@@ -44,7 +44,9 @@ process_data <- function(data_extracted) {
       # individuals with a female/male sex, data is extracted
       
       bmi = fct_case_when(
-        bmi == "Not obese" ~ "Not obese",
+        bmi == "Underweight (<18.5)" ~ "Underweight (<18.5 kg/m2)",
+        bmi == "Healthy range (18.5-24.9)" ~ "Healthy range (18.5-24.9 kg/m2)",
+        bmi == "Overweight (25-29.9)" ~ "Overweight (25-29.9 kg/m2)",
         bmi == "Obese I (30-34.9)" ~ "Obese I (30-34.9 kg/m2)",
         bmi == "Obese II (35-39.9)" ~ "Obese II (35-39.9 kg/m2)",
         bmi == "Obese III (40+)" ~ "Obese III (40+ kg/m2)",
