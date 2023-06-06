@@ -110,7 +110,7 @@ actions:
   
   check_clogit: # coditional logistic regression for picking exposure variables  # category & continuous
     run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi,model]
+    needs: [pre_RF_process]
     outputs:
       moderately_sensitive:
         html: output/check_clogit.html
