@@ -101,12 +101,19 @@ actions:
         rds3: output/train_cat.rds
         rds4: output/valid_cat.rds 
 
-  model_clogit: # coditional logistic regression for picking exposure variables 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
+  # model_clogit: # coditional logistic regression for picking exposure variables 
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [pre_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_clogit.html
+  
+  check_clogit: # coditional logistic regression for picking exposure variables  # category & continuous
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi,model]
     outputs:
       moderately_sensitive:
-        html: output/model_clogit.html
+        html: output/check_clogit.html
 
   # classification_tree:  #decision tree check # category  
   #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -313,12 +320,7 @@ actions:
       moderately_sensitive:
         html: output/check_RF_1control.html    
 
-  check_clogit: # ROC, calibration
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi,model]
-    outputs:
-      moderately_sensitive:
-        html: output/check_clogit.html 
+ 
 
   check_logistic: # compared with logistic model
     run: r:latest -e 'rmarkdown::render("analysis/check/check_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
