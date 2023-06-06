@@ -28,7 +28,7 @@ df$care_home_type_ba<-  case_when(
   df$care_home_type == "PN" ~ "TRUE",
   df$care_home_type == "PS" ~ "TRUE")
 
-df$case=relevel(as.factor(df$case), ref="0") 
+df$case=as.numeric(df$case) #1/0
 df$set_id=as.factor(df$set_id)#pair id
 df$imd= relevel(as.factor(df$imd), ref="5 (least deprived)")
 df$smoking_status= relevel(as.factor(df$smoking_status_comb), ref="Never and unknown")
