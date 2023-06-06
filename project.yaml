@@ -1765,3 +1765,10 @@ actions:
       moderately_sensitive:
         table1: output/table_1_*_case.csv
         table2: output/table_1_*_control.csv
+
+  process_6_crude_model:  
+    run: r:latest analysis/casecontrol/process_6_crude_model.R
+    needs: [process_3,process_5]
+    outputs:
+      moderately_sensitive:
+        table1: output/uti_model_*.csv
