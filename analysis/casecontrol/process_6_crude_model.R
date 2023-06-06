@@ -8,19 +8,20 @@ library(car)
 library(data.table)
 library(gridExtra)
 library(here)
+
 # Define the list of infections
 infections <- c("uti", "lrti", "urti", "sinusitis", "ot_externa", "pneumonia")
 
 # Iterate over each infection in the list
 for (infection in infections) {
-
+  
   # Load data for the current infection
   case_infection <- readRDS(here::here("output", "processed", paste0("case_",infection,".rds")))
   control_infection <- readRDS(here::here("output", "processed",paste0("control_",infection,".rds")))
   
   df <- rbind(case_infection, control_infection)
 
-df$care_home_type_ba <- df %>% mutate() 
+  df$care_home_type_ba <- df %>% mutate() 
 df$care_home_type_ba<-  case_when(
   df$care_home_type == "U" ~ "FALSE",
   df$care_home_type == "NA" ~ "FALSE",
@@ -58,67 +59,56 @@ columns <- c("set_id","case", "region", "imd", "ethnicity", "bmi", "smoking_stat
 
 df<- select(df,columns)
 
-mod=clogit(case ~ ab_treatment + strata(set_id), df)
-sum.mod=summary(mod)
-result=data.frame(sum.mod$conf.int)
-DF=result[,-2]
-names(DF)[1]="OR"
-names(DF)[2]="CI_L"
-names(DF)[3]="CI_U"
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="type"
+  # List to store data frames
+  dfs <- list()
+  
+  for (i in 1:5) {
+    
+    if(i==1){
+      mod=clogit(case ~ ab_treatment + strata(set_id), df)
+    }
+    else if(i==2){
+      mod=clogit(case ~ covid*ab_treatment + ab_treatment + strata(set_id), df)
+    }
+    else if(i==3){
+      mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df)
+    }
+    else if(i==4){
+      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + strata(set_id), df)
+    }
+    else if(i==5){
+      mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
+    }
+    
+    sum.mod=summary(mod)
+    result=data.frame(sum.mod$conf.int)
+    DF=result[,-2]
+    names(DF)[1]="OR"
+    names(DF)[2]="CI_L"
+    names(DF)[3]="CI_U"
+    setDT(DF, keep.rownames = TRUE)[]
+    names(DF)[1]="type"
 
-write_csv(DF, here::here("output", paste0(infection,"_model_1.csv")))
+    # Define the model number
+    Model <- paste0("Model ", i)
+    
+    # Add the infection type, model number, and Model to the DF
+    DF$infection <- infection
+    DF$model_num <- i
+    DF$Model <- Model
+    
+    # Add DF to the list
+    dfs[[i]] <- DF
+  }
+  
+  # Combine all data frames
+  combined_df <- bind_rows(dfs)
 
-mod=clogit(case ~ covid*ab_treatment + ab_treatment + strata(set_id), df)
-
-sum.mod=summary(mod)
-result=data.frame(sum.mod$conf.int)
-DF=result[,-2]
-names(DF)[1]="OR"
-names(DF)[2]="CI_L"
-names(DF)[3]="CI_U"
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="type"
-
-write_csv(DF, here::here("output", paste0(infection,"_model_2.csv")))
-## Renal 
-
-mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df)
-sum.mod=summary(mod)
-result=data.frame(sum.mod$conf.int)
-DF=result[,-2]
-names(DF)[1]="OR"
-names(DF)[2]="CI_L"
-names(DF)[3]="CI_U"
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="type"
-
-write_csv(DF, here::here("output", paste0(infection,"_model_3.csv")))
-
-## Renal 2
-mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + strata(set_id), df)
-sum.mod=summary(mod)
-result=data.frame(sum.mod$conf.int)
-DF=result[,-2]
-names(DF)[1]="OR"
-names(DF)[2]="CI_L"
-names(DF)[3]="CI_U"
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="type"
-
-write_csv(DF, here::here("output", paste0(infection,"_model_4.csv")))
-## CCI
-
-mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
-sum.mod=summary(mod)
-result=data.frame(sum.mod$conf.int)
-DF=result[,-2]
-names(DF)[1]="OR"
-names(DF)[2]="CI_L"
-names(DF)[3]="CI_U"
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="type"
-
-write_csv(DF, here::here("output", paste0(infection,"_model_5.csv")))
+  # Combine OR, CI_L, CI_U into one column
+  combined_df$`OR (95% CI)` <- ifelse(is.na(combined_df$OR), "",
+                                       sprintf("%.2f (%.2f to %.2f)",
+                                               combined_df$OR, combined_df$CI_L, combined_df$CI_U))
+  
+  # Write the combined data frame to a CSV file
+  write_csv(combined_df, here::here("output", paste0(infection,"_combined_model.csv")))
 }
