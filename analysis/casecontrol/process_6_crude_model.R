@@ -28,16 +28,21 @@ df$care_home_type_ba<-  case_when(
   df$care_home_type == "PN" ~ "TRUE",
   df$care_home_type == "PS" ~ "TRUE")
 
+df$ab_treatment <- df %>% mutate() 
+df$ab_treatment<-  case_when(
+  df$ab_frequency == "0" ~ "FALSE",
+  df$ab_frequency == "1" ~ "TRUE",
+  df$ab_frequency == "2-3" ~ "TRUE",
+  df$ab_frequency == ">3" ~ "TRUE")
+
+
 df$case=as.numeric(df$case) #1/0
 df$set_id=as.factor(df$set_id)#pair id
-df$imd= relevel(as.factor(df$imd), ref="5 (least deprived)")
-df$smoking_status= relevel(as.factor(df$smoking_status_comb), ref="Never and unknown")
-df$bmi = relevel(as.factor(df$bmi), ref="Healthy range (18.5-24.9 kg/m2)")
-df$ab_frequency= relevel(as.factor(df$ab_frequency), ref="0")
 df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
+df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
 df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
-                                      patient_index_date >=as.Date("2020-03-26")&patient_index_date < as.Date("2021-03-08") ~ "2",
+                                      patient_index_date >=as.Date("2020-03-26") & patient_index_date < as.Date("2021-03-08") ~ "2",
                                       patient_index_date >= as.Date("2021-03-08") ~ "3"))
 df$covid=relevel(as.factor(df$covid), ref="1")
 
@@ -49,11 +54,11 @@ columns <- c("set_id","case", "region", "imd", "ethnicity", "bmi", "smoking_stat
              "diabetes_controlled", "cancer", "haem_cancer", "chronic_liver_disease", "stroke",
              "dementia", "other_neuro", "organ_kidney_transplant", "asplenia", "ra_sle_psoriasis",
              "immunosuppression", "learning_disability", "sev_mental_ill", "alcohol_problems",
-             "care_home_type_ba", "ckd_rrt", "ab_frequency", "ab_type_num", "charlsonGrp","covid")
+             "care_home_type_ba", "ckd_rrt", "ab_treatment", "charlsonGrp","covid")
 
 df<- select(df,columns)
 
-mod=clogit(case ~ ab_frequency + strata(set_id), df)
+mod=clogit(case ~ ab_treatment + strata(set_id), df)
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
@@ -65,7 +70,7 @@ names(DF)[1]="type"
 
 write_csv(DF, here::here("output", paste0(infection,"_model_1.csv")))
 
-mod=clogit(case ~ covid*ab_frequency + ab_frequency + strata(set_id), df)
+mod=clogit(case ~ covid*ab_treatment + ab_treatment + strata(set_id), df)
 
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
@@ -79,7 +84,7 @@ names(DF)[1]="type"
 write_csv(DF, here::here("output", paste0(infection,"_model_2.csv")))
 ## Renal 
 
-mod=clogit(case ~ ab_frequency + ckd_rrt + strata(set_id), df)
+mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df)
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
@@ -90,9 +95,9 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
 write_csv(DF, here::here("output", paste0(infection,"_model_3.csv")))
-## CCI
 
-mod=clogit(case ~ ab_frequency + charlsonGrp + strata(set_id), df)
+## Renal 2
+mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + strata(set_id), df)
 sum.mod=summary(mod)
 result=data.frame(sum.mod$conf.int)
 DF=result[,-2]
@@ -103,4 +108,17 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="type"
 
 write_csv(DF, here::here("output", paste0(infection,"_model_4.csv")))
+## CCI
+
+mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+write_csv(DF, here::here("output", paste0(infection,"_model_5.csv")))
 }
