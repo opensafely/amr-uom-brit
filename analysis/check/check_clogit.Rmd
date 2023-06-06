@@ -15,7 +15,7 @@ library(randomForest) #dplyr
 ```{r }
 #train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
 df<- read_rds(here::here("output","train.rds"))
-train$case=as.numeric(train$case)
+df$case=as.numeric(df$case)
 
 
 col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_mean" , "interval_sd","subclass")
