@@ -10,296 +10,107 @@ library(pROC) #plyr
 library(randomForest) #dplyr
 ```
 
-# train
+# continuous var
+# import dataset
 ```{r }
-#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
-train<- read_rds(here::here("output","development.rds"))
-table(train$decile)
-table(train$case)
-prop.table(table(train$case,train$decile))
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+df<- read_rds(here::here("output","train.rds"))
+train$case=as.numeric(train$case)
 
-train$case=as.numeric(train$case) #1/0
-train$decile=as.factor(train$decile)
-#col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
-#train=train%>% mutate_at(col, as.factor)
+
+col=c("case","total_ab","ab_types","exposure_period" ,"recent_ab_days","broad_ab_prescriptions" ,"interval_mean" , "interval_sd","subclass")
+
+df=df[,col]
 
 ```
 
-###  crude model
+
+
+# total_ab
+```{r}
+summary(clogit(case ~ total_ab + strata(subclass),df))
+```
+
+# ab_types
+```{r}
+summary(clogit(case ~ ab_types + strata(subclass),df))
+```
+
+# exposure_period
+```{r}
+summary(clogit(case ~ exposure_period + strata(subclass),df))
+```
+
+# recent_ab_days
+```{r}
+summary(clogit(case ~ recent_ab_days + strata(subclass),df))
+```
+
+# broad_ab_prescriptions
+```{r}
+summary(clogit(case ~ broad_ab_prescriptions + strata(subclass),df))
+```
+
+# interval_mean
+```{r}
+summary(clogit(case ~ interval_mean + strata(subclass),df))
+```
+
+# interval_sd
+```{r}
+summary(clogit(case ~ interval_sd + strata(subclass),df))
+```
+
+
+# category var
+
+# import dataset
 ```{r }
-model=readRDS(here::here("output","model.rds"))
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+df<- read_rds(here::here("output","train_cat.rds"))
+train$case=as.numeric(train$case)
+
+
+col=c("case","total_ab_group","ab_types_group","exposure_period_group" ,"recent_ab_days_group","broad_ab_prescriptions_group" ,"interval_mean_group" , "interval_sd_group","subclass")
+
+df=df[,col]
+
 ```
 
 
 
-# train
-
-## predict probabilities 
+# total_ab
 ```{r}
-prob <- predict(model, newdata=data.frame(train), type = 'risk')
+summary(clogit(case ~ total_ab_group + strata(subclass),df))
 ```
 
-
+# ab_types
 ```{r}
-train$prob= prob
-summary(train$prob)
-hist(train$prob)
-sum(train$prob ==0)/length(train$prob)# % zero
-
-
-
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-#prop.table(summary(exp.class))
+summary(clogit(case ~ ab_types_group + strata(subclass),df))
 ```
 
-## create decile group
+# exposure_period
 ```{r}
-
-vec=vector()
-
-for (i in 1:10){
-  vec[i]=quantile(prob,(i/10),na.rm=T)
-}
-
-vec# decile value
-
-decile=vector()
-decile=ifelse(prob <=vec[1],1,decile)
-
-for (i in 1:9) {
-decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
-}
-
-
-table(decile)
-prop.table(table(decile))*100 
-
+summary(clogit(case ~ exposure_period_group + strata(subclass),df))
 ```
 
-## combine columns
+# recent_ab_days
 ```{r}
-head(decile)
-head(prob)
-
-train <- cbind(train,decile)
-
-str(train)
+summary(clogit(case ~ recent_ab_days_group + strata(subclass),df))
 ```
 
-
-## check decile distribution
+# broad_ab_prescriptions
 ```{r}
-for (i in 1:10) {
-  
-  print(paste0("decile=",i))
-  print(summary(train[decile==i,]$prob))
-
-}
-nrow(train)
-
+summary(clogit(case ~ broad_ab_prescriptions_group + strata(subclass),df))
 ```
 
+# interval_mean
 ```{r}
-
-#  c statistic / AUC
-roc_train <- roc(train$case ~train$prob, smoothed = TRUE,
-            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
-            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
-            print.auc=TRUE, show.thres=TRUE)
-print(roc_train) #AUC
-
-
-# E/O
-O <- prop.table(table(train$case))[2]
-E <- mean(train$prob)
-E/O
+summary(clogit(case ~ interval_mean_group + strata(subclass),df))
 ```
 
-
+# interval_sd
 ```{r}
-# calibration 
-
-gpdata=train%>%select(decile, case, prob)
-
-table(gpdata$decile)
-summary(gpdata[gpdata$decile==1,])
-head(gpdata)
-
-obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
-obs=obs%>% pull(mean.obs)
-
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
-exp=exp%>%pull(mean.exp)
-
-#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(train$case,train$decile)[1,] 
-
-cbind(exp,obs)# expected value vs. observed value
- 
-# CIs for scatter points
-lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
-uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
-
-# graph a simple calibration plot over 10 risk groups
-par(pty="s")
-plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
-lines(c(0,1),c(0,1),lty=2)
-
-for(i in 1:10){
-lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
-}
-
-h <- hist(train$prob, breaks=50, plot=FALSE)
-for(i in 1:length(h$mids)){
-  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
-}
-
-# Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(train$case))~train$prob,span=1))
-lines_data <- data.frame(train$prob,obs_all)
-lines_data2 <- lines_data[order(train$prob),] 
-lines(lines_data2[,1],lines_data2[,2],col="blue")
-legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
-
+summary(clogit(case ~ interval_sd_group + strata(subclass),df))
 ```
 
-
-
-
-#valid
-
-## predict probabilities 
-```{r}
-
-valid <- read_rds(here::here("output","validation.rds"))
-
-valid$case=as.numeric(valid$case) #1/0
-valid$decile=as.factor(valid$decile)
-#col <- c("case","decile","subclass","CCI","covrx_ever","bmi_cat","care_home","flu_vaccine","smoking_cat_3","imd","ethnicity_6")
-#train=train%>% mutate_at(col, as.factor)
-
-
-rm(train,prob,decile,vec)
-prob <- predict(model,valid,type = 'risk')
-
-valid$prob <- prob 
-summary(valid$prob)
-hist(valid$prob)
-sum(valid$prob==0)/length(valid$prob)# % zero
-
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-#prop.table(summary(exp.class))
-```
-
-## create decile group
-```{r}
-
-vec=vector()
-
-for (i in 1:10){
-  vec[i]=quantile(prob,(i/10),na.rm=T)
-}
-
-vec# decile value
-
-decile=vector()
-decile=ifelse(prob <=vec[1],1,decile)
-
-for (i in 1:9) {
-decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
-}
-
-
-table(decile)
-prop.table(table(decile))*100 
-
-```
-
-## combine columns
-```{r}
-head(decile)
-head(prob)
-
-valid <- cbind(valid,decile)
-
-str(valid)
-```
-
-
-## check decile distribution
-```{r}
-for (i in 1:10) {
-  
-  print(paste0("decile=",i))
-  print(summary(valid[decile==i,]$prob))
-
-}
-nrow(valid)
-
-```
-
-```{r}
-
-#  c statistic / AUC
-roc_valid <- roc(valid$case ~valid$prob, smoothed = TRUE,
-            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
-            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
-            print.auc=TRUE, show.thres=TRUE)
-print(roc_valid) #AUC
-
-
-# E/O
-O <- prop.table(table(valid$case))[2]
-E <- mean(valid$prob)
-E/O
-```
-
-
-```{r}
-# calibration 
-
-gpdata=valid%>%select(decile, case, prob)
-
-table(gpdata$decile)
-summary(gpdata[gpdata$decile==1,])
-head(gpdata)
-
-obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
-obs=obs%>% pull(mean.obs)
-
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
-exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
-exp=exp%>%pull(mean.exp)
-
-#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(valid$case,valid$decile)[1,] 
-
-cbind(exp,obs)# expected value vs. observed value
- 
-# CIs for scatter points
-lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
-uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
-
-# graph a simple calibration plot over 10 risk groups
-par(pty="s")
-plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
-lines(c(0,1),c(0,1),lty=2)
-
-for(i in 1:10){
-lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
-}
-
-h <- hist(valid$prob, breaks=50, plot=FALSE)
-for(i in 1:length(h$mids)){
-  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
-}
-
-# Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(valid$case))~valid$prob,span=1))
-lines_data <- data.frame(valid$prob,obs_all)
-lines_data2 <- lines_data[order(valid$prob),] 
-lines(lines_data2[,1],lines_data2[,2],col="blue")
-legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
-
-```
