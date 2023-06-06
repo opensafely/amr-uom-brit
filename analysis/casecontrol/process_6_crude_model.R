@@ -108,7 +108,7 @@ df<- select(df,columns)
   combined_df$`OR (95% CI)` <- ifelse(is.na(combined_df$OR), "",
                                        sprintf("%.2f (%.2f to %.2f)",
                                                combined_df$OR, combined_df$CI_L, combined_df$CI_U))
-  
+  combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
   # Write the combined data frame to a CSV file
   write_csv(combined_df, here::here("output", paste0(infection,"_combined_model.csv")))
 }
