@@ -1821,3 +1821,13 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/*_combined_model*.csv
+
+  freq_table:  
+    run: r:latest analysis/casecontrol/freq_table.R
+    needs: [generate_study_population_case_uti_var_3,generate_study_population_case_lrti_var_3,generate_study_population_case_urti_var_3,
+    generate_study_population_case_sinusitis_var_3,generate_study_population_case_ot_externa_var_3,generate_study_population_case_ot_media_var_3,
+    generate_study_population_case_pneumonia_var_3]
+    outputs:
+      moderately_sensitive:
+        table1: output/freq_*.csv
+
