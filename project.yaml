@@ -181,9 +181,6 @@ actions:
         rds2: output/model_adj.rds
         rds3: output/model_adj_all.rds
 
- 
-
-
 
 
 
@@ -388,7 +385,7 @@ actions:
   #       html: output/model_clogit_all.html  
 
 
-  # probability machine
+  # probability machine 1:6
   
   RF_multi_ranger: 
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -431,25 +428,60 @@ actions:
       moderately_sensitive:
         html: output/check_RF_descript_ranger.html 
 
-# python RF
-  pre_generate_notebook_RF: # rds to csv
-    run: r:latest -e 'rmarkdown::render("analysis/RF/pre_generate_notebook_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time,process_Rmatching]
-    outputs:
-      moderately_sensitive:
-        html: output/pre_generate_notebook_RF.html
-      highly_sensitive: 
-        csv1: output/train_cat.csv
-        csv2: output/valid_cat.csv
-        csv3: output/train.csv
-        csv4: output/valid.csv
+  # RF_shap: # Shapley values
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi_ranger]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF_descript_ranger.html 
+  
 
-  generate_notebook_RF:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/RF/RF.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
-    needs: [pre_generate_notebook_RF]
+# ranger 1:1 sample
+
+  RF_multi_ranger_1: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
     outputs:
       moderately_sensitive:
-        notebook: output/RF.html 
+        html: output/RF_multi_ranger_1.html
+      highly_sensitive:
+        rds1: output/development_ranger_1.rds 
+        rds2: output/validation_ranger_1.rds 
+        rds3: output/RF_model_ranger_1.rds 
+
+  model_ranger_1: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger_1]
+    outputs:
+      moderately_sensitive:
+        html: output/model_ranger_1.html  
+
+  check_RF_ranger_1: # ROC, calibration 
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger_1,pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_ranger_1.html    
+
+# # python RF
+#   pre_generate_notebook_RF: # rds to csv
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/pre_generate_notebook_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_ab_time,process_Rmatching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/pre_generate_notebook_RF.html
+#       highly_sensitive: 
+#         csv1: output/train_cat.csv
+#         csv2: output/valid_cat.csv
+#         csv3: output/train.csv
+#         csv4: output/valid.csv
+
+#   generate_notebook_RF:
+#     run: jupyter:latest jupyter nbconvert /workspace/analysis/RF/RF.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400
+#     needs: [pre_generate_notebook_RF]
+#     outputs:
+#       moderately_sensitive:
+#         notebook: output/RF.html 
         
   # prob_decile: # check prob dist
   #   run: r:latest -e 'rmarkdown::render("analysis/RF/prob_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

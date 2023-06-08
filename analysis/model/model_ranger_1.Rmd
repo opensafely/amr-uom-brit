@@ -1,0 +1,135 @@
+---
+title: "conditional logistic regression"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+require("gtsummary")
+library("survival")
+library(car)
+library(finalfit)
+```
+
+# train
+```{r }
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
+df <- read_rds(here::here("output","development_ranger_1.rds"))
+table(df$decile)
+table(df$case)
+prop.table(table(df$case,df$decile))
+
+df$case=as.factor(df$case) #1/0
+
+df$decile= relevel(as.factor(df$decile), ref="1")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+
+###  crude model
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+
+model=clogit(case ~ decile+ strata(subclass),df) 
+
+summary(model)
+```
+
+### adjust model 1
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+
+model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
+
+summary(model)
+```
+
+
+
+### adjusted model
+```{r}
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+summary(model)
+
+#pred.y <- predict(model, df, type = 'response')[,2]
+#roc<- roc(df$case ~ pred.y)
+##plot(roc)
+#print(roc)
+```
+
+
+# valid
+
+```{r}
+rm(df)
+df <- read_rds(here::here("output","validation_ranger_1.rds"))
+table(df$decile)
+table(df$case)
+prop.table(table(df$case,df$decile))
+
+df$case=as.factor(df$case) #1/0
+
+df$decile= relevel(as.factor(df$decile), ref="1")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+
+### crude model
+```{r }
+df$case=as.numeric(df$case) #1/0
+
+model=clogit(case ~ decile+ strata(subclass),df) 
+
+summary(model)
+```
+
+### adjust model 1
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+
+model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
+
+summary(model)
+```
+
+
+
+### adjusted model
+```{r }
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+summary(model)
+
+```
