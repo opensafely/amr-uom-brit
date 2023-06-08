@@ -1889,3 +1889,12 @@ actions:
       moderately_sensitive:
         table1: output/freq_icd10type_*.csv
 
+  process_8_ab_type_freq:  
+    run: r:latest analysis/casecontrol/process_8_ab_type_freq.R
+    needs: [generate_study_population_case_uti_var_2,generate_study_population_case_lrti_var_2,
+    generate_study_population_case_urti_var_2,generate_study_population_case_sinusitis_var_2,
+    generate_study_population_case_ot_externa_var_2,generate_study_population_case_ot_media_var_2,
+    generate_study_population_case_pneumonia_var_2]
+    outputs:
+      moderately_sensitive:
+        table1: output/*_abtype_freq.csv
