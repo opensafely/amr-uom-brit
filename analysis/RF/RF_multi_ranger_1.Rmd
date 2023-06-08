@@ -33,22 +33,6 @@ prop.table(table(valid$case))# % valid patients
 ```
 
 
-pick variable
-```{r}
-names(train)
-
-
-col=c("case","subclass","total_ab_group","ab_types_group",
-      "exposure_period_group","recent_ab_days_group",
-      "broad_ab_prescriptions_group",
-    "interval_mean_group","interval_sd_group")
-# abtype
-#train_X=train[col]
-#valid_X=valid[col]
-
-str(train)
-```
-
 # random select subclass (1:1 matched)
 ```{r}
 nrow(train)
@@ -56,14 +40,9 @@ train=train %>% group_by(case, subclass) %>% sample_n(1)
 train=train%>% ungroup(case, subclass)
 nrow(train)
 
-train=train[col]
-#saveRDS(train_X,here::here("output","development_ranger_1control.rds"))
-
 valid=valid%>% group_by(case, subclass) %>% sample_n(1)
 valid=valid%>% ungroup(case, subclass)
 nrow(valid)
-
-valid=valid[col]
 
 ```
 
