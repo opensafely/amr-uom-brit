@@ -68,6 +68,7 @@ study = StudyDefinition(
         },
     ),
     ###  emergency admission by type
+
     ae_hematologic=patients.admitted_to_hospital(
         returning="binary_flag", 
         with_these_primary_diagnoses=ae_hematologic_code,
