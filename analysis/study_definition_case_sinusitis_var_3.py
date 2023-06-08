@@ -11,7 +11,7 @@ from cohortextractor import (
 )
 
 ###### import matched cohort
-COHORT = "output/cases_pneumonia.csv"
+COHORT = "output/cases_sinusitis.csv"
 
 ###### Code lists
 from codelists import *

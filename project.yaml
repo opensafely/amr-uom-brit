@@ -625,6 +625,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_uti_var_3.csv
+
+  generate_study_population_case_uti_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_var_4.csv
 # LRTI
   generate_study_population_case_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_1
@@ -646,6 +653,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_lrti_var_3.csv
+
+  generate_study_population_case_lrti_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_var_4.csv
 # URTI
   generate_study_population_case_urti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_1
@@ -667,6 +681,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_urti_var_3.csv
+
+  generate_study_population_case_urti_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_var_4.csv
 # Sinusitis
   generate_study_population_case_sinusitis_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_sinusitis_var_1
@@ -688,6 +709,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_sinusitis_var_3.csv
+
+  generate_study_population_case_sinusitis_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_sinusitis_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_sinusitis_var_4.csv
 # Otitis Externa
   generate_study_population_case_ot_externa_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_externa_var_1
@@ -709,6 +737,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_ot_externa_var_3.csv
+
+  generate_study_population_case_ot_externa_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_externa_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ot_externa_var_4.csv
 # Otitis Media
   generate_study_population_case_ot_media_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_media_var_1
@@ -730,6 +765,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_ot_media_var_3.csv
+
+  generate_study_population_case_ot_media_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ot_media_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ot_media_var_4.csv
 # Pneumonia
   generate_study_population_case_pneumonia_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_pneumonia_var_1
@@ -751,6 +793,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_pneumonia_var_3.csv
+
+  generate_study_population_case_pneumonia_var_4:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_pneumonia_var_4
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_pneumonia_var_4.csv
 
 #### Extracting controls variables  ####
 # UTI
@@ -1830,4 +1879,13 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/freq_*.csv
+
+  freq_icd10type_table:  
+    run: r:latest analysis/casecontrol/freq_icd10type_table.R
+    needs: [generate_study_population_case_uti_var_4,generate_study_population_case_lrti_var_4,generate_study_population_case_urti_var_4,
+    generate_study_population_case_sinusitis_var_4,generate_study_population_case_ot_externa_var_4,generate_study_population_case_ot_media_var_4,
+    generate_study_population_case_pneumonia_var_4]
+    outputs:
+      moderately_sensitive:
+        table1: output/freq_icd10type_*.csv
 
