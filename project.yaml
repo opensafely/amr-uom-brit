@@ -1910,6 +1910,24 @@ actions:
       moderately_sensitive:
         table1: output/freq_icd10type_*.csv
 
+  freq_icd10type_table_bytiming:  
+    run: r:latest analysis/casecontrol/freq_icd10type_table_bytiming.R
+    needs: [generate_study_population_case_uti_var_5,generate_study_population_case_lrti_var_5,generate_study_population_case_urti_var_5]
+    outputs:
+      moderately_sensitive:
+        table1: output/freq_icd10type_lrti_0-7 days.csv
+        table2: output/freq_icd10type_lrti_15-21 days.csv
+        table3: output/freq_icd10type_lrti_22-30 days.csv
+        table4: output/freq_icd10type_lrti_8-14 days.csv
+        table5: output/freq_icd10type_urti_0-7 days.csv
+        table6: output/freq_icd10type_urti_15-21 days.csv
+        table7: output/freq_icd10type_urti_22-30 days.csv
+        table8: output/freq_icd10type_urti_8-14 days.csv
+        table9: output/freq_icd10type_uti_0-7 days.csv
+        table10: output/freq_icd10type_uti_15-21 days.csv
+        table11: output/freq_icd10type_uti_22-30 days.csv
+        table12: output/freq_icd10type_uti_8-14 days.csv
+
   process_8_ab_type_freq:  
     run: r:latest analysis/casecontrol/process_8_ab_type_freq.R
     needs: [generate_study_population_case_uti_var_2,generate_study_population_case_lrti_var_2,
