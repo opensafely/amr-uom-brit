@@ -632,6 +632,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_uti_var_4.csv
+
+  generate_study_population_case_uti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_var_5
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_var_5.csv
 # LRTI
   generate_study_population_case_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_1
@@ -660,6 +667,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_lrti_var_4.csv
+
+  generate_study_population_case_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_var_5
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_var_5.csv
 # URTI
   generate_study_population_case_urti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_1
@@ -688,6 +702,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_urti_var_4.csv
+
+  generate_study_population_case_urti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_var_5
+    needs: [process_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_var_5.csv
 # Sinusitis
   generate_study_population_case_sinusitis_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_sinusitis_var_1
