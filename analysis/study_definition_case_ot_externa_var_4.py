@@ -395,4 +395,554 @@ study = StudyDefinition(
         find_first_match_in_period=True, 
     ),
 
+    ae_K25_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K25_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K26_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K26_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K27_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K27_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K28_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K28_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K52_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K52_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K62_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K62_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K66_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K66_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K85_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K85_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+
+    ae_K92_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K92_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+
+    ae_R11_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R11_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R17_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R17_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E03_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E03_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E06_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E06_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E15_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E15_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E16_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E16_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E23_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E23_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E24_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E24_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E27_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E27_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E66_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E66_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+    ae_E86_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E86_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_E87_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=E87_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N42_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N42_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N62_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N62_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N83_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N83_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N85_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N85_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N89_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N89_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N92_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N92_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N93_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N93_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_N95_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=N95_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R31_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R31_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R34_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R34_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D52_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D52_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D59_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D59_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D61_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D61_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D64_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D64_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+    ae_D65_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D65_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D68_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D68_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D69_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D69_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_D70_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=D70_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R73_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R73_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K71_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K71_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K72_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K72_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K75_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K75_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_K76_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=K76_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R74_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R74_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+    ae_T36_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=T36_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_T37_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=T37_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_T47_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=T47_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_T50_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=T50_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_T78_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=T78_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_T88_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=T88_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L10_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L10_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L20_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L20_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L21_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L21_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L26_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L26_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+    ae_L27_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L27_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L28_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L28_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L29_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L29_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L30_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L30_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L43_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L43_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L50_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L50_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L51_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L51_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L52_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L52_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L56_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L56_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L64_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L64_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_L71_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=L71_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R20_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R20_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R21_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R21_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    ae_R23_codelist=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_primary_diagnoses=R23_codelist,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
 )
