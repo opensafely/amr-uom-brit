@@ -31,6 +31,9 @@ print(rf.model)
 ```{r}
 table(train$case)
 nrow(train)
+
+set.seed(123)
+
 train=train %>% group_by(case, subclass) %>% sample_n(1)
 train=train %>% ungroup(case, subclass)
 table(train$case)
@@ -38,6 +41,9 @@ nrow(train)
 
 table(valid$case)
 nrow(valid)
+
+set.seed(123)
+
 valid=valid %>% group_by(case, subclass) %>% sample_n(1)
 valid=valid %>% ungroup(case, subclass)
 table(valid$case)
@@ -46,22 +52,6 @@ nrow(valid)
 
 
 # train
-
-## predict probabilities 
-```{r eval=FALSE, include=FALSE}
-
-train$prob <- predict(rf.model,train, type = 'response')$prediction[,2]# votes of being case
-
-summary(train$prob)
-hist(train$prob )
-sum(train$prob ==0)/length(train$prob)# % zero
-
-
-
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-#prop.table(summary(exp.class))
-```
-
 
 
 ```{r}
@@ -80,29 +70,6 @@ E <- mean(train$prob)
 E/O
 ```
 
-## create decile group
-```{r eval=FALSE, include=FALSE}
-prob=train$prob
-vec=vector()
-
-for (i in 1:10){
-  vec[i]=quantile(prob,(i/10),na.rm=T)
-}
-
-vec# decile value
-
-decile=vector()
-decile=ifelse(prob <=vec[1],1,decile)
-
-for (i in 1:9) {
-decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )  
-}
-
-
-table(decile)
-prop.table(table(decile))*100 
-
-```
 
 
 ```{r}
@@ -157,19 +124,6 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 #valid
 
-## predict probabilities 
-```{r eval=FALSE, include=FALSE}
-rm(train,prob,decile,vec)
-valid$prob <- predict(rf.model,valid,type = 'response')$prediction[,2]# votes of being case
-
-summary(valid$prob)
-hist(valid$prob)
-sum(valid$prob==0)/length(valid$prob)# % zero
-
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-#prop.table(summary(exp.class))
-```
-
 
 
 ```{r}
@@ -188,29 +142,6 @@ E <- mean(valid$prob)
 E/O
 ```
 
-## create decile group
-```{r eval=FALSE, include=FALSE}
-prob=valid$prob
-vec=vector()
-
-for (i in 1:10){
-  vec[i]=quantile(prob,(i/10),na.rm=T)
-}
-
-vec# decile value
-
-decile=vector()
-decile=ifelse(prob <=vec[1],1,decile)
-
-for (i in 1:9) {
-decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )  
-}
-
-
-table(decile)
-prop.table(table(decile))*100 
-
-```
 
 ```{r}
 # calibration 
@@ -278,6 +209,7 @@ print(rf.model)
 
 ## predict probabilities 
 ```{r}
+set.seed(123)
 
 train$prob <- predict(rf.model,train, type = 'response')$prediction[,2]# votes of being case
 

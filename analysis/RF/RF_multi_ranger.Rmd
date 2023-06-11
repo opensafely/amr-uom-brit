@@ -52,6 +52,8 @@ str(train)
 # random select subclass
 ```{r}
 nrow(train)
+
+set.seed(123)
 train_X=train %>% group_by(case, subclass) %>% sample_n(1)
 train_X=train_X%>% ungroup(case, subclass)
 nrow(train_X)
@@ -64,6 +66,8 @@ saveRDS(train_X,here::here("output","development_ranger_1control.rds"))
 # RF. ranger probability machine
 ```{r}
 library(ranger)
+
+set.seed(123)
 
 rf.model= ranger(formula = case ~ ., 
                    data =  train_X,
@@ -91,6 +95,7 @@ rf.model$variable.importance
 ## predict probabilities 
 ```{r }
 data=train
+set.seed(123)
 
 prob <- predict(rf.model, data=train)$prediction[,2]# votes of being case
 
@@ -159,6 +164,7 @@ rm(data)
 ## predict probabilities 
 ```{r }
 data=valid
+set.seed(123)
 
 prob <-   predict(rf.model, data=valid)$prediction[,2]# votes of being case
 
@@ -236,59 +242,3 @@ str(development)
 
 
 
-
-
-```{r eval=FALSE, include=FALSE}
-# RF_ranger
-library(ranger)
-
-#Compute weights to balance the RF
-w <- 1/table(train_X$case)
-w <- w/sum(w)
-w
-weights <- rep(0, nrow(train_X))
-weights[train$case == 0] <- w['0']
-weights[train$case == 1] <- w['1']
-table(weights, train_X$case)
-
-set.seed(1024)
-
-    rf.model <- ranger(formula = case ~ ., 
-                   data = train_X,
-                   num.trees =  3000,
-                   min.node.size = 100,
-                   importance = "impurity",
-                   replace = TRUE,
-                   probability = TRUE,
-                   case.weights=weights
-                   )
-
-  print(rf.model)
-  
-  
-```
-
-```{r eval=FALSE, include=FALSE}
-data=train
-
-prob <- predict(rf.model, data=train)$prediction[,2]# probabilities
-
-summary(prob)
-hist(prob)
-sum(prob==0)/length(prob)# % zero
-
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
-#prop.table(summary(exp.class))
-```
-
-```{r eval=FALSE, include=FALSE}
-data=valid
-
-prob <- predict(rf.model, data=valid)$prediction[,2]# probabiliteis
-
-summary(prob)
-hist(prob)
-sum(prob==0)/length(prob)# % zero
-
-
-```
