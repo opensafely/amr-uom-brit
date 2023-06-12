@@ -573,7 +573,7 @@ actions:
         rds2: output/validation_ranger_5.rds 
         rds3: output/RF_model_ranger_5.rds 
 
-  model_ranger_3: # coditional logistic regression for decile groups
+  model_ranger_5: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_5.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_ranger_5]
     outputs:
