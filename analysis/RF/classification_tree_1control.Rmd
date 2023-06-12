@@ -337,37 +337,14 @@ summary(predict(model, type = 'prob')[,2])
 
 
 
-```{r eval=FALSE, include=FALSE}
-library(rpart)
-rf.model<- rpart(
-  case ~ ., 
-  data = data, 
-  method = "class"
- # minsplit = 2,  minbucket = 1
-  )
 
-print(rf.model)
-par(xpd = NA)
-plot(rf.model)
-text(rf.model,  digits = 3)
-```
-
-
-```{r eval=FALSE, include=FALSE}
-rf.model <- randomForest(formula = case ~ ., data = data, 
-                           replace = TRUE,
-                           ntree =  1,
-                           sampsize = round(nrow(data)*0.6),
-                           nodesize = 1 ,
-                           mtry = sqrt(ncol(data)-1)
-                          )
-  print(rf.model)
-  getTree(rf.model, k=1, labelVar=TRUE)
-
-```
+## matched + numeric(outcome)
 
 ### overall tree1
 ```{r  }
+
+data$case=as.numeric(data$case)
+
 set.seed(1024)
 model <-train(case ~. , 
                   data=data, method="rpart",

@@ -416,3 +416,72 @@ try(rpart.plot(model$finalModel))
 
 summary(predict(model, type = 'prob')[,2])
 ```
+
+
+
+
+## matched + numeric(outcome)
+
+### overall tree1
+```{r  }
+
+data$case=as.numeric(data$case)
+
+set.seed(1024)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+### overall tree 2
+```{r  }
+set.seed(999)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
+
+
+### overall tree 3
+```{r  }
+set.seed(3)
+model <-train(case ~. , 
+                  data=data, method="rpart",
+                  trControl = trainControl("cv", number = 5),
+                  tuneLength=5)
+  
+print(model)
+model$finalModel
+# Plot the final tree model
+#try(par(xpd = NA)) # Avoid clipping the text in some device
+#try(plot(model$finalModel))
+#try(text(model$finalModel,  digits = 3,cex=0.7))
+
+try(rpart.plot(model$finalModel))
+
+summary(predict(model, type = 'prob')[,2])
+```
