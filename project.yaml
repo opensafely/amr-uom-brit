@@ -415,7 +415,7 @@ actions:
         rds1: output/development_ranger.rds 
         rds2: output/validation_ranger.rds 
         rds3: output/RF_model_ranger.rds 
-        rds4: output/development_ranger_1control.rds 
+      #  rds4: output/development_ranger_1control.rds 
 
 
   model_ranger: # coditional logistic regression for decile groups

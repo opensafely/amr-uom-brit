@@ -50,7 +50,7 @@ str(train)
 ```
 
 # random select subclass
-```{r}
+```{r eval=FALSE, include=FALSE}
 nrow(train)
 
 set.seed(123)
@@ -70,7 +70,7 @@ library(ranger)
 set.seed(123)
 
 rf.model= ranger(formula = case ~ ., 
-                   data =  train_X,
+                   data =  train,
                    num.trees =   2000,
                    min.node.size = 100,
                    mtry = 3,
