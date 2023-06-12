@@ -42,19 +42,21 @@ set.seed(123)
 train.0=train%>%filter(case==0)
 train.1=train%>%filter(case==1)
 
-
 train.0=train.0 %>% group_by(subclass) %>% mutate(n=n())
 train.0_1=train.0%>% filter(n<2)
 train.0_2=train.0%>% filter(n>1) %>% group_by(subclass) %>%sample_n(2)
 
 train.0=rbind(train.0_1,train.0_2)
-train.0=train%>% ungroup(subclass)
+train.0=train.0%>% ungroup(subclass)
 train.0=select(train.0, -n)
 
 train=rbind(train.0, train.1)
 
 nrow(train)
+```
 
+
+```{r}
 set.seed(123)
 
 valid.0=valid%>%filter(case==0)
@@ -66,7 +68,7 @@ valid.0_1=valid.0%>% filter(n<2)
 valid.0_2=valid.0%>% filter(n>1) %>% group_by(subclass) %>%sample_n(2)
 
 valid.0=rbind(valid.0_1,valid.0_2)
-valid.0=valid%>% ungroup(subclass)
+valid.0=valid.0%>% ungroup(subclass)
 valid.0=select(valid.0, -n)
 
 valid=rbind(valid.0, valid.1)
