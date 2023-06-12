@@ -492,12 +492,12 @@ actions:
       moderately_sensitive:
         html: output/model_ranger_2.html  
 
-  check_RF_ranger_1: # ROC, calibration 
+  check_RF_ranger_2: # ROC, calibration 
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_ranger_2,pre_RF_process]
     outputs:
       moderately_sensitive:
-        html: output/check_RF_ranger_1.html    
+        html: output/check_RF_ranger_2.html    
 
   check_RF_descript_ranger_2: # descriptive stat
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
