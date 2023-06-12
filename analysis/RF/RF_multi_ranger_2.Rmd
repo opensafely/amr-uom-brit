@@ -1,0 +1,229 @@
+---
+title: "Random Forest model_hospital admission"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library('tidyverse')
+library(pROC)
+library(randomForest)
+
+```
+
+# train and valid dataset (1:6 matched)
+```{r }
+train <- read_rds(here::here("output","train_cat.rds"))
+train$case=as.factor(train$case)
+valid <- read_rds(here::here("output","valid_cat.rds"))
+valid$case=as.factor(valid$case)
+
+#names(train)
+```
+
+## compare patient number 
+```{r}
+
+nrow(train)# train patients (matched)
+table(train$case)# total train patients
+prop.table(table(train$case))# % train patients
+
+nrow(valid)# valid patients(matched)
+table(valid$case)# total valid patients
+prop.table(table(valid$case))# % valid patients
+```
+
+
+# random select subclass (1:2 matched)
+```{r}
+nrow(train)
+
+set.seed(123)
+
+train=train %>% group_by(case, subclass) %>% sample_n(1)
+train=train%>% ungroup(case, subclass)
+nrow(train)
+
+set.seed(123)
+
+valid=valid%>% group_by(case, subclass) %>% sample_n(1)
+valid=valid%>% ungroup(case, subclass)
+nrow(valid)
+
+```
+
+# RF. ranger probability machine
+```{r}
+library(ranger)
+set.seed(123)
+
+rf.model= ranger(formula = case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group, 
+                   data =  train,
+                   num.trees =   2000,
+                   min.node.size = 100,
+                   mtry = 3,
+                   importance = "impurity",
+                   replace = TRUE,
+                   probability = TRUE
+                          )
+# run over 1 wk: 0.6 size 1000 trees
+saveRDS(rf.model,here::here("output","RF_model_ranger_2.rds"))
+```
+
+
+```{r}
+#importance(rf.model)
+#(rf.model)
+rf.model$variable.importance
+```
+
+
+
+# development set
+## predict probabilities 
+```{r }
+data=train
+set.seed(123)
+
+prob <- predict(rf.model, data=train)$prediction[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(data,decile,prob)
+
+str(newdata)
+```
+
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+nrow(newdata)
+
+development=newdata
+rm(newdata)
+rm(data)
+```
+
+
+
+# validation set
+## predict probabilities 
+```{r }
+data=valid
+set.seed(123)
+
+prob <-   predict(rf.model, data=valid)$prediction[,2]# votes of being case
+
+summary(prob)
+hist(prob)
+sum(prob==0)/length(prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+
+
+## create decile group
+```{r}
+
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob >vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 # % decile
+```
+
+## combine columns
+```{r}
+head(decile)
+head(prob)
+
+newdata <- cbind(data,decile,prob)
+str(newdata)
+```
+
+
+## check decile distribution
+```{r}
+for (i in 1:10) {
+  
+  print(paste0("decile=",i))
+  print(summary(newdata[decile==i,]$prob))
+
+}
+nrow(newdata)
+
+validation=newdata
+rm(newdata)
+rm(data)
+```
+
+
+```{r}
+nrow(development)
+nrow(validation)
+```
+
+
+```{r}
+saveRDS(development,here::here("output","development_ranger_2.rds"))
+saveRDS(validation,here::here("output","validation_ranger_2.rds"))
+
+str(development)
+```
+
