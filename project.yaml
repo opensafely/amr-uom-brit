@@ -38,18 +38,18 @@ actions:
 
 
 
-# RF before matching
-  RF_ranger_unmatched: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_unmatched.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_matching]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_ranger_unmatched.html
-      highly_sensitive:
-        rds1: output/development_ranger.rds 
-        rds2: output/validation_ranger.rds 
-        rds3: output/RF_model_ranger.rds 
-        rds4: output/development_ranger_1control.rds 
+# # RF before matching
+#   RF_ranger_unmatched: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_unmatched.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_matching]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_ranger_unmatched.html
+#       highly_sensitive:
+#         rds1: output/development_ranger.rds 
+#         rds2: output/validation_ranger.rds 
+#         rds3: output/RF_model_ranger.rds 
+#         rds4: output/development_ranger_1control.rds 
 
 
 
