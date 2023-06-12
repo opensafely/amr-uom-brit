@@ -360,7 +360,7 @@ model$finalModel
 
 try(rpart.plot(model$finalModel))
 
-summary(predict(model, type = 'prob')[,2])
+#summary(predict(model, type = 'prob')[,2])
 ```
 
 ### overall tree 2
@@ -380,7 +380,7 @@ model$finalModel
 
 try(rpart.plot(model$finalModel))
 
-summary(predict(model, type = 'prob')[,2])
+#summary(predict(model, type = 'prob')[,2])
 ```
 
 
@@ -401,5 +401,5 @@ model$finalModel
 
 try(rpart.plot(model$finalModel))
 
-summary(predict(model, type = 'prob')[,2])
+#summary(predict(model, type = 'prob')[,2])
 ```
