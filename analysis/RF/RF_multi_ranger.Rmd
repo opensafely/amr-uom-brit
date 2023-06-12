@@ -43,8 +43,8 @@ col=c("case","total_ab_group","ab_types_group",
       "broad_ab_prescriptions_group",
     "interval_mean_group", "interval_sd_group")
 # abtype
-#train_X=train[col]
-#valid_X=valid[col]
+train=train[col]
+valid=valid[col]
 
 str(train)
 ```
