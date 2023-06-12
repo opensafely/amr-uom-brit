@@ -163,13 +163,13 @@ actions:
         notebook: output/aggregate_cases_table/aggregate_cases_table.html 
         figures: output/aggregate_cases_table/*
 
-  generate_notebook_aggregate_models_coefs:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_models_coefs.ipynb --execute --to html --output-dir=/workspace/output/aggregate_coefs --ExecutePreprocessor.timeout=86400
+  generate_notebook_aggregate_cox_hrs_betas:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_hrs_betas.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hrs_betas --ExecutePreprocessor.timeout=86400
     needs: [generate_notebook_hospitalisation_prediction_urti_combined,generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
     outputs:
       moderately_sensitive:
-        notebook: output/aggregate_coefs/aggregate_models_coefs.html 
-        figures: output/aggregate_coefs/*
+        notebook: output/aggregate_hrs_betas/aggregate_cox_hrs_betas.html 
+        figures: output/aggregate_hrs_betas/*
 
   generate_notebook_aggregate_cox_hrs_antibiotics:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_hrs_antibiotics.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hrs_antibiotics --ExecutePreprocessor.timeout=86400
