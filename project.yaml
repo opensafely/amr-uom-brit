@@ -507,6 +507,40 @@ actions:
         html: output/check_RF_descript_ranger_2.html 
 
 
+# ranger 1:3 sample
+
+  RF_multi_ranger_3: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_multi_ranger_3.html
+      highly_sensitive:
+        rds1: output/development_ranger_3.rds 
+        rds2: output/validation_ranger_3.rds 
+        rds3: output/RF_model_ranger_3.rds 
+
+  model_ranger_3: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger_3]
+    outputs:
+      moderately_sensitive:
+        html: output/model_ranger_3.html  
+
+  check_RF_ranger_3: # ROC, calibration 
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger_3,pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_ranger_3.html    
+
+  check_RF_descript_ranger_3: # descriptive stat
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger_3]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript_ranger_3.html 
+
 # # python RF
 #   pre_generate_notebook_RF: # rds to csv
 #     run: r:latest -e 'rmarkdown::render("analysis/RF/pre_generate_notebook_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
