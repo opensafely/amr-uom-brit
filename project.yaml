@@ -964,6 +964,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_1_lrti_var_2.csv
 
+  generate_study_population_control_1_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_lrti_var_5
+    needs: [matching_1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_1_lrti_var_5.csv
+
   generate_study_population_control_2_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_lrti_var_1
     needs: [matching_2]
@@ -977,6 +984,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_2_lrti_var_2.csv
+
+  generate_study_population_control_2_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_2_lrti_var_5
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_2_lrti_var_5.csv
 
   generate_study_population_control_3_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_3_lrti_var_1
@@ -992,6 +1006,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_3_lrti_var_2.csv
 
+  generate_study_population_control_3_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_3_lrti_var_5
+    needs: [matching_3]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_3_lrti_var_5.csv
+
   generate_study_population_control_4_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_4_lrti_var_1
     needs: [matching_4]
@@ -1005,6 +1026,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_4_lrti_var_2.csv
+
+  generate_study_population_control_4_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_4_lrti_var_5
+    needs: [matching_4]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_4_lrti_var_5.csv
 
   generate_study_population_control_5_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_5_lrti_var_1
@@ -1020,6 +1048,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_5_lrti_var_2.csv
 
+  generate_study_population_control_5_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_5_lrti_var_5
+    needs: [matching_5]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_5_lrti_var_5.csv
+
   generate_study_population_control_6_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_6_lrti_var_1
     needs: [matching_6]
@@ -1033,6 +1068,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_6_lrti_var_2.csv
+
+  generate_study_population_control_6_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_6_lrti_var_5
+    needs: [matching_6]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_6_lrti_var_5.csv
 
   generate_study_population_control_7_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_7_lrti_var_1
@@ -1048,6 +1090,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_7_lrti_var_2.csv
 
+  generate_study_population_control_7_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_7_lrti_var_5
+    needs: [matching_7]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_7_lrti_var_5.csv
+
   generate_study_population_control_8_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_8_lrti_var_1
     needs: [matching_8]
@@ -1062,6 +1111,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_8_lrti_var_2.csv
 
+  generate_study_population_control_8_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_8_lrti_var_5
+    needs: [matching_8]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_8_lrti_var_5.csv
+
   generate_study_population_control_9_lrti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_9_lrti_var_1
     needs: [matching_9]
@@ -1075,6 +1131,13 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_9_lrti_var_2.csv
+
+  generate_study_population_control_9_lrti_var_5:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_9_lrti_var_5
+    needs: [matching_9]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_9_lrti_var_5.csv
 # URTI
   generate_study_population_control_1_urti_var_1:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_1_urti_var_1
