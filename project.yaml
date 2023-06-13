@@ -738,12 +738,12 @@ actions:
         html: output/check_RF_ranger_ratio1.html    
 
 # final model
-  model_ratio1: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  model_ranger_ratio1: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_ranger_ratio1]
     outputs:
       moderately_sensitive:
-        html: output/model_ratio1.html
+        html: output/model_ranger_ratio1.html
 
 
 
