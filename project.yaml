@@ -718,30 +718,26 @@ actions:
 #       moderately_sensitive:
 #         html: output/RF_uni.html
   
-#   RF_multi: 
-#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [pre_RF_process]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/RF_multi.html
-#       highly_sensitive:
-#         rds1: output/development.rds 
-#         rds2: output/validation.rds 
-#         rds3: output/RF_model.rds 
-#         rds5: output/development_1control.rds 
+  RF_multi_ratio1: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process_ratio1]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_multi_ratio1.html
+      highly_sensitive:
+        rds1: output/development_ratio1.rds 
+        rds2: output/validation_ratio1.rds 
+        rds3: output/RF_model_ratio1.rds 
+        rds5: output/development_1control_ratio1.rds 
 
 
-# # final model
-#   model: # coditional logistic regression for decile groups
-#     run: r:latest -e 'rmarkdown::render("analysis/model/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [RF_multi]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/model.html
-#         rds1: output/model.rds
-#         rds2: output/model_adj.rds
-#         rds3: output/model_adj_all.rds
-
+# final model
+  model_ratio1: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ratio1]
+    outputs:
+      moderately_sensitive:
+        html: output/model_ratio1.html
 
 
 

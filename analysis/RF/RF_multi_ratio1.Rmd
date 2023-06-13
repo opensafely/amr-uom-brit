@@ -12,9 +12,9 @@ library(randomForest)
 
 # train and valid dataset (matched)
 ```{r }
-train <- read_rds(here::here("output","train_cat.rds"))
+train <- read_rds(here::here("output","train_cat_ratio1.rds"))
 train$case=as.factor(train$case)
-valid <- read_rds(here::here("output","valid_cat.rds"))
+valid <- read_rds(here::here("output","valid_cat_ratio1.rds"))
 valid$case=as.factor(valid$case)
 
 #names(train)
@@ -56,7 +56,7 @@ train_X=train_X%>% ungroup(case, subclass)
 nrow(train_X)
 
 train_X=train_X[col]
-saveRDS(train_X,here::here("output","development_1control.rds"))
+saveRDS(train_X,here::here("output","development_1control_ratio1.rds"))
 ```
 
 # RF. fraction.sample
@@ -75,7 +75,7 @@ rf.model<- randomForest(formula = case ~ ., data = train_X,
                            mtry = 3
                           )
 # run over 1 wk: 0.6 size 1000 trees
-saveRDS(rf.model,here::here("output","RF_model.rds"))
+saveRDS(rf.model,here::here("output","RF_model_ratio1.rds"))
 ```
 
 
@@ -228,8 +228,8 @@ nrow(validation)
 
 
 ```{r}
-saveRDS(development,here::here("output","development.rds"))
-saveRDS(validation,here::here("output","validation.rds"))
+saveRDS(development,here::here("output","development_ratio1.rds"))
+saveRDS(validation,here::here("output","validation_ratio1.rds"))
 
 str(development)
 ```
