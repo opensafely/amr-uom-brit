@@ -622,6 +622,135 @@ actions:
   #       html: output/prob_decile.html 
 
 
+## 1:1 matching
+
+  matching_ratio1: #R MatchIt  matching with replacement
+    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_ratio1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [pre_matching]
+    outputs:
+      moderately_sensitive:
+        html: output/matching_ratio1.html
+      highly_sensitive: 
+        rds1: output/matched_patients_ratio1.rds
+        rds2: output/unmatched_cases_ratio1.rds
+        csv: output/matched_patients_id_ratio1.csv # unique patient ID
+        
+  check_unmatched_ratio1:
+    run: r:latest -e 'rmarkdown::render("analysis/matching/check_unmatched_ratio1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching_ratio1]
+    outputs:
+      moderately_sensitive:
+        html: output/check_unmatched_ratio1.html
+
+# extract
+  extract_variables_ratio1: # confounders # ab exposure
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_ratio1 --with-end-date-fix
+    needs: [matching_ratio1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_ratio1.csv
+
+  process_Rmatching_ratio1: # confounders # ab exposure
+    run: r:latest analysis/process/process_Rmatching_ratio1.R
+    needs: [extract_variables_ratio1,matching_ratio1]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_ratio1.csv
+        cohort2: output/matched_outcome_check_ratio1.rds # filter died & de-regist again
+        rds1: output/abtype79_ratio1.rds
+        rds2: output/comor17_ratio1.rds
+
+  extract_variables_ab_time_ratio1:   # per ab exposure
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_ratio1 --with-end-date-fix # unique matched patient ID
+    needs: [matching_ratio1]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_time_ratio1.csv
+
+  process_ab_time_ratio1: # exposures #merge ab time with mathced patients
+    run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_ratio1.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_time_ratio1,process_Rmatching_ratio1]
+    outputs:
+      moderately_sensitive:
+        html: output/process_ab_time_ratio1.html
+      highly_sensitive: 
+         rds: output/matched_ab_ratio1.rds
+
+# RF
+  pre_RF_process_ratio1: # split train and valid set # create category variables of ab exposure
+    run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_ab_time_ratio1,process_Rmatching_ratio1]
+    outputs:
+      moderately_sensitive:
+        html: output/pre_RF_process_ratio1.html
+      highly_sensitive: 
+        rds1: output/train_ratio1.rds
+        rds2: output/valid_ratio1.rds
+        rds3: output/train_cat_ratio1.rds
+        rds4: output/valid_cat_ratio1.rds 
+        rds5: output/abtype_ratio1.rds
+  
+#   check_clogit: # coditional logistic regression for picking exposure variables  # category & continuous
+#     run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_clogit.html
+
+#   classification_tree:  #decision tree check # category 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_tree.html
+
+#   classification_tree_1control:  #decision tree check # category 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_1control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_tree_1control.html
+
+#   RF_uni: # category # individual variables
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_uni.html
+  
+#   RF_multi: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_multi.html
+#       highly_sensitive:
+#         rds1: output/development.rds 
+#         rds2: output/validation.rds 
+#         rds3: output/RF_model.rds 
+#         rds5: output/development_1control.rds 
+
+
+# # final model
+#   model: # coditional logistic regression for decile groups
+#     run: r:latest -e 'rmarkdown::render("analysis/model/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [RF_multi]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model.html
+#         rds1: output/model.rds
+#         rds2: output/model_adj.rds
+#         rds3: output/model_adj_all.rds
+
+
+
+
+
+
+
+
+
+
 # # ##### general population
 # #   generate_study_population_general_population: 
 # #     run: cohortextractor:latest generate_cohort --study-definition study_definition_general_population
