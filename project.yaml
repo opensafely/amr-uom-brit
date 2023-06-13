@@ -2174,3 +2174,10 @@ actions:
       highly_sensitive: 
         rds1: output/processed/case_withdate_*.rds
         rds2: output/processed/control_withdate_*.rds
+
+  process_10_OR:  
+    run: r:latest analysis/casecontrol/process_10_OR.R
+    needs: [process_9]
+    outputs:
+      moderately_sensitive:
+        table1: output/*__bydate_model.csv
