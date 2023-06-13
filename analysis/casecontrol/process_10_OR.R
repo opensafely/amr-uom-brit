@@ -64,53 +64,13 @@ df$date_gap <- replace_na(df$date_gap, "0-2 days")
   df$exposure <- ifelse(df$ab_treatment == "TRUE", paste0("ab ", df$date_gap), paste0("non-ab ", df$date_gap))
 
   df$exposure= relevel(as.factor(df$exposure), ref="non-ab 0-2 days")
-  # List to store data frames
-  dfs <- list()
-  
-  for (i in 1:4) {
-    
-    if(i==1){
-      mod=clogit(case ~ exposure + strata(set_id), df)
-    }
-    else if(i==2){
-      mod=clogit(case ~ exposure + ckd_rrt + strata(set_id), df)
-    }
-    else if(i==3){
-      mod=clogit(case ~ ckd_rrt*exposure + exposure + strata(set_id), df)
-    }
-    else if(i==4){
-      mod=clogit(case ~ exposure + charlsonGrp + strata(set_id), df)
-    }
+  # List to store data frame
 
-    sum.mod=summary(mod)
-    result=data.frame(sum.mod$conf.int)
-    DF=result[,-2]
-    names(DF)[1]="OR"
-    names(DF)[2]="CI_L"
-    names(DF)[3]="CI_U"
-    setDT(DF, keep.rownames = TRUE)[]
-    names(DF)[1]="type"
+  # Generate frequency table
+  frequency_table <- df %>%
+    group_by(exposure, case) %>%
+    summarise(count = n(), .groups = "drop")
 
-    # Define the model number
-    Model <- paste0("Model ", i)
-    
-    # Add the infection type, model number, and Model to the DF
-    DF$infection <- infection
-    DF$model_num <- i
-    DF$Model <- Model
-    
-    # Add DF to the list
-    dfs[[i]] <- DF
-  }
-  
-  # Combine all data frames
-  combined_df <- bind_rows(dfs)
-
-  # Combine OR, CI_L, CI_U into one column
-  combined_df$`OR (95% CI)` <- ifelse(is.na(combined_df$OR), "",
-                                       sprintf("%.2f (%.2f to %.2f)",
-                                               combined_df$OR, combined_df$CI_L, combined_df$CI_U))
-  combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
-  # Write the combined data frame to a CSV file
-  write_csv(combined_df, here::here("output", paste0(infection,"_bydate_model.csv")))
+  # Write the frequency table to a CSV file
+  write.csv(frequency_table, file = here::here("output", paste0("table2_",infection,".csv")))
 }

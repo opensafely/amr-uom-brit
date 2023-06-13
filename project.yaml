@@ -2180,4 +2180,4 @@ actions:
     needs: [process_9]
     outputs:
       moderately_sensitive:
-        table1: output/*__bydate_model.csv
+        table1: output/table2_*.csv
