@@ -655,7 +655,7 @@ actions:
     needs: [extract_variables_ratio1,matching_ratio1]
     outputs:
       highly_sensitive:
-        cohort1: output/matched_outcome_ratio1.csv
+        cohort1: output/matched_outcome_ratio1.rds
         cohort2: output/matched_outcome_check_ratio1.rds # filter died & de-regist again
         rds1: output/abtype79_ratio1.rds
         rds2: output/comor17_ratio1.rds
