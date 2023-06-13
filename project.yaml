@@ -2126,3 +2126,40 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/*_abtype_freq.csv
+
+  case_var_5_process:
+    run: r:latest analysis/case_var_5_process.R
+    needs: [generate_study_population_case_uti_var_5,generate_study_population_case_lrti_var_5,
+    generate_study_population_case_urti_var_5]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_case_uti_var_5.rds
+        rds2: output/processed/input_case_lrti_var_5.rds        
+        rds3: output/processed/input_case_urti_var_5.rds
+
+  control_var_5_process_lrti:
+    run: r:latest analysis/control_var_5_process_lrti.R
+    needs: [generate_study_population_control_1_lrti_var_5,generate_study_population_control_2_lrti_var_5,generate_study_population_control_3_lrti_var_5,
+    generate_study_population_control_4_lrti_var_5,generate_study_population_control_5_lrti_var_5,generate_study_population_control_6_lrti_var_5,
+    generate_study_population_control_7_lrti_var_5,generate_study_population_control_8_lrti_var_5,generate_study_population_control_9_lrti_var_5]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_lrti_var_5.rds
+
+  control_var_5_process_urti:
+    run: r:latest analysis/control_var_5_process_urti.R
+    needs: [generate_study_population_control_1_urti_var_5,generate_study_population_control_2_urti_var_5,generate_study_population_control_3_urti_var_5,
+    generate_study_population_control_4_urti_var_5,generate_study_population_control_5_urti_var_5,generate_study_population_control_6_urti_var_5,
+    generate_study_population_control_7_urti_var_5,generate_study_population_control_8_urti_var_5,generate_study_population_control_9_urti_var_5]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_urti_var_5.rds
+
+  control_var_5_process_uti:
+    run: r:latest analysis/control_var_5_process_uti.R
+    needs: [generate_study_population_control_1_uti_var_5,generate_study_population_control_2_uti_var_5,generate_study_population_control_3_uti_var_5,
+    generate_study_population_control_4_uti_var_5,generate_study_population_control_5_uti_var_5,generate_study_population_control_6_uti_var_5,
+    generate_study_population_control_7_uti_var_5,generate_study_population_control_8_uti_var_5,generate_study_population_control_9_uti_var_5]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_uti_var_5.rds
