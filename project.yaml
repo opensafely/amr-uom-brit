@@ -718,18 +718,24 @@ actions:
 #       moderately_sensitive:
 #         html: output/RF_uni.html
   
-  RF_multi_ratio1: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  RF_multi_ranger_ratio1: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [pre_RF_process_ratio1]
     outputs:
       moderately_sensitive:
-        html: output/RF_multi_ratio1.html
+        html: output/RF_multi_ranger_ratio1.html
       highly_sensitive:
-        rds1: output/development_ratio1.rds 
-        rds2: output/validation_ratio1.rds 
-        rds3: output/RF_model_ratio1.rds 
-        rds5: output/development_1control_ratio1.rds 
+        rds1: output/development_ranger_ratio1.rds 
+        rds2: output/validation_ranger_ratio1.rds 
+        rds3: output/RF_model_ranger_ratio1.rds 
+     #   rds5: output/development_1control_ratio1.rds 
 
+  check_RF_ranger_ratio1: # ROC, calibration 
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger_ratio1,pre_RF_process_ratio1]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_ranger_ratio1.html    
 
 # final model
   model_ratio1: # coditional logistic regression for decile groups
