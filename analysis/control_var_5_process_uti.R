@@ -5,6 +5,10 @@ library(readr)
 library(purrr)
 library(stringr)
 
+# Define column specifications
+col_spes <-cols_only(patient_index_date = col_date(format = ""),
+                           infection_date = col_date(format = ""),
+                           patient_id = col_number())
 
 # directory where input files are located
 input_dir <- here::here("output")
@@ -24,14 +28,11 @@ for(i in 1:9) {
   # generate full path of input file
   input_file_path <- file.path(input_dir, input_file)
 
-  # Load data from the input file
-  data <- read.csv(input_file_path)
-
-  # Select the desired columns
-  data_selected <- data[,c('patient_id', 'patient_index_date', 'infection_date')]
+  # Load data from the input file with specified column types
+  data <- read_csv(input_file_path, col_types = col_spes)
 
   # add to the list of data frames
-  list_df[[i]] <- data_selected
+  list_df[[i]] <- data
 }
 
 # combine all data frames in the list into a single data frame

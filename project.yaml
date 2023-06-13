@@ -2166,7 +2166,11 @@ actions:
 
   process_9:
     run: r:latest analysis/casecontrol/process_9.R
-    needs: [process_2,case_var_1_process,case_var_2_process,case_var_5_process]
+    needs: [process_2,case_var_1_process,case_var_2_process,process_4,control_var_1_process,control_var_2_process_uti,control_var_2_process_lrti,
+    control_var_2_process_urti,control_var_2_process_sinusitis,control_var_2_process_ot_externa,
+    control_var_2_process_ot_media,control_var_2_process_pneumonia,case_var_5_process,
+    control_var_5_process_lrti,control_var_5_process_urti,control_var_5_process_uti]
     outputs:
       highly_sensitive: 
         rds1: output/processed/case_withdate_*.rds
+        rds2: output/processed/control_withdate_*.rds

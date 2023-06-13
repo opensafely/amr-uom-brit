@@ -38,3 +38,30 @@ for (infection in infection_types) {
   # Save the merged data to a new RDS file using saveRDS
   saveRDS(merged_data, here::here("output", "processed", paste0("case_withdate_", infection, ".rds")))
 }
+
+
+# Loop through each infection type and process data
+for (infection in infection_types) {
+  # Read CSV file
+  table <- read_csv(here::here("output", paste0("controls_", infection, ".csv")), col_types = col_spec_cases)
+  
+  # Read first RDS file
+  rds1 <- readRDS(here::here("output", "processed", paste0("input_control_", infection, "_var_1.rds")))
+  
+  # Read second RDS file, excluding "age" column
+  rds2 <- readRDS(here::here("output", "processed", paste0("input_control_", infection, "_var_2.rds"))) %>% 
+    select(-age)
+
+  # Read second RDS file
+  rds3 <- readRDS(here::here("output", "processed", paste0("input_case_", infection, "_var_5.rds"))) 
+  
+  # Merge three datasets
+  merged_data <- table %>%
+    left_join(rds1, by = c("patient_id", "patient_index_date")) %>%
+    left_join(rds2, by = c("patient_id", "patient_index_date")) %>%
+    left_join(rds3, by = c("patient_id", "patient_index_date"))
+
+  # Save the merged data to a new RDS file using saveRDS
+  saveRDS(merged_data, here::here("output", "processed", paste0("control_withdate_", infection, ".rds")))
+}
+
