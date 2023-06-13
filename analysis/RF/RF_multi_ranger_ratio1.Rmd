@@ -65,7 +65,7 @@ rf.model= ranger(formula = case ~ total_ab_group+ab_types_group+exposure_period_
                    probability = TRUE
                           )
 # run over 1 wk: 0.6 size 1000 trees
-saveRDS(rf.model,here::here("output","RF_model_ranger.rds"))
+saveRDS(rf.model,here::here("output","RF_model_ranger_ratio1.rds"))
 ```
 
 
@@ -220,8 +220,8 @@ nrow(validation)
 
 
 ```{r}
-saveRDS(development,here::here("output","development_ranger.rds"))
-saveRDS(validation,here::here("output","validation_ranger.rds"))
+saveRDS(development,here::here("output","development_ranger_ratio1.rds"))
+saveRDS(validation,here::here("output","validation_ranger_ratio1.rds"))
 
 str(development)
 ```
