@@ -31,11 +31,22 @@ for (infection in infections) {
   # Calculate date_gap in days
   df$date_gap <- df$patient_index_date - df$infection_date
 
-  # Classify date_gap
-  df$date_gap <- cut(as.numeric(df$date_gap), breaks=seq(from = -Inf, to = Inf, by = 2), labels=date_gap_labels, include.lowest = TRUE)
+# Define date_gap labels
+date_gap_labels <- c("0-2 days", "3-4 days", "5-6 days", "7-8 days", "9-10 days", "11-12 days", "13-14 days", "15-16 days", "17-18 days", "19-20 days", "21-22 days", "23-24 days", "25-26 days", "27-28 days", "29-30 days")
 
-  # Replace NA in date_gap with "0-2 days"
-  df$date_gap <- replace_na(df$date_gap, "0-2 days")
+# Define date_gap breaks
+date_gap_breaks <- c(0, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31)
+
+# Classify date_gap
+df$date_gap <- cut(as.numeric(df$date_gap), 
+                   breaks = date_gap_breaks, 
+                   labels = date_gap_labels, 
+                   include.lowest = TRUE, 
+                   right = FALSE)
+
+# Replace NA in date_gap with "0-2 days"
+df$date_gap <- replace_na(df$date_gap, "0-2 days")
+
 
   df$ab_treatment <- df %>% mutate() 
   df$ab_treatment<-  case_when(
@@ -52,6 +63,7 @@ for (infection in infections) {
   # Create exposure column
   df$exposure <- ifelse(df$ab_treatment == "TRUE", paste0("ab ", df$date_gap), paste0("non-ab ", df$date_gap))
 
+  df$exposure= relevel(as.factor(df$exposure), ref="non-ab 0-2 days")
   # List to store data frames
   dfs <- list()
   
