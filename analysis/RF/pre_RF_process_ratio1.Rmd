@@ -57,7 +57,7 @@ col=rownames(table) # selected columns
 
 length(col) # 55
 
-saveRDS(col,here::here("output","abtype_ratio1.rds"))
+#saveRDS(col,here::here("output","abtype_ratio1.rds"))
 
 # merge data
 df=merge(df,DF,by=c("patient_id","patient_index_date"), all.x = T)

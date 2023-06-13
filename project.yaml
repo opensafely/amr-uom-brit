@@ -688,7 +688,7 @@ actions:
         rds2: output/valid_ratio1.rds
         rds3: output/train_cat_ratio1.rds
         rds4: output/valid_cat_ratio1.rds 
-        rds5: output/abtype_ratio1.rds
+      #  rds5: output/abtype_ratio1.rds
   
 #   check_clogit: # coditional logistic regression for picking exposure variables  # category & continuous
 #     run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
