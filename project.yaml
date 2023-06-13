@@ -657,7 +657,7 @@ actions:
       highly_sensitive:
         cohort1: output/matched_outcome_ratio1.rds
         cohort2: output/matched_outcome_check_ratio1.rds # filter died & de-regist again
-        rds1: output/abtype_ratio1.rds
+      #  rds1: output/abtype_ratio1.rds
         rds2: output/comor17_ratio1.rds
 
   extract_variables_ab_time_ratio1:   # per ab exposure
