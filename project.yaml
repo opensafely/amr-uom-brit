@@ -2163,3 +2163,10 @@ actions:
     outputs:
       highly_sensitive: 
         rds1: output/processed/input_control_uti_var_5.rds
+
+  process_9:
+    run: r:latest analysis/casecontrol/process_9.R
+    needs: [process_2,case_var_1_process,case_var_2_process,case_var_5_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/case_withdate_*.rds
