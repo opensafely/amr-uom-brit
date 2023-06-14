@@ -60,8 +60,8 @@ rf.model= ranger(formula = case ~ total_ab_group+ab_types_group+exposure_period_
                    num.trees =   2000,
                    min.node.size = 100,
                    mtry = 3,
-                 case.fraction = 0.5,
-                   importance = "impurity",
+                 sample.fraction = c(0.5,0.5),                   
+                 importance = "impurity",
                    replace = TRUE,
                    probability = TRUE
                           )
