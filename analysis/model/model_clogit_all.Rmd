@@ -23,9 +23,9 @@ data2=readRDS(here::here("output","validation_ranger.rds"))
 data=rbind(data1,data2)
 rm(data1,data2)
 
-
+data$case=as.factor(data$case)
 names(data)
-data=data%>%ungroup(subclass)
+#data=data%>%ungroup(subclass)
 
 data$subclass=as.factor(data$subclass)#pair id
 
@@ -41,13 +41,13 @@ data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
 data$imd=relevel(as.factor(data$imd),ref="1")
 data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
 
-data$case=as.numeric(data$case) #1/0
 
 str(data)
 ```
 
 
 ```{r }
+data$case=as.numeric(data$case) #1/0
 
 set.seed(123)
 
