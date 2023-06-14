@@ -395,12 +395,7 @@ actions:
       moderately_sensitive:
         html: output/model_clogit_crude.html  
 
-  # model_colgit_all: # coditional logistic regression 
-  #   run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [process_outlier]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_clogit_all.html  
+
 
   RF_multi_ranger_0.5: # compare to RandomForest package as long vectors are not supported
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_0.5.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -445,6 +440,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_ranger.html  
+
+  model_colgit_all: # coditional logistic regression 
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger]
+    outputs:
+      moderately_sensitive:
+        html: output/model_clogit_all.html  
 
   check_RF_ranger: # ROC, calibration 
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
