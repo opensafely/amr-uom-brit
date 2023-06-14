@@ -245,7 +245,7 @@ for (i in 1:length(explanatory)) {
   print(
     
     ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
-    geom_line(position="fill", stat="identity")+
+    geom_line()+
    
  ggtitle(explanatory[i])+
   xlab("probability decile") + ylab("") + labs(fill="quartiles")+
@@ -335,7 +335,7 @@ for (i in 1:length(explanatory)) {
   print(
     
     ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
-    geom_bar(position="fill", stat="identity")+
+    geom_line()+
    
  ggtitle(explanatory[i])+
   xlab("outcome") + ylab("") + labs(fill=explanatory[i])+
