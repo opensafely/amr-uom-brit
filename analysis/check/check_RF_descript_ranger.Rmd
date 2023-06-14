@@ -256,7 +256,7 @@ for (i in 1:length(explanatory)) {
 
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
+    ggplot(data=tbl,aes(x=Var1,y=value, group=Var2, color=Var2))+
     geom_line()+
    
  ggtitle(explanatory[i])+
