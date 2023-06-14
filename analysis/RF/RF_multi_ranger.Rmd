@@ -54,13 +54,14 @@ str(train)
 library(ranger)
 
 set.seed(123)
+train_X=train%>% sample_n(10000)
 
 rf.model= ranger(formula = case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group, 
-                   data =  train,
+                   data =  train_X,
                    num.trees =   2000,
                    min.node.size = 100,
                    mtry = 3,
-                  case.fraction = 0.4,
+            #      case.fraction = 0.4,
                    importance = "impurity",
                    replace = TRUE,
                    probability = TRUE
