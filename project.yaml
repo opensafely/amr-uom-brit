@@ -66,3 +66,10 @@ actions:
         table3: output/matched_combined_uti2.csv
       moderately_sensitive: 
         report1: output/matching_report_uti2.txt
+
+  study2_uti_table:  
+    run: r:latest analysis/table/study2_uti_table.R
+    needs: [matching_uti2]
+    outputs:
+      moderately_sensitive:
+        table1: output/study2_uti_table.csv
