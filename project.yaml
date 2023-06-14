@@ -28,3 +28,17 @@ actions:
         table3: output/matched_combined_uti.csv
       moderately_sensitive: 
         report1: output/matching_report_uti.txt
+
+  generate_study_population_case_uti_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_abvar
+    needs: [matching_uti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_abvar.csv
+
+  generate_study_population_control_uti_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_uti_abvar
+    needs: [matching_uti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_uti_abvar.csv
