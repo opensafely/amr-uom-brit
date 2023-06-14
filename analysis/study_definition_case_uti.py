@@ -1,8 +1,5 @@
-###################################################################
+#### This script is to extract the cases: emergency admission & AE ICD-10  + had event 30 days before the index date
 
-## This script is to extract the controls pre covid  2021-1      ##
-
-###################################################################
 
 from cohortextractor import (
     StudyDefinition,
@@ -19,18 +16,18 @@ from codelists import *
 
 ###### Define study time variables
 from datetime import datetime
-start_date = "2021-01-01"
-end_date = "2021-06-30"
+start_date = "2019-01-01"
+end_date = "2023-03-31"
 
-###### Controls definition ######
-## 1. any age 
+###### Cases definition ######
+## 1. age 18-110
 ## 2. sex (M/F)
 ## 3. at least one year of GP records prior to their index date
-## 4. No sepsis admission 
-## 5. has region (stp) information
-## 6. has IMD 
-## 7. has no COVID
+## 4. has incident uti infeciton record (no any other uti infection record six weeks before)
+## 4. has ICD-10 related emergency admission within 30 days after the infection
+## 5. has no chronic res
 ##############################
+
 emergency_admission_codes = [
     "21",  # Emergency Admission: Emergency Care Department or dental casualty department of the Health Care Provider
     "22",  # Emergency Admission: GENERAL PRACTITIONER: after a request for immediate admission has been made direct to a Hospital Provider, i.e. not through a Bed bureau, by a GENERAL PRACTITIONER or deputy
@@ -45,6 +42,7 @@ emergency_admission_codes = [
            # - transfer of an admitted PATIENT from another Hospital Provider in an emergency
            # - baby born at home as intended
     ]
+
 
 study = StudyDefinition(
 
@@ -64,9 +62,12 @@ study = StudyDefinition(
         NOT has_died
         AND has_follow_up_previous_year
         AND (sex = "M" OR sex = "F")
-        AND (age > 0 AND age <= 110)
-        AND has_infection
-        AND NOT has_outcome
+        AND (age >=18 AND age <= 110)
+        AND has_outcome_in_30_days
+        AND NOT has_chronic_respiratory_disease
+        AND NOT has_uti_history_previous_6_month
+        AND NOT has_outcome_previous_year
+    
         """,
 
         has_died=patients.died_from_any_cause(
@@ -80,23 +81,38 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.95},
         ),
 
-        has_outcome=patients.admitted_to_hospital(
+        has_outcome_in_30_days=patients.admitted_to_hospital(
             with_these_primary_diagnoses=all_ae_codes,
             with_admission_method=emergency_admission_codes, 
-            between=["patient_index_date - 365 days","patient_index_date + 30 days"],
+            between=["patient_index_date", "patient_index_date + 30 days"], 
         ),
 
-        has_infection=patients.with_these_clinical_events(
-            all_infection_codes,
-            between=[start_date,end_date],
+        has_chronic_respiratory_disease=patients.with_these_clinical_events(
+            chronic_respiratory_disease_codes,  
+            returning="binary_flag",
+            on_or_before="patient_index_date",
+            find_last_match_in_period=True,
         ),
 
+        has_uti_history_previous_6_month=patients.with_these_clinical_events(
+            uti_codes,  
+            returning="binary_flag",
+            between=["patient_index_date - 180 days ", "patient_index_date - 1 day"],
+        ),
+
+        has_outcome_previous_year=patients.admitted_to_hospital(
+            with_these_primary_diagnoses=all_ae_codes, 
+            with_admission_method=emergency_admission_codes, 
+            returning="binary_flag",
+            between=["emergency_admission_date- 366 days", "emergency_admission_date - 1 day"],
+            return_expectations={"incidence": 0.65},
+        ),
 
     ),
 
-    ### patient index date for control = infection date
+    ### patient index date = UTI infection date
     patient_index_date=patients.with_these_clinical_events(
-        all_infection_codes, 
+        uti_codes, 
         between=[start_date, end_date], 
         returning="date",
         find_first_match_in_period=True,  
@@ -104,7 +120,18 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "2019-01-01"}, "incidence" : 1},
     ),
 
- ## Age
+    ### emergency admission date
+    emergency_admission_date=patients.admitted_to_hospital(
+        returning= "date_admitted",  
+        with_these_primary_diagnoses=all_ae_codes,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date + 30 days"], 
+        find_first_match_in_period=True,  
+        date_format="YYYY-MM-DD",  
+        return_expectations={"date": {"earliest": "2019-01-01"}, "incidence" : 1},
+    ),
+
+    ## Age
     age=patients.age_as_of(
         "patient_index_date",
         return_expectations={
@@ -113,7 +140,7 @@ study = StudyDefinition(
             "incidence": 0.001
         },
     ),
-
+    
     ## Sex
     sex=patients.sex(
         return_expectations={
@@ -121,60 +148,8 @@ study = StudyDefinition(
             "category": {"ratios": {"M": 0.49, "F": 0.51}},
         }
     ),
-    #  --UTI
-    uti_record=patients.with_these_clinical_events(
-        uti_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.5}
-    ),  
-    #  --LRTI 
-    lrti_record=patients.with_these_clinical_events(
-        lrti_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.6}
-    ),  
 
-    #  --URTI  
-    urti_record=patients.with_these_clinical_events(
-        all_urti_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.4}
-    ),  
 
-    #  --sinusitis 
-    sinusitis_record=patients.with_these_clinical_events(
-        sinusitis_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.3}
-    ),  
-
-    #  --otitis externa
-    ot_externa_record=patients.with_these_clinical_events(
-        ot_externa_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.2}
-    ),   
-
-    #  --otitis media
-    ot_media_record=patients.with_these_clinical_events(
-        otmedia_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.1}
-    ),   
-
-    # pneumonia
-    pneumonia_record=patients.with_these_clinical_events(
-        pneumonia_codes,
-        returning="binary_flag",
-        between=['patient_index_date', 'patient_index_date'],
-        return_expectations={"incidence":0.05}
-    ),   
 
     #Check COVID-diagnsis within +/- 6 weeks #
 
