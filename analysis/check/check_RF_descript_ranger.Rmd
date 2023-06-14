@@ -35,31 +35,42 @@ tbl
 # line chart
 ## overall
 ```{r }
+library(ggplot2)
+
+# Create an empty plot object to accumulate the layers
+plot_obj <- ggplot()
+
+# Loop through the explanatory variables
 for (i in 1:length(explanatory)) {
+  # Create a table with frequencies and deciles
+  tbl <- data.frame(table(data[,"decile"], data[,explanatory[i]]))
+  tbl <- tbl %>%
+    group_by(Var1) %>%
+    mutate(value = round(Freq / sum(Freq), 2))
   
-  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
-
-  print(
-    
-    ggplot(data=tbl,aes(x=Var1,y=value))+
-    geom_line( fill=Var2)+
-    geom_point( fill=Var2)+
-   
- ggtitle(explanatory[i])+
-  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
-  scale_y_continuous(labels = scales::percent)+
- 
-# label
- geom_text(aes(label = paste0(value*100,"%")), 
-            position = position_stack(vjust = 0.5), size = 2) +
-   
-# colour
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
- 
- )
-
+  # Add a line and point layer for each variable
+  plot_obj <- plot_obj +
+    geom_line(data = tbl, aes(x = Var1, y = value, color = Var2)) +
+    geom_point(data = tbl, aes(x = Var1, y = value, color = Var2))
+  
+  # Add a label layer
+  plot_obj <- plot_obj +
+    geom_text(data = tbl, aes(x = Var1, y = value, label = paste0(value * 100, "%")),
+              position = position_stack(vjust = 0.5), size = 2)
 }
+
+# Customize the plot appearance and labels
+plot_obj <- plot_obj +
+  labs(title = "Group Line Plot",
+       x = "Probability Decile",
+       y = "Value",
+       fill = "Quartiles") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_color_manual(values = c("#CC6666", "#9999CC", "#66CC99", "#6699FF"))
+
+# Print the plot
+print(plot_obj)
+
 ```
 
 ## case/control
