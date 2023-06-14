@@ -42,8 +42,9 @@ for (i in 1:length(explanatory)) {
 
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
-    geom_line(position="fill", stat="identity")+
+    ggplot(data=tbl,aes(x=Var1,y=value))+
+    geom_line( fill=Var2)+
+    geom_point( fill=Var2)+
    
  ggtitle(explanatory[i])+
   xlab("probability decile") + ylab("") + labs(fill="quartiles")+
