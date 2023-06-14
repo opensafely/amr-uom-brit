@@ -67,7 +67,7 @@ study = StudyDefinition(
         ),
 
         has_outcome_in_30_days=patients.admitted_to_hospital(
-            with_these_diagnoses=ae_study2,
+            with_these_diagnoses=diarrhea,
             between=["patient_index_date", "patient_index_date + 30 days"], 
         ),
 
@@ -85,7 +85,7 @@ study = StudyDefinition(
         ),
 
         has_outcome_previous_year=patients.admitted_to_hospital(
-            with_these_diagnoses=ae_study2,
+            with_these_diagnoses=diarrhea,
             returning="binary_flag",
             between=["outcome_date- 366 days", "outcome_date - 1 day"],
             return_expectations={"incidence": 0.65},
@@ -106,7 +106,7 @@ study = StudyDefinition(
     ### outcome date
     outcome_date=patients.admitted_to_hospital(
         returning= "date_admitted",  
-        with_these_diagnoses=ae_study2,
+        with_these_diagnoses=diarrhea,
         between=["patient_index_date", "patient_index_date + 30 days"], 
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  

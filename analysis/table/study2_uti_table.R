@@ -7,7 +7,7 @@ library(here)
 input_dir <- here("output")
 
 # Load data from csv
-file_path <- file.path(input_dir, "matched_cases_uti2.csv")
+file_path <- file.path(input_dir, "input_case_uti_study2.csv")
 df <- read_csv(file_path)
 
 # Create a table of outcome_type counts
