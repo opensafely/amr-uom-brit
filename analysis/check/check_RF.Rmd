@@ -38,6 +38,7 @@ print(rf.model)
 
 ## predict probabilities 
 ```{r}
+set.seed(123)
 
 train$prob <- predict(rf.model,train, type = 'prob')[,2]# votes of being case
 
@@ -126,6 +127,8 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ## predict probabilities 
 ```{r}
 rm(train,prob,decile,vec)
+set.seed(123)
+
 valid$prob <- predict(rf.model,valid,type = 'prob')[,2]# votes of being case
 
 summary(valid$prob)
