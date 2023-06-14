@@ -67,7 +67,7 @@ study = StudyDefinition(
         AND NOT has_chronic_respiratory_disease
         AND NOT has_uti_history_previous_6_month
         AND NOT has_outcome_previous_year
-    
+        AND covid_6weeks = "0"
         """,
 
         has_died=patients.died_from_any_cause(
