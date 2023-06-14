@@ -60,7 +60,7 @@ summary(model)
 ```{r}
 set.seed(123)
 
-model=clogit(case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group+decile+ CCI+ covrx_ever + strata(subclass),df) 
+model=clogit(case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group+ CCI+ covrx_ever + strata(subclass),df) 
 
 summary(model)
 ```
