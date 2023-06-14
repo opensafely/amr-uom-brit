@@ -42,3 +42,27 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_uti_abvar.csv
+
+### study cohort 2 ###
+  generate_study_population_case_uti_study2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_study2
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_study2.csv
+
+  generate_study_population_control_uti_study2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_uti_study2
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_uti_study2.csv
+
+  matching_uti2:
+    run: python:latest python analysis/matching_uti2.py
+    needs: [generate_study_population_case_uti_study2,generate_study_population_control_uti_study2]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_uti2.csv
+        table2: output/matched_matches_uti2.csv
+        table3: output/matched_combined_uti2.csv
+      moderately_sensitive: 
+        report1: output/matching_report_uti2.txt
