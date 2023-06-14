@@ -10,10 +10,12 @@ input_dir <- here("output")
 file_path <- file.path(input_dir, "input_case_uti_study2.csv")
 df <- read_csv(file_path)
 
-# Create a table of outcome_type counts
-outcome_table <- df %>%
-  group_by(outcome_type) %>%
-  summarise(count = n(), .groups = "keep")
+# Count the number of TRUE entries for ae_diarrhea and ae_candidiasis
+diarrhea_count <- sum(df$ae_diarrhea == 1)
+candidiasis_count <- sum(df$ae_candidiasis == 1)
+
+# Create a data frame to hold the counts
+outcome_table <- data.frame(ae_diarrhea = diarrhea_count, ae_candidiasis = candidiasis_count)
 
 # Save the table as csv
 output_file_path <- file.path(here("output"), "study2_uti_table.csv")
