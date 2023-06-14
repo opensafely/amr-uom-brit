@@ -27,7 +27,6 @@ rm(data1,data2)
 names(data)
 #data=data%>%ungroup(subclass)
 
-data$quintile=as.factor(data$quintile)
 data$subclass=as.factor(data$subclass)#pair id
 
 data$CCI= relevel(as.factor(data$CCI), ref="Zero")
