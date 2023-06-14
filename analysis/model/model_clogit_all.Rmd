@@ -14,10 +14,16 @@ library(finalfit)
 ```
 
 
-# general
+# development
 
 ```{r }
-data=readRDS(here::here("output","study_1.rds"))
+data1=readRDS(here::here("output","development_ranger.rds"))
+data2=readRDS(here::here("output","validation_ranger.rds"))
+
+data=rbind(data1,data2)
+rm(data1,data2)
+
+
 names(data)
 data=data%>%ungroup(subclass)
 
@@ -43,41 +49,29 @@ str(data)
 
 
 ```{r }
-model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+
+set.seed(123)
+
+model=clogit(case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group + strata(subclass),data) 
 summary(model)
 
 ```
 
 
+```{r}
+set.seed(123)
 
-# hosp
+model=clogit(case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group+decile+ CCI+ covrx_ever + strata(subclass),df) 
+
+summary(model)
+```
+
 ```{r }
-data=readRDS(here::here("output","study_2.rds"))
-data=data%>%ungroup(subclass)
 
-data$quintile=as.factor(data$quintile)
-data$subclass=as.factor(data$subclass)#pair id
+set.seed(123)
 
-data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+model=clogit( case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
 summary(model)
+
 ```
-
-
-# death
-##  crude model
-```{r }
-data=readRDS(here::here("output","study_3.rds"))
-data=data%>%ungroup(subclass)
-
-data$quintile=as.factor(data$quintile)
-data$subclass=as.factor(data$subclass)#pair id
-
-data$case=as.numeric(data$case) #1/0
-model=clogit(case ~ quintile+ CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
-summary(model)
-```
-
-
-
 
