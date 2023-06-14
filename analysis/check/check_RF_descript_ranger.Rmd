@@ -32,9 +32,9 @@ tbl
 ```
 
 
-# staked bar chart
+# line chart
 ## overall
-```{r eval=FALSE, include=FALSE}
+```{r }
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
@@ -43,7 +43,7 @@ for (i in 1:length(explanatory)) {
   print(
     
     ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
-    geom_bar(position="fill", stat="identity")+
+    geom_line(position="fill", stat="identity")+
    
  ggtitle(explanatory[i])+
   xlab("probability decile") + ylab("") + labs(fill="quartiles")+
@@ -245,7 +245,7 @@ for (i in 1:length(explanatory)) {
   print(
     
     ggplot(data=tbl,aes(x=Var1,y=value, fill=Var2))+
-    geom_bar(position="fill", stat="identity")+
+    geom_line(position="fill", stat="identity")+
    
  ggtitle(explanatory[i])+
   xlab("probability decile") + ylab("") + labs(fill="quartiles")+
