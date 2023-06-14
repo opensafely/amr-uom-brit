@@ -41,50 +41,39 @@ names(train)
 col=c("case","total_ab_group","ab_types_group",
       "exposure_period_group","recent_ab_days_group",
       "broad_ab_prescriptions_group",
-    "interval_mean_group","interval_sd_group","subclass")
-# abtype
-#valid_X=valid[col]
+    "interval_mean_group", "interval_sd_group","subclass")
+
 
 str(train)
 ```
 
-# random select subclass
-```{r eval=FALSE, include=FALSE}
-nrow(train)
-train_X=train %>% group_by(case, subclass) %>% sample_n(1)
-train_X=train_X%>% ungroup(case, subclass)
-nrow(train_X)
 
-train_X=train_X[col]
-saveRDS(train_X,here::here("output","development_1control.rds"))
-```
 
-# RF model
+# RF. ranger probability machine
 ```{r}
-library(randomForest)
-
-sample_n=as.numeric(table(train$case)[2]*0.5)
-sample_n
+library(ranger)
 
 set.seed(123)
-rf.model<- randomForest(formula = case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group, data = train, 
-                           replace = TRUE,
-                      #     sampsize=c(sample_n,sample_n), 
-                     #      strata=train_X$case,
-                           samplsize=0.5,
-                           ntree =  2000,
-                           nodesize = 100 ,
-                           mtry = 3
+
+rf.model= ranger(formula = case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group, 
+                   data =  train,
+                   num.trees =   2000,
+                   min.node.size = 100,
+                   mtry = 3,
+                 case.fraction = 0.5,
+                   importance = "impurity",
+                   replace = TRUE,
+                   probability = TRUE
                           )
 # run over 1 wk: 0.6 size 1000 trees
-saveRDS(rf.model,here::here("output","RF_model.rds"))
+saveRDS(rf.model,here::here("output","RF_model_ranger.rds"))
 ```
 
 
 ```{r}
-importance(rf.model)
-varImpPlot(rf.model)
-
+#importance(rf.model)
+#(rf.model)
+rf.model$variable.importance
 ```
 
 
@@ -95,7 +84,7 @@ varImpPlot(rf.model)
 data=train
 set.seed(123)
 
-prob <- predict(rf.model,data, type = 'prob')[,2]# votes of being case
+prob <- predict(rf.model, data=train)$prediction[,2]# votes of being case
 
 summary(prob)
 hist(prob)
@@ -164,7 +153,7 @@ rm(data)
 data=valid
 set.seed(123)
 
-prob <- predict(rf.model, data, type = 'prob')[,2]# votes of being case
+prob <-   predict(rf.model, data=valid)$prediction[,2]# votes of being case
 
 summary(prob)
 hist(prob)
@@ -232,12 +221,11 @@ nrow(validation)
 
 
 ```{r}
-saveRDS(development,here::here("output","development.rds"))
-saveRDS(validation,here::here("output","validation.rds"))
+saveRDS(development,here::here("output","development_ranger.rds"))
+saveRDS(validation,here::here("output","validation_ranger.rds"))
 
 str(development)
 ```
-
 
 
 

@@ -1,0 +1,252 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+
+library("survival")
+library('tidyverse')
+library(pROC) #plyr
+#library(randomForest) #dplyr
+library(ranger)
+```
+
+# import dataset
+```{r }
+
+#train_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/train_X.rds")
+train<- read_rds(here::here("output","development_ranger_0.5.rds"))
+train$case=as.factor(train$case)
+
+#valid_X <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/valid_X.rds")
+valid <- read_rds(here::here("output","validation_ranger_0.5.rds"))
+valid$case=as.factor(valid$case)
+
+#df=sample_n(df,5000)
+table(train$case)
+table(valid$case)
+
+nrow(train)
+nrow(valid)
+
+rf.model=readRDS(here::here("output","RF_model_ranger_0.5.rds"))
+print(rf.model)
+```
+
+
+# train
+
+## predict probabilities 
+```{r eval=FALSE, include=FALSE}
+
+train$prob <- predict(rf.model,train, type = 'response')$prediction[,2]# votes of being case
+
+summary(train$prob)
+hist(train$prob )
+sum(train$prob ==0)/length(train$prob)# % zero
+
+
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+
+
+```{r}
+
+#  c statistic / AUC
+roc_train <- roc(train$case ~train$prob, smoothed = TRUE,
+            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+            print.auc=TRUE, show.thres=TRUE)
+print(roc_train) #AUC
+
+
+# E/O
+O <- prop.table(table(train$case))[2]
+E <- mean(train$prob)
+E/O
+```
+
+## create decile group
+```{r eval=FALSE, include=FALSE}
+prob=train$prob
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+
+```{r}
+# calibration 
+gpdata=train%>%select(decile, case, prob)
+
+table(gpdata$decile)
+summary(gpdata[gpdata$decile==1,])
+head(gpdata)
+
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=obs%>% pull(mean.obs)
+
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
+exp=exp%>%pull(mean.exp)
+
+#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(train$case,train$decile)[1,] 
+
+cbind(exp,obs)# expected value vs. observed value
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(train$prob, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(train$case))~train$prob,span=1))
+lines_data <- data.frame(train$prob,obs_all)
+lines_data2 <- lines_data[order(train$prob),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+
+
+
+#valid
+
+## predict probabilities 
+```{r eval=FALSE, include=FALSE}
+rm(train,prob,decile,vec)
+valid$prob <- predict(rf.model,valid,type = 'response')$prediction[,2]# votes of being case
+
+summary(valid$prob)
+hist(valid$prob)
+sum(valid$prob==0)/length(valid$prob)# % zero
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+
+
+```{r}
+
+#  c statistic / AUC
+roc_valid <- roc(valid$case ~valid$prob, smoothed = TRUE,
+            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+            print.auc=TRUE, show.thres=TRUE)
+print(roc_valid) #AUC
+
+
+# E/O
+O <- prop.table(table(valid$case))[2]
+E <- mean(valid$prob)
+E/O
+```
+
+## create decile group
+```{r eval=FALSE, include=FALSE}
+prob=valid$prob
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+
+```
+
+```{r}
+# calibration 
+gpdata=valid%>%select(decile, case, prob)
+
+table(gpdata$decile)
+summary(gpdata[gpdata$decile==1,])
+head(gpdata)
+
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=obs%>% pull(mean.obs)
+
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
+exp=exp%>%pull(mean.exp)
+
+#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(valid$case,valid$decile)[1,] 
+
+cbind(exp,obs)# expected value vs. observed value
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(valid$prob, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(valid$case))~valid$prob,span=1))
+lines_data <- data.frame(valid$prob,obs_all)
+lines_data2 <- lines_data[order(valid$prob),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+
+
