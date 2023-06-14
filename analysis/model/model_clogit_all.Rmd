@@ -17,41 +17,40 @@ library(finalfit)
 # development
 
 ```{r }
-data1=readRDS(here::here("output","development_ranger.rds"))
-data2=readRDS(here::here("output","validation_ranger.rds"))
+df1 <- read_rds(here::here("output","development_ranger.rds"))
+df2 <- read_rds(here::here("output","development_ranger.rds"))
+df <- rbind(df1,df2)
+rm(df1,df2)
 
-data=rbind(data1,data2)
-rm(data1,data2)
+table(df$case)
+prop.table(table(df$case,df$decile))
 
-data$case=as.factor(data$case)
-names(data)
-#data=data%>%ungroup(subclass)
+df$case=as.factor(df$case) #1/0
 
-data$subclass=as.factor(data$subclass)#pair id
+df$decile= relevel(as.factor(df$decile), ref="1")
 
-data$CCI= relevel(as.factor(data$CCI), ref="Zero")
-data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+df$subclass=as.factor(df$subclass)#pair id
 
-data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
-data$care_home=relevel(as.factor(data$care_home),ref = "0")
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
-data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
 
-data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
-data$imd=relevel(as.factor(data$imd),ref="1")
-data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
 
-
-str(data)
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 
 ```{r }
-data$case=as.numeric(data$case) #1/0
+df$case=as.numeric(df$case) #1/0
 
 set.seed(123)
 
-model=clogit(case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group + strata(subclass),data) 
+model=clogit(case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group + strata(subclass),df) 
 summary(model)
 
 ```
@@ -69,7 +68,7 @@ summary(model)
 
 set.seed(123)
 
-model=clogit( case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data) 
+model=clogit( case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 summary(model)
 
 ```
