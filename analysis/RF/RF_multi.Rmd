@@ -70,7 +70,7 @@ set.seed(123)
 rf.model<- randomForest(formula = case ~ total_ab_group+ab_types_group+exposure_period_group+recent_ab_days_group+broad_ab_prescriptions_group+interval_mean_group+interval_sd_group, data = train, 
                            replace = TRUE,
                         #   sampsize=c(sample_n,sample_n), 
-                        sampsize=0.4,
+                           sampsize=0.5,
                        #   strata=train$case,
                        #   samplsize=0.4,
                            ntree =  2000,
