@@ -4,8 +4,11 @@ expectations:
   population_size: 30000
 
 actions:
-
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 ### study cohort ###
+
+### UTI ###
+
   generate_study_population_case_uti:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti
     outputs:
@@ -28,7 +31,7 @@ actions:
         table3: output/matched_combined_uti.csv
       moderately_sensitive: 
         report1: output/matching_report_uti.txt
-
+### UTI var ###
   generate_study_population_case_uti_abvar:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_abvar
     needs: [matching_uti]
@@ -56,6 +59,116 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_uti_othvar.csv
+
+### URTI ###
+
+  generate_study_population_case_urti:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti.csv
+
+  generate_study_population_control_urti:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_urti
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_urti.csv
+
+  matching_urti:
+    run: python:latest python analysis/matching_urti.py
+    needs: [generate_study_population_case_urti,generate_study_population_control_urti]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_urti.csv
+        table2: output/matched_matches_urti.csv
+        table3: output/matched_combined_urti.csv
+      moderately_sensitive: 
+        report1: output/matching_report_urti.txt
+
+### URTI var ###
+  generate_study_population_case_urti_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_abvar
+    needs: [matching_urti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_abvar.csv
+
+  generate_study_population_control_urti_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_urti_abvar
+    needs: [matching_urti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_urti_abvar.csv
+
+  generate_study_population_case_urti_othvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_othvar
+    needs: [matching_urti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_othvar.csv
+
+  generate_study_population_control_urti_othvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_urti_othvar
+    needs: [matching_urti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_urti_othvar.csv
+
+### LRTI ###
+
+  generate_study_population_case_lrti:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti.csv
+
+  generate_study_population_control_lrti:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_lrti
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_lrti.csv
+
+  matching_lrti:
+    run: python:latest python analysis/matching_lrti.py
+    needs: [generate_study_population_case_lrti,generate_study_population_control_lrti]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_cases_lrti.csv
+        table2: output/matched_matches_lrti.csv
+        table3: output/matched_combined_lrti.csv
+      moderately_sensitive: 
+        report1: output/matching_report_lrti.txt
+
+### LRTI var ###
+  generate_study_population_case_lrti_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_abvar
+    needs: [matching_lrti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_abvar.csv
+
+  generate_study_population_control_lrti_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_lrti_abvar
+    needs: [matching_lrti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_lrti_abvar.csv
+
+  generate_study_population_case_lrti_othvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_othvar
+    needs: [matching_lrti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_othvar.csv
+
+  generate_study_population_control_lrti_othvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_lrti_othvar
+    needs: [matching_lrti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_lrti_othvar.csv
+
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
   case_uti_othvar_process:
     run: r:latest analysis/casecontrol/case_uti_othvar_process.R
@@ -98,15 +211,3 @@ actions:
     outputs:
       moderately_sensitive: 
         csv: output/uti_model_result.csv
-
-  generate_study_population_case_urti:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti
-    outputs:
-      highly_sensitive:
-        cohort: output/input_case_urti.csv
-
-  generate_study_population_control_urti:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_urti
-    outputs:
-      highly_sensitive:
-        cohort: output/input_control_urti.csv
