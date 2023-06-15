@@ -84,3 +84,17 @@ actions:
     outputs:
       highly_sensitive: 
         rds1: output/processed/input_control_uti_abvar.rds
+
+  model_uti_process:
+    run: r:latest analysis/casecontrol/model_uti_process.R
+    needs: [matching_uti,case_uti_othvar_process,control_uti_othvar_process,case_uti_abvar_process,control_uti_abvar_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model_uti.rds
+
+  model_uti_OR:
+    run: r:latest analysis/casecontrol/model_uti_OR.R
+    needs: [model_uti_process]
+    outputs:
+      moderately_sensitive: 
+        csv: output/uti_model_result.csv
