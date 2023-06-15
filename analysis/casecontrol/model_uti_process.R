@@ -38,7 +38,7 @@ merge_data <- function(df.1, df.2, df.3) {
 df_cases <- load_dataset("output/matched_cases_uti.csv")
 df_matches <- load_dataset("output/matched_matches_uti.csv")
 
-df_ab_vars <- c("patient_index_date", "patient_id", "ab_treatment", "ab_frequency", "ab_history_freq", "charlson_score", "charlsonGrp")
+df_ab_vars <- c("patient_index_date", "patient_id", "ab_treatment", "ab_frequency", "ab_history", "charlson_score", "charlsonGrp")
 df_oth_vars <- c("patient_index_date", "patient_id", "region", "imd", "ethnicity", "bmi", "smoking_status_comb", "ckd_rrt")
 
 df_cases_ab <- load_prepared_df("output/processed/input_case_uti_abvar.rds", df_ab_vars)
