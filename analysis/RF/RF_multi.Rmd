@@ -71,7 +71,7 @@ col=c("case","total_ab_group","ab_types_group",
       "broad_ab_prescriptions_group",
     "interval_mean_group","interval_sd_group")
 train_X=train[col]
-
+train_X$case=as.factor(train_X$case)
 set.seed(123)
 
 rf.model<- randomForest(formula = case ~ ., 
