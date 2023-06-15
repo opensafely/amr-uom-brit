@@ -342,7 +342,7 @@ ae_unclassified_code = codelist_from_csv(
 all_ae_codes = combine_codelists(ae_hematologic_code,ae_behavioral_code,ae_circulatory_code,ae_digestive_code,
                                  ae_endocrine_code,ae_eyeear_code,ae_genitourinary_code,ae_liver_code,
                                  ae_nervous_code,ae_musculoskeletal_code,ae_poisoning_code,ae_renal_code,
-                                 ae_respiratory_code,ae_skin_code,ae_unclassified_code)
+                                 ae_respiratory_code,ae_skin_code,ae_unclassified_code,candidiasis)
 
 ##Charlson comobidities
 charlson01_cancer= codelist_from_csv(
