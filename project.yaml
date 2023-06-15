@@ -98,3 +98,15 @@ actions:
     outputs:
       moderately_sensitive: 
         csv: output/uti_model_result.csv
+
+  generate_study_population_case_urti:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti.csv
+
+  generate_study_population_control_urti:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_urti
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_urti.csv
