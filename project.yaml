@@ -56,3 +56,17 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_uti_othvar.csv
+
+  case_uti_othvar_process:
+    run: r:latest analysis/casecontrol/case_uti_othvar_process.R
+    needs: [generate_study_population_case_uti_othvar]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_case_uti_othvar.rds
+
+  control_uti_othvar_process:
+    run: r:latest analysis/casecontrol/control_uti_othvar_process.R
+    needs: [generate_study_population_control_uti_othvar]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_uti_othvar.rds
