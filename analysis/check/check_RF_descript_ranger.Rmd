@@ -31,7 +31,7 @@ tbl=data %>% summary_factorlist(dependent, explanatory)
 tbl
 ```
 
-# scatter plot
+# grid bar
 ```{r }
 
 #for (i in 1:length(explanatory)) {
@@ -41,8 +41,11 @@ tbl
   
  # print(
     data$total_ab_group=as.factor(data$total_ab_group)
-    ggplot(data=data,aes(y=decile,x=total_ab, group=total_ab_group, color=total_ab_group))+
-    geom_point()+
+
+
+    ggplot(data=data,aes(y=total_ab,x=decile))+
+    geom_bar(stat="identity")+
+        facet_grid(total_ab_group ~ ., scales = "free", space = "free") 
    
 # ggtitle("total_ab_group"+
  # xlab("total_ab") + ylab("probability decile") + labs(fill="quartiles")+
@@ -55,7 +58,7 @@ tbl
 #            vjust = "inward", hjust = "inward",
 #            show.legend = FALSE) + 
 # colour
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
+  # scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
  
  #)
 
