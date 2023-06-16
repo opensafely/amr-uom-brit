@@ -43,19 +43,19 @@ for (i in 1:length(explanatory)) {
   
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=Freq, group=Var2, color=Var2))+
+    ggplot(data=tbl,aes(y=Var1,x=Freq, group=Var2, color=Var2))+
     geom_line()+
    
  ggtitle(explanatory[i])+
   xlab("probability decile") + ylab("") + labs(fill="quartiles")+
-  scale_y_continuous(labels = scales::percent)+
+ # scale_y_continuous(labels = scales::percent)+
  
 # label
  #geom_text(aes(label = paste0(value*100,"%")), 
  #           position = position_stack(vjust = 0.5), size = 2) +
-    geom_text(aes(label = Freq),
-            vjust = "inward", hjust = "inward",
-            show.legend = FALSE) + 
+ #   geom_text(aes(label = Freq),
+#            vjust = "inward", hjust = "inward",
+#            show.legend = FALSE) + 
 # colour
    scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
  
