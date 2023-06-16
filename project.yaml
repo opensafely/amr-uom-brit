@@ -476,6 +476,13 @@ actions:
   #     moderately_sensitive:
   #       html: output/check_RF_descript_ranger.html 
   
+  RF_ranger_decile: # RF model to all data
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_ranger_decile.html 
+  
 
 # ranger 1:1 sample
 
