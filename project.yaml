@@ -482,7 +482,7 @@ actions:
 
   check_RF_descript_ranger: # descriptive stat
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger] #RF_ranger_decil
+    needs: [RF_ranger_decile] #RF_ranger_decil
     outputs:
       moderately_sensitive:
         html: output/check_RF_descript_ranger.html 

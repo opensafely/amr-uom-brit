@@ -22,7 +22,7 @@ library("finalfit")
 
 # descriptive stat 
 ```{r}
-data=read_rds(here::here("output","development_ranger.rds"))
+data=read_rds(here::here("output","all_ranger.rds"))
 data$decile=as.factor(data$decile)
 # select variables
 explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
@@ -44,7 +44,7 @@ tbl
 
 
     ggplot(data=data,aes(y=total_ab,x=decile))+
-    geom_boxplot()+
+    geom_line()+
         facet_grid(rows = vars(total_ab_group),scales = "free") 
    
 # ggtitle("total_ab_group"+
@@ -78,15 +78,20 @@ tbl
 # line chart
 ```{r }
 
+all.data=list()
+
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-
-  print(tbl)
   
-  print(
+  tbl$group=explanatory[i]
+  
+  all.data[i]=tbl
+}
+
+data=rbindlist(all.data)
     
-    ggplot(data=tbl,aes(y=Var1,x=Freq, group=Var2, color=Var2))+
+    ggplot(data=data,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
     geom_line()+
    
  ggtitle(explanatory[i])+
@@ -100,11 +105,22 @@ for (i in 1:length(explanatory)) {
 #            vjust = "inward", hjust = "inward",
 #            show.legend = FALSE) + 
 # colour
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
+   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))+
  
- )
+    facet_grid(rows = vars(group)
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               ) 
 
-}
+
 
 ```
 
@@ -128,9 +144,9 @@ for (i in 1:length(explanatory)) {
 # label
  #geom_text(aes(label = paste0(value*100,"%")), 
  #           position = position_stack(vjust = 0.5), size = 2) +
-    geom_text(aes(label = paste0(value*100,"%")),
-            vjust = "inward", hjust = "inward",
-            show.legend = FALSE) + 
+ #   geom_text(aes(label = paste0(value*100,"%")),
+    #        vjust = "inward", hjust = "inward",
+    #        show.legend = FALSE) + 
 # colour
    scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
  
@@ -146,7 +162,7 @@ for (i in 1:length(explanatory)) {
 
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 rm(list=ls())
 
@@ -162,7 +178,7 @@ tbl
 ```
 
 # line chart 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 for (i in 1:length(explanatory)) {
   
@@ -195,7 +211,7 @@ for (i in 1:length(explanatory)) {
 ```
 
 # line chart %
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 for (i in 1:length(explanatory)) {
   
