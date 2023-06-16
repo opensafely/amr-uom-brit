@@ -462,12 +462,6 @@ actions:
       moderately_sensitive:
         html: output/check_RF_ranger_1control.html 
 
-  check_RF_descript_ranger: # descriptive stat
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_descript_ranger.html 
 
 #RF_shap: # Shapley values
   #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -484,6 +478,14 @@ actions:
         html: output/RF_ranger_decile.html 
       highly_sensitive:
         rds1: output/all_ranger.rds 
+
+
+  check_RF_descript_ranger: # descriptive stat
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger] #RF_ranger_decil
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript_ranger.html 
 
 # final model
   model_final: # coditional logistic regression for decile groups
