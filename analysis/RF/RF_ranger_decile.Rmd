@@ -144,7 +144,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 
 
 ```{r}
-saveRDS(data,here::here("output",""))
+saveRDS(data,here::here("output","all.ranger.rds"))
 ```
 
 
