@@ -469,13 +469,6 @@ actions:
       moderately_sensitive:
         html: output/check_RF_descript_ranger.html 
 
-  model_ranger_ratio1: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_ratio1.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger_ratio1]
-    outputs:
-      moderately_sensitive:
-        html: output/model_ranger_ratio1.html
-
 F_shap: # Shapley values
   #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [RF_multi_ranger]
