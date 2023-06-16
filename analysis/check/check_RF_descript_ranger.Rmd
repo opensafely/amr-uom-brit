@@ -44,8 +44,8 @@ tbl
 
 
     ggplot(data=data,aes(y=total_ab,x=decile))+
-    geom_bar(stat="identity")+
-        facet_grid(total_ab_group ~ ., scales = "free", space = "free") 
+    geom_boxplot()+
+        facet_grid(rows = vars(total_ab_group),scales = "free") 
    
 # ggtitle("total_ab_group"+
  # xlab("total_ab") + ylab("probability decile") + labs(fill="quartiles")+
