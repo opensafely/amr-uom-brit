@@ -38,13 +38,12 @@ tbl
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  tbl=tbl%>% group_by(Var1)%>% mutate(value=sum(Freq))
-  
+
   print(tbl)
   
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=value, group=Var2, color=Var2))+
+    ggplot(data=tbl,aes(x=Var1,y=Freq, group=Var2, color=Var2))+
     geom_line()+
    
  ggtitle(explanatory[i])+
@@ -125,13 +124,12 @@ tbl
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  tbl=tbl%>% group_by(Var1)%>% mutate(value=sum(Freq))
-  
+
   print(tbl)
   
   print(
     
-    ggplot(data=tbl,aes(x=Var1,y=value, group=Var2, color=Var2))+
+    ggplot(data=tbl,aes(x=Var1,y=Freq, group=Var2, color=Var2))+
     geom_line()+
    
  ggtitle(explanatory[i])+
