@@ -12,22 +12,13 @@ library('stringr')
 library("data.table")
 library("ggpubr")
 library("finalfit")
-library(fastshap)
 ```
 
-# read table
-```{r}
-data=read_rds(here::here("output","all_ranger.rds"))
-data$decile=as.factor(data$decile)
-```
 
 # variable importance
 ```{r}
 model_rf=readRDS(here::here("output","RF_model_ranger.rds"))
-```
 
-
-```{r}
 v<-as.vector(model_rf$variable.importance)
 w<-as.vector((names(data)))
 DF<-cbind(w,v)
@@ -44,7 +35,7 @@ ggplot(DF,aes(x=w, y=v))+
 
 
 
-imps <- data.frame(var = names(data)[-1],
+imps <- data.frame(var = names(model_rf$variable.importance),
                    imps = model_rf$variable.importance/max(model_rf$variable.importance))
 imps %>% 
   ggplot(aes(imps, x = reorder(var, imps))) +
@@ -52,6 +43,12 @@ imps %>%
   coord_flip() +
   labs(x = "Predictors", y = "Importance scores") +
   theme_bw(18)
+```
+
+# read table
+```{r}
+data=read_rds(here::here("output","all_ranger.rds"))
+data$decile=as.factor(data$decile)
 ```
 
 # frequency table
