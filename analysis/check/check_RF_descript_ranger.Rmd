@@ -86,7 +86,7 @@ for (i in 1:length(explanatory)) {
   
   tbl$group=explanatory[i]
   
-  all.data[i]=tbl
+  all.data[[i]]=tbl
 }
 
 data=rbindlist(all.data)

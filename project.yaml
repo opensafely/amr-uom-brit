@@ -488,12 +488,12 @@ actions:
         html: output/check_RF_descript_ranger.html 
 
 # final model
-  model_final: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_final.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [ RF_ranger_decile]
+  model_ranger_final: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_final.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile]
     outputs:
       moderately_sensitive:
-        html: output/model_final.html
+        html: output/model_ranger_final.html
 
 # ranger 1:1 sample
 

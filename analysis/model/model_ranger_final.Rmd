@@ -13,7 +13,7 @@ library(car)
 library(finalfit)
 ```
 
-# train
+# all data
 ```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 df <- read_rds(here::here("output","all.ranger.rds"))
