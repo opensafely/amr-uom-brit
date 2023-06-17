@@ -16,7 +16,7 @@ library(finalfit)
 # all data
 ```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
-df <- read_rds(here::here("output","all.ranger.rds"))
+df <- read_rds(here::here("output","all_ranger.rds"))
 table(df$decile)
 table(df$case)
 prop.table(table(df$case,df$decile))

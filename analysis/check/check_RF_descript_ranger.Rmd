@@ -89,9 +89,9 @@ for (i in 1:length(explanatory)) {
   all.data[[i]]=tbl
 }
 
-data=rbindlist(all.data)
+DF=rbindlist(all.data)
     
-    ggplot(data=data,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
+    ggplot(data=DF,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
     geom_line()+
    
  ggtitle(explanatory[i])+
