@@ -4,11 +4,14 @@ title: "Random Forest"
 
 ```{r setup, include=FALSE}
 
-library("survival")
-library('tidyverse')
-library(pROC) #plyr
+#library("survival")
+#library('tidyverse')
+#library(pROC) #plyr
 #library(randomForest) #dplyr
 library(ranger)
+library(fastshap)
+library(ggplot2)
+
 ```
 
 # import dataset
@@ -26,24 +29,40 @@ valid$case=as.factor(valid$case)
 rf.model=readRDS(here::here("output","RF_model_ranger.rds"))
 print(rf.model)
 ```
+# source https://bgreenwell.github.io/fastshap/articles/fastshap.html 
 
-# random select subclass
+# shapley value
 ```{r}
-table(train$case)
-nrow(train)
-train=train %>% group_by(case, subclass) %>% sample_n(1)
-train=train %>% ungroup(case, subclass)
-table(train$case)
-nrow(train)
+# Prediction wrapper
+pfun <- function(object, newdata) {
+  predict(object, data = newdata)$predictions
+}
 
-table(valid$case)
-nrow(valid)
-valid=valid %>% group_by(case, subclass) %>% sample_n(1)
-valid=valid %>% ungroup(case, subclass)
-table(valid$case)
-nrow(valid)
+system.time({  # estimate run time
+  set.seed(5038)
+  shap <- fastshap::explain(model, X = train, pred_wrapper = pfun, nsim = 10)
+})
+
+# Load required packages
+theme_set(theme_bw())
+
+# Aggregate Shapley values
+shap_imp <- data.frame(
+  Variable = names(shap),
+  Importance = apply(shap, MARGIN = 2, FUN = function(x) sum(abs(x)))
+)
+
 ```
 
+# variable importance
+```{r}
+# Plot Shap-based variable importance
+ggplot(shap_imp, aes(reorder(Variable, Importance), Importance)) +
+  geom_col() +
+  coord_flip() +
+  xlab("") +
+  ylab("mean(|Shapley value|)")
+```
 
 # train
 

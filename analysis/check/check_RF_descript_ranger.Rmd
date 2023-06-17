@@ -1,10 +1,8 @@
 ---
-title: "classification comparison: RF "
+title: " Descriptive stat of RF classification"
 ---
 
 ```{r setup, include=FALSE}
-library('tidyverse')
-
 library('tidyverse')
 library("ggplot2")
 library("plyr")
@@ -14,66 +12,63 @@ library('stringr')
 library("data.table")
 library("ggpubr")
 library("finalfit")
-
+library(fastshap)
 ```
 
-
-
-
-# descriptive stat 
+# read table
 ```{r}
 data=read_rds(here::here("output","all_ranger.rds"))
 data$decile=as.factor(data$decile)
+```
+
+# variable importance
+```{r}
+model_rf=readRDS(here::here("output","RF_model_ranger.rds"))
+```
+
+
+```{r}
+v<-as.vector(model_rf$variable.importance)
+w<-as.vector((names(data)))
+DF<-cbind(w,v)
+DF<-as.data.frame(DF)
+
+DF$w <- factor(DF$w, levels =unique(DF$w[order(DF$v)]))
+
+ggplot(DF,aes(x=w, y=v))+ 
+      geom_point()+
+      coord_flip()+
+      ylab("Variable Importance")+
+      xlab("")+
+      ggtitle("Variable importance")
+
+
+
+imps <- data.frame(var = names(data)[-1],
+                   imps = model_rf$variable.importance/max(model_rf$variable.importance))
+imps %>% 
+  ggplot(aes(imps, x = reorder(var, imps))) +
+  geom_point(size = 3, colour = "#ff6767") +
+  coord_flip() +
+  labs(x = "Predictors", y = "Importance scores") +
+  theme_bw(18)
+```
+
+# frequency table
+```{r}
 # select variables
 explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
 dependent <- "decile"
-tbl=data %>% summary_factorlist(dependent, explanatory)
-tbl
+data %>% summary_factorlist(dependent, explanatory)
 ```
 
-# grid bar
-```{r }
 
-#for (i in 1:length(explanatory)) {
-  # tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-
- # print(tbl)
-  
- # print(
-    data$total_ab_group=as.factor(data$total_ab_group)
-
-
-    ggplot(data=data,aes(y=total_ab,x=decile))+
-    geom_line()+
-        facet_grid(rows = vars(total_ab_group),scales = "free") 
-   
-# ggtitle("total_ab_group"+
- # xlab("total_ab") + ylab("probability decile") + labs(fill="quartiles")+
- # scale_y_continuous(labels = scales::percent)+
- 
-# label
- #geom_text(aes(label = paste0(value*100,"%")), 
- #           position = position_stack(vjust = 0.5), size = 2) +
- #   geom_text(aes(label = Freq),
-#            vjust = "inward", hjust = "inward",
-#            show.legend = FALSE) + 
-# colour
-  # scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
- 
- #)
-
-#}
-
-```
-
+# descriptive sata
 ```{r}
-    data$total_ab_group=as.factor(data$total_ab_group)
-    ggplot(data=data,aes(y=prob,x=total_ab, group=total_ab_group, color=total_ab_group))+
-    geom_point()+
-  
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
+data %>% ff_glimpse(dependent, explanatory)
 ```
 
+# graph
 
 # line chart
 ```{r }
@@ -84,44 +79,14 @@ for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
   
-  tbl$group=explanatory[i]
-  
-  all.data[[i]]=tbl
-}
-
-DF=rbindlist(all.data)
-    
-    ggplot(data=DF,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
+    ggplot(data=tbl,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
     geom_line()+
-   
- ggtitle(explanatory[i])+
-  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
- # scale_y_continuous(labels = scales::percent)+
- 
-# label
- #geom_text(aes(label = paste0(value*100,"%")), 
- #           position = position_stack(vjust = 0.5), size = 2) +
- #   geom_text(aes(label = Freq),
-#            vjust = "inward", hjust = "inward",
-#            show.legend = FALSE) + 
-# colour
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))+
- 
-    facet_grid(rows = vars(group)
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               
-               ) 
-
-
-
+    ggtitle(explanatory[i])+
+    xlab("probability decile") + 
+    ylab("")+ 
+    labs(fill="quartiles")+
+    theme_bw(18)               
+}
 ```
 
 # line chart %
@@ -155,92 +120,4 @@ for (i in 1:length(explanatory)) {
 }
 
 ```
-
-
-
-
-
-
-
-```{r eval=FALSE, include=FALSE}
-
-rm(list=ls())
-
-data <- read_rds(here::here("output","validation_ranger.rds"))
-
-data$decile=as.factor(data$decile)
-# select variables
-explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
-dependent <- "decile"
-tbl=data %>% summary_factorlist(dependent, explanatory)
-tbl
-
-```
-
-# line chart 
-```{r eval=FALSE, include=FALSE}
-
-for (i in 1:length(explanatory)) {
-  
-  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-
-  print(tbl)
-  
-  print(
-    
-    ggplot(data=tbl,aes(x=Var1,y=Freq, group=Var2, color=Var2))+
-    geom_line()+
-   
- ggtitle(explanatory[i])+
-  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
-  scale_y_continuous(labels = scales::percent)+
- 
-# label
- #geom_text(aes(label = paste0(value*100,"%")), 
- #           position = position_stack(vjust = 0.5), size = 2) +
-    geom_text(aes(label = Freq),
-            vjust = "inward", hjust = "inward",
-            show.legend = FALSE) + 
-# colour
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
- 
- )
-
-}
-
-```
-
-# line chart %
-```{r eval=FALSE, include=FALSE}
-
-for (i in 1:length(explanatory)) {
-  
-  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
-  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
-
-  print(
-    
-    ggplot(data=tbl,aes(x=Var1,y=value, group=Var2, color=Var2))+
-    geom_line()+
-   
- ggtitle(explanatory[i])+
-  xlab("probability decile") + ylab("") + labs(fill="quartiles")+
-  scale_y_continuous(labels = scales::percent)+
- 
-# label
- #geom_text(aes(label = paste0(value*100,"%")), 
- #           position = position_stack(vjust = 0.5), size = 2) +
-    geom_text(aes(label = paste0(value*100,"%")),
-            vjust = "inward", hjust = "inward",
-            show.legend = FALSE) + 
-# colour
-   scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
- 
- )
-
-}
-
-```
-
-
 
