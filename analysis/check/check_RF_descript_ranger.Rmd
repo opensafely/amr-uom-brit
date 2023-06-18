@@ -42,7 +42,7 @@ imps %>%
   theme_bw(15)
 
 imps %>% 
-  ggplot(aes(imps, x = reorder(var, imps.score))) +
+  ggplot(aes(imps.score, x = reorder(var, imps.score))) +
   geom_point(size = 3, colour = "grey60", ) +
   coord_flip() +
   labs(x = "", y = "Importance Score") +
@@ -59,12 +59,12 @@ data$decile=as.factor(data$decile)
 ```{r}
 # select variables
 explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
-
-
 dependent <- "decile"
 
 table=data %>% summary_factorlist(dependent, explanatory)
 write.csv(table,here::here("output","crosstab.csv"))
+
+print(table)
 ```
 
 
@@ -78,12 +78,15 @@ contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_pre
 
 temp.list=list()
 
-for (i in 1:7) {
+for (i in 1:2) {
 
 min=tapply(data[,contd[i]],data[,explanatory[i]], min)  
 max=tapply(data[,contd[i]],data[,explanatory[i]], max)  
 
-temp.list[[i]]<- data.frame(min,max) 
+temp.tbl= data.frame(min,max)
+temp.tbl$variables=explanatory[i]
+temp.tbl$levels=paste0(explanatory[i],1:nrow(temp.tbl))
+temp.list[[i]]<- temp.tbl
 
 }
 
@@ -98,7 +101,7 @@ write.csv(table,here::here("output","factor.range.csv"))
 # graph
 
 # line chart
-```{r eval=FALSE, include=FALSE}
+```{r }
 
 all.data=list()
 
@@ -106,23 +109,23 @@ for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
   
-  min=tapply(data[,contd[i]],data[,explanatory[i]], min)  
-  max=tapply(data[,contd[i]],data[,explanatory[i]], max)  
+  DF=table%>%filter(variables==explanatory[i])# filter variables
   
-  level1=paste0("(",min[1],",",max[1],")")
-  level2=paste0("(",min[2],",",max[2],")")
-  level3=paste0("(",min[3],",",max[3],")")
-  level4=paste0("(",min[4],",",max[4],")")
+  temp=vector()
+  for (j in 1:nrow(DF)) {
+  temp[j]= paste0("(",DF[j,1],",",DF[j,2],")")
+  }
+
   
   data
   
     ggplot(data=tbl,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
-    geom_line()+
-    ggtitle(explanatory[i])+
-    xlab("probability decile") + 
-    ylab("")+ 
-    labs(fill="quartiles")+
-    theme_bw(18)               
+      geom_line()+
+      ggtitle(explanatory[i])+
+      xlab("probability decile") + 
+      ylab("")+ 
+      scale_fill_discrete(name = "Quartiles", labels = temp[j]) +   # change legend label
+      theme_bw(18)               
 }
 ```
 
