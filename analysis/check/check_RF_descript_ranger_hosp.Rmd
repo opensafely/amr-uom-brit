@@ -145,7 +145,7 @@ for (i in 1:length(explanatory)) {
   }
 
   print(
-    ggplot(data=tbl,aes(y=value,x=Var1, group=Var2))+
+    ggplot(data=tbl,aes(y=value,x=Var1, group=Var2, color=Var2))+
       geom_line()+
       labs(title=imps$var[i],
       x="probability decile",
