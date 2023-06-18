@@ -117,11 +117,11 @@ for (i in 1:length(explanatory)) {
   }
 
   
-  data
+ print(data)
   print(
     ggplot(data=tbl,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
       geom_line()+
-      ggtitle(imps[i])+
+      ggtitle(imps$var[i])+
       xlab("probability decile") + 
       ylab("")+ 
       scale_fill_discrete(name = "Quartiles", labels = temp[j]) +   # change legend label
