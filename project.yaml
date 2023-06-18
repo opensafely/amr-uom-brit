@@ -357,7 +357,7 @@ actions:
       moderately_sensitive:
         html: output/check_RF_ranger_hosp.html   
 
-  RF_ranger_decile: # RF model to all data
+  RF_ranger_decile_hosp: # RF model to all data
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_multi_ranger_hosp]
     outputs:
