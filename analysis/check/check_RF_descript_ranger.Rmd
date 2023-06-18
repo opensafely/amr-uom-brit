@@ -78,7 +78,7 @@ contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_pre
 
 temp.list=list()
 
-for (i in 1:2) {
+for (i in 1:7) {
 
 min=tapply(data[,contd[i]],data[,explanatory[i]], min)  
 max=tapply(data[,contd[i]],data[,explanatory[i]], max)  
