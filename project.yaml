@@ -202,16 +202,16 @@ actions:
       highly_sensitive: 
         rds1: output/processed/input_control_*_abvar.rds
 
-  model_uti_process:
-    run: r:latest analysis/casecontrol/model_uti_process.R
-    needs: [matching_uti,case_othvar_process,control_othvar_process,case_abvar_process,control_abvar_process]
+  model_process:
+    run: r:latest analysis/casecontrol/model_process.R
+    needs: [matching_uti,matching_urti,matching_lrti,case_othvar_process,control_othvar_process,case_abvar_process,control_abvar_process]
     outputs:
       highly_sensitive: 
-        rds1: output/processed/model_uti.rds
+        rds1: output/processed/model_*.rds
 
-  model_uti_OR:
-    run: r:latest analysis/casecontrol/model_uti_OR.R
-    needs: [model_uti_process]
+  model_OR:
+    run: r:latest analysis/casecontrol/model_OR.R
+    needs: [model_process]
     outputs:
       moderately_sensitive: 
-        csv: output/uti_model_result.csv
+        csv: output/*_model_result.csv
