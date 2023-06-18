@@ -379,20 +379,20 @@ actions:
 
 
 
-# performance check
-  check_RF: # ROC, calibration
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi,pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF.html      
+# # performance check
+#   check_RF: # ROC, calibration
+#     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [RF_multi,pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_RF.html      
 
-  check_RF_1control: # ROC, calibration
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_1control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi,pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_1control.html    
+#   check_RF_1control: # ROC, calibration
+#     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_1control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [RF_multi,pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_RF_1control.html    
 
  
 
