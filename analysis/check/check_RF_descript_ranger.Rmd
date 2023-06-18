@@ -118,14 +118,14 @@ for (i in 1:length(explanatory)) {
 
   
   print(
-    ggplot(data=tbl,aes(y=Freq,x=Var1, group=Var2))+
+    ggplot(data=tbl,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
       geom_line()+
-      ggtitle(imps$var[i])+
-      xlab("probability decile") + 
-      ylab("")+ 
-      scale_fill_discrete(name = "Quartiles", labels = temp) +   # change legend label
-      theme_bw(10)    
-  )
+      labs(title=imps$var[i],
+      x="probability decile",
+      y="",
+      color="Quartiles")+ 
+      scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
+      theme_bw()   )
 }
 ```
 
