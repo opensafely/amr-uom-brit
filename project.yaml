@@ -170,37 +170,41 @@ actions:
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
-  case_uti_othvar_process:
-    run: r:latest analysis/casecontrol/case_uti_othvar_process.R
-    needs: [generate_study_population_case_uti_othvar]
+  case_othvar_process:
+    run: r:latest analysis/casecontrol/case_othvar_process.R
+    needs: [generate_study_population_case_uti_othvar,generate_study_population_case_urti_othvar,
+    generate_study_population_case_lrti_othvar]
     outputs:
       highly_sensitive: 
-        rds1: output/processed/input_case_uti_othvar.rds
+        rds1: output/processed/input_case_*_othvar.rds
 
-  control_uti_othvar_process:
-    run: r:latest analysis/casecontrol/control_uti_othvar_process.R
-    needs: [generate_study_population_control_uti_othvar]
+  control_othvar_process:
+    run: r:latest analysis/casecontrol/control_othvar_process.R
+    needs: [generate_study_population_control_uti_othvar,generate_study_population_control_urti_othvar,
+    generate_study_population_control_lrti_othvar]
     outputs:
       highly_sensitive: 
-        rds1: output/processed/input_control_uti_othvar.rds
+        rds1: output/processed/input_control_*_othvar.rds
 
-  case_uti_abvar_process:
-    run: r:latest analysis/casecontrol/case_uti_abvar_process.R
-    needs: [generate_study_population_case_uti_abvar]
+  case_abvar_process:
+    run: r:latest analysis/casecontrol/case_abvar_process.R
+    needs: [generate_study_population_case_uti_abvar,generate_study_population_case_urti_abvar,
+    generate_study_population_case_lrti_abvar]
     outputs:
       highly_sensitive: 
-        rds1: output/processed/input_case_uti_abvar.rds
+        rds1: output/processed/input_case_*_abvar.rds
 
-  control_uti_abvar_process:
-    run: r:latest analysis/casecontrol/control_uti_abvar_process.R
-    needs: [generate_study_population_control_uti_abvar]
+  control_abvar_process:
+    run: r:latest analysis/casecontrol/control_abvar_process.R
+    needs: [generate_study_population_control_uti_abvar,generate_study_population_control_urti_abvar,
+    generate_study_population_control_lrti_abvar]
     outputs:
       highly_sensitive: 
-        rds1: output/processed/input_control_uti_abvar.rds
+        rds1: output/processed/input_control_*_abvar.rds
 
   model_uti_process:
     run: r:latest analysis/casecontrol/model_uti_process.R
-    needs: [matching_uti,case_uti_othvar_process,control_uti_othvar_process,case_uti_abvar_process,control_uti_abvar_process]
+    needs: [matching_uti,case_othvar_process,control_othvar_process,case_abvar_process,control_abvar_process]
     outputs:
       highly_sensitive: 
         rds1: output/processed/model_uti.rds

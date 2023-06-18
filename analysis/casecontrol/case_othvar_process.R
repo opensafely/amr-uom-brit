@@ -21,7 +21,9 @@ source(paste0(utils_dir, "/process_data.R")) # function process_data()
 
 
 # list of all input files
-input_files <- c("input_case_uti_othvar.csv")
+input_files <- c("input_case_uti_othvar.csv",
+                 "input_case_urti_othvar.csv",
+                 "input_case_lrti_othvar.csv")
 
 # directory where input files are located
 input_dir <- here::here("output")

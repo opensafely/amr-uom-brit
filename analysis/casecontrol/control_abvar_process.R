@@ -17,7 +17,9 @@ if (!dir.exists(output_dir)) {
 }
 
 # List all input files
-input_files <- c("input_control_uti_abvar.csv")
+input_files <- c("input_control_uti_abvar.csv",
+                 "input_control_urti_abvar.csv",
+                 "input_control_lrti_abvar.csv")
 
 # Function to process data
 process_data <- function(input_file) {
