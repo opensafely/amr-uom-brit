@@ -113,7 +113,7 @@ for (i in 1:length(explanatory)) {
   
   temp=vector()
   for (j in 1:nrow(DF)) {
-  temp[j]= paste0("(",DF[j,1],",",DF[j,2],")")
+  temp[j]= paste0("(",round(DF[j,1]),",",round(DF[j,2]),")")
   }
 
   
@@ -147,12 +147,13 @@ for (i in 1:length(explanatory)) {
   print(
     ggplot(data=tbl,aes(y=value,x=Var1, group=Var2))+
       geom_line()+
-      scale_fill_discrete(name = "Quartiles", labels = temp) +   # change legend label
+      labs(title=imps$var[i],
+      x="probability decile",
+      y="",
+      color="Quartiles")+ 
+      scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
       scale_y_continuous(labels = scales::percent)+
-      ggtitle(imps$var[i])+
-      xlab("probability decile") + 
-      ylab("")+ 
-      theme_bw(10)    
+      theme_bw()    
   )
   
 #  print(

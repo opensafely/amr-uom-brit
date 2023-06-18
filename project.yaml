@@ -119,85 +119,85 @@ actions:
         rds3: output/train_cat.rds
         rds4: output/valid_cat.rds 
 
-  # model_clogit: # coditional logistic regression for picking exposure variables 
-  #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [pre_RF_process]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/model_clogit.html
+#   # model_clogit: # coditional logistic regression for picking exposure variables 
+#   #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [pre_RF_process]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/model_clogit.html
   
-  check_clogit: # coditional logistic regression for picking exposure variables  # category & continuous
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/check_clogit.html
+#   check_clogit: # coditional logistic regression for picking exposure variables  # category & continuous
+#     run: r:latest -e 'rmarkdown::render("analysis/check/check_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_clogit.html
 
-  # classification_tree:  #decision tree check # category  
-  #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_clogit]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/classification_tree.html
+#   # classification_tree:  #decision tree check # category  
+#   #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_clogit]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/classification_tree.html
 
-  classification_tree:  #decision tree check # category 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree.html
+#   classification_tree:  #decision tree check # category 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_tree.html
 
-  classification_tree_1control:  #decision tree check # category 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_1control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree_1control.html
+#   classification_tree_1control:  #decision tree check # category 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_1control.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/classification_tree_1control.html
 
-  # classification_tree_all:  #decision tree check # category #all predictor
-  #   run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_clogit]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/classification_tree_all.html
+#   # classification_tree_all:  #decision tree check # category #all predictor
+#   #   run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_clogit]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/classification_tree_all.html
 
-  # classification_tree_ind_rpart:  #decision tree check # category #per predictor
-  #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind_rpart.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [model_clogit]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/classification_tree_ind_rpart.html
+#   # classification_tree_ind_rpart:  #decision tree check # category #per predictor
+#   #   run: r:latest -e 'rmarkdown::render("analysis/classification_tree_ind_rpart.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#   #   needs: [model_clogit]
+#   #   outputs:
+#   #     moderately_sensitive:
+#   #       html: output/classification_tree_ind_rpart.html
 
-  RF_uni: # category # individual variables
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_uni.html
+#   RF_uni: # category # individual variables
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_uni.html
   
-  RF_multi: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_multi.html
-      highly_sensitive:
-        rds1: output/development.rds 
-        rds2: output/validation.rds 
-        rds3: output/RF_model.rds 
-     #   rds5: output/development_1control.rds 
+#   RF_multi: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_multi.html
+#       highly_sensitive:
+#         rds1: output/development.rds 
+#         rds2: output/validation.rds 
+#         rds3: output/RF_model.rds 
+#      #   rds5: output/development_1control.rds 
 
 
-# final model
-  model: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi]
-    outputs:
-      moderately_sensitive:
-        html: output/model.html
-        rds1: output/model.rds
-        rds2: output/model_adj.rds
-        rds3: output/model_adj_all.rds
+# # final model
+#   model: # coditional logistic regression for decile groups
+#     run: r:latest -e 'rmarkdown::render("analysis/model/model.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [RF_multi]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model.html
+#         rds1: output/model.rds
+#         rds2: output/model_adj.rds
+#         rds3: output/model_adj_all.rds
 
 
 
@@ -279,48 +279,48 @@ actions:
         rds3: output/train_cat_hosp.rds
         rds4: output/valid_cat_hosp.rds 
 
-  model_clogit_hosp: # coditional logistic regression for picking exposure variables 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/model_clogit_hosp.html
+  # model_clogit_hosp: # coditional logistic regression for picking exposure variables 
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [pre_RF_process_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_clogit_hosp.html
 
-  classification_tree_hosp:  #decision tree check # category 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/classification_tree_hosp.html        
+  # classification_tree_hosp:  #decision tree check # category 
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/classification_tree_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [pre_RF_process_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/classification_tree_hosp.html        
 
-  RF_uni_hosp: # category # individual variables
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_uni_hosp.html
+  # RF_uni_hosp: # category # individual variables
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_uni_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [pre_RF_process_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/RF_uni_hosp.html
 
-  RF_multi_hosp: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_multi_hosp.html
-      highly_sensitive:
-        rds1: output/development_hosp.rds 
-        rds2: output/validation_hosp.rds 
-        rds3: output/RF_model_hosp.rds 
-        rds4: output/development_1control_hosp.rds 
+  # RF_multi_hosp: 
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [pre_RF_process_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/RF_multi_hosp.html
+  #     highly_sensitive:
+  #       rds1: output/development_hosp.rds 
+  #       rds2: output/validation_hosp.rds 
+  #       rds3: output/RF_model_hosp.rds 
+  #       rds4: output/development_1control_hosp.rds 
 
-  model_hosp: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/model_hosp.html  
-        rds1: output/model_hosp.rds
-        rds2: output/model_adj_hosp.rds
-        rds3: output/model_adj_all_hosp.rds
+  # model_hosp: # coditional logistic regression for decile groups
+  #   run: r:latest -e 'rmarkdown::render("analysis/model/model_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/model_hosp.html  
+  #       rds1: output/model_hosp.rds
+  #       rds2: output/model_adj_hosp.rds
+  #       rds3: output/model_adj_all_hosp.rds
 
 # ramger hosp
   RF_multi_ranger_hosp: 
