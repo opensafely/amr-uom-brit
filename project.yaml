@@ -486,6 +486,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_RF_descript_ranger.html 
+        csv: output/crosstab.csv
+        
 
 # final model
   model_ranger_final: # coditional logistic regression for decile groups
