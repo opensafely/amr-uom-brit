@@ -396,36 +396,36 @@ actions:
 
  
 
-  check_logistic: # compared with logistic model
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi,pre_RF_process]
-    outputs:
-      moderately_sensitive:
-        html: output/check_logistic.html
-      highly_sensitive:
-        rds1: output/development_logi.rds 
-        rds2: output/validation_logi.rds          
+  # check_logistic: # compared with logistic model
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi,pre_RF_process]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_logistic.html
+  #     highly_sensitive:
+  #       rds1: output/development_logi.rds 
+  #       rds2: output/validation_logi.rds          
 
-  check_RF_descript: # descriptive stat
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_descript.html   
+  # check_RF_descript: # descriptive stat
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF_descript.html   
 
-  check_RF_hosp: # ROC, calibration
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_hosp,pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_hosp.html      
+  # check_RF_hosp: # ROC, calibration
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi_hosp,pre_RF_process_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF_hosp.html      
 
-  check_RF_descript_hosp: # descriptive stat
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_descript_hosp.html   
+  # check_RF_descript_hosp: # descriptive stat
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF_descript_hosp.html   
 
 
 # sensitivity analysis: clogist result comparison 
