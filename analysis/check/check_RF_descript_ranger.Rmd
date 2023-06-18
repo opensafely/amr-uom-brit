@@ -18,9 +18,12 @@ library("finalfit")
 # variable importance
 ```{r}
 model_rf=readRDS(here::here("output","RF_model_ranger.rds"))
+```
 
+
+```{r}
 v<-as.vector(model_rf$variable.importance)
-w<-as.vector((names(data)))
+w<-as.vector(names(model_rf$variable.importance))
 DF<-cbind(w,v)
 DF<-as.data.frame(DF)
 
