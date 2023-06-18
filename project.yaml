@@ -325,7 +325,7 @@ actions:
 # ramger hosp
   RF_multi_ranger_hosp: 
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process]
+    needs: [pre_RF_process_hosp]
     outputs:
       moderately_sensitive:
         html: output/RF_multi_ranger_hosp.html
@@ -352,7 +352,7 @@ actions:
 
   check_RF_ranger_hosp: # ROC, calibration 
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger_hosp,pre_RF_process]
+    needs: [RF_multi_ranger_hosp,pre_RF_process_hosp]
     outputs:
       moderately_sensitive:
         html: output/check_RF_ranger_hosp.html   
