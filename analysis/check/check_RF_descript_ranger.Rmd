@@ -124,7 +124,7 @@ for (i in 1:length(explanatory)) {
       xlab("probability decile") + 
       ylab("")+ 
       labs("quartiles")+      
-      scale_fill_manual(levels = temp[j]) +   # change legend label
+      scale_fill_manual(levels = temp) +   # change legend label
       theme_bw(10)    
   )
 }
@@ -148,7 +148,7 @@ for (i in 1:length(explanatory)) {
   print(
     ggplot(data=tbl,aes(y=value,x=Var1, group=Var2))+
       geom_line()+
-      scale_fill_discrete(name = "Quartiles", labels = temp[j]) +   # change legend label
+      scale_fill_discrete(name = "Quartiles", labels = temp) +   # change legend label
       scale_y_continuous(labels = scales::percent)+
       ggtitle(imps$var[i])+
       xlab("probability decile") + 
