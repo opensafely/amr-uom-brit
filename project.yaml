@@ -322,18 +322,18 @@ actions:
         rds2: output/model_adj_hosp.rds
         rds3: output/model_adj_all_hosp.rds
 
-# # ramger hosp
-#   RF_multi_ranger_hosp: 
-#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-#     needs: [pre_RF_process]
-#     outputs:
-#       moderately_sensitive:
-#         html: output/RF_multi_ranger.html
-#       highly_sensitive:
-#         rds1: output/development_ranger.rds 
-#         rds2: output/validation_ranger.rds 
-#         rds3: output/RF_model_ranger.rds 
-#       #  rds4: output/development_ranger_1control.rds 
+# ramger hosp
+  RF_multi_ranger_hosp: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_multi_ranger_hosp.html
+      highly_sensitive:
+        rds1: output/development_ranger_hosp.rds 
+        rds2: output/validation_ranger_hosp.rds 
+        rds3: output/RF_model_ranger_hosp.rds 
+      #  rds4: output/development_ranger_1control.rds 
 
 
 #   model_ranger: # coditional logistic regression for decile groups
