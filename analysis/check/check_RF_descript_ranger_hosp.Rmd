@@ -1,0 +1,181 @@
+---
+title: " Descriptive stat of RF classification"
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library("plyr")
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+
+# variable importance
+## https://brunaw.com/slides/rladies-dublin/RF/intro-to-rf.html#30
+```{r}
+model_rf=readRDS(here::here("output","RF_model_ranger_hosp.rds"))
+
+
+# calculate relative importance
+imps <- data.frame(var = names(model_rf$variable.importance),
+                   imps = model_rf$variable.importance/max(model_rf$variable.importance),
+                   imps.score=model_rf$variable.importance)
+
+# rename variable
+imps$var
+imps$var=c("Total antibiotics","Antibiotic types","Exposure period","Recent exposure", "Broad-spectrum antibiotics","Prescribing intervals (mean)", "Prescribing intervals (SD)")
+```
+
+
+```{r}
+# importance plot
+imps %>% 
+  ggplot(aes(imps, x = reorder(var, imps))) +
+  geom_point(size = 3, colour = "grey60") +
+  coord_flip() +
+  labs(x = "", y = "Importance") +
+  theme_bw(15)
+
+imps %>% 
+  ggplot(aes(imps.score, x = reorder(var, imps.score))) +
+  geom_point(size = 3, colour = "grey60", ) +
+  coord_flip() +
+  labs(x = "", y = "Importance Score") +
+  theme_bw(15)
+```
+
+# read table
+```{r}
+data=read_rds(here::here("output","all_ranger.rds"))
+data$decile=as.factor(data$decile)
+```
+
+# frequency table
+```{r}
+# select variables
+explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group","interval_sd_group")
+dependent <- "decile"
+
+table=data %>% summary_factorlist(dependent, explanatory)
+write.csv(table,here::here("output","crosstab_hosp.csv"))
+
+print(table)
+```
+
+
+# descriptive stat
+```{r}
+contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+```
+
+
+```{r}
+
+temp.list=list()
+
+for (i in 1:7) {
+
+min=tapply(data[,contd[i]],data[,explanatory[i]], min)  
+max=tapply(data[,contd[i]],data[,explanatory[i]], max)  
+
+temp.tbl= data.frame(min,max)
+temp.tbl$variables=explanatory[i]
+temp.tbl$levels=paste0(explanatory[i],1:nrow(temp.tbl))
+temp.list[[i]]<- temp.tbl
+
+}
+
+table=rbindlist(temp.list)
+
+table
+
+write.csv(table,here::here("output","factor.range_hosp.csv"))
+
+```
+
+# graph
+
+# line chart
+```{r }
+
+all.data=list()
+
+for (i in 1:length(explanatory)) {
+  
+  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  
+  DF=table%>%filter(variables==explanatory[i])# filter variables
+  
+  temp=vector()
+  for (j in 1:nrow(DF)) {
+  temp[j]= paste0("(",round(DF[j,1]),",",round(DF[j,2]),")")
+  }
+
+  
+  print(
+    ggplot(data=tbl,aes(y=Freq,x=Var1, group=Var2, color=Var2))+
+      geom_line()+
+      labs(title=imps$var[i],
+      x="probability decile",
+      y="",
+      color="Quartiles")+ 
+      scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
+      theme_bw()   )
+}
+```
+
+# line chart %
+```{r }
+
+for (i in 1:length(explanatory)) {
+  
+  tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
+  tbl=tbl%>% group_by(Var1)%>% mutate(value=round(Freq/sum(Freq),2))
+
+  DF=table%>%filter(variables==explanatory[i])# filter variables
+  
+  temp=vector()
+  for (j in 1:nrow(DF)) {
+  temp[j]= paste0("(",DF[j,1],",",DF[j,2],")")
+  }
+
+  print(
+    ggplot(data=tbl,aes(y=value,x=Var1, group=Var2))+
+      geom_line()+
+      labs(title=imps$var[i],
+      x="probability decile",
+      y="",
+      color="Quartiles")+ 
+      scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
+      scale_y_continuous(labels = scales::percent)+
+      theme_bw()    
+  )
+  
+#  print(
+    
+ #   ggplot(data=tbl,aes(x=Var1,y=value, group=Var2, color=Var2))+
+ #   geom_line()+
+ #  
+# ggtitle(explanatory[i])+
+ # xlab("probability decile") + ylab("") + labs(fill="quartiles")+
+ #
+# label
+ #geom_text(aes(label = paste0(value*100,"%")), 
+ #           position = position_stack(vjust = 0.5), size = 2) +
+ #   geom_text(aes(label = paste0(value*100,"%")),
+    #        vjust = "inward", hjust = "inward",
+    #        show.legend = FALSE) + 
+# colour
+  # scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
+ 
+# )
+
+}
+
+```
+

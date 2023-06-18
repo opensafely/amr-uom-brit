@@ -366,6 +366,14 @@ actions:
       highly_sensitive:
         rds1: output/all_ranger_hosp.rds 
 
+  check_RF_descript_ranger_hosp: # descriptive stat
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile_hosp,RF_multi_ranger_hosp] #RF_ranger_decil
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript_ranger_hosp.html 
+        csv1: output/crosstab_hosp.csv
+        csv2: output/factor.range_hosp.csv
 
   # check_RF_descript_ranger_hosp: # descriptive stat
   #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
