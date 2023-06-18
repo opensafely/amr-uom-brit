@@ -123,8 +123,7 @@ for (i in 1:length(explanatory)) {
       ggtitle(imps$var[i])+
       xlab("probability decile") + 
       ylab("")+ 
-      labs("quartiles")+      
-      scale_fill_manual(levels = temp) +   # change legend label
+      scale_fill_discrete(name = "Quartiles", labels = temp) +   # change legend label
       theme_bw(10)    
   )
 }
