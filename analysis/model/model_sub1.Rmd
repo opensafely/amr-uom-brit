@@ -24,7 +24,7 @@ prop.table(table(df$case,df$decile))
 df$case=as.factor(df$case) #1/0
 
 df$total_ab_group= relevel(as.factor(df$total_ab_group), ref="1")
-df$recent_ab_days_group= relevel(as.factor(df$df$recent_ab_days_group), ref="1")
+df$recent_ab_days_group= relevel(as.factor(df$recent_ab_days_group), ref="1")
 df$ab_types_group= relevel(as.factor(df$ab_types_group), ref="1")
 df$exposure_period_group= relevel(as.factor(df$exposure_period_group), ref="1")
 df$broad_ab_prescriptions_group= relevel(as.factor(df$broad_ab_prescriptions_group), ref="1")
