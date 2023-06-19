@@ -152,7 +152,33 @@ actions:
       moderately_sensitive:
         html: output/check_RF_ranger.html    
 
-        
+  RF_ranger_decile: # RF model to all data
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_ranger]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_ranger_decile.html 
+      highly_sensitive:
+        rds1: output/all_ranger.rds 
+
+
+  check_RF_descript_ranger: # descriptive stat
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile,RF_multi_ranger] #RF_ranger_decil
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript_ranger.html 
+        csv1: output/crosstab.csv
+        csv2: output/factor.range.csv
+
+# final model
+  model_ranger_final: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_final.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile]
+    outputs:
+      moderately_sensitive:
+        html: output/model_ranger_final.html
+
 #   # model_clogit: # coditional logistic regression for picking exposure variables 
 #   #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
 #   #   needs: [pre_RF_process]
@@ -528,33 +554,7 @@ actions:
   #     moderately_sensitive:
   #       html: output/check_RF_descript_ranger.html 
   
-  RF_ranger_decile: # RF model to all data
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_ranger_decile.html 
-      highly_sensitive:
-        rds1: output/all_ranger.rds 
 
-
-  check_RF_descript_ranger: # descriptive stat
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_ranger_decile,RF_multi_ranger] #RF_ranger_decil
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_descript_ranger.html 
-        csv1: output/crosstab.csv
-        csv2: output/factor.range.csv
-
-
-# final model
-  model_ranger_final: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_final.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_ranger_decile]
-    outputs:
-      moderately_sensitive:
-        html: output/model_ranger_final.html
 
 # # ranger 1:1 sample
 
@@ -965,7 +965,23 @@ actions:
       moderately_sensitive:
         html: output/check_RF_2.html    
 
+  RF_ranger_decile_2: # RF model to all data
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_2]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_ranger_decile_2.html 
+      highly_sensitive:
+        rds1: output/all_ranger_2.rds 
 
+  check_RF_descript_2: # descriptive stat
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile_2,RF_multi_2] #RF_ranger_decil
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript_2.html 
+        csv1: output/crosstab_2.csv
+        csv2: output/factor.range_2.csv
 # # #     run: r:latest -e 'rmarkdown::render("analysis/classification_tree_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
 # # #     needs: [model_RF_process]
 # # #     outputs:
