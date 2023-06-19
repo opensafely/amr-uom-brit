@@ -151,6 +151,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_RF_ranger.html    
+
+        
 #   # model_clogit: # coditional logistic regression for picking exposure variables 
 #   #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
 #   #   needs: [pre_RF_process]
@@ -924,8 +926,46 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab_2.rds
 
+# RF
+  pre_RF_process_2: # split train and valid set # create category variables of ab exposure
+    run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_ab_time_2,process_Rmatching_2]
+    outputs:
+      moderately_sensitive:
+        html: output/pre_RF_process_2.html
+      highly_sensitive: 
+        rds1: output/train_2.rds
+        rds2: output/valid_2.rds
+        rds3: output/train_cat_2.rds
+        rds4: output/valid_cat_2.rds 
 
-# # #   classification_tree_contd:  #decision tree check # contd
+  RF_multi_2: 
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process_2]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_multi_2.html
+      highly_sensitive:
+        rds1: output/development_2.rds 
+        rds2: output/validation_2.rds 
+        rds3: output/RF_model_2.rds 
+      #  rds4: output/development_ranger_1control.rds 
+
+  model_2: # coditional logistic regression for decile groups
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_2]
+    outputs:
+      moderately_sensitive:
+        html: output/model_2.html  # # #   classification_tree_contd:  #decision tree check # contd
+
+  check_RF_2: # ROC, calibration 
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_multi_2,pre_RF_process_2]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_2.html    
+
+
 # # #     run: r:latest -e 'rmarkdown::render("analysis/classification_tree_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
 # # #     needs: [model_RF_process]
 # # #     outputs:
