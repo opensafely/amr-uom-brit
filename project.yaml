@@ -186,7 +186,7 @@ actions:
     needs: [RF_ranger_decile]
     outputs:
       moderately_sensitive:
-        html: output/model_ranger_sub1.html
+        html: output/model_sub1.html
 
 #   # model_clogit: # coditional logistic regression for picking exposure variables 
 #   #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
