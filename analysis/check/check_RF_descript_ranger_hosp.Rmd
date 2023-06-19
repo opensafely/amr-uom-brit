@@ -51,7 +51,7 @@ imps %>%
 
 # read table
 ```{r}
-data=read_rds(here::here("output","all_ranger.rds"))
+data=read_rds(here::here("output","all_ranger_hosp.rds"))
 data$decile=as.factor(data$decile)
 ```
 
@@ -123,7 +123,7 @@ for (i in 1:length(explanatory)) {
       labs(title=imps$var[i],
       x="probability decile",
       y="",
-      color="Quartiles")+ 
+      color="Range (min, max)")+ 
       scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
       theme_bw()   )
 }
@@ -141,39 +141,22 @@ for (i in 1:length(explanatory)) {
   
   temp=vector()
   for (j in 1:nrow(DF)) {
-  temp[j]= paste0("(",DF[j,1],",",DF[j,2],")")
+  temp[j]= paste0("(",round(DF[j,1]),",",round(DF[j,2]),")")
   }
 
   print(
-    ggplot(data=tbl,aes(y=value,x=Var1, group=Var2, color=Var2))+
+    ggplot(data=tbl,aes(y=value,x=Var1, group=Var2,color=Var2))+
       geom_line()+
       labs(title=imps$var[i],
       x="probability decile",
       y="",
-      color="Quartiles")+ 
+      color="Range (min, max)")+ 
       scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
       scale_y_continuous(labels = scales::percent)+
       theme_bw()    
   )
   
-#  print(
-    
- #   ggplot(data=tbl,aes(x=Var1,y=value, group=Var2, color=Var2))+
- #   geom_line()+
- #  
-# ggtitle(explanatory[i])+
- # xlab("probability decile") + ylab("") + labs(fill="quartiles")+
- #
-# label
- #geom_text(aes(label = paste0(value*100,"%")), 
- #           position = position_stack(vjust = 0.5), size = 2) +
- #   geom_text(aes(label = paste0(value*100,"%")),
-    #        vjust = "inward", hjust = "inward",
-    #        show.legend = FALSE) + 
-# colour
-  # scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99","#6699FF"))
- 
-# )
+
 
 }
 
