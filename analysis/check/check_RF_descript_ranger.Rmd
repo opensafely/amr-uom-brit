@@ -132,6 +132,7 @@ for (i in 1:length(explanatory)) {
 # line chart %
 ```{r }
 
+
 for (i in 1:length(explanatory)) {
   
   tbl=data.frame(table(data[,"decile"],data[,explanatory[i]]))
@@ -141,20 +142,21 @@ for (i in 1:length(explanatory)) {
   
   temp=vector()
   for (j in 1:nrow(DF)) {
-  temp[j]= paste0("(",round(DF[j,1]),",",round(DF[j,2]),")")
+  temp[j]= paste0(j," (",round(DF[j,1]),",",round(DF[j,2]),")")
   }
 
   print(
     ggplot(data=tbl,aes(y=value,x=Var1, group=Var2,color=Var2))+
-      geom_line()+
+      geom_line(size=1)+
       labs(title=imps$var[i],
-      x="probability decile",
+      x="Probability level",
       y="",
-      color="Range (min, max)")+ 
+      color="Groups (Q1,Q3)")+ 
       scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
       scale_y_continuous(labels = scales::percent)+
       theme_bw()    
   )
+  
   
 #  print(
     
