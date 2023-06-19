@@ -908,7 +908,21 @@ actions:
         rds1: output/abtype79_2.rds
         rds2: output/comor17_2.rds
 
+  extract_variables_ab_time_2:   # per ab exposure
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_2 --with-end-date-fix # unique matched patient ID
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_ab_time_2.csv
 
+  process_ab_time_2: # exposures #merge ab time with mathced patients
+    run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [extract_variables_ab_time_2,process_Rmatching_2]
+    outputs:
+      moderately_sensitive:
+        html: output/process_ab_time_2.html
+      highly_sensitive: 
+         rds: output/matched_ab_2.rds
 
 
 # # #   classification_tree_contd:  #decision tree check # contd
