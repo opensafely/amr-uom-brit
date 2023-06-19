@@ -24,7 +24,7 @@ prop.table(table(df$case,df$decile))
 df$case=as.factor(df$case) #1/0
 
 df$total_ab_group= relevel(as.factor(df$total_ab_group), ref="1")
-df$recent_ab_days= relevel(as.factor(df$df$recent_ab_days), ref="1")
+df$recent_ab_days_group= relevel(as.factor(df$df$recent_ab_days_group), ref="1")
 df$ab_types_group= relevel(as.factor(df$ab_types_group), ref="1")
 df$exposure_period_group= relevel(as.factor(df$exposure_period_group), ref="1")
 df$broad_ab_prescriptions_group= relevel(as.factor(df$broad_ab_prescriptions_group), ref="1")
@@ -52,12 +52,12 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 df$case=as.numeric(df$case) #1/0
 set.seed(123)
 
-model=clogit(case ~ total_ab_group + df$recent_ab_days + total_ab_group*recent_ab_days+ strata(subclass),df) 
+model=clogit(case ~ total_ab_group + df$recent_ab_days_group + total_ab_group*recent_ab_days_group+ strata(subclass),df) 
 
 summary(model)
 
 set.seed(123)
-model=clogit(case ~ total_ab_group + recent_ab_days + total_ab_group*recent_ab_days + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+model=clogit(case ~ total_ab_group + recent_ab_days_group + total_ab_group*recent_ab_days_group + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
 ```
