@@ -1171,33 +1171,33 @@ actions:
 # # #       moderately_sensitive:
 # # #         html: output/descriptive_stat.html
 
-# # # # # main analysis
+# output
  
-# # #   table1_round: 
-# # #     run: r:latest analysis/table1.R
-# # #     needs: [pre_matching,process_Rmatching]
-# # #     outputs:
-# # #       moderately_sensitive:
-# # #         csv1: output/table1_unmatched.csv
-# # #         csv2: output/table1_matched.csv
-# # #         csv3: output/table1_random.csv
+  table1_round: 
+    run: r:latest analysis/table1.R
+    needs: [pre_matching,process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table1_unmatched.csv
+        csv2: output/table1_matched.csv
+        csv3: output/table1_random.csv
 
-# # #   table2_round: 
-# # #     run: r:latest analysis/table2.R
-# # #     needs: [process_Rmatching]
-# # #     outputs:
-# # #       moderately_sensitive:
-# # #         csv1: output/table2_matched.csv
-# # #         csv3: output/table2_random.csv
+  table2_round: 
+    run: r:latest analysis/table2.R
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table2_matched.csv
+        csv3: output/table2_random.csv
   
-# # #   table3_round: # baseline table of exposure variables/ training &validation 
-# # #     run: r:latest analysis/table3.R
-# # #     needs: [model_RF_process]
-# # #     outputs:
-# # #       moderately_sensitive:
-# # #         csv1: output/table3_train.csv
-# # #         csv2: output/table3_valid.csv
-# # #         csv3: output/table3_all.csv
+  table3_round: # baseline table of exposure variables/ training &validation 
+    run: r:latest analysis/table3.R
+    needs: [model_RF_process]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table3_train.csv
+        csv2: output/table3_valid.csv
+        csv3: output/table3_all.csv
 
 # # # # variables check
 # # #   check_variables: # check input
