@@ -56,13 +56,13 @@ model=clogit(case ~ total_ab_group + exposure_period_group + total_ab_group*expo
 
 summary(model)
 
-
-
-
 ```
 
 # logistic regression
 ```{r}
+
+df$case=as.factor(df$case) #1/0
+
 model=glm(case~total_ab_group + exposure_period_group + total_ab_group*exposure_period_group,family="binomial",data = df)
 
 print(model)
