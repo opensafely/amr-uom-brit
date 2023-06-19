@@ -1,0 +1,151 @@
+---
+title: "pre_matching precess"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library('tidyverse')
+library('lubridate')
+library('dplyr')
+```
+
+# COVID INFECTION
+## SGSS
+```{r}
+# impoprt data
+df1 <- read_csv(here::here("output", "input_covid_SGSS_2.csv"))
+nrow(df1)
+df1=df1%>%filter(patient_index_date <= as.Date("2022-12-31"))
+nrow(df1)
+
+# filter SGSS (exclude SGSS+admission, SGSS+death)
+df1 =df1%>%filter( !is.na(patient_index_date)) # SGSS case
+nrow(df1)
+
+df1=df1%>%
+  filter(is.na(primary_care_covid_date),
+         is.na(covid_admission_date),
+         is.na(died_date_cpns), 
+         is.na(died_date_ons_covid))
+nrow(df1)
+```
+
+## primary care
+```{r}
+df2<- read_csv(here::here("output", "input_covid_primarycare_2.csv"))
+nrow(df2)
+df2=df2%>%filter(patient_index_date <= as.Date("2022-12-31"))
+nrow(df2)
+
+df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
+nrow(df2)
+
+df2=df2%>%
+  filter(is.na(SGSS_positive_test_date),
+         is.na(covid_admission_date),
+         is.na(died_date_cpns), 
+         is.na(died_date_ons_covid))
+nrow(df2)
+
+```
+
+## merge covid infection
+```{r}
+df=rbind(df1,df2)
+nrow(df1)
+nrow(df2)
+nrow(df)
+
+# keep earlist covid infection date
+df=df%>%
+  group_by(patient_id)%>%
+  arrange(patient_id,patient_index_date)%>%
+  distinct(patient_id, .keep_all = TRUE)
+
+nrow(df)
+# calendar month for matching
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+
+```
+
+# CONTROL
+```{r}
+## Control - covid infection without any covid severe outcome within 1 month
+df.0=df%>%
+  filter(
+          is.na(covid_admission_date_after),
+          is.na(died_date_cpns_after),
+          is.na(died_date_ons_covid_after))
+nrow(df.0)
+
+
+```
+
+# CASE
+```{r}
+## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
+df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+nrow(df.1)
+df.1=df.1%>%filter(patient_index_date <= as.Date("2022-12-31"))
+nrow(df.1)
+
+df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
+nrow(df.1)
+
+
+df.1=df.1%>%filter(
+         is.na(SGSS_positive_test_date_before),
+         is.na(primary_care_covid_date_before), 
+         is.na(died_date_cpns_before),
+         is.na(died_date_ons_covid_before))
+nrow(df.1)
+
+# calendar month for matching
+df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
+```
+
+# merge case & control
+```{r}
+df.0$case=0
+df.1$case=1
+df=rbind(df.1,df.0)
+nrow(df.0)
+nrow(df.1)
+nrow(df)
+
+# keep earlist covid positive date
+df=df%>%
+  group_by(patient_id)%>%
+  arrange(patient_id,patient_index_date)%>%
+  distinct(patient_id, .keep_all = TRUE)
+nrow(df)
+
+df0=df%>%filter(case==0)
+nrow(df0)
+df1=df%>%filter(case==1)
+nrow(df1)
+
+
+df.0=df.0%>% filter(had_antibiotic>1)# filter ab>1
+nrow(df.0)
+nrow(df.0[df.0$had_antibiotic_include_6wk>1,])
+
+df.1=df.1%>% filter(had_antibiotic>1)# filter ab>1
+nrow(df.1)
+nrow(df.1[df.1$had_antibiotic_include_6wk>1,])
+
+write_csv(df.0, here::here("output", "control_covid_infection_2.csv"))
+write_csv(df.1, here::here("output", "case_covid_hosp_2.csv"))
+```
+

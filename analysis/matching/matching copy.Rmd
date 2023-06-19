@@ -1,0 +1,137 @@
+---
+title: "Matching with replacement"
+author: "YT Y"
+date: "07/04/2022"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+tutorials: https://cran.r-project.org/web/packages/MatchIt/vignettes/MatchIt.html 
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library('MatchIt')
+library("ggplot2")
+library(knitr)
+library(dplyr)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format="html")
+```
+
+
+```{r}
+# import
+#setwd('/Users/yayang/Documents/GitHub/amr-uom-brit/output')
+setwd(here::here("output"))
+
+df1=read_csv(here::here("output","case_covid_hosp.csv"))
+df1$case=1
+df2=read_csv(here::here("output","control_covid_infection.csv"))
+df2$case=0
+
+#df1=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/case_covid_hosp.csv")
+#df1$case=1
+#df2=read_csv("/Users/yayang/Documents/GitHub/amr-uom-brit/output/control_covid_infection.csv")
+#df2$case=0
+
+df=rbind(df1,df2)
+
+# case
+count(df1)
+#control
+count(df2)
+# overall
+count(df)
+rm(df1,df2)
+```
+
+# Check Initial Imbalance
+ 1. indicator of good balance: Std ~0, eCDF( empirical cumulative density function)~0, variance ratios~1
+ 2. imbalance need to be eliminated
+```{r}
+# No matching; constructing a pre-match matchit object
+m.out0 <- matchit(case ~ age + sex + stp + cal_YM , data = df,
+                 method = NULL, distance = "glm")
+
+summary(m.out0)
+```
+
+
+# Matching
+
+## Exact matching
+ methods from wjchulme
+https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9bb307eefb24586c32/analysis/design.R
+https://github.com/opensafely/booster-effectiveness/blob/256eae9691d36c0a2c586c9bb307eefb24586c32/analysis/match_seqtrialcox.R
+
+```{r}
+# 1:1 NN PS matching w/o replacement
+
+caliper_variables <- c(age = 5,NULL)
+
+exact_variables <- c("sex","stp","cal_YM", NULL)
+
+m.out1 <- matchit(case ~ age + sex + stp + cal_YM , data = df,
+                 method = "nearest", distance = "glm", # these two options don't really do anything because we only want exact + caliper matching
+                 exact = exact_variables,
+                 caliper = caliper_variables, std.caliper=FALSE,
+                 replace=TRUE, ratio=6)
+m.out1
+
+
+```
+
+
+## Matching summary
+Std Pair Dist.: average absolute within-pair difference of each covariate
+When these values are small, better balance is typically achieved and estimated effects are more robust to misspecification of the outcome model (King and Nielsen 2019; Rubin 1973).
+```{r}
+# Checking balance after NN matching
+summary(m.out1)
+```
+
+
+## Assessing the Quality of Matches
+Points far from the solid diagonal line are the areas of the covariate distributions that differ between the treatment groups
+```{r}
+plot(m.out1, type = "jitter", interactive = FALSE)
+
+plot(m.out1, type = "hist")
+
+```
+
+
+```{r}
+#plot(m.out1, type = "qq", interactive = FALSE,
+ #    which.xs = c("age", "sex", "stp"))
+```
+
+```{r}
+plot(summary(m.out1))
+```
+
+# output
+```{r}
+
+m.data1 <- get_matches(m.out1) # repeated id between sets(subclasses)
+m.data1=m.data1%>%select("case","subclass","patient_id","patient_index_date","age","sex","stp","cal_YM","age_cat","region") # key variables for merging
+write_rds(m.data1, here::here("output", "matched_patients.rds"))
+
+m.data2 <- match.data(m.out1) # unique patient ID
+m.data2=m.data2%>%select("patient_id","patient_index_date") 
+write.csv(m.data2,here::here("output","matched_patients_id.csv"))
+
+unmatched=subset(df, !df$patient_id %in% m.data1$patient_id)
+unmatched=unmatched%>%filter(case==1)
+write_rds(unmatched,here::here("output","unmatched_cases.rds"))
+
+
+```
+
+
