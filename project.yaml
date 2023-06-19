@@ -882,12 +882,31 @@ actions:
         rds1: output/matched_patients_2.rds
         rds2: output/unmatched_cases_2.rds
         csv: output/matched_patients_id_2.csv # unique patient ID
+        
+  check_unmatched_2:
+    run: r:latest -e 'rmarkdown::render("analysis/matching/check_unmatched_2.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+    needs: [matching_2]
+    outputs:
+      moderately_sensitive:
+        html: output/check_unmatched_2.html
 
+# extract
+  extract_variables_2: # confounders # ab exposure
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_2 --with-end-date-fix
+    needs: [matching_2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_outcome_2.csv
 
-
-
-
-
+  process_Rmatching_2: # confounders # ab exposure
+    run: r:latest analysis/process/process_Rmatching_2.R
+    needs: [extract_variables_2,matching_2]
+    outputs:
+      highly_sensitive:
+        cohort1: output/matched_outcome_2.csv
+        cohort2: output/matched_outcome_check_2.rds # filter died & de-regist again
+        rds1: output/abtype79_2.rds
+        rds2: output/comor17_2.rds
 
 
 

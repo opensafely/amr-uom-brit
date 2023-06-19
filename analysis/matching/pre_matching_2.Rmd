@@ -95,7 +95,7 @@ nrow(df.0)
 # CASE
 ```{r}
 ## CASE - covid hospital admission (incident covid infeciton, so exclude recors outside 1 month)
-df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1 <- read_csv(here::here("output", "input_covid_admission_2.csv"))
 nrow(df.1)
 df.1=df.1%>%filter(patient_index_date <= as.Date("2022-12-31"))
 nrow(df.1)
