@@ -212,14 +212,12 @@ ggplot(df6, aes(x=age, group=case, fill=case)) +
 ```{r include=FALSE}
 # import data
 
-df1 <- read_rds(here::here("output","matched_patients.rds"))
-#df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
+df1 <- read_rds(here::here("output","matched_patients_2.rds"))
 df1=df1%>%select( "case","age" ,"sex"  ,"stp" ) 
 df1=subset(df1,case==1)
 df1$matched="1"
 
-df2 <- read_rds(here::here("output","unmatched_cases.rds"))
-#df2= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/unmatched_cases.rds.rds")
+df2 <- read_rds(here::here("output","unmatched_cases_2.rds"))
 df2=df2%>%select( "case","age" ,"sex"  ,"stp" ) 
 df2=subset(df2,case==1)
 df2$matched="0"
