@@ -1,0 +1,90 @@
+---
+title: "subgroup analysis: total ab * recent ab"
+---
+
+```{r setup, include=FALSE}
+#library(knitr)
+library(dplyr)
+#library(skimr)
+library('tidyverse')
+require("gtsummary")
+library("survival")
+library(car)
+library(finalfit)
+```
+
+# all data
+```{r }
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
+df <- read_rds(here::here("output","all_ranger.rds"))
+table(df$decile)
+table(df$case)
+prop.table(table(df$case,df$decile))
+
+df$case=as.factor(df$case) #1/0
+
+df$total_ab_group= relevel(as.factor(df$total_ab_group), ref="1")
+df$ab_types_group= relevel(as.factor(df$ab_types_group), ref="1")
+df$exposure_period_group= relevel(as.factor(df$exposure_period_group), ref="1")
+df$broad_ab_prescriptions_group= relevel(as.factor(df$broad_ab_prescriptions_group), ref="1")
+df$interval_mean_group= relevel(as.factor(df$interval_mean_group), ref="1")
+df$interval_sd_group= relevel(as.factor(df$interval_sd_group), ref="1")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+
+###  conditional logistic regression
+
+```{r}
+df$case=as.numeric(df$case) #1/0
+set.seed(123)
+
+model=clogit(case ~ total_ab_group + exposure_period_group + total_ab_group*exposure_period_group+ strata(subclass),df) 
+
+summary(model)
+
+
+
+
+```
+
+# logistic regression
+```{r}
+model=glm(case~total_ab_group + exposure_period_group + total_ab_group*exposure_period_group,family="binomial",data = df)
+
+print(model)
+
+summary(model)
+```
+
+
+
+### adjusted model
+```{r eval=FALSE, include=FALSE}
+
+set.seed(123)
+
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
+
+summary(model)
+
+#pred.y <- predict(model, df, type = 'response')[,2]
+#roc<- roc(df$case ~ pred.y)
+##plot(roc)
+#print(roc)
+```
+
+
