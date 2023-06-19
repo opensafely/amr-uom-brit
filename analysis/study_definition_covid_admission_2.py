@@ -33,7 +33,7 @@ covid_variables = generate_covid_variables(index_date_variable="patient_index_da
 
 # # # ## Comobidities related to covid outcome 
 # # # from variables_comobidities import generate_comobidities_variables
-# # # comobidities_variables = generate_comobidities_variables(index_date_variable="index_date")
+# # # comobidities_variables = generate_comobidities_variables(index_date_variable="patient_index_date")
 
 # # ## Charlson Comobidity Index
 # # from variables_CCI import generate_CCI_variables
@@ -66,7 +66,7 @@ study = StudyDefinition(
         """,
 
         has_died=patients.died_from_any_cause(
-            on_or_before="patient_index_date - 1 day",
+            on_or_before="index_date",
             returning="binary_flag",
         ),
 
@@ -75,21 +75,21 @@ study = StudyDefinition(
             end_date="patient_index_date",
             return_expectations={"incidence": 0.95},
         ),
-        has_outcome=patients.with_these_clinical_events(
-            any_primary_care_code,        
+
+        has_outcome=patients.admitted_to_hospital(
+            with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
             on_or_after="index_date",
         ),
 
     ),
-
-    ### patient index date = covid infection 
-    # primary_care_covid_date
-    patient_index_date=patients.with_these_clinical_events(
-        any_primary_care_code,        
-        returning="date",
+    ### patient index date = covid hospital admission
+    # covid_admission_date
+    patient_index_date=patients.admitted_to_hospital(
+        returning= "date_admitted" ,  
+        with_these_primary_diagnoses=covid_codelist,  # only include primary_diagnoses as covid
         on_or_after="index_date",
-        find_first_match_in_period=True,
-        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,  
+        date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
     ),
 
@@ -148,7 +148,7 @@ study = StudyDefinition(
 
     ## region
     stp=patients.registered_practice_as_of(
-            "patient_index_date",
+             "patient_index_date",
             returning="stp_code",
             return_expectations={
                 "rate": "universal",
@@ -168,8 +168,8 @@ study = StudyDefinition(
                 },
             },
     ),
-    
-   # Region - NHS England 9 regions
+
+    # Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
         "patient_index_date",
         returning="nuts1_region_name",
@@ -188,7 +188,7 @@ study = StudyDefinition(
                   "South East": 0.1, }, },
         },
     ),
-
+    	
 # data check	
     ## de-register after start date	
     dereg_date=patients.date_deregistered_from_all_supported_practices(	
@@ -234,7 +234,6 @@ study = StudyDefinition(
             "incidence": 0.5,
         },
     ),
-
     had_antibiotic_6wk=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["patient_index_date- 42 days", "patient_index_date"],
@@ -242,22 +241,11 @@ study = StudyDefinition(
         return_expectations={
             "incidence": 0.5,
         },
-    ),    
-    
-    # # **ab_variables,
+    ), 
+            # # **ab_variables,
     # # **confounding_variables,
     **covid_variables,
     # # #**comobidities_variables,
     # # **CCI_variables,
+  
 )
-
-
-
-
-
-
-
-
-
-
-    

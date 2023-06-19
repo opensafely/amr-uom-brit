@@ -17,7 +17,7 @@ from datetime import datetime
 start_date = "2020-02-01"
 end_date = "2022-12-31"
 
-# # ###### Import variables
+###### Import variables
 
 ## covid history before patient_index_date
 from variables_covid import generate_covid_variables
@@ -60,9 +60,10 @@ study = StudyDefinition(
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
         AND NOT stp = ""
-        AND has_outcome
         AND had_antibiotic
         AND NOT had_antibiotic_6wk
+
+
         """,
 
         has_died=patients.died_from_any_cause(
@@ -75,24 +76,25 @@ study = StudyDefinition(
             end_date="patient_index_date",
             return_expectations={"incidence": 0.95},
         ),
-        has_outcome=patients.with_these_clinical_events(
-            any_primary_care_code,        
+
+        has_outcome=patients.with_test_result_in_sgss(
+            pathogen="SARS-CoV-2",
+            test_result="positive",
             on_or_after="index_date",
         ),
 
     ),
-
-    ### patient index date = covid infection 
-    # primary_care_covid_date
-    patient_index_date=patients.with_these_clinical_events(
-        any_primary_care_code,        
-        returning="date",
+    ### patient index date = covid infection
+    #SGSS_positive_test_date
+    patient_index_date=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
         on_or_after="index_date",
         find_first_match_in_period=True,
+        returning="date",
         date_format="YYYY-MM-DD",
         return_expectations={"date": {"earliest": "2020-03-01"}, "incidence" : 1},
     ),
-
     ## Age
     age=patients.age_as_of(
         "patient_index_date",
@@ -146,9 +148,9 @@ study = StudyDefinition(
         }
     ),
 
-    ## region
+    # region
     stp=patients.registered_practice_as_of(
-            "patient_index_date",
+           "patient_index_date",
             returning="stp_code",
             return_expectations={
                 "rate": "universal",
@@ -168,8 +170,8 @@ study = StudyDefinition(
                 },
             },
     ),
-    
-   # Region - NHS England 9 regions
+
+    # Region - NHS England 9 regions
     region=patients.registered_practice_as_of(
         "patient_index_date",
         returning="nuts1_region_name",
@@ -188,7 +190,6 @@ study = StudyDefinition(
                   "South East": 0.1, }, },
         },
     ),
-
 # data check	
     ## de-register after start date	
     dereg_date=patients.date_deregistered_from_all_supported_practices(	
@@ -234,7 +235,6 @@ study = StudyDefinition(
             "incidence": 0.5,
         },
     ),
-
     had_antibiotic_6wk=patients.with_these_medications(
         antibacterials_codes_brit,
         between=["patient_index_date- 42 days", "patient_index_date"],
@@ -242,11 +242,11 @@ study = StudyDefinition(
         return_expectations={
             "incidence": 0.5,
         },
-    ),    
-    
-    # # **ab_variables,
+    ), 
+        
+            # # **ab_variables,
     # # **confounding_variables,
-    **covid_variables,
+     **covid_variables,
     # # #**comobidities_variables,
     # # **CCI_variables,
 )
