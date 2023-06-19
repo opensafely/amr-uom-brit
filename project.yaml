@@ -85,7 +85,7 @@ actions:
     needs: [extract_variables,matching]
     outputs:
       highly_sensitive:
-        cohort1: output/matched_outcome.csv
+        cohort1: output/matched_outcome.rds
         cohort2: output/matched_outcome_check.rds # filter died & de-regist again
         rds1: output/abtype79.rds
         rds2: output/comor17.rds
@@ -905,7 +905,7 @@ actions:
     needs: [extract_variables_2,matching_2]
     outputs:
       highly_sensitive:
-        cohort1: output/matched_outcome_2.csv
+        cohort1: output/matched_outcome_2.rds
         cohort2: output/matched_outcome_check_2.rds # filter died & de-regist again
         rds1: output/abtype79_2.rds
         rds2: output/comor17_2.rds

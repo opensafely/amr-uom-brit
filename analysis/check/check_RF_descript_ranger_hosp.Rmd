@@ -80,8 +80,8 @@ temp.list=list()
 
 for (i in 1:7) {
 
-min=tapply(data[,contd[i]],data[,explanatory[i]], min)  
-max=tapply(data[,contd[i]],data[,explanatory[i]], max)  
+min=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.25)  
+max=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.75)  
 
 temp.tbl= data.frame(min,max)
 temp.tbl$variables=explanatory[i]
@@ -100,7 +100,7 @@ write.csv(table,here::here("output","factor.range_hosp.csv"))
 
 # graph
 
-# line chart
+# line chart 
 ```{r }
 
 all.data=list()
