@@ -207,7 +207,7 @@ actions:
         html: output/model_sub1.html
 
   model_2:
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/model_2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [RF_ranger_decile]
     outputs:
       moderately_sensitive:
