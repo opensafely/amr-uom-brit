@@ -98,7 +98,7 @@ sum.mod=summary(mod)
 
 ```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
-DF=result[1:16,-2]
+DF=result[1:15,-2]
 ```
 
 
@@ -106,7 +106,7 @@ DF=result[1:16,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15","ab_qn_type16"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -124,11 +124,11 @@ DF[12,1]="12"
 DF[13,1]="13"
 DF[14,1]="14"
 DF[15,1]="15"
-DF[16,1]="16"
+#DF[16,1]="16"
 
 
- Index = rep(1:16) ## This provides an order to the data
-  label = as.factor(rep(1:16))
+ Index = rep(1:15) ## This provides an order to the data
+  label = as.factor(rep(1:15))
 
 
 names(DF)[2]="OR"
@@ -148,22 +148,24 @@ DF
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
-scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
-geom_point(color="black")+ 
+geom_point(color="black")+
+#thematic stuff
+theme_classic()+ 
 
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 7.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-    annotate("text", x = 0.6, y =2.5, label = "very low")+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+
+    annotate("text", x = 0.6, y =2, label = "very low")+
     annotate("text", x = 0.6, y =6.5, label = "low")+
   annotate("text", x = 0.6, y =10.5, label = "high")+
   annotate("text", x = 0.6, y =14.5, label = "very high")+
 
-   geom_text(aes(y = 1:16, x = 0.9, 
-                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+   geom_text(aes(y = 1:15, x = 0.9, 
+                label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -174,8 +176,7 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 #adding a vertical line at the effect = 0 mark
 geom_vline(xintercept=1, color="black")+
 
-#thematic stuff
-theme_classic()+ 
+
 
 
 
