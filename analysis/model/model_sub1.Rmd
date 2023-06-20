@@ -46,6 +46,18 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
+# cross table
+```{r}
+table(df$total_ab_group,df$recent_ab_days_group)
+table(df$total_ab_group,df$exposure_period_group)
+table(df$total_ab_group,df$interval_mean_group)
+table(df$total_ab_group,df$interval_sd_group)
+table(df$total_ab_group,df$ab_types_group)
+table(df$total_ab_group,df$broad_ab_prescriptions_group)
+
+```
+
+
 # recent ab
 
 ```{r}
