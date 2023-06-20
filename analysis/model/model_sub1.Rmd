@@ -52,7 +52,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 df$case=as.numeric(df$case) #1/0
 set.seed(123)
 
-model=clogit(case ~ total_ab_group + df$recent_ab_days_group + total_ab_group*recent_ab_days_group+ strata(subclass),df) 
+model=clogit(case ~ total_ab_group + recent_ab_days_group + total_ab_group*recent_ab_days_group+ strata(subclass),df) 
 
 summary(model)
 
