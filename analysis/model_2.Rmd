@@ -167,10 +167,10 @@ theme_classic()+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-    annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =5.5, label = "low")+
-  annotate("text", x = 0.6, y =9.5, label = "high")+
-  annotate("text", x = 0.6, y =12.5, label = "very high")+
+  annotate("text", x = 0.6, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.6, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.6, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.6, y =13.5, label = "Very High",size=3)+
 
    geom_text(aes(y = 1:15, x = 0.9, 
                label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
@@ -186,7 +186,7 @@ geom_vline(xintercept=1, color="black")+
 
 
 theme(text=element_text(size=14, color="black"),
-      plot.title=element_text(size=12, vjust = 0.5),
+      plot.title=element_text(size=8, vjust = 0.5),
       panel.spacing = unit(1, "lines"))+
   #    plot.title.position = "plot")+
   theme(axis.text.y = element_blank(),
@@ -196,7 +196,7 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Exposure period",
+    title = "Total antibiotics*Exposure period",
     x="",
     y=""
   )
@@ -206,7 +206,7 @@ p
 ```{r }
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=12), 
+  theme(plot.title = element_text(hjust = 0.5, size=8), 
         axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
         axis.line = element_blank(),
         axis.text.y = element_blank(), 
@@ -220,12 +220,12 @@ table_base <- ggplot(DF, aes(y=label)) +
         plot.background = element_blank())
 tab1 <- table_base + 
   labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 2) + ## decimal places
   ggtitle("OR")
 
 ## 95% CI table
 tab2 <- table_base+
-  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  geom_text(aes(y = Index, x = 1, label = CI), size = 2) + 
   ggtitle("95% CI")
 
 
@@ -235,7 +235,7 @@ tab2 <- table_base+
 ```{r }
 ## forest plot
 ## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3.3), nrow = 1)
 grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
