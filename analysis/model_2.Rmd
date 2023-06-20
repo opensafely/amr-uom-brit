@@ -15,9 +15,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ```{r packages, include=FALSE}
-reLeveluire('tidyverse')
-reLeveluire("gtsummary")
-reLeveluire("ggplot2")
+library('tidyverse')
+library("gtsummary")
+library("ggplot2")
 library("survival")
 library(car)
 library(data.table)
