@@ -222,7 +222,9 @@ df <- read_rds(here::here("output","matched_outcome.rds"))
 col=c("patient_index_date","patient_id","subclass","case",
       "wave","sex","age","age_cat","stp","region",
       "total_ab","ab_prescriptions","broad_ab_prescriptions","ab_types",
-      "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts")
+      "ethnicity_6","bmi","bmi_cat","CCI","Charlson","smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine","care_home_type","hospital_counts",
+"cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor","hiv_comor"
+)
 
 df=df[col]
 
