@@ -40,6 +40,14 @@ df$case=as.numeric(df$case) #1/0
 
 df$subclass=as.factor(df$subclass)#pair id
 
+df$total_ab_group= relevel(as.factor(df$total_ab_group), ref="1")
+df$recent_ab_days_group= relevel(as.factor(df$recent_ab_days_group), ref="1")
+df$ab_types_group= relevel(as.factor(df$ab_types_group), ref="1")
+df$exposure_period_group= relevel(as.factor(df$exposure_period_group), ref="1")
+df$broad_ab_prescriptions_group= relevel(as.factor(df$broad_ab_prescriptions_group), ref="1")
+df$interval_mean_group= relevel(as.factor(df$interval_mean_group), ref="1")
+df$interval_sd_group= relevel(as.factor(df$interval_sd_group), ref="1")
+
 df$CCI= relevel(as.factor(df$CCI), ref="Zero")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
@@ -55,7 +63,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```
 
-# all data
+# Exposure period
 ```{r include=FALSE}
 
 df=df%>%mutate(ab_qn_type= 
@@ -76,6 +84,100 @@ df=df%>%mutate(ab_qn_type=
                            total_ab_group=="4" & exposure_period_group==2 ~ "14",
                            total_ab_group=="4" & exposure_period_group==3 ~ "15",
                            total_ab_group=="4" & exposure_period_group==4 ~ "16"
+
+
+                          ))
+
+
+#table(df$level,df$ab_types)
+```
+
+
+
+```{r include=FALSE}
+## model summary
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+sum.mod=summary(mod)
+#sum.mod
+#vif(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+DF=result[1:15,-2]
+```
+
+
+```{r }
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+DF[13,1]="13"
+DF[14,1]="14"
+DF[15,1]="15"
+#DF[16,1]="16"
+
+
+ Index = rep(1:15) ## This provides an order to the data
+  label = as.factor(rep(1:15))
+
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+
+
+
+
+
+# Recent antibiotics
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(
+                           total_ab_group=="1" & recent_ab_days_group==1 ~ "1",
+                           total_ab_group=="1" & recent_ab_days_group==2 ~ "2",
+                           total_ab_group=="1" & recent_ab_days_group==3 ~ "3",
+                           total_ab_group=="1" & recent_ab_days_group==4 ~ "4",
+                           total_ab_group=="2" & recent_ab_days_group==1 ~ "5",
+                           total_ab_group=="2" & recent_ab_days_group==2 ~ "6",
+                           total_ab_group=="2" & recent_ab_days_group==3 ~ "7",
+                           total_ab_group=="2" & recent_ab_days_group==4 ~ "8",
+                           total_ab_group=="3" & recent_ab_days_group==1 ~ "9",
+                           total_ab_group=="3" & recent_ab_days_group==2 ~ "10",
+                           total_ab_group=="3" & recent_ab_days_group==3 ~ "11",
+                           total_ab_group=="3" & recent_ab_days_group==4 ~ "12",
+                           total_ab_group=="4" & recent_ab_days_group==1 ~ "13",
+                           total_ab_group=="4" & recent_ab_days_group==2 ~ "14",
+                           total_ab_group=="4" & recent_ab_days_group==3 ~ "15",
+                           total_ab_group=="4" & recent_ab_days_group==4 ~ "16"
 
 
                           ))
@@ -188,7 +290,7 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Exposure period (days)",
+    title = "Recent Antibiotics (days)",
     x="",
     y=""
   )
@@ -234,6 +336,187 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 
+
+
+
+
+
+
+# prescribing intervals (mean)
+```{r include=FALSE}
+
+df=df%>%mutate(ab_qn_type= 
+                 case_when(
+                           total_ab_group=="1" & interval_mean_group==1 ~ "1",
+                           total_ab_group=="1" & interval_mean_group==2 ~ "2",
+                           total_ab_group=="1" & interval_mean_group==3 ~ "3",
+                           total_ab_group=="1" & interval_mean_group==4 ~ "4",
+                           total_ab_group=="2" & interval_mean_group==1 ~ "5",
+                           total_ab_group=="2" & interval_mean_group==2 ~ "6",
+                           total_ab_group=="2" & interval_mean_group==3 ~ "7",
+                           total_ab_group=="2" & interval_mean_group==4 ~ "8",
+                           total_ab_group=="3" & interval_mean_group==1 ~ "9",
+                           total_ab_group=="3" & interval_mean_group==2 ~ "10",
+                           total_ab_group=="3" & interval_mean_group==3 ~ "11",
+                           total_ab_group=="3" & interval_mean_group==4 ~ "12",
+                           total_ab_group=="4" & interval_mean_group==1 ~ "13",
+                           total_ab_group=="4" & interval_mean_group==2 ~ "14",
+                           total_ab_group=="4" & interval_mean_group==3 ~ "15",
+                           total_ab_group=="4" & interval_mean_group==4 ~ "16"
+
+
+                          ))
+
+
+#table(df$level,df$ab_types)
+```
+
+
+
+```{r include=FALSE}
+## model summary
+mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+sum.mod=summary(mod)
+#sum.mod
+#vif(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+DF=result[1:15,-2]
+```
+
+
+```{r }
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+DF[13,1]="13"
+DF[14,1]="14"
+DF[15,1]="15"
+#DF[16,1]="16"
+
+
+ Index = rep(1:15) ## This provides an order to the data
+  label = as.factor(rep(1:15))
+
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+
+```{r }
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+#xlim(c(0,2.2))+
+#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+#thematic stuff
+theme_classic()+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+
+    annotate("text", x = 0.6, y =2, label = "very low")+
+    annotate("text", x = 0.6, y =5.5, label = "low")+
+  annotate("text", x = 0.6, y =9.5, label = "high")+
+  annotate("text", x = 0.6, y =12.5, label = "very high")+
+
+   geom_text(aes(y = 1:15, x = 0.9, 
+               label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
+           hjust = "right",
+           nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+
+theme(text=element_text(size=14, color="black"),
+      plot.title=element_text(size=12, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Prescribing intervals (mean)",
+    x="",
+    y=""
+  )
+p
+```
+
+```{r }
+table_base <- ggplot(DF, aes(y=label)) +
+  ylab(NULL) + xlab("  ") + 
+  theme(plot.title = element_text(hjust = 0.5, size=12), 
+        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
+        axis.line = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(), 
+        legend.position = "none",
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        plot.background = element_blank())
+tab1 <- table_base + 
+  labs(title = "space") +
+  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
+  ggtitle("OR")
+
+## 95% CI table
+tab2 <- table_base+
+  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
+  ggtitle("95% CI")
+
+
+```
+
+
+```{r }
+## forest plot
+## Merge tables with plot
+lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
+grid.arrange(p, tab1, tab2, layout_matrix = lay)
+```
 
 
 
