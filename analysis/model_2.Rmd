@@ -109,26 +109,26 @@ names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15","ab_qn_type16"))
 
 DF=DF%>%arrange(AB_exposure)
-DF[1,1]="very low, very low"
-DF[2,1]="very low, low"
-DF[3,1]="very low, high"
-DF[4,1]="very low, very high"
-DF[5,1]="low, very low"
-DF[6,1]="low, low"
-DF[7,1]="low, high"
-DF[8,1]="low, very high"
-DF[9,1]="high, very low"
-DF[10,1]="high, low"
-DF[11,1]="high, high"
-DF[12,1]="high, very high"
-DF[13,1]="very high, very low"
-DF[14,1]="very high, low"
-DF[15,1]="very high, high"
-DF[16,1]="very high,very high"
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+DF[13,1]="13"
+DF[14,1]="14"
+DF[15,1]="15"
+DF[16,1]="16"
 
 
  Index = rep(1:12) ## This provides an order to the data
-  label = c("very low, very low","very low, low","very low, high","very low, very high","low, very low","low, low","low, high","low, very high","high, very low","high, low","high, high","high, very high","very high, very low","very high, low","very high, high","very high,very high"
+  label = as.factor(rep(1:16))
 )
 
 names(DF)[2]="OR"
@@ -154,19 +154,18 @@ scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #this adds the effect sizes to the plot
 geom_point(color="black")+ 
 
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 1.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 7.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 9.5, ymax = 12.5,fill="grey80", alpha=0.5)+
-    annotate("text", x = 0.6, y =1, label = "Q1")+
-    annotate("text", x = 0.6, y =2.5, label = "Q2")+
-  annotate("text", x = 0.6, y =5, label = "Q3")+
-  annotate("text", x = 0.6, y =8, label = "Q4")+
-  annotate("text", x = 0.6, y =11, label = "Q5")+
-  
- #  geom_text(aes(y = 1:16, x = 0.9, 
- #               label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
-  #          hjust = "right",
-  #          nudge_y = -.1)+
+    annotate("text", x = 0.6, y =2.5, label = "very low")+
+    annotate("text", x = 0.6, y =6.5, label = "low")+
+  annotate("text", x = 0.6, y =10.5, label = "high")+
+  annotate("text", x = 0.6, y =14.5, label = "very high")+
+
+   geom_text(aes(y = 1:16, x = 0.9, 
+                label = c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3")),
+           hjust = "right",
+           nudge_y = -.1)+
 
 
 #adds the CIs
@@ -198,7 +197,7 @@ labs(
 p
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
