@@ -15,9 +15,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ```{r packages, include=FALSE}
-require('tidyverse')
-require("gtsummary")
-require("ggplot2")
+reLeveluire('tidyverse')
+reLeveluire("gtsummary")
+reLeveluire("ggplot2")
 library("survival")
 library(car)
 library(data.table)
@@ -66,7 +66,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 # Exposure period
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=df%>%mutate(ab_Leveln_type= 
                  case_when(
                            total_ab_group=="1" & exposure_period_group==1 ~ "1",
                            total_ab_group=="1" & exposure_period_group==2 ~ "2",
@@ -96,7 +96,7 @@ df=df%>%mutate(ab_qn_type=
 
 ```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
 #sum.mod
 #vif(mod)
@@ -114,7 +114,7 @@ DF=result[1:15,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -148,14 +148,14 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF
+DF1=DF
 ```
 
 
 
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-#xlim(c(0,2.2))+
+xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
@@ -167,13 +167,13 @@ theme_classic()+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-  annotate("text", x = 0.6, y =2, label = "Very Low",size=3)+
-  annotate("text", x = 0.6, y =5.5, label = "Low",size=3)+
-  annotate("text", x = 0.6, y =9.5, label = "High",size=3)+
-  annotate("text", x = 0.6, y =13.5, label = "Very High",size=3)+
+  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(aes(y = 1:15, x = 0.9, 
-               label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
+   geom_text( size=3,aes(y = 1:15, x = 0.9,
+               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -185,8 +185,8 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 geom_vline(xintercept=1, color="black")+
 
 
-theme(text=element_text(size=14, color="black"),
-      plot.title=element_text(size=8, vjust = 0.5),
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
       panel.spacing = unit(1, "lines"))+
   #    plot.title.position = "plot")+
   theme(axis.text.y = element_blank(),
@@ -203,10 +203,10 @@ labs(
 p
 ```
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=8), 
+  theme(plot.title = element_text(hjust = 0.5, size=10), 
         axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
         axis.line = element_blank(),
         axis.text.y = element_blank(), 
@@ -232,7 +232,7 @@ tab2 <- table_base+
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 ## forest plot
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3,3.3), nrow = 1)
@@ -245,7 +245,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # Recent antibiotics
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=df%>%mutate(ab_Leveln_type= 
                  case_when(
                            total_ab_group=="1" & recent_ab_days_group==1 ~ "1",
                            total_ab_group=="1" & recent_ab_days_group==2 ~ "2",
@@ -275,7 +275,7 @@ df=df%>%mutate(ab_qn_type=
 
 ```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
 #sum.mod
 #vif(mod)
@@ -293,7 +293,7 @@ DF=result[1:15,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -334,7 +334,7 @@ DF
 
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-#xlim(c(0,2.2))+
+xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
@@ -346,13 +346,13 @@ theme_classic()+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-    annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =5.5, label = "low")+
-  annotate("text", x = 0.6, y =9.5, label = "high")+
-  annotate("text", x = 0.6, y =12.5, label = "very high")+
+  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(aes(y = 1:15, x = 0.9, 
-               label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
+   geom_text(size=3, aes(y = 1:15, x = 0.5, 
+               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -364,8 +364,8 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 geom_vline(xintercept=1, color="black")+
 
 
-theme(text=element_text(size=14, color="black"),
-      plot.title=element_text(size=12, vjust = 0.5),
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
       panel.spacing = unit(1, "lines"))+
   #    plot.title.position = "plot")+
   theme(axis.text.y = element_blank(),
@@ -375,48 +375,13 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Recent Antibiotics (days)",
+    title = "Total antibiotics*Exposure period",
     x="",
     y=""
   )
 p
 ```
 
-```{r }
-table_base <- ggplot(DF, aes(y=label)) +
-  ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=12), 
-        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
-        axis.line = element_blank(),
-        axis.text.y = element_blank(), 
-        axis.ticks = element_blank(),
-        axis.title.y = element_blank(), 
-        legend.position = "none",
-        panel.background = element_blank(), 
-        panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        plot.background = element_blank())
-tab1 <- table_base + 
-  labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
-  ggtitle("OR")
-
-## 95% CI table
-tab2 <- table_base+
-  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
-  ggtitle("95% CI")
-
-
-```
-
-
-```{r }
-## forest plot
-## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
-grid.arrange(p, tab1, tab2, layout_matrix = lay)
-```
 
 
 
@@ -430,7 +395,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # prescribing intervals (mean)
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=df%>%mutate(ab_Leveln_type= 
                  case_when(
                            total_ab_group=="1" & interval_mean_group==1 ~ "1",
                            total_ab_group=="1" & interval_mean_group==2 ~ "2",
@@ -460,7 +425,7 @@ df=df%>%mutate(ab_qn_type=
 
 ```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
 #sum.mod
 #vif(mod)
@@ -478,7 +443,7 @@ DF=result[1:15,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -497,7 +462,7 @@ DF[13,1]="13"
 DF[14,1]="14"
 DF[15,1]="15"
 #DF[16,1]="16"
-
+DF[15,]<-"" # <100
 
  Index = rep(1:15) ## This provides an order to the data
   label = as.factor(rep(1:15))
@@ -519,7 +484,7 @@ DF
 
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-#xlim(c(0,2.2))+
+xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
@@ -531,13 +496,13 @@ theme_classic()+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-    annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =5.5, label = "low")+
-  annotate("text", x = 0.6, y =9.5, label = "high")+
-  annotate("text", x = 0.6, y =12.5, label = "very high")+
+    annotate("text", x = 0.1, y =2, label = "very low",size=3)+
+    annotate("text", x = 0.1, y =5.5, label = "low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "high",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "very high",size=3)+
 
-   geom_text(aes(y = 1:15, x = 0.9, 
-               label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
+   geom_text(size=3,aes(y = 1:15, x = 0.9, 
+               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -549,8 +514,8 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 geom_vline(xintercept=1, color="black")+
 
 
-theme(text=element_text(size=14, color="black"),
-      plot.title=element_text(size=12, vjust = 0.5),
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
       panel.spacing = unit(1, "lines"))+
   #    plot.title.position = "plot")+
   theme(axis.text.y = element_blank(),
@@ -560,47 +525,11 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing intervals (mean)",
+    title = "Total antibiotics*Prescribing intervals (mean)",
     x="",
     y=""
   )
 p
-```
-
-```{r }
-table_base <- ggplot(DF, aes(y=label)) +
-  ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=12), 
-        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
-        axis.line = element_blank(),
-        axis.text.y = element_blank(), 
-        axis.ticks = element_blank(),
-        axis.title.y = element_blank(), 
-        legend.position = "none",
-        panel.background = element_blank(), 
-        panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        plot.background = element_blank())
-tab1 <- table_base + 
-  labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
-  ggtitle("OR")
-
-## 95% CI table
-tab2 <- table_base+
-  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
-  ggtitle("95% CI")
-
-
-```
-
-
-```{r }
-## forest plot
-## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
-grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ```
 
 
@@ -612,7 +541,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # prescribing intervals (sd)
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=df%>%mutate(ab_Leveln_type= 
                  case_when(
                            total_ab_group=="1" & interval_sd_group==1 ~ "1",
                          #  total_ab_group=="1" & interval_sd_group==2 ~ "2",
@@ -642,7 +571,7 @@ df=df%>%mutate(ab_qn_type=
 
 ```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
 #sum.mod
 #vif(mod)
@@ -660,7 +589,7 @@ DF=result[1:12,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="5"
@@ -675,7 +604,8 @@ DF[9,1]="13"
 DF[10,1]="14"
 DF[11,1]="15"
 DF[12,1]="16"
-
+DF[6,]=""
+DF[10,]=""
 #DF[16,1]="16"
 
 
@@ -699,7 +629,7 @@ DF
 
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-#xlim(c(0,2.2))+
+xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
@@ -712,12 +642,12 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
     #annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =5.5, label = "low")+
-  annotate("text", x = 0.6, y =9.5, label = "high")+
-  annotate("text", x = 0.6, y =12.5, label = "very high")+
+    annotate("text", x = 0.6, y =5.5, label = "low",size=3)+
+  annotate("text", x = 0.6, y =9.5, label = "high",size=3)+
+  annotate("text", x = 0.6, y =13.5, label = "very high",size=3)+
 
-   geom_text(aes(y = 1:12, x = 0.9, 
-               label = c("5"="Q1","6"="Q2","7"="Q3","8"="Q4","9"="Q1","10"="Q2","11"="Q3","12"="Q4","13"="Q1","14"="Q2","15"="Q3","16"="Q4")),
+   geom_text(size=3,aes(y = 1:12, x = 0.9, 
+               label = c("5"="Level1","6"="Level2","7"="Level3","8"="Level4","9"="Level1","10"="Level2","11"="Level3","12"="Level4","13"="Level1","14"="Level2","15"="Level3","16"="Level4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -729,8 +659,8 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 geom_vline(xintercept=1, color="black")+
 
 
-theme(text=element_text(size=14, color="black"),
-      plot.title=element_text(size=12, vjust = 0.5),
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
       panel.spacing = unit(1, "lines"))+
   #    plot.title.position = "plot")+
   theme(axis.text.y = element_blank(),
@@ -740,50 +670,12 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing intervals (SD)",
+    title = "Total antibiotics*Prescribing intervals (SD)",
     x="",
     y=""
   )
 p
 ```
-
-```{r }
-table_base <- ggplot(DF, aes(y=label)) +
-  ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=12), 
-        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
-        axis.line = element_blank(),
-        axis.text.y = element_blank(), 
-        axis.ticks = element_blank(),
-        axis.title.y = element_blank(), 
-        legend.position = "none",
-        panel.background = element_blank(), 
-        panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        plot.background = element_blank())
-tab1 <- table_base + 
-  labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
-  ggtitle("OR")
-
-## 95% CI table
-tab2 <- table_base+
-  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
-  ggtitle("95% CI")
-
-
-```
-
-
-```{r }
-## forest plot
-## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
-grid.arrange(p, tab1, tab2, layout_matrix = lay)
-```
-
-
 
 
 
@@ -794,7 +686,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # Antibiotics types
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_qn_type= 
+df=df%>%mutate(ab_Leveln_type= 
                  case_when(
                            total_ab_group=="1" & ab_types_group==1 ~ "1",
                           # total_ab_group=="1" & ab_types_group==2 ~ "2",
@@ -824,7 +716,7 @@ df=df%>%mutate(ab_qn_type=
 
 ```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_qn_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
 #sum.mod
 #vif(mod)
@@ -842,7 +734,7 @@ DF=result[1:9,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_qn_type1","ab_qn_type2","ab_qn_type3","ab_qn_type4","ab_qn_type5","ab_qn_type6","ab_qn_type7","ab_qn_type8","ab_qn_type9","ab_qn_type10","ab_qn_type11","ab_qn_type12","ab_qn_type13","ab_qn_type14","ab_qn_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="5"
@@ -877,7 +769,7 @@ DF
 
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-#xlim(c(0,2.2))+
+xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
 #scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
@@ -887,14 +779,14 @@ geom_point(color="black")+
 theme_classic()+ 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 6.5, ymax =9,fill="grey80", alpha=0.5)+
 
  #   annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =5.5, label = "low")+
-  annotate("text", x = 0.6, y =9.5, label = "high")+
-  annotate("text", x = 0.6, y =12.5, label = "very high")+
+    annotate("text", x = 0.1, y =2, label = "low",size=3)+
+  annotate("text", x = 0.1, y =5, label = "high",size=3)+
+  annotate("text", x = 0.1, y =8, label = "very high",size=3)+
 
-   geom_text(aes(y = 1:9, x = 0.9, 
+   geom_text(size=3,aes(y = 1:9, x = 0.9, 
                label = c("5"="Level1","7"="Level2","8"="Level3","9"="Level1","11"="Level2","12"="Level3","13"="Level1","15"="Level2","16"="Level3")),
            hjust = "right",
            nudge_y = -.1)+
@@ -907,8 +799,8 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 geom_vline(xintercept=1, color="black")+
 
 
-theme(text=element_text(size=14, color="black"),
-      plot.title=element_text(size=12, vjust = 0.5),
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
       panel.spacing = unit(1, "lines"))+
   #    plot.title.position = "plot")+
   theme(axis.text.y = element_blank(),
@@ -918,48 +810,148 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Antibiotic types",
+    title = "Total Antibiotics*Antibiotic types",
     x="",
     y=""
   )
 p
 ```
 
-```{r }
-table_base <- ggplot(DF, aes(y=label)) +
-  ylab(NULL) + xlab("  ") + 
-  theme(plot.title = element_text(hjust = 0.5, size=12), 
-        axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
-        axis.line = element_blank(),
-        axis.text.y = element_blank(), 
-        axis.ticks = element_blank(),
-        axis.title.y = element_blank(), 
-        legend.position = "none",
-        panel.background = element_blank(), 
-        panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        plot.background = element_blank())
-tab1 <- table_base + 
-  labs(title = "space") +
-  geom_text(aes(y = Index, x = 1, label = sprintf("%0.2f", round(OR, digits = 2))), size = 4) + ## decimal places
-  ggtitle("OR")
 
-## 95% CI table
-tab2 <- table_base+
-  geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
-  ggtitle("95% CI")
 
+
+
+
+# Antibiotics types
+```{r include=FALSE}
+
+df=df%>%mutate(ab_Leveln_type= 
+                 case_when(
+                           total_ab_group=="1" & broad_ab_prescriptions_group==1 ~ "1",
+                          # total_ab_group=="1" & broad_ab_prescriptions_group==2 ~ "2",
+                          # total_ab_group=="1" & broad_ab_prescriptions_group==3 ~ "3",
+                          # total_ab_group=="1" & broad_ab_prescriptions_group==4 ~ "4",
+                           total_ab_group=="2" & broad_ab_prescriptions_group==1 ~ "5",
+                          # total_ab_group=="2" & broad_ab_prescriptions_group==2 ~ "6",
+                           total_ab_group=="2" & broad_ab_prescriptions_group==3 ~ "7",
+                           total_ab_group=="2" & broad_ab_prescriptions_group==4 ~ "8",
+                           total_ab_group=="3" & broad_ab_prescriptions_group==1 ~ "9",
+                          # total_ab_group=="3" & broad_ab_prescriptions_group==2 ~ "10",
+                           total_ab_group=="3" & broad_ab_prescriptions_group==3 ~ "11",
+                           total_ab_group=="3" & broad_ab_prescriptions_group==4 ~ "12",
+                           total_ab_group=="4" & broad_ab_prescriptions_group==1 ~ "13",
+                        #   total_ab_group=="4" & broad_ab_prescriptions_group==2 ~ "14",
+                           total_ab_group=="4" & broad_ab_prescriptions_group==3 ~ "15",
+                           total_ab_group=="4" & broad_ab_prescriptions_group==4 ~ "16"
+
+
+                          ))
+
+
+#table(df$level,df$ab_types)
+```
+
+
+
+```{r include=FALSE}
+## model summary
+mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+sum.mod=summary(mod)
+#sum.mod
+#vif(mod)
 
 ```
 
 
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+DF=result[1:9,-2]
+```
+
+
 ```{r }
-## forest plot
-## Merge tables with plot
-lay <-  matrix(c(1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
-grid.arrange(p, tab1, tab2, layout_matrix = lay)
+
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="5"
+DF[2,1]="7"
+DF[3,1]="8"
+DF[4,1]="9"
+DF[5,1]="11"
+DF[6,1]="12"
+DF[7,1]="13"
+DF[8,1]="15"
+DF[9,1]="16"
+
+
+
+ Index = rep(1:9) ## This provides an order to the data
+  label = as.factor(rep(1:9))
+
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
 ```
 
 
 
+```{r }
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+xlim(c(0,2.5))+
+#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
+#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+#thematic stuff
+theme_classic()+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 6.5, ymax =9,fill="grey80", alpha=0.5)+
+
+ #   annotate("text", x = 0.6, y =2, label = "very low")+
+    annotate("text", x = 0.1, y =2, label = "low",size=3)+
+  annotate("text", x = 0.1, y =5, label = "high",size=3)+
+  annotate("text", x = 0.1, y =8, label = "very high",size=3)+
+
+   geom_text(size=3,aes(y = 1:9, x = 0.9, 
+               label = c("5"="Level1","7"="Level2","8"="Level3","9"="Level1","11"="Level2","12"="Level3","13"="Level1","15"="Level2","16"="Level3")),
+           hjust = "right",
+           nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Total Antibiotics*Broad-spectrum antibiotics",
+    x="",
+    y=""
+  )
+p
+```
