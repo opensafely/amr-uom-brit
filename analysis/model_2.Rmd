@@ -224,7 +224,7 @@ tab2 <- table_base+
 ```
 
 
-```{r echo=FALSE}
+```{r eval=FALSE, include=FALSE}
 ## forest plot
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
