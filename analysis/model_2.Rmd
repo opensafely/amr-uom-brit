@@ -102,7 +102,7 @@ DF=result[1:16,-2]
 ```
 
 
-```{r include=FALSE}
+```{r }
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -140,11 +140,12 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
+DF
 ```
 
 
 
-```{r include=FALSE}
+```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 #xlim(c(0,2.2))+
 scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -194,10 +195,10 @@ labs(
     x="",
     y=""
   )
-
+p
 ```
 
-```{r include=FALSE}
+```{r }
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -221,6 +222,9 @@ tab1 <- table_base +
 tab2 <- table_base+
   geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
   ggtitle("95% CI")
+
+tab1
+tab2
 ```
 
 
