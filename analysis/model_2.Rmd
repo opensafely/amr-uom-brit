@@ -160,12 +160,12 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
     annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =6.5, label = "low")+
-  annotate("text", x = 0.6, y =10.5, label = "high")+
-  annotate("text", x = 0.6, y =14.5, label = "very high")+
+    annotate("text", x = 0.6, y =5.5, label = "low")+
+  annotate("text", x = 0.6, y =9.5, label = "high")+
+  annotate("text", x = 0.6, y =12.5, label = "very high")+
 
    geom_text(aes(y = 1:15, x = 0.9, 
-                label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
+               label = c("1"="Q2","2"="Q3","3"="Q4","4"="Q1","5"="Q2","6"="Q3","7"="Q4","8"="Q1","9"="Q2","10"="Q3","11"="Q4","12"="Q1","13"="Q2","14"="Q3","15"="Q4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -175,9 +175,6 @@ geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
 
 #adding a vertical line at the effect = 0 mark
 geom_vline(xintercept=1, color="black")+
-
-
-
 
 
 theme(text=element_text(size=14, color="black"),
@@ -191,14 +188,14 @@ theme(text=element_text(size=14, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Antibiotic types",
+    title = "Exposure period (days)",
     x="",
     y=""
   )
 p
 ```
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 table_base <- ggplot(DF, aes(y=label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
@@ -223,12 +220,11 @@ tab2 <- table_base+
   geom_text(aes(y = Index, x = 1, label = CI), size = 4) + 
   ggtitle("95% CI")
 
-tab1
-tab2
+
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 ## forest plot
 ## Merge tables with plot
 lay <-  matrix(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3,3), nrow = 1)
