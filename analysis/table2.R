@@ -83,13 +83,13 @@ rm(list=ls())
 ###### random sampling #######
 DF=readRDS(here::here("output","all_ranger.rds"))
 DF=DF%>% dplyr::group_by(case,subclass)%>% sample_n(1)
-
-DF=DF%>%dplyr::select("case","ethnicity_6",  "bmi_cat",  "CCI",  "smoking_cat_3","imd","care_home_type","care_home","covrx_ever","flu_vaccine",
+DF=DF%>% ungroup(case, subclass)
+#DF=DF%>%dplyr::select("case","ethnicity_6",  "bmi_cat",  "CCI",  "smoking_cat_3","imd","care_home_type","care_home","covrx_ever","flu_vaccine",
                   #    "cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor","hiv_comor",
-                      "total_ab_group","ab_types_group",
-      "exposure_period_group","recent_ab_days_group",
-      "broad_ab_prescriptions_group",
-    "interval_mean_group", "interval_sd_group")
+    #                  "total_ab_group","ab_types_group",
+   #   "exposure_period_group","recent_ab_days_group",
+   #   "broad_ab_prescriptions_group",
+   # "interval_mean_group", "interval_sd_group")
 DF$case=as.factor(DF$case)
 DF$imd=as.character(DF$imd)
 
@@ -99,11 +99,8 @@ contr.num=sum(DF$case==0)
 
 # select variables
 explanatory<- c("ethnicity_6",  "bmi_cat",  "CCI",  "smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
-           #     "cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor","hiv_comor",
-                "total_ab_group","ab_types_group",
-      "exposure_period_group","recent_ab_days_group",
-      "broad_ab_prescriptions_group",
-    "interval_mean_group", "interval_sd_group",)
+  #              "cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor","hiv_comor",
+                "total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group", "interval_sd_group")
 dependent <- "case"
 
 #table
