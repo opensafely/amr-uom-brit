@@ -40,11 +40,6 @@ df$case=as.numeric(df$case) #1/0
 
 df$subclass=as.factor(df$subclass)#pair id
 
-df$level=as.character(df$level) #category
-
-df$ab_types=as.numeric(df$ab_types) 
-
-
 df$CCI= relevel(as.factor(df$CCI), ref="Zero")
 df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
 
