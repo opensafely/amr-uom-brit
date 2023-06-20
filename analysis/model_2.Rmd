@@ -127,9 +127,9 @@ DF[15,1]="15"
 DF[16,1]="16"
 
 
- Index = rep(1:12) ## This provides an order to the data
+ Index = rep(1:16) ## This provides an order to the data
   label = as.factor(rep(1:16))
-)
+
 
 names(DF)[2]="OR"
 names(DF)[3]="CI_L"
