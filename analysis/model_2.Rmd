@@ -196,7 +196,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period(day)",
+    title = "Total antibiotics*Exposure period levels",
     x="",
     y=""
   )
@@ -373,7 +373,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Recent Antibiotics(day)",
+    title = "Total antibiotics*Recent Antibiotics levels",
     x="",
     y=""
   )
@@ -526,7 +526,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Prescribing intervals(day) mean",
+    title = "Total antibiotics*Prescribing intervals(mean) levels",
     x="",
     y=""
   )
@@ -674,7 +674,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Prescribing intervals(day) SD",
+    title = "Total antibiotics*Prescribing intervals(SD) levels",
     x="",
     y=""
   )
@@ -812,7 +812,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total Antibiotics*Antibiotic types(count)",
+    title = "Total Antibiotics*Antibiotic types levels",
     x="",
     y=""
   )
@@ -950,7 +950,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total Antibiotics*Broad-spectrum antibiotics(count)",
+    title = "Total Antibiotics*Broad-spectrum antibiotics levels",
     x="",
     y=""
   )
