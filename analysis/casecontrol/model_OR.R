@@ -24,8 +24,10 @@ main <- function(condition) {
                                         patient_index_date >= as.Date("2021-03-08") ~ "3"))
   df$covid=relevel(as.factor(df$covid), ref="1")
 
-  df <- df %>% mutate(ab_history_binary = case_when(ab_history == 0 ~ "FALSE",
-                                                    ab_history > 0 ~ "TRUE"))
+  df <- df %>% mutate(ab_history_count = case_when(ab_history == 0 ~ "0",
+                                                    ab_history == 1 ~ "1",
+                                                    ab_histroy > 1 & ab_history <3 ~ "2-3",
+                                                    ab_history >= 3 ~ "3+"))
   # Initialize an empty list
   dfs <- list()
 
@@ -47,7 +49,7 @@ main <- function(condition) {
       mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
-      mod=clogit(case ~ ab_history_binary*ab_treatment + ab_treatment + strata(set_id), df)
+      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + strata(set_id), df)
     }
     
     sum.mod=summary(mod)
