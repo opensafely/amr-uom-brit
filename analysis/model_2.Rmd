@@ -350,7 +350,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="gre
   annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
   annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(size=3, aes(y = 1:15, x = 0.5, 
+   geom_text(size=3, aes(y = 1:15, x = 0.7, 
                label = c("1"="Level2 (155)","2"="Level3 (344)","3"="Level4 (678)","4"="Level1 (65)","5"="Level2 (155)","6"="Level3 (344)","7"="Level4 (678)","8"="Level1 (65)","9"="Level2 (155)","10"="Level3 (344)","11"="Level4 (678)","12"="Level1 (65)","13"="Level2 (155)","14"="Level3 (344)","15"="Level4 (678)")),
            hjust = "right",
            nudge_y = -.1)+
@@ -477,7 +477,7 @@ DF
 ```
 
 remove subgroup n<100
-```{r }
+```{r eval=FALSE, include=FALSE}
 DF[15,]<-"" # <100
 DF
 ```
@@ -503,7 +503,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8, ymax = 11.5,fill="grey8
   annotate("text", x = 0.1, y =9.5, label = "high",size=3)+
   annotate("text", x = 0.1, y =13.5, label = "very high",size=3)+
 
-   geom_text(size=3,aes(y = 1:15, x = 0.5, 
+   geom_text(size=3,aes(y = 1:15, x = 0.7, 
                label = c("1"="Level2 (93)","2"="Level3 (171)","3"="Level4 (363)","4"="Level1 (30)","5"="Level2 (93)","6"="Level3 (171)","7"="Level4 (363)","8"="Level1 (30)","9"="Level2 (93)","10"="Level3 (171)","11"="Level4 (363)","12"="Level1 (30)","13"="Level2 (93)","14"="Level3 (171)","15"="Level4 (363)*")),
            hjust = "right",
            nudge_y = -.1)+
@@ -623,7 +623,7 @@ DF
 ```
 
 remove subgroup n<100
-```{r}
+```{r eval=FALSE, include=FALSE}
 DF[5,]="" #pt<100
 DF[9,]=""  # pt<100
 
@@ -644,7 +644,7 @@ geom_point(color="black")+
 theme_classic()+ 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8.5, ymax = 12.5,fill="grey80", alpha=0.5)+
 
     #annotate("text", x = 0.6, y =2, label = "very low")+
     annotate("text", x = 0.1, y =2.5, label = "low",size=3)+
