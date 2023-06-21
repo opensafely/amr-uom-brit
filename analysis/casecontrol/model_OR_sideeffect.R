@@ -34,25 +34,6 @@ main <- function(condition) {
 
  # Filter the dataframe by outcome_type
   df_sideeffect <- df %>% filter(outcome_type == "side effect")
-  
-  # Define columns to summarize
-  columns <- c("ab_treatment", "ab_frequency", "ab_history_binary", "charlson_score", "charlsonGrp")
-
-  # Split dataset into case and control
-  case <- df_sideeffect %>% filter(case==1)
-  control <- df_sideeffect %>% filter(case==0)
-
-  # Generate baseline table for case
-  case_summary <- case %>% summary_factorlist(explanatory = columns)
-  
-  # Write case summary to csv
-  write_csv(case_summary, here::here("output", paste0("table_1_", condition, "_sideeffect_case.csv")))
-
-  # Generate baseline table for control
-  control_summary <- control %>% summary_factorlist(explanatory = columns)
-  
-  # Write control summary to csv
-  write_csv(control_summary, here::here("output", paste0("table_1_", condition, "_sideeffect_control.csv")))
 
 
   for (i in 1:6) {

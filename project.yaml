@@ -260,4 +260,3 @@ actions:
     outputs:
       moderately_sensitive: 
         csv1: output/*_model_result_sideeffect.csv
-        csv2: output/table_1_*_sideeffect_control.csv
