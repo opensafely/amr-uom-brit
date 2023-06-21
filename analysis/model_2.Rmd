@@ -173,8 +173,8 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="gre
   annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
   annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text( size=3,aes(y = 1:15, x = 0.9,
-               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4")),
+   geom_text( size=3,aes(y = 1:15, x = 0.5,
+               label = c("1"="Level2(423)","2"="Level3(728)","3"="Level4(977)","4"="Level1(75)","5"="Level2(423)","6"="Level3(728)","7"="Level4(977)","8"="Level1(75)","9"="Level2(423)","10"="Level3(728)","11"="Level4(977)","12"="Level1(75)","13"="Level2(423)","14"="Level3(728)","15"="Level4(977)")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -197,7 +197,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period",
+    title = "Total antibiotics*Exposure period(days)",
     x="",
     y=""
   )
@@ -351,7 +351,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="gre
   annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
    geom_text(size=3, aes(y = 1:15, x = 0.5, 
-               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4")),
+               label = c("1"="Level2(155)","2"="Level3(344)","3"="Level4(678)","4"="Level1(65)","5"="Level2(155)","6"="Level3(344)","7"="Level4(678)","8"="Level1(65)","9"="Level2(155)","10"="Level3(344)","11"="Level4(678)","12"="Level1(65)","13"="Level2(155)","14"="Level3(344)","15"="Level4(678)")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -374,7 +374,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period",
+    title = "Total antibiotics*Recent Antibiotics(days)",
     x="",
     y=""
   )
