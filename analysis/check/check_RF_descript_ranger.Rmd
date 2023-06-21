@@ -80,12 +80,15 @@ temp.list=list()
 
 for (i in 1:7) {
 
-min=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.25)  
-max=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.75)  
+Q1=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.25)  
+Q3=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.75)  
+Q2=tapply(data[,contd[i]],data[,explanatory[i]], quantile, p=0.5)  
 
-temp.tbl= data.frame(min,max)
+
+temp.tbl= data.frame(Q1,Q3)
 temp.tbl$variables=explanatory[i]
 temp.tbl$levels=paste0(explanatory[i],1:nrow(temp.tbl))
+temp.tbl$median=Q2
 temp.list[[i]]<- temp.tbl
 
 }
