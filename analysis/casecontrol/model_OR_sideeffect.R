@@ -30,33 +30,49 @@ main <- function(condition) {
                                                     ab_history >= 3 ~ "3+"))
 
   df <- merge(setiddt,df,by="set_id",)
-  # Initialize an empty list
-  dfs <- list()
 
-  # Split the data by outcome_type
-  for (outcome_type in unique(df$outcome_type)) {
-    # Filter data by outcome_type
-    df_filtered <- df %>% filter(outcome_type == outcome_type)
+ # Filter the dataframe by outcome_type
+  df_sideeffect <- df %>% filter(outcome_type == "side effect")
+  
+  # Define columns to summarize
+  columns <- c("ab_treatment", "ab_frequency", "ab_history_binary", "charlson_score", "charlsonGrp")
+
+  # Split dataset into case and control
+  case <- df_sideeffect %>% filter(case==1)
+  control <- df_sideeffect %>% filter(case==0)
+
+  # Generate baseline table for case
+  case_summary <- case %>% summary_factorlist(explanatory = columns)
+  
+  # Write case summary to csv
+  write_csv(case_summary, here::here("output", paste0("table_1_", condition, "_sideeffect_case.csv")))
+
+  # Generate baseline table for control
+  control_summary <- control %>% summary_factorlist(explanatory = columns)
+  
+  # Write control summary to csv
+  write_csv(control_summary, here::here("output", paste0("table_1_", condition, "_sideeffect_control.csv")))
+
 
   for (i in 1:6) {
       
     if(i==1){
-      mod=clogit(case ~ ab_treatment + strata(set_id), df_filtered)
+      mod=clogit(case ~ ab_treatment + strata(set_id), df_sideeffect)
     }
     else if(i==2){
-      mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df_filtered)
+      mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df_sideeffect)
     }
     else if(i==3){
-      mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df_filtered)
+      mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df_sideeffect)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + ckd_rrt + strata(set_id), df_filtered)
+      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + ckd_rrt + strata(set_id), df_sideeffect)
     }
     else if(i==5){
-      mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df_filtered)
+      mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df_sideeffect)
     }
     else if(i==6){
-      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count +strata(set_id), df_filtered)
+      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count +strata(set_id), df_sideeffect)
     }
     
     sum.mod=summary(mod)
@@ -87,15 +103,7 @@ main <- function(condition) {
                                                combined_df$OR, combined_df$CI_L, combined_df$CI_U))
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
-    # Define output file name based on outcome_type
-    output_file <- switch(outcome_type,
-                          "side effect" = paste0(condition, "_model_result_sideeffect.csv"),
-                          "disease" = paste0(condition, "_model_result_disease.csv"),
-                          paste0(condition, "_model_result_blank.csv"))  # Default file name
-    
-    # Write the combined data frame to a CSV file
-    write_csv(combined_df, here::here("output", output_file))
-  }
+  write_csv(combined_df, here::here("output", paste0(condition, "_model_result_sideeffect.csv")))
 }
 
 # Call the main function for each condition

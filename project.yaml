@@ -254,11 +254,10 @@ actions:
       highly_sensitive: 
         csv: output/mapping_*.csv
 
-  model_OR_type:
-    run: r:latest analysis/casecontrol/model_OR_type.R
+  model_OR_sideeffect:
+    run: r:latest analysis/casecontrol/model_OR_sideeffect.R
     needs: [model_process,case_type_process]
     outputs:
       moderately_sensitive: 
         csv1: output/*_model_result_sideeffect.csv
-        csv2: output/*_model_result_disease.csv
-        csv3: output/*_model_result_blank.csv
+        csv2: output/table_1_*_sideeffect_control.csv
