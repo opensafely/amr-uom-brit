@@ -145,7 +145,7 @@ for (i in 1:length(explanatory)) {
   
   temp=vector()
   for (j in 1:nrow(DF)) {
-  temp[j]= paste0(j," (",round(DF[j,1]),",",round(DF[j,2]),")")
+  temp[j]= paste0("Level",j," (",round(DF[j,1]),",",round(DF[j,2]),")")
   }
 
   print(
