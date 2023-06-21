@@ -153,7 +153,7 @@ for (i in 1:length(explanatory)) {
       geom_line(size=1)+
       labs(title=paste0(imps$var[i]," levels (Q1, Q3)"),
       x="Probability level",
-      y="")
+      y="")+
      # color="Total antibiotics Levels (Q1,Q3)")+ 
       scale_color_manual(labels = temp, values=c("#CC6666", "#9999CC", "#66CC99","#6699FF")) +
       scale_y_continuous(labels = scales::percent)+
