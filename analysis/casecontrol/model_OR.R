@@ -26,7 +26,7 @@ main <- function(condition) {
 
   df <- df %>% mutate(ab_history_count = case_when(ab_history == 0 ~ "0",
                                                     ab_history == 1 ~ "1",
-                                                    ab_histroy > 1 & ab_history <3 ~ "2-3",
+                                                    ab_history > 1 & ab_history <3 ~ "2-3",
                                                     ab_history >= 3 ~ "3+"))
   # Initialize an empty list
   dfs <- list()
