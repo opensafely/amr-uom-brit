@@ -261,3 +261,11 @@ actions:
       moderately_sensitive: 
         csv1: output/table_1_*_case_sideeffect.csv
         csv2: output/table_1_*_control_sideeffect.csv
+
+  model_table_disease:
+    run: r:latest analysis/casecontrol/model_table_disease.R
+    needs: [model_process,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/table_1_*_case_disease.csv
+        csv2: output/table_1_*_control_disease.csv
