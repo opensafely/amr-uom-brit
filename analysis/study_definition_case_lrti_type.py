@@ -79,7 +79,7 @@ study = StudyDefinition(
         returning="binary_flag", 
         with_these_primary_diagnoses=lrti_sideeffect,
         with_admission_method=emergency_admission_codes,  
-        between=["patient_index_date", "patient_index_date"], 
+        between=["emergency_admission_date", "emergency_admission_date"], 
         find_first_match_in_period=True, 
     ),
 
@@ -87,7 +87,7 @@ study = StudyDefinition(
         returning="binary_flag", 
         with_these_primary_diagnoses=lrti_disease,
         with_admission_method=emergency_admission_codes,  
-        between=["patient_index_date", "patient_index_date"], 
+        between=["emergency_admission_date", "emergency_admission_date"], 
         find_first_match_in_period=True, 
     ),
 
