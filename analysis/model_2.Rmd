@@ -197,7 +197,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period(days)",
+    title = "Total antibiotics*Exposure period(day)",
     x="",
     y=""
   )
@@ -374,7 +374,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Recent Antibiotics(days)",
+    title = "Total antibiotics*Recent Antibiotics(day)",
     x="",
     y=""
   )
@@ -499,7 +499,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8, ymax = 11.5,fill="grey8
   annotate("text", x = 0.1, y =13.5, label = "very high",size=3)+
 
    geom_text(size=3,aes(y = 1:15, x = 0.5, 
-               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4*")),
+               label = c("1"="Level2(93)","2"="Level3(171)","3"="Level4(363)","4"="Level1(30)","5"="Level2(93)","6"="Level3(171)","7"="Level4(363)","8"="Level1(30)","9"="Level2(93)","10"="Level3(171)","11"="Level4(363)","12"="Level1(30)","13"="Level2(93)","14"="Level3(171)","15"="Level4(363)*")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -522,7 +522,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Prescribing intervals (mean)",
+    title = "Total antibiotics*Prescribing intervals(day) mean",
     x="",
     y=""
   )
@@ -637,12 +637,12 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
     #annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =2.5, label = "low",size=3)+
-  annotate("text", x = 0.6, y =5.5, label = "high",size=3)+
-  annotate("text", x = 0.6, y =9.5, label = "very high",size=3)+
+    annotate("text", x = 0.1, y =2.5, label = "low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "high",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "very high",size=3)+
 
-   geom_text(size=3,aes(y = 1:12, x = 0.9, 
-               label = c("5"="Level1","6"="Level2","7"="Level3","8"="Level4","9"="Level1*","10"="Level2","11"="Level3","12"="Level4","13"="Level1*","14"="Level2","15"="Level3","16"="Level4")),
+   geom_text(size=3,aes(y = 1:12, x = 0.5, 
+               label = c("5"="Level1(0)","6"="Level2(37)","7"="Level3(103)","8"="Level4(226)","9"="Level1(0)*","10"="Level2(37)","11"="Level3(103)","12"="Level4(226)","13"="Level1(0)*","14"="Level2(37)","15"="Level3(103)","16"="Level4(226)")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -665,7 +665,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Prescribing intervals (SD)",
+    title = "Total antibiotics*Prescribing intervals(day) SD",
     x="",
     y=""
   )
@@ -779,8 +779,8 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 6.5, ymax =9,fill="grey80"
   annotate("text", x = 0.1, y =5, label = "high",size=3)+
   annotate("text", x = 0.1, y =8, label = "very high",size=3)+
 
-   geom_text(size=3,aes(y = 1:9, x = 0.9, 
-               label = c("5"="Level1","7"="Level2","8"="Level3","9"="Level1","11"="Level2","12"="Level3","13"="Level1","15"="Level2","16"="Level3")),
+   geom_text(size=3,aes(y = 1:9, x = 0.5, 
+               label = c("5"="Level1(2)","7"="Level2(3)","8"="Level3(4)","9"="Level1(2)","11"="Level2(3)","12"="Level3(4)","13"="Level1(2)","15"="Level2(3)","16"="Level3(4)")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -803,7 +803,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total Antibiotics*Antibiotic types",
+    title = "Total Antibiotics*Antibiotic types(count)",
     x="",
     y=""
   )
@@ -815,7 +815,7 @@ p
 
 
 
-# Antibiotics types
+# Broad AB
 ```{r include=FALSE}
 
 df=df%>%mutate(ab_Leveln_type= 
@@ -918,7 +918,7 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 6.5, ymax =9,fill="grey80"
   annotate("text", x = 0.1, y =8, label = "very high",size=3)+
 
    geom_text(size=3,aes(y = 1:9, x = 0.9, 
-               label = c("5"="Level1","7"="Level2","8"="Level3","9"="Level1","11"="Level2","12"="Level3","13"="Level1","15"="Level2","16"="Level3")),
+               label = c("5"="Level1(0)","7"="Level2(1)","8"="Level3(3)","9"="Level1(0)","11"="Level2(1)","12"="Level3(3)","13"="Level1(0)","15"="Level2(1)","16"="Level3(3)")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -941,7 +941,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total Antibiotics*Broad-spectrum antibiotics",
+    title = "Total Antibiotics*Broad-spectrum antibiotics(count)",
     x="",
     y=""
   )
