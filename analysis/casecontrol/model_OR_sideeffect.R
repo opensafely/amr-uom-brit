@@ -8,7 +8,7 @@ library(car)
 library(data.table)
 library(gridExtra)
 library(here)
-library("finalfit")
+
 
 main <- function(condition) {
   # Read the dataset
@@ -33,7 +33,8 @@ main <- function(condition) {
   df$set_id=as.factor(df$set_id) #pair id
  # Filter the dataframe by outcome_type
   df_sideeffect <- df %>% filter(outcome_type == "side effect")
-
+  
+  dfs <- list()
 
   for (i in 1:6) {
       
