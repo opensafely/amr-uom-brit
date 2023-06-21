@@ -495,7 +495,7 @@ geom_point(color="black")+
 theme_classic()+ 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8, ymax = 11.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
     annotate("text", x = 0.1, y =2, label = "very low",size=3)+
     annotate("text", x = 0.1, y =5.5, label = "low",size=3)+
@@ -647,8 +647,8 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8.5, ymax = 12.5,fill="gre
 
     #annotate("text", x = 0.6, y =2, label = "very low")+
     annotate("text", x = 0.1, y =2.5, label = "low",size=3)+
-  annotate("text", x = 0.1, y =5.5, label = "high",size=3)+
-  annotate("text", x = 0.1, y =9.5, label = "very high",size=3)+
+  annotate("text", x = 0.1, y =6.5, label = "high",size=3)+
+  annotate("text", x = 0.1, y =10.5, label = "very high",size=3)+
 
    geom_text(size=3,aes(y = 1:12, x = 0.7, 
                label = c("5"="Level1 (0)","6"="Level2 (37)","7"="Level3 (103)","8"="Level4 (226)","9"="Level1 (0)*","10"="Level2 (37)","11"="Level3 (103)","12"="Level4 (226)","13"="Level1 (0)*","14"="Level2 (37)","15"="Level3 (103)","16"="Level4 (226)")),
