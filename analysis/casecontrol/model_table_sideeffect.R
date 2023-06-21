@@ -8,7 +8,7 @@ library("data.table")
 library("ggpubr")
 library("finalfit")
 
-columns <- c("ab_treatment", "ab_frequency", "ab_history_binary", "charlson_score", "charlsonGrp")
+columns <- c("sex","region","ab_frequency", "charlsonGrp","outcome_type")
 
 # Create a vector with the names of the datasets
 datasets <- c("uti", "lrti", "urti")
