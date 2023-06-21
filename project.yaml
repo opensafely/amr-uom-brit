@@ -60,6 +60,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_uti_othvar.csv
 
+  generate_study_population_case_uti_type:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_type
+    needs: [matching_uti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_type.csv
+
 ### URTI ###
 
   generate_study_population_case_urti:
@@ -114,6 +121,13 @@ actions:
       highly_sensitive:
         cohort: output/input_control_urti_othvar.csv
 
+  generate_study_population_case_urti_type:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_type
+    needs: [matching_urti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_type.csv
+
 ### LRTI ###
 
   generate_study_population_case_lrti:
@@ -167,6 +181,14 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_control_lrti_othvar.csv
+
+  generate_study_population_case_lrti_type:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_type
+    needs: [matching_lrti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_type.csv
+
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 

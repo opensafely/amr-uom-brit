@@ -261,6 +261,47 @@ ae_study2 = combine_codelists(diarrhea,candidiasis)
 
 cdi = codelist(["A047"], system="icd10")
 
+### adverse_event_group_uti
+
+uti_sideeffect = combine_codelists(D59_codelist,D61_codelist,D65_codelist,D68_codelist,D69_codelist,
+                                   D70_codelist,E03_codelist,E16_codelist,E23_codelist,E27_codelist,K25_codelist,
+                                   K26_codelist,K27_codelist,K28_codelist,K52_codelist,K71_codelist,K72_codelist,
+                                   K75_codelist,K76_codelist,K85_codelist,K92_codelist,L20_codelist,L21_codelist,
+                                   L26_codelist,L27_codelist,L29_codelist,L30_codelist,L50_codelist,L51_codelist,
+                                   L52_codelist,N14_codelist,R17_codelist,R20_codelist,R21_codelist,R23_codelist,
+                                   T36_codelist,T37_codelist,T47_codelist,T50_codelist,T78_codelist,T88_codelist,
+                                   Z88_codelist)
+
+uti_disease = combine_codelists(E86_codelist,E87_codelist,I26_codelist,I95_codelist,N17_codelist,
+                                N19_codelist,R11_codelist,R31_codelist,R34_codelist,R51_codelist,
+                                R55_codelist)
+
+### adverse_event_group_urti
+urti_sideeffect = combine_codelists(D59_codelist,D61_codelist,D65_codelist,D68_codelist,D69_codelist,
+                                   D70_codelist,E03_codelist,E16_codelist,E23_codelist,E27_codelist,K25_codelist,
+                                   K26_codelist,K27_codelist,K28_codelist,K52_codelist,K71_codelist,K72_codelist,
+                                   K75_codelist,K76_codelist,K85_codelist,K92_codelist,L20_codelist,L21_codelist,
+                                   L26_codelist,L27_codelist,L29_codelist,L30_codelist,L50_codelist,L51_codelist,
+                                   L52_codelist,N14_codelist,R17_codelist,R20_codelist,R21_codelist,R23_codelist,
+                                   T36_codelist,T37_codelist,T47_codelist,T50_codelist,T78_codelist,T88_codelist,
+                                   Z88_codelist)
+
+urti_disease = combine_codelists(E86_codelist,E87_codelist,I26_codelist,J45_codelist,J46_codelist,N17_codelist,
+                                N19_codelist,R06_codelist,R11_codelist,R51_codelist,R55_codelist)
+
+### adverse_event_group_lrti
+lrti_sideeffect = combine_codelists(D59_codelist,D61_codelist,D65_codelist,D68_codelist,D69_codelist,
+                                   D70_codelist,E03_codelist,E16_codelist,E23_codelist,E27_codelist,K25_codelist,
+                                   K26_codelist,K27_codelist,K28_codelist,K52_codelist,K71_codelist,K72_codelist,
+                                   K75_codelist,K76_codelist,K85_codelist,K92_codelist,L20_codelist,L21_codelist,
+                                   L26_codelist,L27_codelist,L29_codelist,L30_codelist,L50_codelist,L51_codelist,
+                                   L52_codelist,N14_codelist,R17_codelist,R20_codelist,R21_codelist,R23_codelist,
+                                   T36_codelist,T37_codelist,T47_codelist,T50_codelist,T78_codelist,T88_codelist,
+                                   Z88_codelist)
+
+lrti_disease = combine_codelists(E86_codelist,E87_codelist,I26_codelist,J45_codelist,J46_codelist,N17_codelist,
+                                N19_codelist,R06_codelist,R11_codelist,R51_codelist,R55_codelist)
+
 ### by type
 ae_hematologic_code = codelist_from_csv(
   "codelists/user-BillyZhongUOM-ae_-hematologic.csv",
