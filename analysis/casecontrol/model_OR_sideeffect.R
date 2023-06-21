@@ -8,6 +8,7 @@ library(car)
 library(data.table)
 library(gridExtra)
 library(here)
+library("finalfit")
 
 main <- function(condition) {
   # Read the dataset
