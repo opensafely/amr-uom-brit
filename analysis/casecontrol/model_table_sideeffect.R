@@ -19,7 +19,7 @@ for (ds in datasets) {
   # Read the case and control datasets
   data <- readRDS(here::here("output", "processed", paste0("model_", ds, ".rds")))
 
-  setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",condition,"_type.csv")))%>%select(set_id,outcome_type)
+  setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",ds,"_type.csv")))%>%select(set_id,outcome_type)
   data <- merge(data,setiddt,by="set_id")
 
   data <- data %>% filter(outcome_type == "side effect")
