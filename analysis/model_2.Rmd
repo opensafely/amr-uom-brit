@@ -115,7 +115,7 @@ DF=result[1:15,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -149,7 +149,6 @@ DF$CI_U=round(DF$CI_U, digits = 2)
 
 DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
-DF1=DF
 ```
 
 
@@ -246,7 +245,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 # Recent antibiotics
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_Leveln_type= 
+df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & recent_ab_days_group==1 ~ "1",
                            total_ab_group=="1" & recent_ab_days_group==2 ~ "2",
@@ -292,7 +291,7 @@ DF=result[1:15,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -394,7 +393,7 @@ p
 # prescribing intervals (mean)
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_Leveln_type= 
+df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & interval_mean_group==1 ~ "1",
                            total_ab_group=="1" & interval_mean_group==2 ~ "2",
@@ -439,7 +438,7 @@ DF=result[1:15,-2]
 ```{r }
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -543,7 +542,7 @@ p
 # prescribing intervals (sd)
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_Leveln_type= 
+df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & interval_sd_group==1 ~ "1",
                          #  total_ab_group=="1" & interval_sd_group==2 ~ "2",
@@ -589,7 +588,7 @@ DF=result[1:12,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="5"
@@ -691,7 +690,7 @@ p
 # Antibiotics types
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_Leveln_type= 
+df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & ab_types_group==1 ~ "1",
                           # total_ab_group=="1" & ab_types_group==2 ~ "2",
@@ -737,7 +736,7 @@ DF=result[1:9,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="5"
@@ -828,7 +827,7 @@ p
 # Broad AB
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_Leveln_type= 
+df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & broad_ab_prescriptions_group==1 ~ "1",
                           # total_ab_group=="1" & broad_ab_prescriptions_group==2 ~ "2",
@@ -875,7 +874,7 @@ DF=result[1:9,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Leveln_type1","ab_Leveln_type2","ab_Leveln_type3","ab_Leveln_type4","ab_Leveln_type5","ab_Leveln_type6","ab_Leveln_type7","ab_Leveln_type8","ab_Leveln_type9","ab_Leveln_type10","ab_Leveln_type11","ab_Leveln_type12","ab_Leveln_type13","ab_Leveln_type14","ab_Leveln_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="5"
