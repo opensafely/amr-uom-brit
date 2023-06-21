@@ -29,7 +29,7 @@ main <- function(condition) {
                                                     ab_history > 1 & ab_history <3 ~ "2-3",
                                                     ab_history >= 3 ~ "3+"))
 
-  df <- merge(setiddt,df,by="set_id",)
+  df <- merge(setiddt,df,by="set_id")
   df$set_id=as.factor(df$set_id) #pair id
  # Filter the dataframe by outcome_type
   df_sideeffect <- df %>% filter(outcome_type == "side effect")
