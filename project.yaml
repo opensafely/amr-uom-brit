@@ -245,3 +245,11 @@ actions:
       moderately_sensitive: 
         csv1: output/table_1_*_case.csv
         csv2: output/table_1_*_control.csv
+
+  case_type_process:
+    run: r:latest analysis/casecontrol/case_type_process.R
+    needs: [generate_study_population_case_uti_type,generate_study_population_case_urti_type,
+    generate_study_population_case_lrti_type,matching_uti,matching_urti,matching_lrti]
+    outputs:
+      highly_sensitive: 
+        csv: output/mapping_*.csv
