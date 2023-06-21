@@ -66,7 +66,7 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 # Exposure period
 ```{r include=FALSE}
 
-df=df%>%mutate(ab_Leveln_type= 
+df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & exposure_period_group==1 ~ "1",
                            total_ab_group=="1" & exposure_period_group==2 ~ "2",
@@ -96,7 +96,8 @@ df=df%>%mutate(ab_Leveln_type=
 
 ```{r include=FALSE}
 ## model summary
-mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
 #sum.mod
 #vif(mod)
@@ -274,11 +275,9 @@ df=df%>%mutate(ab_Leveln_type=
 
 
 ```{r include=FALSE}
-## model summary
-mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
-#sum.mod
-#vif(mod)
 
 ```
 
@@ -424,11 +423,9 @@ df=df%>%mutate(ab_Leveln_type=
 
 
 ```{r include=FALSE}
-## model summary
-mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
-#sum.mod
-#vif(mod)
 
 ```
 
@@ -494,15 +491,15 @@ geom_point(color="black")+
 theme_classic()+ 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8, ymax = 11.5,fill="grey80", alpha=0.5)+
 
     annotate("text", x = 0.1, y =2, label = "very low",size=3)+
     annotate("text", x = 0.1, y =5.5, label = "low",size=3)+
   annotate("text", x = 0.1, y =9.5, label = "high",size=3)+
   annotate("text", x = 0.1, y =13.5, label = "very high",size=3)+
 
-   geom_text(size=3,aes(y = 1:15, x = 0.9, 
-               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4")),
+   geom_text(size=3,aes(y = 1:15, x = 0.5, 
+               label = c("1"="Level2","2"="Level3","3"="Level4","4"="Level1","5"="Level2","6"="Level3","7"="Level4","8"="Level1","9"="Level2","10"="Level3","11"="Level4","12"="Level1","13"="Level2","14"="Level3","15"="Level4*")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -570,11 +567,9 @@ df=df%>%mutate(ab_Leveln_type=
 
 
 ```{r include=FALSE}
-## model summary
-mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
-#sum.mod
-#vif(mod)
 
 ```
 
@@ -604,8 +599,8 @@ DF[9,1]="13"
 DF[10,1]="14"
 DF[11,1]="15"
 DF[12,1]="16"
-DF[6,]=""
-DF[10,]=""
+DF[5,]="" #pt<100
+DF[9,]=""  # pt<100
 #DF[16,1]="16"
 
 
@@ -638,16 +633,16 @@ geom_point(color="black")+
 #thematic stuff
 theme_classic()+ 
 
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
     #annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.6, y =5.5, label = "low",size=3)+
-  annotate("text", x = 0.6, y =9.5, label = "high",size=3)+
-  annotate("text", x = 0.6, y =13.5, label = "very high",size=3)+
+    annotate("text", x = 0.6, y =2.5, label = "low",size=3)+
+  annotate("text", x = 0.6, y =5.5, label = "high",size=3)+
+  annotate("text", x = 0.6, y =9.5, label = "very high",size=3)+
 
    geom_text(size=3,aes(y = 1:12, x = 0.9, 
-               label = c("5"="Level1","6"="Level2","7"="Level3","8"="Level4","9"="Level1","10"="Level2","11"="Level3","12"="Level4","13"="Level1","14"="Level2","15"="Level3","16"="Level4")),
+               label = c("5"="Level1","6"="Level2","7"="Level3","8"="Level4","9"="Level1*","10"="Level2","11"="Level3","12"="Level4","13"="Level1*","14"="Level2","15"="Level3","16"="Level4")),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -715,11 +710,9 @@ df=df%>%mutate(ab_Leveln_type=
 
 
 ```{r include=FALSE}
-## model summary
-mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
-#sum.mod
-#vif(mod)
 
 ```
 
@@ -854,10 +847,9 @@ df=df%>%mutate(ab_Leveln_type=
 
 
 ```{r include=FALSE}
-## model summary
-mod=clogit(case ~ ab_Leveln_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
-#sum.mod
 #vif(mod)
 
 ```
