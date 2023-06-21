@@ -178,7 +178,7 @@ def generate_ab_control_variables(index_date_variable):
 
     ab_history=patients.with_these_medications(
         antibacterials_codes_brit,
-        between=[f'{index_date_variable} + 366 days', f'{index_date_variable} + 1 day'],
+        between=[f'{index_date_variable} - 366 days', f'{index_date_variable} - 1 day'],
         returning="number_of_matches_in_period",
         return_expectations={
             "int": {"distribution": "normal", "mean": 3, "stddev": 1},
