@@ -8,7 +8,7 @@ library("data.table")
 library("ggpubr")
 library("finalfit")
 
-columns <- c("ab_treatment", "ab_frequency", "ab_history", "charlson_score", "charlsonGrp")
+columns <- c("ab_treatment", "ab_frequency", "ab_history_binary", "charlson_score", "charlsonGrp")
 
 # Create a vector with the names of the datasets
 datasets <- c("uti", "lrti", "urti")
@@ -18,6 +18,9 @@ for (ds in datasets) {
   
   # Read the case and control datasets
   data <- readRDS(here::here("output", "processed", paste0("model_", ds, ".rds")))
+
+  data <- data %>% mutate(ab_history_binary = case_when(ab_history == 0 ~ "FALSE",
+                                                    ab_history > 0 ~ "TRUE"))
   case <- data %>% filter(case==1)
   control <- data %>% filter(case==0)
 
