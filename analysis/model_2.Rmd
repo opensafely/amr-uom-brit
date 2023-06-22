@@ -64,8 +64,28 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 # Exposure period
-```{r include=FALSE}
+```{r}
+contd<- c("ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
 
+for (i in 1:6) {
+Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
+
+
+tbl=data.frame(Q1,Q2,Q3)
+tbl$variables=explanatory[i]
+tbl$levels=paste0(explanatory[i],1:nrow(tbl))
+list[[i]]<- tbl
+
+}
+
+Qtbl=rbindlist(list)
+
+Qtbl
+```
+
+```{r include=FALSE}
 df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & exposure_period_group==1 ~ "1",
