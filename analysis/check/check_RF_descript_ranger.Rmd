@@ -195,8 +195,6 @@ rm(list=ls())
 
 # read table
 df=read_rds(here::here("output","all_ranger.rds"))
-df$decile=as.factor(data$decile)
-
 contd<- c("ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
 
 for (i in 1:6) {
