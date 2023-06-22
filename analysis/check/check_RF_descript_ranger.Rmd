@@ -204,8 +204,8 @@ Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
 
 
 tbl=data.frame(Q1,Q2,Q3)
-tbl$variables=explanatory[i]
-tbl$levels=paste0(explanatory[i],1:nrow(tbl))
+tbl$variables=contd[i]
+tbl$levels=paste0(contd[i],1:nrow(tbl))
 list[[i]]<- tbl
 
 }
