@@ -37,19 +37,19 @@ main <- function(condition) {
       mod=clogit(case ~ ab_treatment + strata(set_id), df)
     }
     else if(i==2){
-      mod=clogit(case ~ covid*ab_treatment + ab_treatment + strata(set_id), df)
+      mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df)
     }
     else if(i==3){
       mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + strata(set_id), df)
+      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + ckd_rrt+ strata(set_id), df)
     }
     else if(i==5){
       mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
-      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + strata(set_id), df)
+      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count + strata(set_id), df)
     }
     
     sum.mod=summary(mod)
