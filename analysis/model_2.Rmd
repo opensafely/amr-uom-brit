@@ -161,7 +161,7 @@ df=df%>%mutate(ab_Level_type=
 
 # median of each group
 Q2=tapply(df[,"exposure_period"],df[,"ab_Level_type"],quantile,p=0.5)
-
+Q2
 #table(df$level,df$ab_types)
 ```
 
@@ -188,9 +188,9 @@ DF=result[1:15,-2]
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16"))
 
-DF=DF%>%arrange(AB_exposure)
+#DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
 DF[2,1]="2"
 DF[3,1]="3"
@@ -286,7 +286,7 @@ labs(
     title = "Total antibiotics*Exposure period levels",
     x="",
     y="",
-    caption = paste0("reference group: Total antibiotics(very low)* exposure period level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Total antibiotics(very low) * Exposure period level1(median=",Q2[1],")")
   )
 p
 ```
