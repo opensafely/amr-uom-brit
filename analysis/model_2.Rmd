@@ -75,7 +75,7 @@ Q3
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
-
+range(df1$exposure_period)
 df1$exposure_period_group=ifelse(
   df1$exposure_period <= Q1[1],1, ifelse(
     df1$exposure_period > Q1[1] & df1$exposure_period <= Q2[1], 2, ifelse(
@@ -87,11 +87,12 @@ table(df1$exposure_period_group)
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
+range(df2$exposure_period)
 
 df2$exposure_period_group=ifelse(
   df2$exposure_period <= Q1[2],1, ifelse(
-    df2$exposure_period > Q1[2] & df1$exposure_period <= Q2[2], 2, ifelse(
-      df2$expoure_period > Q2[2] & df1$exposure_period <= Q3[2], 3, 4
+    df2$exposure_period > Q1[2] & df2$exposure_period <= Q2[2], 2, ifelse(
+      df2$expoure_period > Q2[2] & df2$exposure_period <= Q3[2], 3, 4
     )
   )
 )
@@ -99,11 +100,12 @@ table(df2$exposure_period_group)
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
+range(df3$exposure_period)
 
 df3$exposure_period_group=ifelse(
   df3$exposure_period <= Q1[3],1, ifelse(
-    df3$exposure_period > Q1[3] & df1$exposure_period <= Q2[3], 2, ifelse(
-      df3$expoure_period > Q2[3] & df1$exposure_period <= Q3[3], 3, 4
+    df3$exposure_period > Q1[3] & df3$exposure_period <= Q2[3], 2, ifelse(
+      df3$expoure_period > Q2[3] & df3$exposure_period <= Q3[3], 3, 4
     )
   )
 )
@@ -112,11 +114,12 @@ table(df3$exposure_period_group)
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
+range(df4$exposure_period)
 
 df4$exposure_period_group=ifelse(
   df4$exposure_period <= Q1[4],1, ifelse(
-    df4$exposure_period > Q1[4] & df1$exposure_period <= Q2[4], 2, ifelse(
-      df4$expoure_period > Q2[4] & df1$exposure_period <= Q3[4], 3, 4
+    df4$exposure_period > Q1[4] & df4$exposure_period <= Q2[4], 2, ifelse(
+      df4$expoure_period > Q2[4] & df4$exposure_period <= Q3[4], 3, 4
     )
   )
 )
