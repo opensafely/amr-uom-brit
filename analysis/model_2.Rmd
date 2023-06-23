@@ -159,6 +159,8 @@ df=df%>%mutate(ab_Level_type=
 
                           ))
 
+# median of each group
+Q2=tapply(df[,"exposure_period"],df[,"ab_Level_type"],quantile,p=0.5)
 
 #table(df$level,df$ab_types)
 ```
@@ -244,7 +246,21 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="gre
   annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
    geom_text( size=3,aes(y = 1:15, x = 0.7,
-               label = c("1"="Level2 (423)","2"="Level3 (728)","3"="Level4 (977)","4"="Level1 (75)","5"="Level2 (423)","6"="Level3 (728)","7"="Level4 (977)","8"="Level1 (75)","9"="Level2 (423)","10"="Level3 (728)","11"="Level4 (977)","12"="Level1 (75)","13"="Level2 (423)","14"="Level3 (728)","15"="Level4 (977)")),
+               label = c("1"=paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level3 (",Q2[3],")"),
+                        "3"= paste0("Level4 (",Q2[4],")"),
+                        "4"= paste0("Level1 (",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level4 (",Q2[8],")"),
+                        "8"= paste0("Level1 (",Q2[9],")"),
+                        "9"= paste0("Level2 (",Q2[10],")"),
+                        "10"= paste0("Level3 (",Q2[11],")"),
+                        "11"= paste0("Level4 (",Q2[12],")"),
+                        "12"= paste0("Level1 (",Q2[13],")"),
+                        "13"= paste0("Level2 (",Q2[14],")"),
+                        "14"= paste0("Level3 (",Q2[15],")"),
+                        "15"= paste0("Level4 (",Q2[16],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -269,7 +285,8 @@ theme(text=element_text(size=10, color="black"),
 labs(
     title = "Total antibiotics*Exposure period levels",
     x="",
-    y=""
+    y="",
+    caption = paste0("reference group: Total antibiotics(very low)* exposure period level1(median=",Q2[1],")")
   )
 p
 ```
