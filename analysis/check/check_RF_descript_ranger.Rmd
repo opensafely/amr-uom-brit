@@ -205,7 +205,7 @@ Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
 
 tbl=data.frame(Q1,Q2,Q3)
 tbl$variables=contd[i]
-tbl$levels=paste0(contd[i],1:nrow(tbl))
+tbl$levels=paste0("total_ab_group",1:nrow(tbl))
 
 print(tbl)
 }
