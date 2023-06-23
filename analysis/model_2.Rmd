@@ -69,6 +69,9 @@ Q1=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.75)
 
+Q1
+Q2
+Q3
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
@@ -305,7 +308,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 # Recent antibiotics
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -335,7 +338,7 @@ df=df%>%mutate(ab_Level_type=
 
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -343,13 +346,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:15,-2]
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -392,7 +395,7 @@ DF
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -453,7 +456,7 @@ p
 
 
 # prescribing intervals (mean)
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -483,7 +486,7 @@ df=df%>%mutate(ab_Level_type=
 
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -491,13 +494,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:15,-2]
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
@@ -545,7 +548,7 @@ DF
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -602,7 +605,7 @@ p
 
 
 # prescribing intervals (sd)
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -632,7 +635,7 @@ df=df%>%mutate(ab_Level_type=
 
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -640,13 +643,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:12,-2]
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -693,7 +696,7 @@ DF
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -750,7 +753,7 @@ p
 
 
 # Antibiotics types
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -780,7 +783,7 @@ df=df%>%mutate(ab_Level_type=
 
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -788,13 +791,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:9,-2]
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -831,7 +834,7 @@ DF
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -887,7 +890,7 @@ p
 
 
 # Broad AB
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -917,7 +920,7 @@ df=df%>%mutate(ab_Level_type=
 
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -926,13 +929,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:9,-2]
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -969,7 +972,7 @@ DF
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
