@@ -190,7 +190,8 @@ setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16"))
 
-#DF=DF%>%arrange(AB_exposure)
+DF=DF%>%arrange(AB_exposure)
+DF
 DF[1,1]="1"
 DF[2,1]="2"
 DF[3,1]="3"
