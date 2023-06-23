@@ -63,27 +63,69 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 ```
 
-# Exposure period
-```{r}
-contd<- c("ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
-
-for (i in 1:6) {
-Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
+## create quartiles by total_ab_group
+```{r }
+Q1=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.25)
+Q2=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.5)
+Q3=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.75)
 
 
-tbl=data.frame(Q1,Q2,Q3)
-tbl$variables=explanatory[i]
-tbl$levels=paste0(explanatory[i],1:nrow(tbl))
-list[[i]]<- tbl
+# total ab level 1
+df1=df%>%filter(total_ab_group==1)
 
-}
+df1$exposure_period_group=ifelse(
+  df1$exposure_period <= Q1[1],1, ifelse(
+    df1$exposure_period > Q1[1] & df1$exposure_period <= Q2[1], 2, ifelse(
+      df1$expoure_period > Q2[1] & df1$exposure_period <= Q3[1], 3, 4
+    )
+  )
+)
+table(df1$exposure_period_group)
 
-Qtbl=rbindlist(list)
+# total ab level 2
+df2=df%>%filter(total_ab_group==2)
 
-Qtbl
+df2$exposure_period_group=ifelse(
+  df2$exposure_period <= Q1[2],1, ifelse(
+    df2$exposure_period > Q1[2] & df1$exposure_period <= Q2[2], 2, ifelse(
+      df2$expoure_period > Q2[2] & df1$exposure_period <= Q3[2], 3, 4
+    )
+  )
+)
+table(df2$exposure_period_group)
+
+# total ab level3
+df3=df%>%filter(total_ab_group==3)
+
+df3$exposure_period_group=ifelse(
+  df3$exposure_period <= Q1[3],1, ifelse(
+    df3$exposure_period > Q1[3] & df1$exposure_period <= Q2[3], 2, ifelse(
+      df3$expoure_period > Q2[3] & df1$exposure_period <= Q3[3], 3, 4
+    )
+  )
+)
+table(df3$exposure_period_group)
+
+
+# total ab level4
+df4=df%>%filter(total_ab_group==4)
+
+df4$exposure_period_group=ifelse(
+  df4$exposure_period <= Q1[4],1, ifelse(
+    df4$exposure_period > Q1[4] & df1$exposure_period <= Q2[4], 2, ifelse(
+      df4$expoure_period > Q2[4] & df1$exposure_period <= Q3[4], 3, 4
+    )
+  )
+)
+table(df4$exposure_period_group)
+
+
+df=rbind(df1,df2,df3,df4)
+
 ```
+
+
+# Exposure period
 
 ```{r include=FALSE}
 df=df%>%mutate(ab_Level_type= 
