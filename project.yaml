@@ -276,3 +276,10 @@ actions:
     outputs:
       moderately_sensitive: 
         csv1: output/table_case_*_type.csv
+
+  model_OR_sideeffect:
+    run: r:latest analysis/casecontrol/model_OR_sideeffect.R
+    needs: [model_process,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv: output/*_model_result_sideeffect.csv
