@@ -25,7 +25,7 @@ load_prepared_df <- function(file_path, selected_vars) {
   
   # convert 'patient_index_date' to Date class
   if ("patient_index_date" %in% colnames(df)) {
-    df$patient_index_date <- as.Date(df$patient_index_date)
+    df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
   } else {
     print("The column 'patient_index_date' does not exist in the dataframe.")
   }
