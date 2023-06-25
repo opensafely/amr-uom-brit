@@ -33,10 +33,11 @@ load_prepared_df <- function(file_path, selected_vars) {
   return(df)
 }
 # Function to merge datasets
-merge_data <- function(df.1, df.2, df.3) {
+merge_data <- function(df.1, df.2, df.3, df.4) {
   merged_data <- df.1 %>%
     left_join(df.2, by = c("patient_id", "patient_index_date")) %>%
-    left_join(df.3, by = c("patient_id", "patient_index_date"))
+    left_join(df.3, by = c("patient_id", "patient_index_date")) %>%
+    left_join(df.4, by = c("patient_id", "patient_index_date"))
   
   return(merged_data)
 }
@@ -48,15 +49,18 @@ main <- function(condition) {
 
   df_ab_vars <- c("patient_index_date", "patient_id", "Amoxicillin", "Doxycycline", "Clarithromycin", "Co_amoxiclav", "Phenoxymethylpenicillin","Nitrofurantoin","Trimethoprim","Cefalexin")
   df_oth_vars <- c("patient_index_date", "patient_id", "region", "imd", "ethnicity", "bmi", "smoking_status_comb", "ckd_rrt")
+  df_cci_vars <- c("patient_index_date", "patient_id", "ab_history", "charlson_score", "charlsonGrp")
 
   df_cases_ab <- load_prepared_df(paste0("output/processed/input_case_", condition, "_ab.rds"), df_ab_vars)
   df_cases_oth <- load_prepared_df(paste0("output/processed/input_case_", condition, "_othvar.rds"), df_oth_vars)
+  df_cases_cci <- load_prepared_df(paste0("output/processed/input_case_", condition, "_abvar.rds"), df_cci_vars)
 
   df_matches_ab <- load_prepared_df(paste0("output/processed/input_control_", condition, "_ab.rds"), df_ab_vars)
   df_matches_oth <- load_prepared_df(paste0("output/processed/input_control_", condition, "_othvar.rds"), df_oth_vars)
+  df_matches_cci <- load_prepared_df(paste0("output/processed/input_control_", condition, "_abvar.rds"), df_cci_vars)
 
-  df_cases <- merge_data(df_cases, df_cases_ab, df_cases_oth)
-  df_matches <- merge_data(df_matches, df_matches_ab, df_matches_oth)
+  df_cases <- merge_data(df_cases, df_cases_ab, df_cases_oth, df_cases_cci)
+  df_matches <- merge_data(df_matches, df_matches_ab, df_matches_oth, df_matches_cci)
 
   # Combine datasets using rbind
   merged_data <- rbind(df_cases, df_matches)

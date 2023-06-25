@@ -313,7 +313,8 @@ actions:
 
   model_process_ab:
     run: r:latest analysis/casecontrol/model_process_ab.R
-    needs: [matching_uti,matching_urti,matching_lrti,case_othvar_process,control_othvar_process,case_abvar_freq_process,control_abvar_freq_process]
+    needs: [matching_uti,matching_urti,matching_lrti,case_othvar_process,control_othvar_process,case_abvar_freq_process,control_abvar_freq_process,
+    case_abvar_process,control_abvar_process]
     outputs:
       highly_sensitive: 
         rds1: output/processed/model_*_ab.rds
