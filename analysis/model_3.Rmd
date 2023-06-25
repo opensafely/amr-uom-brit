@@ -163,25 +163,25 @@ Q2
 ### level1
 ```{r }
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
-mod1=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_level"==1])
+mod1=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_group"==1])
 sum.mod=summary(mod)
 ```
 
 ### level2
 ```{r }
-mod2=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_level"==2])
+mod2=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_group"==2])
 sum.mod=summary(mod)
 ```
 
 ### level3
 ```{r }
-mod3=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_level"==3])
+mod3=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_group"==3])
 sum.mod=summary(mod)
 ```
 
 ### level4
 ```{r }
-mod4=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_level"==4])
+mod4=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df["total_ab_group"==4])
 sum.mod=summary(mod)
 ```
 
