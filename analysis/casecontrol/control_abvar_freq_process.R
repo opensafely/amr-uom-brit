@@ -31,6 +31,10 @@ process_data <- function(input_file) {
   # Remove "Rx_" from column names
   names(df) <- str_replace(names(df), "Rx_", "")
 
+  # Convert antibiotic columns to logical
+  ab_cols <- names(df)[!names(df) %in% c("patient_id", "patient_index_date")]
+  df <- df %>% mutate_at(vars(ab_cols), ~ . > 0)
+
   # Generate frequency table of antibiotics
   freq_table <- df %>%
     select(-c(patient_id, patient_index_date)) %>%
@@ -50,3 +54,4 @@ process_data <- function(input_file) {
 
 # Apply function to each file
 lapply(input_files, process_data)
+
