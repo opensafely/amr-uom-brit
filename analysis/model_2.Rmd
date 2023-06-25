@@ -60,14 +60,16 @@ df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
+contd<- c("exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+explanatory<- c("exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
 
 ```
 
 ## create quartiles by total_ab_group
 ```{r }
-Q1=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.25)
-Q2=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.5)
-Q3=tapply(df[,"exposure_period"],df[,"total_ab_group"],quantile,p=0.75)
+Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
 
 Q1
 Q2
@@ -75,57 +77,48 @@ Q3
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
-
-table(df1$exposure_period_group)
-df1$exposure_period_group=""
-df1=df1%>%mutate(exposure_period_group=
-                   case_when(
-                     exposure_period <= Q1[1] ~ "1",
-                     exposure_period > Q1[1] & exposure_period <= Q2[1] ~ "2",
-                     exposure_period > Q2[1] & exposure_period <= Q3[1] ~ "3",
-                     exposure_period > Q3[1] ~ "4"
-                   ))
-table(df1$exposure_period_group)
+df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
+  df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
+    df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
+      df1[contd[i]] > Q3[1],4, NA)
+    )
+  )
+)
+sum(is.na(df1[,explanatory[i]]))
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
-table(df2$exposure_period_group)
-df2$exposure_period_group=""
-df2=df2%>%mutate(exposure_period_group=
-                   case_when(
-                     exposure_period <= Q1[2] ~ "1",
-                     exposure_period > Q1[2] & exposure_period <= Q2[2] ~ "2",
-                     exposure_period > Q2[2] & exposure_period <= Q3[2] ~ "3",
-                     exposure_period > Q3[2] ~ "4"
-                   ))
-table(df2$exposure_period_group)
+df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
+  df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
+    df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
+      df2[contd[i]] > Q3[2],4, NA)
+    )
+  )
+)
+sum(is.na(df2[,explanatory[i]]))
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
-table(df3$exposure_period_group)
-df3$exposure_period_group=""
-df3=df3%>%mutate(exposure_period_group=
-                   case_when(
-                     exposure_period <= Q1[3] ~ "1",
-                     exposure_period > Q1[3] & exposure_period <= Q2[3] ~ "2",
-                     exposure_period > Q2[3] & exposure_period <= Q3[3] ~ "3",
-                     exposure_period > Q3[3] ~ "4"
-                   ))
-table(df3$exposure_period_group)
+df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
+  df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
+    df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
+      df3[contd[i]] > Q3[3],4, NA)
+    )
+  )
+)
+sum(is.na(df3[,explanatory[i]]))
 
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
-table(df4$exposure_period_group)
-df4$exposure_period_group=""
-df4=df1%>%mutate(exposure_period_group=
-                   case_when(
-                     exposure_period <= Q1[4] ~ "1",
-                     exposure_period > Q1[4] & exposure_period <= Q2[4] ~ "2",
-                     exposure_period > Q2[4] & exposure_period <= Q3[4] ~ "3",
-                     exposure_period > Q3[4] ~ "4"
-                   ))
-table(df4$exposure_period_group)
+df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
+  df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
+    df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
+      df4[contd[i]] > Q3[4],4, NA)
+    )
+  )
+)
+sum(is.na(df4[,explanatory[i]]))
 
 df=rbind(df1,df2,df3,df4)
 
@@ -137,22 +130,22 @@ df=rbind(df1,df2,df3,df4)
 ```{r }
 df=df%>%mutate(ab_Level_type= 
                  case_when(
-                           total_ab_group=="1" & exposure_period_group==1 ~ "1",
-                           total_ab_group=="1" & exposure_period_group==2 ~ "2",
-                           total_ab_group=="1" & exposure_period_group==3 ~ "3",
-                           total_ab_group=="1" & exposure_period_group==4 ~ "4",
-                           total_ab_group=="2" & exposure_period_group==1 ~ "5",
-                           total_ab_group=="2" & exposure_period_group==2 ~ "6",
-                           total_ab_group=="2" & exposure_period_group==3 ~ "7",
-                           total_ab_group=="2" & exposure_period_group==4 ~ "8",
-                           total_ab_group=="3" & exposure_period_group==1 ~ "9",
-                           total_ab_group=="3" & exposure_period_group==2 ~ "10",
-                           total_ab_group=="3" & exposure_period_group==3 ~ "11",
-                           total_ab_group=="3" & exposure_period_group==4 ~ "12",
-                           total_ab_group=="4" & exposure_period_group==1 ~ "13",
-                           total_ab_group=="4" & exposure_period_group==2 ~ "14",
-                           total_ab_group=="4" & exposure_period_group==3 ~ "15",
-                           total_ab_group=="4" & exposure_period_group==4 ~ "16"
+                           total_ab_group=="1" & exposure_period_group==1 ~ 1,
+                           total_ab_group=="1" & exposure_period_group==2 ~ 2,
+                           total_ab_group=="1" & exposure_period_group==3 ~ 3,
+                           total_ab_group=="1" & exposure_period_group==4 ~ 4,
+                           total_ab_group=="2" & exposure_period_group==1 ~ 5,
+                           total_ab_group=="2" & exposure_period_group==2 ~ 6,
+                           total_ab_group=="2" & exposure_period_group==3 ~ 7,
+                           total_ab_group=="2" & exposure_period_group==4 ~ 8,
+                           total_ab_group=="3" & exposure_period_group==1 ~ 9,
+                           total_ab_group=="3" & exposure_period_group==2 ~ 10,
+                           total_ab_group=="3" & exposure_period_group==3 ~ 11,
+                           total_ab_group=="3" & exposure_period_group==4 ~ 12,
+                           total_ab_group=="4" & exposure_period_group==1 ~ 13,
+                           total_ab_group=="4" & exposure_period_group==2 ~ 14,
+                           total_ab_group=="4" & exposure_period_group==3 ~ 15,
+                           total_ab_group=="4" & exposure_period_group==4 ~ 16
 
 
                           ))
@@ -160,12 +153,9 @@ df=df%>%mutate(ab_Level_type=
 
 ```{r }
 # median of each group
-
-Q2=tapply(df[,"exposure_period"],df[,"ab_Level_type"],quantile,p=0.5)
+Q2=tapply(df[,"exposure_period"],df[,"ab_Level_type"],quantile,p=0.5 )
 Q2
 
-# sort vector 
-Q2=c(Q2[1],Q2[8],Q2[9],Q2[10],Q2[11],Q2[12],Q2[13],Q2[14],Q2[15],Q2[16],Q2[2],Q2[3],Q2[4],Q2[5],Q2[6],Q2[7])
 ```
 
 
@@ -181,7 +171,7 @@ sum.mod=summary(mod)
 ```
 
 
-```{r include=FALSE}
+```{r }
 result=data.frame(sum.mod$conf.int)
 DF=result[1:15,-2]
 ```
