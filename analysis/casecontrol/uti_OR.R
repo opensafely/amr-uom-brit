@@ -13,9 +13,6 @@ main <- function(condition) {
   # Read the dataset
   df <- readRDS(here::here("output", "processed", paste0("model_", condition, "_ab.rds")))
 
-  # Define the antibiotics
-  antibiotics <- c("Nitrofurantoin", "Trimethoprim", "Amoxicillin", "Cefalexin")
-
   for (antibiotic in antibiotics) {
     # Preprocess the dataset
     df$case=as.numeric(df$case) #1/0
@@ -33,9 +30,6 @@ main <- function(condition) {
                                                       ab_history > 1 & ab_history <3 ~ "2-3",
                                                       ab_history >= 3 ~ "3+"))
 
-    # Replace 'ab_treatment' with a logical representation of current antibiotic
-    df$ab_treatment = ifelse(df[,antibiotic] > 0, TRUE, FALSE)
-    df$ab_treatment = as.logical(df$ab_treatment)  # Ensure it's a logical variable
 
     # Initialize an empty list
     dfs <- list()
@@ -44,22 +38,22 @@ main <- function(condition) {
   for (i in 1:6) {
       
     if(i==1){
-      mod=clogit(case ~ ab_treatment + strata(set_id), df)
+      mod=clogit(case ~ Nitrofurantoin + strata(set_id), df)
     }
     else if(i==2){
-      mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df)
+      mod=clogit(case ~ covid*Nitrofurantoin + Nitrofurantoin + covid + strata(set_id), df)
     }
     else if(i==3){
-      mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df)
+      mod=clogit(case ~ Nitrofurantoin + ckd_rrt + strata(set_id), df)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + ckd_rrt+ strata(set_id), df)
+      mod=clogit(case ~ ckd_rrt*Nitrofurantoin + Nitrofurantoin + ckd_rrt+ strata(set_id), df)
     }
     else if(i==5){
-      mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
+      mod=clogit(case ~ Nitrofurantoin + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
-      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count + strata(set_id), df)
+      mod=clogit(case ~ ab_history_count*Nitrofurantoin + Nitrofurantoin + ab_history_count + strata(set_id), df)
     }
     
     sum.mod=summary(mod)
@@ -91,7 +85,7 @@ main <- function(condition) {
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
  # Write the combined data frame to a CSV file
-    write_csv(combined_df, here::here("output", paste0(condition, "_", antibiotic, "_OR.csv")))
+    write_csv(combined_df, here::here("output", paste0(condition, "_OR.csv")))
   }
 }
 
