@@ -161,7 +161,7 @@ Q2
 
 
 
-```{r include=FALSE}
+```{r }
 ## model summary
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
@@ -482,6 +482,7 @@ DF
 
 
 ```{r }
+```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -500,8 +501,22 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="gre
   annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
   annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(size=3, aes(y = 1:15, x = 0.7, 
-               label = c("1"="Level2 (155)","2"="Level3 (344)","3"="Level4 (678)","4"="Level1 (65)","5"="Level2 (155)","6"="Level3 (344)","7"="Level4 (678)","8"="Level1 (65)","9"="Level2 (155)","10"="Level3 (344)","11"="Level4 (678)","12"="Level1 (65)","13"="Level2 (155)","14"="Level3 (344)","15"="Level4 (678)")),
+   geom_text( size=3,aes(y = 1:15, x = 0.7,
+               label = c("1"=paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level3 (",Q2[3],")"),
+                        "3"= paste0("Level4 (",Q2[4],")"),
+                        "4"= paste0("Level1 (",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level4 (",Q2[8],")"),
+                        "8"= paste0("Level1 (",Q2[9],")"),
+                        "9"= paste0("Level2 (",Q2[10],")"),
+                        "10"= paste0("Level3 (",Q2[11],")"),
+                        "11"= paste0("Level4 (",Q2[12],")"),
+                        "12"= paste0("Level1 (",Q2[13],")"),
+                        "13"= paste0("Level2 (",Q2[14],")"),
+                        "14"= paste0("Level3 (",Q2[15],")"),
+                        "15"= paste0("Level4 (",Q2[16],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -524,9 +539,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Recent Antibiotics levels",
+    title = "Total antibiotics*Exposure period levels",
     x="",
-    y=""
+    y="",
+    caption = paste0("Reference group: Total antibiotics(very low) * Recent antibiotics level1(median=",Q2[1],")")
   )
 p
 ```
@@ -693,19 +709,10 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 DF
 ```
 
-remove subgroup n<100
-```{r eval=FALSE, include=FALSE}
-DF[15,]<-"" # <100
-DF
-```
-
-
 
 ```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
-#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
-#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
 geom_point(color="black")+
@@ -715,13 +722,27 @@ theme_classic()+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-    annotate("text", x = 0.1, y =2, label = "very low",size=3)+
-    annotate("text", x = 0.1, y =5.5, label = "low",size=3)+
-  annotate("text", x = 0.1, y =9.5, label = "high",size=3)+
-  annotate("text", x = 0.1, y =13.5, label = "very high",size=3)+
+  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(size=3,aes(y = 1:15, x = 0.7, 
-               label = c("1"="Level2 (93)","2"="Level3 (171)","3"="Level4 (363)","4"="Level1 (30)","5"="Level2 (93)","6"="Level3 (171)","7"="Level4 (363)","8"="Level1 (30)","9"="Level2 (93)","10"="Level3 (171)","11"="Level4 (363)","12"="Level1 (30)","13"="Level2 (93)","14"="Level3 (171)","15"="Level4 (363)*")),
+   geom_text( size=3,aes(y = 1:15, x = 0.7,
+               label = c("1"=paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level3 (",Q2[3],")"),
+                        "3"= paste0("Level4 (",Q2[4],")"),
+                        "4"= paste0("Level1 (",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level4 (",Q2[8],")"),
+                        "8"= paste0("Level1 (",Q2[9],")"),
+                        "9"= paste0("Level2 (",Q2[10],")"),
+                        "10"= paste0("Level3 (",Q2[11],")"),
+                        "11"= paste0("Level4 (",Q2[12],")"),
+                        "12"= paste0("Level1 (",Q2[13],")"),
+                        "13"= paste0("Level2 (",Q2[14],")"),
+                        "14"= paste0("Level3 (",Q2[15],")"),
+                        "15"= paste0("Level4 (",Q2[16],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -744,9 +765,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Prescribing intervals(mean) levels",
+    title = "Total antibiotics*Exposure period levels",
     x="",
-    y=""
+    y="",
+    caption = paste0("Reference group: Total antibiotics(very low) * Prescribing intervals average level1(median=",Q2[1],")")
   )
 p
 ```
@@ -854,7 +876,8 @@ Q2
 
 ```
 
-```{r eval=FALSE, include=FALSE}
+
+```{r }
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -862,35 +885,38 @@ sum.mod=summary(mod)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 result=data.frame(sum.mod$conf.int)
-DF=result[1:12,-2]
+DF=result[1:15,-2]
 ```
 
 
-```{r eval=FALSE, include=FALSE}
-
+```{r }
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
-DF[1,1]="5"
-DF[2,1]="6"
-DF[3,1]="7"
-DF[4,1]="8"
-DF[5,1]="9"
-DF[6,1]="10"
-DF[7,1]="11"
-DF[8,1]="12"
-DF[9,1]="13"
-DF[10,1]="14"
-DF[11,1]="15"
-DF[12,1]="16"
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+DF[13,1]="13"
+DF[14,1]="14"
+DF[15,1]="15"
+#DF[16,1]="16"
 
 
- Index = rep(1:12) ## This provides an order to the data
-  label = as.factor(rep(1:12))
+ Index = rep(1:15) ## This provides an order to the data
+  label = as.factor(rep(1:15))
 
 
 names(DF)[2]="OR"
@@ -905,37 +931,40 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 DF
 ```
 
-remove subgroup n<100
-```{r eval=FALSE, include=FALSE}
-DF[5,]="" #pt<100
-DF[9,]=""  # pt<100
 
-DF
-```
-
-
-
-```{r eval=FALSE, include=FALSE}
+```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
-#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
-#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
 geom_point(color="black")+
 #thematic stuff
 theme_classic()+ 
 
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 4.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 8.5, ymax = 12.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-    #annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.1, y =2.5, label = "low",size=3)+
-  annotate("text", x = 0.1, y =6.5, label = "high",size=3)+
-  annotate("text", x = 0.1, y =10.5, label = "very high",size=3)+
+  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(size=3,aes(y = 1:12, x = 0.7, 
-               label = c("5"="Level1 (0)","6"="Level2 (37)","7"="Level3 (103)","8"="Level4 (226)","9"="Level1 (0)*","10"="Level2 (37)","11"="Level3 (103)","12"="Level4 (226)","13"="Level1 (0)*","14"="Level2 (37)","15"="Level3 (103)","16"="Level4 (226)")),
+   geom_text( size=3,aes(y = 1:15, x = 0.7,
+               label = c("1"=paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level3 (",Q2[3],")"),
+                        "3"= paste0("Level4 (",Q2[4],")"),
+                        "4"= paste0("Level1 (",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level4 (",Q2[8],")"),
+                        "8"= paste0("Level1 (",Q2[9],")"),
+                        "9"= paste0("Level2 (",Q2[10],")"),
+                        "10"= paste0("Level3 (",Q2[11],")"),
+                        "11"= paste0("Level4 (",Q2[12],")"),
+                        "12"= paste0("Level1 (",Q2[13],")"),
+                        "13"= paste0("Level2 (",Q2[14],")"),
+                        "14"= paste0("Level3 (",Q2[15],")"),
+                        "15"= paste0("Level4 (",Q2[16],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -958,9 +987,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Prescribing intervals(SD) levels",
+    title = "Total antibiotics*Exposure period levels",
     x="",
-    y=""
+    y="",
+    caption = paste0("Reference group: Total antibiotics(very low) * Prescribing intervals deviation level1(median=",Q2[1],")")
   )
 p
 ```
@@ -1071,7 +1101,8 @@ Q2
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+
+```{r }
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -1079,33 +1110,38 @@ sum.mod=summary(mod)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r }
 result=data.frame(sum.mod$conf.int)
-DF=result[1:9,-2]
+DF=result[1:15,-2]
 ```
 
 
-```{r eval=FALSE, include=FALSE}
-
+```{r }
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
 
 DF=DF%>%arrange(AB_exposure)
-DF[1,1]="5"
-DF[2,1]="7"
-DF[3,1]="8"
-DF[4,1]="9"
-DF[5,1]="11"
-DF[6,1]="12"
-DF[7,1]="13"
-DF[8,1]="15"
-DF[9,1]="16"
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+DF[13,1]="13"
+DF[14,1]="14"
+DF[15,1]="15"
+#DF[16,1]="16"
 
 
-
- Index = rep(1:9) ## This provides an order to the data
-  label = as.factor(rep(1:9))
+ Index = rep(1:15) ## This provides an order to the data
+  label = as.factor(rep(1:15))
 
 
 names(DF)[2]="OR"
@@ -1121,12 +1157,9 @@ DF
 ```
 
 
-
-```{r eval=FALSE, include=FALSE}
+```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
-#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
-#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
 
 #this adds the effect sizes to the plot
 geom_point(color="black")+
@@ -1134,15 +1167,29 @@ geom_point(color="black")+
 theme_classic()+ 
 
 annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 6.5, ymax =Inf,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
- #   annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.1, y =2, label = "low",size=3)+
-  annotate("text", x = 0.1, y =5, label = "high",size=3)+
-  annotate("text", x = 0.1, y =8, label = "very high",size=3)+
+  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
 
-   geom_text(size=3,aes(y = 1:9, x = 0.7, 
-               label = c("5"="Level1 (2)","7"="Level2 (3)","8"="Level3 (4)","9"="Level1 (2)","11"="Level2 (3)","12"="Level3 (4)","13"="Level1 (2)","15"="Level2 (3)","16"="Level3 (4)")),
+   geom_text( size=3,aes(y = 1:15, x = 0.7,
+               label = c("1"=paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level3 (",Q2[3],")"),
+                        "3"= paste0("Level4 (",Q2[4],")"),
+                        "4"= paste0("Level1 (",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level4 (",Q2[8],")"),
+                        "8"= paste0("Level1 (",Q2[9],")"),
+                        "9"= paste0("Level2 (",Q2[10],")"),
+                        "10"= paste0("Level3 (",Q2[11],")"),
+                        "11"= paste0("Level4 (",Q2[12],")"),
+                        "12"= paste0("Level1 (",Q2[13],")"),
+                        "13"= paste0("Level2 (",Q2[14],")"),
+                        "14"= paste0("Level3 (",Q2[15],")"),
+                        "15"= paste0("Level4 (",Q2[16],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
@@ -1165,215 +1212,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total Antibiotics*Antibiotic types levels",
+    title = "Total antibiotics*Exposure period levels",
     x="",
-    y=""
-  )
-p
-```
-
-
-
-
-
-
-# Broad AB
-
-
-## create quartiles by total_ab_group
-```{r }
-i=6
-Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
-
-Q1
-Q2
-Q3
-
-# total ab level 1
-df1=df%>%filter(total_ab_group==1)
-df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
-  df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
-    df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
-      df1[contd[i]] > Q3[1],4, NA)
-    )
-  )
-)
-sum(is.na(df1[,explanatory[i]]))
-
-# total ab level 2
-df2=df%>%filter(total_ab_group==2)
-df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
-  df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
-    df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
-      df2[contd[i]] > Q3[2],4, NA)
-    )
-  )
-)
-sum(is.na(df2[,explanatory[i]]))
-
-# total ab level3
-df3=df%>%filter(total_ab_group==3)
-df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
-  df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
-    df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
-      df3[contd[i]] > Q3[3],4, NA)
-    )
-  )
-)
-sum(is.na(df3[,explanatory[i]]))
-
-
-# total ab level4
-df4=df%>%filter(total_ab_group==4)
-df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
-  df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
-    df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
-      df4[contd[i]] > Q3[4],4, NA)
-    )
-  )
-)
-sum(is.na(df4[,explanatory[i]]))
-
-df=rbind(df1,df2,df3,df4)
-
-```
-
-```{r eval=FALSE, include=FALSE}
-
-df=df%>%mutate(ab_Level_type= 
-                 case_when(
-                           total_ab_group=="1" & broad_ab_prescriptions_group==1 ~ 1,
-                           total_ab_group=="1" & broad_ab_prescriptions_group==2 ~ 2,
-                           total_ab_group=="1" & broad_ab_prescriptions_group==3 ~ 3,
-                           total_ab_group=="1" & broad_ab_prescriptions_group==4 ~ 4,
-                           total_ab_group=="2" & broad_ab_prescriptions_group==1 ~ 5,
-                           total_ab_group=="2" & broad_ab_prescriptions_group==2 ~ 6,
-                           total_ab_group=="2" & broad_ab_prescriptions_group==3 ~ 7,
-                           total_ab_group=="2" & broad_ab_prescriptions_group==4 ~ 8,
-                           total_ab_group=="3" & broad_ab_prescriptions_group==1 ~ 9,
-                           total_ab_group=="3" & broad_ab_prescriptions_group==2 ~ 10,
-                           total_ab_group=="3" & broad_ab_prescriptions_group==3 ~ 11,
-                           total_ab_group=="3" & broad_ab_prescriptions_group==4 ~ 12,
-                           total_ab_group=="4" & broad_ab_prescriptions_group==1 ~ 13,
-                           total_ab_group=="4" & broad_ab_prescriptions_group==2 ~ 14,
-                           total_ab_group=="4" & broad_ab_prescriptions_group==3 ~ 15,
-                           total_ab_group=="4" & broad_ab_prescriptions_group==4 ~ 16
-
-
-                          ))
-
-
-#table(df$level,df$ab_types)
-```
-
-```{r }
-# median of each group
-
-Q2=tapply(df[,"broad_ab_prescriptions"],df[,"ab_Level_type"],quantile,p=0.5)
-Q2
-
-```
-
-```{r eval=FALSE, include=FALSE}
-df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
-mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
-sum.mod=summary(mod)
-#vif(mod)
-
-```
-
-
-```{r eval=FALSE, include=FALSE}
-result=data.frame(sum.mod$conf.int)
-DF=result[1:9,-2]
-```
-
-
-```{r eval=FALSE, include=FALSE}
-
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
-
-DF=DF%>%arrange(AB_exposure)
-DF[1,1]="5"
-DF[2,1]="7"
-DF[3,1]="8"
-DF[4,1]="9"
-DF[5,1]="11"
-DF[6,1]="12"
-DF[7,1]="13"
-DF[8,1]="15"
-DF[9,1]="16"
-
-
-
- Index = rep(1:9) ## This provides an order to the data
-  label = as.factor(rep(1:9))
-
-
-names(DF)[2]="OR"
-names(DF)[3]="CI_L"
-names(DF)[4]="CI_U"
-
-DF$CI_L=round(DF$CI_L,digits = 2)
-DF$CI_U=round(DF$CI_U, digits = 2)
-
-DF$CI=paste0(DF$CI_L,",",DF$CI_U)
-
-DF
-```
-
-
-
-```{r eval=FALSE, include=FALSE}
-p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-xlim(c(0,2.5))+
-#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
-#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
-
-#this adds the effect sizes to the plot
-geom_point(color="black")+
-#thematic stuff
-theme_classic()+ 
-
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 6.5, ymax =Inf,fill="grey80", alpha=0.5)+
-
- #   annotate("text", x = 0.6, y =2, label = "very low")+
-    annotate("text", x = 0.1, y =2, label = "low",size=3)+
-  annotate("text", x = 0.1, y =5, label = "high",size=3)+
-  annotate("text", x = 0.1, y =8, label = "very high",size=3)+
-
-   geom_text(size=3,aes(y = 1:9, x = 0.7, 
-               label = c("5"="Level1 (0)","7"="Level2 (1)","8"="Level3 (3)","9"="Level1 (0)","11"="Level2 (1)","12"="Level3 (3)","13"="Level1 (0)","15"="Level2 (1)","16"="Level3 (3)")),
-           hjust = "right",
-           nudge_y = -.1)+
-
-
-#adds the CIs
-geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black")+
-
-
-theme(text=element_text(size=10, color="black"),
-      plot.title=element_text(size=10, vjust = 0.5),
-      panel.spacing = unit(1, "lines"))+
-  #    plot.title.position = "plot")+
-  theme(axis.text.y = element_blank(),
-        axis.line.y = element_blank(),
-        axis.ticks.y = element_blank()) +   
-  
-    theme(axis.ticks.x = element_blank()) +  
-
-labs(
-    title = "Total Antibiotics*Broad-spectrum antibiotics levels",
-    x="",
-    y=""
+    y="",
+    caption = paste0("Reference group: Total antibiotics(very low) * Broad-spectrum antibiotics level1(median=",Q2[1],")")
   )
 p
 ```
