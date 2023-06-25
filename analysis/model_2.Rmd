@@ -9,12 +9,12 @@ output:
      smooth_scorll: false
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-```{r packages, include=FALSE}
+```{r packages}
 library('tidyverse')
 library("gtsummary")
 library("ggplot2")
@@ -26,7 +26,7 @@ library(gridExtra)
 ```
 
 
-```{r include=FALSE}
+```{r }
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
@@ -34,7 +34,7 @@ df <- read_rds(here::here("output","all_ranger.rds"))
 
 ```
 
-```{r include=FALSE}
+```{r }
 # outcome
 df$case=as.numeric(df$case) #1/0
 
@@ -72,11 +72,15 @@ Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
 
-Q1
+Q1#total ab_1; total_ab 2; total ab 3; total ab 4
 Q2
 Q3
+```
 
+
+```{r }
 # total ab level 1
+
 df1=df%>%filter(total_ab_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
@@ -85,7 +89,6 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
     )
   )
 )
-sum(is.na(df1[,explanatory[i]]))
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
@@ -96,7 +99,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
-sum(is.na(df2[,explanatory[i]]))
+ 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -150,6 +153,8 @@ df=df%>%mutate(ab_Level_type=
 
 
                           ))
+
+table(df$ab_Level_type)
 ```
 
 ```{r }
@@ -357,7 +362,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
-sum(is.na(df2[,explanatory[i]]))
+ 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -413,7 +418,7 @@ df=df%>%mutate(ab_Level_type=
                           ))
 
 
-#table(df$level,df$ab_types)
+table(df$ab_Level_type)
 ```
 
 ```{r }
@@ -590,7 +595,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
-sum(is.na(df2[,explanatory[i]]))
+ 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -644,7 +649,7 @@ df=df%>%mutate(ab_Level_type=
                           ))
 
 
-#table(df$level,df$ab_types)
+table(df$ab_Level_type)
 ```
 
 ```{r }
@@ -811,7 +816,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
-sum(is.na(df2[,explanatory[i]]))
+ 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -865,7 +870,7 @@ df=df%>%mutate(ab_Level_type=
                           ))
 
 
-#table(df$level,df$ab_types)
+table(df$ab_Level_type)
 ```
 
 ```{r }
@@ -1034,7 +1039,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
-sum(is.na(df2[,explanatory[i]]))
+ 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -1089,7 +1094,7 @@ df=df%>%mutate(ab_Level_type=
                           ))
 
 
-#table(df$level,df$ab_types)
+table(df$ab_Level_type)
 ```
 
 ```{r }
@@ -1258,7 +1263,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
-sum(is.na(df2[,explanatory[i]]))
+ 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -1313,7 +1318,7 @@ df=df%>%mutate(ab_Level_type=
                           ))
 
 
-#table(df$level,df$ab_types)
+table(df$ab_Level_type)
 ```
 
 ```{r }
