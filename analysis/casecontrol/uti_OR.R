@@ -9,53 +9,53 @@ library(data.table)
 library(gridExtra)
 library(here)
 
-main <- function(condition) {
+main <- function(condition, medication) {
   # Read the dataset
   df <- readRDS(here::here("output", "processed", paste0("model_", condition, "_ab.rds")))
 
-    # Preprocess the dataset
-    df$case=as.numeric(df$case) #1/0
-    df$set_id=as.factor(df$set_id) #pair id
-    df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
-    df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
+  # Preprocess the dataset
+  df$case=as.numeric(df$case) #1/0
+  df$set_id=as.factor(df$set_id) #pair id
+  df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
+  df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
-    df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
-                                          patient_index_date >=as.Date("2020-03-26") & patient_index_date < as.Date("2021-03-08") ~ "2",
-                                          patient_index_date >= as.Date("2021-03-08") ~ "3"))
-    df$covid=relevel(as.factor(df$covid), ref="1")
+  df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
+                                        patient_index_date >=as.Date("2020-03-26") & patient_index_date < as.Date("2021-03-08") ~ "2",
+                                        patient_index_date >= as.Date("2021-03-08") ~ "3"))
+  df$covid=relevel(as.factor(df$covid), ref="1")
 
-    df <- df %>% mutate(ab_history_count = case_when(ab_history == 0 ~ "0",
-                                                      ab_history == 1 ~ "1",
-                                                      ab_history > 1 & ab_history <3 ~ "2-3",
-                                                      ab_history >= 3 ~ "3+"))
+  df <- df %>% mutate(ab_history_count = case_when(ab_history == 0 ~ "0",
+                                                    ab_history == 1 ~ "1",
+                                                    ab_history > 1 & ab_history <3 ~ "2-3",
+                                                    ab_history >= 3 ~ "3+"))
 
 
-    df <- df %>% mutate(Nitrofurantoin = case_when(Rx_Nitrofurantoin == 0 ~ FALSE,
-                                                    Rx_Nitrofurantoin > 0 ~ TRUE))
+  df <- df %>% mutate(medication = case_when(df[[paste0("Rx_", medication)]] == 0 ~ FALSE,
+                                              df[[paste0("Rx_", medication)]] > 0 ~ TRUE))
 
-    # Initialize an empty list
-    dfs <- list()
+  # Initialize an empty list
+  dfs <- list()
 
 
   for (i in 1:6) {
-      
+    
     if(i==1){
-      mod=clogit(case ~ Nitrofurantoin + strata(set_id), df)
+      mod=clogit(case ~ medication + strata(set_id), df)
     }
     else if(i==2){
-      mod=clogit(case ~ covid*Nitrofurantoin + Nitrofurantoin + covid + strata(set_id), df)
+      mod=clogit(case ~ covid*medication + medication + covid + strata(set_id), df)
     }
     else if(i==3){
-      mod=clogit(case ~ Nitrofurantoin + ckd_rrt + strata(set_id), df)
+      mod=clogit(case ~ medication + ckd_rrt + strata(set_id), df)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*Nitrofurantoin + Nitrofurantoin + ckd_rrt+ strata(set_id), df)
+      mod=clogit(case ~ ckd_rrt*medication + medication + ckd_rrt+ strata(set_id), df)
     }
     else if(i==5){
-      mod=clogit(case ~ Nitrofurantoin + charlsonGrp + strata(set_id), df)
+      mod=clogit(case ~ medication + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
-      mod=clogit(case ~ ab_history_count*Nitrofurantoin + Nitrofurantoin + ab_history_count + strata(set_id), df)
+      mod=clogit(case ~ ab_history_count*medication + medication + ab_history_count + strata(set_id), df)
     }
     
     sum.mod=summary(mod)
@@ -86,11 +86,14 @@ main <- function(condition) {
                                                combined_df$OR, combined_df$CI_L, combined_df$CI_U))
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
- # Write the combined data frame to a CSV file
-    write_csv(combined_df, here::here("output", paste0(condition, "_OR.csv")))
-  }
+  # Write the combined data frame to a CSV file
+  write_csv(combined_df, here::here("output", paste0(condition, "_", medication, "_OR.csv")))
+}
 
 
 # Call the main function for each condition
-main("uti")
+medications <- c("Nitrofurantoin", "Trimethoprim", "Amoxicillin", "Cefalexin")
 
+for(medication in medications) {
+  main("uti", medication)
+}
