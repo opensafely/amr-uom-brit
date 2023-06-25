@@ -539,7 +539,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period levels",
+    title = "Total antibiotics*Recent antibiotics levels",
     x="",
     y="",
     caption = paste0("Reference group: Total antibiotics(very low) * Recent antibiotics level1(median=",Q2[1],")")
@@ -651,7 +651,7 @@ df=df%>%mutate(ab_Level_type=
 # median of each group
 
 Q2=tapply(df[,"interval_mean"],df[,"ab_Level_type"],quantile,p=0.5)
-Q2
+Q2=round(Q2,digits = 1)
 
 ```
 
@@ -765,7 +765,7 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period levels",
+    title = "Total antibiotics*Prescribing intervals average",
     x="",
     y="",
     caption = paste0("Reference group: Total antibiotics(very low) * Prescribing intervals average level1(median=",Q2[1],")")
@@ -872,7 +872,7 @@ df=df%>%mutate(ab_Level_type=
 # median of each group
 
 Q2=tapply(df[,"interval_sd"],df[,"ab_Level_type"],quantile,p=0.5)
-Q2
+Q2=round(Q2)
 
 ```
 
@@ -987,10 +987,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period levels",
+    title = "Total antibiotics*Prescribing intervals deviation",
     x="",
     y="",
-    caption = paste0("Reference group: Total antibiotics(very low) * Prescribing intervals deviation level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Total antibiotics(very low)*Prescribing intervals deviation level1(median=",Q2[1],")")
   )
 p
 ```
@@ -1212,10 +1212,234 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Total antibiotics*Exposure period levels",
+    title = "Total antibiotics*Antibiotic types levels",
     x="",
     y="",
-    caption = paste0("Reference group: Total antibiotics(very low) * Broad-spectrum antibiotics level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Total antibiotics(very low)*Antibiotic types level1(median=",Q2[1],")")
+  )
+p
+```
+
+
+
+
+
+
+# Broad AB
+
+## create quartiles by total_ab_group
+```{r }
+i=6
+Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
+
+Q1
+Q2
+Q3
+
+# total ab level 1
+df1=df%>%filter(total_ab_group==1)
+df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
+  df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
+    df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
+      df1[contd[i]] > Q3[1],4, NA)
+    )
+  )
+)
+sum(is.na(df1[,explanatory[i]]))
+
+# total ab level 2
+df2=df%>%filter(total_ab_group==2)
+df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
+  df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
+    df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
+      df2[contd[i]] > Q3[2],4, NA)
+    )
+  )
+)
+sum(is.na(df2[,explanatory[i]]))
+
+# total ab level3
+df3=df%>%filter(total_ab_group==3)
+df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
+  df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
+    df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
+      df3[contd[i]] > Q3[3],4, NA)
+    )
+  )
+)
+sum(is.na(df3[,explanatory[i]]))
+
+
+# total ab level4
+df4=df%>%filter(total_ab_group==4)
+df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
+  df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
+    df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
+      df4[contd[i]] > Q3[4],4, NA)
+    )
+  )
+)
+sum(is.na(df4[,explanatory[i]]))
+
+df=rbind(df1,df2,df3,df4)
+
+```
+
+
+```{r }
+
+df=df%>%mutate(ab_Level_type= 
+                 case_when(
+                           total_ab_group=="1" & broad_ab_prescriptions_group==1 ~ 1,
+                           total_ab_group=="1" & broad_ab_prescriptions_group==2 ~ 2,
+                           total_ab_group=="1" & broad_ab_prescriptions_group==3 ~ 3,
+                           total_ab_group=="1" & broad_ab_prescriptions_group==4 ~ 4,
+                           total_ab_group=="2" & broad_ab_prescriptions_group==1 ~ 5,
+                           total_ab_group=="2" & broad_ab_prescriptions_group==2 ~ 6,
+                           total_ab_group=="2" & broad_ab_prescriptions_group==3 ~ 7,
+                           total_ab_group=="2" & broad_ab_prescriptions_group==4 ~ 8,
+                           total_ab_group=="3" & broad_ab_prescriptions_group==1 ~ 9,
+                           total_ab_group=="3" & broad_ab_prescriptions_group==2 ~ 10,
+                           total_ab_group=="3" & broad_ab_prescriptions_group==3 ~ 11,
+                           total_ab_group=="3" & broad_ab_prescriptions_group==4 ~ 12,
+                           total_ab_group=="4" & broad_ab_prescriptions_group==1 ~ 13,
+                           total_ab_group=="4" & broad_ab_prescriptions_group==2 ~ 14,
+                           total_ab_group=="4" & broad_ab_prescriptions_group==3 ~ 15,
+                           total_ab_group=="4" & broad_ab_prescriptions_group==4 ~ 16
+
+
+                          ))
+
+
+#table(df$level,df$ab_types)
+```
+
+```{r }
+# median of each group
+
+Q2=tapply(df[,"broad_ab_prescriptions"],df[,"ab_Level_type"],quantile,p=0.5)
+Q2
+
+```
+
+
+
+```{r }
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+sum.mod=summary(mod)
+
+```
+
+
+```{r }
+result=data.frame(sum.mod$conf.int)
+DF=result[1:15,-2]
+```
+
+
+```{r }
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+DF[13,1]="13"
+DF[14,1]="14"
+DF[15,1]="15"
+#DF[16,1]="16"
+
+
+ Index = rep(1:15) ## This provides an order to the data
+  label = as.factor(rep(1:15))
+
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+```{r }
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+xlim(c(0,2.5))+
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+#thematic stuff
+theme_classic()+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+
+  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
+
+   geom_text( size=3,aes(y = 1:15, x = 0.7,
+               label = c("1"=paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level3 (",Q2[3],")"),
+                        "3"= paste0("Level4 (",Q2[4],")"),
+                        "4"= paste0("Level1 (",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level4 (",Q2[8],")"),
+                        "8"= paste0("Level1 (",Q2[9],")"),
+                        "9"= paste0("Level2 (",Q2[10],")"),
+                        "10"= paste0("Level3 (",Q2[11],")"),
+                        "11"= paste0("Level4 (",Q2[12],")"),
+                        "12"= paste0("Level1 (",Q2[13],")"),
+                        "13"= paste0("Level2 (",Q2[14],")"),
+                        "14"= paste0("Level3 (",Q2[15],")"),
+                        "15"= paste0("Level4 (",Q2[16],")"))),
+           hjust = "right",
+           nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Total antibiotics*Broad-spectrum antibiotics levels",
+    x="",
+    y="",
+    caption = paste0("Reference group: Total antibiotics(very low)*Boad-spectrum antibiotics level1(median=",Q2[1],")")
   )
 p
 ```
