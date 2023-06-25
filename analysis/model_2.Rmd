@@ -93,10 +93,10 @@ table(df2$exposure_period_group)
 df2$exposure_period_group=""
 df2=df2%>%mutate(exposure_period_group=
                    case_when(
-                     exposure_period <= Q1[1] ~ "1",
-                     exposure_period > Q1[1] & exposure_period <= Q2[1] ~ "2",
-                     exposure_period > Q2[1] & exposure_period <= Q3[1] ~ "3",
-                     exposure_period > Q3[1] ~ "4"
+                     exposure_period <= Q1[2] ~ "1",
+                     exposure_period > Q1[2] & exposure_period <= Q2[2] ~ "2",
+                     exposure_period > Q2[2] & exposure_period <= Q3[2] ~ "3",
+                     exposure_period > Q3[2] ~ "4"
                    ))
 table(df2$exposure_period_group)
 
@@ -106,10 +106,10 @@ table(df3$exposure_period_group)
 df3$exposure_period_group=""
 df3=df3%>%mutate(exposure_period_group=
                    case_when(
-                     exposure_period <= Q1[1] ~ "1",
-                     exposure_period > Q1[1] & exposure_period <= Q2[1] ~ "2",
-                     exposure_period > Q2[1] & exposure_period <= Q3[1] ~ "3",
-                     exposure_period > Q3[1] ~ "4"
+                     exposure_period <= Q1[3] ~ "1",
+                     exposure_period > Q1[3] & exposure_period <= Q2[3] ~ "2",
+                     exposure_period > Q2[3] & exposure_period <= Q3[3] ~ "3",
+                     exposure_period > Q3[3] ~ "4"
                    ))
 table(df3$exposure_period_group)
 
@@ -120,10 +120,10 @@ table(df4$exposure_period_group)
 df4$exposure_period_group=""
 df4=df1%>%mutate(exposure_period_group=
                    case_when(
-                     exposure_period <= Q1[1] ~ "1",
-                     exposure_period > Q1[1] & exposure_period <= Q2[1] ~ "2",
-                     exposure_period > Q2[1] & exposure_period <= Q3[1] ~ "3",
-                     exposure_period > Q3[1] ~ "4"
+                     exposure_period <= Q1[4] ~ "1",
+                     exposure_period > Q1[4] & exposure_period <= Q2[4] ~ "2",
+                     exposure_period > Q2[4] & exposure_period <= Q3[4] ~ "3",
+                     exposure_period > Q3[4] ~ "4"
                    ))
 table(df4$exposure_period_group)
 
