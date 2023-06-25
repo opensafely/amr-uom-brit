@@ -11,25 +11,35 @@ library(here)
 
 main <- function(condition) {
   # Read the dataset
-  df <- readRDS(here::here("output", "processed", paste0("model_", condition, ".rds")))
+  df <- readRDS(here::here("output", "processed", paste0("model_", condition, "_ab.rds")))
 
-  # Preprocess the dataset
-  df$case=as.numeric(df$case) #1/0
-  df$set_id=as.factor(df$set_id) #pair id
-  df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
-  df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
+  # Define the antibiotics
+  antibiotics <- c("Nitrofurantoin", "Trimethoprim", "Amoxicillin", "Cefalexin")
 
-  df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
-                                        patient_index_date >=as.Date("2020-03-26") & patient_index_date < as.Date("2021-03-08") ~ "2",
-                                        patient_index_date >= as.Date("2021-03-08") ~ "3"))
-  df$covid=relevel(as.factor(df$covid), ref="1")
+  for (antibiotic in antibiotics) {
+    # Preprocess the dataset
+    df$case=as.numeric(df$case) #1/0
+    df$set_id=as.factor(df$set_id) #pair id
+    df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
+    df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
-  df <- df %>% mutate(ab_history_count = case_when(ab_history == 0 ~ "0",
-                                                    ab_history == 1 ~ "1",
-                                                    ab_history > 1 & ab_history <3 ~ "2-3",
-                                                    ab_history >= 3 ~ "3+"))
-  # Initialize an empty list
-  dfs <- list()
+    df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
+                                          patient_index_date >=as.Date("2020-03-26") & patient_index_date < as.Date("2021-03-08") ~ "2",
+                                          patient_index_date >= as.Date("2021-03-08") ~ "3"))
+    df$covid=relevel(as.factor(df$covid), ref="1")
+
+    df <- df %>% mutate(ab_history_count = case_when(ab_history == 0 ~ "0",
+                                                      ab_history == 1 ~ "1",
+                                                      ab_history > 1 & ab_history <3 ~ "2-3",
+                                                      ab_history >= 3 ~ "3+"))
+
+    # Replace 'ab_treatment' with a logical representation of current antibiotic
+    df$ab_treatment = ifelse(df[,antibiotic] > 0, TRUE, FALSE)
+    df$ab_treatment = as.logical(df$ab_treatment)  # Ensure it's a logical variable
+
+    # Initialize an empty list
+    dfs <- list()
+
 
   for (i in 1:6) {
       
@@ -80,11 +90,12 @@ main <- function(condition) {
                                                combined_df$OR, combined_df$CI_L, combined_df$CI_U))
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
-  # Write the combined data frame to a CSV file
-  write_csv(combined_df, here::here("output", paste0(condition, "_model_result.csv")))
+ # Write the combined data frame to a CSV file
+    write_csv(combined_df, here::here("output", paste0(condition, "_", antibiotic, "_OR.csv")))
+  }
 }
+
 
 # Call the main function for each condition
 main("uti")
-main("urti")
-main("lrti")
+

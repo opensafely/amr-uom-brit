@@ -317,3 +317,10 @@ actions:
     outputs:
       highly_sensitive: 
         rds1: output/processed/model_*_ab.rds
+
+  uti_OR:
+    run: r:latest analysis/casecontrol/uti_OR.R
+    needs: [model_process_ab]
+    outputs:
+      moderately_sensitive: 
+        csv: output/uti_*_OR.csv
