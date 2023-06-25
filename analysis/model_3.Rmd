@@ -166,7 +166,7 @@ Q2
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 
 data=df%>%filter(total_ab_group==1)
-mod1=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), data)
+mod1=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
 sum.mod=summary(mod1)
 ```
 
@@ -174,7 +174,7 @@ sum.mod=summary(mod1)
 ```{r }
 data=df%>%filter(total_ab_group==2)
 
-mod2=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), data)
+mod2=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
 sum.mod=summary(mod2)
 ```
 
@@ -182,7 +182,7 @@ sum.mod=summary(mod2)
 ```{r }
 data=df%>%filter(total_ab_group==3)
 
-mod3=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), data)
+mod3=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
 sum.mod=summary(mod3)
 ```
 
@@ -190,7 +190,7 @@ sum.mod=summary(mod3)
 ```{r }
 data=df%>%filter(total_ab_group==4)
 
-mod4=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),data)
+mod4=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
 sum.mod=summary(mod4)
 ```
 
