@@ -208,7 +208,7 @@ DF
 ```
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -247,7 +247,7 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
 
 
-```{r }
+```{r eval=FALSE, include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
