@@ -13,7 +13,6 @@ main <- function(condition) {
   # Read the dataset
   df <- readRDS(here::here("output", "processed", paste0("model_", condition, "_ab.rds")))
 
-  for (antibiotic in antibiotics) {
     # Preprocess the dataset
     df$case=as.numeric(df$case) #1/0
     df$set_id=as.factor(df$set_id) #pair id
@@ -87,7 +86,6 @@ main <- function(condition) {
  # Write the combined data frame to a CSV file
     write_csv(combined_df, here::here("output", paste0(condition, "_OR.csv")))
   }
-}
 
 
 # Call the main function for each condition
