@@ -30,6 +30,9 @@ main <- function(condition) {
                                                       ab_history >= 3 ~ "3+"))
 
 
+    df <- df %>% mutate(Nitrofurantoin = case_when(Rx_Nitrofurantoin == 0 ~ FALSE,
+                                                    Rx_Nitrofurantoin > 0 ~ TRUE))
+
     # Initialize an empty list
     dfs <- list()
 
