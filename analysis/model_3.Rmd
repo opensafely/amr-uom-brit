@@ -36,7 +36,7 @@ df <- read_rds(here::here("output","all_ranger.rds"))
 
 ```{r include=FALSE}
 # outcome
-df$case=as.numeric(df$case) #1/0
+df$case=as.numeric(as.character(df$case))
 
 df$subclass=as.factor(df$subclass)#pair id
 
