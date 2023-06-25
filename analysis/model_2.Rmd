@@ -335,6 +335,38 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 # Recent antibiotics
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+df <- read_rds(here::here("output","all_ranger.rds"))
+
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$total_ab_group= relevel(as.factor(df$total_ab_group), ref="1")
+df$recent_ab_days_group= relevel(as.factor(df$recent_ab_days_group), ref="1")
+df$ab_types_group= relevel(as.factor(df$ab_types_group), ref="1")
+df$exposure_period_group= relevel(as.factor(df$exposure_period_group), ref="1")
+df$broad_ab_prescriptions_group= relevel(as.factor(df$broad_ab_prescriptions_group), ref="1")
+df$interval_mean_group= relevel(as.factor(df$interval_mean_group), ref="1")
+df$interval_sd_group= relevel(as.factor(df$interval_sd_group), ref="1")
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+```
 
 ## create quartiles by total_ab_group
 ```{r }
