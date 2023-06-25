@@ -167,7 +167,7 @@ df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 
 data=df%>%filter(total_ab_group==1)
 mod1=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
-sum.mod=summary(mod1)
+sum.mod1=summary(mod1)
 ```
 
 ### level2
@@ -175,7 +175,7 @@ sum.mod=summary(mod1)
 data=df%>%filter(total_ab_group==2)
 
 mod2=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
-sum.mod=summary(mod2)
+sum.mod2=summary(mod2)
 ```
 
 ### level3
@@ -183,7 +183,7 @@ sum.mod=summary(mod2)
 data=df%>%filter(total_ab_group==3)
 
 mod3=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
-sum.mod=summary(mod3)
+sum.mod3=summary(mod3)
 ```
 
 ### level4
@@ -191,7 +191,7 @@ sum.mod=summary(mod3)
 data=df%>%filter(total_ab_group==4)
 
 mod4=glm(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6,family="binomial", data)
-sum.mod=summary(mod4)
+sum.mod4=summary(mod4)
 ```
 
 ```{r }
