@@ -34,7 +34,7 @@ main <- function(condition, medication) {
   df <- merge(setiddt,df,by="set_id")
   df$set_id=as.factor(df$set_id) #pair id
    # Filter the dataframe by outcome_type
-  df <- df %>% filter(outcome_type == "disease")
+  df <- df %>% filter(outcome_type == "side effect")
   # Initialize an empty list
   dfs <- list()
 
@@ -47,7 +47,6 @@ main <- function(condition, medication) {
     else if(i==2){
       mod=clogit(case ~ medication + ckd_rrt + strata(set_id), df)
     }
-
     
     sum.mod=summary(mod)
     result=data.frame(sum.mod$conf.int)
@@ -78,13 +77,13 @@ main <- function(condition, medication) {
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
   # Write the combined data frame to a CSV file
-  write_csv(combined_df, here::here("output", paste0(condition, "_", medication, "_OR_disease.csv")))
+  write_csv(combined_df, here::here("output", paste0(condition, "_", medication, "_OR_sideeffect.csv")))
 }
 
 
 # Call the main function for each condition
-medications <- c("Nitrofurantoin", "Trimethoprim", "Amoxicillin", "Cefalexin")
+medications <- c("Amoxicillin", "Doxycycline", "Clarithromycin")
 
 for(medication in medications) {
-  main("uti", medication)
+  main("urti", medication)
 }

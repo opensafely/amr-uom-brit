@@ -83,8 +83,8 @@ main <- function(condition, medication) {
 
 
 # Call the main function for each condition
-medications <- c("Nitrofurantoin", "Trimethoprim", "Amoxicillin", "Cefalexin")
+medications <- c("Amoxicillin", "Doxycycline", "Clarithromycin")
 
 for(medication in medications) {
-  main("uti", medication)
+  main("urti", medication)
 }
