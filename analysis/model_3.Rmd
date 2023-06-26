@@ -200,14 +200,18 @@ sum.mod4
 
 ```{r }
 result1=data.frame(sum.mod1$coefficients[2:4])
+exp(result1)
 result2=data.frame(sum.mod2$coefficients[2:4])
+exp(result2)
 result3=data.frame(sum.mod3$coefficients[2:4])
+exp(result3)
 result4=data.frame(sum.mod4$coefficients[2:4])
+exp(result4)
 
-result=rbind(result1,result2,result3,result4)
-DF=exp(result)
+#result=rbind(result1,result2,result3,result4)
+#DF=exp(result)
 
-DF
+#DF
 
 ```
 
