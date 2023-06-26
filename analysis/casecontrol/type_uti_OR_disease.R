@@ -15,7 +15,6 @@ main <- function(condition, medication) {
   setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",condition,"_type.csv")))%>%select(set_id,outcome_type)
   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
-  df$set_id=as.factor(df$set_id) #pair id
   df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
   df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
@@ -32,6 +31,7 @@ main <- function(condition, medication) {
 
   df <- df %>% mutate(medication = case_when(df[[paste0("Rx_", medication)]] == 0 ~ FALSE,
                                               df[[paste0("Rx_", medication)]] > 0 ~ TRUE))
+  df <- merge(setiddt,df,by="set_id")
   df$set_id=as.factor(df$set_id) #pair id
    # Filter the dataframe by outcome_type
   df <- df %>% filter(outcome_type == "disease")
