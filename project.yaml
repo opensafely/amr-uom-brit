@@ -339,3 +339,17 @@ actions:
     outputs:
       moderately_sensitive: 
         csv: output/lrti_*_OR.csv
+
+  type_uti_OR_disease:
+    run: r:latest analysis/casecontrol/type_uti_OR_disease.R
+    needs: [model_process_ab,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv: output/uti_*_OR_disease.csv
+
+  type_uti_OR_sideeffect:
+    run: r:latest analysis/casecontrol/type_uti_OR_sideeffect.R
+    needs: [model_process_ab,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv: output/uti_*_OR_sideeffect.csv

@@ -22,7 +22,7 @@ for (ds in datasets) {
   setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",ds,"_type.csv")))%>%select(set_id,outcome_type)
   data <- merge(data,setiddt,by="set_id")
 
-  data <- data %>% filter(outcome_type == "disease")
+  data <- data %>% filter(outcome_type == "side effect")
 
   case <- data %>% filter(case==1)
   control <- data %>% filter(case==0)
