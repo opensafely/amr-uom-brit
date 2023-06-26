@@ -189,6 +189,28 @@ actions:
       highly_sensitive:
         cohort: output/input_case_lrti_type.csv
 
+### UTI CDI ###
+
+  generate_study_population_case_uti_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_cdi.csv
+
+  generate_study_population_control_uti_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_uti_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_uti_cdi.csv
+
+  matching_uti_cdi:
+    run: python:latest python analysis/matching_uti_cdi.py
+    needs: [generate_study_population_case_uti_cdi,generate_study_population_control_uti_cdi]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_*_uti_cdi.csv
+      moderately_sensitive: 
+        report1: output/matching_report_uti_cdi.txt
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
