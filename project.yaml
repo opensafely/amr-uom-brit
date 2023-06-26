@@ -212,6 +212,53 @@ actions:
       moderately_sensitive: 
         report1: output/matching_report_uti_cdi.txt
 
+
+### URTI CDI ###
+
+  generate_study_population_case_urti_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_urti_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_urti_cdi.csv
+
+  generate_study_population_control_urti_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_urti_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_urti_cdi.csv
+
+  matching_urti_cdi:
+    run: python:latest python analysis/matching_urti_cdi.py
+    needs: [generate_study_population_case_urti_cdi,generate_study_population_control_urti_cdi]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_*_urti_cdi.csv
+      moderately_sensitive: 
+        report1: output/matching_report_urti_cdi.txt
+
+### LRTI CDI ###
+
+  generate_study_population_case_lrti_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_lrti_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_lrti_cdi.csv
+
+  generate_study_population_control_lrti_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_lrti_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_lrti_cdi.csv
+
+  matching_lrti_cdi:
+    run: python:latest python analysis/matching_lrti_cdi.py
+    needs: [generate_study_population_case_lrti_cdi,generate_study_population_control_lrti_cdi]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_*_lrti_cdi.csv
+      moderately_sensitive: 
+        report1: output/matching_report_lrti_cdi.txt
+
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
   case_othvar_process:
