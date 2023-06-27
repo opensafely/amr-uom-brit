@@ -203,7 +203,19 @@ actions:
       highly_sensitive:
         cohort: output/input_p_control_2.csv
 
+  p_control_id:
+    run: r:latest analysis/p_control_id.R
+    needs: [generate_study_population_p_control_2]
+    outputs:
+      highly_sensitive: 
+        csv: output/p_control_id.csv
 
+  generate_study_population_p_control_2_var:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_p_control_2_var
+    needs: [p_control_id]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_p_control_2_var.csv
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
