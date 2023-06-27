@@ -104,7 +104,7 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-# RF
+########### RF test process ########### 
   pre_RF_process: # split train and valid set # create category variables of ab exposure
     run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time,process_Rmatching]
@@ -149,15 +149,20 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_RF_ranger.html    
+########### RF test process ########### 
 
+
+## RF to create decile group
   RF_ranger_decile: # RF model to all data
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger]
+    needs: [process_ab_time]
     outputs:
       moderately_sensitive:
         html: output/RF_ranger_decile.html 
       highly_sensitive:
         rds1: output/all_ranger.rds 
+        rds2: output/RF_ranger.rds
+
 
   check_RF_descript_ranger: # descriptive stat
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
