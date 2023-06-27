@@ -210,14 +210,14 @@ actions:
 
   table2: # confounders
     run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_Rmatching]
+    needs: [RF_ranger_decile]
     outputs:
       moderately_sensitive:
         html: output/table2.html 
 
   table3: # ab exposures
     run: r:latest -e 'rmarkdown::render("analysis/table3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time]
+    needs: [RF_ranger_decile]
     outputs:
       moderately_sensitive:
         html: output/table3.html 

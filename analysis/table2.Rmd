@@ -30,7 +30,7 @@ library("finalfit")
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
-DF=readRDS(here::here("output","matched_outcome.rds"))
+DF=readRDS(here::here("output","all_ranger.rds"))
 
 ```
 
