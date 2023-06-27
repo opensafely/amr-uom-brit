@@ -17,14 +17,14 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2019-01-01"
-end_date = "2022-12-31"
+end_date = "2023-03-31"
 
 ###### Cases definition ######
 ## 1. age 18-110
 ## 2. sex (M/F)
 ## 3. at least one year of GP records prior to their index date
 ## 4. has incident uti infeciton record (no any other uti infection record six weeks before)
-## 4. has ICD-10 related CDI within 90 days after the infection
+## 4. has ICD-10 related emergency admission within 30 days after the infection
 ## 5. has no chronic res
 ##############################
 
@@ -47,9 +47,8 @@ study = StudyDefinition(
         AND has_follow_up_previous_year
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
-        AND NOT has_outcome_in_90_days
+        AND has_outcome
         AND NOT has_chronic_respiratory_disease
-        AND NOT has_uti_history_previous_6_month
         AND NOT has_outcome_previous_year
         AND covid_6weeks = "0"
         """,
@@ -65,9 +64,9 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.95},
         ),
 
-        has_outcome_in_90_days=patients.admitted_to_hospital(
-            with_these_diagnoses=cdi,
-            between=["patient_index_date", "patient_index_date + 90 days"], 
+        has_outcome=patients.admitted_to_hospital(
+            with_these_diagnoses=ae_study2,
+            between=[start_date, end_date], 
         ),
 
         has_chronic_respiratory_disease=patients.with_these_clinical_events(
@@ -77,29 +76,37 @@ study = StudyDefinition(
             find_last_match_in_period=True,
         ),
 
-        has_uti_history_previous_6_month=patients.with_these_clinical_events(
-            all_urti_codes,  
-            returning="binary_flag",
-            between=["patient_index_date - 180 days ", "patient_index_date - 1 day"],
-        ),
-
         has_outcome_previous_year=patients.admitted_to_hospital(
-            with_these_diagnoses=cdi, 
+            with_these_diagnoses=ae_study2, 
             returning="binary_flag",
-            between=["patient_index_date - 366 days", "patient_index_date - 1 day"],
+            between=["patient_index_date- 366 days", "patient_index_date - 1 day"],
             return_expectations={"incidence": 0.65},
         ),
 
     ),
 
-    ### patient index date = UTI infection date
-    patient_index_date=patients.with_these_clinical_events(
-        all_urti_codes, 
+    ### patient index date 
+    patient_index_date=patients.admitted_to_hospital(
+        returning= "date_admitted",  
+        with_these_diagnoses=ae_study2, 
         between=[start_date, end_date], 
-        returning="date",
         find_first_match_in_period=True,  
         date_format="YYYY-MM-DD",  
         return_expectations={"date": {"earliest": "2019-01-01"}, "incidence" : 1},
+    ),
+
+    cdi_binary=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_diagnoses=cdi_code,
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
+    ),
+
+    abr_binary=patients.admitted_to_hospital(
+        returning="binary_flag", 
+        with_these_diagnoses=cdi_code,
+        between=["patient_index_date", "patient_index_date"], 
+        find_first_match_in_period=True, 
     ),
 
     ## Age
@@ -126,7 +133,7 @@ study = StudyDefinition(
     SGSS_positive_6weeks=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
-        between=["patient_index_date - 42 days","patient_index_date + 102 days"],
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
         returning="binary_flag",
         return_expectations={
         "rate" : "exponential_increase",
@@ -136,7 +143,7 @@ study = StudyDefinition(
     GP_positive_6weeks=patients.with_these_clinical_events(
         any_primary_care_code,        
         returning="binary_flag",
-        between=["patient_index_date - 42 days","patient_index_date + 102 days"],
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
          return_expectations={
         "rate" : "exponential_increase",
         "incidence" : 0.25},  ),
@@ -145,7 +152,7 @@ study = StudyDefinition(
     covid_admission_6weeks=patients.admitted_to_hospital(
         returning="binary_flag",
         with_these_diagnoses=covid_codelist,
-        between=["patient_index_date - 42 days","patient_index_date + 102 days"],
+        between=["patient_index_date - 42 days","patient_index_date + 42 days"],
         return_expectations={
         "rate" : "exponential_increase",
         "incidence" : 0.25},    ),
@@ -167,4 +174,13 @@ study = StudyDefinition(
                                 },
     ),
 
+    ab_history_3yr=patients.with_these_medications(
+        antibacterials_codes_brit,
+        between=["patient_index_date - 1185 days","patient_index_date - 90 days"],
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+            "incidence": 0.5,
+        },
+    ),
 )

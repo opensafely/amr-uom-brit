@@ -257,10 +257,11 @@ R23_codelist = codelist(["R23", "R233"], system="icd10")
 diarrhea = codelist(["R197"], system="icd10")
 candidiasis = codelist(["B37", "B370","B371","B372","B373","B374","B375","B376","B377","B378","B379"], system="icd10")
 ## adverse-event-part 2
-ae_study2 = combine_codelists(diarrhea,candidiasis)
 
-cdi = codelist(["A047"], system="icd10")
 
+cdi_code = codelist(["A047"], system="icd10")
+abr_code = codelist(["Z16"], system="icd10")
+ae_study2 = combine_codelists(cdi_code,abr_code)
 ### adverse_event_group_uti
 
 uti_sideeffect = combine_codelists(D59_codelist,D61_codelist,D65_codelist,D68_codelist,D69_codelist,
