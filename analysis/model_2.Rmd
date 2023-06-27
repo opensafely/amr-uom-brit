@@ -487,7 +487,6 @@ DF
 
 
 ```{r }
-```{r }
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -578,7 +577,7 @@ Q1
 Q2
 Q3
 
-df$contd[i]=round(df1$contd[i],digits = 1)
+df[contd[i]]=round(df[contd[i]],digits = 1)
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
@@ -803,7 +802,8 @@ Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
-df$contd[i]=round(df1$contd[i],digits = 1)
+
+df[contd[i]]=round(df[contd[i]],digits = 1)
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
