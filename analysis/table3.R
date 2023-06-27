@@ -7,7 +7,7 @@
 
 library('tidyverse')
 library("ggplot2")
-library("plyr")
+#library("plyr")
 library('dplyr')
 library('lubridate')
 library('stringr')
@@ -59,7 +59,7 @@ tbl2=DF%>% summary_factorlist(dependent, contd)
 
 
 write.csv(tbl1,"table3_group.csv")
-write.csv(tbl2,"table3.csv")
+write.csv(tbl2,"table3#.csv")
 
 rm(list=ls())
 
