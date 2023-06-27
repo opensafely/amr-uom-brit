@@ -195,13 +195,13 @@ actions:
         csv1: output/table2_matched.csv
         csv5: output/table2_random.csv
 
-  table3_round: # ab exposures
-    run: r:latest analysis/table2.R
-    needs: [RF_ranger_decile]
-    outputs:
-      moderately_sensitive:
-        csv1: output/table2_matched.csv
-        csv5: output/table2_random.csv
+  # table3_round: # ab exposures
+  #   run: r:latest analysis/table2.R
+  #   needs: [RF_ranger_decile]
+  #   outputs:
+  #     moderately_sensitive:
+  #       csv1: output/table2_matched.csv
+  #       csv5: output/table2_random.csv
 
 # sugroup analysis
 
