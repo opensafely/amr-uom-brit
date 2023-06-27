@@ -571,10 +571,12 @@ Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
 
+Q1=round(Q1,digits = 1) 
+Q2=round(Q2,digits = 1)
+Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
-
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
@@ -792,6 +794,9 @@ Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
 
+Q1=round(Q1,digits = 1) 
+Q2=round(Q2,digits = 1)
+Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
