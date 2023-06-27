@@ -217,9 +217,16 @@ actions:
       highly_sensitive:
         cohort: output/input_p_control_2_var.csv
 
+  p_control_selection:
+    run: r:latest analysis/p_control_selection.R
+    needs: [generate_study_population_p_control_2_var]
+    outputs:
+      highly_sensitive: 
+        csv: output/p_control_cohort.csv
+
   matching_ae2:
     run: python:latest python analysis/matching_ae2.py
-    needs: [generate_study_population_case_2,generate_study_population_p_control_2_var]
+    needs: [generate_study_population_case_2,p_control_selection]
     outputs:
       highly_sensitive: 
         table1: output/matched_*_ae2.csv

@@ -2,7 +2,7 @@ from osmatching import match
 
 match(
     case_csv="input_case_2",
-    match_csv="input_p_control_2_var",
+    match_csv="p_control_cohort",
     matches_per_case=6,
     match_variables={
         "sex": "category",
