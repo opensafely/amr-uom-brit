@@ -65,9 +65,12 @@ explanatory<- c("exposure_period_group","interval_mean_group","interval_sd_group
 
 ```
 
+
+# Exposure period
 ## create quartiles by total_ab_group
 ```{r }
 i=1
+explanatory[i]
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
@@ -93,6 +96,10 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   )
 )
 
+quantile(df1$exposure_period,p=0.25) 
+quantile(df1$exposure_period,p=0.5) 
+quantile(df1$exposure_period,p=0.75) 
+
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
@@ -102,7 +109,9 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
- 
+quantile(df2$exposure_period,p=0.25) 
+quantile(df2$exposure_period,p=0.5) 
+quantile(df2$exposure_period,p=0.75) 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -114,7 +123,9 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   )
 )
  
-
+quantile(df3$exposure_period,p=0.25) 
+quantile(df3$exposure_period,p=0.5) 
+quantile(df3$exposure_period,p=0.75) 
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
@@ -125,14 +136,15 @@ df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
     )
   )
 )
- 
+quantile(df4$exposure_period,p=0.25) 
+quantile(df4$exposure_period,p=0.5) 
+quantile(df4$exposure_period,p=0.75)  
 
 df=rbind(df1,df2,df3,df4)
 
 ```
 
 
-# Exposure period
 
 ```{r }
 df=df%>%mutate(ab_Level_type= 
@@ -337,6 +349,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ## create quartiles by total_ab_group
 ```{r }
 i=2
+explanatory[i]
 df[explanatory[i]]=""
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -356,7 +369,7 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
     )
   )
 )
- 
+
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
@@ -571,6 +584,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=3
+explanatory[i]
 df[explanatory[i]]=""
 df[contd[i]]=round(df[contd[i]],digits = 1)
 
@@ -594,9 +608,9 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   )
 )
 
-quantile(df1$interval_mean_group,p=0.25) 
-quantile(df1$interval_mean_group,p=0.5) 
-quantile(df1$interval_mean_group,p=0.75) 
+quantile(df1$interval_mean,p=0.25) 
+quantile(df1$interval_mean,p=0.5) 
+quantile(df1$interval_mean,p=0.75) 
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
@@ -608,9 +622,9 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   )
 )
  
-quantile(df2$interval_mean_group,p=0.25) 
-quantile(df2$interval_mean_group,p=0.5) 
-quantile(df2$interval_mean_group,p=0.75) 
+quantile(df2$interval_mean,p=0.25) 
+quantile(df2$interval_mean,p=0.5) 
+quantile(df2$interval_mean,p=0.75) 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -622,9 +636,9 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   )
 )
  
-quantile(df3$interval_mean_group,p=0.25) 
-quantile(df3$interval_mean_group,p=0.5) 
-quantile(df3$interval_mean_group,p=0.75) 
+quantile(df3$interval_mean,p=0.25) 
+quantile(df3$interval_mean,p=0.5) 
+quantile(df3$interval_mean,p=0.75) 
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
@@ -636,9 +650,9 @@ df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   )
 )
  
-quantile(df4$interval_mean_group,p=0.25) 
-quantile(df4$interval_mean_group,p=0.5) 
-quantile(df4$interval_mean_group,p=0.75) 
+quantile(df4$interval_mean,p=0.25) 
+quantile(df4$interval_mean,p=0.5) 
+quantile(df4$interval_mean,p=0.75) 
 df=rbind(df1,df2,df3,df4)
 
 ```
@@ -807,6 +821,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=4
+explanatory[i]
 df[explanatory[i]]=""
 
 df[contd[i]]=round(df[contd[i]],digits = 1)
@@ -833,9 +848,9 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   )
 )
  
-quantile(df1$interval_sd_group,p=0.25) 
-quantile(df1$interval_sd_group,p=0.5) 
-quantile(df1$interval_sd_group,p=0.75) 
+quantile(df1$interval_sd,p=0.25) 
+quantile(df1$interval_sd,p=0.5) 
+quantile(df1$interval_sd,p=0.75) 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
@@ -845,9 +860,9 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
- quantile(df2$interval_sd_group,p=0.25) 
-quantile(df2$interval_sd_group,p=0.5) 
-quantile(df2$interval_sd_group,p=0.75) 
+ quantile(df2$interval_sd,p=0.25) 
+quantile(df2$interval_sd,p=0.5) 
+quantile(df2$interval_sd,p=0.75) 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -859,9 +874,9 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   )
 )
  
-quantile(df3$interval_sd_group,p=0.25) 
-quantile(df3$interval_sd_group,p=0.5) 
-quantile(df3$interval_sd_group,p=0.75) 
+quantile(df3$interval_sd,p=0.25) 
+quantile(df3$interval_sd,p=0.5) 
+quantile(df3$interval_sd,p=0.75) 
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
@@ -872,9 +887,9 @@ df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
     )
   )
 )
- quantile(df4$interval_sd_group,p=0.25) 
-quantile(df4$interval_sd_group,p=0.5) 
-quantile(df4$interval_sd_group,p=0.75) 
+quantile(df4$interval_sd,p=0.25) 
+quantile(df4$interval_sd,p=0.5) 
+quantile(df4$interval_sd,p=0.75) 
 
 df=rbind(df1,df2,df3,df4)
 
@@ -1047,6 +1062,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=5
+explanatory[i]
 df[explanatory[i]]=""
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -1107,7 +1123,7 @@ df=rbind(df1,df2,df3,df4)
 
 
 ```{r }
-
+tapply(df[,"ab_types"],df[,"ab_Level_type"],quantile,p=0.5)
 df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & ab_types_group==1 ~ 1,
@@ -1269,6 +1285,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=6
+explanatory[i]
 df[explanatory[i]]=""
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -1324,7 +1341,7 @@ df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
  
 
 df=rbind(df1,df2,df3,df4)
-
+tapply(df[,"broad_ab_prescriptions"],df[,"ab_Level_type"],quantile,p=0.5)
 ```
 
 
