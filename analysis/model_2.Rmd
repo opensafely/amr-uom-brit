@@ -80,7 +80,7 @@ Q3
 
 ```{r }
 
-df[explanatory[i]]==""
+df[explanatory[i]]=""
 
 # total ab level 1
 
@@ -337,7 +337,7 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ## create quartiles by total_ab_group
 ```{r }
 i=2
-df[explanatory[i]]==""
+df[explanatory[i]]=""
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
@@ -571,7 +571,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=3
-df[explanatory[i]]==""
+df[explanatory[i]]=""
 df[contd[i]]=round(df[contd[i]],digits = 1)
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -807,7 +807,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=4
-df[explanatory[i]]==""
+df[explanatory[i]]=""
 
 df[contd[i]]=round(df[contd[i]],digits = 1)
 
@@ -1047,7 +1047,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=5
-df[explanatory[i]]==""
+df[explanatory[i]]=""
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
@@ -1269,7 +1269,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=6
-df[explanatory[i]]==""
+df[explanatory[i]]=""
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
