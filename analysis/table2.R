@@ -36,17 +36,17 @@ dependent <- "case"
 #table
 tbl=DF%>% summary_factorlist(dependent, explanatory)
 
-round_tbl=tbl
-#remove percentage
-round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+# # round_tbl=tbl
+# # #remove percentage
+# # round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+# # round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
-#round to 5
-round_tbl[,3]=as.numeric(round_tbl[,3])
-round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+# # #round to 5
+# # round_tbl[,3]=as.numeric(round_tbl[,3])
+# # round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
-round_tbl[,4]=as.numeric(round_tbl[,4])
-round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+# # round_tbl[,4]=as.numeric(round_tbl[,4])
+# # round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 # #ethnicity
@@ -75,7 +75,7 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 # round_tbl[c(27:66),"percent_0"]=round_tbl[c(27:66),3]/contr.num
 # round_tbl[c(27:66),"percent_1"]=round_tbl[c(27:66),4]/case.num
 
-write.csv(round_tbl,"table2_matched.csv")
+write.csv(tbl,"table2_matched.csv")
 
 
 
@@ -85,19 +85,19 @@ DF=DF%>% dplyr::group_by(case,subclass)%>% sample_n(1)
 rm(tbl)
 tbl=DF%>% summary_factorlist(dependent, explanatory)
 
-round_tbl=tbl
-#remove percentage
-round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+# # round_tbl=tbl
+# # #remove percentage
+# # round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+# # round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
-#round to 5
-round_tbl[,3]=as.numeric(round_tbl[,3])
-round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+# # #round to 5
+# # round_tbl[,3]=as.numeric(round_tbl[,3])
+# # round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
-round_tbl[,4]=as.numeric(round_tbl[,4])
-round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+# # round_tbl[,4]=as.numeric(round_tbl[,4])
+# # round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
-write.csv(round_tbl,"table2_random.csv")
+write.csv(tbl,"table2_random.csv")
 
 
 
