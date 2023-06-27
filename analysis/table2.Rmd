@@ -1,0 +1,98 @@
+---
+title: "baseline table confounders"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+#library("plyr")
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+DF=readRDS(here::here("output","matched_outcome.rds"))
+
+```
+
+```{r}
+
+# outcome
+df$case=as.numeric(df$case) #1/0
+
+df$subclass=as.factor(df$subclass)#pair id
+
+
+df$level=as.character(df$level) #category
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+
+
+df$wave=as.factor(df$wave)
+
+```
+
+```{r}
+DF$case=as.factor(DF$case)
+DF$imd=as.character(DF$imd)
+case.num=sum(DF$case==1)
+contr.num=sum(DF$case==0)
+case.num
+contr.num
+```
+
+
+```{r}
+# select variables
+explanatory<- c("ethnicity_6",  "bmi_cat",  "CCI",  "smoking_cat_3","imd","care_home","covrx_ever","flu_vaccine",
+              "cancer_comor","cerebrovascular_disease_comor", "chronic_obstructive_pulmonary_comor", "heart_failure_comor", "connective_tissue_comor", "dementia_comor", "diabetes_comor", "diabetes_complications_comor", "hemiplegia_comor", "metastatic_cancer_comor", "mild_liver_comor", "mod_severe_liver_comor", "mod_severe_renal_comor", "mi_comor", "peptic_ulcer_comor", "peripheral_vascular_comor","hiv_comor")
+            #    "total_ab_group","ab_types_group","exposure_period_group","recent_ab_days_group","broad_ab_prescriptions_group","interval_mean_group", "interval_sd_group")
+dependent <- "case"
+
+#table
+tbl=DF%>% summary_factorlist(dependent, explanatory)
+
+tbl
+```
+
+
+```{r}
+# random sampling
+DF=DF%>% dplyr::group_by(case,subclass)%>% sample_n(1)
+#table
+rm(tbl)
+tbl=DF%>% summary_factorlist(dependent, explanatory)
+
+tbl
+
+```
+

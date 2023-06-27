@@ -1,0 +1,67 @@
+---
+title: "baseline table confounders"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+#library("plyr")
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+```{r include=FALSE}
+# import data
+rm(list=ls())
+#df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
+DF=readRDS(here::here("output","matched_ab.rds"))
+
+```
+
+
+```{r}
+DF$case=as.factor(DF$case)
+case.num=sum(DF$case==1)
+contr.num=sum(DF$case==0)
+case.num
+contr.num
+```
+
+
+```{r}
+explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+dependent <- "case"
+
+contd<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+```
+
+
+```{r}
+#table
+tbl1=DF%>% summary_factorlist(dependent, explanatory)
+tbl1
+```
+
+
+```{r}
+tbl2=DF%>% summary_factorlist(dependent, contd)
+tbl2
+```
+
+

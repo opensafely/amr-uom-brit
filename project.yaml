@@ -203,6 +203,20 @@ actions:
         csv1: output/table3_group.csv
         csv2: output/table3.csv
 
+  table2: # confounders
+    run: r:latest -e 'rmarkdown::render("analysis/check/table2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_Rmatching]
+    outputs:
+      moderately_sensitive:
+        html: output/table2.html 
+
+  table3: # ab exposures
+    run: r:latest -e 'rmarkdown::render("analysis/check/table3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_ab_time]
+    outputs:
+      moderately_sensitive:
+        html: output/table3.html 
+
 # sugroup analysis
 
 # total ab * others
