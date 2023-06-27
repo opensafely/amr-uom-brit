@@ -15,7 +15,7 @@ library("data.table")
 library("ggpubr")
 library("finalfit")
 
-DF=readRDS(here::here("output","all_ranger.rds"))
+DF=readRDS(here::here("output","matched_ab.rds"))
 DF=DF%>%dplyr::select( "case",
                        "total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group",
                        "total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")

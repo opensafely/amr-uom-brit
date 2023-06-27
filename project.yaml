@@ -189,7 +189,7 @@ actions:
 
   table2_round: # confounders
     run: r:latest analysis/table2.R
-    needs: [RF_ranger_decile]
+    needs: [process_Rmatching]
     outputs:
       moderately_sensitive:
         csv1: output/table2_matched.csv
@@ -197,7 +197,7 @@ actions:
 
   table3_round: # ab exposures
     run: r:latest analysis/table3.R
-    needs: [RF_ranger_decile]
+    needs: [process_ab_time]
     outputs:
       moderately_sensitive:
         csv1: output/table3_group.csv
