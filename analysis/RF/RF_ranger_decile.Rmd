@@ -167,7 +167,7 @@ decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )
 
 table(decile)
 prop.table(table(decile))*100 
-
+data=cbind(data,decile)
 ```
 
 
