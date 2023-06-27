@@ -566,6 +566,8 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=3
+df[contd[i]]=round(df[contd[i]],digits = 1)
+
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
@@ -576,8 +578,6 @@ Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
-
-df[contd[i]]=round(df[contd[i]],digits = 1)
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
@@ -792,6 +792,8 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=4
+df[contd[i]]=round(df[contd[i]],digits = 1)
+
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
@@ -803,7 +805,6 @@ Q1
 Q2
 Q3
 
-df[contd[i]]=round(df[contd[i]],digits = 1)
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
