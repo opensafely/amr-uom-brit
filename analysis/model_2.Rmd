@@ -657,7 +657,7 @@ table(df$ab_Level_type)
 
 Q2=tapply(df[,"interval_mean"],df[,"ab_Level_type"],quantile,p=0.5)
 Q2=round(Q2,digits = 1)
-
+Q2
 ```
 
 ```{r }
@@ -877,7 +877,8 @@ table(df$ab_Level_type)
 # median of each group
 
 Q2=tapply(df[,"interval_sd"],df[,"ab_Level_type"],quantile,p=0.5)
-Q2=round(Q2)
+Q2=round(Q2,digits = 1)
+Q2
 
 ```
 
@@ -1124,7 +1125,7 @@ DF=result[1:12,-2]
 ```{r }
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type5","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15")) # remove 3,4,6
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type2","ab_Level_type5","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16")) # remove 3,4,6
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -1181,12 +1182,9 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 4.5, ymax = 8.5,fill="grey
 
    geom_text( size=3,aes(y = 1:12, x = 0.7,
                label = c("1"=paste0("Level2 (",Q2[2],")"),
-                        "2"= paste0("Level3 (",Q2[3],")"),
-                     #   "3"= paste0("Level4 (",Q2[4],")"),
-                     #   "4"= paste0("Level1 (",Q2[5],")"),
+                        "2"= paste0("Level1 (",Q2[3],")"),
                         "3"= paste0("Level2 (",Q2[4],")"),
-                     #   "6"= paste0("Level3 (",Q2[7],")"),
-                        "4"= paste0("Level4 (",Q2[5],")"),
+                        "4"= paste0("Level3 (",Q2[5],")"),
                         "5"= paste0("Level1 (",Q2[6],")"),
                         "6"= paste0("Level2 (",Q2[7],")"),
                         "7"= paste0("Level3 (",Q2[8],")"),
@@ -1348,7 +1346,7 @@ DF=result[1:9,-2]
 ```{r }
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type4","ab_Level_type5","ab_Level_type8","ab_Level_type9","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type15","ab_Level_type16"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type4","ab_Level_type5","ab_Level_type8","ab_Level_type9","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type15","ab_Level_type16"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -1405,21 +1403,15 @@ annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 3.5, ymax = 6.5,fill="grey
 
    geom_text( size=3,aes(y = 1:9, x = 0.7,
                label = c(#"1"=paste0("Level2 (",Q2[1],")"),
-                       # "2"= paste0("Level3 (",Q2[3],")"),
-                      #  "3"= paste0("Level4 (",Q2[4],")"),
-                        "1"= paste0("Level1 (",Q2[2],")"),
-                        "2"= paste0("Level2 (",Q2[3],")"),
-                      #  "6"= paste0("Level3 (",Q2[7],")"),
-                      #  "7"= paste0("Level4 (",Q2[8],")"),
-                        "3"= paste0("Level1 (",Q2[4],")"),
-                        "4"= paste0("Level2 (",Q2[5],")"),
-                      #  "10"= paste0("Level3 (",Q2[11],")"),
-                        "5"= paste0("Level4 (",Q2[6],")"),
-                        "6"= paste0("Level1 (",Q2[7],")"),
-                        "7"= paste0("Level2 (",Q2[8],")"),
-                      #  "14"= paste0("Level3 (",Q2[15],")"),
-                        "8"= paste0("Level4 (",Q2[9],")"),
-                         "9"= paste0("Level4 (",Q2[10],")"))),
+                        "1"= paste0("Level2 (",Q2[2],")"),
+                        "2"= paste0("Level1 (",Q2[3],")"),
+                        "3"= paste0("Level2 (",Q2[4],")"),
+                        "4"= paste0("Level1(",Q2[5],")"),
+                        "5"= paste0("Level2 (",Q2[6],")"),
+                        "6"= paste0("Level3 (",Q2[7],")"),
+                        "7"= paste0("Level1 (",Q2[8],")"),
+                        "8"= paste0("Level2 (",Q2[9],")"),
+                         "9"= paste0("Level3 (",Q2[10],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
