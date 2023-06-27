@@ -178,7 +178,7 @@ actions:
 
 # output
  
-  table1_round: 
+  table1_round: # matching performance
     run: r:latest analysis/table1.R
     needs: [pre_matching,process_Rmatching]
     outputs:
@@ -187,7 +187,7 @@ actions:
         csv2: output/table1_matched.csv
         csv3: output/table1_random.csv
 
-  table2_round: 
+  table2_round: # confounders
     run: r:latest analysis/table2.R
     needs: [RF_ranger_decile]
     outputs:
@@ -195,6 +195,13 @@ actions:
         csv1: output/table2_matched.csv
         csv5: output/table2_random.csv
 
+  table3_round: # ab exposures
+    run: r:latest analysis/table2.R
+    needs: [RF_ranger_decile]
+    outputs:
+      moderately_sensitive:
+        csv1: output/table2_matched.csv
+        csv5: output/table2_random.csv
 
 # sugroup analysis
 
