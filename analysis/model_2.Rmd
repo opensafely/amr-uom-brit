@@ -577,6 +577,9 @@ Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
+
+df$contd[i]=round(df1$contd[i],digits = 1)
+
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
@@ -800,6 +803,7 @@ Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
+df$contd[i]=round(df1$contd[i],digits = 1)
 
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
@@ -1246,12 +1250,14 @@ Q2
 Q3
 
 # total ab level 1
-df1$explanatory[i] <- ifelse(df1$contd[i] <= Q1[1], 1,
-                             ifelse(df1$contd[i] > Q1[1] & df1$contd[i] <= Q2[1], 2,
-                                    ifelse(df1$contd[i] > Q2[1] & df1$contd[i] <= Q3[1], 3,
-                                           ifelse(df1$contd[i] > Q3[1], 4, NA))))
-
- 
+df1=df%>%filter(total_ab_group==1)
+df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
+  df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
+    df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
+      df1[contd[i]] > Q3[1],4, NA)
+    )
+  )
+) 
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)

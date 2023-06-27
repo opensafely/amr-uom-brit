@@ -193,7 +193,7 @@ actions:
     outputs:
       moderately_sensitive:
         csv1: output/table2_matched.csv
-        csv5: output/table2_random.csv
+        csv2: output/table2_random.csv
 
   # table3_round: # ab exposures
   #   run: r:latest analysis/table2.R
