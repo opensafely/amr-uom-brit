@@ -217,6 +217,15 @@ actions:
       highly_sensitive:
         cohort: output/input_p_control_2_var.csv
 
+  matching_ae2:
+    run: python:latest python analysis/matching_ae2.py
+    needs: [generate_study_population_case_2,generate_study_population_p_control_2_var]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_*_ae2.csv
+      moderately_sensitive: 
+        report1: output/matching_report_ae2.txt
+
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
   case_othvar_process:
