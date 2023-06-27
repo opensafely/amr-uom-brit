@@ -79,6 +79,9 @@ Q3
 
 
 ```{r }
+
+df[explanatory[i]]==""
+
 # total ab level 1
 
 df1=df%>%filter(total_ab_group==1)
@@ -334,6 +337,8 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 ## create quartiles by total_ab_group
 ```{r }
 i=2
+df[explanatory[i]]==""
+
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
@@ -566,6 +571,7 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=3
+df[explanatory[i]]==""
 df[contd[i]]=round(df[contd[i]],digits = 1)
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -578,7 +584,6 @@ Q3=round(Q3,digits = 1)
 Q1
 Q2
 Q3
-
 # total ab level 1
 df1=df%>%filter(total_ab_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
@@ -588,7 +593,10 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
     )
   )
 )
- 
+
+quantile(df1$interval_mean_group,p=0.25) 
+quantile(df1$interval_mean_group,p=0.5) 
+quantile(df1$interval_mean_group,p=0.75) 
 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
@@ -600,6 +608,9 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   )
 )
  
+quantile(df2$interval_mean_group,p=0.25) 
+quantile(df2$interval_mean_group,p=0.5) 
+quantile(df2$interval_mean_group,p=0.75) 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -611,7 +622,9 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   )
 )
  
-
+quantile(df3$interval_mean_group,p=0.25) 
+quantile(df3$interval_mean_group,p=0.5) 
+quantile(df3$interval_mean_group,p=0.75) 
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
@@ -623,7 +636,9 @@ df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   )
 )
  
-
+quantile(df4$interval_mean_group,p=0.25) 
+quantile(df4$interval_mean_group,p=0.5) 
+quantile(df4$interval_mean_group,p=0.75) 
 df=rbind(df1,df2,df3,df4)
 
 ```
@@ -792,6 +807,8 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=4
+df[explanatory[i]]==""
+
 df[contd[i]]=round(df[contd[i]],digits = 1)
 
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -816,7 +833,9 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   )
 )
  
-
+quantile(df1$interval_sd_group,p=0.25) 
+quantile(df1$interval_sd_group,p=0.5) 
+quantile(df1$interval_sd_group,p=0.75) 
 # total ab level 2
 df2=df%>%filter(total_ab_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
@@ -826,7 +845,9 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
     )
   )
 )
- 
+ quantile(df2$interval_sd_group,p=0.25) 
+quantile(df2$interval_sd_group,p=0.5) 
+quantile(df2$interval_sd_group,p=0.75) 
 
 # total ab level3
 df3=df%>%filter(total_ab_group==3)
@@ -838,7 +859,9 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   )
 )
  
-
+quantile(df3$interval_sd_group,p=0.25) 
+quantile(df3$interval_sd_group,p=0.5) 
+quantile(df3$interval_sd_group,p=0.75) 
 
 # total ab level4
 df4=df%>%filter(total_ab_group==4)
@@ -849,7 +872,9 @@ df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
     )
   )
 )
- 
+ quantile(df4$interval_sd_group,p=0.25) 
+quantile(df4$interval_sd_group,p=0.5) 
+quantile(df4$interval_sd_group,p=0.75) 
 
 df=rbind(df1,df2,df3,df4)
 
@@ -1022,6 +1047,8 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=5
+df[explanatory[i]]==""
+
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
@@ -1242,6 +1269,8 @@ p
 ## create quartiles by total_ab_group
 ```{r }
 i=6
+df[explanatory[i]]==""
+
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
 Q2=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.5)
 Q3=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.75)
