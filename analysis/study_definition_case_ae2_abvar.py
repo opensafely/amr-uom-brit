@@ -24,8 +24,9 @@ end_date = "2023-03-31"
 ####### Import variables
 ## Exposure variables: antibiotics 
 from variables_CCI import generate_CCI_variables
+from variables_antibiotics_3yr import generate_ab_3yr_variables
 CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
-
+ab_variables_3yr = generate_ab_3yr_variables(index_date_variable="patient_index_date")
 
 study = StudyDefinition(
 
@@ -61,5 +62,6 @@ study = StudyDefinition(
         },
     ),
 
+    **ab_variables_3yr,    
     **CCI_variables, 
  ) 
