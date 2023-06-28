@@ -40,7 +40,7 @@ main <- function(condition) {
   df_cases <- load_dataset(paste0("output/matched_cases_", condition, ".csv"))
   df_matches <- load_dataset(paste0("output/matched_matches_", condition, ".csv"))
 
-  df_ab_vars <- c("patient_index_date", "patient_id","charlson_score", "charlsonGrp")
+  df_ab_vars <- c("patient_index_date", "patient_id","ab_type_num","charlson_score", "charlsonGrp")
   df_oth_vars <- c("patient_index_date", "patient_id", "region", "imd", "ethnicity", "bmi", "smoking_status_comb", "ckd_rrt")
 
   df_cases_ab <- load_prepared_df(paste0("output/processed/input_case_", condition, "_abvar.rds"), df_ab_vars)
