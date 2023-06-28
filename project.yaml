@@ -233,6 +233,34 @@ actions:
       moderately_sensitive: 
         report1: output/matching_report_ae2.txt
 
+  generate_study_population_case_ae2_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_abvar
+    needs: [matching_ae2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_abvar.csv
+
+  generate_study_population_control_ae2_abvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_abvar
+    needs: [matching_ae2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_abvar.csv
+
+  generate_study_population_case_ae2_othvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_othvar
+    needs: [matching_ae2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_othvar.csv
+
+  generate_study_population_control_ae2_othvar:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_othvar
+    needs: [matching_ae2]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_othvar.csv
+
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
   case_othvar_process:
