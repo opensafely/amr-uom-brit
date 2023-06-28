@@ -30,6 +30,7 @@ extract_data <- function(file_name) {
         patient_index_date = col_date(format = ""),
         # demographics
         age = col_integer(),
+        agegroup = col_character(),
         sex = col_character(),
         region = col_character(),
         bmi = col_character(),
