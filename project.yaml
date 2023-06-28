@@ -303,11 +303,18 @@ actions:
       highly_sensitive: 
         rds1: output/processed/model_ae2.rds
 
+  type_process_2:
+    run: r:latest analysis/casecontrol2/type_process_2.R
+    needs: [matching_ae2,case2_abvar_process,case2_othvar_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model2_ae2_*.rds
+
   CDIABR_OR:
     run: r:latest analysis/casecontrol2/CDIABR_OR.R
     needs: [model2_process_2]
     outputs:
-      highly_sensitive: 
+      moderately_sensitive: 
         csv1: output/ae2_model_result.csv
 
 
