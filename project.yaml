@@ -289,6 +289,28 @@ actions:
       highly_sensitive: 
         rds1: output/processed/input_control_ae2_othvar.rds
 
+  model2_process_2:
+    run: r:latest analysis/casecontrol2/model2_process_2.R
+    needs: [matching_ae2,case2_abvar_process,control2_abvar_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model2_ae2.rds
+
+  model2_process:
+    run: r:latest analysis/casecontrol2/model2_process.R
+    needs: [matching_ae2,case2_abvar_process,case2_othvar_process,control2_abvar_process,control2_othvar_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model_ae2.rds
+
+  CDIABR_OR:
+    run: r:latest analysis/casecontrol2/CDIABR_OR.R
+    needs: [model2_process_2]
+    outputs:
+      highly_sensitive: 
+        csv1: output/ae2_model_result.csv
+
+
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 
   case_othvar_process:
