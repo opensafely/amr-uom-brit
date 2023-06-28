@@ -61,7 +61,7 @@ df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 contd<- c("exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
-explanatory<- c("exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+explanatory<- c("exposure_period_group","recent_ab_days_group","interval_mean_group","interval_sd_group","ab_types_group","broad_ab_prescriptions_group")
 
 ```
 
