@@ -37,33 +37,20 @@ DF=readRDS(here::here("output","all_ranger.rds"))
 ```{r}
 
 # outcome
-DF$case=as.numeric(DF$case) #1/0
-
-DF$subclass=as.factor(DF$subclass)#pair id
-
-
-DF$level=as.character(DF$level) #category
-
+DF$case=as.factor(DF$case)
 DF$CCI= relevel(as.factor(DF$CCI), ref="Zero")
 DF$covrx_ever= relevel(as.factor(DF$covrx_ever), ref="0")
-
 DF$bmi_cat=relevel(as.factor(DF$bmi_cat),ref="Healthy weight")
 DF$care_home=relevel(as.factor(DF$care_home),ref = "0")
-
 DF$flu_vaccine=relevel(as.factor(DF$flu_vaccine),ref= "0")
-
 DF$smoking_cat_3=relevel(as.factor(DF$smoking_cat_3),ref="Never")
 DF$imd=relevel(as.factor(DF$imd),ref="1")
 DF$ethnicity_6=relevel(as.factor(DF$ethnicity_6),ref = "White")
-
-
 DF$wave=as.factor(DF$wave)
 
 ```
 
 ```{r}
-DF$case=as.factor(DF$case)
-DF$imd=as.character(DF$imd)
 case.num=sum(DF$case==1)
 contr.num=sum(DF$case==0)
 case.num
