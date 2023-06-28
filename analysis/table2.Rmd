@@ -37,27 +37,27 @@ DF=readRDS(here::here("output","all_ranger.rds"))
 ```{r}
 
 # outcome
-df$case=as.numeric(df$case) #1/0
+DF$case=as.numeric(DF$case) #1/0
 
-df$subclass=as.factor(df$subclass)#pair id
-
-
-df$level=as.character(df$level) #category
-
-df$CCI= relevel(as.factor(df$CCI), ref="Zero")
-df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
-
-df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
-df$care_home=relevel(as.factor(df$care_home),ref = "0")
-
-df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
-
-df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
-df$imd=relevel(as.factor(df$imd),ref="1")
-df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+DF$subclass=as.factor(DF$subclass)#pair id
 
 
-df$wave=as.factor(df$wave)
+DF$level=as.character(DF$level) #category
+
+DF$CCI= relevel(as.factor(DF$CCI), ref="Zero")
+DF$covrx_ever= relevel(as.factor(DF$covrx_ever), ref="0")
+
+DF$bmi_cat=relevel(as.factor(DF$bmi_cat),ref="Healthy weight")
+DF$care_home=relevel(as.factor(DF$care_home),ref = "0")
+
+DF$flu_vaccine=relevel(as.factor(DF$flu_vaccine),ref= "0")
+
+DF$smoking_cat_3=relevel(as.factor(DF$smoking_cat_3),ref="Never")
+DF$imd=relevel(as.factor(DF$imd),ref="1")
+DF$ethnicity_6=relevel(as.factor(DF$ethnicity_6),ref = "White")
+
+
+DF$wave=as.factor(DF$wave)
 
 ```
 
