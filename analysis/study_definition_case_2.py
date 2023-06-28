@@ -104,7 +104,7 @@ study = StudyDefinition(
 
     abr_binary=patients.admitted_to_hospital(
         returning="binary_flag", 
-        with_these_diagnoses=cdi_code,
+        with_these_diagnoses=abr_code,
         between=["patient_index_date", "patient_index_date"], 
         find_first_match_in_period=True, 
     ),
