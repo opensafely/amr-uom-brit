@@ -900,9 +900,9 @@ df=rbind(df1,df2,df3,df4)
 df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & interval_sd_group==1 ~ 1,
-                           total_ab_group=="1" & interval_sd_group==2 ~ 2,
-                           total_ab_group=="1" & interval_sd_group==3 ~ 3,
-                           total_ab_group=="1" & interval_sd_group==4 ~ 4,
+                         #  total_ab_group=="1" & interval_sd_group==2 ~ 2,
+                         #  total_ab_group=="1" & interval_sd_group==3 ~ 3,
+                         #  total_ab_group=="1" & interval_sd_group==4 ~ 4,
                            total_ab_group=="2" & interval_sd_group==1 ~ 5,
                            total_ab_group=="2" & interval_sd_group==2 ~ 6,
                            total_ab_group=="2" & interval_sd_group==3 ~ 7,
@@ -943,14 +943,14 @@ sum.mod=summary(mod)
 
 ```{r }
 result=data.frame(sum.mod$conf.int)
-DF=result[1:15,-2]
+DF=result[1:12,-2]
 ```
 
 
 ```{r }
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16"))
 
 DF=DF%>%arrange(AB_exposure)
 DF[1,1]="1"
@@ -965,14 +965,11 @@ DF[9,1]="9"
 DF[10,1]="10"
 DF[11,1]="11"
 DF[12,1]="12"
-DF[13,1]="13"
-DF[14,1]="14"
-DF[15,1]="15"
 #DF[16,1]="16"
 
 
- Index = rep(1:15) ## This provides an order to the data
-  label = as.factor(rep(1:15))
+ Index = rep(1:12) ## This provides an order to the data
+  label = as.factor(rep(1:12))
 
 
 names(DF)[2]="OR"
@@ -997,30 +994,27 @@ geom_point(color="black")+
 #thematic stuff
 theme_classic()+ 
 
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 4.5, ymax = 8.5,fill="grey80", alpha=0.5)+
+#annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
 
-  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
-  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
-  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
-  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
+  annotate("text", x = 0.1, y =2, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "Very High",size=3)+
+#  annotate("text", x = 0.1, y =13.5, label = "",size=3)+
 
-   geom_text( size=3,aes(y = 1:15, x = 0.7,
-               label = c("1"=paste0("Level2 (",Q2[2],")"),
-                        "2"= paste0("Level3 (",Q2[3],")"),
-                        "3"= paste0("Level4 (",Q2[4],")"),
-                        "4"= paste0("Level1 (",Q2[5],")"),
-                        "5"= paste0("Level2 (",Q2[6],")"),
-                        "6"= paste0("Level3 (",Q2[7],")"),
-                        "7"= paste0("Level4 (",Q2[8],")"),
-                        "8"= paste0("Level1 (",Q2[9],")"),
-                        "9"= paste0("Level2 (",Q2[10],")"),
-                        "10"= paste0("Level3 (",Q2[11],")"),
-                        "11"= paste0("Level4 (",Q2[12],")"),
-                        "12"= paste0("Level1 (",Q2[13],")"),
-                        "13"= paste0("Level2 (",Q2[14],")"),
-                        "14"= paste0("Level3 (",Q2[15],")"),
-                        "15"= paste0("Level4 (",Q2[16],")"))),
+   geom_text( size=3,aes(y = 1:12, x = 0.7,
+               label = c("1"=paste0("Level1 (",Q2[2],")"),
+                        "2"= paste0("Level2 (",Q2[3],")"),
+                        "3"= paste0("Level3 (",Q2[4],")"),
+                        "4"= paste0("Level4 (",Q2[5],")"),
+                        "5"= paste0("Level1 (",Q2[6],")"),
+                        "6"= paste0("Level2 (",Q2[7],")"),
+                        "7"= paste0("Level3 (",Q2[8],")"),
+                        "8"= paste0("Level4 (",Q2[9],")"),
+                        "9"= paste0("Level1 (",Q2[10],")"),
+                        "10"= paste0("Level2 (",Q2[11],")"),
+                        "11"= paste0("Level3 (",Q2[12],")"),
+                        "12"= paste0("Level4 (",Q2[13],")"))),
            hjust = "right",
            nudge_y = -.1)+
 
