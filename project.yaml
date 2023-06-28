@@ -310,6 +310,13 @@ actions:
       highly_sensitive: 
         rds1: output/processed/model2_ae2_cdi.rds
 
+  type_process_3:
+    run: r:latest analysis/casecontrol2/type_process_3.R
+    needs: [matching_ae2,case2_abvar_process,control2_abvar_process]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model2_ae2_abr.rds
+
   CDIABR_OR:
     run: r:latest analysis/casecontrol2/CDIABR_OR.R
     needs: [model2_process_2]
@@ -323,6 +330,13 @@ actions:
     outputs:
       moderately_sensitive: 
         csv1: output/ae2_cdi_model_result.csv
+
+  ABR_OR:
+    run: r:latest analysis/casecontrol2/ABR_OR.R
+    needs: [type_process_3]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/ae2_abr_model_result.csv
 
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
