@@ -326,7 +326,7 @@ actions:
 
   CDIABR_OR_abtype:
     run: r:latest analysis/casecontrol2/CDIABR_OR_abtype.R
-    needs: [model2_process_2]
+    needs: [model2_process]
     outputs:
       moderately_sensitive: 
         csv1: output/ae2_model_result_abtype.csv
