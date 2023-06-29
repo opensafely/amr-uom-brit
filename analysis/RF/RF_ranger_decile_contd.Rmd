@@ -46,7 +46,7 @@ N5=quantile(data$broad_ab_prescriptions,0.9)
 N6=quantile(data$interval_mean,0.9)
 N7=quantile(data$interval_sd,0.9)
 
-N=vector(N1,N2,N3,N4,N5,N6,N7)
+N=c(N1,N2,N3,N4,N5,N6,N7)
 
 col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
 
