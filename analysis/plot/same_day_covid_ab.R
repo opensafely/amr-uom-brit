@@ -37,7 +37,7 @@ plot <-ggplot(data = df.sgss, aes(x = date, y = value*100))+
     x = "",
     y = "Same day antibiotics prescribing %")+
     theme(axis.text.x=element_text(angle=60,hjust=1))+
-    scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
+    scale_x_date(date_labels = "%Y %m", breaks = seq(as.Date("2019-01-01"), as.Date("2021-10-01"), by = "3 months"))
 
 plot
 
@@ -57,12 +57,12 @@ plot <-ggplot(data = df.gp, aes(x = date, y = value*100))+
   annotate(geom = "rect", xmin = as.Date("2020-11-01"),xmax = as.Date("2020-12-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   annotate(geom = "rect", xmin = as.Date("2020-03-01"),xmax = as.Date("2020-06-01"),ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
   labs(
-    title = "Same day Covid diagnosis and antibiotics prescription-gp",
+    title = "",
     subtitle = paste(first_mon,"-",last_mon),
     x = "",
     y = "Same day antibiotics prescribing %")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%m-%Y", date_breaks = "1 month")
+  scale_x_date(date_labels = "%Y %m", breaks = seq(as.Date("2019-01-01"), as.Date("2021-10-01"), by = "3 months"))
 
 plot
 
