@@ -26,35 +26,6 @@ prop.table(table(data$case))
 
 ```
 
-# replace outlier
-```{r}
-range(data$total_ab)
-range(data$ab_types)
-range(data$exposure_period)
-range(data$recent_ab_days)
-range(data$broad_ab_prescriptions)
-range(data$interval_mean)
-range(data$interval_sd)
-
-
-#90 percentile
-N1=quantile(data$total_ab,0.9)
-N2=quantile(data$ab_types,0.9)
-N3=quantile(data$exposure_period,0.9)
-N4=quantile(ata$recent_ab_days,0.9)
-N5=quantile(data$broad_ab_prescriptions,0.9)
-N6=quantiledata$interval_mean,0.9)
-N7=quantiledata$interval_sd,0.9)
-
-N=vector(N1,N2,N3,N4,N5,N6,N7)
-
-col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
-
-for (i in 1:7) {
-  data[i]=ifelse(data[i]>=N[i],N[i],data[i])
-}
-```
-
 # categorised ab exposure variables
 ```{r}
 col=c("case","subclass",
