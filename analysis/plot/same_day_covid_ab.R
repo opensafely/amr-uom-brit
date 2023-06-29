@@ -18,8 +18,8 @@ df.gp <- read_csv("measure_samedayab_gp.csv",
 ### Sgss same day ab
 df.sgss <- df.sgss %>% filter(date >=as.Date("2020-03-01"))
 df.gp  <- df.gp  %>% filter(date >=as.Date("2020-03-01"))
-df.sgss <- df.sgss %>% filter(date <=as.Date("2022-06-01"))
-df.gp  <- df.gp  %>% filter(date <=as.Date("2022-06-01"))
+df.sgss <- df.sgss %>% filter(date <=as.Date("2021-12-31"))
+df.gp  <- df.gp  %>% filter(date <=as.Date("2021-12-31"))
 
 first_mon=format(min(df.sgss$date),"%m-%Y")
 last_mon= format(max(df.sgss$date),"%m-%Y")
@@ -37,7 +37,7 @@ plot <-ggplot(data = df.sgss, aes(x = date, y = value*100))+
     x = "",
     y = "Same day antibiotics prescribing %")+
     theme(axis.text.x=element_text(angle=60,hjust=1))+
-    scale_x_date(date_labels = "%Y %m", breaks = seq(as.Date("2019-01-01"), as.Date("2021-10-01"), by = "3 months"))
+    scale_x_date(date_labels = "%m-%Y", breaks = seq(as.Date("2019-01-01"), as.Date("2021-12-01"), by = "3 months"))
 
 plot
 
@@ -62,7 +62,7 @@ plot <-ggplot(data = df.gp, aes(x = date, y = value*100))+
     x = "",
     y = "Same day antibiotics prescribing %")+
   theme(axis.text.x=element_text(angle=60,hjust=1))+
-  scale_x_date(date_labels = "%Y %m", breaks = seq(as.Date("2019-01-01"), as.Date("2021-10-01"), by = "3 months"))
+  scale_x_date(date_labels = "%m-%Y", breaks = seq(as.Date("2019-01-01"), as.Date("2021-12-01"), by = "3 months"))
 
 plot
 
