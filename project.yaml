@@ -179,13 +179,13 @@ actions:
         notebook: output/aggregate_hrs_antibiotics/aggregate_cox_hrs_antibiotics.html 
         figures: output/aggregate_hrs_antibiotics/*
 
-  generate_notebook_aggregate_cis:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cis.ipynb --execute --to html --output-dir=/workspace/output/aggregate_cis --ExecutePreprocessor.timeout=86400
+  generate_notebook_aggregate_aurocs:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_aurocs.ipynb --execute --to html --output-dir=/workspace/output/aggregate_aurocs --ExecutePreprocessor.timeout=86400
     needs: [generate_notebook_hospitalisation_prediction_urti_combined,generate_notebook_hospitalisation_prediction_urti,generate_notebook_hospitalisation_prediction_lrti,generate_notebook_hospitalisation_prediction_uti,generate_notebook_hospitalisation_prediction_sinusitis,generate_notebook_hospitalisation_prediction_otmedia,generate_notebook_hospitalisation_prediction_ot_externa, generate_notebook_hospitalisation_prediction_cough, generate_notebook_hospitalisation_prediction_cough_cold, generate_notebook_hospitalisation_prediction_throat]
     outputs:
       moderately_sensitive:
-        notebook: output/aggregate_cis/aggregate_cis.html 
-        figures: output/aggregate_cis/*
+        notebook: output/aggregate_aurocs/aggregate_aurocs.html 
+        figures: output/aggregate_aurocs/*
 
   generate_notebook_aggregate_ab_prob:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_ab_prob_plots.ipynb --execute --to html --output-dir=/workspace/output/aggregate_ab_prob --ExecutePreprocessor.timeout=86400
