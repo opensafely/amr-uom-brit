@@ -38,13 +38,13 @@ range(data$interval_sd)
 
 
 #90 percentile
-N1=quantile(data$total_ab,0.9)
-N2=quantile(data$ab_types,0.9)
-N3=quantile(data$exposure_period,0.9)
-N4=quantile(data$recent_ab_days,0.9)
-N5=quantile(data$broad_ab_prescriptions,0.9)
-N6=quantile(data$interval_mean,0.9)
-N7=quantile(data$interval_sd,0.9)
+N1=quantile(data$total_ab,0.9,na.rm = T)
+N2=quantile(data$ab_types,0.9,na.rm = T)
+N3=quantile(data$exposure_period,0.9,na.rm = T)
+N4=quantile(data$recent_ab_days,0.9,na.rm = T)
+N5=quantile(data$broad_ab_prescriptions,0.9,na.rm = T)
+N6=quantile(data$interval_mean,0.9,na.rm = T)
+N7=quantile(data$interval_sd,0.9,na.rm = T)
 
 N=c(N1,N2,N3,N4,N5,N6,N7)
 
@@ -56,7 +56,7 @@ for (i in 1:7) {
 ```
 
 # categorised ab exposure variables
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 col=c("case","subclass",
   "total_ab","ab_types","prescribe_times",
