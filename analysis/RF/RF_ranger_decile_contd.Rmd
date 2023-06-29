@@ -47,11 +47,15 @@ N6=quantile(data$interval_mean,0.9,na.rm = T)
 N7=quantile(data$interval_sd,0.9,na.rm = T)
 
 N=c(N1,N2,N3,N4,N5,N6,N7)
+N
 
 col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+```
 
+
+```{r}
 for (i in 1:7) {
-  data[col[i]]=ifelse( data[col[i]]>=N[i],N[i], data[col[i]])
+  data[,col[i]]=ifelse( data[,col[i]]>=N[i],N[i], data[,col[i]])
 }
 ```
 
