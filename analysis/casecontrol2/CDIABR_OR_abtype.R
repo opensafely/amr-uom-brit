@@ -11,7 +11,7 @@ library(here)
 
 main <- function(condition) {
   # Read the dataset
-  df <- readRDS(here::here("output", "processed", paste0("model2_", condition, ".rds")))
+  df <- readRDS(here::here("output", "processed", paste0("model_", condition, ".rds")))
 
   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
