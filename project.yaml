@@ -153,7 +153,7 @@ actions:
 
 
 ## RF to create decile group
-  RF_ranger_decile: # RF model to all data
+  RF_ranger_decile: # cat predictors
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [process_ab_time]
     outputs:
@@ -162,7 +162,6 @@ actions:
       highly_sensitive:
         rds1: output/all_ranger.rds 
         rds2: output/RF_ranger.rds
-
 
   check_RF_descript_ranger: # descriptive stat
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -180,6 +179,20 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_ranger_final.html
+
+
+###
+
+  RF_ranger_decile_contd: # contd predictors
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_ab_time]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_ranger_decile_contd.html 
+      highly_sensitive:
+        rds1: output/all_ranger_contd.rds 
+        rds2: output/RF_ranger_contd.rds
+
 
 # output
  
