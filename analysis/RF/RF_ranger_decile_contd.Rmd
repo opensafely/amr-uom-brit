@@ -51,7 +51,7 @@ N=c(N1,N2,N3,N4,N5,N6,N7)
 col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
 
 for (i in 1:7) {
-  data[i]=ifelse(data[i]>=N[i],N[i],data[i])
+  data[col[i]]=ifelse( data[col[i]]>=N[i],N[i], data[col[i]])
 }
 ```
 
