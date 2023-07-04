@@ -16,7 +16,12 @@ main <- function(condition) {
   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
   df$set_id=as.factor(df$set_id) #pair id
-  df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
+  df$ethnicity= relevel(as.factor(df$ethnicity), ref="White")
+  df$region= relevel(as.factor(df$region), ref="East of England")
+  df$bmi= relevel(as.factor(df$bmi), ref="Healthy range (18.5-24.9 kg/m2)")
+  df$imd= relevel(as.factor(df$imd), ref="5 (least deprived)")
+  df$smoking_status_comb= relevel(as.factor(df$smoking_status_comb), ref="Never and unknown")
+
   df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
   df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
@@ -30,8 +35,7 @@ main <- function(condition) {
                                                     ab_history >= 3 ~ "3+"))
   # Initialize an empty list
   dfs <- list()
-
-  for (i in 1:6) {
+  for (i in 1:7) {
       
     if(i==1){
       mod=clogit(case ~ ab_treatment + strata(set_id), df)
@@ -40,18 +44,21 @@ main <- function(condition) {
       mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df)
     }
     else if(i==3){
-      mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df)
+      mod=clogit(case ~ ab_treatment + ethnicity + region + bmi + imd + smoking_status_comb + strata(set_id), df)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + ckd_rrt+ strata(set_id), df)
+      mod=clogit(case ~ ab_treatment + ethnicity + region + bmi + imd + smoking_status_comb + ckd_rrt + strata(set_id), df)
     }
     else if(i==5){
-      mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df)
+      mod=clogit(case ~ ab_treatment + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
       mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count + strata(set_id), df)
     }
-    
+    else if(i==7){
+      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
+    }
+
     sum.mod=summary(mod)
     result=data.frame(sum.mod$conf.int)
     DF=result[,-2]
