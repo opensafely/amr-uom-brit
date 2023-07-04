@@ -16,8 +16,12 @@ main <- function(condition, medication) {
   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
   df$set_id=as.factor(df$set_id) #pair id
-  df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
-  df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
+  df$ethnicity= relevel(as.factor(df$ethnicity), ref="White")
+  df$region= relevel(as.factor(df$region), ref="East of England")
+  df$bmi= relevel(as.factor(df$bmi), ref="Healthy range (18.5-24.9 kg/m2)")
+  df$imd= relevel(as.factor(df$imd), ref="5 (least deprived)")
+  df$smoking_status_comb= relevel(as.factor(df$smoking_status_comb), ref="Never and unknown")
+
 
   df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
                                         patient_index_date >=as.Date("2020-03-26") & patient_index_date < as.Date("2021-03-08") ~ "2",
