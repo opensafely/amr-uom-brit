@@ -13,10 +13,14 @@ main <- function(condition) {
   # Read the dataset
   df <- readRDS(here::here("output", "processed", paste0("model_", condition, ".rds")))
 
-  # Preprocess the dataset
+   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
   df$set_id=as.factor(df$set_id) #pair id
-  df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
+  df$ethnicity= relevel(as.factor(df$ethnicity), ref="White")
+  df$region= relevel(as.factor(df$region), ref="East of England")
+  df$bmi= relevel(as.factor(df$bmi), ref="Healthy range (18.5-24.9 kg/m2)")
+  df$imd= relevel(as.factor(df$imd), ref="5 (least deprived)")
+  df$smoking_status_comb= relevel(as.factor(df$smoking_status_comb), ref="Never and unknown")
   df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
   df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
@@ -45,7 +49,7 @@ df$exposure_ab = relevel(as.factor(df$exposure_ab), ref="count_0_type_0")
   # Initialize an empty list
   dfs <- list()
 
-  for (i in 1:3) {
+  for (i in 1:7) {
       
     if(i==1){
       mod=clogit(case ~ exposure_ab + strata(set_id), df)
@@ -54,9 +58,21 @@ df$exposure_ab = relevel(as.factor(df$exposure_ab), ref="count_0_type_0")
       mod=clogit(case ~ covid*exposure_ab + exposure_ab + covid + strata(set_id), df)
     }
     else if(i==3){
-      mod=clogit(case ~ exposure_ab + charlsonGrp + strata(set_id), df)
+      mod=clogit(case ~ exposure_ab + ethnicity + region + bmi + imd + smoking_status_comb + strata(set_id), df)
     }
-    
+    else if(i==4){
+      mod=clogit(case ~ exposure_ab + ethnicity + region + bmi + imd + smoking_status_comb + ckd_rrt + strata(set_id), df)
+    }
+    else if(i==5){
+      mod=clogit(case ~ exposure_ab + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
+    }
+    else if(i==6){
+      mod=clogit(case ~ ab_history_count*exposure_ab + exposure_ab + ab_history_count + strata(set_id), df)
+    }
+    else if(i==7){
+      mod=clogit(case ~ ab_history_count*exposure_ab + exposure_ab + ab_history_count + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
+    }
+
     sum.mod=summary(mod)
     result=data.frame(sum.mod$conf.int)
     DF=result[,-2]
