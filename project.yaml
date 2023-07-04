@@ -303,6 +303,14 @@ actions:
       highly_sensitive: 
         rds1: output/processed/model_ae2.rds
 
+  model2_table:
+    run: r:latest analysis/casecontrol2/model2_table.R
+    needs: [model2_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/table_2_*_case.csv
+        csv2: output/table_2_*_control.csv
+
   type_process_2:
     run: r:latest analysis/casecontrol2/type_process_2.R
     needs: [matching_ae2,case2_abvar_process,control2_abvar_process]
