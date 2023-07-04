@@ -49,28 +49,13 @@ df$exposure_ab = relevel(as.factor(df$exposure_ab), ref="count_0_type_0")
   # Initialize an empty list
   dfs <- list()
 
-  for (i in 1:7) {
+  for (i in 1:2) {
       
     if(i==1){
       mod=clogit(case ~ exposure_ab + strata(set_id), df)
     }
     else if(i==2){
-      mod=clogit(case ~ covid*exposure_ab + exposure_ab + covid + strata(set_id), df)
-    }
-    else if(i==3){
-      mod=clogit(case ~ exposure_ab + ethnicity + region + bmi + imd + smoking_status_comb + strata(set_id), df)
-    }
-    else if(i==4){
-      mod=clogit(case ~ exposure_ab + ethnicity + region + bmi + imd + smoking_status_comb + ckd_rrt + strata(set_id), df)
-    }
-    else if(i==5){
       mod=clogit(case ~ exposure_ab + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
-    }
-    else if(i==6){
-      mod=clogit(case ~ ab_history_count*exposure_ab + exposure_ab + ab_history_count + strata(set_id), df)
-    }
-    else if(i==7){
-      mod=clogit(case ~ ab_history_count*exposure_ab + exposure_ab + ab_history_count + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
     }
 
     sum.mod=summary(mod)
