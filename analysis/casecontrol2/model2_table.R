@@ -8,7 +8,7 @@ library("data.table")
 library("ggpubr")
 library("finalfit")
 
-columns <- c("age","age_band","sex","imd","ethnicity","region","smoking_status_comb","bmi","ab_treatment", "ab_frequency", "exposure_ab", "charlsonGrp","ckd_rrt")
+columns <- c("age","age_band","sex","imd","ethnicity","region","smoking_status_comb","bmi", "exposure_ab", "charlsonGrp","ckd_rrt")
 # Create a vector with the names of the datasets
 datasets <- c("ae2")
 
