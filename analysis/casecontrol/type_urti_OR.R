@@ -37,8 +37,8 @@ main <- function(condition, medication) {
   dfs <- list()
 
 
-  for (i in 1:6) {
-    
+  for (i in 1:7) {
+      
     if(i==1){
       mod=clogit(case ~ medication + strata(set_id), df)
     }
@@ -46,16 +46,19 @@ main <- function(condition, medication) {
       mod=clogit(case ~ covid*medication + medication + covid + strata(set_id), df)
     }
     else if(i==3){
-      mod=clogit(case ~ medication + ckd_rrt + strata(set_id), df)
+      mod=clogit(case ~ medication + ethnicity + region + bmi + imd + smoking_status_comb + strata(set_id), df)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*medication + medication + ckd_rrt+ strata(set_id), df)
+      mod=clogit(case ~ medication + ethnicity + region + bmi + imd + smoking_status_comb + ckd_rrt + strata(set_id), df)
     }
     else if(i==5){
-      mod=clogit(case ~ medication + charlsonGrp + strata(set_id), df)
+      mod=clogit(case ~ medication + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
       mod=clogit(case ~ ab_history_count*medication + medication + ab_history_count + strata(set_id), df)
+    }
+    else if(i==7){
+      mod=clogit(case ~ ab_history_count*medication + medication + ab_history_count + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
     }
     
     sum.mod=summary(mod)
