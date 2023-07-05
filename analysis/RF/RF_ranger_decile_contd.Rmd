@@ -54,7 +54,7 @@ col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescri
 
 
 ```{r}
-for (i in 1:7) {
+for (i in 1) {# just replace total ab
   data[,col[i]]=ifelse( data[,col[i]]>=N[i],N[i], data[,col[i]])
 }
 
@@ -170,7 +170,7 @@ set.seed(123)
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
                    data = train,
                    num.trees =   2000,
-                   min.node.size = 100,
+                   min.node.size = 200,
                    mtry = 3,
                   case.fraction = 0.5,
                    importance = "impurity",
