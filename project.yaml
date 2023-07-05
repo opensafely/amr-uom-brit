@@ -576,24 +576,24 @@ actions:
   #       html: output/check_RF_descript_hosp.html   
 
 
-# sensitivity analysis: clogist result comparison 
-  process_outlier: # remove outlier # check quintile group
-    run: r:latest -e 'rmarkdown::render("analysis/process/process_outlier.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_Rmatching,process_Rmatching_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/process_outlier.html 
-      highly_sensitive:
-      #  cohort1: output/study_1.rds #covid infection
-        cohort2: output/study_2.rds #covid hospital admission
-        cohort3: output/study_3.rds #covid death
+# # sensitivity analysis: clogist result comparison 
+#   process_outlier: # remove outlier # check quintile group
+#     run: r:latest -e 'rmarkdown::render("analysis/process/process_outlier.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_Rmatching,process_Rmatching_hosp]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/process_outlier.html 
+#       highly_sensitive:
+#       #  cohort1: output/study_1.rds #covid infection
+#         cohort2: output/study_2.rds #covid hospital admission
+#         cohort3: output/study_3.rds #covid death
 
-  model_colgit_crude: # coditional logistic regression 
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_crude.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_outlier]
-    outputs:
-      moderately_sensitive:
-        html: output/model_clogit_crude.html  
+#   model_colgit_crude: # coditional logistic regression 
+#     run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_crude.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_outlier]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/model_clogit_crude.html  
 
 
 
