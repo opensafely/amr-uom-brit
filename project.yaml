@@ -342,82 +342,82 @@ actions:
 
 
 
-##### COVID hospital admission
-# matching
-  pre_matching_hosp: # filter incident cases # filter antibiotics 
-    run: r:latest -e 'rmarkdown::render("analysis/matching/pre_matching_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [generate_study_population_covid_admission]
-    outputs:
-      highly_sensitive:
-        csv1: output/case_covid_icu_death.csv
-        csv2: output/control_covid_hosp.csv
-      moderately_sensitive:
-        html:  output/pre_matching_hosp.html
+# ##### COVID hospital admission
+# # matching
+#   pre_matching_hosp: # filter incident cases # filter antibiotics 
+#     run: r:latest -e 'rmarkdown::render("analysis/matching/pre_matching_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [generate_study_population_covid_admission]
+#     outputs:
+#       highly_sensitive:
+#         csv1: output/case_covid_icu_death.csv
+#         csv2: output/control_covid_hosp.csv
+#       moderately_sensitive:
+#         html:  output/pre_matching_hosp.html
 
-  matching_hosp: #R MatchIt  matching with replacement
-    run: r:latest -e 'rmarkdown::render("analysis/matching/matching_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [pre_matching_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/matching_hosp.html
-      highly_sensitive: 
-        rds1: output/matched_patients_hosp.rds
-        rds2: output/unmatched_cases_hosp.rds
-        csv: output/matched_patients_id_hosp.csv # unique patient ID
+#   matching_hosp: #R MatchIt  matching with replacement
+#     run: r:latest -e 'rmarkdown::render("analysis/matching/matching_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [pre_matching_hosp]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/matching_hosp.html
+#       highly_sensitive: 
+#         rds1: output/matched_patients_hosp.rds
+#         rds2: output/unmatched_cases_hosp.rds
+#         csv: output/matched_patients_id_hosp.csv # unique patient ID
 
-  check_unmatched_hosp:
-    run: r:latest -e 'rmarkdown::render("analysis/matching/check_unmatched_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [matching_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/check_unmatched_hosp.html
+#   check_unmatched_hosp:
+#     run: r:latest -e 'rmarkdown::render("analysis/matching/check_unmatched_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [matching_hosp]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/check_unmatched_hosp.html
 
-# extract
-  extract_variables_hosp: # confounders # ab exposure
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_hosp --with-end-date-fix
-    needs: [matching_hosp]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_outcome_hosp.csv
+# # extract
+#   extract_variables_hosp: # confounders # ab exposure
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_outcome_hosp --with-end-date-fix
+#     needs: [matching_hosp]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_outcome_hosp.csv
 
-  process_Rmatching_hosp: # confounders # ab exposure
-    run: r:latest analysis/process/process_Rmatching_hosp.R
-    needs: [extract_variables_hosp,matching_hosp]
-    outputs:
-      highly_sensitive:
-        cohort1: output/matched_outcome_hosp.rds
-        cohort2: output/matched_outcome_check_hosp.rds # filter died & de-regist again
-        rds1: output/abtype79_hosp.rds
-        rds2: output/comor17_hosp.rds
+#   process_Rmatching_hosp: # confounders # ab exposure
+#     run: r:latest analysis/process/process_Rmatching_hosp.R
+#     needs: [extract_variables_hosp,matching_hosp]
+#     outputs:
+#       highly_sensitive:
+#         cohort1: output/matched_outcome_hosp.rds
+#         cohort2: output/matched_outcome_check_hosp.rds # filter died & de-regist again
+#         rds1: output/abtype79_hosp.rds
+#         rds2: output/comor17_hosp.rds
 
-  extract_variables_ab_time_hosp:   # per ab exposure
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_hosp --with-end-date-fix # unique matched patient ID
-    needs: [matching_hosp]
-    outputs:
-      highly_sensitive:
-        cohort: output/input_ab_time_hosp.csv
+#   extract_variables_ab_time_hosp:   # per ab exposure
+#     run: cohortextractor:latest generate_cohort --study-definition study_definition_ab_time_hosp --with-end-date-fix # unique matched patient ID
+#     needs: [matching_hosp]
+#     outputs:
+#       highly_sensitive:
+#         cohort: output/input_ab_time_hosp.csv
 
-  process_ab_time_hosp: # exposures #merge ab time with mathced patients
-    run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
-    needs: [extract_variables_ab_time_hosp,process_Rmatching_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/process_ab_time_hosp.html
-      highly_sensitive: 
-         rds: output/matched_ab_hosp.rds
+#   process_ab_time_hosp: # exposures #merge ab time with mathced patients
+#     run: r:latest -e 'rmarkdown::render("analysis/process/process_ab_time_hosp.Rmd", knit_root_dir = "/workspace", output_dir="/workspace/output")'
+#     needs: [extract_variables_ab_time_hosp,process_Rmatching_hosp]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/process_ab_time_hosp.html
+#       highly_sensitive: 
+#          rds: output/matched_ab_hosp.rds
 
-# RF
-  pre_RF_process_hosp: # split train and valid set # create category variables of ab exposure
-    run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time_hosp,process_Rmatching_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/pre_RF_process_hosp.html
-      highly_sensitive: 
-        rds1: output/train_hosp.rds
-        rds2: output/valid_hosp.rds
-        rds3: output/train_cat_hosp.rds
-        rds4: output/valid_cat_hosp.rds 
+# # RF
+#   pre_RF_process_hosp: # split train and valid set # create category variables of ab exposure
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/pre_RF_process_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [process_ab_time_hosp,process_Rmatching_hosp]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/pre_RF_process_hosp.html
+#       highly_sensitive: 
+#         rds1: output/train_hosp.rds
+#         rds2: output/valid_hosp.rds
+#         rds3: output/train_cat_hosp.rds
+#         rds4: output/valid_cat_hosp.rds 
 
   # model_clogit_hosp: # coditional logistic regression for picking exposure variables 
   #   run: r:latest -e 'rmarkdown::render("analysis/RF/model_clogit_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -462,26 +462,26 @@ actions:
   #       rds2: output/model_adj_hosp.rds
   #       rds3: output/model_adj_all_hosp.rds
 
-# ramger hosp
-  RF_multi_ranger_hosp: 
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_multi_ranger_hosp.html
-      highly_sensitive:
-        rds1: output/development_ranger_hosp.rds 
-        rds2: output/validation_ranger_hosp.rds 
-        rds3: output/RF_model_ranger_hosp.rds 
-      #  rds4: output/development_ranger_1control.rds 
+# # ramger hosp
+#   RF_multi_ranger_hosp: 
+#     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_multi_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [pre_RF_process_hosp]
+#     outputs:
+#       moderately_sensitive:
+#         html: output/RF_multi_ranger_hosp.html
+#       highly_sensitive:
+#         rds1: output/development_ranger_hosp.rds 
+#         rds2: output/validation_ranger_hosp.rds 
+#         rds3: output/RF_model_ranger_hosp.rds 
+#       #  rds4: output/development_ranger_1control.rds 
 
 
-  model_ranger_hosp: # coditional logistic regression for decile groups
-    run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/model_ranger_hosp.html  
+#   model_ranger_hosp: # coditional logistic regression for decile groups
+#     run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+#     needs: [RF_multi_ranger_hosp]
+#     outputs:
+#       moderately_sensitive:
+#        html: output/model_ranger_hosp.html  
 
 #   model_colgit_all: # coditional logistic regression 
 #     run: r:latest -e 'rmarkdown::render("analysis/model/model_clogit_all.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -490,30 +490,30 @@ actions:
 #       moderately_sensitive:
 #         html: output/model_clogit_all.html  
 
-  check_RF_ranger_hosp: # ROC, calibration 
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger_hosp,pre_RF_process_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_ranger_hosp.html   
+  # check_RF_ranger_hosp: # ROC, calibration 
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi_ranger_hosp,pre_RF_process_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF_ranger_hosp.html   
 
-  RF_ranger_decile_hosp: # RF model to all data
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_multi_ranger_hosp]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_ranger_decile_hosp.html 
-      highly_sensitive:
-        rds1: output/all_ranger_hosp.rds 
+  # RF_ranger_decile_hosp: # RF model to all data
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_multi_ranger_hosp]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/RF_ranger_decile_hosp.html 
+  #     highly_sensitive:
+  #       rds1: output/all_ranger_hosp.rds 
 
-  check_RF_descript_ranger_hosp: # descriptive stat
-    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_ranger_decile_hosp,RF_multi_ranger_hosp] #RF_ranger_decil
-    outputs:
-      moderately_sensitive:
-        html: output/check_RF_descript_ranger_hosp.html 
-        csv1: output/crosstab_hosp.csv
-        csv2: output/factor.range_hosp.csv
+  # check_RF_descript_ranger_hosp: # descriptive stat
+  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_ranger_decile_hosp,RF_multi_ranger_hosp] #RF_ranger_decil
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/check_RF_descript_ranger_hosp.html 
+  #       csv1: output/crosstab_hosp.csv
+  #       csv2: output/factor.range_hosp.csv
 
   # check_RF_descript_ranger_hosp: # descriptive stat
   #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger_hosp.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
