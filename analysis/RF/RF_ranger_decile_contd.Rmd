@@ -57,6 +57,15 @@ col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescri
 for (i in 1:7) {
   data[,col[i]]=ifelse( data[,col[i]]>=N[i],N[i], data[,col[i]])
 }
+
+range(data$total_ab)
+range(data$ab_types)
+range(data$exposure_period)
+range(data$recent_ab_days)
+range(data$broad_ab_prescriptions)
+range(data$interval_mean)
+range(data$interval_sd)
+
 ```
 
 
