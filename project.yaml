@@ -483,6 +483,13 @@ actions:
       highly_sensitive: 
         rds1: output/processed/model_*_ab.rds
 
+  ab_freq_table:
+    run: r:latest analysis/casecontrol/ab_freq_table.R
+    needs: [model_process_ab]
+    outputs:
+      moderately_sensitive: 
+        csv: output/*_medication_freq_table.csv
+
   type_uti_OR:
     run: r:latest analysis/casecontrol/type_uti_OR.R
     needs: [model_process_ab]
