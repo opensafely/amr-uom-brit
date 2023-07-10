@@ -29,28 +29,34 @@ main <- function(condition) {
                   "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", 
                   "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
 
-# Convert medication values to TRUE/FALSE
+  # Convert medication values to TRUE/FALSE
   df <- df %>% 
     mutate_at(vars(all_of(medications)), ~ if_else(. > 0, TRUE, FALSE))
 
-  # Generate the frequency table only for TRUE medication values
-  freq_table <- df %>% 
-    gather(medication, value, all_of(medications)) %>%
-    filter(value == TRUE) %>% 
-    group_by(medication, case) %>%  # group by both medication and case
-    summarise(count = n()) %>% 
-    mutate(percentage = count / sum(count) * 100) 
+  for(case in c(0, 1)) {
+    # Generate the frequency table only for TRUE medication values and specific case
+    freq_table <- df %>% 
+      filter(case == case) %>%
+      gather(medication, value, all_of(medications)) %>%
+      filter(value == TRUE) %>% 
+      group_by(medication) %>%  
+      summarise(count = round(n() / 5) * 5) %>%  # round to nearest 5
+      mutate(percentage = round(count / sum(count) * 100, 3)) %>% # round to 3 decimal places
+      arrange(desc(percentage)) # arrange in descending order of percentage
 
-  # Spread data into separate columns for case and control
-  freq_table <- freq_table %>% 
-    spread(key = case, value = count, fill = 0)
-  
-  # Remove "Rx_" prefix from medication names
-  freq_table$medication <- str_replace_all(freq_table$medication, "Rx_", "")
-  
+    # Remove "Rx_" prefix from medication names
+    freq_table$medication <- str_replace_all(freq_table$medication, "Rx_", "")
 
-  # Save the frequency table
-  write_csv(freq_table, here::here("output", paste0(condition,"_medication_freq_table.csv")))
+    # Define file name based on case
+    if(case == 0) {
+      file_name <- paste0("control_",condition,"_medication_freq_table.csv")
+    } else {
+      file_name <- paste0("case_",condition,"_medication_freq_table.csv")
+    }
+
+    # Save the frequency table
+    write_csv(freq_table, here::here("output", file_name))
+  }
 }
 
 main("uti")
