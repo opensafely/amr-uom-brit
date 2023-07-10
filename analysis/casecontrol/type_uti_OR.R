@@ -74,6 +74,18 @@ main <- function(condition) {
   # Convert medication to factor, with "None" as the reference level
   df$medication <- relevel(factor(df$medication), ref = "None")
 
+  # Calculate the frequency of each medication level by case
+  medication_freq <- df %>% group_by(medication, case) %>% summarise(freq = n())
+
+  # Pivot the data to have case values as columns
+  medication_freq_pivot <- medication_freq %>% pivot_wider(names_from = case, values_from = freq)
+
+  # Replace NA values with 0
+  medication_freq_pivot[is.na(medication_freq_pivot)] <- 0
+
+  # Write the frequency table to a CSV file
+  write_csv(medication_freq_pivot, here::here("output", paste0(condition,"_ab_medication_freq.csv")))
+
 
   # Initialize an empty list
   dfs <- list()
