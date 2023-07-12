@@ -402,6 +402,14 @@ actions:
       moderately_sensitive: 
         csv: output/*_model_result.csv
 
+  model_abhistory_OR:
+    run: r:latest analysis/casecontrol/model_abhistory_OR.R
+    needs: [model_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/*_abhistory_model_result.csv
+        csv2: output/*_ab_history_freq.csv
+
   model_table:
     run: r:latest analysis/casecontrol/model_table.R
     needs: [model_process]
