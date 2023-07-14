@@ -319,6 +319,10 @@ DF_counter=DF_counter%>%filter(date>=as.Date("2020-04-01"))
 # plot
 ```{r}
 
+# round counts to nearest 5
+DF$counts=round(DF$counts/5)*5
+
+
 ##add labels etc
 plot_ITS<-ggplot(DF, aes(x=date, y=fit*1000/population, group=covid))+ 
   
