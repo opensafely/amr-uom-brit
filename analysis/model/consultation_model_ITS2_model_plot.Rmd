@@ -276,37 +276,37 @@ DF$indic=factor(DF$indic,levels=c("all infections","URTI","LRTI","sinusitis","ot
 
 df1_counter <- subset(df1, select=-c(fit,se.fit))
 df1_counter$covid=as.factor(0)
-df1_counter$time.since=as.factor(0)
+df1_counter$time.since=0
 df1_counter  <- cbind(df1_counter, "resp" = predict(m1, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df2_counter <- subset(df2, select=-c(fit,se.fit))
 df2_counter$covid=as.factor(0)
-df2_counter$time.since=as.factor(0)
+df2_counter$time.since=0
 df2_counter  <- cbind(df2_counter, "resp" = predict(m2, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df3_counter <- subset(df3, select=-c(fit,se.fit))
 df3_counter$covid=as.factor(0)
-df3_counter$time.since=as.factor(0)
+df3_counter$time.since=0
 df3_counter  <- cbind(df3_counter, "resp" = predict(m3, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df4_counter <- subset(df4, select=-c(fit,se.fit))
 df4_counter$covid=as.factor(0)
-df4_counter$time.since=as.factor(0)
+df4_counter$time.since=0
 df4_counter  <- cbind(df4_counter, "resp" = predict(m4, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df5_counter <- subset(df5, select=-c(fit,se.fit))
 df5_counter$covid=as.factor(0)
-df5_counter$time.since=as.factor(0)
+df5_counter$time.since=0
 df5_counter  <- cbind(df5_counter, "resp" = predict(m5, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df6_counter <- subset(df6, select=-c(fit,se.fit))
 df6_counter$covid=as.factor(0)
-df6_counter$time.since=as.factor(0)
+df6_counter$time.since=0
 df6_counter  <- cbind(df6_counter, "resp" = predict(m6, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df7_counter <- subset(df7, select=-c(fit,se.fit))
 df7_counter$covid=as.factor(0)
-df7_counter$time.since=as.factor(0)
+df7_counter$time.since=0
 df7_counter  <- cbind(df7_counter, "resp" = predict(m7, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 DF_counter= rbind(df1_counter,df2_counter,df3_counter,df4_counter,df5_counter,df6_counter,df7_counter)
