@@ -310,6 +310,8 @@ df7_counter  <- cbind(df7_counter, "resp" = predict(m7, type = "response", se.fi
 
 DF_counter= rbind(df1_counter,df2_counter,df3_counter,df4_counter,df5_counter,df6_counter,df7_counter)
 DF_counter$indic=factor(DF_counter$indic,levels=c("all infections","URTI","LRTI","sinusitis","otitis media","otitis externa","UTI"))
+
+DF_counter=DF_counter%>%filter(date>=as.Date("2020-04-01"))
 ```
 
 
@@ -323,12 +325,12 @@ plot_ITS<-ggplot(DF, aes(x=date, y=fit*1000/population, group=covid))+
     geom_point(shape=4, aes(x=date, y=counts/population*1000))+ 
   
 # prediction model  
-    geom_line(color="black")+ 
-    geom_ribbon(aes(ymin=((fit-1.96*se.fit)*1000)/population, ymax=((fit+1.96*se.fit)*1000)/population),alpha=0.2,fill="black") +
+    geom_line(color="blue")+ 
+    geom_ribbon(aes(ymin=((fit-1.96*se.fit)*1000)/population, ymax=((fit+1.96*se.fit)*1000)/population),alpha=0.2,fill="blue") +
 
 # prediction model: non covid    
-    geom_line(aes(y=fit*1000/population,x=date),color="blue",data = DF_counter)+
-    geom_ribbon(aes(ymin=((fit-1.96*se.fit)*1000)/population, ymax=((fit+1.96*se.fit)*1000)/population),alpha=0.2,fill="blue",data = DF_counter) +
+    geom_line(aes(y=fit*1000/population,x=date),color="red",data = DF_counter)+
+    geom_ribbon(aes(ymin=((fit-1.96*se.fit)*1000)/population, ymax=((fit+1.96*se.fit)*1000)/population),alpha=0.2,fill="red",data = DF_counter) +
 
 # group by indication  
   facet_grid(rows = vars(indic),scales="free_y",labeller = label_wrap_gen(width = 2, multi_line = TRUE))+
