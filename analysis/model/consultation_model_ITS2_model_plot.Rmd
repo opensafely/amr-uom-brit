@@ -28,52 +28,198 @@ library("ggpubr")
 # incident
 
 ```{r message=FALSE}
+### Import data
+filelist=c("consult_UTI.rds","consult_URTI.rds","consult_LRTI.rds","consult_sinusitis.rds","consult_ot_externa.rds","consult_otmedia.rds","consult_indications.rds")
 
-# import incident cases
-df = read_csv(here::here("output","redacted","consultation_rate_incident_check.csv"))
+#temp <- vector("list", length(filelist))
 
-df$date=as.Date(df$date)
-# define covid date
-breaks <- c(as.Date("2019-01-01"),as.Date("2019-12-31"),# 1=pre-covid, 2=exclusion
-            as.Date("2020-04-01"), as.Date("2021-12-31"),# 3= covid time
-            max(df$date)) # NA exclusion
+#for (i in seq_along(filelist)){
 
-df=df%>%mutate(covid=cut(date,breaks,labels = 1:4))
-
-df=df%>% filter(covid==1 | covid==3)
-df$covid= recode(df$covid, '1'="0", '3'="1") # precovid=0, covid=1
-df$covid <- factor(df$covid, levels=c("0","1"))
-
-# month for adjust seasonality
-df$month=format(df$date,"%m")
-df=df%>% mutate(season= case_when( month=="03"|month=="04"|month=="05" ~ "spring",
-                                   month=="06"|month=="07"|month=="08" ~ "summer",
-                                   month=="09"|month=="10"|month=="11" ~ "autumn",
-                                   month=="12"|month=="01"|month=="02" ~ "winter"))
-df$month=relevel(as.factor(df$season),ref="spring")
-
+df = read_rds(here::here("output","measures",filelist[1]))
 # infection counts, population size, covid period
-df= df%>% group_by(date, covid,indic)%>% 
-  summarise(counts=sum(counts), 
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
             population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
 # time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
 df$times <- as.numeric(as.factor(df$date))
 
 # time sequnece after covid
 df=df%>% group_by(covid)%>%mutate(time.since=1:n())
 df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df1=df
+df1$indic="UTI"
+
+rm(df)
+#}
+
+df = read_rds(here::here("output","measures",filelist[2]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df2=df
+df2$indic="URTI"
+
+rm(df)
+
+df = read_rds(here::here("output","measures",filelist[3]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df3=df
+df3$indic="LRTI"
+
+rm(df)
+
+df = read_rds(here::here("output","measures",filelist[4]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df4=df
+df4$indic="sinusitis"
+rm(df)
 
 
-df1=df%>%filter(indic=="UTI")
-df2=df%>%filter(indic=="LRTI")
-df3=df%>%filter(indic=="URTI") 
-df4=df%>%filter(indic=="sinusitis")
-df5=df%>%filter(indic=="otitis externa")
-df6=df%>%filter(indic=="otitis media")
-df7=df%>%filter(indic=="all indications")
+df = read_rds(here::here("output","measures",filelist[5]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df5=df
+df5$indic="otitis externa"
+rm(df)
+
+
+df = read_rds(here::here("output","measures",filelist[6]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df6=df
+df6$indic="otitis media"
+rm(df)
+
+
+
+# all indications updated
+df = read_rds(here::here("output","measures",filelist[7]))
+# infection counts, population size, covid period
+df = df%>% group_by(date, covid)%>% 
+  summarise(counts=sum(infection_counts), 
+            population=sum(population))
+# month for seasonality
+df$month= format(df$date,"%m")
+# time elapsed(measurement time point) for linear effect of time to capture long-term behaviour trends
+df$times <- as.numeric(as.factor(df$date))
+# time sequnece after covid
+df=df%>% group_by(covid)%>%mutate(time.since=1:n())
+df$time.since <- ifelse(df$covid==0,0,df$time.since)
+  
+#temp[[i]]=df
+
+df7=df
+df7$indic="all infections"
+
+rm(df)
 
 ```
 
+```{r message=FALSE}
+
+df1=df1%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df1$month=relevel(as.factor(df1$season),ref="spring")
+df2=df2%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df2$month=relevel(as.factor(df2$season),ref="spring")
+df3=df3%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df3$month=relevel(as.factor(df3$season),ref="spring")
+df4=df4%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df4$month=relevel(as.factor(df4$season),ref="spring")
+df5=df5%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df5$month=relevel(as.factor(df5$season),ref="spring")
+df6=df6%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df6$month=relevel(as.factor(df6$season),ref="spring")
+df7=df7%>%mutate(season= case_when(month=="12"|month=="01"|month=="02" ~ "winter",
+                                   month=="03"|month=="04"|month=="05" ~"spring",
+                                   month=="06"|month=="07"|month=="08" ~"summer",
+                                   month=="09"|month=="10"|month=="11" ~"autumn"))
+df7$month=relevel(as.factor(df7$season),ref="spring")
+```
 
 1. UTI
 ```{r}
@@ -122,7 +268,7 @@ df7 <- cbind(df7, "resp" = predict(m7, type = "response", se.fit = TRUE)[1:2])
 
 DF=rbind(df1,df2,df3,df4,df5,df6,df7)
 
-DF$indic=factor(DF$indic,levels=c("all indications","URTI","LRTI","sinusitis","otitis media","otitis externa","UTI"))
+DF$indic=factor(DF$indic,levels=c("all infections","URTI","LRTI","sinusitis","otitis media","otitis externa","UTI"))
 ```
 
 # prediction -non covid
@@ -157,7 +303,7 @@ df7_counter$covid<- as.factor(df7_counter$covid)
 df7_counter  <- cbind(df7_counter, "resp" = predict(m7, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 DF_counter= rbind(df1_counter,df2_counter,df3_counter,df4_counter,df5_counter,df6_counter,df7_counter)
-DF_counter$indic=factor(DF_counter$indic,levels=c("all indications","URTI","LRTI","sinusitis","otitis media","otitis externa","UTI"))
+DF_counter$indic=factor(DF_counter$indic,levels=c("all infections","URTI","LRTI","sinusitis","otitis media","otitis externa","UTI"))
 ```
 
 
