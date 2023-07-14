@@ -345,7 +345,8 @@ plot_ITS<-ggplot(DF, aes(x=date, y=fit*1000/population, group=covid))+
                  breaks = seq(as.Date("2019-01-01"), as.Date("2021-12-01"), 
                               by = "3 months"))+
       theme(axis.text.x = element_text(angle = 60,hjust=1),
-          legend.position = "bottom",legend.title =element_blank())+
+          legend.position = "bottom",legend.title =element_blank(),
+          strip.text = element_text(size = 8))+
     labs(
       title = "",
       x = "", 
