@@ -291,7 +291,8 @@ df3_counter  <- cbind(df3_counter, "resp" = predict(m3, type = "response", se.fi
 
 df4_counter <- subset(df4, select=-c(fit,se.fit))
 df4_counter$covid=as.factor(0)
-df4_counter$time.since=as.factor(0)df4_counter  <- cbind(df4_counter, "resp" = predict(m4, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
+df4_counter$time.since=as.factor(0)
+df4_counter  <- cbind(df4_counter, "resp" = predict(m4, type = "response", se.fit = TRUE, newdata = df1_counter)[1:2])
 
 df5_counter <- subset(df5, select=-c(fit,se.fit))
 df5_counter$covid=as.factor(0)
