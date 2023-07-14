@@ -2483,7 +2483,9 @@ actions:
       moderately_sensitive:
         html: output/report/consultation_model_ITS2_model_plot.html
         jpg: output/plot_ITS.jpeg
-  
+        csv: output/plot_ITS_check.csv
+
+       
   consultation_model_ITS2_combined_recovery: #model for testing  recovery level : overall, incident, prevalent (not released)
     run: r:latest -e 'rmarkdown::render("analysis/model/consultation_model_ITS2_combined_recovery.rmd", output_dir = "output/report")'
     needs: [describe_consultation_model_process_1,describe_consultation_rate_all_incident_redacted,describe_consultation_rate_all_prevalent_redacted]

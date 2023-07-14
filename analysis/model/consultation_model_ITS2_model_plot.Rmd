@@ -371,5 +371,7 @@ ggsave(
    plot= plot_ITS,
    filename="plot_ITS.jpeg", path=here::here("output"), dpi = 300
 )
+
+write.csv(DF,here::here("output","plot_ITS_check.csv"))
 ```
 
