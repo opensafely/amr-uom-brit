@@ -214,7 +214,9 @@ imps %>%
 ```{r }
 data=train
 set.seed(123)
-data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
+#data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
+data$prob <- predictions(rf.model)[,2]# votes of being case
+
 
 summary(data$prob)
 hist(data$prob )
