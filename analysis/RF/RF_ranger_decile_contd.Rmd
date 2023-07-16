@@ -167,37 +167,37 @@ library(ranger)
 
 set.seed(123)
 
-hyper_grid <- expand.grid(
-  min.node.size  = c(50,200),
-  max.depth = c(50,300),
-  importance= c("impurity","impurity_corrected"),
-    OOB_RMSE   = 0)
+#hyper_grid <- expand.grid(
+ # min.node.size  = c(50,200),
+ # max.depth = c(50,300),
+ # importance= c("impurity","impurity_corrected"),
+ #   OOB_RMSE   = 0)
 
-for (i in 1:2) {
+#for (i in 1:2) {
   
 
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
                    data = train,
                    num.trees =   2000,
-                   min.node.size = hyper_grid$min.node.size[i],
-                   max.depth = hyper_grid$max.depth[i],
+                   min.node.size = 200,
+                   max.depth = 300,
                    mtry = 3,
-                 #  case.fraction = 0.5,
-                   importance = hyper_grid$importance[i],
+                   case.fraction = 0.5,
+                   importance = "impurity",
                    replace = TRUE,
-              #     probability = TRUE,
+                   probability = TRUE,
                           )
 
  # add OOB error to grid
-    hyper_grid$OOB_RMSE[i] <- sqrt(rf.model$prediction.error)
-}
-hyper_grid
-# run over 1 wk: 0.6 size 1000 trees
-#saveRDS(rf.model,here::here("output","RF_ranger_contd.rds"))
+  #  hyper_grid$OOB_RMSE[i] <- sqrt(rf.model$prediction.error)
+#
+#hyper_grid
+
+saveRDS(rf.model,here::here("output","RF_ranger_contd.rds"))
 ```
 
 # variable importance
-```{r eval=FALSE, include=FALSE}
+```{r}
 
 # calculate relative importance
 imps <- data.frame(var = names(rf.model$variable.importance),
@@ -225,7 +225,7 @@ imps %>%
 
 # train
 ## predict probabilities 
-```{r eval=FALSE, include=FALSE}
+```{r}
 data=train
 set.seed(123)
 #data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
@@ -244,7 +244,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 
 #  c statistic / AUC
 roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
@@ -261,7 +261,7 @@ E/O
 ```
 
 ## create decile group
-```{r eval=FALSE, include=FALSE}
+```{r}
 prob=data$prob
 vec=vector()
 
@@ -285,7 +285,7 @@ data=cbind(data,decile)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 # calibration 
 gpdata=data%>%select(decile, case, prob)
 
@@ -333,14 +333,14 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 names(data)
 saveRDS(data,here::here("output","all_ranger_contd_train.rds"))
 ```
 
 # valid
 ## predict probabilities 
-```{r eval=FALSE, include=FALSE}
+```{r}
 data=valid
 set.seed(123)
 data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
@@ -357,7 +357,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 
 #  c statistic / AUC
 roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
@@ -374,7 +374,7 @@ E/O
 ```
 
 ## create decile group
-```{r eval=FALSE, include=FALSE}
+```{r}
 prob=data$prob
 vec=vector()
 
@@ -398,7 +398,7 @@ data=cbind(data,decile)
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 # calibration 
 gpdata=data%>%select(decile, case, prob)
 
@@ -446,7 +446,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```
 
 
-```{r eval=FALSE, include=FALSE}
+```{r}
 names(data)
 saveRDS(data,here::here("output","all_ranger_contd_valid.rds"))
 ```
