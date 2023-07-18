@@ -179,7 +179,7 @@ set.seed(123)
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
                    data = train,
                    num.trees =   2000,
-                   min.node.size = 10,
+                   min.node.size = 2,
                    max.depth = 500,
                    mtry = 3,
                    case.fraction = 0.5,
