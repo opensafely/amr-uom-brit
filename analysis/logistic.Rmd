@@ -1,0 +1,28 @@
+---
+title: "Random Forest"
+---
+
+```{r setup, include=FALSE}
+library("caret")
+library("survival")
+library('tidyverse')
+library(pROC) #plyr
+library(randomForest) #dplyr
+```
+
+# import dataset
+```{r }
+data<- read.csv(here::here("output","prob_pred_lr_rf_lrti_incdt_deciles_r_analysis.csv"))
+data$ab_binary=as.factor(data$ab_binary)
+
+names(data)
+
+```
+
+logistic model
+```{r }
+model <- glm(ab_binary ~. , data = data, family = binomial)
+
+print(rf.model)
+```
+

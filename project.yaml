@@ -197,7 +197,7 @@ actions:
 
 
   logistic: 
-    run: r:latest -e 'rmarkdown::render("analysis/check/logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    run: r:latest -e 'rmarkdown::render("analysis/logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [generate_notebook_hospitalisation_prediction_lrti]
     outputs:
       moderately_sensitive:
