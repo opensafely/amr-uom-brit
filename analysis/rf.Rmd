@@ -52,21 +52,21 @@ imps <- data.frame(var = names(rf.model$variable.importance),
                    imps.score=rf.model$variable.importance)
 
 # rename variable
-imps$var
+#imps
 
-imps %>% 
-  ggplot(aes(imps, x = reorder(var, imps))) +
-  geom_point(size = 3, colour = "grey60") +
-  coord_flip() +
-  labs(x = "", y = "Importance") +
-  theme_bw(15)
+#imps %>% 
+#  ggplot(aes(imps, x = reorder(var, imps))) +
+#  geom_point(size = 3, colour = "grey60") +
+#  coord_flip() +
+#  labs(x = "", y = "Importance") +
+#  theme_bw(15)
 
-imps %>% 
-  ggplot(aes(imps.score, x = reorder(var, imps.score))) +
-  geom_point(size = 3, colour = "grey60", ) +
-  coord_flip() +
-  labs(x = "", y = "Importance Score") +
-  theme_bw(15)
+#imps %>% 
+ # ggplot(aes(imps.score, x = reorder(var, imps.score))) +
+ # geom_point(size = 3, colour = "grey60", ) +
+#  coord_flip() +
+#  labs(x = "", y = "Importance Score") +
+#  theme_bw(15)
 ```
 
 
