@@ -201,7 +201,7 @@ actions:
     needs: [generate_notebook_hospitalisation_prediction_lrti]
     outputs:
       moderately_sensitive:
-        html: output/check_logistic.html
+        html: output/logistic.html
       # highly_sensitive:
       #   rds1: output/development_logi.rds 
       #   rds2: output/validation_logi.rds   
