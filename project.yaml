@@ -205,3 +205,10 @@ actions:
       # highly_sensitive:
       #   rds1: output/development_logi.rds 
       #   rds2: output/validation_logi.rds   
+
+  rf: 
+    run: r:latest -e 'rmarkdown::render("analysis/rf.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_notebook_hospitalisation_prediction_lrti]
+    outputs:
+      moderately_sensitive:
+        html: output/rf.html
