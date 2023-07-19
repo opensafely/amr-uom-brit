@@ -29,7 +29,7 @@ set.seed(1024)
 train_idx <- sample(idx,  length(idx)* 0.8)
 length(train_idx)
 
-valid_idx <- idx[!sidx %in% train_idx]
+valid_idx <- idx[!idx %in% train_idx]
 length(valid_idx)
 
 train =df %>% filter(idx %in% train_idx)
