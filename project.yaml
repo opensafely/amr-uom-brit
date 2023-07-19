@@ -163,14 +163,14 @@ actions:
         rds1: output/all_ranger.rds 
         rds2: output/RF_ranger.rds
 
-  # check_RF_descript_ranger: # descriptive stat # factor input
-  #   run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [RF_ranger_decile,RF_multi_ranger] #RF_ranger_decil
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/check_RF_descript_ranger.html 
-  #       csv1: output/crosstab.csv
-  #       csv2: output/factor.range.csv
+  check_RF_descript_ranger: # descriptive stat # factor input
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_descript_ranger.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile,RF_multi_ranger] #RF_ranger_decil
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_descript_ranger.html 
+        csv1: output/crosstab.csv
+        csv2: output/factor.range.csv
 
   RF_result: # predictor radar plot
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_result.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
