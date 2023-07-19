@@ -1,0 +1,94 @@
+---
+title: " Descriptive stat of RF classification"
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library("plyr")
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+
+
+
+# variable importance
+## https://brunaw.com/slides/rladies-dublin/RF/intro-to-rf.html#30
+```{r}
+model_rf=readRDS(here::here("output","RF_model_ranger.rds"))
+
+
+# calculate relative importance
+imps <- data.frame(var = names(model_rf$variable.importance),
+                   imps = model_rf$variable.importance/max(model_rf$variable.importance),
+                   imps.score=model_rf$variable.importance)
+
+# rename variable
+imps$var
+imps$var=c("Total antibiotics","Antibiotic types","Exposure period","Recent exposure", "Broad-spectrum antibiotics","Prescribing intervals (mean)", "Prescribing intervals (SD)")
+```
+
+
+```{r}
+# importance plot
+imps %>% 
+  ggplot(aes(imps, x = reorder(var, imps))) +
+  geom_point(size = 3, colour = "grey60") +
+  coord_flip() +
+  labs(x = "", y = "Importance") +
+  theme_bw(15)
+
+imps %>% 
+  ggplot(aes(imps.score, x = reorder(var, imps.score))) +
+  geom_point(size = 3, colour = "grey60", ) +
+  coord_flip() +
+  labs(x = "", y = "Importance Score") +
+  theme_bw(15)
+```
+
+# read table
+```{r}
+data=read_rds(here::here("output","all_ranger.rds"))
+data$decile=as.factor(data$decile)
+```
+
+
+
+# descriptive stat
+```{r}
+contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+```
+
+
+```{r}
+
+temp.list=list()
+
+for (i in 1:7) {
+  
+Q1=tapply(data[,contd[i]],data[,"decile"], quantile, p=0.25)  
+Q3=tapply(data[,contd[i]],data[,"decile"], quantile, p=0.75)  
+Q2=tapply(data[,contd[i]],data[,"decile"], quantile, p=0.5)  
+mean=tapply(data[,contd[i]],data[,"decile"], mean)  
+
+temp.tbl= data.frame(Q1,Q3,Q2,mean)
+temp.tbl$variable=contd[i]
+temp.list[[i]]<- temp.tbl
+
+}
+
+table=rbindlist(temp.list)
+
+table
+
+write.csv(table,here::here("output","input_range.csv"))
+
+```
+
+
+
