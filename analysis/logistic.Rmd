@@ -23,6 +23,6 @@ logistic model
 ```{r }
 model <- glm(ab_binary ~. , data = data, family = binomial)
 
-print(rf.model)
+print(model)
 ```
 
