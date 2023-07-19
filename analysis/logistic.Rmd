@@ -12,17 +12,47 @@ library(randomForest) #dplyr
 
 # import dataset
 ```{r }
-data<- read.csv(here::here("output","hospitalisation_prediction_lrti","prob_pred_lr_rf_lrti_incdt_deciles_r_analysis.csv"))
-data$ab_binary=as.factor(data$ab_binary)
+df<- read.csv(here::here("output","hospitalisation_prediction_lrti","prob_pred_lr_rf_lrti_incdt_deciles_r_analysis.csv"))
+df$ab_binary=as.factor(df$ab_binary)
 
-names(data)
+names(df)
 
 ```
 
-logistic model
+
+# split data
+```{r}
+
+df$idx=seq(nrow(df))
+idx=df$idx
+
+set.seed(1024)
+train_idx <- sample(idx,  length(idx)* 0.8)
+length(train_idx)
+
+valid_idx <- idx[!sidx %in% train_idx]
+length(valid_idx)
+
+train =df %>% filter(idx %in% train_idx)
+nrow(train)
+
+valid =df %>% filter(idx %in% valid_idx)
+nrow(valid)
+
+```
+
+# logistic model
+## train
 ```{r }
-model <- glm(ab_binary ~. , data = data, family = binomial)
+model <- glm(ab_binary ~bins. , data = train, family = binomial)
 
 print(model)
 ```
 
+## valid
+# logistic model
+```{r }
+model <- glm(ab_binary ~bins. , data = valid, family = binomial)
+
+print(model)
+```
