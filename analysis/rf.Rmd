@@ -53,7 +53,6 @@ imps <- data.frame(var = names(rf.model$variable.importance),
 
 # rename variable
 imps$var
-imps$var=c("Total antibiotics","Antibiotic types","Exposure period","Recent exposure", "Broad-spectrum antibiotics","Prescribing intervals (mean)", "Prescribing intervals (SD)")
 
 imps %>% 
   ggplot(aes(imps, x = reorder(var, imps))) +
