@@ -160,7 +160,7 @@ saveRDS(rf.model,here::here("output","RF_ranger.rds"))
 ## predict probabilities 
 ```{r }
 set.seed(123)
-data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
+data$prob <- predictions(rf.model)[,2]
 
 summary(data$prob)
 hist(data$prob )
