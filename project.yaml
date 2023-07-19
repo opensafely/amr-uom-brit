@@ -179,7 +179,6 @@ actions:
       moderately_sensitive:
         html: output/RF_result.html 
         csv1: output/input_range.csv
-        csv2: output/factor.range.csv
 
 # final model
   model_ranger_final: # coditional logistic regression for decile groups
