@@ -12,7 +12,7 @@ library(randomForest) #dplyr
 
 # import dataset
 ```{r }
-data<- read.csv(here::here("output","prob_pred_lr_rf_lrti_incdt_deciles_r_analysis.csv"))
+data<- read.csv(here::here("output","hospitalisation_prediction_lrti","prob_pred_lr_rf_lrti_incdt_deciles_r_analysis.csv"))
 data$ab_binary=as.factor(data$ab_binary)
 
 names(data)
