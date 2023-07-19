@@ -194,3 +194,14 @@ actions:
       moderately_sensitive:
         notebook: output/aggregate_ab_prob/aggregate_ab_prob_plots.html 
         figures: output/aggregate_ab_prob/*
+
+
+  logistic: 
+    run: r:latest -e 'rmarkdown::render("analysis/check/logistic.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_notebook_hospitalisation_prediction_lrti]
+    outputs:
+      moderately_sensitive:
+        html: output/check_logistic.html
+      # highly_sensitive:
+      #   rds1: output/development_logi.rds 
+      #   rds2: output/validation_logi.rds   
