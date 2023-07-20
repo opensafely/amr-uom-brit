@@ -52,7 +52,7 @@ print(model)
 ## valid
 # logistic model
 ```{r }
-model <- glm(ab_binary ~bins. , data = valid, family = binomial)
+model <- glm(ab_binary ~bins , data = valid, family = binomial)
 
 print(model)
 ```
