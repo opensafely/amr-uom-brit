@@ -44,7 +44,7 @@ nrow(valid)
 # logistic model
 ## train
 ```{r }
-model <- glm(ab_binary ~bins. , data = train, family = binomial)
+model <- glm(ab_binary ~bins , data = train, family = binomial)
 
 print(model)
 ```

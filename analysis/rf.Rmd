@@ -53,7 +53,7 @@ rf.model= ranger(formula = ab_binary ~bins,
                  #  max.depth = 500,
                  #  min.bucket=100,
                  #  mtry = 3,
-                 #  case.fraction = 0.5,
+                 #  ab_binary.fraction = 0.5,
                  #  importance = "impurity",
                    replace = TRUE,
                    probability = TRUE,
@@ -105,7 +105,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 ```{r}
 
 #  c statistic / AUC
-roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
+roc_data <- roc(data$ab_binary ~data$prob, smoothed = TRUE,
             ci=TRUE, ci.alpha=0.9, stratified=FALSE,
             plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
             print.auc=TRUE, show.thres=TRUE)
@@ -113,7 +113,7 @@ print(roc_data) #AUC
 
 
 # E/O
-O <- prop.table(table(data$case))[2]
+O <- prop.table(table(data$ab_binary))[2]
 E <- mean(data$prob)
 E/O
 ```
@@ -145,21 +145,21 @@ data=cbind(data,decile)
 
 ```{r}
 # calibration 
-gpdata=data%>%select(decile, case, prob)
+gpdata=data%>%select(decile, ab_binary, prob)
 
 table(gpdata$decile)
 summary(gpdata[gpdata$decile==1,])
 head(gpdata)
 
-obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(ab_binary))))
 obs=obs%>% pull(mean.obs)
 
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(ab_binary))))[,2])
 exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
 exp=exp%>%pull(mean.exp)
 
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(data$case,data$decile)[1,] 
+obsn <- table(data$ab_binary,data$decile)[1,] 
 
 cbind(exp,obs)# expected value vs. observed value
  
@@ -182,7 +182,7 @@ for(i in 1:length(h$mids)){
 }
 
 # Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(data$case))~data$prob,span=1))
+obs_all <- predict(loess(as.numeric(as.character(data$ab_binary))~data$prob,span=1))
 lines_data <- data.frame(data$prob,obs_all)
 lines_data2 <- lines_data[order(data$prob),] 
 lines(lines_data2[,1],lines_data2[,2],col="blue")
@@ -196,7 +196,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```{r}
 
 set.seed(123)
-data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
+data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being ab_binary
 
 summary(data$prob)
 hist(data$prob )
@@ -204,7 +204,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 
 
 
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#exp.class <- predict(rf.model, data, type = 'response')# predicted ab_binary/control
 #prop.table(summary(exp.class))
 ```
 
@@ -213,7 +213,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 ```{r}
 
 #  c statistic / AUC
-roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
+roc_data <- roc(data$ab_binary ~data$prob, smoothed = TRUE,
             ci=TRUE, ci.alpha=0.9, stratified=FALSE,
             plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
             print.auc=TRUE, show.thres=TRUE)
@@ -221,7 +221,7 @@ print(roc_data) #AUC
 
 
 # E/O
-O <- prop.table(table(data$case))[2]
+O <- prop.table(table(data$ab_binary))[2]
 E <- mean(data$prob)
 E/O
 ```
@@ -253,21 +253,21 @@ data=cbind(data,decile)
 
 ```{r}
 # calibration 
-gpdata=data%>%select(decile, case, prob)
+gpdata=data%>%select(decile, ab_binary, prob)
 
 table(gpdata$decile)
 summary(gpdata[gpdata$decile==1,])
 head(gpdata)
 
-obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(ab_binary))))
 obs=obs%>% pull(mean.obs)
 
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(ab_binary))))[,2])
 exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
 exp=exp%>%pull(mean.exp)
 
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(data$case,data$decile)[1,] 
+obsn <- table(data$ab_binary,data$decile)[1,] 
 
 cbind(exp,obs)# expected value vs. observed value
  
@@ -290,7 +290,7 @@ for(i in 1:length(h$mids)){
 }
 
 # Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(data$case))~data$prob,span=1))
+obs_all <- predict(loess(as.numeric(as.character(data$ab_binary))~data$prob,span=1))
 lines_data <- data.frame(data$prob,obs_all)
 lines_data2 <- lines_data[order(data$prob),] 
 lines(lines_data2[,1],lines_data2[,2],col="blue")
@@ -303,7 +303,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```{r}
 data=valid
 set.seed(123)
-data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
+data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being ab_binary
 
 summary(data$prob)
 hist(data$prob )
@@ -311,7 +311,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 
 
 
-#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#exp.class <- predict(rf.model, data, type = 'response')# predicted ab_binary/control
 #prop.table(summary(exp.class))
 ```
 
@@ -320,7 +320,7 @@ sum(data$prob ==0)/length(data$prob)# % zero
 ```{r}
 
 #  c statistic / AUC
-roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
+roc_data <- roc(data$ab_binary ~data$prob, smoothed = TRUE,
             ci=TRUE, ci.alpha=0.9, stratified=FALSE,
             plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
             print.auc=TRUE, show.thres=TRUE)
@@ -328,7 +328,7 @@ print(roc_data) #AUC
 
 
 # E/O
-O <- prop.table(table(data$case))[2]
+O <- prop.table(table(data$ab_binary))[2]
 E <- mean(data$prob)
 E/O
 ```
@@ -360,21 +360,21 @@ data=cbind(data,decile)
 
 ```{r}
 # calibration 
-gpdata=data%>%select(decile, case, prob)
+gpdata=data%>%select(decile, ab_binary, prob)
 
 table(gpdata$decile)
 summary(gpdata[gpdata$decile==1,])
 head(gpdata)
 
-obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(ab_binary))))
 obs=obs%>% pull(mean.obs)
 
-#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(ab_binary))))[,2])
 exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
 exp=exp%>%pull(mean.exp)
 
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
-obsn <- table(data$case,data$decile)[1,] 
+obsn <- table(data$ab_binary,data$decile)[1,] 
 
 cbind(exp,obs)# expected value vs. observed value
  
@@ -397,7 +397,7 @@ for(i in 1:length(h$mids)){
 }
 
 # Add a loess smoother to the plot
-obs_all <- predict(loess(as.numeric(as.character(data$case))~data$prob,span=1))
+obs_all <- predict(loess(as.numeric(as.character(data$ab_binary))~data$prob,span=1))
 lines_data <- data.frame(data$prob,obs_all)
 lines_data2 <- lines_data[order(data$prob),] 
 lines(lines_data2[,1],lines_data2[,2],col="blue")
