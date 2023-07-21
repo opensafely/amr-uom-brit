@@ -144,7 +144,7 @@ rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_da
                    num.trees =   3000,
                  min.node.size = 300,
                  min.depth= 50,
-                 min.bucket=100,
+                 min.bucket=300,
                    mtry = 3,
                   case.fraction = 0.5,
                    importance = "impurity",
