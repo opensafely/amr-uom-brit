@@ -194,7 +194,8 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 # train
 ## predicted probabilities 
 ```{r}
-
+rm(prob,decile)
+data=train
 set.seed(123)
 data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being ab_binary
 
