@@ -259,7 +259,10 @@ gpdata=data%>%select(decile, ab_binary, prob)
 #table(gpdata$decile)
 #summary(gpdata[gpdata$decile==1,])
 #head(gpdata)
+```
 
+
+```{r}
 obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(ab_binary))))
 obs=obs%>% pull(mean.obs)
 
