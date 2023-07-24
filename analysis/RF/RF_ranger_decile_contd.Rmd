@@ -181,7 +181,7 @@ rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_da
                    num.trees =   3000,
                #    min.node.size = 300, # node to split
                    max.depth= 50,
-                   min.bucket=300,#terminal node
+                   min.bucket=800,#terminal node
                    mtry = 3,
                    sample.fraction = 0.7, # fraction of observations to sample
                    importance = "impurity",
