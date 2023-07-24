@@ -177,16 +177,16 @@ set.seed(123)
   
 
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
-                   data = train,
+                   data = data,
                    num.trees =   3000,
-                   min.node.size = 10,
-                   max.depth = 500,
-                   min.bucket=100,
+               #    min.node.size = 300, # node to split
+                   max.depth= 50,
+                   min.bucket=300,#terminal node
                    mtry = 3,
-                   case.fraction = 0.5,
+                   sample.fraction = 0.7, # fraction of observations to sample
                    importance = "impurity",
                    replace = TRUE,
-                   probability = TRUE,
+                   probability = TRUE
                           )
 
  # add OOB error to grid
