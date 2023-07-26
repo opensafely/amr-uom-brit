@@ -58,7 +58,7 @@ data$decile=as.factor(data$decile)
 ```
 
 # categorised ab exposure variables
-```{r eval=FALSE, include=FALSE}
+```{r }
 col=c("case","subclass",
   "total_ab","ab_types","prescribe_times",
          "exposure_period","recent_ab_days", 
