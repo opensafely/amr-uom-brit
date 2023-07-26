@@ -185,7 +185,7 @@ actions:
     needs: [RF_ranger_decile] #RF_ranger_decil
     outputs:
       moderately_sensitive:
-        html: output/RF_result.html 
+        html: output/result_3.html 
 
 # final model
   model_ranger_final: # coditional logistic regression for decile groups
