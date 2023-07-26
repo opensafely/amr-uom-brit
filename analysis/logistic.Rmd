@@ -44,10 +44,24 @@ nrow(valid)
 # logistic model
 ## train
 ```{r }
-model <- glm(ab_binary ~bins , data = train, family = binomial,x=TRUE, y=TRUE)
+model <- glm(ab_binary ~bins , data = train, family = binomial)
 
 print(model)
 ```
+
+# odds ratio
+```{r}
+odds_ratios <- exp(coef(model))
+
+# Calculate 95% confidence intervals
+conf_intervals <- exp(confint(model))
+
+# Combine odds ratios and confidence intervals into a data frame
+result <- data.frame(OddsRatio = odds_ratios, `95%CI_Lower` = conf_intervals[, 1], `95%CI_Upper` = conf_intervals[, 2])
+
+result
+```
+
 
 ### ROC
 ```{r}
@@ -147,6 +161,19 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 model <- glm(ab_binary ~bins , data = valid, family = binomial)
 
 print(model)
+```
+
+# odds ratio
+```{r}
+odds_ratios <- exp(coef(model))
+
+# Calculate 95% confidence intervals
+conf_intervals <- exp(confint(model))
+
+# Combine odds ratios and confidence intervals into a data frame
+result <- data.frame(OddsRatio = odds_ratios, `95%CI_Lower` = conf_intervals[, 1], `95%CI_Upper` = conf_intervals[, 2])
+
+result
 ```
 
 ### ROC
