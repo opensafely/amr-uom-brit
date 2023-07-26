@@ -176,25 +176,14 @@ set.seed(123)
 #for (i in 1:2) {
   
 
-rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
-                   data = train,
-                   num.trees =   3000,
-               #    min.node.size = 300, # node to split
-                   max.depth= 50,
-                   min.bucket=800,#terminal node
-                   mtry = 3,
-                   sample.fraction = 0.7, # fraction of observations to sample
-                   importance = "impurity",
-                   replace = TRUE,
-                   probability = TRUE
-                          )
+rf.model= readRDS(here::here("output","RF_ranger.rds"))
 
  # add OOB error to grid
   #  hyper_grid$OOB_RMSE[i] <- sqrt(rf.model$prediction.error)
 #
 #hyper_grid
 
-saveRDS(rf.model,here::here("output","RF_ranger_contd.rds"))
+#saveRDS(rf.model,here::here("output","RF_ranger_contd.rds"))
 ```
 
 # variable importance
@@ -334,7 +323,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 names(data)
 saveRDS(data,here::here("output","all_ranger_contd_train.rds"))
 ```
@@ -447,7 +436,7 @@ legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","b
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 names(data)
 saveRDS(data,here::here("output","all_ranger_contd_valid.rds"))
 ```

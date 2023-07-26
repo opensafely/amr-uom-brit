@@ -193,14 +193,14 @@ actions:
 
   RF_ranger_decile_contd: # contd predictors
     run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time]
+    needs: [process_ab_time,RF_ranger_decile]
     outputs:
       moderately_sensitive:
         html: output/RF_ranger_decile_contd.html 
-      highly_sensitive:
-        rds1: output/RF_ranger_contd.rds
-        rds2: output/all_ranger_contd_train.rds 
-        rds3: output/all_ranger_contd_valid.rds
+  #    highly_sensitive:
+   #     rds1: output/RF_ranger_contd.rds
+   #     rds2: output/all_ranger_contd_train.rds 
+   #     rds3: output/all_ranger_contd_valid.rds
          
 # output
  
