@@ -180,6 +180,14 @@ actions:
         html: output/RF_result.html 
         csv1: output/input_range.csv
 
+  result_3: # predictor radar plot
+    run: r:latest -e 'rmarkdown::render("analysis/RF/result_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile] #RF_ranger_decil
+    outputs:
+      moderately_sensitive:
+        html: output/RF_result.html 
+        csv1: output/input_range.csv
+
 # final model
   model_ranger_final: # coditional logistic regression for decile groups
     run: r:latest -e 'rmarkdown::render("analysis/model/model_ranger_final.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

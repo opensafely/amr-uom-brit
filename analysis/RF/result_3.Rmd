@@ -1,0 +1,60 @@
+---
+title: "antibiotics exposure btw case/control"
+---
+
+```{r setup, include=FALSE}
+library('tidyverse')
+library("ggplot2")
+library("plyr")
+library('dplyr')
+library('lubridate')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+
+# read table
+```{r}
+data=read_rds(here::here("output","all_ranger.rds"))
+data$decile=as.factor(data$decile)
+```
+
+
+# descriptive stat
+```{r}
+contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+```
+
+# box plot
+```{r}
+  ggplot(data, aes(x=case, y=total_ab)) + 
+  geom_boxplot()
+
+
+  ggplot(data, aes(x=case, y=ab_types)) + 
+  geom_boxplot()
+  
+  
+  ggplot(data, aes(x=case, y=exposure_period)) + 
+  geom_boxplot()
+    
+    
+      ggplot(data, aes(x=case, y=recent_ab_days)) + 
+  geom_boxplot()
+      
+      
+        ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
+  geom_boxplot()
+        
+        
+          ggplot(data, aes(x=case, y=interval_mean)) + 
+  geom_boxplot()
+          
+          
+                  
+          ggplot(data, aes(x=case, y=interval_sd)) + 
+  geom_boxplot()
+```
+
