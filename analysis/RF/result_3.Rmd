@@ -22,40 +22,45 @@ data$decile=as.factor(data$decile)
 data$case=as.factor(data$case)
 ```
 
-
-# descriptive stat
-```{r}
-contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
-```
-
 # box plot
 ```{r}
-  ggplot(data, aes(x=case, y=total_ab)) + 
-  geom_boxplot(outlier.shape = NA)
+ggplot(data, aes(x=case, y=total_ab)) + 
+  geom_boxplot(notch=TRUE)
+```
 
 
-  ggplot(data, aes(x=case, y=ab_types)) + 
+```{r}
+ggplot(data, aes(x=case, y=ab_types)) + 
   geom_boxplot(outlier.shape = NA)
-  
-  
-  ggplot(data, aes(x=case, y=exposure_period)) + 
+```
+
+
+```{r}
+ggplot(data, aes(x=case, y=exposure_period)) + 
   geom_boxplot(outlier.shape = NA)
-    
-    
-      ggplot(data, aes(x=case, y=recent_ab_days)) + 
+```
+
+
+```{r}
+ggplot(data, aes(x=case, y=recent_ab_days)) + 
   geom_boxplot(outlier.shape = NA)
-      
-      
-        ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
+```
+
+
+```{r}
+ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
   geom_boxplot(outlier.shape = NA)
-        
-        
-          ggplot(data, aes(x=case, y=interval_mean)) + 
+```
+
+
+```{r}
+ggplot(data, aes(x=case, y=interval_mean)) + 
   geom_boxplot(outlier.shape = NA)
-          
-          
-                  
-          ggplot(data, aes(x=case, y=interval_sd)) + 
+```
+
+
+```{r}
+ggplot(data, aes(x=case, y=interval_sd)) + 
   geom_boxplotoutlier.shape = NA()
 ```
 
