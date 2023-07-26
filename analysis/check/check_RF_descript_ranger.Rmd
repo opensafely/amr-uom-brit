@@ -255,11 +255,11 @@ for (i in 1:length(explanatory)) {
 
 ```{r}
 
-rm(list=ls())
+#rm(list=ls())
 
 # read table
-df=read_rds(here::here("output","all_ranger.rds"))
-contd<- c("ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+#df=read_rds(here::here("output","all_ranger.rds"))
+#contd<- c("ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
 
 for (i in 1:6) {
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
