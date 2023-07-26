@@ -144,7 +144,7 @@ rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_da
                    num.trees =   3000,
                    min.node.size = 800, # node to split
                    max.depth= 20,
-                   min.bucket=1000,#terminal node
+                 #  min.bucket=1000,#terminal node
                    mtry = 3,
                 #   case.fraction = 0.5,
                    sample.fraction = 0.6, # fraction of observations to sample
