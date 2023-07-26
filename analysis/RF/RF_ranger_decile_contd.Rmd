@@ -218,8 +218,9 @@ imps %>%
 ```{r}
 data=train
 set.seed(123)
-#data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
-data$prob <- predictions(rf.model)[,2]# votes of being case
+#data$prob <- predictions(rf.model)[,2]
+data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]
+
 
 
 summary(data$prob)
@@ -333,7 +334,7 @@ saveRDS(data,here::here("output","all_ranger_contd_train.rds"))
 ```{r}
 data=valid
 set.seed(123)
-data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]# votes of being case
+data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]
 
 summary(data$prob)
 hist(data$prob )
