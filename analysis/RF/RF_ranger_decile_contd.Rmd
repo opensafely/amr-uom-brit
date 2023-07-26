@@ -27,7 +27,7 @@ prop.table(table(data$case))
 ```
 
 # replace outlier
-```{r eval=FALSE, include=FALSE}
+```{r }
 range(data$total_ab)
 range(data$ab_types)
 range(data$exposure_period)
@@ -103,7 +103,7 @@ library(ranger)
 set.seed(123)
 
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
-\                   data = data,
+                   data = data,
                    num.trees =   3000,
                    min.node.size = 800, # node to split
                    max.depth= 20,
