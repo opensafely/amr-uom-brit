@@ -254,7 +254,7 @@ for (i in 1:length(explanatory)) {
 # subgroup(by total ab level)
 
 ```{r}
-
+df=data
 #rm(list=ls())
 
 # read table

@@ -19,6 +19,7 @@ library("finalfit")
 ```{r}
 data=read_rds(here::here("output","all_ranger.rds"))
 data$decile=as.factor(data$decile)
+data$case=as.factor(data$case)
 ```
 
 
@@ -30,31 +31,31 @@ contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_pre
 # box plot
 ```{r}
   ggplot(data, aes(x=case, y=total_ab)) + 
-  geom_boxplot()
+  geom_boxplot(outlier.shape = NA)
 
 
   ggplot(data, aes(x=case, y=ab_types)) + 
-  geom_boxplot()
+  geom_boxplot(outlier.shape = NA)
   
   
   ggplot(data, aes(x=case, y=exposure_period)) + 
-  geom_boxplot()
+  geom_boxplot(outlier.shape = NA)
     
     
       ggplot(data, aes(x=case, y=recent_ab_days)) + 
-  geom_boxplot()
+  geom_boxplot(outlier.shape = NA)
       
       
         ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
-  geom_boxplot()
+  geom_boxplot(outlier.shape = NA)
         
         
           ggplot(data, aes(x=case, y=interval_mean)) + 
-  geom_boxplot()
+  geom_boxplot(outlier.shape = NA)
           
           
                   
           ggplot(data, aes(x=case, y=interval_sd)) + 
-  geom_boxplot()
+  geom_boxplotoutlier.shape = NA()
 ```
 
