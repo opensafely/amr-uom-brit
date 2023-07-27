@@ -87,7 +87,7 @@ ggplot(data, aes(x=case, y=ab_types)) +
           
                   
           ggplot(data, aes(x=case, y=interval_sd)) + 
-  geom_boxplotoutlier.shape = NA()
+  geom_boxplot(outlier.shape = NA()
 ```
 
 # categorised ab exposure variables
