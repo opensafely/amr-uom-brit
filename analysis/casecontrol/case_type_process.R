@@ -23,7 +23,7 @@ process_data <- function(file1, file2) {
   
   # Read datasets
   df1 <- read_csv(file.path(input_dir, file1)) %>%
-    select(patient_id, outcome_type)  # select necessary columns in df1
+    select(patient_id, side_effect, disease, ae_N17_codelist)  # select necessary columns in df1
   
   df2 <- read_csv(file.path(input_dir, file2)) %>%
     select(patient_id, set_id)  # select necessary columns in df2
