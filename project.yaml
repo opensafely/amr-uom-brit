@@ -269,7 +269,7 @@ actions:
 
   model_3:  # reference by each ab level
     run: r:latest -e 'rmarkdown::render("analysis/model_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_ranger_decile]
+    needs: [process_ab_time]
     outputs:
       moderately_sensitive:
         html: output/model_3.html
