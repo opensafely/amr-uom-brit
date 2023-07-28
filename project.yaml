@@ -243,12 +243,12 @@ actions:
   #     moderately_sensitive:
   #       html: output/table2.html 
 
-  # table3: # ab exposures
-  #   run: r:latest -e 'rmarkdown::render("analysis/table3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [RF_ranger_decile]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/table3.html 
+  table3: # ab exposures
+    run: r:latest -e 'rmarkdown::render("analysis/table3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile]
+    outputs:
+      moderately_sensitive:
+        html: output/table3.html 
 
 # sugroup analysis
 
