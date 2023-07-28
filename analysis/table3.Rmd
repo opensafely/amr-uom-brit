@@ -237,7 +237,7 @@ col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescri
 ```{r}
 data=df
 
-for (i in 1:7)) {# just replace total ab
+for (i in 1:7) {# just replace total ab
   data[,col[i]]=ifelse( data[,col[i]]>=N[i],N[i], data[,col[i]])
 }
 
