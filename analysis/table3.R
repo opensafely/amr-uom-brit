@@ -6,20 +6,50 @@
 # # # # # # # # # # # # # # # # # # # # #
 
 library('tidyverse')
-library("ggplot2")
-#library("plyr")
 library('dplyr')
-library('lubridate')
-library('stringr')
+library('plyr')
 library("data.table")
-library("ggpubr")
 library("finalfit")
 
 DF=readRDS(here::here("output","matched_ab.rds"))
+
+# categorised ab exposure variables
+col=c("case","subclass",
+      "total_ab","ab_types","prescribe_times",
+      "exposure_period","recent_ab_days", 
+      "broad_prop","broad_ab_prescriptions",
+      "interval_mean","interval_med" ,"interval_sd","interval_CV",
+      "length_mean","length_med", "length_sd","length_CV")
+
+DF=DF %>% mutate_at(col,as.numeric)
+
+for (k in 3:17) {
+  
+  cut_value=quantile(data[,col[k]],c(0.25,0.5,0.75))
+
+  data[,paste0(col[k],"_group")]=ifelse(
+    data[,col[k]] <= cut_value[1],1,NA)  
+  
+  data[,paste0(col[k],"_group")]=ifelse(
+    data[,col[k]] > cut_value[1] & data[,col[k]]<= cut_value[2],2, 
+    data[,paste0(col[k],"_group")])  
+  
+  data[,paste0(col[k],"_group")]=ifelse(
+    data[,col[k]] > cut_value[2] & data[,col[k]]<= cut_value[3],3, 
+    data[,paste0(col[k],"_group")])  
+  
+  data[,paste0(col[k],"_group")]=ifelse(
+    data[,col[k]] > cut_value[3],4,data[,paste0(col[k],"_group")])  
+  
+  data[,paste0(col[k],"_group")]=ifelse(
+    is.na( data[,col[k]]) ,0 ,data[,paste0(col[k],"_group")])  
+  
+}
+
+# select variables
 DF=DF%>%dplyr::select( "case",
                        "total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group",
                        "total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
-
 
 DF= DF %>% 
   mutate_at(c(1:8),as.factor)
@@ -28,26 +58,28 @@ DF= DF %>%
   mutate_at(c(9:15), as.numeric)
 
 
-# select variables
-explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+# categorical variables
+explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group",
+                "total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
 dependent <- "case"
+tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
 
-contd<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
-#table
-tbl1=DF%>% summary_factorlist(dependent, explanatory)
-tbl2=DF%>% summary_factorlist(dependent, contd)
+# continuous variables
+#explanatory<- c()
+#tbl2=DF%>% summary_factorlist(dependent, explanatory, 
+  #                       cont = "median", p=T)
 
-#round_tbl=tbl
+round_tbl=tbl
 #remove percentage
-#round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-#round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
 #round to 5
-#round_tbl[,3]=as.numeric(round_tbl[,3])
-#round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+round_tbl[,3]=as.numeric(round_tbl[,3])
+round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
-#round_tbl[,4]=as.numeric(round_tbl[,4])
-#round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+round_tbl[,4]=as.numeric(round_tbl[,4])
+round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 # level
@@ -55,11 +87,11 @@ tbl2=DF%>% summary_factorlist(dependent, contd)
 #round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
 
 # continuous variables
-#round_tbl[c(1:11),c(3:4)]=tbl[c(1:11),c(3:4)]
+round_tbl[c(8:14),c(3:4)]=tbl[c(8:14),c(3:4)]
 
 
-write.csv(tbl1,"table3_group.csv")
-write.csv(tbl2,"table3#.csv")
+#write.csv(tbl1,"table3_group.csv")
+write.csv(tbl2,here::here("output","table3.csv"))
 
 rm(list=ls())
 
