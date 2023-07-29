@@ -143,7 +143,7 @@ rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_da
                    data = data,
                    num.trees =   3000,
                    min.node.size = 800, # node to split
-                   max.depth= 50,
+                   max.depth= 100,
                  #  min.bucket=1000,#terminal node
                    mtry = 3,
                 #   case.fraction = 0.5,
