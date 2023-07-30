@@ -91,7 +91,7 @@ round_tbl[c(8:14),c(3:4)]=tbl[c(8:14),c(3:4)]
 
 
 #write.csv(tbl1,"table3_group.csv")
-write.csv(tbl2,here::here("output","table3.csv"))
+write.csv(tbl,here::here("output","table3.csv"))
 
 rm(list=ls())
 
