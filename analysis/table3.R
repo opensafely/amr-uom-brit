@@ -8,7 +8,7 @@
 library('tidyverse')
 library('dplyr')
 library('plyr')
-library("DF.table")
+library("data.table")
 library("finalfit")
 
 DF=readRDS(here::here("output","matched_ab.rds"))
