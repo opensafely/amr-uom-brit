@@ -75,7 +75,7 @@ tbl=DF%>% summary_factorlist(dependent, explanatory)
 # round_tbl[c(27:66),"percent_0"]=round_tbl[c(27:66),3]/contr.num
 # round_tbl[c(27:66),"percent_1"]=round_tbl[c(27:66),4]/case.num
 
-write.csv(tbl,"table2_matched.csv")
+write.csv(tbl,here::here("output","table2_matched.csv"))
 
 
 
@@ -97,7 +97,7 @@ tbl=DF%>% summary_factorlist(dependent, explanatory)
 # # round_tbl[,4]=as.numeric(round_tbl[,4])
 # # round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
-write.csv(tbl,"table2_random.csv")
+write.csv(tbl,here::here("output","table2_random.csv"))
 
 
 

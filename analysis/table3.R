@@ -8,7 +8,7 @@
 library('tidyverse')
 library('dplyr')
 library('plyr')
-library("data.table")
+library("DF.table")
 library("finalfit")
 
 DF=readRDS(here::here("output","matched_ab.rds"))
@@ -25,24 +25,24 @@ DF=DF %>% mutate_at(col,as.numeric)
 
 for (k in 3:17) {
   
-  cut_value=quantile(data[,col[k]],c(0.25,0.5,0.75))
+  cut_value=quantile(DF[,col[k]],c(0.25,0.5,0.75))
 
-  data[,paste0(col[k],"_group")]=ifelse(
-    data[,col[k]] <= cut_value[1],1,NA)  
+  DF[,paste0(col[k],"_group")]=ifelse(
+    DF[,col[k]] <= cut_value[1],1,NA)  
   
-  data[,paste0(col[k],"_group")]=ifelse(
-    data[,col[k]] > cut_value[1] & data[,col[k]]<= cut_value[2],2, 
-    data[,paste0(col[k],"_group")])  
+  DF[,paste0(col[k],"_group")]=ifelse(
+    DF[,col[k]] > cut_value[1] & DF[,col[k]]<= cut_value[2],2, 
+    DF[,paste0(col[k],"_group")])  
   
-  data[,paste0(col[k],"_group")]=ifelse(
-    data[,col[k]] > cut_value[2] & data[,col[k]]<= cut_value[3],3, 
-    data[,paste0(col[k],"_group")])  
+  DF[,paste0(col[k],"_group")]=ifelse(
+    DF[,col[k]] > cut_value[2] & DF[,col[k]]<= cut_value[3],3, 
+    DF[,paste0(col[k],"_group")])  
   
-  data[,paste0(col[k],"_group")]=ifelse(
-    data[,col[k]] > cut_value[3],4,data[,paste0(col[k],"_group")])  
+  DF[,paste0(col[k],"_group")]=ifelse(
+    DF[,col[k]] > cut_value[3],4,DF[,paste0(col[k],"_group")])  
   
-  data[,paste0(col[k],"_group")]=ifelse(
-    is.na( data[,col[k]]) ,0 ,data[,paste0(col[k],"_group")])  
+  DF[,paste0(col[k],"_group")]=ifelse(
+    is.na( DF[,col[k]]) ,0 ,DF[,paste0(col[k],"_group")])  
   
 }
 
