@@ -231,6 +231,17 @@ actions:
         csv2: output/table3.csv
         csv3: output/table3_group.csv
 
+  decile_table: # decile table
+    run: r:latest -e 'rmarkdown::render("analysis/decile_table.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile] 
+    outputs:
+      moderately_sensitive:
+        html: output/decile_table.html 
+        csv1: output/decile.csv
+        csv2: output/decile_outlier.csv
+        csv3: output/decile_level.csv
+        csv4: output/decile_level_outlier.csv
+
   # table2: # confounders
   #   run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
   #   needs: [RF_ranger_decile]

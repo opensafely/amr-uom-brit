@@ -1,0 +1,458 @@
+---
+title: "decile groups descriptive stat"
+output: 
+  html_document:
+   toc: true
+   toc_depth: 2
+   toc_float:
+     collapsed: false
+     smooth_scorll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages, include=FALSE}
+library('tidyverse')
+#library("plyr")
+library('dplyr')
+library('stringr')
+library("data.table")
+library("ggpubr")
+library("finalfit")
+```
+
+```{r include=FALSE}
+data=readRDS(here::here("output","all_ranger.rds"))
+
+col=c("total_ab","ab_types","exposure_period","recent_ab_days", "broad_ab_prescriptions","interval_mean","interval_sd")
+
+data$case=as.factor(data$case)
+data=data %>% mutate_at(col,as.numeric)
+names(data)
+```
+
+# categorised ab exposure variables
+```{r }
+for (k in 1:7) {
+
+cut_value=quantile(data[,col[k]],c(0.25,0.5,0.75))
+print(cut_value)
+  
+data[,paste0(col[k],"_group")]=ifelse(
+  data[,col[k]] <= cut_value[1],1,NA)  
+
+data[,paste0(col[k],"_group")]=ifelse(
+  data[,col[k]] > cut_value[1] & data[,col[k]]<= cut_value[2],2, 
+  data[,paste0(col[k],"_group")])  
+
+data[,paste0(col[k],"_group")]=ifelse(
+  data[,col[k]] > cut_value[2] & data[,col[k]]<= cut_value[3],3, 
+  data[,paste0(col[k],"_group")])  
+
+data[,paste0(col[k],"_group")]=ifelse(
+  data[,col[k]] > cut_value[3],4,data[,paste0(col[k],"_group")])  
+
+data[,paste0(col[k],"_group")]=ifelse(
+ is.na( data[,col[k]]) ,0 ,data[,paste0(col[k],"_group")])  
+
+
+
+}
+
+data$total_ab_group=relevel(as.factor(data$total_ab_group),ref= "1")
+data$ab_types_group=relevel(as.factor(data$ab_types_group),ref= "1")
+data$exposure_period_group=relevel(as.factor(data$exposure_period_group),ref= "1")
+data$recent_ab_days_group=relevel(as.factor(data$recent_ab_days_group),ref= "1")
+data$broad_ab_prescriptions_group=relevel(as.factor(data$broad_ab_prescriptions_group),ref= "1")
+data$interval_mean_group=relevel(as.factor(data$interval_mean_group),ref= "1")
+data$interval_sd_group=relevel(as.factor(data$interval_sd_group),ref= "1")
+
+prop.table(table(data$total_ab_group))
+prop.table(table(data$ab_types_group))
+prop.table(table(data$exposure_period_group))
+prop.table(table(data$recent_ab_days_group))
+prop.table(table(data$broad_ab_prescriptions_group))
+prop.table(table(data$interval_mean_group))
+prop.table(table(data$interval_sd_group))
+
+df=data
+```
+
+
+```{r}
+dependent <- "case"
+#explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+```
+
+# Decile 1
+```{r}
+data=df%>% filter(decile==1)
+d1=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d1$group="1"
+d1
+
+```
+
+# Decile 2
+```{r}
+data=df%>% filter(decile==2)
+d2=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d2$group="2"
+d2
+```
+
+# Decile 3
+```{r}
+data=df%>% filter(decile==3)
+d3=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d3$group="3"
+d3
+```
+
+# Decile 4
+```{r}
+data=df%>% filter(decile==4)
+d4=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d4$group="4"
+d4
+```
+
+# Decile 5
+```{r}
+data=df%>% filter(decile==5)
+d5=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d5$group="5"
+d5
+```
+
+# Decile 6
+```{r}
+data=df%>% filter(decile==6)
+d6=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d6$group="6"
+d6
+```
+
+# Decile 7
+```{r}
+data=df%>% filter(decile==7)
+d7=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d7$group="7"
+d7
+```
+
+# Decile 8
+```{r}
+data=df%>% filter(decile==8)
+d8=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d8$group="8"
+d8
+```
+
+# Decile 9
+```{r}
+data=df%>% filter(decile==9)
+d9=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d9$group="9"
+d9
+```
+
+# Decile 10
+```{r}
+data=df%>% filter(decile==10)
+d10=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d10$group="10"
+d10
+
+output=rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10)
+write.csv(output, here::here("output","decile.csv"))
+```
+
+
+
+
+```{r}
+dependent <- "case"
+explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+#explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+```
+
+# Decile 1
+```{r}
+data=df%>% filter(decile==1)
+d1=data%>% summary_factorlist(dependent, explanatory)
+d1$group="1"
+d1
+
+```
+
+# Decile 2
+```{r}
+data=df%>% filter(decile==2)
+d2=data%>% summary_factorlist(dependent, explanatory)
+d2$group="2"
+d2
+```
+
+# Decile 3
+```{r}
+data=df%>% filter(decile==3)
+d3=data%>% summary_factorlist(dependent, explanatory)
+d3$group="3"
+d3
+```
+
+# Decile 4
+```{r}
+data=df%>% filter(decile==4)
+d4=data%>% summary_factorlist(dependent, explanatory)
+d4$group="4"
+d4
+```
+
+# Decile 5
+```{r}
+data=df%>% filter(decile==5)
+d5=data%>% summary_factorlist(dependent, explanatory)
+d5$group="5"
+d5
+```
+
+# Decile 6
+```{r}
+data=df%>% filter(decile==6)
+d6=data%>% summary_factorlist(dependent, explanatory)
+d6$group="6"
+d6
+```
+
+# Decile 7
+```{r}
+data=df%>% filter(decile==7)
+d7=data%>% summary_factorlist(dependent, explanatory)
+d7$group="7"
+d7
+```
+
+# Decile 8
+```{r}
+data=df%>% filter(decile==8)
+d8=data%>% summary_factorlist(dependent, explanatory)
+d8$group="8"
+d8
+```
+
+# Decile 9
+```{r}
+data=df%>% filter(decile==9)
+d9=data%>% summary_factorlist(dependent, explanatory)
+d9$group="9"
+d9
+```
+
+# Decile 10
+```{r}
+data=df%>% filter(decile==10)
+d10=data%>% summary_factorlist(dependent, explanatory)
+d10$group="10"
+d10
+
+output=rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10)
+write.csv(output, here::here("output","decile_level.csv"))
+```
+
+
+
+
+# total_ab 99.9% outlier replace
+```{r}
+N1=quantile(df$total_ab,0.999,na.rm = T)
+
+df[,"total_ab"]=ifelse(df[,"total_ab"]>=N1,N1,df[,"total_ab"])
+dependent <- "case"
+
+explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+```
+
+# contd.
+# Decile 1
+```{r}
+data=df%>% filter(decile==1)
+d1=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d1$group="1"
+d1
+
+```
+
+# Decile 2
+```{r}
+data=df%>% filter(decile==2)
+d2=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d2$group="2"
+d2
+```
+
+# Decile 3
+```{r}
+data=df%>% filter(decile==3)
+d3=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d3$group="3"
+d3
+```
+
+# Decile 4
+```{r}
+data=df%>% filter(decile==4)
+d4=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d4$group="4"
+d4
+```
+
+# Decile 5
+```{r}
+data=df%>% filter(decile==5)
+d5=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d5$group="5"
+d5
+```
+
+# Decile 6
+```{r}
+data=df%>% filter(decile==6)
+d6=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d6$group="6"
+d6
+```
+
+# Decile 7
+```{r}
+data=df%>% filter(decile==7)
+d7=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d7$group="7"
+d7
+```
+
+# Decile 8
+```{r}
+data=df%>% filter(decile==8)
+d8=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d8$group="8"
+d8
+```
+
+# Decile 9
+```{r}
+data=df%>% filter(decile==9)
+d9=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d9$group="9"
+d9
+```
+
+# Decile 10
+```{r}
+data=df%>% filter(decile==10)
+d10=data%>% summary_factorlist(dependent, explanatory, cont = "median")
+d10$group="10"
+d10
+
+output=rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10)
+write.csv(output, here::here("output","decile_outlier.csv"))
+```
+
+
+
+# category
+```{r}
+dependent <- "case"
+explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+#explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+```
+
+# Decile 1
+```{r}
+data=df%>% filter(decile==1)
+d1=data%>% summary_factorlist(dependent, explanatory)
+d1$group="1"
+d1
+
+```
+
+# Decile 2
+```{r}
+data=df%>% filter(decile==2)
+d2=data%>% summary_factorlist(dependent, explanatory)
+d2$group="2"
+d2
+```
+
+# Decile 3
+```{r}
+data=df%>% filter(decile==3)
+d3=data%>% summary_factorlist(dependent, explanatory)
+d3$group="3"
+d3
+```
+
+# Decile 4
+```{r}
+data=df%>% filter(decile==4)
+d4=data%>% summary_factorlist(dependent, explanatory)
+d4$group="4"
+d4
+```
+
+# Decile 5
+```{r}
+data=df%>% filter(decile==5)
+d5=data%>% summary_factorlist(dependent, explanatory)
+d5$group="5"
+d5
+```
+
+# Decile 6
+```{r}
+data=df%>% filter(decile==6)
+d6=data%>% summary_factorlist(dependent, explanatory)
+d6$group="6"
+d6
+```
+
+# Decile 7
+```{r}
+data=df%>% filter(decile==7)
+d7=data%>% summary_factorlist(dependent, explanatory)
+d7$group="7"
+d7
+```
+
+# Decile 8
+```{r}
+data=df%>% filter(decile==8)
+d8=data%>% summary_factorlist(dependent, explanatory)
+d8$group="8"
+d8
+```
+
+# Decile 9
+```{r}
+data=df%>% filter(decile==9)
+d9=data%>% summary_factorlist(dependent, explanatory)
+d9$group="9"
+d9
+```
+
+# Decile 10
+```{r}
+data=df%>% filter(decile==10)
+d10=data%>% summary_factorlist(dependent, explanatory)
+d10$group="10"
+d10
+
+output=rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10)
+write.csv(output, here::here("output","decile_level_outlier.csv"))
+```
+
