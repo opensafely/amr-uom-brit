@@ -10,11 +10,14 @@ output:
 ---
 
 ```{r setup}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(
+                      dpi = 300,
+                      echo = FALSE
+                      )
 ```
 
 
-```{r packages}
+```{r packages, include=FALSE}
 library('tidyverse')
 library("gtsummary")
 library("ggplot2")
@@ -26,7 +29,7 @@ library(gridExtra)
 ```
 
 
-```{r }
+```{r include=FALSE}
 # import data
 rm(list=ls())
 #df=read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_outcome.rds")
@@ -34,7 +37,7 @@ df <- read_rds(here::here("output","all_ranger.rds"))
 
 ```
 
-```{r }
+```{r include=FALSE}
 # outcome
 df$case=as.numeric(df$case) #1/0
 
@@ -67,8 +70,9 @@ explanatory<- c("exposure_period_group","recent_ab_days_group","interval_mean_gr
 
 
 # Exposure period
+```{r include=FALSE}
 ## create quartiles by total_ab_group
-```{r }
+
 i=1
 explanatory[i]
 Q1=tapply(df[,contd[i]],df[,"total_ab_group"],quantile,p=0.25)
@@ -81,7 +85,7 @@ Q3
 ```
 
 
-```{r }
+```{r include=FALSE}
 
 df[explanatory[i]]=""
 
@@ -146,7 +150,7 @@ df=rbind(df1,df2,df3,df4)
 
 
 
-```{r }
+```{r include=FALSE}
 df=df%>%mutate(ab_Level_type= 
                  case_when(
                            total_ab_group=="1" & exposure_period_group==1 ~ 1,
@@ -172,7 +176,7 @@ df=df%>%mutate(ab_Level_type=
 table(df$ab_Level_type)
 ```
 
-```{r }
+```{r include=FALSE}
 # median of each group
 Q2=tapply(df[,"exposure_period"],df[,"ab_Level_type"],quantile,p=0.5 )
 Q2
@@ -181,7 +185,7 @@ Q2
 
 
 
-```{r }
+```{r include=FALSE}
 ## model summary
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
@@ -192,13 +196,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r }
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:15,-2]
 ```
 
 
-```{r }
+```{r include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -241,7 +245,7 @@ DF$CI=paste0(DF$CI_L,",",DF$CI_U)
 
 
 
-```{r }
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -303,6 +307,10 @@ labs(
     y="",
     caption = paste0("Reference group: Total antibiotics(very low) * Exposure period level1(median=",Q2[1],")")
   )
+```
+
+
+```{r }
 p
 ```
 
@@ -346,8 +354,9 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 # Recent antibiotics
+```{r include=FALSE}
 ## create quartiles by total_ab_group
-```{r }
+
 i=2
 explanatory[i]
 df[explanatory[i]]=""
@@ -411,7 +420,7 @@ df=rbind(df1,df2,df3,df4)
 
 
 
-```{r}
+```{r include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -439,7 +448,7 @@ df=df%>%mutate(ab_Level_type=
 table(df$ab_Level_type)
 ```
 
-```{r }
+```{r include=FALSE}
 # median of each group
 
 Q2=tapply(df[,"recent_ab_days"],df[,"ab_Level_type"],quantile,p=0.5)
@@ -447,7 +456,7 @@ Q2
 
 ```
 
-```{r }
+```{r include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -455,13 +464,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r}
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:15,-2]
 ```
 
 
-```{r }
+```{r include=FALSE}
 
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
@@ -504,7 +513,7 @@ DF
 
 
 
-```{r }
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 #scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
@@ -566,6 +575,10 @@ labs(
     y="",
     caption = paste0("Reference group: Total antibiotics(very low) * Recent antibiotics level1(median=",Q2[1],")")
   )
+```
+
+
+```{r}
 p
 ```
 
@@ -581,8 +594,9 @@ p
 
 # prescribing intervals (mean)
 
+```{r include=FALSE}
 ## create quartiles by total_ab_group
-```{r }
+
 i=3
 explanatory[i]
 df[explanatory[i]]=""
@@ -657,7 +671,7 @@ df=rbind(df1,df2,df3,df4)
 
 ```
 
-```{r }
+```{r include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -685,7 +699,7 @@ df=df%>%mutate(ab_Level_type=
 table(df$ab_Level_type)
 ```
 
-```{r }
+```{r include=FALSE}
 # median of each group
 
 Q2=tapply(df[,"interval_mean"],df[,"ab_Level_type"],quantile,p=0.5)
@@ -693,7 +707,7 @@ Q2=round(Q2,digits = 1)
 Q2
 ```
 
-```{r }
+```{r include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -701,13 +715,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r }
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:15,-2]
 ```
 
 
-```{r }
+```{r include=FALSE}
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15"))
@@ -748,7 +762,7 @@ DF
 ```
 
 
-```{r }
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 
@@ -808,6 +822,10 @@ labs(
     y="",
     caption = paste0("Reference group: Total antibiotics(very low) * Prescribing intervals average level1(median=",Q2[1],")")
   )
+```
+
+
+```{r }
 p
 ```
 
@@ -818,8 +836,9 @@ p
 
 
 # prescribing intervals (sd)
+```{r include=FALSE}
 ## create quartiles by total_ab_group
-```{r }
+
 i=4
 explanatory[i]
 df[explanatory[i]]=""
@@ -895,7 +914,7 @@ df=rbind(df1,df2,df3,df4)
 
 ```
 
-```{r }
+```{r include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -923,7 +942,7 @@ df=df%>%mutate(ab_Level_type=
 table(df$ab_Level_type)
 ```
 
-```{r }
+```{r include=FALSE}
 # median of each group
 
 Q2=tapply(df[,"interval_sd"],df[,"ab_Level_type"],quantile,p=0.5)
@@ -933,7 +952,7 @@ Q2
 ```
 
 
-```{r }
+```{r include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -941,13 +960,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r }
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:12,-2]
 ```
 
 
-```{r }
+```{r include=FALSE}
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16"))
@@ -985,7 +1004,7 @@ DF
 ```
 
 
-```{r }
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 
@@ -1042,6 +1061,10 @@ labs(
     y="",
     caption = paste0("Reference group: Total antibiotics(very low)*Prescribing intervals deviation level1(median=",Q2[1],")")
   )
+```
+
+
+```{r }
 p
 ```
 
@@ -1053,8 +1076,9 @@ p
 
 # Antibiotics types
 
+```{r include=FALSE}
 ## create quartiles by total_ab_group
-```{r }
+
 i=5
 explanatory[i]
 df[explanatory[i]]=""
@@ -1116,7 +1140,7 @@ df=rbind(df1,df2,df3,df4)
 ```
 
 
-```{r }
+```{r include=FALSE}
 tapply(df[,"ab_types"],df[,"ab_Level_type"],quantile,p=0.5)
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -1144,7 +1168,7 @@ df=df%>%mutate(ab_Level_type=
 table(df$ab_Level_type)
 ```
 
-```{r }
+```{r include=FALSE}
 # median of each group
 
 Q2=tapply(df[,"ab_types"],df[,"ab_Level_type"],quantile,p=0.5)
@@ -1154,7 +1178,7 @@ Q2
 
 
 
-```{r }
+```{r include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -1162,13 +1186,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r }
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:12,-2]
 ```
 
 
-```{r }
+```{r include=FALSE}
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type2","ab_Level_type5","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16")) # remove 3,4,6
@@ -1209,7 +1233,7 @@ DF
 ```
 
 
-```{r }
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 
@@ -1266,6 +1290,10 @@ labs(
     y="",
     caption = paste0("Reference group: Total antibiotics(very low)*Antibiotic types level1(median=",Q2[1],")")
   )
+```
+
+
+```{r}
 p
 ```
 
@@ -1276,8 +1304,9 @@ p
 
 # Broad AB
 
+```{r include=FALSE}
 ## create quartiles by total_ab_group
-```{r }
+
 i=6
 explanatory[i]
 df[explanatory[i]]=""
@@ -1339,7 +1368,7 @@ tapply(df[,"broad_ab_prescriptions"],df[,"ab_Level_type"],quantile,p=0.5)
 ```
 
 
-```{r }
+```{r include=FALSE}
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
@@ -1367,7 +1396,7 @@ df=df%>%mutate(ab_Level_type=
 table(df$ab_Level_type)
 ```
 
-```{r }
+```{r include=FALSE}
 # median of each group
 
 Q2=tapply(df[,"broad_ab_prescriptions"],df[,"ab_Level_type"],quantile,p=0.5)
@@ -1377,7 +1406,7 @@ Q2
 
 
 
-```{r }
+```{r include=FALSE}
 df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
 mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
 sum.mod=summary(mod)
@@ -1385,13 +1414,13 @@ sum.mod=summary(mod)
 ```
 
 
-```{r }
+```{r include=FALSE}
 result=data.frame(sum.mod$conf.int)
 DF=result[1:9,-2]
 ```
 
 
-```{r }
+```{r include=FALSE}
 setDT(DF, keep.rownames = TRUE)[]
 names(DF)[1]="AB_exposure"
 DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type4","ab_Level_type5","ab_Level_type8","ab_Level_type9","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type15","ab_Level_type16"))
@@ -1432,7 +1461,7 @@ DF
 ```
 
 
-```{r }
+```{r include=FALSE}
 p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
 xlim(c(0,2.5))+
 
@@ -1487,5 +1516,9 @@ labs(
     y="",
     caption = paste0("Reference group: Total antibiotics(very low)*Boad-spectrum antibiotics level1(median=",Q2[1],")")
   )
+```
+
+
+```{r }
 p
 ```

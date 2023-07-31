@@ -233,8 +233,9 @@ actions:
     needs: [process_ab_time]
     outputs:
       moderately_sensitive:
-    #    csv1: output/table3_group.csv
+        csv1: output/table3_quartile.csv
         csv2: output/table3.csv
+        csv3: output/table3_group.csv
 
   # table2: # confounders
   #   run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -249,6 +250,10 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/table3.html 
+
+# figures
+
+
 
 # sugroup analysis
 

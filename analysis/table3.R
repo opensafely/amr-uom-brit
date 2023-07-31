@@ -23,6 +23,8 @@ col=c("case","subclass",
 
 DF=DF %>% mutate_at(col,as.numeric)
 
+Quartile=data.frame()
+
 for (k in 3:17) {
   
   cut_value=quantile(DF[,col[k]],c(0.25,0.5,0.75))
@@ -44,7 +46,19 @@ for (k in 3:17) {
   DF[,paste0(col[k],"_group")]=ifelse(
     is.na( DF[,col[k]]) ,0 ,DF[,paste0(col[k],"_group")])  
   
+  Quartile[,k]= cut_value
 }
+
+# save cut value of each variables
+Quartile=Quartile[,-c(1:2)]
+colnames(Quartile)=c(
+                     "total_ab","ab_types","prescribe_times",
+                     "exposure_period","recent_ab_days", 
+                     "broad_prop","broad_ab_prescriptions",
+                     "interval_mean","interval_med" ,"interval_sd","interval_CV",
+                     "length_mean","length_med", "length_sd","length_CV")
+write.csv(Quartile,here::here("output","table3_quartile.csv"))
+
 
 # select variables
 DF=DF%>%dplyr::select( "case",
@@ -83,14 +97,44 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
 
-# continuous variables
-#round_tbl[c(8:14),c(3:4)]=tbl[c(8:14),c(3:4)]
+# median (IQR)
 
+explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+dependent <- "case"
+tbl2=DF%>% summary_factorlist(dependent, explanatory, p=T, cont = "median")
+
+round_tbl=rbind(round_tbl,tbl2)
 
 #write.csv(tbl1,"table3_group.csv")
 write.csv(round_tbl,here::here("output","table3.csv"))
 
 rm(list=ls())
 
+# median (IQR) per levels
+col<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
 
+table=data.frame()
+for (i in 1:5) {
+  
+  L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
+  L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
+  L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
+  L4=quantile(DF[col[i]==4,col[i]],c(0.25,0.5,0.75)) 
 
+  tbl=rbind(L1,L2,L3,L4)
+  row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
+  table=rbind(table,tbl)
+}
+
+for (i in 6:7) {
+  
+  L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
+  L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
+  L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
+
+  tbl=rbind(L1,L2,L3)
+  row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"))
+  table=rbind(table,tbl)
+}
+
+write.csv(table,here::here("output","table3_group.csv"))
