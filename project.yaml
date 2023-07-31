@@ -67,6 +67,14 @@ actions:
       highly_sensitive:
         cohort: output/input_case_uti_type.csv
 
+  generate_study_population_case_uti_type_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_uti_type_2
+    needs: [matching_uti]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_uti_type_2.csv
+
+
 ### URTI ###
 
   generate_study_population_case_urti:
