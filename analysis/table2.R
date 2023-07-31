@@ -34,7 +34,7 @@ explanatory<- c("ethnicity_6",  "bmi_cat",  "CCI",  "smoking_cat_3","imd","care_
 dependent <- "case"
 
 #table
-tbl=DF%>% summary_factorlist(dependent, explanatory)
+tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
 
 # # round_tbl=tbl
 # # #remove percentage
@@ -83,7 +83,7 @@ write.csv(tbl,here::here("output","table2_matched.csv"))
 DF=DF%>% dplyr::group_by(case,subclass)%>% sample_n(1)
 #table
 rm(tbl)
-tbl=DF%>% summary_factorlist(dependent, explanatory)
+tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
 
 # # round_tbl=tbl
 # # #remove percentage
