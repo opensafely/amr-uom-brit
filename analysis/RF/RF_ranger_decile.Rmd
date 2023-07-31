@@ -157,7 +157,6 @@ saveRDS(rf.model,here::here("output","RF_ranger.rds"))
 ```
 
 # variable importance
-# variable importance
 ```{r}
 
 # calculate relative importance

@@ -99,8 +99,8 @@ rf.model$variable.importance
 ```{r }
 data=train
 set.seed(123)
-
-prob <- predict(rf.model, data=train)$prediction[,2]# votes of being case
+prob <- predictions(rf.model)[,2]
+#prob <- predict(rf.model, data=train)$prediction[,2]
 
 summary(prob)
 hist(prob)
