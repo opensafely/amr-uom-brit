@@ -101,7 +101,7 @@ explanatory<- c("wave","sex","age","age_cat","region")
 dependent <- "case"
 
 #table
-tbl=DF%>% summary_factorlist(dependent, explanatory)
+tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
 
 round_tbl=tbl
 #remove percentage
