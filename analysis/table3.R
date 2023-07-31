@@ -110,9 +110,10 @@ write.csv(round_tbl,here::here("output","table3.csv"))
 
 rm(list=ls())
 
-# median (IQR) per levels
-col<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
 
+# median (IQR) per levels
+col<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+                
 table=data.frame()
 for (i in 1:5) {
   

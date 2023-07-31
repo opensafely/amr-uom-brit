@@ -37,7 +37,43 @@ df <- read_rds(here::here("output","all_ranger.rds"))
 
 ```
 
+
 ```{r include=FALSE}
+# create category
+col=c("case","subclass",
+  "total_ab","ab_types","prescribe_times",
+         "exposure_period","recent_ab_days", 
+         "broad_prop","broad_ab_prescriptions",
+         "interval_mean","interval_med" ,"interval_sd","interval_CV",
+         "length_mean","length_med", "length_sd","length_CV")
+
+df=df %>% mutate_at(col,as.numeric)
+names(df)
+
+for (k in 3:17) {
+
+cut_value=quantile(df[,col[k]],c(0.25,0.5,0.75))
+print(cut_value)
+  
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] <= cut_value[1],1,NA)  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[1] & df[,col[k]]<= cut_value[2],2, 
+  df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[2] & df[,col[k]]<= cut_value[3],3, 
+  df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+  df[,col[k]] > cut_value[3],4,df[,paste0(col[k],"_group")])  
+
+df[,paste0(col[k],"_group")]=ifelse(
+ is.na( df[,col[k]]) ,0 ,df[,paste0(col[k],"_group")])  
+
+}
+
 # outcome
 df$case=as.numeric(df$case) #1/0
 
