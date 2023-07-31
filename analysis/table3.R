@@ -82,16 +82,13 @@ round_tbl[,4]=as.numeric(round_tbl[,4])
 round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
-# level
-#[c(12:73),"percent_0"]=round_tbl[c(12:73),3]/sum(round_tbl[c(12:73),3])*100
-#round_tbl[c(12:73),"percent_1"]=round_tbl[c(12:73),4]/sum(round_tbl[c(12:73),4])*100
 
 # continuous variables
-round_tbl[c(8:14),c(3:4)]=tbl[c(8:14),c(3:4)]
+#round_tbl[c(8:14),c(3:4)]=tbl[c(8:14),c(3:4)]
 
 
 #write.csv(tbl1,"table3_group.csv")
-write.csv(tbl,here::here("output","table3.csv"))
+write.csv(round_tbl,here::here("output","table3.csv"))
 
 rm(list=ls())
 
