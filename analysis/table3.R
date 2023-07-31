@@ -108,7 +108,6 @@ round_tbl=rbind(round_tbl,tbl2)
 #write.csv(tbl1,"table3_group.csv")
 write.csv(round_tbl,here::here("output","table3.csv"))
 
-rm(list=ls())
 
 
 # median (IQR) per levels
