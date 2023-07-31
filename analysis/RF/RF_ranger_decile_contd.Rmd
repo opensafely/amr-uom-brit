@@ -38,13 +38,13 @@ range(data$interval_sd)
 
 
 #90 percentile
-N1=quantile(data$total_ab,0.999,na.rm = T)
-N2=quantile(data$ab_types,0.999,na.rm = T)
-N3=quantile(data$exposure_period,0.9,na.rm = T)
-N4=quantile(data$recent_ab_days,0.9,na.rm = T)
-N5=quantile(data$broad_ab_prescriptions,0.999,na.rm = T)
-N6=quantile(data$interval_mean,0.9,na.rm = T)
-N7=quantile(data$interval_sd,0.9,na.rm = T)
+N1=quantile(data$total_ab,0.99,na.rm = T)
+N2=quantile(data$ab_types,0.99,na.rm = T)
+N3=quantile(data$exposure_period,0.99,na.rm = T)
+N4=quantile(data$recent_ab_days,0.99,na.rm = T)
+N5=quantile(data$broad_ab_prescriptions,0.99,na.rm = T)
+N6=quantile(data$interval_mean,0.99,na.rm = T)
+N7=quantile(data$interval_sd,0.99,na.rm = T)
 
 N=c(N1,N2,N3,N4,N5,N6,N7)
 N
@@ -54,7 +54,7 @@ col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescri
 
 
 ```{r }
-for (i in c(1,2,5)) {# just replace total ab
+for (i in 1) {# just replace total ab
   data[,col[i]]=ifelse( data[,col[i]]>=N[i],N[i], data[,col[i]])
 }
 
@@ -105,8 +105,8 @@ set.seed(123)
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
                    data = data,
                    num.trees =   3000,
-                   min.node.size = 800, # node to split
-                   max.depth= 20,
+                   min.node.size = 500, # node to split
+                   max.depth= 100,
                  #  min.bucket=1000,#terminal node
                    mtry = 3,
                 #   case.fraction = 0.5,
