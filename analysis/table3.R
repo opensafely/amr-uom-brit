@@ -132,9 +132,10 @@ for (i in 6:7) {
   L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
   L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
   L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
+  L4=c(NA,NA,NA)
 
-  tbl=data.frame(rbind(L1,L2,L3))
-  row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"))
+  tbl=data.frame(rbind(L1,L2,L3,L4))
+  row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
   table=rbind(table,tbl)
 }
 
