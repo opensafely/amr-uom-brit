@@ -92,7 +92,7 @@ summarise(med = quantile(prob, na.rm=TRUE)[3],
 
 plot<- ggplot(quantiles1, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
   #  geom_line(aes(y=lowquart), color="darkred")+
@@ -126,7 +126,7 @@ quantiles2 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles2, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
@@ -150,7 +150,7 @@ quantiles3 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles3, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
@@ -174,7 +174,7 @@ quantiles4 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles4, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
@@ -198,7 +198,7 @@ quantiles5 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles5, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
@@ -222,7 +222,7 @@ quantiles6 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles6, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
@@ -247,7 +247,7 @@ quantiles7 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles7, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
@@ -271,7 +271,7 @@ quantiles8 <- data %>% group_by(case,decile)%>%
 
 plot<- ggplot(quantiles8, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
     labs(
