@@ -26,6 +26,7 @@ DF=DF %>% mutate_at(col,as.numeric)
 
 for (k in 3:17) {
   
+  cut_value=quantile(DF[,col[k]],c(0.25,0.5,0.75))
 
   DF[,paste0(col[k],"_group")]=ifelse(
     DF[,col[k]] <= cut_value[1],1,NA)  
