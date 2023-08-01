@@ -258,10 +258,11 @@ actions:
 # figures
   result_3: #RF results
     run: r:latest -e 'rmarkdown::render("analysis/RF/result_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_ranger_decile] #RF_ranger_decil
+    needs: [RF_ranger_decile] #RF_ranger_decile
     outputs:
       moderately_sensitive:
         html: output/result_3.html 
+        csv: output/quantile_outcome.csv
 
 
 # sugroup analysis

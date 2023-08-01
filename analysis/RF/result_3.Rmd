@@ -82,14 +82,15 @@ data$case=as.factor(data$case)
 data$decile=as.factor(data$decile)
 
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
-  mutate(med = quantile(prob, na.rm=TRUE)[3],
+quantiles1 <- data %>% group_by(case,decile)%>%
+summarise(med = quantile(prob, na.rm=TRUE)[3],
          lowquart= quantile(prob, na.rm=TRUE)[2],
          highquart= quantile(prob, na.rm=TRUE)[4],
          ninefive= quantile(prob, na.rm=TRUE, c(0.95)),
-         five=quantile(prob, na.rm=TRUE, c(0.05)))
+         five=quantile(prob, na.rm=TRUE, c(0.05)),
+         variable="prob")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles1, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -115,14 +116,15 @@ plot
 ## total antibiotics
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles2 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(total_ab, na.rm=TRUE)[3],
          lowquart= quantile(total_ab, na.rm=TRUE)[2],
          highquart= quantile(total_ab, na.rm=TRUE)[4],
          ninefive= quantile(total_ab, na.rm=TRUE, c(0.95)),
-         five=quantile(total_ab, na.rm=TRUE, c(0.05)))
+         five=quantile(total_ab, na.rm=TRUE, c(0.05)),
+         variable="total_ab")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles2, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -138,14 +140,15 @@ plot
 ## ab types
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles3 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(ab_types, na.rm=TRUE)[3],
          lowquart= quantile(ab_types, na.rm=TRUE)[2],
          highquart= quantile(ab_types, na.rm=TRUE)[4],
          ninefive= quantile(ab_types, na.rm=TRUE, c(0.95)),
-         five=quantile(ab_types, na.rm=TRUE, c(0.05)))
+         five=quantile(ab_types, na.rm=TRUE, c(0.05)),
+         variable="ab_types")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles3, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -161,14 +164,15 @@ plot
 ## exposure_period
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles4 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(exposure_period, na.rm=TRUE)[3],
          lowquart= quantile(exposure_period, na.rm=TRUE)[2],
          highquart= quantile(exposure_period, na.rm=TRUE)[4],
          ninefive= quantile(exposure_period, na.rm=TRUE, c(0.95)),
-         five=quantile(exposure_period, na.rm=TRUE, c(0.05)))
+         five=quantile(exposure_period, na.rm=TRUE, c(0.05)),
+         variable="expo_period")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles4, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -184,14 +188,15 @@ plot
 ## recent_ab_days
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles5 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(recent_ab_days, na.rm=TRUE)[3],
          lowquart= quantile(recent_ab_days, na.rm=TRUE)[2],
          highquart= quantile(recent_ab_days, na.rm=TRUE)[4],
          ninefive= quantile(recent_ab_days, na.rm=TRUE, c(0.95)),
-         five=quantile(recent_ab_days, na.rm=TRUE, c(0.05)))
+         five=quantile(recent_ab_days, na.rm=TRUE, c(0.05)),
+         variable="recent_ab")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles5, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -207,14 +212,15 @@ plot
 ## broad_ab_prescriptions
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles6 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(broad_ab_prescriptions, na.rm=TRUE)[3],
          lowquart= quantile(broad_ab_prescriptions, na.rm=TRUE)[2],
          highquart= quantile(broad_ab_prescriptions, na.rm=TRUE)[4],
          ninefive= quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.95)),
-         five=quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.05)))
+         five=quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.05)),
+         variable="broad_ab")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles6, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -231,14 +237,15 @@ plot
 ## interval_mean
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles7 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(interval_mean, na.rm=TRUE)[3],
          lowquart= quantile(interval_mean, na.rm=TRUE)[2],
          highquart= quantile(interval_mean, na.rm=TRUE)[4],
          ninefive= quantile(interval_mean, na.rm=TRUE, c(0.95)),
-         five=quantile(interval_mean, na.rm=TRUE, c(0.05)))
+         five=quantile(interval_mean, na.rm=TRUE, c(0.05)),
+         variable="interval_mean")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles7, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -254,14 +261,15 @@ plot
 ## interval_sd
 ```{r}
 ## quantiles
-quantiles <- data %>% group_by(case,decile)%>%
+quantiles8 <- data %>% group_by(case,decile)%>%
   mutate(med = quantile(interval_sd, na.rm=TRUE)[3],
          lowquart= quantile(interval_sd, na.rm=TRUE)[2],
          highquart= quantile(interval_sd, na.rm=TRUE)[4],
          ninefive= quantile(interval_sd, na.rm=TRUE, c(0.95)),
-         five=quantile(interval_sd, na.rm=TRUE, c(0.05)))
+         five=quantile(interval_sd, na.rm=TRUE, c(0.05)),
+         variable="interval_sd")
 
-plot<- ggplot(quantiles, aes(x=decile,group=case))+
+plot<- ggplot(quantiles8, aes(x=decile,group=case))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.8) +  
     geom_line(aes(y=med))+
@@ -273,3 +281,10 @@ plot<- ggplot(quantiles, aes(x=decile,group=case))+
   facet_grid(case~.)
 plot
 ```
+
+# output data
+```{r}
+DF=rbind(quantiles1,quantiles2,quantiles3,quantiles4,quantiles5,quantiles6,quantiles7,quantiles8)
+write.csv(DF, here::here("output","quantile_outcome.csv"))
+```
+
