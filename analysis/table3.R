@@ -100,17 +100,9 @@ write.csv(round_tbl,here::here("output","table3.csv"))
 # median (IQR) per levels
 col<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
                 
+table=data.frame()
 
-i=1
-L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
-L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
-L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
-L4=quantile(DF[col[i]==4,col[i]],c(0.25,0.5,0.75)) 
-
-table=data.frame(rbind(L1,L2,L3,L4))
-row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
-
-for (i in 2:5) {
+for (i in 1:5) {
   
   L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
   L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
