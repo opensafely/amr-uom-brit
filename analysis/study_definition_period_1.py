@@ -1,3 +1,11 @@
+######################################
+# This script provides the formal specification of the study data that will
+# be extracted from the OpenSAFELY database.
+# This data extract is the data extract for one of the UK pandemic period (pre,during,post)
+# (see file name which period)
+# (see config.json for start and end dates of the wave)
+######################################
+
 
 from cohortextractor import (
     StudyDefinition,

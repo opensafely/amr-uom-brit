@@ -1,0 +1,34 @@
+{   "dates": {"start_date": "2019-01-01", "end_date": "2023-06-30"},
+    "period1": {"start_date": "2019-01-01", "end_date": "2020-03-25"},
+    "period2": {"start_date": "2020-03-26", "end_date": "2021-03-08"},
+    "period3": {"start_date": "2021-03-09", "end_date": "2023-06-30"},
+    "demographics" : [
+        "ethnicity",
+        "region",
+        "imd",
+        "bmi",
+        "smoking_status_comb"
+    ],
+    "comorbidities" : [
+        "bp",
+        "asthma",
+        "diabetes_controlled",
+        "ckd_rrt",
+        "organ_kidney_transplant",
+        "hypertension",
+        "bp_ht",
+        "chronic_respiratory_disease",
+        "chronic_cardiac_disease",
+        "cancer",
+        "haem_cancer",
+        "chronic_liver_disease",
+        "stroke",
+        "dementia",
+        "other_neuro",
+        "asplenia",
+        "ra_sle_psoriasis",
+        "immunosuppression",
+        "learning_disability",
+        "sev_mental_ill"
+    ]
+}
