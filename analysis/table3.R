@@ -26,7 +26,7 @@ DF=DF %>% mutate_at(col,as.numeric)
 
 for (k in 3:17) {
   
-  cut_value=quantile(DF[,col[k]],c(0.25,0.5,0.75))
+  cut_value=quantile(DF[,col[k]],c(0.25,0.5,0.75),na.rm=T)
 
   DF[,paste0(col[k],"_group")]=ifelse(
     DF[,col[k]] <= cut_value[1],1,NA)  
@@ -46,7 +46,13 @@ for (k in 3:17) {
     is.na( DF[,col[k]]) ,0 ,DF[,paste0(col[k],"_group")])  
   
 }
-
+DF$total_ab_group=relevel(as.factor(DF$total_ab_group),ref= "1")
+DF$ab_types_group=relevel(as.factor(DF$ab_types_group),ref= "1")
+DF$exposure_period_group=relevel(as.factor(DF$exposure_period_group),ref= "1")
+DF$recent_ab_days_group=relevel(as.factor(DF$recent_ab_days_group),ref= "1")
+DF$broad_ab_prescriptions_group=relevel(as.factor(DF$broad_ab_prescriptions_group),ref= "1")
+DF$interval_mean_group=relevel(as.factor(DF$interval_mean_group),ref= "1")
+DF$interval_sd_group=relevel(as.factor(DF$interval_sd_group),ref= "1")
 
 # select variables
 DF=DF%>%dplyr::select( "case",
@@ -100,15 +106,17 @@ write.csv(round_tbl,here::here("output","table3.csv"))
 
 # median (IQR) per levels
 col<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
-                
+var<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","recent_ab_days","ab_types","broad_ab_prescriptions")
+
+              
 table=data.frame()
 
 for (i in 1:5) {
   
-  L1=quantile(DF[col[i]==1,col[i],c(0.25,0.5,0.75))
-  L2=quantile(DF[col[i]==2,col[i],c(0.25,0.5,0.75))
-  L3=quantile(DF[col[i]==3,col[i],c(0.25,0.5,0.75))
-  L4=quantile(DF[col[i]==4,col[i],c(0.25,0.5,0.75)) 
+  L1=quantile(DF[col[i]==1,var[i]],c(0.25,0.5,0.75))
+  L2=quantile(DF[col[i]==2,var[i]],c(0.25,0.5,0.75))
+  L3=quantile(DF[col[i]==3,var[i]],c(0.25,0.5,0.75))
+  L4=quantile(DF[col[i]==4,var[i]],c(0.25,0.5,0.75)) 
 
   tbl=data.frame(rbind(L1,L2,L3,L4))
   row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
@@ -117,9 +125,9 @@ for (i in 1:5) {
 
 for (i in 6:7) {
   
-  L1=quantile(DF[col[i]==1,col[i],c(0.25,0.5,0.75))
-  L2=quantile(DF[col[i]==2,col[i],c(0.25,0.5,0.75))
-  L3=quantile(DF[col[i]==3,col[i],c(0.25,0.5,0.75))
+  L1=quantile(DF[col[i]==1,var[i]],c(0.25,0.5,0.75))
+  L2=quantile(DF[col[i]==2,var[i]],c(0.25,0.5,0.75))
+  L3=quantile(DF[col[i]==3,var[i]],c(0.25,0.5,0.75))
   L4=c(NA,NA,NA)
 
   tbl=data.frame(rbind(L1,L2,L3,L4))
