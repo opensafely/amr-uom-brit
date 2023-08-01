@@ -227,9 +227,8 @@ actions:
     needs: [process_ab_time]
     outputs:
       moderately_sensitive:
-        csv1: output/table3_quartile.csv
-        csv2: output/table3.csv
-        csv3: output/table3_group.csv
+        csv1: output/table3.csv
+        csv2: output/table3_group.csv
 
   decile_table: # decile table
     run: r:latest -e 'rmarkdown::render("analysis/decile_table.Rmd", knit_root_dir = "/workspace", output_dir = "output")'

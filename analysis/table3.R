@@ -23,11 +23,9 @@ col=c("case","subclass",
 
 DF=DF %>% mutate_at(col,as.numeric)
 
-Quartile=data.frame()
 
 for (k in 3:17) {
   
-  cut_value=quantile(DF[,col[k]],c(0.25,0.5,0.75))
 
   DF[,paste0(col[k],"_group")]=ifelse(
     DF[,col[k]] <= cut_value[1],1,NA)  
@@ -46,18 +44,7 @@ for (k in 3:17) {
   DF[,paste0(col[k],"_group")]=ifelse(
     is.na( DF[,col[k]]) ,0 ,DF[,paste0(col[k],"_group")])  
   
-  Quartile[,k]= cut_value
 }
-
-# save cut value of each variables
-Quartile=Quartile[,-c(1:2)]
-colnames(Quartile)=c(
-                     "total_ab","ab_types","prescribe_times",
-                     "exposure_period","recent_ab_days", 
-                     "broad_prop","broad_ab_prescriptions",
-                     "interval_mean","interval_med" ,"interval_sd","interval_CV",
-                     "length_mean","length_med", "length_sd","length_CV")
-write.csv(Quartile,here::here("output","table3_quartile.csv"))
 
 
 # select variables
