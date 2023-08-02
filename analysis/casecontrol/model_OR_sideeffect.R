@@ -13,10 +13,15 @@ library(here)
 main <- function(condition) {
   # Read the dataset
   df <- readRDS(here::here("output", "processed", paste0("model_", condition, ".rds")))
-  setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",condition,"_type.csv")))%>%select(set_id,outcome_type)
+  setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",condition,"_type.csv")))%>%select(set_id,side_effect)
   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
-  df$charlsonGrp= relevel(as.factor(df$charlsonGrp), ref="zero")
+  df$ethnicity= relevel(as.factor(df$ethnicity), ref="White")
+  df$region= relevel(as.factor(df$region), ref="East of England")
+  df$bmi= relevel(as.factor(df$bmi), ref="Healthy range (18.5-24.9 kg/m2)")
+  df$imd= relevel(as.factor(df$imd), ref="5 (least deprived)")
+  df$smoking_status_comb= relevel(as.factor(df$smoking_status_comb), ref="Never and unknown")
+
   df$patient_index_date <- as.Date(df$patient_index_date, format = "%Y%m%d")
 
   df <- df %>% mutate(covid = case_when(patient_index_date < as.Date("2020-03-26") ~ "1",
@@ -32,31 +37,39 @@ main <- function(condition) {
   df <- merge(setiddt,df,by="set_id")
   df$set_id=as.factor(df$set_id) #pair id
  # Filter the dataframe by outcome_type
-  df_sideeffect <- df %>% filter(outcome_type == "side effect")
-  
-  dfs <- list()
+  df <- df %>% filter(side_effect == "1")
 
-  for (i in 1:6) {
+ # Create a frequency table
+  freq_table <- table(df$ab_treatment, df$case)
+  # Write the frequency table to a CSV file
+  write_csv(as.data.frame(freq_table), here::here("output", paste0(condition, "_freq_sideeffect.csv")))
+
+  # Initialize an empty list
+  dfs <- list()
+  for (i in 1:7) {
       
     if(i==1){
-      mod=clogit(case ~ ab_treatment + strata(set_id), df_sideeffect)
+      mod=clogit(case ~ ab_treatment + strata(set_id), df)
     }
     else if(i==2){
-      mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df_sideeffect)
+      mod=clogit(case ~ covid*ab_treatment + ab_treatment + covid + strata(set_id), df)
     }
     else if(i==3){
-      mod=clogit(case ~ ab_treatment + ckd_rrt + strata(set_id), df_sideeffect)
+      mod=clogit(case ~ ab_treatment + ethnicity + region + bmi + imd + smoking_status_comb + strata(set_id), df)
     }
     else if(i==4){
-      mod=clogit(case ~ ckd_rrt*ab_treatment + ab_treatment + ckd_rrt + strata(set_id), df_sideeffect)
+      mod=clogit(case ~ ab_treatment + ethnicity + region + bmi + imd + smoking_status_comb + ckd_rrt + strata(set_id), df)
     }
     else if(i==5){
-      mod=clogit(case ~ ab_treatment + charlsonGrp + strata(set_id), df_sideeffect)
+      mod=clogit(case ~ ab_treatment + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
     }
     else if(i==6){
-      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count +strata(set_id), df_sideeffect)
+      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count + strata(set_id), df)
     }
-    
+    else if(i==7){
+      mod=clogit(case ~ ab_history_count*ab_treatment + ab_treatment + ab_history_count + ethnicity + region + bmi + imd + smoking_status_comb + charlsonGrp + strata(set_id), df)
+    }
+
     sum.mod=summary(mod)
     result=data.frame(sum.mod$conf.int)
     DF=result[,-2]
@@ -85,6 +98,7 @@ main <- function(condition) {
                                                combined_df$OR, combined_df$CI_L, combined_df$CI_U))
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
+  # Write the combined data frame to a CSV file
   write_csv(combined_df, here::here("output", paste0(condition, "_model_result_sideeffect.csv")))
 }
 

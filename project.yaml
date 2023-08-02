@@ -486,21 +486,26 @@ actions:
     needs: [model_process,case_type_process]
     outputs:
       moderately_sensitive: 
-        csv: output/*_model_result_sideeffect.csv
+        csv1: output/*_model_result_sideeffect.csv
+        csv2: output/*_freq_sideeffect.csv
+
 
   model_OR_disease:
     run: r:latest analysis/casecontrol/model_OR_disease.R
     needs: [model_process,case_type_process]
     outputs:
       moderately_sensitive: 
-        csv: output/*_model_result_disease.csv
+        csv1: output/*_model_result_disease.csv
+        csv2: output/*_freq_disease.csv
+
 
   model_OR_renal:
     run: r:latest analysis/casecontrol/model_OR_renal.R
     needs: [model_process,case_type_process]
     outputs:
       moderately_sensitive: 
-        csv: output/*_model_result_renal.csv
+        csv1: output/*_model_result_renal.csv
+        csv2: output/*_freq_renal.csv
 
   case_abvar_freq_process:
     run: r:latest analysis/casecontrol/case_abvar_freq_process.R

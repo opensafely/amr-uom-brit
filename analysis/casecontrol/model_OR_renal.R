@@ -38,6 +38,11 @@ main <- function(condition) {
   df$set_id=as.factor(df$set_id) #pair id
  # Filter the dataframe by outcome_type
   df <- df %>% filter(ae_N17_codelist == "1")
+  
+ # Create a frequency table
+  freq_table <- table(df$ab_treatment, df$case)
+  # Write the frequency table to a CSV file
+  write_csv(as.data.frame(freq_table), here::here("output", paste0(condition, "_freq_renal.csv")))
 
   # Initialize an empty list
   dfs <- list()
