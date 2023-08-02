@@ -67,8 +67,7 @@ DF= DF %>%
 
 
 # categorical variables
-explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group",
-                "total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+explanatory<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
 dependent <- "case"
 tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
 
@@ -90,14 +89,21 @@ round_tbl[,4]=as.numeric(round_tbl[,4])
 round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
 
+# mean (SD)
+
+explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+dependent <- "case"
+tbl2=DF%>% summary_factorlist(dependent, explanatory, p=T)
+
+round_tbl=rbind(round_tbl,tbl2)
 
 # median (IQR)
 
 explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
 dependent <- "case"
-tbl2=DF%>% summary_factorlist(dependent, explanatory, p=T, cont = "median")
+tbl3=DF%>% summary_factorlist(dependent, explanatory, p=T, cont = "median")
 
-round_tbl=rbind(round_tbl,tbl2)
+round_tbl=rbind(round_tbl,tbl3)
 
 #write.csv(tbl1,"table3_group.csv")
 write.csv(round_tbl,here::here("output","table3.csv"))
@@ -135,10 +141,10 @@ for (i in 6:7) {
   sub=DF[DF[, col[i]] == "1", ] #filter rows
   L1=quantile(sub[,var[i]],c(0.25,0.5,0.75),na.rm=T) # calculate quartiles
   
-  sub2=DF[DF[, col[i]] == "2", ]
+  sub2=DF[DF[, col[i]] == "3", ]
   L2=quantile(sub2[,var[i]],c(0.25,0.5,0.75),na.rm=T)
   
-  sub3=DF[DF[, col[i]] == "3", ]
+  sub3=DF[DF[, col[i]] == "4", ]
   L3=quantile(sub3[,var[i]],c(0.25,0.5,0.75),na.rm=T)
 
   L4=c(NA,NA,NA)
