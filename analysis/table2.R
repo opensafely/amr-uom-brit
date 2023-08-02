@@ -75,7 +75,7 @@ round_tbl[c(21:26),"percent_1"]=round_tbl[c(21:26),4]/sum(round_tbl[c(21:26),4])
  round_tbl[c(27:66),"percent_0"]=round_tbl[c(27:66),3]/contr.num
 round_tbl[c(27:66),"percent_1"]=round_tbl[c(27:66),4]/case.num
 
-write.csv(tbl,here::here("output","table2_matched.csv"))
+write.csv(round_tbl,here::here("output","table2_matched.csv"))
 
 
 
