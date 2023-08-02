@@ -12,7 +12,7 @@ library(here)
 main <- function(condition) {
   # Read the dataset
   df <- readRDS(here::here("output", "processed", paste0("model_", condition, ".rds")))
-  setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",condition,"_type.csv")))%>%select(set_id,ae_N17_codelist)
+  setiddt <- read_csv(here::here("output",paste0("mapping_input_case_",condition,"_type.csv")))%>%select(set_id,disease)
   # Preprocess the dataset
   df$case=as.numeric(df$case) #1/0
   df$ethnicity= relevel(as.factor(df$ethnicity), ref="White")
@@ -46,7 +46,7 @@ df$ab_exposure = relevel(as.factor(df$ab_exposure), ref = "no_ab")
 df <- merge(setiddt,df,by="set_id")
 df$set_id=as.factor(df$set_id) #pair id
 # Filter the dataframe by outcome_type
-df <- df %>% filter(ae_N17_codelist == "1")
+df <- df %>% filter(disease == "1")
 
   # Calculate the frequency of each medication level by case
   medication_freq <- df %>% group_by(ab_exposure, case) %>% summarise(freq = n())
@@ -58,7 +58,7 @@ df <- df %>% filter(ae_N17_codelist == "1")
   medication_freq_pivot[is.na(medication_freq_pivot)] <- 0
 
   # Write the frequency table to a CSV file
-  write_csv(medication_freq_pivot, here::here("output", paste0(condition,"_ab_history_freq_renal.csv")))
+  write_csv(medication_freq_pivot, here::here("output", paste0(condition,"_ab_history_freq_disease.csv")))
 
   # Initialize an empty list
   dfs <- list()
@@ -109,7 +109,7 @@ df <- df %>% filter(ae_N17_codelist == "1")
   combined_df <- combined_df %>% select(type, Model, `OR (95% CI)`)
 
   # Write the combined data frame to a CSV file
-  write_csv(combined_df, here::here("output", paste0(condition, "_abhistory_model_result_renal.csv")))
+  write_csv(combined_df, here::here("output", paste0(condition, "_abhistory_model_result_disease.csv")))
 }
 
 # Call the main function for each condition

@@ -440,6 +440,23 @@ actions:
     outputs:
       moderately_sensitive: 
         csv1: output/*_abhistory_model_result_renal.csv
+        csv2: output/*_ab_history_freq_renal.csv
+
+  model_abhistory_OR_disease:
+    run: r:latest analysis/casecontrol/model_abhistory_OR_disease.R
+    needs: [model_process,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/*_abhistory_model_result_disease.csv
+        csv2: output/*_ab_history_freq_disease.csv
+
+  model_abhistory_OR_sideeffect:
+    run: r:latest analysis/casecontrol/model_abhistory_OR_sideeffect.R
+    needs: [model_process,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/*_abhistory_model_result_sideeffect.csv
+        csv2: output/*_ab_history_freq_sideeffect.csv
 
   model_table_sideeffect:
     run: r:latest analysis/casecontrol/model_table_sideeffect.R
