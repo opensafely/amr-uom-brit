@@ -113,10 +113,17 @@ table=data.frame()
 
 for (i in 1:5) {
   
-  L1=quantile(DF[col[i]==1,var[i]],c(0.25,0.5,0.75))
-  L2=quantile(DF[col[i]==2,var[i]],c(0.25,0.5,0.75))
-  L3=quantile(DF[col[i]==3,var[i]],c(0.25,0.5,0.75))
-  L4=quantile(DF[col[i]==4,var[i]],c(0.25,0.5,0.75)) 
+  sub=DF[DF[, col[i]] == "1", ] #filter rows
+  L1=quantile(sub[,var[i]],c(0.25,0.5,0.75),na.rm=T) # calculate quartiles
+  
+  sub2=DF[DF[, col[i]] == "2", ]
+  L2=quantile(sub2[,var[i]],c(0.25,0.5,0.75),na.rm=T)
+  
+  sub3=DF[DF[, col[i]] == "3", ]
+  L3=quantile(sub3[,var[i]],c(0.25,0.5,0.75),na.rm=T)
+  
+  sub4=DF[DF[, col[i]] == "4", ]
+  L4=quantile(sub4[,var[i]],c(0.25,0.5,0.75),na.rm=T)
 
   tbl=data.frame(rbind(L1,L2,L3,L4))
   row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
@@ -125,9 +132,15 @@ for (i in 1:5) {
 
 for (i in 6:7) {
   
-  L1=quantile(DF[col[i]==1,var[i]],c(0.25,0.5,0.75))
-  L2=quantile(DF[col[i]==2,var[i]],c(0.25,0.5,0.75))
-  L3=quantile(DF[col[i]==3,var[i]],c(0.25,0.5,0.75))
+  sub=DF[DF[, col[i]] == "1", ] #filter rows
+  L1=quantile(sub[,var[i]],c(0.25,0.5,0.75),na.rm=T) # calculate quartiles
+  
+  sub2=DF[DF[, col[i]] == "2", ]
+  L2=quantile(sub2[,var[i]],c(0.25,0.5,0.75),na.rm=T)
+  
+  sub3=DF[DF[, col[i]] == "3", ]
+  L3=quantile(sub3[,var[i]],c(0.25,0.5,0.75),na.rm=T)
+
   L4=c(NA,NA,NA)
 
   tbl=data.frame(rbind(L1,L2,L3,L4))
