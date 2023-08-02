@@ -466,40 +466,7 @@ plot
 ```
 
 
-## prediction
-```{r}
-data$case=as.factor(data$case)
-data$decile=as.factor(data$decile)
 
-## quantiles
-quantiles1 <- data %>% group_by(decile)%>%
-summarise(med = quantile(prob, na.rm=TRUE)[3],
-         lowquart= quantile(prob, na.rm=TRUE)[2],
-         highquart= quantile(prob, na.rm=TRUE)[4],
-         ninefive= quantile(prob, na.rm=TRUE, c(0.95)),
-         five=quantile(prob, na.rm=TRUE, c(0.05)),
-         variable="prob")
-
-plot<- ggplot(quantiles1, aes(x=decile))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
-    geom_line(aes(y=med))+
-    geom_point(aes(y=med))+
-  #  geom_line(aes(y=lowquart), color="darkred")+
-  #  geom_point(aes(y=lowquart), color="darkred")+
-  #  geom_line(aes(y=highquart), color="darkred")+
- #   geom_point(aes(y=highquart), color="darkred")+
-
-  #  geom_line(aes(y=ninefive), color="black", linetype="dotted")+
-  #  geom_point(aes(y=ninefive), color="black")+
-  #  geom_line(aes(y=five), color="black", linetype="dotted")+
-  #  geom_point(aes(y=five), color="black")+
-    labs(
-      title = "",
-      x = "",
-      y = "")
-plot
-```
 
 
 ## total antibiotics
@@ -701,6 +668,6 @@ plot
 
 # output data
 ```{r}
-DF=rbind(quantiles1,quantiles2,quantiles3,quantiles4,quantiles5,quantiles6,quantiles7,quantiles8)
+DF=rbind(quantiles2,quantiles3,quantiles4,quantiles5,quantiles6,quantiles7,quantiles8)
 write.csv(DF, here::here("output","quantile_overall.csv"))
 ```
