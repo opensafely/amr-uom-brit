@@ -514,10 +514,15 @@ quantiles2 <- data %>% group_by(decile)%>%
          variable="total_ab")
 
 plot<- ggplot(quantiles2, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
@@ -537,10 +542,15 @@ quantiles3 <- data %>% group_by(decile)%>%
          variable="ab_types")
 
 plot<- ggplot(quantiles3, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
@@ -560,10 +570,15 @@ quantiles4 <- data %>% group_by(decile)%>%
          variable="expo_period")
 
 plot<- ggplot(quantiles4, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
@@ -583,10 +598,15 @@ quantiles5 <- data %>% group_by(decile)%>%
          variable="recent_ab")
 
 plot<- ggplot(quantiles5, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
@@ -606,10 +626,15 @@ quantiles6 <- data %>% group_by(decile)%>%
          variable="broad_ab")
 
 plot<- ggplot(quantiles6, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
@@ -630,10 +655,15 @@ quantiles7 <- data %>% group_by(decile)%>%
          variable="interval_mean")
 
 plot<- ggplot(quantiles7, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
@@ -653,13 +683,24 @@ quantiles8 <- data %>% group_by(decile)%>%
          variable="interval_sd")
 
 plot<- ggplot(quantiles8, aes(x=decile,group=case))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.3) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.6) +  
+#    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+#  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
     labs(
       title = "",
       x = "",
       y = "")
 plot
+```
+
+# output data
+```{r}
+DF=rbind(quantiles1,quantiles2,quantiles3,quantiles4,quantiles5,quantiles6,quantiles7,quantiles8)
+write.csv(DF, here::here("output","quantile_overall.csv"))
 ```
