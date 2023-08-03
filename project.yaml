@@ -601,6 +601,22 @@ actions:
         csv1: output/uti_*_OR_renal.csv
         csv2: output/uti_ab_medication_freq_renal.csv
 
+  type_urti_OR_renal:
+    run: r:latest analysis/casecontrol/type_urti_OR_renal.R
+    needs: [model_process_ab,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/urti_*_OR_renal.csv
+        csv2: output/urti_ab_medication_freq_renal.csv
+
+  type_lrti_OR_renal:
+    run: r:latest analysis/casecontrol/type_lrti_OR_renal.R
+    needs: [model_process_ab,case_type_process]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/lrti_*_OR_renal.csv
+        csv2: output/lrti_ab_medication_freq_renal.csv
+
   type_uti_OR_disease:
     run: r:latest analysis/casecontrol/type_uti_OR_disease.R
     needs: [model_process_ab,case_type_process]
