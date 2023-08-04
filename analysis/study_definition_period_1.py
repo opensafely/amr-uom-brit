@@ -23,7 +23,7 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2019-01-01"
-end_date = "2019-12-31"
+end_date = "2020-03-25"
 
 emergency_admission_codes = [
     "21",  # Emergency Admission: Emergency Care Department or dental casualty department of the Health Care Provider
@@ -42,11 +42,11 @@ emergency_admission_codes = [
 
 # # ###### Import variables
 
-from variables_infections import generate_infection_variables
 from variables_CCI import generate_CCI_variables
-infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
 CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
 
+# DEFINE STUDY POPULATION ----
+# Define study population and variables
 
 study = StudyDefinition(
 
@@ -64,7 +64,7 @@ study = StudyDefinition(
     population=patients.satisfying(
         """
         NOT has_died
-        AND has_follow_up_previous_year
+        AND has_follow_up
         AND (sex = "M" OR sex = "F")
         AND (age >=18 AND age <= 110)
         AND NOT region = ""
@@ -72,28 +72,25 @@ study = StudyDefinition(
         """,
 
         has_died=patients.died_from_any_cause(
-            on_or_before="index_date",
+            on_or_before="patient_index_date",
             returning="binary_flag",
         ),
 
-        has_follow_up_previous_year=patients.registered_with_one_practice_between(
-            start_date="patient_index_date - 365 days",
+        has_follow_up=patients.registered_with_one_practice_between(
+            start_date="patient_index_date - 3 months",
             end_date="patient_index_date",
             return_expectations={"incidence": 0.95},
         ),
     ),
     ### patient index date = hospital admission date
     # hospital_admission_date
-    patient_index_date=patients.admitted_to_hospital(
-        returning= "date_admitted",  
-        with_these_primary_diagnoses=all_ae_codes,
-        with_admission_method=emergency_admission_codes,  
-        between=[start_date, end_date], 
-        find_first_match_in_period=True,  
-        date_format="YYYY-MM-DD",  
-        return_expectations={"date": {"earliest": "2019-01-01"}, "incidence" : 1},
+    patient_index_date=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning='date',
+        between=[start_date, end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",    
     ),
-
     ## Age
     age=patients.age_as_of(
         "patient_index_date",
@@ -160,6 +157,161 @@ study = StudyDefinition(
             },
         },
     ),   
+
+        # ETHNICITY IN 6 CATEGORIES
+    eth=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        on_or_before="patient_index_date",
+        find_last_match_in_period=True,
+        include_date_of_match=False,
+        return_expectations={
+                                "category": {
+                                    "ratios": {
+                                        "1": 0.2,
+                                        "2": 0.2,
+                                        "3": 0.2,
+                                        "4": 0.2,
+                                        "5": 0.2
+                                        }
+                                    },
+                                "incidence": 0.75,
+                                },
+    ),
+
+    # fill missing ethnicity from SUS
+    ethnicity_sus=patients.with_ethnicity_from_sus(
+        returning="group_6",
+        use_most_frequent_code=True,
+        return_expectations={
+            "category": {
+                            "ratios": {
+                                "1": 0.2,
+                                "2": 0.2,
+                                "3": 0.2,
+                                "4": 0.2,
+                                "5": 0.2
+                                }
+                            },
+            "incidence": 0.4,
+            },
+    ),
+
+    ethnicity=patients.categorised_as(
+            {
+                "0": "DEFAULT",
+                "1": "eth='1' OR (NOT eth AND ethnicity_sus='1')",
+                "2": "eth='2' OR (NOT eth AND ethnicity_sus='2')",
+                "3": "eth='3' OR (NOT eth AND ethnicity_sus='3')",
+                "4": "eth='4' OR (NOT eth AND ethnicity_sus='4')",
+                "5": "eth='5' OR (NOT eth AND ethnicity_sus='5')",
+            },
+            return_expectations={
+                "category": {
+                                "ratios": {
+                                    "0": 0.5,  # missing in 50%
+                                    "1": 0.1,
+                                    "2": 0.1,
+                                    "3": 0.1,
+                                    "4": 0.1,
+                                    "5": 0.1
+                                    }
+                                },
+                "rate": "universal",
+            },
+    ),
+
+    # BMI & further outcome
+    ### CLINICAL MEASUREMENTS
+    # BMI
+    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/10
+    bmi_value=patients.most_recent_bmi(
+        on_or_after="patient_index_date - 5 years",
+        minimum_age_at_measurement=16,
+        return_expectations={
+            "date": {"latest": "index_date"},
+            "float": {"distribution": "normal", "mean": 25.0, "stddev": 7.5},
+            "incidence": 0.8,
+        },
+    ),
+    bmi=patients.categorised_as(
+        {
+            "Underweight (<18.5)": """ bmi_value < 18.5 AND bmi_value > 12""",
+            "Healthy range (18.5-24.9)": """ bmi_value >= 1.5 AND bmi_value < 25""",
+            "Overweight (25-29.9)": """ bmi_value >= 25 AND bmi_value < 30""",
+            "Obese I (30-34.9)": """ bmi_value >= 30 AND bmi_value < 35""",
+            "Obese II (35-39.9)": """ bmi_value >= 35 AND bmi_value < 40""",
+            "Obese III (40+)": """ bmi_value >= 40 AND bmi_value < 100""",
+            "Missing": "DEFAULT", 
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "Underweight (<18.5)": 0.1,
+                    "Healthy range (18.5-24.9)": 0.3,
+                    "Overweight (25-29.9)":0.3,
+                    "Obese I (30-34.9)": 0.1,
+                    "Obese II (35-39.9)": 0.1,
+                    "Obese III (40+)": 0.1,
+                }
+            },
+        },
+    ),
+
+    # smoking status
+    smoking_status=patients.categorised_as(
+        {
+            "S": "most_recent_smoking_code = 'S'",
+            "E": """
+                     most_recent_smoking_code = 'E' OR (
+                       most_recent_smoking_code = 'N' AND ever_smoked
+                    )
+                """,
+            "N": "most_recent_smoking_code = 'N' AND NOT ever_smoked",
+            "M": "DEFAULT",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "S": 0.6,
+                    "E": 0.1,
+                    "N": 0.2,
+                    "M": 0.1,
+                }
+            },
+        },
+        most_recent_smoking_code=patients.with_these_clinical_events(
+            clear_smoking_codes,
+            find_last_match_in_period=True,
+            on_or_before="patient_index_date",
+            returning="category",
+        ),
+        ever_smoked=patients.with_these_clinical_events(
+            filter_codes_by_category(clear_smoking_codes, include=["S", "E"]),
+            on_or_before="patient_index_date",
+        ),
+    ),
+    # smoking status (combining never and missing)
+    smoking_status_comb=patients.categorised_as(
+        {
+            "S": "most_recent_smoking_code = 'S'",
+            "E": """
+                     most_recent_smoking_code = 'E' OR (
+                       most_recent_smoking_code = 'N' AND ever_smoked
+                    )
+                """,
+            "N + M": "DEFAULT",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"S": 0.6, "E": 0.1, "N + M": 0.3}, }
+        },
+    ),
+
+
+
 
 #Check any historic record of ae_outcome in their Hosp record (1 year)#
 
