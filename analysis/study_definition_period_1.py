@@ -42,8 +42,8 @@ emergency_admission_codes = [
 
 # # ###### Import variables
 
-from variables_CCI import generate_CCI_variables
-CCI_variables = generate_CCI_variables(index_date_variable="patient_index_date")
+from variables_infection import generate_infection_variables
+infection_variables = generate_infection_variables(index_date_variable="patient_index_date")
 
 # DEFINE STUDY POPULATION ----
 # Define study population and variables
@@ -311,19 +311,7 @@ study = StudyDefinition(
     ),
 
 
-
-
-#Check any historic record of ae_outcome in their Hosp record (1 year)#
-
-    has_outcome_1yr=patients.admitted_to_hospital(
-            with_these_primary_diagnoses=all_ae_codes, 
-            with_admission_method=emergency_admission_codes, 
-            returning="binary_flag",
-            between=["patient_index_date- 366 days", "patient_index_date - 1 day"],
-            return_expectations={"incidence": 0.65},
-    ),
-
-    #Check COVID-diagnsis within +/- 6 weeks #
+    #Check COVID-diagnsis#
 
     ## covid infection record sgss+gp ##
     SGSS_positive_6weeks=patients.with_test_result_in_sgss(
@@ -353,7 +341,109 @@ study = StudyDefinition(
         "rate" : "exponential_increase",
         "incidence" : 0.25},    ),
 
+    covid_6weeks=patients.categorised_as(
+        {
+            "0": "DEFAULT",
+            "1": """
+                  SGSS_positive_6weeks OR GP_positive_6weeks OR covid_admission_6weeks
+            """,
+        },
+        return_expectations={
+                                "category": {
+                                    "ratios": {
+                                        "0": 0.8,
+                                        "1": 0.2
+                                        }
+                                    },
+                                },
+    ),
+
     **infection_variables,
-    **CCI_variables,
-  
+
+    ### any chronic respiratory history ###
+
+    has_chronic_respiratory_disease=patients.with_these_clinical_events(
+        chronic_respiratory_disease_codes,  
+        returning="binary_flag",
+        on_or_before="patient_index_date",
+        find_last_match_in_period=True,
+    ),
+
+    # OUTCOMES
+    ### emergency admission date
+    emergency_admission_date=patients.admitted_to_hospital(
+        returning= "date_admitted",  
+        with_these_primary_diagnoses=all_ae_codes,
+        with_admission_method=emergency_admission_codes,  
+        between=["patient_index_date", "patient_index_date + 30 days"], 
+        find_first_match_in_period=True,  
+        date_format="YYYY-MM-DD",  
+        return_expectations={"date": {"earliest": "2019-01-01"}, "incidence" : 1},
+    ),
+
+    # Death from any cause (to be used for censoring)
+    died_any_date=patients.died_from_any_cause(
+        between=["patient_index_date", "patient_index_date + 30 days"], 
+        returning="date_of_death",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest": "index_date", "latest": end_date},
+            "incidence": 0.01,
+        },
+    ),
+
+    # Any other antibiotic used after the first prescription  (to be used for censoring) #
+
+    ab_30d_after=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="binary_flag",
+        between=["patient_index_date + 1 day", "patient_index_date + 30 days"],
+    ),    
+
+    # Any other antibiotic used in the past 30 days
+
+    ab_30d=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="binary_flag",
+        between=["patient_index_date - 31 days", "patient_index_date - 1 day"],
+    ),    
+
+    # Any other antibiotic used before the end date
+    ab_after=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="binary_flag",
+        between=["patient_index_date + 1 day", end_date],
+    ),  
+    # if Any other antibiotic used before the end date = yes, then new index date need to be extracted
+    ab_date_2=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["patient_index_date + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_3=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_2 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_4=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_3 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_5=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_4 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
 )

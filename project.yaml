@@ -6,3 +6,9 @@ expectations:
 actions:
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 ### study cohort ###
+
+  generate_study_population_period_1:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_1
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_1.csv
