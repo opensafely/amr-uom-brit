@@ -108,6 +108,62 @@ data%>% summary_factorlist(dependent, explanatory)
 data%>% summary_factorlist(dependent, contd)
 ```
 
+
+# median (IQR)
+```{r}
+# median (IQR)
+
+explanatory<- c("total_ab", "exposure_period","recent_ab_days","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+dependent <- "case"
+tbl2=DF%>% summary_factorlist(dependent, explanatory, p=T, cont = "median")
+
+round_tbl=rbind(round_tbl,tbl2)
+
+#write.csv(tbl1,"table3_group.csv")
+write.csv(round_tbl,here::here("output","table3.csv"))
+```
+
+
+```{r}
+# median (IQR) per levels
+col<- c("total_ab_group","exposure_period_group","interval_mean_group","interval_sd_group","recent_ab_days_group","ab_types_group","broad_ab_prescriptions_group")
+                
+
+i=1
+L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
+L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
+L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
+L4=quantile(DF[col[i]==4,col[i]],c(0.25,0.5,0.75)) 
+
+table=data.frame(rbind(L1,L2,L3,L4))
+row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
+
+for (i in 2:5) {
+  
+  L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
+  L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
+  L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
+  L4=quantile(DF[col[i]==4,col[i]],c(0.25,0.5,0.75)) 
+
+  tbl=data.frame(rbind(L1,L2,L3,L4))
+  row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
+  table=rbind(table,tbl)
+}
+
+for (i in 6:7) {
+  
+  L1=quantile(DF[col[i]==1,col[i]],c(0.25,0.5,0.75))
+  L2=quantile(DF[col[i]==2,col[i]],c(0.25,0.5,0.75))
+  L3=quantile(DF[col[i]==3,col[i]],c(0.25,0.5,0.75))
+  L4=c(NA,NA,NA)
+
+  tbl=data.frame(rbind(L1,L2,L3,L4))
+  row.names(tbl)=c(paste0(col[i],"_L1"),paste0(col[i],"_L2"),paste0(col[i],"_L3"),paste0(col[i],"_L4"))
+  table=rbind(table,tbl)
+}
+```
+
+
 # outliers replaced 0.9999
 ```{r }
 data=df
