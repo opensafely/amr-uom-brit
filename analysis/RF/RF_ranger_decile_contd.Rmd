@@ -105,8 +105,8 @@ set.seed(123)
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
                    data = train,
                    num.trees =   3000,
-                   min.node.size = 500, # node to split
-                   max.depth= 100,
+                   min.node.size = 300, # node to split
+                   max.depth= 500,
                  #  min.bucket=1000,#terminal node
                    mtry = 3,
                 #   case.fraction = 0.5,
