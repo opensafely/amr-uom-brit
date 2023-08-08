@@ -65,29 +65,28 @@ ggplot(data, aes(x=case, y=total_ab)) +
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 ggplot(data, aes(x=case, y=ab_types)) + 
   geom_boxplot(outlier.shape = NA)
   
   
-  ggplot(data, aes(x=case, y=exposure_period)) + 
+ggplot(data, aes(x=case, y=exposure_period)) + 
   geom_boxplot(outlier.shape = NA)
     
-    ggplot(data, aes(x=case, y=recent_ab_days)) + 
+ggplot(data, aes(x=case, y=recent_ab_days)) + 
   geom_boxplot(outlier.shape = NA)
       
       
-        ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
+ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
   geom_boxplot(outlier.shape = NA)
         
         
-          ggplot(data, aes(x=case, y=interval_mean)) + 
+ggplot(data, aes(x=case, y=interval_mean)) + 
   geom_boxplot(outlier.shape = NA)
-          
           
                   
-          ggplot(data, aes(x=case, y=interval_sd)) + 
-  geom_boxplot(outlier.shape = NA)
+ ggplot(data, aes(x=case, y=interval_sd)) +
+   geom_boxplot(outlier.shape = NA)
 ```
 
 # categorised ab exposure variables
@@ -169,7 +168,13 @@ print(table)
 
 # descriptive stat
 ```{r}
-contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+explanatory<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+dependent <- "decile"
+
+table=data %>% summary_factorlist(dependent, explanatory, cont = "median")
+
+write.csv(table,here::here("output","factor.range.csv"))
+
 ```
 
 
@@ -196,7 +201,6 @@ table=rbindlist(temp.list)
 
 table
 
-write.csv(table,here::here("output","factor.range.csv"))
 
 ```
 
