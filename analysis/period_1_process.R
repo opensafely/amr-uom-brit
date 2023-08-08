@@ -104,8 +104,8 @@ head(data, n = 10)
 # Count and print the specified criteria
 cat("Number of patients with more than one antibiotic prescription:", sum(data$ab_after, na.rm = TRUE), "\n")
 
-# Loop from date_2 to date_12
-for(i in 2:12) {
+# Loop from date_2 to date_24
+for(i in 2:24) {
   date_col <- paste0("ab_date_", i)
   cat(sprintf("Number of patients with %s:", date_col), sum(!is.na(data[[date_col]])), "\n")
 }

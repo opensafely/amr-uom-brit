@@ -350,4 +350,100 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",  
     ),
+
+    ab_date_13=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_12 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_14=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_13 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_15=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_14 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_16=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_15 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_17=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_16 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_18=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_17 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_19=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_18 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_20=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_19 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_21=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_20 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_22=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_21 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_23=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_22 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_24=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_23 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
 )
