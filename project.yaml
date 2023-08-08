@@ -239,7 +239,7 @@ actions:
       moderately_sensitive:
         html: output/model_ranger_final.html
         csv1: output/prob.csv
-        csv2: output/decile.csv
+        csv2: output/decile_prop.csv
 
 
 ###

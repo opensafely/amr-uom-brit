@@ -66,7 +66,7 @@ explanatory<- c("decile")
 dependent <- "case"
 tbl=df%>% summary_factorlist(dependent, explanatory)
 
-write.csv(tbl,here::here("output","decile.csv"))
+write.csv(tbl,here::here("output","decile_prop.csv"))
 
 ```
 
