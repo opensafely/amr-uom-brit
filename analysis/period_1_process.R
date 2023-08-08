@@ -45,32 +45,32 @@ extract_data <- function(file_name) {
 
 data <- extract_data(here::here("output", "input_period_1.csv"))
 
+# 1.Count the total number of rows in the dataset
+cat("Total number of rows in the dataset:", nrow(data), "\n")
 
-# 2. Create the infection_indicator column
+# 2. Count the number of antibiotic users in the dataset (assuming an antibiotic user is defined by a non-NA patient_index_date)
+cat("Number of antibiotic users (non-NA patient_index_date):", sum(!is.na(data$patient_index_date)), "\n")
+
+# 3. Create the infection_indicator column
 data <- data %>% 
   mutate(infection_indicator = has_uti | has_urti | has_lrti | has_sinusitis | has_ot_externa | has_otmedia)
 
-# 3. Print the number of patients with infection_indicator being TRUE
-print(sum(data$infection_indicator, na.rm = TRUE))
-
-# 4. Filter out those with infection_indicator being FALSE
-data <- filter(data, infection_indicator)
+# 4. Print the number of patients with infection_indicator being TRUE
+cat("Number of patients with infection record:", sum(data$infection_indicator, na.rm = TRUE), "\n")
 
 # 5. Print the number of patients where covid_6weeks is FALSE
-print(sum(!data$covid_6weeks, na.rm = TRUE))
+cat("Number of patients without covid-19 positive record in six weeks:", sum(!data$covid_6weeks, na.rm = TRUE), "\n")
 
-# 6. Remove the patients where covid_6weeks is TRUE
-data <- filter(data, !covid_6weeks)
-
-# 7. Create the EVENT column
+# 6. Create the EVENT column
 data <- data %>% 
   mutate(EVENT = ifelse(!is.na(emergency_admission_date), 1, 0))
 
-# 8. Print the number of patients where EVENT is 1 and 0
-print(table(data$EVENT))
+# 7. Print the number of patients where EVENT is 1 and 0
+event_table <- table(data$EVENT)
+cat("Number of patients where EVENT is 0:", event_table["0"], "\n")
+cat("Number of patients where EVENT is 1:", event_table["1"], "\n")
 
-
-# 9. Create the columns TtoAB, TtoD, TtoAE, and TtoEND
+# 8. Create the columns TtoAB, TtoD, TtoAE, and TtoEND
 data <- data %>%
   mutate(
     TtoAB = ifelse(!is.na(ab_date_2), ab_date_2 - patient_index_date, NA_real_),
@@ -79,7 +79,7 @@ data <- data %>%
     TtoEND = as.Date("2020-03-25") - patient_index_date
   )
 
-# 10. Create the TEVENT column
+# 9. Create the TEVENT column
 data <- data %>%
   rowwise() %>%
   mutate(
@@ -97,15 +97,15 @@ head(data, n = 10)
 # Continue from the previous code
 
 # Count and print the specified criteria
-cat("Number of ab_after TRUE:", sum(data$ab_after, na.rm = TRUE), "\n")
-cat("Number of non-NA ab_date_2:", sum(!is.na(data$ab_date_2)), "\n")
-cat("Number of non-NA ab_date_3:", sum(!is.na(data$ab_date_3)), "\n")
-cat("Number of non-NA ab_date_4:", sum(!is.na(data$ab_date_4)), "\n")
-cat("Number of non-NA ab_date_5:", sum(!is.na(data$ab_date_5)), "\n")
+cat("Number of patient with more than one antibiotic prescirption:", sum(data$ab_after, na.rm = TRUE), "\n")
+cat("Number of patient with ab_date_2:", sum(!is.na(data$ab_date_2)), "\n")
+cat("Number of patient with ab_date_3:", sum(!is.na(data$ab_date_3)), "\n")
+cat("Number of patient with ab_date_4:", sum(!is.na(data$ab_date_4)), "\n")
+cat("Number of patient with ab_date_5:", sum(!is.na(data$ab_date_5)), "\n")
 
 # Selecting the desired columns
 df_subset <- data %>%
-  select(patient_id, patient_index_date, TEVENT, EVENT, has_chronic_respiratory_disease, has_uti, 
+  select(patient_id, patient_index_date, TEVENT, EVENT, has_chronic_respiratory_disease, infection_indicator, covid_6weeks, has_uti, 
          has_urti, has_lrti, has_sinusitis, has_ot_externa, has_otmedia)
 
 # Save the subset dataframe to a CSV file
