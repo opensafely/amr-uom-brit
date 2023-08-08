@@ -11,20 +11,13 @@ library(pROC) #plyr
 library(ranger)
 ```
 
-```{r eval=FALSE, include=FALSE}
-# import dataset
 
-#data <- read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_ab.rds")
-data <- read_rds(here::here("output","matched_ab.rds"))
-table(data$case)
-nrow(data)
-prop.table(table(data$case))
-
-data=data[!is.na(data$case),]
-table(data$case)
-nrow(data)
-prop.table(table(data$case))
-
+```{r echo=FALSE}
+train=read_rds(here::here("output","train.rds"))
+valid=read_rds(here::here("output","valid.rds"))
+train$set=1
+valid$set=2
+data=rbind(train,valid)
 ```
 
 ```{r echo=FALSE}
@@ -59,22 +52,14 @@ range(data$broad_ab_prescriptions)
 range(data$interval_mean)
 range(data$interval_sd)
 
-```
-
-
-
-
-```{r echo=FALSE}
-train=read_rds(here::here("output","train.rds"))
-valid=read_rds(here::here("output","valid.rds"))
+train=data[data$set==1,]
+valid=data[data$set==2,]
 
 ```
 
 
 # RF. ranger 
 ```{r}
-library(ranger)
-
 set.seed(123)
 
 rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
