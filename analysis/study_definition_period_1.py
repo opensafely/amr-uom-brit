@@ -294,4 +294,60 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",  
     ),
+
+    ab_date_6=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_5 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_7=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_6 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_8=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_7 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_9=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_8 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_10=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_9 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_11=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_10 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
+
+    ab_date_12=patients.with_these_medications(
+        antibacterials_codes_brit,
+        returning="date",
+        between=["ab_date_11 + 1 day", end_date],
+        find_first_match_in_period=True,
+        date_format="YYYY-MM-DD",  
+    ),
 )

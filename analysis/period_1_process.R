@@ -19,6 +19,13 @@ extract_data <- function(file_name) {
         ab_date_3 = col_date(format = ""),
         ab_date_4 = col_date(format = ""),
         ab_date_5 = col_date(format = ""),
+        ab_date_6 = col_date(format = ""),
+        ab_date_7 = col_date(format = ""),
+        ab_date_8 = col_date(format = ""),
+        ab_date_9 = col_date(format = ""),
+        ab_date_10 = col_date(format = ""),
+        ab_date_11 = col_date(format = ""),
+        ab_date_12 = col_date(format = ""),
         # demographics
         age = col_integer(),
         sex = col_character(),
@@ -94,14 +101,14 @@ data <- data %>%
 
 head(data, n = 10)
 
-# Continue from the previous code
-
 # Count and print the specified criteria
-cat("Number of patient with more than one antibiotic prescirption:", sum(data$ab_after, na.rm = TRUE), "\n")
-cat("Number of patient with ab_date_2:", sum(!is.na(data$ab_date_2)), "\n")
-cat("Number of patient with ab_date_3:", sum(!is.na(data$ab_date_3)), "\n")
-cat("Number of patient with ab_date_4:", sum(!is.na(data$ab_date_4)), "\n")
-cat("Number of patient with ab_date_5:", sum(!is.na(data$ab_date_5)), "\n")
+cat("Number of patients with more than one antibiotic prescription:", sum(data$ab_after, na.rm = TRUE), "\n")
+
+# Loop from date_2 to date_12
+for(i in 2:12) {
+  date_col <- paste0("ab_date_", i)
+  cat(sprintf("Number of patients with %s:", date_col), sum(!is.na(data[[date_col]])), "\n")
+}
 
 # Selecting the desired columns
 df_subset <- data %>%
