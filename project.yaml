@@ -19,3 +19,18 @@ actions:
     outputs:
       highly_sensitive: 
         csv1: output/period_1a.csv
+        csv2: output/period_1_*.csv
+
+  generate_study_population_period_1b:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_1b
+    needs: [period_1_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_1b.csv
+
+  period_1b_quickcheck:
+    run: r:latest analysis/period_1b_quickcheck.R
+    needs: [generate_study_population_period_1b]
+    outputs:
+      highly_sensitive: 
+        csv1: output/period_1b_quickcheck.csv

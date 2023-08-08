@@ -129,3 +129,18 @@ df_subset <- data %>%
 
 # Save the subset dataframe to a CSV file
 write_csv(df_subset, here::here("output", "period_1a.csv"))
+
+for(i in 2:20) {
+  # Construct the column name
+  date_col <- paste0("ab_date_", i)
+
+  # Filter rows based on non-NA values of the date_col, select desired columns and rename 
+  df_filtered <- data %>% 
+    filter(!is.na(.[[date_col]])) %>%
+    select(patient_id, !!date_col) %>%
+    rename(patient_index_date = !!date_col)
+
+  # Save the dataframe to a CSV file
+  csv_name <- sprintf("period_1_%d.csv", i)
+  write_csv(df_filtered, here::here("output", csv_name))
+}
