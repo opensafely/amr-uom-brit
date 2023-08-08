@@ -165,6 +165,13 @@ actions:
       moderately_sensitive:
         html: output/check_RF_clogit_80.html 
 
+  check_RF_clogit_70: # ROC, calibration #node size 700 depth500
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_clogit_70.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [pre_RF_process]
+    outputs:
+      moderately_sensitive:
+        html: output/check_RF_clogit_70.html 
+
   check_RF_clogit_10: # ROC, calibration #node size 100 depth500
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_clogit_10.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [pre_RF_process]
