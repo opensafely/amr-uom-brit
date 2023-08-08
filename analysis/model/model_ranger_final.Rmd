@@ -13,8 +13,9 @@ library(car)
 library(finalfit)
 ```
 
+
+```{r include=FALSE}
 # all data
-```{r }
 #setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
 df <- read_rds(here::here("output","all_ranger.rds"))
 table(df$decile)
@@ -41,20 +42,49 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 ```
 
 
-###  crude model
+```{r include=FALSE}
+# probabilities
 
-```{r}
+table(df$case)
+explanatory<- c("prob")
+dependent <- "decile"
+case=df%>% filter(case==1)%>% summary_factorlist(dependent, explanatory)
+case$case=1
+contr=df%>% filter(case==0)%>% summary_factorlist(dependent, explanatory)
+contr$case=0
+tbl=rbind(case,contr)
+
+write.csv(tbl,here::here("output","prob.csv"))
+```
+
+
+```{r include=FALSE}
+# decile%  by outcome
+
+# number (%)
+explanatory<- c("decile")
+dependent <- "case"
+tbl=df%>% summary_factorlist(dependent, explanatory)
+
+write.csv(tbl,here::here("output","decile.csv"))
+
+```
+
+
+#  crude model
+
+```{r include=FALSE}
 df$case=as.numeric(df$case) #1/0
 set.seed(123)
 
 model=clogit(case ~ decile+ strata(subclass),df) 
 
-summary(model)
+print(summary(model))
 ```
 
-### adjust model 1
+# adjust model 1
 
-```{r}
+```{r include=FALSE}
 set.seed(123)
 
 model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
@@ -64,19 +94,14 @@ summary(model)
 
 
 
-### adjusted model
-```{r}
+#  overall adjusted model
+```{r include=FALSE}
 
 set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
 summary(model)
-
-#pred.y <- predict(model, df, type = 'response')[,2]
-#roc<- roc(df$case ~ pred.y)
-##plot(roc)
-#print(roc)
 ```
 
 
