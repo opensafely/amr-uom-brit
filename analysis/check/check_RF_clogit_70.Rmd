@@ -1,0 +1,395 @@
+---
+title: "Random Forest & conditional logistic regression comparison(train vs. valid)"
+---
+
+```{r setup, include=FALSE}
+
+library("survival")
+library('tidyverse')
+library(pROC) #plyr
+#library(randomForest) #dplyr
+library(ranger)
+```
+
+
+```{r echo=FALSE}
+train=read_rds(here::here("output","train.rds"))
+valid=read_rds(here::here("output","valid.rds"))
+train$set=1
+valid$set=2
+data=rbind(train,valid)
+```
+
+```{r echo=FALSE}
+# replace outlier
+
+#90 percentile
+N1=quantile(data$total_ab,0.999,na.rm = T)
+N2=quantile(data$ab_types,0.999,na.rm = T)
+N3=quantile(data$exposure_period,0.999,na.rm = T)
+N4=quantile(data$recent_ab_days,0.999,na.rm = T)
+N5=quantile(data$broad_ab_prescriptions,0.999,na.rm = T)
+N6=quantile(data$interval_mean,0.999,na.rm = T)
+N7=quantile(data$interval_sd,0.999,na.rm = T)
+
+N=c(N1,N2,N3,N4,N5,N6,N7)
+N
+
+col=c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
+```
+
+
+```{r echo=FALSE}
+for (i in 1) {# just replace total ab
+  data[,col[i]]=ifelse( data[,col[i]]>=N[i],N[i], data[,col[i]])
+}
+
+range(data$total_ab)
+range(data$ab_types)
+range(data$exposure_period)
+range(data$recent_ab_days)
+range(data$broad_ab_prescriptions)
+range(data$interval_mean)
+range(data$interval_sd)
+
+train=data[data$set==1,]
+valid=data[data$set==2,]
+
+```
+
+
+# RF. ranger 
+```{r}
+set.seed(123)
+
+rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_days+broad_ab_prescriptions+interval_mean+interval_sd, 
+                   data = train,
+                   num.trees =   3000,
+                   min.node.size = 700, # node to split
+                   max.depth= 500,
+                 #  min.bucket=1000,#terminal node
+                   mtry = 3,
+                #   case.fraction = 0.5,
+                   sample.fraction = 0.6, # fraction of observations to sample
+                   importance = "impurity",
+                   replace = TRUE,
+                   probability = TRUE
+                          )
+```
+
+# variable importance
+```{r echo=FALSE}
+
+# calculate relative importance
+imps <- data.frame(var = names(rf.model$variable.importance),
+                   imps = rf.model$variable.importance/max(rf.model$variable.importance),
+                   imps.score=rf.model$variable.importance)
+
+# rename variable
+imps$var
+imps$var=c("Total antibiotics","Antibiotic types","Exposure period","Recent exposure", "Broad-spectrum antibiotics","Prescribing intervals (mean)", "Prescribing intervals (SD)")
+
+imps %>% 
+  ggplot(aes(imps, x = reorder(var, imps))) +
+  geom_point(size = 3, colour = "grey60") +
+  coord_flip() +
+  labs(x = "", y = "Importance") +
+  theme_bw(15)
+
+imps %>% 
+  ggplot(aes(imps.score, x = reorder(var, imps.score))) +
+  geom_point(size = 3, colour = "grey60", ) +
+  coord_flip() +
+  labs(x = "", y = "Importance Score") +
+  theme_bw(15)
+```
+
+# train
+```{r echo=FALSE}
+## predict probabilities 
+
+data=train
+set.seed(123)
+data$prob <- predictions(rf.model)[,2]
+#data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]
+
+
+
+summary(data$prob)
+hist(data$prob )
+sum(data$prob ==0)/length(data$prob)# % zero
+
+
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+## ROC
+```{r echo=FALSE}
+
+#  c statistic / AUC
+roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
+            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+            print.auc=TRUE, show.thres=TRUE)
+print(roc_data) #AUC
+
+
+# E/O
+O <- prop.table(table(data$case))[2]
+E <- mean(data$prob)
+E/O
+```
+
+```{r echo=FALSE}
+## create decile group
+prob=data$prob
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+data=cbind(data,decile)
+```
+
+## calibration 
+```{r echo=FALSE}
+
+gpdata=data%>%select(decile, case, prob)
+
+table(gpdata$decile)
+summary(gpdata[gpdata$decile==1,])
+head(gpdata)
+
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=obs%>% pull(mean.obs)
+
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
+exp=exp%>%pull(mean.exp)
+
+#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(data$case,data$decile)[1,] 
+
+cbind(exp,obs)# expected value vs. observed value
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(data$prob, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(data$case))~data$prob,span=1))
+lines_data <- data.frame(data$prob,obs_all)
+lines_data2 <- lines_data[order(data$prob),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+
+# odds ratio
+```{r }
+table(data$decile)
+table(data$case)
+prop.table(table(data$case,data$decile))
+
+data$case=as.factor(data$case) #1/0
+
+data$decile= relevel(as.factor(data$decile), ref="1")
+
+data$subclass=as.factor(data$subclass)#pair id
+
+data$CCI= relevel(as.factor(data$CCI), ref="Zero")
+data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+
+data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+data$care_home=relevel(as.factor(data$care_home),ref = "0")
+
+data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+
+data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+data$imd=relevel(as.factor(data$imd),ref="1")
+data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+```
+
+```{r}
+###  crude model
+
+data$case=as.numeric(data$case) #1/0
+set.seed(123)
+
+model=clogit(case ~ decile+ strata(subclass),data) 
+
+summary(model)
+```
+
+# valid
+```{r echo=FALSE}
+## predict probabilities 
+
+data=valid
+set.seed(123)
+data$prob <- predict(rf.model,data, type = 'response')$prediction[,2]
+
+summary(data$prob)
+hist(data$prob )
+sum(data$prob ==0)/length(data$prob)# % zero
+
+
+
+#exp.class <- predict(rf.model, data, type = 'response')# predicted case/control
+#prop.table(summary(exp.class))
+```
+
+
+
+```{r echo=FALSE}
+
+#  c statistic / AUC
+roc_data <- roc(data$case ~data$prob, smoothed = TRUE,
+            ci=TRUE, ci.alpha=0.9, stratified=FALSE,
+            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+            print.auc=TRUE, show.thres=TRUE)
+print(roc_data) #AUC
+
+
+# E/O
+O <- prop.table(table(data$case))[2]
+E <- mean(data$prob)
+E/O
+```
+
+```{r echo=FALSE}
+prob=data$prob
+vec=vector()
+
+for (i in 1:10){
+  vec[i]=quantile(prob,(i/10),na.rm=T)
+}
+
+vec# decile value
+
+decile=vector()
+decile=ifelse(prob <=vec[1],1,decile)
+
+for (i in 1:9) {
+decile=ifelse(prob>vec[i] & prob <=vec[i+1],i+1,decile )  
+}
+
+
+table(decile)
+prop.table(table(decile))*100 
+data=cbind(data,decile)
+```
+
+
+```{r echo=FALSE}
+# calibration 
+gpdata=data%>%select(decile, case, prob)
+
+table(gpdata$decile)
+summary(gpdata[gpdata$decile==1,])
+head(gpdata)
+
+obs=gpdata%>%group_by(decile)%>%dplyr::summarise(mean.obs=mean(as.numeric(as.character(case))))
+obs=obs%>% pull(mean.obs)
+
+#obs <- (ddply(gpdata,~groups,summarise,mean=mean(as.numeric(as.character(case))))[,2])
+exp=gpdata%>% group_by(decile)%>% dplyr::summarise(mean.exp=mean(as.numeric(prob)))
+exp=exp%>%pull(mean.exp)
+
+#exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
+obsn <- table(data$case,data$decile)[1,] 
+
+cbind(exp,obs)# expected value vs. observed value
+ 
+# CIs for scatter points
+lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))
+uci = pmin(1,(obs+ (1.96*(((obs*(1-obs))/obsn)^.5))))
+
+# graph a simple calibration plot over 10 risk groups
+par(pty="s")
+plot(obs~exp,xlim=c(0,1),ylim=c(0,1),col="red",ylab="Observed",xlab="Expected")
+lines(c(0,1),c(0,1),lty=2)
+
+for(i in 1:10){
+lines(c(exp[i],exp[i]),c(lci[i],uci[i]),col="green")
+}
+
+h <- hist(data$prob, breaks=50, plot=FALSE)
+for(i in 1:length(h$mids)){
+  lines(c(h$mids[i],h$mids[i]),c(rep(1,length(h$mids))[i],1-((h$counts[i]/max(h$counts))/10)))
+}
+
+# Add a loess smoother to the plot
+obs_all <- predict(loess(as.numeric(as.character(data$case))~data$prob,span=1))
+lines_data <- data.frame(data$prob,obs_all)
+lines_data2 <- lines_data[order(data$prob),] 
+lines(lines_data2[,1],lines_data2[,2],col="blue")
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI","Loess"),col=c("red","black","green","blue"),lty=c(0,2,1,1),pch=c(1,NA,NA,NA),bty="n")
+
+```
+
+# odds ratio
+```{r }
+table(data$decile)
+table(data$case)
+prop.table(table(data$case,data$decile))
+
+data$case=as.factor(data$case) #1/0
+
+data$decile= relevel(as.factor(data$decile), ref="1")
+
+data$subclass=as.factor(data$subclass)#pair id
+
+data$CCI= relevel(as.factor(data$CCI), ref="Zero")
+data$covrx_ever= relevel(as.factor(data$covrx_ever), ref="0")
+
+data$bmi_cat=relevel(as.factor(data$bmi_cat),ref="Healthy weight")
+data$care_home=relevel(as.factor(data$care_home),ref = "0")
+
+data$flu_vaccine=relevel(as.factor(data$flu_vaccine),ref= "0")
+
+data$smoking_cat_3=relevel(as.factor(data$smoking_cat_3),ref="Never")
+data$imd=relevel(as.factor(data$imd),ref="1")
+data$ethnicity_6=relevel(as.factor(data$ethnicity_6),ref = "White")
+```
+
+```{r}
+###  crude model
+
+data$case=as.numeric(data$case) #1/0
+set.seed(123)
+
+model=clogit(case ~ decile+ strata(subclass),data) 
+
+summary(model)
+```
