@@ -22,7 +22,7 @@ data$case=as.factor(data$case)
 ```
 
 # categorised ab exposure variables
-```{r }
+```{r eval=FALSE, include=FALSE}
 col=c("case","subclass",
   "total_ab","ab_types","prescribe_times",
          "exposure_period","recent_ab_days", 
