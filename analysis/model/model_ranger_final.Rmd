@@ -48,11 +48,17 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 table(df$case)
 explanatory<- c("prob")
 dependent <- "decile"
-case=df%>% filter(case==1)%>% summary_factorlist(dependent, explanatory)
+case=df%>% filter(case==1)%>% summary_factorlist(dependent, explanatory, digits = c(3,3))
 case$case=1
-contr=df%>% filter(case==0)%>% summary_factorlist(dependent, explanatory)
+case2=df%>% filter(case==1)%>% summary_factorlist(dependent, explanatory,cont = "median", digits = c(3,3))
+case2$case=1
+
+contr=df%>% filter(case==0)%>% summary_factorlist(dependent, explanatory, digits = c(3,3))
 contr$case=0
-tbl=rbind(case,contr)
+contr2=df%>% filter(case==0)%>% summary_factorlist(dependent, explanatory,cont = "median", digits = c(3,3))
+contr2$case=0
+
+tbl=rbind(case,contr,case2,contr2)
 
 write.csv(tbl,here::here("output","prob.csv"))
 ```
@@ -73,7 +79,7 @@ write.csv(tbl,here::here("output","decile_prop.csv"))
 
 #  crude model
 
-```{r include=FALSE}
+```{r echo=FALSE}
 df$case=as.numeric(df$case) #1/0
 set.seed(123)
 
@@ -82,9 +88,8 @@ model=clogit(case ~ decile+ strata(subclass),df)
 print(summary(model))
 ```
 
-# adjust model 1
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 set.seed(123)
 
 model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
@@ -94,8 +99,8 @@ summary(model)
 
 
 
-#  overall adjusted model
-```{r include=FALSE}
+#  adjusted model
+```{r echo=FALSE}
 
 set.seed(123)
 
