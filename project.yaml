@@ -151,6 +151,14 @@ actions:
         html: output/check_RF_ranger.html    
   
 
+  RF_ranger_decile_contd: # contd predictors # compare OR
+    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [process_ab_time,RF_ranger_decile]
+    outputs:
+      moderately_sensitive:
+        html: output/RF_ranger_decile_contd.html 
+
+
   check_RF_clogit: # ROC, calibration #node size 300 depth500
     run: r:latest -e 'rmarkdown::render("analysis/check/check_RF_clogit.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
     needs: [pre_RF_process]
@@ -213,13 +221,13 @@ actions:
         rds1: output/all_ranger.rds 
         rds2: output/RF_ranger.rds
 
-  RF_result: # predictor radar plot
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_result.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [RF_ranger_decile] #RF_ranger_decil
-    outputs:
-      moderately_sensitive:
-        html: output/RF_result.html 
-        csv1: output/input_range.csv
+  # RF_result: # predictor radar plot
+  #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_result.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_ranger_decile] #RF_ranger_decil
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/RF_result.html 
+  #       csv1: output/input_range.csv
 
 
 # final model
@@ -233,17 +241,11 @@ actions:
         csv2: output/decile_prop.csv
 
 
-###
 
-  RF_ranger_decile_contd: # contd predictors # compare OR
-    run: r:latest -e 'rmarkdown::render("analysis/RF/RF_ranger_decile_contd.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time,RF_ranger_decile]
-    outputs:
-      moderately_sensitive:
-        html: output/RF_ranger_decile_contd.html 
          
 # output
- 
+
+# tables 
   table1_round: # matching performance
     run: r:latest analysis/table1.R
     needs: [pre_matching,process_Rmatching]
@@ -289,20 +291,6 @@ actions:
         csv3: output/decile_level.csv
         csv4: output/decile_level_outlier.csv
 
-  # table2: # confounders
-  #   run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-  #   needs: [RF_ranger_decile]
-  #   outputs:
-  #     moderately_sensitive:
-  #       html: output/table2.html 
-
-  table3: # ab exposures
-    run: r:latest -e 'rmarkdown::render("analysis/table3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
-    needs: [process_ab_time]
-    outputs:
-      moderately_sensitive:
-        html: output/table3.html 
-
 # figures
   result_3: #RF results
     run: r:latest -e 'rmarkdown::render("analysis/RF/result_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
@@ -313,7 +301,27 @@ actions:
         csv1: output/quantile_outcome.csv
         csv2: output/quantile_overall.csv
 
-# sugroup analysis
+  # table2: # confounders
+  #   run: r:latest -e 'rmarkdown::render("analysis/table2.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [RF_ranger_decile]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/table2.html 
+
+  # table3: # ab exposures
+  #   run: r:latest -e 'rmarkdown::render("analysis/table3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+  #   needs: [process_ab_time]
+  #   outputs:
+  #     moderately_sensitive:
+  #       html: output/table3.html 
+
+
+
+
+
+
+
+# conditional logistics
 
 # total ab * others
   model_sub1:
