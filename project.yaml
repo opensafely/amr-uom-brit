@@ -104,7 +104,13 @@ actions:
       highly_sensitive: 
          rds: output/matched_ab.rds
 
-
+## pt number
+  check_pt: 
+    run: r:latest -e 'rmarkdown::render("analysis/check/check_pt.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [generate_study_population_covid_primarycare,generate_study_population_covid_SGSS, generate_study_population_covid_admission,pre_matching, process_ab_time]
+    outputs:
+      moderately_sensitive:
+        html: output/check_pt.html 
 
 
 ## RF to create decile group
