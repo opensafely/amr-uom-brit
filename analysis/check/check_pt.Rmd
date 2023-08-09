@@ -10,7 +10,7 @@ library(dplyr)
 
 # hospital admission
 ```{r echo=FALSE}
-df <- read_csv(here::here("output","input_covid_admission.csv"))
+df <- read.csv(here::here("output","input_covid_admission.csv"))
 N=nrow(df)
 round(N/5)*5
 ```
@@ -18,14 +18,14 @@ round(N/5)*5
 
 # primary care
 ```{r echo=FALSE}
-df1 <- read_csv(here::here("output","input_covid_primarycare.csv"))
+df1 <- read.csv(here::here("output","input_covid_primarycare.csv"))
 N=nrow(df1)
 round(N/5)*5
 ```
 
 # SGSS
 ```{r echo=FALSE}
-df2 <- read_csv(here::here("output","input_covid_SGSS.csv"))
+df2 <- read.csv(here::here("output","input_covid_SGSS.csv"))
 N=nrow(df2)
 round(N/5)*5
 ```
@@ -51,14 +51,14 @@ round(N/5)*5
 
 # control
 ```{r echo=FALSE}
-df <- read_csv(here::here("output","control_covid_infection.csv"))
+df <- read.csv(here::here("output","control_covid_infection.csv"))
 N=nrow(df)
 round(N/5)*5
 ```
 
 # case
 ```{r echo=FALSE}
-df <- read_csv(here::here("output","case_covid_hosp.csv"))
+df <- read.csv(here::here("output","case_covid_hosp.csv"))
 N=nrow(df)
 round(N/5)*5
 ```
