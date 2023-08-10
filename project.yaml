@@ -160,3 +160,17 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_period_1t.csv
+
+  period_1a_id:
+    run: r:latest analysis/period_1a_id.R
+    needs: [generate_study_population_period_1]
+    outputs:
+      highly_sensitive: 
+        csv1: output/period_1a_id.csv
+
+  generate_study_population_period_1a:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_1a
+    needs: [period_1a_id]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_1a.csv
