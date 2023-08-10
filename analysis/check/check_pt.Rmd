@@ -134,13 +134,13 @@ df.1=df.1%>%filter(
 
 N=nrow(df.1)
 round(N/5)*5
-R7=c(round(N/5)*5,"incident_case")
+R8=c(round(N/5)*5,"incident_case")
 ```
 
 
 
 # merge case & control
-```{r eval=FALSE, include=FALSE}
+```{r }
 df.0$case=0
 df.1$case=1
 df=rbind(df.1,df.0)
@@ -154,7 +154,7 @@ df=df%>%
 
 N=nrow(df)
 round(N/5)*5
-R8=c(round(N/5)*5,"merged_case_control")
+R9=c(round(N/5)*5,"merged_case_control")
 
 ```
 
@@ -163,13 +163,13 @@ R8=c(round(N/5)*5,"merged_case_control")
 df.0=df.0%>% filter(had_antibiotic>1)# filter ab>1
 N=nrow(df.0)
 round(N/5)*5
-R9=c(round(N/5)*5,"control_ab>1")
+R10=c(round(N/5)*5,"control_ab>1")
 
 
 df.1=df.1%>% filter(had_antibiotic>1)# filter ab>1
 N=nrow(df.1)
 round(N/5)*5
-R10=c(round(N/5)*5,"case__ab>1")
+R11=c(round(N/5)*5,"case__ab>1")
 ```
 
 
@@ -179,17 +179,17 @@ df=readRDS(here::here("output","matched_ab.rds"))
 df0=df%>%filter(case==0)
 N=nrow(df0)
 round(N/5)*5
-R11=c(round(N/5)*5,"matched.contr")
+R12=c(round(N/5)*5,"matched.contr")
 
 df1=df%>%filter(case==1)
 N=nrow(df1)
 round(N/5)*5
-R12=c(round(N/5)*5,"matched.case")
+R13=c(round(N/5)*5,"matched.case")
 
 ```
 
 ```{r}
-tbl=rbind(R1,R2,R3,R4,R5,R6,R7,R9,R10,R11,R12)
+tbl=rbind(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13)
 write.csv(tbl,here::here("output","pt_no.csv"))
 ```
 
