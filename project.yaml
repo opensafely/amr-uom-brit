@@ -111,6 +111,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_pt.html 
+        csv: output/pt_no.csv
 
 
 ## RF to create decile group

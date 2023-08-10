@@ -3,16 +3,16 @@ title: " patient selection flowchart"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(include = FALSE)
+knitr::opts_chunk$set(echo=FALSE)
 #library(knitr)
 library(dplyr)
 ```
 
 # hospital admission
-```{r}
+```{r }
 df <- read.csv(here::here("output","input_covid_admission.csv"))
 N=nrow(df)
-round(N/5)*5
+R1=c(round(N/5)*5,"hosp")
 ```
 
 
@@ -21,6 +21,8 @@ round(N/5)*5
 df1 <- read.csv(here::here("output","input_covid_primarycare.csv"))
 N=nrow(df1)
 round(N/5)*5
+R2=c(round(N/5)*5,"GP")
+
 ```
 
 # SGSS
@@ -28,6 +30,8 @@ round(N/5)*5
 df2 <- read.csv(here::here("output","input_covid_SGSS.csv"))
 N=nrow(df2)
 round(N/5)*5
+R3=c(round(N/5)*5,"SGSS")
+
 ```
 
 
@@ -45,6 +49,7 @@ df=df%>%
 
 N=nrow(df)
 round(N/5)*5
+R4=c(round(N/5)*5,"infection(hosp+SGSS)")
 
 ```
 
@@ -54,6 +59,8 @@ round(N/5)*5
 df <- read.csv(here::here("output","control_covid_infection.csv"))
 N=nrow(df)
 round(N/5)*5
+R5=c(round(N/5)*5,"control")
+
 ```
 
 # case
@@ -61,12 +68,28 @@ round(N/5)*5
 df <- read.csv(here::here("output","case_covid_hosp.csv"))
 N=nrow(df)
 round(N/5)*5
+R6=c(round(N/5)*5,"case")
+
 ```
 
 
 # matching (case vs. control)
 ```{r}
 df=readRDS(here::here("output","matched_ab.rds"))
-round(table(df$case)/5)*5
+df0=df%>%filter(case==0)
+N=nrow(df0)
+round(N/5)*5
+R7=c(round(N/5)*5,"matched.contr")
+
+df1=df%>%filter(case==1)
+N=nrow(df1)
+round(N/5)*5
+R8=c(round(N/5)*5,"matched.case")
+
+```
+
+```{r}
+tbl=rbind(R1,R2,R3,R4,R5,R6,R7,R8)
+write.csv(tbl,here::here("ouptut","pt_no.csv"))
 ```
 
