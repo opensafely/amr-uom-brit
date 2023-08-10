@@ -41,7 +41,7 @@ df <- read_rds(here::here("output","all_ranger.rds"))
 ```{r eval=FALSE, include=FALSE}
 # create category
 col=c("case","subclass",
-  "interval_sd","ab_types","prescribe_times",
+  "recent_ab_days","ab_types","prescribe_times",
          "exposure_period","recent_ab_days", 
          "broad_prop","broad_ab_prescriptions",
          "interval_mean","interval_med" ,"interval_sd","interval_CV",
@@ -79,7 +79,7 @@ df$case=as.numeric(df$case) #1/0
 
 df$subclass=as.factor(df$subclass)#pair id
 
-df$interval_sd_group= relevel(as.factor(df$interval_sd_group), ref="1")
+df$recent_ab_days_group= relevel(as.factor(df$recent_ab_days_group), ref="1")
 df$recent_ab_days_group= relevel(as.factor(df$recent_ab_days_group), ref="1")
 df$ab_types_group= relevel(as.factor(df$ab_types_group), ref="1")
 df$exposure_period_group= relevel(as.factor(df$exposure_period_group), ref="1")
@@ -102,269 +102,23 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 
 
 ```{r include=FALSE}
-contd<- c("total_ab","exposure_period","recent_ab_days","interval_mean","ab_types","broad_ab_prescriptions")
-explanatory<- c("total_ab_group","exposure_period_group","recent_ab_days_group","interval_mean_group","ab_types_group","broad_ab_prescriptions_group")
+contd<- c("exposure_period","total_ab","interval_mean","interval_sd","ab_types","broad_ab_prescriptions")
+explanatory<- c("exposure_period_group","total_ab_group","interval_mean_group","interval_sd_group","ab_types_group","broad_ab_prescriptions_group")
 
-```
-
-
-# Total ab
-```{r include=FALSE}
-## create quartiles by interval_sd_group
-
-i=1
-explanatory[i]
-Q1=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.75)
-
-Q1#total ab_1; interval_sd 2; total ab 3; total ab 4
-Q2
-Q3
-```
-
-
-```{r include=FALSE}
-
-df[explanatory[i]]=""
-
-# total ab level 1
-
-df1=df%>%filter(interval_sd_group==1)
-df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
-  df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
-    df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
-      df1[contd[i]] > Q3[1],4, NA)
-    )
-  )
-)
-
-quantile(df1$exposure_period,p=0.25) 
-quantile(df1$exposure_period,p=0.5) 
-quantile(df1$exposure_period,p=0.75) 
-
-# total ab level 2
-df2=df%>%filter(interval_sd_group==2)
-df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
-  df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
-    df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
-      df2[contd[i]] > Q3[2],4, NA)
-    )
-  )
-)
-quantile(df2$exposure_period,p=0.25) 
-quantile(df2$exposure_period,p=0.5) 
-quantile(df2$exposure_period,p=0.75) 
-
-# total ab level3
-df3=df%>%filter(interval_sd_group==3)
-df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
-  df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
-    df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
-      df3[contd[i]] > Q3[3],4, NA)
-    )
-  )
-)
- 
-quantile(df3$exposure_period,p=0.25) 
-quantile(df3$exposure_period,p=0.5) 
-quantile(df3$exposure_period,p=0.75) 
-
-# total ab level4
-df4=df%>%filter(interval_sd_group==4)
-df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
-  df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
-    df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
-      df4[contd[i]] > Q3[4],4, NA)
-    )
-  )
-)
-quantile(df4$exposure_period,p=0.25) 
-quantile(df4$exposure_period,p=0.5) 
-quantile(df4$exposure_period,p=0.75)  
-
-df=rbind(df1,df2,df3,df4)
-
-```
-
-
-
-```{r include=FALSE}
-df=df%>%mutate(ab_Level_type= 
-                 case_when(
-                           interval_sd_group=="1" & total_ab_group==1 ~ 1,
-                           interval_sd_group=="1" & total_ab_group==2 ~ 2,
-                           interval_sd_group=="1" & total_ab_group==3 ~ 3,
-                           interval_sd_group=="1" & total_ab_group==4 ~ 4,
-                           interval_sd_group=="2" & total_ab_group==1 ~ 5,
-                           interval_sd_group=="2" & total_ab_group==2 ~ 6,
-                           interval_sd_group=="2" & total_ab_group==3 ~ 7,
-                           interval_sd_group=="2" & total_ab_group==4 ~ 8,
-                           interval_sd_group=="3" & total_ab_group==1 ~ 9,
-                           interval_sd_group=="3" & total_ab_group==2 ~ 10,
-                           interval_sd_group=="3" & total_ab_group==3 ~ 11,
-                           interval_sd_group=="3" & total_ab_group==4 ~ 12,
-                           interval_sd_group=="4" & total_ab_group==1 ~ 13,
-                           interval_sd_group=="4" & total_ab_group==2 ~ 14,
-                           interval_sd_group=="4" & total_ab_group==3 ~ 15,
-                           interval_sd_group=="4" & total_ab_group==4 ~ 16
-
-
-                          ))
-
-table(df$ab_Level_type)
-```
-
-```{r include=FALSE}
-# median of each group
-Q2=tapply(df[,"exposure_period"],df[,"ab_Level_type"],quantile,p=0.5 )
-Q2
-
-```
-
-
-
-```{r include=FALSE}
-## model summary
-df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
-mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
-sum.mod=summary(mod)
-#sum.mod
-#vif(mod)
-
-```
-
-
-```{r include=FALSE}
-result=data.frame(sum.mod$conf.int)
-DF=result[1:15,-2]
-```
-
-
-```{r include=FALSE}
-
-setDT(DF, keep.rownames = TRUE)[]
-names(DF)[1]="AB_exposure"
-DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type2","ab_Level_type3","ab_Level_type4","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16"))
-
-DF=DF%>%arrange(AB_exposure)
-DF
-DF[1,1]="1"
-DF[2,1]="2"
-DF[3,1]="3"
-DF[4,1]="4"
-DF[5,1]="5"
-DF[6,1]="6"
-DF[7,1]="7"
-DF[8,1]="8"
-DF[9,1]="9"
-DF[10,1]="10"
-DF[11,1]="11"
-DF[12,1]="12"
-DF[13,1]="13"
-DF[14,1]="14"
-DF[15,1]="15"
-#DF[16,1]="16"
-
-
- Index = rep(1:15) ## This provides an order to the data
-  label = as.factor(rep(1:15))
-
-
-names(DF)[2]="OR"
-names(DF)[3]="CI_L"
-names(DF)[4]="CI_U"
-
-DF$CI_L=round(DF$CI_L,digits = 2)
-DF$CI_U=round(DF$CI_U, digits = 2)
-
-DF$CI=paste0(DF$CI_L,",",DF$CI_U)
-
-```
-
-
-
-```{r include=FALSE}
-p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
-xlim(c(0,2.5))+
-#scale_x_continuous(limits = c(0.6,2.2),breaks = c(1.0,1.5,2.0))+
-#scale_y_discrete(labels=c("level1, type1"="n= 1 ","level2, type1"="n= 1 ", "level2, type2"="n= 2 ","level3, type1"="n= 1 ","level3, type2"="n= 2 ","level3, type3"="n>= 3 ","level4, type1"="n= 1 ","level4, type2"="n= 2 ","level4, type3"="n>= 3 ","level5, type1"="n= 1 ","level5, type2"="n= 2 ","level5, type3"="n>= 3 ")) +
-
-#this adds the effect sizes to the plot
-geom_point(color="black")+
-#thematic stuff
-theme_classic()+ 
-
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 0, ymax = 3.5,fill="grey80", alpha=0.5)+
-annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
-
-  annotate("text", x = 0.1, y =2, label = "Very Low",size=3)+
-  annotate("text", x = 0.1, y =5.5, label = "Low",size=3)+
-  annotate("text", x = 0.1, y =9.5, label = "High",size=3)+
-  annotate("text", x = 0.1, y =13.5, label = "Very High",size=3)+
-
-   geom_text( size=3,aes(y = 1:15, x = 0.7,
-               label = c("1"=paste0("Level2 (",Q2[2],")"),
-                        "2"= paste0("Level3 (",Q2[3],")"),
-                        "3"= paste0("Level4 (",Q2[4],")"),
-                        "4"= paste0("Level1 (",Q2[5],")"),
-                        "5"= paste0("Level2 (",Q2[6],")"),
-                        "6"= paste0("Level3 (",Q2[7],")"),
-                        "7"= paste0("Level4 (",Q2[8],")"),
-                        "8"= paste0("Level1 (",Q2[9],")"),
-                        "9"= paste0("Level2 (",Q2[10],")"),
-                        "10"= paste0("Level3 (",Q2[11],")"),
-                        "11"= paste0("Level4 (",Q2[12],")"),
-                        "12"= paste0("Level1 (",Q2[13],")"),
-                        "13"= paste0("Level2 (",Q2[14],")"),
-                        "14"= paste0("Level3 (",Q2[15],")"),
-                        "15"= paste0("Level4 (",Q2[16],")"))),
-           hjust = "right",
-           nudge_y = -.1)+
-
-
-#adds the CIs
-geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
-
-#adding a vertical line at the effect = 0 mark
-geom_vline(xintercept=1, color="black")+
-
-
-theme(text=element_text(size=10, color="black"),
-      plot.title=element_text(size=10, vjust = 0.5),
-      panel.spacing = unit(1, "lines"))+
-  #    plot.title.position = "plot")+
-  theme(axis.text.y = element_blank(),
-        axis.line.y = element_blank(),
-        axis.ticks.y = element_blank()) +   
-  
-    theme(axis.ticks.x = element_blank()) +  
-
-labs(
-    title = "Prescribing interval devaition*Exposure period levels",
-    x="",
-    y="",
-    caption = paste0("Reference group: Prescribing interval devaition(very low) * Exposure period level1(median=",Q2[1],")")
-  )
-```
-
-
-```{r }
-p
 ```
 
 
 # Exposure period
 ```{r include=FALSE}
-## create quartiles by interval_sd_group
+## create quartiles by recent_ab_days_group
 
 i=1
 explanatory[i]
-Q1=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.75)
+Q1=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.75)
 
-Q1#total ab_1; interval_sd 2; total ab 3; total ab 4
+Q1#total ab_1; recent_ab_days 2; total ab 3; total ab 4
 Q2
 Q3
 ```
@@ -376,7 +130,7 @@ df[explanatory[i]]=""
 
 # total ab level 1
 
-df1=df%>%filter(interval_sd_group==1)
+df1=df%>%filter(recent_ab_days_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
     df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
@@ -390,7 +144,7 @@ quantile(df1$exposure_period,p=0.5)
 quantile(df1$exposure_period,p=0.75) 
 
 # total ab level 2
-df2=df%>%filter(interval_sd_group==2)
+df2=df%>%filter(recent_ab_days_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
     df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
@@ -403,7 +157,7 @@ quantile(df2$exposure_period,p=0.5)
 quantile(df2$exposure_period,p=0.75) 
 
 # total ab level3
-df3=df%>%filter(interval_sd_group==3)
+df3=df%>%filter(recent_ab_days_group==3)
 df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
     df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
@@ -417,7 +171,7 @@ quantile(df3$exposure_period,p=0.5)
 quantile(df3$exposure_period,p=0.75) 
 
 # total ab level4
-df4=df%>%filter(interval_sd_group==4)
+df4=df%>%filter(recent_ab_days_group==4)
 df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
     df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
@@ -438,22 +192,22 @@ df=rbind(df1,df2,df3,df4)
 ```{r include=FALSE}
 df=df%>%mutate(ab_Level_type= 
                  case_when(
-                           interval_sd_group=="1" & exposure_period_group==1 ~ 1,
-                           interval_sd_group=="1" & exposure_period_group==2 ~ 2,
-                           interval_sd_group=="1" & exposure_period_group==3 ~ 3,
-                           interval_sd_group=="1" & exposure_period_group==4 ~ 4,
-                           interval_sd_group=="2" & exposure_period_group==1 ~ 5,
-                           interval_sd_group=="2" & exposure_period_group==2 ~ 6,
-                           interval_sd_group=="2" & exposure_period_group==3 ~ 7,
-                           interval_sd_group=="2" & exposure_period_group==4 ~ 8,
-                           interval_sd_group=="3" & exposure_period_group==1 ~ 9,
-                           interval_sd_group=="3" & exposure_period_group==2 ~ 10,
-                           interval_sd_group=="3" & exposure_period_group==3 ~ 11,
-                           interval_sd_group=="3" & exposure_period_group==4 ~ 12,
-                           interval_sd_group=="4" & exposure_period_group==1 ~ 13,
-                           interval_sd_group=="4" & exposure_period_group==2 ~ 14,
-                           interval_sd_group=="4" & exposure_period_group==3 ~ 15,
-                           interval_sd_group=="4" & exposure_period_group==4 ~ 16
+                           recent_ab_days_group=="1" & exposure_period_group==1 ~ 1,
+                           recent_ab_days_group=="1" & exposure_period_group==2 ~ 2,
+                           recent_ab_days_group=="1" & exposure_period_group==3 ~ 3,
+                           recent_ab_days_group=="1" & exposure_period_group==4 ~ 4,
+                           recent_ab_days_group=="2" & exposure_period_group==1 ~ 5,
+                           recent_ab_days_group=="2" & exposure_period_group==2 ~ 6,
+                           recent_ab_days_group=="2" & exposure_period_group==3 ~ 7,
+                           recent_ab_days_group=="2" & exposure_period_group==4 ~ 8,
+                           recent_ab_days_group=="3" & exposure_period_group==1 ~ 9,
+                           recent_ab_days_group=="3" & exposure_period_group==2 ~ 10,
+                           recent_ab_days_group=="3" & exposure_period_group==3 ~ 11,
+                           recent_ab_days_group=="3" & exposure_period_group==4 ~ 12,
+                           recent_ab_days_group=="4" & exposure_period_group==1 ~ 13,
+                           recent_ab_days_group=="4" & exposure_period_group==2 ~ 14,
+                           recent_ab_days_group=="4" & exposure_period_group==3 ~ 15,
+                           recent_ab_days_group=="4" & exposure_period_group==4 ~ 16
 
 
                           ))
@@ -587,10 +341,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing interval devaition*Exposure period levels",
+    title = "Recent antibiotics*Exposure period levels",
     x="",
     y="",
-    caption = paste0("Reference group: Prescribing interval devaition(very low) * Exposure period level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Recent antibiotics(earliest) * Exposure period level1(median=",Q2[1],")")
   )
 ```
 
@@ -638,24 +392,24 @@ grid.arrange(p, tab1, tab2, layout_matrix = lay)
 
 
 
-# Recent antibiotics
+# Total ab
 ```{r include=FALSE}
-## create quartiles by interval_sd_group
+## create quartiles by recent_ab_days_group
 
 i=2
 explanatory[i]
 df[explanatory[i]]=""
 
-Q1=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.75)
+Q1=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.75)
 
 Q1
 Q2
 Q3
 
 # total ab level 1
-df1=df%>%filter(interval_sd_group==1)
+df1=df%>%filter(recent_ab_days_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
     df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
@@ -666,7 +420,7 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
 
 
 # total ab level 2
-df2=df%>%filter(interval_sd_group==2)
+df2=df%>%filter(recent_ab_days_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
     df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
@@ -677,7 +431,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
  
 
 # total ab level3
-df3=df%>%filter(interval_sd_group==3)
+df3=df%>%filter(recent_ab_days_group==3)
 df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
     df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
@@ -689,7 +443,7 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
 
 
 # total ab level4
-df4=df%>%filter(interval_sd_group==4)
+df4=df%>%filter(recent_ab_days_group==4)
 df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
     df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
@@ -709,22 +463,22 @@ df=rbind(df1,df2,df3,df4)
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
-                           interval_sd_group=="1" & recent_ab_days_group==1 ~ 1,
-                           interval_sd_group=="1" & recent_ab_days_group==2 ~ 2,
-                           interval_sd_group=="1" & recent_ab_days_group==3 ~ 3,
-                           interval_sd_group=="1" & recent_ab_days_group==4 ~ 4,
-                           interval_sd_group=="2" & recent_ab_days_group==1 ~ 5,
-                           interval_sd_group=="2" & recent_ab_days_group==2 ~ 6,
-                           interval_sd_group=="2" & recent_ab_days_group==3 ~ 7,
-                           interval_sd_group=="2" & recent_ab_days_group==4 ~ 8,
-                           interval_sd_group=="3" & recent_ab_days_group==1 ~ 9,
-                           interval_sd_group=="3" & recent_ab_days_group==2 ~ 10,
-                           interval_sd_group=="3" & recent_ab_days_group==3 ~ 11,
-                           interval_sd_group=="3" & recent_ab_days_group==4 ~ 12,
-                           interval_sd_group=="4" & recent_ab_days_group==1 ~ 13,
-                           interval_sd_group=="4" & recent_ab_days_group==2 ~ 14,
-                           interval_sd_group=="4" & recent_ab_days_group==3 ~ 15,
-                           interval_sd_group=="4" & recent_ab_days_group==4 ~ 16
+                           recent_ab_days_group=="1" & total_ab_group==1 ~ 1,
+                           recent_ab_days_group=="1" & total_ab_group==2 ~ 2,
+                           recent_ab_days_group=="1" & total_ab_group==3 ~ 3,
+                           recent_ab_days_group=="1" & total_ab_group==4 ~ 4,
+                           recent_ab_days_group=="2" & total_ab_group==1 ~ 5,
+                           recent_ab_days_group=="2" & total_ab_group==2 ~ 6,
+                           recent_ab_days_group=="2" & total_ab_group==3 ~ 7,
+                           recent_ab_days_group=="2" & total_ab_group==4 ~ 8,
+                           recent_ab_days_group=="3" & total_ab_group==1 ~ 9,
+                           recent_ab_days_group=="3" & total_ab_group==2 ~ 10,
+                           recent_ab_days_group=="3" & total_ab_group==3 ~ 11,
+                           recent_ab_days_group=="3" & total_ab_group==4 ~ 12,
+                           recent_ab_days_group=="4" & total_ab_group==1 ~ 13,
+                           recent_ab_days_group=="4" & total_ab_group==2 ~ 14,
+                           recent_ab_days_group=="4" & total_ab_group==3 ~ 15,
+                           recent_ab_days_group=="4" & total_ab_group==4 ~ 16
 
 
                           ))
@@ -855,10 +609,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing interval devaition*Recent antibiotics levels",
+    title = "Recent antibiotics*Recent antibiotics levels",
     x="",
     y="",
-    caption = paste0("Reference group: Prescribing interval devaition(very low) * Recent antibiotics level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Recent antibiotics(earliest) * Recent antibiotics level1(median=",Q2[1],")")
   )
 ```
 
@@ -880,16 +634,16 @@ p
 # prescribing intervals (mean)
 
 ```{r include=FALSE}
-## create quartiles by interval_sd_group
+## create quartiles by recent_ab_days_group
 
 i=3
 explanatory[i]
 df[explanatory[i]]=""
 df[contd[i]]=round(df[contd[i]],digits = 1)
 
-Q1=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.75)
+Q1=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.75)
 
 Q1=round(Q1,digits = 1) 
 Q2=round(Q2,digits = 1)
@@ -898,7 +652,7 @@ Q1
 Q2
 Q3
 # total ab level 1
-df1=df%>%filter(interval_sd_group==1)
+df1=df%>%filter(recent_ab_days_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
     df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
@@ -912,7 +666,7 @@ quantile(df1$interval_mean,p=0.5)
 quantile(df1$interval_mean,p=0.75) 
 
 # total ab level 2
-df2=df%>%filter(interval_sd_group==2)
+df2=df%>%filter(recent_ab_days_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
     df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
@@ -926,7 +680,7 @@ quantile(df2$interval_mean,p=0.5)
 quantile(df2$interval_mean,p=0.75) 
 
 # total ab level3
-df3=df%>%filter(interval_sd_group==3)
+df3=df%>%filter(recent_ab_days_group==3)
 df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
     df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
@@ -940,7 +694,7 @@ quantile(df3$interval_mean,p=0.5)
 quantile(df3$interval_mean,p=0.75) 
 
 # total ab level4
-df4=df%>%filter(interval_sd_group==4)
+df4=df%>%filter(recent_ab_days_group==4)
 df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
     df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
@@ -960,22 +714,22 @@ df=rbind(df1,df2,df3,df4)
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
-                           interval_sd_group=="1" & interval_mean_group==1 ~ 1,
-                           interval_sd_group=="1" & interval_mean_group==2 ~ 2,
-                           interval_sd_group=="1" & interval_mean_group==3 ~ 3,
-                           interval_sd_group=="1" & interval_mean_group==4 ~ 4,
-                           interval_sd_group=="2" & interval_mean_group==1 ~ 5,
-                           interval_sd_group=="2" & interval_mean_group==2 ~ 6,
-                           interval_sd_group=="2" & interval_mean_group==3 ~ 7,
-                           interval_sd_group=="2" & interval_mean_group==4 ~ 8,
-                           interval_sd_group=="3" & interval_mean_group==1 ~ 9,
-                           interval_sd_group=="3" & interval_mean_group==2 ~ 10,
-                           interval_sd_group=="3" & interval_mean_group==3 ~ 11,
-                           interval_sd_group=="3" & interval_mean_group==4 ~ 12,
-                           interval_sd_group=="4" & interval_mean_group==1 ~ 13,
-                           interval_sd_group=="4" & interval_mean_group==2 ~ 14,
-                           interval_sd_group=="4" & interval_mean_group==3 ~ 15,
-                           interval_sd_group=="4" & interval_mean_group==4 ~ 16
+                           recent_ab_days_group=="1" & interval_mean_group==1 ~ 1,
+                           recent_ab_days_group=="1" & interval_mean_group==2 ~ 2,
+                           recent_ab_days_group=="1" & interval_mean_group==3 ~ 3,
+                           recent_ab_days_group=="1" & interval_mean_group==4 ~ 4,
+                           recent_ab_days_group=="2" & interval_mean_group==1 ~ 5,
+                           recent_ab_days_group=="2" & interval_mean_group==2 ~ 6,
+                           recent_ab_days_group=="2" & interval_mean_group==3 ~ 7,
+                           recent_ab_days_group=="2" & interval_mean_group==4 ~ 8,
+                           recent_ab_days_group=="3" & interval_mean_group==1 ~ 9,
+                           recent_ab_days_group=="3" & interval_mean_group==2 ~ 10,
+                           recent_ab_days_group=="3" & interval_mean_group==3 ~ 11,
+                           recent_ab_days_group=="3" & interval_mean_group==4 ~ 12,
+                           recent_ab_days_group=="4" & interval_mean_group==1 ~ 13,
+                           recent_ab_days_group=="4" & interval_mean_group==2 ~ 14,
+                           recent_ab_days_group=="4" & interval_mean_group==3 ~ 15,
+                           recent_ab_days_group=="4" & interval_mean_group==4 ~ 16
 
 
                           ))
@@ -1102,10 +856,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing interval devaition*Prescribing intervals average",
+    title = "Recent antibiotics*Prescribing intervals average",
     x="",
     y="",
-    caption = paste0("Reference group: Prescribing interval devaition(very low) * Prescribing intervals average level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Recent antibiotics(earliest) * Prescribing intervals average level1(median=",Q2[1],")")
   )
 ```
 
@@ -1120,27 +874,264 @@ p
 
 
 
+# prescribing intervals (sd)
+```{r include=FALSE}
+## create quartiles by recent_ab_days_group
+
+i=4
+explanatory[i]
+df[explanatory[i]]=""
+
+df[contd[i]]=round(df[contd[i]],digits = 1)
+
+Q1=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.75)
+
+Q1=round(Q1,digits = 1) 
+Q2=round(Q2,digits = 1)
+Q3=round(Q3,digits = 1)
+Q1
+Q2
+Q3
+
+
+# total ab level 1
+df1=df%>%filter(recent_ab_days_group==1)
+df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
+  df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
+    df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
+      df1[contd[i]] > Q3[1],4, NA)
+    )
+  )
+)
+ 
+quantile(df1$interval_sd,p=0.25) 
+quantile(df1$interval_sd,p=0.5) 
+quantile(df1$interval_sd,p=0.75) 
+# total ab level 2
+df2=df%>%filter(recent_ab_days_group==2)
+df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
+  df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
+    df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
+      df2[contd[i]] > Q3[2],4, NA)
+    )
+  )
+)
+ quantile(df2$interval_sd,p=0.25) 
+quantile(df2$interval_sd,p=0.5) 
+quantile(df2$interval_sd,p=0.75) 
+
+# total ab level3
+df3=df%>%filter(recent_ab_days_group==3)
+df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
+  df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
+    df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
+      df3[contd[i]] > Q3[3],4, NA)
+    )
+  )
+)
+ 
+quantile(df3$interval_sd,p=0.25) 
+quantile(df3$interval_sd,p=0.5) 
+quantile(df3$interval_sd,p=0.75) 
+
+# total ab level4
+df4=df%>%filter(recent_ab_days_group==4)
+df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
+  df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
+    df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
+      df4[contd[i]] > Q3[4],4, NA)
+    )
+  )
+)
+quantile(df4$interval_sd,p=0.25) 
+quantile(df4$interval_sd,p=0.5) 
+quantile(df4$interval_sd,p=0.75) 
+
+df=rbind(df1,df2,df3,df4)
+
+```
+
+```{r include=FALSE}
+
+df=df%>%mutate(ab_Level_type= 
+                 case_when(
+                           recent_ab_days_group=="1" & interval_sd_group==1 ~ 1,
+                         #  recent_ab_days_group=="1" & interval_sd_group==2 ~ 2,
+                         #  recent_ab_days_group=="1" & interval_sd_group==3 ~ 3,
+                         #  recent_ab_days_group=="1" & interval_sd_group==4 ~ 4,
+                           recent_ab_days_group=="2" & interval_sd_group==1 ~ 5,
+                           recent_ab_days_group=="2" & interval_sd_group==2 ~ 6,
+                           recent_ab_days_group=="2" & interval_sd_group==3 ~ 7,
+                           recent_ab_days_group=="2" & interval_sd_group==4 ~ 8,
+                           recent_ab_days_group=="3" & interval_sd_group==1 ~ 9,
+                           recent_ab_days_group=="3" & interval_sd_group==2 ~ 10,
+                           recent_ab_days_group=="3" & interval_sd_group==3 ~ 11,
+                           recent_ab_days_group=="3" & interval_sd_group==4 ~ 12,
+                           recent_ab_days_group=="4" & interval_sd_group==1 ~ 13,
+                           recent_ab_days_group=="4" & interval_sd_group==2 ~ 14,
+                           recent_ab_days_group=="4" & interval_sd_group==3 ~ 15,
+                           recent_ab_days_group=="4" & interval_sd_group==4 ~ 16
+
+
+                          ))
+
+
+table(df$ab_Level_type)
+```
+
+```{r include=FALSE}
+# median of each group
+
+Q2=tapply(df[,"interval_sd"],df[,"ab_Level_type"],quantile,p=0.5)
+Q2=round(Q2,digits = 1)
+Q2
+
+```
+
+
+```{r include=FALSE}
+df$ab_Level_type= relevel(as.factor(df$ab_Level_type), ref="1")
+mod=clogit(case ~ ab_Level_type + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass), df)
+sum.mod=summary(mod)
+
+```
+
+
+```{r include=FALSE}
+result=data.frame(sum.mod$conf.int)
+DF=result[1:12,-2]
+```
+
+
+```{r include=FALSE}
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="AB_exposure"
+DF$AB_exposure=factor(DF$AB_exposure,levels=c("ab_Level_type1","ab_Level_type5","ab_Level_type6","ab_Level_type7","ab_Level_type8","ab_Level_type9","ab_Level_type10","ab_Level_type11","ab_Level_type12","ab_Level_type13","ab_Level_type14","ab_Level_type15","ab_Level_type16"))
+
+DF=DF%>%arrange(AB_exposure)
+DF[1,1]="1"
+DF[2,1]="2"
+DF[3,1]="3"
+DF[4,1]="4"
+DF[5,1]="5"
+DF[6,1]="6"
+DF[7,1]="7"
+DF[8,1]="8"
+DF[9,1]="9"
+DF[10,1]="10"
+DF[11,1]="11"
+DF[12,1]="12"
+#DF[16,1]="16"
+
+
+ Index = rep(1:12) ## This provides an order to the data
+  label = as.factor(rep(1:12))
+
+
+names(DF)[2]="OR"
+names(DF)[3]="CI_L"
+names(DF)[4]="CI_U"
+
+DF$CI_L=round(DF$CI_L,digits = 2)
+DF$CI_U=round(DF$CI_U, digits = 2)
+
+DF$CI=paste0(DF$CI_L,",",DF$CI_U)
+
+DF
+```
+
+
+```{r include=FALSE}
+p <- ggplot(data=DF, aes(y=AB_exposure, x=OR))+ 
+xlim(c(0,2.5))+
+
+#this adds the effect sizes to the plot
+geom_point(color="black")+
+#thematic stuff
+theme_classic()+ 
+
+annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 4.5, ymax = 8.5,fill="grey80", alpha=0.5)+
+#annotate(geom = "rect", xmin = -Inf,xmax = Inf,ymin = 7.5, ymax = 11.5,fill="grey80", alpha=0.5)+
+
+  annotate("text", x = 0.1, y =2, label = "Low",size=3)+
+  annotate("text", x = 0.1, y =5.5, label = "High",size=3)+
+  annotate("text", x = 0.1, y =9.5, label = "Very High",size=3)+
+#  annotate("text", x = 0.1, y =13.5, label = "",size=3)+
+
+   geom_text( size=3,aes(y = 1:12, x = 0.7,
+               label = c("1"=paste0("Level1 (",Q2[2],")"),
+                        "2"= paste0("Level2 (",Q2[3],")"),
+                        "3"= paste0("Level3 (",Q2[4],")"),
+                        "4"= paste0("Level4 (",Q2[5],")"),
+                        "5"= paste0("Level1 (",Q2[6],")"),
+                        "6"= paste0("Level2 (",Q2[7],")"),
+                        "7"= paste0("Level3 (",Q2[8],")"),
+                        "8"= paste0("Level4 (",Q2[9],")"),
+                        "9"= paste0("Level1 (",Q2[10],")"),
+                        "10"= paste0("Level2 (",Q2[11],")"),
+                        "11"= paste0("Level3 (",Q2[12],")"),
+                        "12"= paste0("Level4 (",Q2[13],")"))),
+           hjust = "right",
+           nudge_y = -.1)+
+
+
+#adds the CIs
+geom_errorbarh(aes(xmin=CI_L, xmax=CI_U, height = .2))+
+
+#adding a vertical line at the effect = 0 mark
+geom_vline(xintercept=1, color="black")+
+
+
+theme(text=element_text(size=10, color="black"),
+      plot.title=element_text(size=10, vjust = 0.5),
+      panel.spacing = unit(1, "lines"))+
+  #    plot.title.position = "plot")+
+  theme(axis.text.y = element_blank(),
+        axis.line.y = element_blank(),
+        axis.ticks.y = element_blank()) +   
+  
+    theme(axis.ticks.x = element_blank()) +  
+
+labs(
+    title = "Recent antibiotics*Prescribing intervals deviation",
+    x="",
+    y="",
+    caption = paste0("Reference group: Recent antibiotics(earliest)*Prescribing intervals deviation level1(median=",Q2[1],")")
+  )
+```
+
+
+```{r }
+p
+```
+
+
+
+
+
 
 
 # Antibiotics types
 
 ```{r include=FALSE}
-## create quartiles by interval_sd_group
+## create quartiles by recent_ab_days_group
 
 i=5
 explanatory[i]
 df[explanatory[i]]=""
 
-Q1=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.75)
+Q1=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.75)
 
 Q1
 Q2
 Q3
 
 # total ab level 1
-df1=df%>%filter(interval_sd_group==1)
+df1=df%>%filter(recent_ab_days_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
     df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
@@ -1150,7 +1141,7 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
 )
 
 # total ab level 2
-df2=df%>%filter(interval_sd_group==2)
+df2=df%>%filter(recent_ab_days_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
     df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
@@ -1161,7 +1152,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
  
 
 # total ab level3
-df3=df%>%filter(interval_sd_group==3)
+df3=df%>%filter(recent_ab_days_group==3)
 df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
     df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
@@ -1173,7 +1164,7 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
 
 
 # total ab level4
-df4=df%>%filter(interval_sd_group==4)
+df4=df%>%filter(recent_ab_days_group==4)
 df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
     df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
@@ -1192,22 +1183,22 @@ df=rbind(df1,df2,df3,df4)
 tapply(df[,"ab_types"],df[,"ab_Level_type"],quantile,p=0.5)
 df=df%>%mutate(ab_Level_type= 
                  case_when(
-                           interval_sd_group=="1" & ab_types_group==1 ~ 1,
-                           interval_sd_group=="1" & ab_types_group==2 ~ 2,
-                         #  interval_sd_group=="1" & ab_types_group==3 ~ 3,
-                        #   interval_sd_group=="1" & ab_types_group==4 ~ 4,
-                           interval_sd_group=="2" & ab_types_group==1 ~ 5,
-                        #   interval_sd_group=="2" & ab_types_group==2 ~ 6,
-                           interval_sd_group=="2" & ab_types_group==3 ~ 7,
-                           interval_sd_group=="2" & ab_types_group==4 ~ 8,
-                           interval_sd_group=="3" & ab_types_group==1 ~ 9,
-                           interval_sd_group=="3" & ab_types_group==2 ~ 10,
-                           interval_sd_group=="3" & ab_types_group==3 ~ 11,
-                           interval_sd_group=="3" & ab_types_group==4 ~ 12,
-                           interval_sd_group=="4" & ab_types_group==1 ~ 13,
-                           interval_sd_group=="4" & ab_types_group==2 ~ 14,
-                           interval_sd_group=="4" & ab_types_group==3 ~ 15,
-                           interval_sd_group=="4" & ab_types_group==4 ~ 16
+                           recent_ab_days_group=="1" & ab_types_group==1 ~ 1,
+                           recent_ab_days_group=="1" & ab_types_group==2 ~ 2,
+                         #  recent_ab_days_group=="1" & ab_types_group==3 ~ 3,
+                        #   recent_ab_days_group=="1" & ab_types_group==4 ~ 4,
+                           recent_ab_days_group=="2" & ab_types_group==1 ~ 5,
+                        #   recent_ab_days_group=="2" & ab_types_group==2 ~ 6,
+                           recent_ab_days_group=="2" & ab_types_group==3 ~ 7,
+                           recent_ab_days_group=="2" & ab_types_group==4 ~ 8,
+                           recent_ab_days_group=="3" & ab_types_group==1 ~ 9,
+                           recent_ab_days_group=="3" & ab_types_group==2 ~ 10,
+                           recent_ab_days_group=="3" & ab_types_group==3 ~ 11,
+                           recent_ab_days_group=="3" & ab_types_group==4 ~ 12,
+                           recent_ab_days_group=="4" & ab_types_group==1 ~ 13,
+                           recent_ab_days_group=="4" & ab_types_group==2 ~ 14,
+                           recent_ab_days_group=="4" & ab_types_group==3 ~ 15,
+                           recent_ab_days_group=="4" & ab_types_group==4 ~ 16
 
 
                           ))
@@ -1333,10 +1324,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing interval devaition*Antibiotic types levels",
+    title = "Recent antibiotics*Antibiotic types levels",
     x="",
     y="",
-    caption = paste0("Reference group: Prescribing interval devaition(very low)*Antibiotic types level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Recent antibiotics(earliest)*Antibiotic types level1(median=",Q2[1],")")
   )
 ```
 
@@ -1353,22 +1344,22 @@ p
 # Broad AB
 
 ```{r include=FALSE}
-## create quartiles by interval_sd_group
+## create quartiles by recent_ab_days_group
 
 i=6
 explanatory[i]
 df[explanatory[i]]=""
 
-Q1=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.25)
-Q2=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.5)
-Q3=tapply(df[,contd[i]],df[,"interval_sd_group"],quantile,p=0.75)
+Q1=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.25)
+Q2=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.5)
+Q3=tapply(df[,contd[i]],df[,"recent_ab_days_group"],quantile,p=0.75)
 
 Q1
 Q2
 Q3
 
 # total ab level 1
-df1=df%>%filter(interval_sd_group==1)
+df1=df%>%filter(recent_ab_days_group==1)
 df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
   df1[contd[i]] > Q1[1] &  df1[contd[i]] <= Q2[1], 2,ifelse(
     df1[contd[i]] > Q2[1] & df1[contd[i]] <= Q3[1], 3, ifelse(
@@ -1378,7 +1369,7 @@ df1[explanatory[i]]=ifelse(df1[contd[i]]<= Q1[1], 1,ifelse(
 ) 
 
 # total ab level 2
-df2=df%>%filter(interval_sd_group==2)
+df2=df%>%filter(recent_ab_days_group==2)
 df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
   df2[contd[i]] > Q1[2] &  df2[contd[i]] <= Q2[2], 2,ifelse(
     df2[contd[i]] > Q2[2] & df2[contd[i]] <= Q3[2], 3, ifelse(
@@ -1389,7 +1380,7 @@ df2[explanatory[i]]=ifelse(df2[contd[i]]<= Q1[2], 1,ifelse(
  
 
 # total ab level3
-df3=df%>%filter(interval_sd_group==3)
+df3=df%>%filter(recent_ab_days_group==3)
 df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
   df3[contd[i]] > Q1[3] &  df3[contd[i]] <= Q2[3], 2,ifelse(
     df3[contd[i]] > Q2[3] & df3[contd[i]] <= Q3[3], 3, ifelse(
@@ -1401,7 +1392,7 @@ df3[explanatory[i]]=ifelse(df3[contd[i]]<= Q1[3], 1,ifelse(
 
 
 # total ab level4
-df4=df%>%filter(interval_sd_group==4)
+df4=df%>%filter(recent_ab_days_group==4)
 df4[explanatory[i]]=ifelse(df4[contd[i]]<= Q1[4], 1,ifelse(
   df4[contd[i]] > Q1[4] &  df4[contd[i]] <= Q2[4], 2,ifelse(
     df4[contd[i]] > Q2[4] & df4[contd[i]] <= Q3[4], 3, ifelse(
@@ -1420,22 +1411,22 @@ tapply(df[,"broad_ab_prescriptions"],df[,"ab_Level_type"],quantile,p=0.5)
 
 df=df%>%mutate(ab_Level_type= 
                  case_when(
-                           interval_sd_group=="1" & broad_ab_prescriptions_group==1 ~ 1,
-                         #  interval_sd_group=="1" & broad_ab_prescriptions_group==2 ~ 2,
-                         #  interval_sd_group=="1" & broad_ab_prescriptions_group==3 ~ 3,
-                           interval_sd_group=="1" & broad_ab_prescriptions_group==4 ~ 4,
-                           interval_sd_group=="2" & broad_ab_prescriptions_group==1 ~ 5,
-                           #interval_sd_group=="2" & broad_ab_prescriptions_group==2 ~ 6,
-                          # interval_sd_group=="2" & broad_ab_prescriptions_group==3 ~ 7,
-                           interval_sd_group=="2" & broad_ab_prescriptions_group==4 ~ 8,
-                           interval_sd_group=="3" & broad_ab_prescriptions_group==1 ~ 9,
-                          # interval_sd_group=="3" & broad_ab_prescriptions_group==2 ~ 10,
-                           interval_sd_group=="3" & broad_ab_prescriptions_group==3 ~ 11,
-                           interval_sd_group=="3" & broad_ab_prescriptions_group==4 ~ 12,
-                           interval_sd_group=="4" & broad_ab_prescriptions_group==1 ~ 13,
-                          # interval_sd_group=="4" & broad_ab_prescriptions_group==2 ~ 14,
-                           interval_sd_group=="4" & broad_ab_prescriptions_group==3 ~ 15,
-                           interval_sd_group=="4" & broad_ab_prescriptions_group==4 ~ 16
+                           recent_ab_days_group=="1" & broad_ab_prescriptions_group==1 ~ 1,
+                         #  recent_ab_days_group=="1" & broad_ab_prescriptions_group==2 ~ 2,
+                         #  recent_ab_days_group=="1" & broad_ab_prescriptions_group==3 ~ 3,
+                           recent_ab_days_group=="1" & broad_ab_prescriptions_group==4 ~ 4,
+                           recent_ab_days_group=="2" & broad_ab_prescriptions_group==1 ~ 5,
+                           #recent_ab_days_group=="2" & broad_ab_prescriptions_group==2 ~ 6,
+                          # recent_ab_days_group=="2" & broad_ab_prescriptions_group==3 ~ 7,
+                           recent_ab_days_group=="2" & broad_ab_prescriptions_group==4 ~ 8,
+                           recent_ab_days_group=="3" & broad_ab_prescriptions_group==1 ~ 9,
+                          # recent_ab_days_group=="3" & broad_ab_prescriptions_group==2 ~ 10,
+                           recent_ab_days_group=="3" & broad_ab_prescriptions_group==3 ~ 11,
+                           recent_ab_days_group=="3" & broad_ab_prescriptions_group==4 ~ 12,
+                           recent_ab_days_group=="4" & broad_ab_prescriptions_group==1 ~ 13,
+                          # recent_ab_days_group=="4" & broad_ab_prescriptions_group==2 ~ 14,
+                           recent_ab_days_group=="4" & broad_ab_prescriptions_group==3 ~ 15,
+                           recent_ab_days_group=="4" & broad_ab_prescriptions_group==4 ~ 16
 
 
                           ))
@@ -1559,10 +1550,10 @@ theme(text=element_text(size=10, color="black"),
     theme(axis.ticks.x = element_blank()) +  
 
 labs(
-    title = "Prescribing interval devaition*Broad-spectrum antibiotics levels",
+    title = "Recent antibiotics*Broad-spectrum antibiotics levels",
     x="",
     y="",
-    caption = paste0("Reference group: Prescribing interval devaition(very low)*Boad-spectrum antibiotics level1(median=",Q2[1],")")
+    caption = paste0("Reference group: Recent antibiotics(earliest)*Boad-spectrum antibiotics level1(median=",Q2[1],")")
   )
 ```
 
