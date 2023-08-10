@@ -3,11 +3,11 @@ title: " patient selection flowchart"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r setup, include=FALSE}
+```{r}
 library('tidyverse')
 library('lubridate')
 library('dplyr')
