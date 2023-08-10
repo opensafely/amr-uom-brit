@@ -90,6 +90,6 @@ R8=c(round(N/5)*5,"matched.case")
 
 ```{r}
 tbl=rbind(R1,R2,R3,R4,R5,R6,R7,R8)
-write.csv(tbl,here::here("ouptut","pt_no.csv"))
+write.csv(tbl,here::here("output","pt_no.csv"))
 ```
 
