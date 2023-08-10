@@ -535,7 +535,7 @@ quantiles4 <- data %>% group_by(decile)%>%
          ninefive= quantile(exposure_period, na.rm=TRUE, c(0.95)),
          five=quantile(exposure_period, na.rm=TRUE, c(0.05)),
          variable="expo_period")
-
+quantiles4=quantiles4%>%ungroup(decile)
 plot<- ggplot(quantiles4, aes(x=decile))+
    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
@@ -620,7 +620,7 @@ quantiles7 <- data %>% group_by(decile)%>%
          ninefive= quantile(interval_mean, na.rm=TRUE, c(0.95)),
          five=quantile(interval_mean, na.rm=TRUE, c(0.05)),
          variable="interval_mean")
-
+quantiles7=quantiles7%>%ungroup(decile)
 plot<- ggplot(quantiles7, aes(x=decile))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
   geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
@@ -648,6 +648,7 @@ quantiles8 <- data %>% group_by(decile)%>%
          ninefive= quantile(interval_sd, na.rm=TRUE, c(0.95)),
          five=quantile(interval_sd, na.rm=TRUE, c(0.05)),
          variable="interval_sd")
+quantiles8=quantiles8%>%ungroup(decile)
 
 plot<- ggplot(quantiles8, aes(x=decile))+
     geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
