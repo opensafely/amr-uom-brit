@@ -35,12 +35,123 @@ R3=c(round(N/5)*5,"SGSS")
 ```
 
 
-## covid infection (merged primary+SGSS)
+
+
+# COVID INFECTION
+## SGSS
+```{r}
+# impoprt data
+df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
+df1=df1%>%filter(patient_index_date <= as.Date("2022-12-31"))
+
+# filter SGSS (exclude SGSS+admission, SGSS+death)
+df1 =df1%>%filter( !is.na(patient_index_date)) # SGSS case
+
+df1=df1%>%
+  filter(is.na(primary_care_covid_date),
+         is.na(covid_admission_date),
+         is.na(died_date_cpns), 
+         is.na(died_date_ons_covid))
+
+N=nrow(df1)
+round(N/5)*5
+R4=c(round(N/5)*5,"SGSS_incident")
+
+```
+
+## primary care
+```{r}
+df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
+df2=df2%>%filter(patient_index_date <= as.Date("2022-12-31"))
+
+df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
+
+df2=df2%>%
+  filter(is.na(SGSS_positive_test_date),
+         is.na(covid_admission_date),
+         is.na(died_date_cpns), 
+         is.na(died_date_ons_covid))
+
+N=nrow(df2)
+round(N/5)*5
+R5=c(round(N/5)*5,"GP_incident")
+
+```
+
+## merge covid infection
 ```{r}
 df=rbind(df1,df2)
-
+nrow(df1)
+nrow(df2)
+nrow(df)
 
 # keep earlist covid infection date
+df=df%>%
+  group_by(patient_id)%>%
+  arrange(patient_id,patient_index_date)%>%
+  distinct(patient_id, .keep_all = TRUE)
+
+nrow(df)
+# calendar month for matching
+df$cal_YM=format(df$patient_index_date,"%Y-%m")
+
+
+N=nrow(df)
+round(N/5)*5
+R6=c(round(N/5)*5,"infection_incident")
+
+```
+
+# CONTROL
+```{r}
+## Control - covid infection without any covid severe outcome within 1 month
+df.0=df%>%
+  filter(
+          is.na(covid_admission_date_after),
+          is.na(died_date_cpns_after),
+          is.na(died_date_ons_covid_after))
+N=nrow(df.0)
+round(N/5)*5
+R7=c(round(N/5)*5,"incident_control")
+
+```
+
+
+
+
+
+
+# CASE
+```{r}
+df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1=df.1%>%filter(patient_index_date <= as.Date("2022-12-31"))
+
+df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
+
+
+df.1=df.1%>%filter(
+         is.na(SGSS_positive_test_date_before),
+         is.na(primary_care_covid_date_before), 
+         is.na(died_date_cpns_before),
+         is.na(died_date_ons_covid_before))
+
+# calendar month for matching
+df.1$cal_YM=format(df.1$patient_index_date,"%Y-%m")
+
+N=nrow(df.1)
+round(N/5)*5
+R7=c(round(N/5)*5,"incident_case")
+```
+
+
+
+# merge case & control
+```{r}
+df.0$case=0
+df.1$case=1
+df=rbind(df.1,df.0)
+
+# keep earlist covid positive date
 df=df%>%
   group_by(patient_id)%>%
   arrange(patient_id,patient_index_date)%>%
@@ -49,41 +160,22 @@ df=df%>%
 
 N=nrow(df)
 round(N/5)*5
-R4=c(round(N/5)*5,"infection(hosp+SGSS)")
+R8=c(round(N/5)*5,"merged_case_control")
 
 ```
 
-# covid infection without severe outcome
+# filter ab>1
 ```{r}
-
-df=df%>%
-  filter(
-          is.na(covid_admission_date_after),
-          is.na(died_date_cpns_after),
-          is.na(died_date_ons_covid_after))
-
-N=nrow(df)
+df.0=df.0%>% filter(had_antibiotic>1)# filter ab>1
+N=nrow(df.0)
 round(N/5)*5
-R5=c(round(N/5)*5,"infection_excluding_severe_outcome")
+R9=c(round(N/5)*5,"control_ab>1")
 
-```
 
-# control
-```{r}
-df <- read.csv(here::here("output","control_covid_infection.csv"))
-N=nrow(df)
+df.1=df.1%>% filter(had_antibiotic>1)# filter ab>1
+N=nrow(df.1)
 round(N/5)*5
-R6=c(round(N/5)*5,"control")
-
-```
-
-# case
-```{r}
-df <- read.csv(here::here("output","case_covid_hosp.csv"))
-N=nrow(df)
-round(N/5)*5
-R7=c(round(N/5)*5,"case")
-
+R10=c(round(N/5)*5,"case__ab>1")
 ```
 
 
@@ -93,17 +185,17 @@ df=readRDS(here::here("output","matched_ab.rds"))
 df0=df%>%filter(case==0)
 N=nrow(df0)
 round(N/5)*5
-R8=c(round(N/5)*5,"matched.contr")
+R11=c(round(N/5)*5,"matched.contr")
 
 df1=df%>%filter(case==1)
 N=nrow(df1)
 round(N/5)*5
-R9=c(round(N/5)*5,"matched.case")
+R12=c(round(N/5)*5,"matched.case")
 
 ```
 
 ```{r}
-tbl=rbind(R1,R2,R3,R4,R5,R6,R7,R8,R9)
+tbl=rbind(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12)
 write.csv(tbl,here::here("output","pt_no.csv"))
 ```
 
