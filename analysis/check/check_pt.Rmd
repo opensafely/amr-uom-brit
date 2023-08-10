@@ -41,7 +41,7 @@ R3=c(round(N/5)*5,"SGSS")
 ## SGSS
 ```{r}
 # impoprt data
-df1 <- read_csv(here::here("output", "input_covid_SGSS.csv"))
+df1 <- read.csv(here::here("output", "input_covid_SGSS.csv"))
 df1=df1%>%filter(patient_index_date <= as.Date("2022-12-31"))
 
 # filter SGSS (exclude SGSS+admission, SGSS+death)
@@ -61,7 +61,7 @@ R4=c(round(N/5)*5,"SGSS_incident")
 
 ## primary care
 ```{r}
-df2<- read_csv(here::here("output", "input_covid_primarycare.csv"))
+df2<- read.csv(here::here("output", "input_covid_primarycare.csv"))
 df2=df2%>%filter(patient_index_date <= as.Date("2022-12-31"))
 
 df2 =df2%>%filter( !is.na(patient_index_date)) # primary care case
@@ -123,7 +123,7 @@ R7=c(round(N/5)*5,"incident_control")
 
 # CASE
 ```{r}
-df.1 <- read_csv(here::here("output", "input_covid_admission.csv"))
+df.1 <- read.csv(here::here("output", "input_covid_admission.csv"))
 df.1=df.1%>%filter(patient_index_date <= as.Date("2022-12-31"))
 
 df.1 =df.1%>%filter( !is.na(patient_index_date)) # hospital patient
