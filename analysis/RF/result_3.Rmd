@@ -480,7 +480,7 @@ quantiles2 <- data %>% group_by(decile)%>%
          five=quantile(total_ab, na.rm=TRUE, c(0.05)),
          variable="total_ab")
 
-plot<- ggplot(quantiles2, aes(x=decile,group=case))+
+plot<- ggplot(quantiles2, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -508,7 +508,7 @@ quantiles3 <- data %>% group_by(decile)%>%
          five=quantile(ab_types, na.rm=TRUE, c(0.05)),
          variable="ab_types")
 
-plot<- ggplot(quantiles3, aes(x=decile,group=case))+
+plot<- ggplot(quantiles3, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -536,7 +536,7 @@ quantiles4 <- data %>% group_by(decile)%>%
          five=quantile(exposure_period, na.rm=TRUE, c(0.05)),
          variable="expo_period")
 
-plot<- ggplot(quantiles4, aes(x=decile,group=case))+
+plot<- ggplot(quantiles4, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -564,7 +564,7 @@ quantiles5 <- data %>% group_by(decile)%>%
          five=quantile(recent_ab_days, na.rm=TRUE, c(0.05)),
          variable="recent_ab")
 
-plot<- ggplot(quantiles5, aes(x=decile,group=case))+
+plot<- ggplot(quantiles5, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -592,7 +592,7 @@ quantiles6 <- data %>% group_by(decile)%>%
          five=quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.05)),
          variable="broad_ab")
 
-plot<- ggplot(quantiles6, aes(x=decile,group=case))+
+plot<- ggplot(quantiles6, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -621,7 +621,7 @@ quantiles7 <- data %>% group_by(decile)%>%
          five=quantile(interval_mean, na.rm=TRUE, c(0.05)),
          variable="interval_mean")
 
-plot<- ggplot(quantiles7, aes(x=decile,group=case))+
+plot<- ggplot(quantiles7, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -649,7 +649,7 @@ quantiles8 <- data %>% group_by(decile)%>%
          five=quantile(interval_sd, na.rm=TRUE, c(0.05)),
          variable="interval_sd")
 
-plot<- ggplot(quantiles8, aes(x=decile,group=case))+
+plot<- ggplot(quantiles8, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
