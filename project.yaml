@@ -249,7 +249,13 @@ actions:
       moderately_sensitive:
         html: output/model_3.html
 
-
+# prescribing intervals * others
+  model_2_interval:
+    run: r:latest -e 'rmarkdown::render("analysis/model_2_interval.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile]
+    outputs:
+      moderately_sensitive:
+        html: output/model_2_interval.html
 
 ########### RF test process ########### 
   pre_RF_process: # split train and valid set # create category variables of ab exposure
