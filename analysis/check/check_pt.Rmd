@@ -4,8 +4,9 @@ title: " patient selection flowchart"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
-#library(knitr)
-library(dplyr)
+library('tidyverse')
+library('lubridate')
+library('dplyr')
 ```
 
 # hospital admission
