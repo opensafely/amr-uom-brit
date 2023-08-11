@@ -124,6 +124,7 @@ actions:
       highly_sensitive:
         rds1: output/all_ranger.rds 
         rds2: output/RF_ranger.rds
+      moderately_ensitive:
         csv1: output/RFprop.csv
 
   # RF_result: # predictor radar plot
