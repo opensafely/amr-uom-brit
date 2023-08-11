@@ -160,6 +160,26 @@ explanatory<- c("total_ab_group","ab_types_group","exposure_period_group","recen
 dependent <- "decile"
 
 table=data %>% summary_factorlist(dependent, explanatory)
+
+round_tbl=table
+#remove percentage
+round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+
+# midpoint rounding
+roundmid_any <- function(x, to=6){
+  # like round_any, but centers on (integer) midpoint of the rounding points
+  ceiling(x/to)*to - (floor(to/2)*(x!=0))
+}
+
+round_tbl[,c(3:12)]=roundmid_any(round_tbl[,c(3:12)])# decile group 1-10
+
+for (i in 3:12) {
+  colnames(round_tbl)[i] = paste("decile",i-2,"_midpoint6")
+  round_tbl[,paste0("decile_",i-2,"_midpoint6_%")]=round_tbl[,i]/rowSums(round_tbl[,c(3:12)])
+  
+}
+
 write.csv(table,here::here("output","crosstab.csv"))
 
 print(table)
