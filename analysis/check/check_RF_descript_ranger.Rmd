@@ -80,7 +80,7 @@ roundmid_any <- function(x, to=6){
 }
 
 for (i in 3:12) {
-round_tbl[,i]=roundmid_any(round_tbl[,i])# decile group 1-10
+round_tbl[,i]=roundmid_any(as.numeric(round_tbl[,i]))# decile group 1-10
 
 colnames(round_tbl)[i] = paste("decile",i-2,"_midpoint6")
 
