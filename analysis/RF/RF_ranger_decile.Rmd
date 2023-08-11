@@ -171,19 +171,24 @@ imps <- data.frame(var = names(rf.model$variable.importance),
 imps$var
 imps$var=c("Total antibiotics","Antibiotic types","Exposure period","Recent exposure", "Broad-spectrum antibiotics","Prescribing intervals (mean)", "Prescribing intervals (SD)")
 
-imps %>% 
+plot1=imps %>% 
   ggplot(aes(imps, x = reorder(var, imps))) +
   geom_point(size = 3, colour = "grey60") +
   coord_flip() +
   labs(x = "", y = "Importance") +
   theme_bw(15)
 
-imps %>% 
+ggsave(plot2,path=here::here("output","variableimp2.png"),   dpi = 300)
+
+plot2=iimps %>% 
   ggplot(aes(imps.score, x = reorder(var, imps.score))) +
   geom_point(size = 3, colour = "grey60", ) +
   coord_flip() +
   labs(x = "", y = "Importance Score") +
   theme_bw(15)
+
+ggsave(plot2,path=here::here("output","variableimp2.png"),   dpi = 300)
+
 ```
 
 ```{r include=FALSE}

@@ -126,6 +126,8 @@ actions:
         rds2: output/RF_ranger.rds
       moderately_ensitive:
         csv1: output/RFprop.csv
+        fig1: output/variableimp1.png
+        fig2: output/variableimp2.png
 
   # RF_result: # predictor radar plot
   #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_result.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
