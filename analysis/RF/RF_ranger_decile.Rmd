@@ -265,7 +265,8 @@ exp=exp%>%pull(mean.exp)
 #exp <- ddply(gpdata,~groups,summarise,mean=mean(pred.y))
 obsn <- table(data$case,data$decile)[1,] 
 
-cbind(exp,obs)# expected value vs. observed value
+tbl=cbind(exp,obs)# expected value vs. observed value
+ write.csv(tbl,here::here("output","RFprop.csv"))
  
 # CIs for scatter points
 lci = pmax(0,(obs - (1.96*(((obs*(1-obs))/obsn)^.5))))

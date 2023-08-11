@@ -124,6 +124,7 @@ actions:
       highly_sensitive:
         rds1: output/all_ranger.rds 
         rds2: output/RF_ranger.rds
+        csv1: output/RFprop.csv
 
   # RF_result: # predictor radar plot
   #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_result.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
