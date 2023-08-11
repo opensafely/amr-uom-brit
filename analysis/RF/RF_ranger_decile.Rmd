@@ -178,7 +178,12 @@ plot1=imps %>%
   labs(x = "", y = "Importance") +
   theme_bw(15)
 
-ggsave(plot2,path=here::here("output","variableimp2.png"),   dpi = 300)
+
+ggsave(
+   plot= plot1,
+   filename="variableimp1.png", path=here::here("output"),
+)
+
 
 plot2=iimps %>% 
   ggplot(aes(imps.score, x = reorder(var, imps.score))) +
@@ -187,8 +192,11 @@ plot2=iimps %>%
   labs(x = "", y = "Importance Score") +
   theme_bw(15)
 
-ggsave(plot2,path=here::here("output","variableimp2.png"),   dpi = 300)
 
+ggsave(
+   plot= plot2,
+   filename="variableimp2.png", path=here::here("output"),
+)
 ```
 
 ```{r include=FALSE}
