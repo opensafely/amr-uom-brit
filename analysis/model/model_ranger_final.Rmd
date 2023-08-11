@@ -83,7 +83,14 @@ round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 round_tbl[,4]=as.numeric(round_tbl[,4])
 round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 
-
+# raw OR calculated
+round_tbl$OR="ref" 
+for (i in 2:10) {
+  round_tbl[i,"OR"]=
+    round_tbl[i,3]/round_tbl[i,4]/round_tbl[1,3]*round_tbl[1,4]
+}
+  
+  
 write.csv(round_tbl,here::here("output","decile_prop.csv"))
 
 ```
@@ -97,18 +104,12 @@ set.seed(123)
 
 model=clogit(case ~ decile+ strata(subclass),df) 
 
-print(summary(model))
+tbl=summary(model)
+
+result=data.frame(tbl$conf.int)
+write.csv(result,here::here("output","model.csv"))
+
 ```
-
-
-```{r eval=FALSE, include=FALSE}
-set.seed(123)
-
-model=clogit(case ~ decile+ CCI+ covrx_ever + strata(subclass),df) 
-
-summary(model)
-```
-
 
 
 #  adjusted model
@@ -118,7 +119,10 @@ set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),df) 
 
-summary(model)
+tbl=summary(model)
+result=data.frame(tbl$conf.int)
+write.csv(result,here::here("output","model_adj.csv"))
+
 ```
 
 
