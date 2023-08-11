@@ -3,9 +3,8 @@ title: "conditional logistic regression"
 ---
 
 ```{r setup, include=FALSE}
-#library(knitr)
-library(dplyr)
-#library(skimr)
+library("plyr")
+library('dplyr')
 library('tidyverse')
 require("gtsummary")
 library("survival")
@@ -72,7 +71,20 @@ explanatory<- c("decile")
 dependent <- "case"
 tbl=df%>% summary_factorlist(dependent, explanatory)
 
-write.csv(tbl,here::here("output","decile_prop.csv"))
+round_tbl=tbl
+#remove percentage
+round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
+round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+
+#round to 5
+round_tbl[,3]=as.numeric(round_tbl[,3])
+round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
+
+round_tbl[,4]=as.numeric(round_tbl[,4])
+round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+
+
+write.csv(round_tbl,here::here("output","decile_prop.csv"))
 
 ```
 
