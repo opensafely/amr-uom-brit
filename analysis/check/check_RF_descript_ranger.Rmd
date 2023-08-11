@@ -176,7 +176,7 @@ round_tbl[,c(3:12)]=roundmid_any(round_tbl[,c(3:12)])# decile group 1-10
 
 for (i in 3:12) {
   colnames(round_tbl)[i] = paste("decile",i-2,"_midpoint6")
-  round_tbl[,paste0("decile_",i-2,"_midpoint6_%")]=round_tbl[,i]/rowSums(round_tbl[,c(3:12)])
+ # round_tbl[,paste0("decile_",i-2,"_midpoint6_%")]=round_tbl[,i]/rowSums(round_tbl[,c(3:12)])
   
 }
 
