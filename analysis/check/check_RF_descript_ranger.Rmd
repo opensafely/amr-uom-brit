@@ -58,100 +58,6 @@ data$decile=as.factor(data$decile)
 
 ```
 
-# box plot
-```{r}
-ggplot(data, aes(x=case, y=total_ab)) + 
-  geom_boxplot(notch=TRUE)
-```
-
-
-```{r eval=FALSE, include=FALSE}
-ggplot(data, aes(x=case, y=ab_types)) + 
-  geom_boxplot(outlier.shape = NA)
-  
-  
-ggplot(data, aes(x=case, y=exposure_period)) + 
-  geom_boxplot(outlier.shape = NA)
-    
-ggplot(data, aes(x=case, y=recent_ab_days)) + 
-  geom_boxplot(outlier.shape = NA)
-      
-      
-ggplot(data, aes(x=case, y=broad_ab_prescriptions)) + 
-  geom_boxplot(outlier.shape = NA)
-        
-        
-ggplot(data, aes(x=case, y=interval_mean)) + 
-  geom_boxplot(outlier.shape = NA)
-          
-                  
- ggplot(data, aes(x=case, y=interval_sd)) +
-   geom_boxplot(outlier.shape = NA)
-```
-
-# categorised ab exposure variables
-```{r }
-col=c("case","subclass",
-  "total_ab","ab_types","prescribe_times",
-         "exposure_period","recent_ab_days", 
-         "broad_prop","broad_ab_prescriptions",
-         "interval_mean","interval_med" ,"interval_sd","interval_CV",
-         "length_mean","length_med", "length_sd","length_CV")
-
-data=data %>% mutate_at(col,as.numeric)
-names(data)
-
-for (k in 3:17) {
-
-cut_value=quantile(data[,col[k]],c(0.25,0.5,0.75))
-print(cut_value)
-  
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] <= cut_value[1],1,NA)  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[1] & data[,col[k]]<= cut_value[2],2, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[2] & data[,col[k]]<= cut_value[3],3, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[3],4,data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
- is.na( data[,col[k]]) ,0 ,data[,paste0(col[k],"_group")])  
-
-
-
-}
-
-data$total_ab_group=relevel(as.factor(data$total_ab_group),ref= "1")
-data$ab_types_group=relevel(as.factor(data$ab_types_group),ref= "1")
-data$exposure_period_group=relevel(as.factor(data$exposure_period_group),ref= "1")
-data$recent_ab_days_group=relevel(as.factor(data$recent_ab_days_group),ref= "1")
-data$broad_prop_group=relevel(as.factor(data$broad_prop_group),ref= "1")
-data$broad_ab_prescriptions_group=relevel(as.factor(data$broad_ab_prescriptions_group),ref= "1")
-data$interval_mean_group=relevel(as.factor(data$interval_mean_group),ref= "1")
-data$interval_med_group=relevel(as.factor(data$interval_med_group),ref= "1")
-data$interval_CV_group=relevel(as.factor(data$interval_CV_group),ref= "1")
-data$interval_sd_group=relevel(as.factor(data$interval_sd_group),ref= "1")
-data$length_med_group=relevel(as.factor(data$length_med_group),ref= "1")
-data$length_mean_group=relevel(as.factor(data$length_mean_group),ref= "1")
-data$length_CV_group=relevel(as.factor(data$length_CV_group),ref= "1")
-data$length_sd_group=relevel(as.factor(data$length_sd_group),ref= "1")
-
-prop.table(table(data$total_ab_group))
-prop.table(table(data$ab_types_group))
-prop.table(table(data$exposure_period_group))
-prop.table(table(data$recent_ab_days_group))
-prop.table(table(data$broad_ab_prescriptions_group))
-prop.table(table(data$interval_med_group))
-prop.table(table(data$interval_sd_group))
-
-```
-
 
 # frequency table
 ```{r}
@@ -163,8 +69,7 @@ table=data %>% summary_factorlist(dependent, explanatory)
 
 round_tbl=table
 #remove percentage
-round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
-round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
+round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,c(3:12)])
 
 # midpoint rounding
 roundmid_any <- function(x, to=6){
@@ -180,9 +85,9 @@ for (i in 3:12) {
   
 }
 
-write.csv(table,here::here("output","crosstab.csv"))
+write.csv(round_tbl,here::here("output","crosstab.csv"))
 
-print(table)
+
 ```
 
 
