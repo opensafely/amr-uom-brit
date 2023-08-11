@@ -87,7 +87,7 @@ round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
 round_tbl$OR="ref" 
 for (i in 2:10) {
   round_tbl[i,"OR"]=
-    round_tbl[i,3]/round_tbl[i,4]/round_tbl[1,3]*round_tbl[1,4]
+    round_tbl[i,4]/round_tbl[i,3]/round_tbl[1,4]*round_tbl[1,3]
 }
   
   
