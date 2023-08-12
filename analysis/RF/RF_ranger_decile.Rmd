@@ -181,7 +181,7 @@ plot1=imps %>%
 
 ggsave(
    plot= plot1,
-   filename="variableimp1.png", path=here::here("output"),
+   filename="variableimp1.png", path=here::here("output"), dpi = 300,
 )
 
 
@@ -195,7 +195,7 @@ plot2=imps %>%
 
 ggsave(
    plot= plot2,
-   filename="variableimp2.png", path=here::here("output"),
+   filename="variableimp2.png", path=here::here("output"), dpi = 300,
 )
 ```
 

@@ -121,13 +121,13 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/RF_ranger_decile.html 
-      highly_sensitive:
-        rds1: output/all_ranger.rds 
-        rds2: output/RF_ranger.rds
-      moderately_ensitive:
         csv1: output/RFprop.csv
         fig1: output/variableimp1.png
         fig2: output/variableimp2.png
+        rds1: output/RF_ranger.rds
+      highly_sensitive:
+        rds2: output/all_ranger.rds 
+
 
   # RF_result: # predictor radar plot
   #   run: r:latest -e 'rmarkdown::render("analysis/RF/RF_result.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
