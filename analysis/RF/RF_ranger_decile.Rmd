@@ -185,7 +185,7 @@ ggsave(
 )
 
 
-plot2=iimps %>% 
+plot2=imps %>% 
   ggplot(aes(imps.score, x = reorder(var, imps.score))) +
   geom_point(size = 3, colour = "grey60", ) +
   coord_flip() +
