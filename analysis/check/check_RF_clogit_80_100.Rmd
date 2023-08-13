@@ -75,6 +75,7 @@ rf.model= ranger(formula = case ~ total_ab+ab_types+exposure_period+recent_ab_da
                    replace = TRUE,
                    probability = TRUE
                           )
+ rf.model$prediction.error
 ```
 
 # variable importance
