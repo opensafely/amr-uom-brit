@@ -21,7 +21,7 @@ table(df$decile)
 table(df$case)
 prop.table(table(df$case,df$decile))
 
-df$case=as.factor(df$case) #1/0
+df$case=as.numeric(df$case) #1/0
 
 df$decile= relevel(as.factor(df$decile), ref="1")
 
@@ -38,16 +38,27 @@ df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
 df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
 df$imd=relevel(as.factor(df$imd),ref="1")
 df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+DF=df
 ```
 
 
 # ethnicity
 ```{r}
 
-DF=df%>%filter(ethnicity_6!="Unknown") 
-DF$case=as.numeric(DF$case) #1/0
+## ethnicity
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$ethnicity_6=="Unknown",1,0)
 
-nrow(DF)
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$ethnicity_6=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+
+nrow(df)
+
 set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
@@ -61,12 +72,22 @@ write.csv(result,here::here("output","model_cas_ethnicity.csv"))
 # bmi
 ```{r}
 
+
+df=DF
+## BMI
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$bmi_cat=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$bmi_cat=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+
 nrow(df)
 
-DF=df%>%filter(bmi_cat!="Unknown") 
-DF$case=as.numeric(DF$case) #1/0
-
-nrow(DF)
 set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
@@ -80,12 +101,21 @@ write.csv(result,here::here("output","model_cas_bmi.csv"))
 # smoking
 ```{r}
 
+
+df=DF
+##Smoking
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$smoking_cat_3=="Unknown",1,0)
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$smoking_cat_3=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
 nrow(df)
 
-DF=df%>%filter(smoking_cat_3!="Unknown") 
-DF$case=as.numeric(DF$case) #1/0
 
-nrow(DF)
 set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
@@ -99,12 +129,22 @@ write.csv(result,here::here("output","model_cas_smoking.csv"))
 # IMD
 ```{r}
 
-nrow(df)
+df=DF
 
-DF=df%>%filter(imd!="0") 
-DF$case=as.numeric(DF$case) #1/0
+##IMD
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$imd=="Unknown",1,0)
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$imd=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
 
 nrow(DF)
+
+
 set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
@@ -117,10 +157,59 @@ write.csv(result,here::here("output","model_cas_imd.csv"))
 
 # complete case analysis
 ```{r}
-DF=df%>%filter(imd!="0"&smoking_cat_3!="Unknown"&bmi_cat!="Unknown"ethnicity_6!="Unknown") 
-DF$case=as.numeric(DF$case) #1/0
 
-nrow(DF)
+df=DF
+
+
+###### remove NA
+## ethnicity
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$ethnicity_6=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$ethnicity_6=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+
+## BMI
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$bmi_cat=="Unknown",1,0)
+
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$bmi_cat=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+
+
+##Smoking
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$smoking_cat_3=="Unknown",1,0)
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$smoking_cat_3=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+
+
+##IMD
+# remove control missing
+df$exclude.controls=ifelse(df$case==0 & df$imd=="Unknown",1,0)
+df=df%>%filter(exclude.controls != 1)
+
+# remove whole subclass (case missing)
+df$exclude.case=ifelse(df$case==1 & df$imd=="Unknown",1,0)
+df=df%>%group_by(subclass)%>%mutate(exclude.subclass= max(exclude.case))
+df=df%>%filter(exclude.subclass !=1)
+df=df%>%ungroup(subclass)
+
 set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
