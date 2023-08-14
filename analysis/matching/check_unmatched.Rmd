@@ -27,13 +27,13 @@ options(knitr.table.format="html")
 
 df1 <- read_rds(here::here("output","matched_patients.rds"))
 #df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
-df1=df1%>%select("sex","age","age_cat","region") 
+df1=df1%>%select("sex","age","age_cat","region","case") 
 df1=subset(df1,case==1)
 df1$matched="1"
 
 df2 <- read_rds(here::here("output","unmatched_cases.rds"))
 #df2= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/unmatched_cases.rds.rds")
-df2=df2%>%select("sex","age","age_cat","region" ) 
+df2=df2%>%select("sex","age","age_cat","region","case") 
 df2=subset(df2,case==1)
 df2$matched="0"
 
