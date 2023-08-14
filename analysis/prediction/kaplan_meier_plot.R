@@ -3,6 +3,7 @@ library(here)
 library(dplyr)
 library(survival)
 library(ggplot2)
+library(cmprsk)
 
 data <- readRDS(here::here("output", "processed_data.rds"))
 
@@ -81,10 +82,12 @@ Figure1 <- ggplot(surv_df, aes(x = time, y = survival)) +
        y = "Survival") +
   theme_light() +
   theme(legend.position = "topright") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) + # This line makes y-axis start at 0, similar to yaxs="i"
-  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) + # This line makes x-axis start at the earliest event, similar to xaxs="i"
-  geom_blank(aes(y = 0))  # This ensures the y-axis starts at 0
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), 
+                     limits = c(0.96, 1)) + # Adjust the y-axis scale here
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1))) + 
+  geom_blank(aes(y = 0.96))  # Ensure the y-axis starts at 0.96
 
-  ggsave(Figure1,dpi = 700,
-       filename="KM_overall.jpeg", path=here::here("output"),
-)  
+ggsave(Figure1, dpi = 700,
+       filename = "KM_overall.jpeg", path = here::here("output"))
+
+

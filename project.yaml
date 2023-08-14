@@ -192,3 +192,5 @@ actions:
     outputs:
       moderately_sensitive: 
         plot1: output/KM_overall.jpeg
+        plot2: output/CIF_overall.jpeg
+        
