@@ -27,13 +27,13 @@ options(knitr.table.format="html")
 
 df1 <- read_rds(here::here("output","matched_patients.rds"))
 #df1= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/matched_patients.rds")
-df1=df1%>%select( "case","age" ,"sex"  ,"region" ) 
+df1=df1%>%select("wave","sex","age","age_cat","region") 
 df1=subset(df1,case==1)
 df1$matched="1"
 
 df2 <- read_rds(here::here("output","unmatched_cases.rds"))
 #df2= read_rds("/Users/yayang/Documents/GitHub/amr-uom-brit/output/unmatched_cases.rds.rds")
-df2=df2%>%select( "case","age" ,"sex"  ,"region"  ) 
+df2=df2%>%select( "wave","sex","age","age_cat","region" ) 
 df2=subset(df2,case==1)
 df2$matched="0"
 
@@ -57,25 +57,16 @@ num2=count(df[df$matched=="0",])
 
 ```{r}
 
-#df0=df0%>%select("stp")
+explanatory<- c("wave","sex","age","age_cat","region")
+dependent <- "matched"
 
-table <- 
-  tbl_summary(
-    df,
-    by = matched, 
-    statistic = list(all_continuous() ~ "{mean} ({sd})",
-                     all_categorical() ~ "{n}  ({p}%)"),p=T,
-    digits = all_continuous() ~ 2,
-  ) %>%
-  modify_header(label = "**Variable**") %>% # update the column header
-  bold_labels() 
+tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
 
-table
 ```
 
 # round to nearest5 and redacted <7
 ```{r}
-round_tbl=table
+round_tbl=tbl
 #remove percentage
 round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
 round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
