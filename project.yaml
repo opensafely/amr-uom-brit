@@ -69,6 +69,8 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/check_unmatched.html
+        csv1: output/unmatched_com.csv
+        fig1: output/unmatched_com.png
 
 # extract
   extract_variables: # confounders # ab exposure
