@@ -75,19 +75,20 @@ surv_df <- data.frame(
 )
 
 
+
 Figure1 <- ggplot(surv_df, aes(x = time, y = survival)) +
-  geom_line(aes(y = survival), color = "blue", size = 2) +
-  labs(title = "Kaplan-Meier Survival Curve",
+  # Confidence interval ribbon
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.3, fill = "blue") + 
+  geom_line(aes(y = survival), color = "blue", size = 0.5) +
+  labs(title = "Kaplan-Meier Survival Curve with Confidence Interval",
        x = "Time (days)",
        y = "Survival") +
   theme_light() +
   theme(legend.position = "topright") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1)), 
-                     limits = c(0.96, 1)) + # Adjust the y-axis scale here
+                     limits = c(0.96, 1)) +
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) + 
-  geom_blank(aes(y = 0.96))  # Ensure the y-axis starts at 0.96
+  geom_blank(aes(y = 0.96))
 
 ggsave(Figure1, dpi = 700,
-       filename = "KM_overall.jpeg", path = here::here("output"))
-
-
+       filename = "KM_overall_with_CI.jpeg", path = here::here("output"))
