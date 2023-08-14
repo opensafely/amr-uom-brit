@@ -21,7 +21,7 @@ table(df$decile)
 table(df$case)
 prop.table(table(df$case,df$decile))
 
-df$case=as.numeric(df$case) #1/0
+df$case=as.factor(df$case) #1/0
 
 df$decile= relevel(as.factor(df$decile), ref="1")
 
@@ -44,10 +44,11 @@ df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
 # ethnicity
 ```{r}
 
-nrow(df)
-
 DF=df%>%filter(ethnicity_6!="Unknown") 
+DF$case=as.numeric(DF$case) #1/0
+
 nrow(DF)
+set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
 
@@ -63,7 +64,10 @@ write.csv(result,here::here("output","model_cas_ethnicity.csv"))
 nrow(df)
 
 DF=df%>%filter(bmi_cat!="Unknown") 
+DF$case=as.numeric(DF$case) #1/0
+
 nrow(DF)
+set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
 
@@ -79,7 +83,10 @@ write.csv(result,here::here("output","model_cas_bmi.csv"))
 nrow(df)
 
 DF=df%>%filter(smoking_cat_3!="Unknown") 
+DF$case=as.numeric(DF$case) #1/0
+
 nrow(DF)
+set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
 
@@ -95,7 +102,10 @@ write.csv(result,here::here("output","model_cas_smoking.csv"))
 nrow(df)
 
 DF=df%>%filter(imd!="0") 
+DF$case=as.numeric(DF$case) #1/0
+
 nrow(DF)
+set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
 
@@ -108,7 +118,10 @@ write.csv(result,here::here("output","model_cas_imd.csv"))
 # complete case analysis
 ```{r}
 DF=df%>%filter(imd!="0"&smoking_cat_3!="Unknown"&bmi_cat!="Unknown"ethnicity_6!="Unknown") 
+DF$case=as.numeric(DF$case) #1/0
+
 nrow(DF)
+set.seed(123)
 
 model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
 
