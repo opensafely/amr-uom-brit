@@ -161,9 +161,8 @@ actions:
         csv1: output/model_cas_ethnicity.csv
         csv2: output/model_cas_bmi.csv
         csv3: output/model_cas_smoking.csv
-        csv4: output/model_cas_smoking.csv
-        csv5: output/model_cas_imd.csv
-        csv6: output/model_cas.csv
+        csv4: output/model_cas_imd.csv
+        csv5: output/model_cas.csv
          
 # output
 
