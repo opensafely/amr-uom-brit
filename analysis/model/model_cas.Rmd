@@ -1,0 +1,118 @@
+---
+title: "complete case"
+---
+
+```{r setup, include=FALSE}
+library("plyr")
+library('dplyr')
+library('tidyverse')
+require("gtsummary")
+library("survival")
+library(car)
+library(finalfit)
+```
+
+
+```{r include=FALSE}
+# all data
+#setwd("/Users/yayang/Documents/GitHub/amr-uom-brit/output/")
+df <- read_rds(here::here("output","all_ranger.rds"))
+table(df$decile)
+table(df$case)
+prop.table(table(df$case,df$decile))
+
+df$case=as.factor(df$case) #1/0
+
+df$decile= relevel(as.factor(df$decile), ref="1")
+
+df$subclass=as.factor(df$subclass)#pair id
+
+df$CCI= relevel(as.factor(df$CCI), ref="Zero")
+df$covrx_ever= relevel(as.factor(df$covrx_ever), ref="0")
+
+df$bmi_cat=relevel(as.factor(df$bmi_cat),ref="Healthy weight")
+df$care_home=relevel(as.factor(df$care_home),ref = "0")
+
+df$flu_vaccine=relevel(as.factor(df$flu_vaccine),ref= "0")
+
+df$smoking_cat_3=relevel(as.factor(df$smoking_cat_3),ref="Never")
+df$imd=relevel(as.factor(df$imd),ref="1")
+df$ethnicity_6=relevel(as.factor(df$ethnicity_6),ref = "White")
+```
+
+
+# ethnicity
+```{r}
+
+nrow(df)
+
+DF=df%>%filter(ethnicity_6!="Unknown") 
+nrow(DF)
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
+
+tbl=summary(model)
+result=data.frame(tbl$conf.int) 
+write.csv(result,here::here("output","model_cas_ethnicity.csv"))
+
+```
+
+# bmi
+```{r}
+
+nrow(df)
+
+DF=df%>%filter(bmi_cat!="Unknown") 
+nrow(DF)
+
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
+
+tbl=summary(model)
+result=data.frame(tbl$conf.int) 
+write.csv(result,here::here("output","model_cas_bmi.csv"))
+
+```
+
+# smoking
+```{r}
+
+nrow(df)
+
+DF=df%>%filter(smoking_cat_3!="Unknown") 
+nrow(DF)
+
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
+
+tbl=summary(model)
+result=data.frame(tbl$conf.int) 
+write.csv(result,here::here("output","model_cas_smoking.csv"))
+
+```
+
+# IMD
+```{r}
+
+nrow(df)
+
+DF=df%>%filter(imd!="0") 
+nrow(DF)
+
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
+
+tbl=summary(model)
+result=data.frame(tbl$conf.int) 
+write.csv(result,here::here("output","model_cas_imd.csv"))
+
+```
+
+# complete case analysis
+```{r}
+DF=df%>%filter(imd!="0"&smoking_cat_3!="Unknown"&bmi_cat!="Unknown"ethnicity_6!="Unknown") 
+nrow(DF)
+
+model=clogit(case ~ decile + CCI + covrx_ever + bmi_cat + care_home + flu_vaccine + smoking_cat_3 + imd+ ethnicity_6 + strata(subclass),DF) 
+
+tbl=summary(model)
+result=data.frame(tbl$conf.int) 
+write.csv(result,here::here("output","model_cas.csv"))
+```
+

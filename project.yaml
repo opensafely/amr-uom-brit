@@ -152,8 +152,18 @@ actions:
         csv3: output/model.csv
         csv4: output/model_adj.csv
 
-
-
+  model_cas: # coditional logistic regression for decile groups # complete case analysis
+    run: r:latest -e 'rmarkdown::render("analysis/model/model_cas.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
+    needs: [RF_ranger_decile]
+    outputs:
+      moderately_sensitive:
+        html: output/model_cas.html
+        csv1: output/model_cas_ethnicity.csv
+        csv2: output/model_cas_bmi.csv
+        csv3: output/model_cas_smoking.csv
+        csv4: output/model_cas_smoking.csv
+        csv5: output/model_cas_imd.csv
+        csv6: output/model_cas.csv
          
 # output
 
