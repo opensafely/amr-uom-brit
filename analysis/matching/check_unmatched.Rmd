@@ -64,6 +64,7 @@ dependent <- "matched"
 
 tbl=df%>% summary_factorlist(dependent, explanatory, p=T)
 
+tbl
 ```
 
 # round to nearest5 and redacted <7
@@ -74,8 +75,8 @@ round_tbl[,3]=gsub("\\(.*?\\)","",round_tbl[,3])
 round_tbl[,4]=gsub("\\(.*?\\)","",round_tbl[,4])
 
 # redacted
-round_tbl[,3]=ifelse(round_tbl[,3]<7,NA,round_tbl[,3])
-round_tbl[,4]=ifelse(round_tbl[,4]<7,NA,round_tbl[,4])
+#ound_tbl[,3]=ifelse(round_tbl[,3]<7,NA,round_tbl[,3])
+#round_tbl[,4]=ifelse(round_tbl[,4]<7,NA,round_tbl[,4])
 
 
 #round to 5
