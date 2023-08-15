@@ -60,7 +60,7 @@ num2=count(df[df$matched=="0",])
 explanatory<- c("sex","age","age_cat","region")
 dependent <- "matched"
 
-tbl=DF%>% summary_factorlist(dependent, explanatory, p=T)
+tbl=df%>% summary_factorlist(dependent, explanatory, p=T)
 
 ```
 
