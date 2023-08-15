@@ -10,12 +10,10 @@ library(stringr)
 library(reshape2)
 library(ggplot2)
 library(survival)
-```
-
+library(rms)
 ## Load data
 
 data <- readRDS(here::here("output", "processed_data.rds"))
-
 
 ## Process Data
 fct_case_when <- function(...) {
@@ -160,7 +158,7 @@ plot_part6 <- ggplot(data_part6_m, aes(x = age, y = value, colour = variable)) +
   theme_bw() +
   labs(x = "Age (years)", y = "Linear Predictor (log odds)", color = "") +
   theme(legend.position = c(0.2, 0.8))
-
+plot_part6
 
 ggsave(plot_part6, dpi = 700,
        filename = "spline_age.jpeg", path = here::here("output"))
