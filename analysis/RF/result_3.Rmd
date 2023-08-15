@@ -480,7 +480,7 @@ quantiles2 <- data %>% group_by(decile)%>%
          five=quantile(total_ab, na.rm=TRUE, c(0.05)),
          variable="total_ab")
 
-plot<- ggplot(quantiles2, aes(x=decile))+
+plot<- ggplot(quantiles2, aes(x=decile,group=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
