@@ -3,7 +3,7 @@ library(here)
 library(dplyr)
 library(survival)
 library(ggplot2)
-library(cmprsk)
+library(tidyverse)
 
 data <- readRDS(here::here("output", "processed_data.rds"))
 
@@ -74,7 +74,7 @@ surv_df <- data.frame(
   lower = fit$lower
 )
 
-
+write_csv(surv_df, here::here("output", "surv_df.csv"))
 
 Figure1 <- ggplot(surv_df, aes(x = time, y = survival)) +
   # Confidence interval ribbon
@@ -86,9 +86,10 @@ Figure1 <- ggplot(surv_df, aes(x = time, y = survival)) +
   theme_light() +
   theme(legend.position = "topright") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1)), 
-                     limits = c(0.96, 1)) +
+                     limits = c(0.99, 1),
+                     breaks = seq(0.99, 1, by = 0.001)) +  # This line sets the y-axis breaks
   scale_x_continuous(expand = expansion(mult = c(0, 0.1))) + 
-  geom_blank(aes(y = 0.96))
+  geom_blank(aes(y = 0.99))
 
 ggsave(Figure1, dpi = 700,
        filename = "KM_overall_with_CI.jpeg", path = here::here("output"))

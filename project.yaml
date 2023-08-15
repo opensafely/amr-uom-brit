@@ -192,3 +192,4 @@ actions:
     outputs:
       moderately_sensitive: 
         plot1: output/KM_overall_with_CI.jpeg
+        csv1: output/surv_df.csv
