@@ -27,13 +27,15 @@ nrow(data)
 data$decile=as.factor(data$decile)
 data$patient_id=as.factor(data$patient_id)
 data$patient_index_date=as.factor(data$patient_index_date)
+nrow(data)
 
 abtype=read_rds(here::here("output","abtype79.rds"))
 nrow(abtype)
 abtype$patient_id=as.factor(abtype$patient_id)
 abtype$patient_index_date=as.factor(abtype$patient_index_date)
+nrow(abtype)
 
-DF=merge(data,abtype,by.x =c("patient_id","patient_index_date"))
+DF=merge(data,abtype, by=c("patient_id","patient_index_date"))
 nrow(DF)
 
 head(DF)
