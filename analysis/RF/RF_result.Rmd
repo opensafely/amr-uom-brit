@@ -1,5 +1,5 @@
 ---
-title: " Descriptive stat of RF classification"
+title: " Descriptive stat of RF classification: ab types"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,165 +17,31 @@ library("finalfit")
 
 
 
-# variable importance
-## https://brunaw.com/slides/rladies-dublin/RF/intro-to-rf.html#30
-```{r}
-model_rf=readRDS(here::here("output","RF_model_ranger.rds"))
-
-
-# calculate relative importance
-imps <- data.frame(var = names(model_rf$variable.importance),
-                   imps = model_rf$variable.importance/max(model_rf$variable.importance),
-                   imps.score=model_rf$variable.importance)
-
-# rename variable
-imps$var
-imps$var=c("Total antibiotics","Antibiotic types","Exposure period","Recent exposure", "Broad-spectrum antibiotics","Prescribing intervals (mean)", "Prescribing intervals (SD)")
-```
-
-
-```{r}
-# importance plot
-imps %>% 
-  ggplot(aes(imps, x = reorder(var, imps))) +
-  geom_point(size = 3, colour = "grey60") +
-  coord_flip() +
-  labs(x = "", y = "Importance") +
-  theme_bw(15)
-
-imps %>% 
-  ggplot(aes(imps.score, x = reorder(var, imps.score))) +
-  geom_point(size = 3, colour = "grey60", ) +
-  coord_flip() +
-  labs(x = "", y = "Importance Score") +
-  theme_bw(15)
-```
+# input data
 
 # read table
 ```{r}
 data=read_rds(here::here("output","all_ranger.rds"))
-data$decile=as.factor(data$decile)
+data=data%>%filter("patient_id","patient_index_date","decile")
+nrow(data)
+
+abtype=read_rds(here::here("output","abtype79.rds"))
+nrow(abtype)
+
+DF=merge(data,abtype,by=c("patient_id","patient_index_date"))
+nrow(DF)
 ```
 
 
 
 # descriptive stat
-```{r}
-contd<- c("total_ab","ab_types","exposure_period","recent_ab_days","broad_ab_prescriptions","interval_mean","interval_sd")
-```
-
 
 ```{r}
 
-temp.list=list()
+explanatory=c("Rx_Amikacin", "Rx_Amoxicillin", "Rx_Ampicillin", "Rx_Azithromycin", "Rx_Aztreonam", "Rx_Benzylpenicillin", "Rx_Cefaclor", "Rx_Cefadroxil", "Rx_Cefalexin", "Rx_Cefamandole", "Rx_Cefazolin", "Rx_Cefepime", "Rx_Cefixime", "Rx_Cefotaxime", "Rx_Cefoxitin", "Rx_Cefpirome", "Rx_Cefpodoxime", "Rx_Cefprozil", "Rx_Cefradine", "Rx_Ceftazidime", "Rx_Ceftriaxone", "Rx_Cefuroxime", "Rx_Chloramphenicol", "Rx_Cilastatin", "Rx_Ciprofloxacin", "Rx_Clarithromycin", "Rx_Clindamycin", "Rx_Co_amoxiclav", "Rx_Co_fluampicil", "Rx_Colistimethate", "Rx_Dalbavancin", "Rx_Dalfopristin", "Rx_Daptomycin", "Rx_Demeclocycline", "Rx_Doripenem", "Rx_Doxycycline", "Rx_Ertapenem", "Rx_Erythromycin", "Rx_Fidaxomicin", "Rx_Flucloxacillin", "Rx_Fosfomycin", "Rx_Fusidate", "Rx_Gentamicin", "Rx_Levofloxacin", "Rx_Linezolid", "Rx_Lymecycline", "Rx_Meropenem", "Rx_Methenamine", "Rx_Metronidazole", "Rx_Minocycline", "Rx_Moxifloxacin", "Rx_Nalidixic_acid", "Rx_Neomycin", "Rx_Netilmicin", "Rx_Nitazoxanid", "Rx_Nitrofurantoin", "Rx_Norfloxacin", "Rx_Ofloxacin", "Rx_Oxytetracycline", "Rx_Phenoxymethylpenicillin", "Rx_Piperacillin", "Rx_Pivmecillinam", "Rx_Pristinamycin", "Rx_Rifaximin", "Rx_Sulfadiazine", "Rx_Sulfamethoxazole", "Rx_Sulfapyridine", "Rx_Taurolidin", "Rx_Tedizolid", "Rx_Teicoplanin", "Rx_Telithromycin", "Rx_Temocillin", "Rx_Tetracycline", "Rx_Ticarcillin", "Rx_Tigecycline", "Rx_Tinidazole", "Rx_Tobramycin", "Rx_Trimethoprim", "Rx_Vancomycin")
+dependent <- "decile"
 
-for (i in 1:7) {
-  
-Q1=tapply(data[,contd[i]],data[,"decile"], quantile, p=0.25)  
-Q3=tapply(data[,contd[i]],data[,"decile"], quantile, p=0.75)  
-Q2=tapply(data[,contd[i]],data[,"decile"], quantile, p=0.5)  
-mean=tapply(data[,contd[i]],data[,"decile"], mean)  
-
-temp.tbl= data.frame(Q1,Q3,Q2,mean)
-temp.tbl$variable=contd[i]
-temp.list[[i]]<- temp.tbl
-
-}
-
-table=rbindlist(temp.list)
-
-table
-
-write.csv(table,here::here("output","input_range.csv"))
-
+tbl=DF%>% summary_factorlist(dependent, explanatory)
+tbl
 ```
-
-
-# categorised ab exposure variables
-```{r}
-col=c("case","subclass",
-  "total_ab","ab_types","prescribe_times",
-         "exposure_period","recent_ab_days", 
-         "broad_prop","broad_ab_prescriptions",
-         "interval_mean","interval_med" ,"interval_sd","interval_CV",
-         "length_mean","length_med", "length_sd","length_CV")
-
-data=data %>% mutate_at(col,as.numeric)
-names(data)
-
-for (k in 3:17) {
-
-cut_value=quantile(data[,col[k]],c(0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))
-print(cut_value)
-  
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] <= cut_value[1],1,NA)  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[1] & data[,col[k]]<= cut_value[2],2, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[2] & data[,col[k]]<= cut_value[3],3, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[3] & data[,col[k]]<= cut_value[4],4, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[4] & data[,col[k]]<= cut_value[5],5, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[5] & data[,col[k]]<= cut_value[6],6, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[6] & data[,col[k]]<= cut_value[7],7, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[7] & data[,col[k]]<= cut_value[8],8, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[8] & data[,col[k]]<= cut_value[9],9, 
-  data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
-  data[,col[k]] > cut_value[3],10,data[,paste0(col[k],"_group")])  
-
-data[,paste0(col[k],"_group")]=ifelse(
- is.na( data[,col[k]]) ,0 ,data[,paste0(col[k],"_group")])  
-
-
-
-}
-
-data$total_ab_group=relevel(as.factor(data$total_ab_group),ref= "1")
-data$ab_types_group=relevel(as.factor(data$ab_types_group),ref= "1")
-data$exposure_period_group=relevel(as.factor(data$exposure_period_group),ref= "1")
-data$recent_ab_days_group=relevel(as.factor(data$recent_ab_days_group),ref= "1")
-data$broad_prop_group=relevel(as.factor(data$broad_prop_group),ref= "1")
-data$broad_ab_prescriptions_group=relevel(as.factor(data$broad_ab_prescriptions_group),ref= "1")
-data$interval_mean_group=relevel(as.factor(data$interval_mean_group),ref= "1")
-data$interval_med_group=relevel(as.factor(data$interval_med_group),ref= "1")
-data$interval_CV_group=relevel(as.factor(data$interval_CV_group),ref= "1")
-data$interval_sd_group=relevel(as.factor(data$interval_sd_group),ref= "1")
-data$length_med_group=relevel(as.factor(data$length_med_group),ref= "1")
-data$length_mean_group=relevel(as.factor(data$length_mean_group),ref= "1")
-data$length_CV_group=relevel(as.factor(data$length_CV_group),ref= "1")
-data$length_sd_group=relevel(as.factor(data$length_sd_group),ref= "1")
-
-prop.table(table(data$total_ab_group))
-prop.table(table(data$ab_types_group))
-prop.table(table(data$exposure_period_group))
-prop.table(table(data$recent_ab_days_group))
-prop.table(table(data$broad_ab_prescriptions_group))
-prop.table(table(data$interval_med_group))
-prop.table(table(data$interval_sd_group))
-
-```
-
 
