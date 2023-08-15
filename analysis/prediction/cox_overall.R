@@ -125,21 +125,11 @@ data <- data %>%
   mutate(TEVENT = ifelse(TEVENT > 30, 30, TEVENT))
 
 age3_spline <- rcs(data$age,3)
-age4_spline <- rcs(data$age,4)
-age5_spline <- rcs(data$age,5)
 
 # Fit a Cox model for each spline function
 cox_age3 <- coxph(Surv(data$TEVENT,data$EVENT)~age3_spline,data=data,ties="breslow")
 cox_age3
 lp_age3 <- predict(cox_age3)
-
-cox_age4 <- coxph(Surv(data$TEVENT,data$EVENT)~age4_spline,data=data,ties="breslow")
-cox_age4
-lp_age4 <- predict(cox_age4)
-
-cox_age5 <- coxph(Surv(data$TEVENT,data$EVENT)~age5_spline,data=data,ties="breslow")
-cox_age5
-lp_age5 <- predict(cox_age5)
 
 cox_age <- coxph(Surv(data$TEVENT,data$EVENT)~data$age)
 summary(cox_age)
@@ -147,14 +137,12 @@ lp_age1 <- predict(cox_age)
 
 data_part6 <- data.frame(age = data$age, 
                          lp_age1 = lp_age1, 
-                         lp_age3 = lp_age3, 
-                         lp_age4 = lp_age4, 
-                         lp_age5 = lp_age5)
+                         lp_age3 = lp_age3)
 data_part6_m <- melt(data_part6, id.vars = 'age')
 plot_part6 <- ggplot(data_part6_m, aes(x = age, y = value, colour = variable)) +
   geom_line() +
-  scale_colour_manual(labels = c("linear", "3 knots", "4 knots", "5 knots"), 
-                      values = c("gray", "green", "red", "blue")) +
+  scale_colour_manual(labels = c("linear", "3 knots"), 
+                      values = c("gray", "green")) +
   theme_bw() +
   labs(x = "Age (years)", y = "Linear Predictor (log odds)", color = "") +
   theme(legend.position = c(0.2, 0.8))
@@ -162,3 +150,12 @@ plot_part6
 
 ggsave(plot_part6, dpi = 700,
        filename = "spline_age.jpeg", path = here::here("output"))
+
+age_spline_check <- matrix(c(AIC(cox_age),
+         BIC(cox_age),
+         AIC(cox_age3),
+         BIC(cox_age3)), ncol=2, byrow=TRUE)
+
+colnames(age_spline_check) <- c("AIC", "BIC")
+rownames(age_spline_check) <- c("age_mod","age3_mod")
+age_spline_check
