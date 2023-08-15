@@ -25,18 +25,6 @@ process_data <- function(data_extracted) {
   data_processed <-
     data_extracted %>%
     mutate(
-      agegroup = fct_case_when(
-        agegroup == "50-59" ~ "50-59", # = reference
-        agegroup == "<18" ~ "<18",
-        agegroup == "18-39" ~ "18-39",
-        agegroup == "40-49" ~ "40-49",
-        agegroup == "60-69" ~ "60-69",
-        agegroup == "70-79" ~ "70-79",
-        agegroup == "80+" ~ "80+",
-        TRUE ~ NA_character_
-      ),
-
-      
       sex = fct_case_when(sex == "F" ~ "Female",
                           sex == "M" ~ "Male",
                           TRUE ~ NA_character_),
@@ -64,15 +52,7 @@ process_data <- function(data_extracted) {
         # (all mapped into 0) but dummy data will have missings (data is joined
         # and patient ids are not necessarily the same in both cohorts)
       ),
-      
-      smoking_status = fct_case_when(
-        smoking_status == "M" ~ "Missing",
-        smoking_status == "N" ~ "Never",
-        smoking_status == "E" ~ "Former",
-        smoking_status == "S" ~ "Current",
-        TRUE ~ NA_character_
-      ),
-      
+
       smoking_status_comb = fct_case_when(
         smoking_status_comb == "N + M" ~ "Never and unknown",
         smoking_status_comb == "E" ~ "Former",
@@ -100,42 +80,6 @@ process_data <- function(data_extracted) {
         region == "South East" ~ "South East",
         region == "South West" ~ "South West",
         TRUE ~ NA_character_
-      ),
-      
-      # comorbidities
-      asthma = fct_case_when(
-        asthma == "0" ~ "No asthma",
-        asthma == "1" ~ "With no oral steroid use",
-        asthma == "2" ~ "With oral steroid use"
-      ),
-      
-      bp = fct_case_when(
-        bp == "1" ~ "Normal",
-        bp == "2" ~ "Elevated/High",
-        bp == "0" ~ "Unknown"
-      ),
-      
-      diabetes_controlled = fct_case_when(
-        diabetes_controlled == "0" ~ "No diabetes",
-        diabetes_controlled == "1" ~ "Controlled",
-        diabetes_controlled == "2" ~ "Not controlled",
-        diabetes_controlled == "3" ~ "Without recent Hb1ac measure"
-      ),
-      
-      ckd_rrt = fct_case_when(
-        ckd_rrt == "No CKD or RRT" ~ "No CKD or RRT",
-        ckd_rrt == "Stage 3a" ~ "CKD stage 3a",
-        ckd_rrt == "Stage 3b" ~ "CKD stage 3b",
-        ckd_rrt == "Stage 4" ~ "CKD stage 4",
-        ckd_rrt == "Stage 5" ~ "CKD stage 5",
-        ckd_rrt == "RRT (dialysis)" ~ "RRT (dialysis)",
-        ckd_rrt == "RRT (transplant)" ~ "RRT (transplant)"
-      ),
-      
-      organ_kidney_transplant = fct_case_when(
-        organ_kidney_transplant == "No transplant" ~ "No transplant",
-        organ_kidney_transplant == "Kidney" ~ "Kidney transplant",
-        organ_kidney_transplant == "Organ" ~ "Other organ transplant"
       ))
   data_processed
 }

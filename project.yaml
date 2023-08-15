@@ -200,3 +200,10 @@ actions:
     outputs:
       moderately_sensitive: 
         plot1: output/KM_by_*_with_CI.jpeg
+
+  cox_overall:
+    run: r:latest analysis/prediction/cox_overall.R
+    needs: [process_cox_dataset]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/spine_age.jpeg
