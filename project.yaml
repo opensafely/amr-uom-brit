@@ -193,3 +193,10 @@ actions:
       moderately_sensitive: 
         plot1: output/KM_overall_with_CI.jpeg
         csv1: output/surv_df.csv
+
+  process_kaplan_meier_plot_by_infection:
+    run: r:latest analysis/prediction/kaplan_meier_plot_by_infection.R
+    needs: [process_cox_dataset]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/KM_by_*_with_CI.jpeg
