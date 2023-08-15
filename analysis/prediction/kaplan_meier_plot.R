@@ -67,12 +67,12 @@ data <- data %>%
 
 
 fit <- survfit(Surv(TEVENT, EVENT) ~ 1, data = data)
-surv_df <- data.frame(
-  time = fit$time,
-  survival = fit$surv,
-  upper = fit$upper,
-  lower = fit$lower
-)
+  surv_df <- data.frame(
+    time = c(0, fit$time + 1),  # Adding 0 and shifting the other times by +1
+    survival = c(1, fit$surv),  # Adding survival = 1 for time = 0
+    upper = c(1, fit$upper),    # Assuming upper and lower bounds are also 1 for time = 0
+    lower = c(1, fit$lower)
+  )
 
 write_csv(surv_df, here::here("output", "surv_df.csv"))
 
