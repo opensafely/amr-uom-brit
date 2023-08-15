@@ -22,7 +22,7 @@ library("finalfit")
 # read table
 ```{r}
 data=read_rds(here::here("output","all_ranger.rds"))
-data=data%>%filter("patient_id","patient_index_date","decile")
+#data=data%>%filter("patient_id","patient_index_date","decile")
 nrow(data)
 
 abtype=read_rds(here::here("output","abtype79.rds"))
