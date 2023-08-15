@@ -59,12 +59,17 @@ num2=count(df[df$matched=="0",])
 
 ```{r}
 
-explanatory<- c("sex","age","age_cat","region")
+explanatory<- c("sex","age_cat","region")
 dependent <- "matched"
 
 tbl=df%>% summary_factorlist(dependent, explanatory, p=T)
 
 tbl
+
+explanatory<- c("age")
+dependent <- "matched"
+tbl2=df%>% summary_factorlist(dependent, explanatory, p=T)
+tbl2
 ```
 
 # round to nearest5 and redacted <7
@@ -85,6 +90,8 @@ round_tbl[,3]=plyr::round_any(round_tbl[,3], 5, f = round)
 
 round_tbl[,4]=as.numeric(round_tbl[,4])
 round_tbl[,4]=plyr::round_any(round_tbl[,4], 5, f = round)
+
+round_tbl=rbind(round_tbl,tbl2)
 ```
 
 # figure: age difference
