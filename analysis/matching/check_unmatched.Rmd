@@ -16,6 +16,8 @@ library(kableExtra)
 library('tidyverse')
 require("gtsummary")
 library("ggplot2")
+library("finalfit")
+
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format="html")
 ```
