@@ -473,14 +473,14 @@ plot
 ```{r}
 ## quantiles
 quantiles2 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(total_ab, na.rm=TRUE)[3],
+  mutate(med = quantile(total_ab, na.rm=TRUE)[3],
          lowquart= quantile(total_ab, na.rm=TRUE)[2],
          highquart= quantile(total_ab, na.rm=TRUE)[4],
          ninefive= quantile(total_ab, na.rm=TRUE, c(0.95)),
          five=quantile(total_ab, na.rm=TRUE, c(0.05)),
          variable="total_ab")
 
-plot<- ggplot(quantiles2, aes(x=decile,group=decile))+
+plot<- ggplot(quantiles2, aes(x=decile))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -501,7 +501,7 @@ plot
 ```{r}
 ## quantiles
 quantiles3 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(ab_types, na.rm=TRUE)[3],
+   mutate(med = quantile(ab_types, na.rm=TRUE)[3],
          lowquart= quantile(ab_types, na.rm=TRUE)[2],
          highquart= quantile(ab_types, na.rm=TRUE)[4],
          ninefive= quantile(ab_types, na.rm=TRUE, c(0.95)),
@@ -529,7 +529,7 @@ plot
 ```{r}
 ## quantiles
 quantiles4 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(exposure_period, na.rm=TRUE)[3],
+   mutate(med = quantile(exposure_period, na.rm=TRUE)[3],
          lowquart= quantile(exposure_period, na.rm=TRUE)[2],
          highquart= quantile(exposure_period, na.rm=TRUE)[4],
          ninefive= quantile(exposure_period, na.rm=TRUE, c(0.95)),
@@ -557,7 +557,7 @@ plot
 ```{r}
 ## quantiles
 quantiles5 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(recent_ab_days, na.rm=TRUE)[3],
+  mutate(med = quantile(recent_ab_days, na.rm=TRUE)[3],
          lowquart= quantile(recent_ab_days, na.rm=TRUE)[2],
          highquart= quantile(recent_ab_days, na.rm=TRUE)[4],
          ninefive= quantile(recent_ab_days, na.rm=TRUE, c(0.95)),
@@ -585,7 +585,7 @@ plot
 ```{r}
 ## quantiles
 quantiles6 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(broad_ab_prescriptions, na.rm=TRUE)[3],
+  mutate(med = quantile(broad_ab_prescriptions, na.rm=TRUE)[3],
          lowquart= quantile(broad_ab_prescriptions, na.rm=TRUE)[2],
          highquart= quantile(broad_ab_prescriptions, na.rm=TRUE)[4],
          ninefive= quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.95)),
@@ -614,7 +614,7 @@ plot
 ```{r}
 ## quantiles
 quantiles7 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(interval_mean, na.rm=TRUE)[3],
+  mutate(med = quantile(interval_mean, na.rm=TRUE)[3],
          lowquart= quantile(interval_mean, na.rm=TRUE)[2],
          highquart= quantile(interval_mean, na.rm=TRUE)[4],
          ninefive= quantile(interval_mean, na.rm=TRUE, c(0.95)),
@@ -642,7 +642,7 @@ plot
 ```{r}
 ## quantiles
 quantiles8 <- data %>% group_by(decile)%>%
-  summarise(med = quantile(interval_sd, na.rm=TRUE)[3],
+ mutate(med = quantile(interval_sd, na.rm=TRUE)[3],
          lowquart= quantile(interval_sd, na.rm=TRUE)[2],
          highquart= quantile(interval_sd, na.rm=TRUE)[4],
          ninefive= quantile(interval_sd, na.rm=TRUE, c(0.95)),
