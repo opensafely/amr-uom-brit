@@ -679,3 +679,50 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_p_control_2_amr.csv
+
+  p_control_id_amr:
+    run: r:latest analysis/p_control_id_amr.R
+    needs: [generate_study_population_p_control_2_amr]
+    outputs:
+      highly_sensitive: 
+        csv: output/p_control_id_amr.csv
+
+  generate_study_population_p_control_2_var_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_p_control_2_var_amr
+    needs: [p_control_id_amr]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_p_control_2_var_amr.csv
+
+  p_control_selection_amr:
+    run: r:latest analysis/p_control_selection_amr.R
+    needs: [generate_study_population_p_control_2_var_amr]
+    outputs:
+      highly_sensitive: 
+        csv: output/p_control_cohort_amr.csv
+
+  matching_ae2_amr:
+    run: python:latest python analysis/matching_ae2_amr.py
+    needs: [generate_study_population_case_2_amr,p_control_selection_amr]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_*_ae2_amr.csv
+      moderately_sensitive: 
+        report1: output/matching_report_ae2_amr.txt
+
+
+
+##########################################################################
+
+
+  generate_study_population_case_2_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_2_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_2_cdi.csv
+
+  generate_study_population_p_control_2_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_p_control_2_cdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_p_control_2_cdi.csv
