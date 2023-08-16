@@ -248,9 +248,9 @@ quantiles2 <- data %>% group_by(decile)%>%
          highquart= quantile(total_ab, na.rm=TRUE)[4],
          ninefive= quantile(total_ab, na.rm=TRUE, c(0.95)),
          five=quantile(total_ab, na.rm=TRUE, c(0.05)),
-         variable="total_ab")
+         variable="Total AB")
 
-plot<- ggplot(quantiles2, aes(x=decile))+
+plot<- ggplot(quantiles2, aes(x=decile,group=variable))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -276,9 +276,9 @@ quantiles3 <- data %>% group_by(decile)%>%
          highquart= quantile(ab_types, na.rm=TRUE)[4],
          ninefive= quantile(ab_types, na.rm=TRUE, c(0.95)),
          five=quantile(ab_types, na.rm=TRUE, c(0.05)),
-         variable="ab_types")
+         variable="AB types")
 
-plot<- ggplot(quantiles3, aes(x=decile))+
+plot<- ggplot(quantiles3, aes(x=decile,group=variable))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -304,9 +304,9 @@ quantiles4 <- data %>% group_by(decile)%>%
          highquart= quantile(exposure_period, na.rm=TRUE)[4],
          ninefive= quantile(exposure_period, na.rm=TRUE, c(0.95)),
          five=quantile(exposure_period, na.rm=TRUE, c(0.05)),
-         variable="expo_period")
+         variable="Exposure period")
 
-plot<- ggplot(quantiles4, aes(x=decile))+
+plot<- ggplot(quantiles4, aes(x=decile,group=variable))+
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
       geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
@@ -330,9 +330,9 @@ quantiles5 <- data %>% group_by(decile)%>%
          highquart= quantile(recent_ab_days, na.rm=TRUE)[4],
          ninefive= quantile(recent_ab_days, na.rm=TRUE, c(0.95)),
          five=quantile(recent_ab_days, na.rm=TRUE, c(0.05)),
-         variable="recent_ab")
+         variable="Recent AB")
 
-plot<- ggplot(quantiles5, aes(x=decile))+
+plot<- ggplot(quantiles5, aes(x=decile,group=variable))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -358,9 +358,9 @@ quantiles6 <- data %>% group_by(decile)%>%
          highquart= quantile(broad_ab_prescriptions, na.rm=TRUE)[4],
          ninefive= quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.95)),
          five=quantile(broad_ab_prescriptions, na.rm=TRUE, c(0.05)),
-         variable="broad_ab")
+         variable="Broad AB")
 
-plot<- ggplot(quantiles6, aes(x=decile))+
+plot<- ggplot(quantiles6, aes(x=decile,group=variable))+
 #    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
 #  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
@@ -387,17 +387,17 @@ quantiles7 <- data %>% group_by(decile)%>%
          highquart= quantile(interval_mean, na.rm=TRUE)[4],
          ninefive= quantile(interval_mean, na.rm=TRUE, c(0.95)),
          five=quantile(interval_mean, na.rm=TRUE, c(0.05)),
-         variable="interval_mean")
+         variable="Intervals mean")
 
-plot<- ggplot(quantiles7, aes(x=decile))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
+plot<- ggplot(quantiles7, aes(x=decile,group=variable))+
+   # geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+  #geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
-  #    geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
-  #    geom_line(aes(y=highquart),color="blue", linetype="dotted")+
-  #      geom_line(aes(y=ninefive),color="red", linetype="dotted")+
-  #    geom_line(aes(y=five),color="red", linetype="dotted")+
+      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+    geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+       geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+     geom_line(aes(y=five),color="red", linetype="dotted")+
   theme_bw()+
     labs(
       title = "",
@@ -415,17 +415,17 @@ quantiles8 <- data %>% group_by(decile)%>%
          highquart= quantile(interval_sd, na.rm=TRUE)[4],
          ninefive= quantile(interval_sd, na.rm=TRUE, c(0.95)),
          five=quantile(interval_sd, na.rm=TRUE, c(0.05)),
-         variable="interval_sd")
+         variable="Intervals SD")
 
-plot<- ggplot(quantiles8, aes(x=decile))+
-    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
-  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
+plot<- ggplot(quantiles8, aes(x=decile,group=variable))+
+   # geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+ # geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
     geom_line(aes(y=med))+
     geom_point(aes(y=med))+
-  #    geom_line(aes(y=highquart),color="blue", linetype="dotted")+
-##      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
-   #     geom_line(aes(y=ninefive),color="red", linetype="dotted")+
-    #  geom_line(aes(y=five),color="red", linetype="dotted")+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+     geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+       geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
   theme_bw()+
     labs(
       title = "",
@@ -458,7 +458,6 @@ plot<- ggplot(DF, aes(x=decile, group=variable))+
       y = "")+
   facet_grid(variable~.,scales="free")
 plot
-
 
 plot<- ggplot(DF, aes(x=decile, group=variable))+
  #   geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
