@@ -664,3 +664,18 @@ actions:
       moderately_sensitive: 
         csv1: output/lrti_*_OR_sideeffect.csv
         csv2: output/lrti_ab_medication_freq_sideeffect.csv
+
+
+##########################################################################
+
+  generate_study_population_case_2_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_2_amr
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_2_amr.csv
+
+  generate_study_population_p_control_2_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_p_control_2_amr
+    outputs:
+      highly_sensitive:
+        cohort: output/input_p_control_2_amr.csv

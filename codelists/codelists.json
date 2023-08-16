@@ -30,6 +30,18 @@
       "downloaded_at": "2023-05-31 14:37:49.863729Z",
       "sha": "554121b79fc1d6ade21e23be9ddc2e719fe29b68"
     },
+    "user-BillyZhongUOM-amr_snomed.csv": {
+      "id": "user/BillyZhongUOM/amr_snomed/214ef940",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/amr_snomed/214ef940/",
+      "downloaded_at": "2023-08-16 13:13:18.118135Z",
+      "sha": "4ef966fe13b7d80808d2a4447693f4d5ce60caad"
+    },
+    "user-BillyZhongUOM-cdi_snomed.csv": {
+      "id": "user/BillyZhongUOM/cdi_snomed/6f3012d5",
+      "url": "https://codelists.opensafely.org/codelist/user/BillyZhongUOM/cdi_snomed/6f3012d5/",
+      "downloaded_at": "2023-08-16 13:23:28.181492Z",
+      "sha": "f576f8269e85c965ad07168692006da464d8f96a"
+    },
     "user-rriefu-cold_subset.csv": {
       "id": "user/rriefu/cold_subset/0c46abca",
       "url": "https://codelists.opensafely.org/codelist/user/rriefu/cold_subset/0c46abca/",

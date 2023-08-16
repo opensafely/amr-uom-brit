@@ -4,6 +4,10 @@ opensafely/covid-identification-in-primary-care-probable-covid-positive-test/3d4
 opensafely/covid-identification-in-primary-care-probable-covid-sequelae/0b29a521
 user/BillyZhongUOM/brit_new_dmd/792101bd
 
+user/BillyZhongUOM/amr_snomed/214ef940
+user/BillyZhongUOM/cdi_snomed/6f3012d5
+
+
 user/rriefu/cold_subset/0c46abca
 user/rriefu/cough/6a0be66d
 user/rriefu/lrti/5cda8555

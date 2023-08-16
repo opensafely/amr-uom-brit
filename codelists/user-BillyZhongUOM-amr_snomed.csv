@@ -1,0 +1,172 @@
+code,term
+1032831000000106,Beta lactam resistant bacterial infection 
+1032841000000102,Extended spectrum beta-lactamase resistant bacterial infection
+1033031000000108,Infection due to quinolone and fluoroquinolone resistant bacteria
+1034461000000106,Infection resistant to antimicrobial drug
+1034471000000104,Infection resistant to antimicrobial drug 
+1034561000000105,Infection resistant to multiple antimicrobial drugs
+1034571000000103,Infection resistant to multiple antimicrobial drugs 
+1050871000000105,Beta lactam resistant bacterial infection
+1050881000000107,Beta lactam resistant bacterial infection
+1050911000000107,Infection due to quinolone and fluoroquinolone resistant bacteria
+1050921000000101,Infection resistant to antimicrobial drug
+1050931000000104,Infection resistant to antimicrobial drug
+10625351000119105,Bronchopneumonia caused by methicillin resistant Staphylococcus aureus
+1117501000112104,Vancomycin resistant Enterococcus casseliflavus
+113727004,Vancomycin resistant Enterococcus
+1149093006,Pneumonia caused by vancomycin resistant Enterococcus
+115329001,Methicillin resistant Staphylococcus aureus
+1163107004,Colitis caused by methicillin-resistant Staphylococcus aureus
+1163520008,Enteritis caused by methicillin-resistant Staphylococcus aureus infection
+1176997000,Skin infection caused by Methicillin resistant Staphylococcus aureus
+1193735000,Inflammation of small intestine caused by methicillin-resistant Staphylococcus aureus
+1193736004,Inflammation of intestine caused by methicillin-resistant Staphylococcus aureus
+124691000119101,Pneumonia caused by methicillin resistant Staphylococcus aureus
+1255941007,Multiple drug-resistant Stenotrophomonas maltophilia
+127321000119104,Severe sepsis with acute organ dysfunction caused by methicillin resistant Staphylococcus aureus
+127421000119109,Toxic shock syndrome caused by methicillin resistant Staphylococcus aureus infection
+13790001000004101,Bacteremia caused by Methicillin resistant Staphylococcus aureus
+145579008,Methicillin resistant staphylococcus aureus positive
+168202009,Sample: bacteria not sensitive
+168387003,Methicillin resistant staphylococcus aureus positive
+186434000,Resistant staphylococcus aureus: [methicillin] or [multiple]
+186458001,Methicillin resistant staphylococcus aureus as the cause of diseases classified to other chapters
+241371000000100,Community acquired Meticillin resistant Staphylococcus aureus infection
+266096002,Methicillin resistant Staphylococcus aureus infection
+277501003,Penicillinase-producing Neisseria gonorrhoeae
+277502005,Tetracycline-resistant Neisseria gonorrhoeae
+277503000,Cephalosporin-resistant Neisseria gonorrhoeae
+277504006,Spectinomycin-resistant Neisseria gonorrhoeae
+292962002,Penicillinase-resistant penicillins adverse reaction
+292963007,Cloxacillin adverse reaction
+292964001,Flucloxacillin adverse reaction
+292965000,Methicillin adverse reaction
+308155002,Methicillin-resistant Staphylococcus aureus infection of postoperative wound
+310646009,[V]MRSA - Multiple resistant staphylococcus aureus infection carrier
+312210001,Methicillin resistant staphylococcus aureus positive
+313323000,Methicillin resistant staphylococcus aureus as the cause of diseases classified to other chapters
+315677008,[V]MRSA - Multiple resistant staphylococcus aureus infection carrier
+32811000119109,Infection caused by multi antimicrobial drug resistant bacteria
+371064006,Therapy failure due to antibiotic resistance
+371095004,Infection resistant to penicillin
+400981000000102,[V]MRSA - Multiple resistant staphylococcus aureus infection carrier
+404678001,Infection caused by glycopeptide resistant Staphylococcus aureus
+404679009,Glycopeptide resistant Staphylococcus aureus
+404680007,Vancomycin resistant Staphylococcus aureus
+404681006,Infection caused by vancomycin resistant Staphylococcus aureus
+406575008,Infection caused by vancomycin resistant enterococcus
+406576009,Vancomycin intermediate/resistant Staphylococcus aureus
+406577000,Infection caused by vancomycin intermediate/resistant Staphylococcus aureus
+406606000,Glycopeptide intermediate/resistant Staphylococcus aureus
+406607009,Infection caused by glycopeptide intermediate/resistant Staphylococcus aureus
+406615007,"Infection caused by vancomycin resistant Staphylococcus aureus, coagulase positive"
+409793007,Antimicrobial resistant bacteria
+409796004,Infection caused by antimicrobial resistant bacteria
+409805000,Fluoroquinolone-resistant Neisseria gonorrhoeae
+409806004,Multiple drug-resistant Streptococcus pneumoniae
+409807008,Penicillin resistant Streptococcus pneumoniae
+409808003,Drug resistant Streptococcus pneumoniae
+416597004,Dapsone resistant leprosy
+417054007,Dapsone resistant mycobacterium leprae
+417943000,Methicillin susceptible Staphylococcus aureus
+418248000,Antimicrobial susceptible bacteria
+423561003,Community-acquired methicillin-resistant Staphylococcus aureus infection
+426084006,Beta lactam resistant bacterial infection
+430946003,Infection caused by quinolone and fluoroquinolone resistant bacteria
+431256002,Culture positive for vancomycin resistant enterococcus
+440608005,Culture positive for methicillin resistant Staphylococcus aureus
+441881000000105,[V]MRSA - Multiple resistant staphylococcus aureus infection carrier
+443457000,Methicillin resistant Staphylococcus intermedius
+443474000,Methicillin resistant Staphylococcus pseudintermedius
+444101006,Infection caused by methicillin resistant Staphylococcus intermedius
+444102004,Infection caused by methicillin resistant Staphylococcus pseudintermedius
+445107002,Community associated methicillin resistant Staphylococcus aureus
+445262003,Hospital associated methicillin resistant Staphylococcus aureus
+445721008,Carbapenem resistant Acinetobacter
+445780006,Infection caused by carbapenem resistant Acinetobacter
+446156008,Infection caused by multidrug resistant Acinetobacter
+446157004,Multidrug-resistant Acinetobacter
+446870005,Carbapenem resistant Klebsiella pneumoniae
+517091000000108,At low risk of meticillin resistant staphylococcus aureus infection
+517101000000100,At medium risk of meticillin resistant staphylococcus aureus infection
+517151000000104,At high risk of meticillin resistant staphylococcus aureus infection
+689121000000109,Methicillin resistant staphylococcus aureus as the cause of diseases classified to other chapters
+698216001,Vancomycin susceptible Staphylococcus aureus
+707274007,Infection caused by carbapenem resistant bacteria
+707293009,Multidrug resistant Morganella morganii
+707330008,Multidrug resistant Achromobacter xylosoxidans
+707497007,Carbapenem resistant bacteria
+707767003,Vancomycin resistant vanB2 and vanB3 Enterococcus
+707768008,Enterococcus faecium genotype vanA
+707769000,Enterococcus faecium genotype vanB
+710332005,Multidrug resistant Pseudomonas aeruginosa
+710333000,Vancomycin resistant enterococcus vanA strain
+710334006,Vancomycin resistant enterococcus vanB strain
+710875008,Fluoroquinolone resistant bacteria
+710877000,Beta lactam resistant bacteria
+710891006,Methicillin resistant Staphylococcus
+71219004,"Bacterial resistance, function"
+712662001,Carbapenem resistant Enterobacteriaceae
+712663006,Vancomycin resistant Enterococcus faecalis
+712665004,Vancomycin resistant Enterococcus faecium
+712830002,Infection due to carbapenem resistant Enterobacteriaceae
+713351000,Multidrug-resistant bacteria
+713728002,Drug resistance to antibacterial agent
+713923001,Methicillin resistant Staphylococcus epidermidis
+713925008,Multiple drug-resistant Escherichia coli
+713926009,Multiple drug-resistant Klebsiella pneumoniae subsp. ozaenae
+714007005,Carbapenem resistant Enterobacter cloacae
+714314003,Multiple drug-resistant Proteus mirabilis
+714315002,Multiple drug-resistant Klebsiella pneumoniae
+714316001,Multiple drug-resistant Enterobacter asburiae
+714317005,Multiple drug-resistant Enterobacter cloacae
+714789002,Extensively antimicrobial drug resistant bacteria
+714792003,Pandrug-resistant bacteria
+715174007,Carbapenem resistant Acinetobacter baumannii
+715206000,Multiple drug-resistant Citrobacter freundii
+715307006,Carbapenem resistant Escherichia coli
+715308001,Multiple drug-resistant Klebsiella aerogenes
+715353004,Multiple drug-resistant Acinetobacter baumannii
+715354005,Multiple drug-resistant Serratia marcescens
+716530009,Non-multiple drug resistant methicillin resistant Staphylococcus aureus
+716531008,Multiple drug resistant methicillin resistant Staphylococcus aureus
+719792001,Carbapenem resistant Klebsiella oxytoca
+719793006,Carbapenem resistant Proteus mirabilis
+721749008,Meningitis caused by methicillin resistant Staphylococcus aureus
+722384007,"Methicillin resistant Staphylococcus, coagulase negative"
+726492000,Carbapenem resistant Pseudomonas aeruginosa
+726493005,Clarithromycin resistant bacteria
+726494004,Ampicillin resistant bacteria
+726495003,Ampicillin resistant Haemophilus influenzae
+726496002,Clarithromycin resistant Helicobacter pylori
+726497006,Fluoroquinolone resistant Campylobacter
+726498001,Fluoroquinolone resistant Salmonella
+726499009,Fluoroquinolone resistant Shigella
+734200008,Carbapenem resistant Klebsiella aerogenes
+734201007,Carbapenem resistant Enterobacter cloacae complex
+762987008,Extended spectrum beta-lactamase and carbapenemase producing bacteria
+782956001,Vancomycin susceptible Enterococcus faecium
+782958000,Vancomycin susceptible Enterococcus faecalis
+782959008,Vancomycin resistant Enterococcus raffinosus
+816049003,Carbapenem-resistant Serratia marcescens
+816084004,Carbapenem-resistant Acinetobacter baumannii-calcoaceticus complex
+816085003,Multidrug-resistant Enterobacter cloacae complex
+821811000000107,Infection resistant to penicillin
+822301000000105,Infection resistant to methicillin
+822331000000104,Infection resistant to vancomycin
+834471000000100,Infection resistant to penicillin
+834481000000103,Infection resistant to penicillin
+834621000000102,Infection resistant to methicillin
+834631000000100,Infection resistant to penicillin
+834641000000109,Infection resistant to vancomycin
+834651000000107,Infection resistant to vancomycin
+834661000000105,Infection resistant to vancomycin
+834691000000104,Infection resistant to multiple antibiotics
+838510005,Linezolid resistant Enterococcus
+838511009,Linezolid and vancomycin resistant Enterococcus
+840683006,Multidrug-resistant Salmonella
+840684000,Multidrug-resistant Salmonella enterica subspecies enterica serovar Typhi
+840687007,Multidrug-resistant Salmonella paratyphi
+957641000000109,Mupirocin resistant Staphylococcus aureus infection
+983371000000108,Infection due to antimicrobial resistant bacteria
+991101000000104,Infection due to antimicrobial resistant bacteria

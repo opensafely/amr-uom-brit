@@ -262,6 +262,26 @@ candidiasis = codelist(["B37", "B370","B371","B372","B373","B374","B375","B376",
 cdi_code = codelist(["A047"], system="icd10")
 abr_code = codelist(["Z16"], system="icd10")
 ae_study2 = combine_codelists(cdi_code,abr_code)
+
+## adverse-event-part 2_additionally
+
+cdi_snomed = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-cdi_snomed.csv",
+  system = "snomed",
+  column = "code"
+)
+
+cdi_history = codelist(["939131000000104","939141000000108"], system="snomed")
+
+cdi_history_snomed = combine_codelists(cdi_snomed,cdi_history)
+
+
+amr_snomed = codelist_from_csv(
+  "codelists/user-BillyZhongUOM-amr_snomed.csv",
+  system = "snomed",
+  column = "code"
+)
+
 ### adverse_event_group_uti
 
 uti_sideeffect = combine_codelists(D59_codelist,D61_codelist,D65_codelist,D68_codelist,D69_codelist,
