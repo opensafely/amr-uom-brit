@@ -68,13 +68,15 @@ tbl
 df=DF[,explanatory]
 
 temp=data.frame()
-colnames(temp)= explanatory
+
 for (i in 1:10) {
   df=DF%>%filter(decile==i)
   
  temp[i,]= colSums(df)
   
 }
+colnames(temp)= explanatory
+
 temp
 ```
 
@@ -92,11 +94,14 @@ tbl
 df=DF[,explanatory]
 
 temp=data.frame()
-colnames(temp)= dependent
+
 for (i in 1:10) {
   df=DF%>%filter(decile==i)
+  
  temp[i,]= colSums(df)
   
 }
+colnames(temp)= explanatory
+
 temp
 ```
