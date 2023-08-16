@@ -69,15 +69,17 @@ df=DF[,explanatory]
 
 df=df%>%mutate_at(explanatory, as.numeric)
 
-temp=data.frame()
+temp= data.frame(matrix(nrow = 10, ncol = 79)) 
+colnames(temp)= explanatory
 
 for (i in 1:10) {
   df=DF%>%filter(decile==i)
-  
- temp[i,]= colSums(df)
+  df=df%>%mutate_at(explanatory, as.numeric)
+
+  vec=data.frame(as.list(colSums(df)))
+ temp[i,]= vec
   
 }
-colnames(temp)= explanatory
 
 temp
 ```
@@ -94,17 +96,18 @@ tbl
 
 ```{r}
 df=DF[,explanatory]
-df=df%>%mutate_at(explanatory, as.numeric)
 
-temp=data.frame()
+temp= data.frame(matrix(nrow = 10, ncol = 79)) 
+colnames(temp)= explanatory
 
 for (i in 1:10) {
   df=DF%>%filter(decile==i)
-  
- temp[i,]= colSums(df)
+  df=df%>%mutate_at(explanatory, as.numeric)
+
+  vec=data.frame(as.list(colSums(df)))
+ temp[i,]= vec
   
 }
-colnames(temp)= explanatory
 
 temp
 ```
