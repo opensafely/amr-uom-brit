@@ -67,6 +67,8 @@ tbl
 ```{r}
 df=DF[,explanatory]
 
+df=df%>%mutate_at(explanatory, as.numeric)
+
 temp=data.frame()
 
 for (i in 1:10) {
@@ -92,6 +94,7 @@ tbl
 
 ```{r}
 df=DF[,explanatory]
+df=df%>%mutate_at(explanatory, as.numeric)
 
 temp=data.frame()
 
