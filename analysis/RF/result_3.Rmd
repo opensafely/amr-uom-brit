@@ -439,3 +439,42 @@ plot
 DF=rbind(quantiles2,quantiles3,quantiles4,quantiles5,quantiles6,quantiles7,quantiles8)
 write.csv(DF, here::here("output","quantile_overall.csv"))
 ```
+
+# all plot
+```{r}
+plot<- ggplot(DF, aes(x=decile, group=variable))+
+    geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+  geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
+    geom_line(aes(y=med))+
+    geom_point(aes(y=med))+
+  #    geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+##      geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+   #     geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+    #  geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
+    labs(
+      title = "",
+      x = "",
+      y = "")+
+  facet_grid(variable~.,scales="free")
+plot
+
+
+plot<- ggplot(DF, aes(x=decile, group=variable))+
+ #   geom_ribbon(aes(ymin = five, ymax = ninefive ), fill = "grey60",alpha=0.2) +  
+ # geom_ribbon(aes(ymin =lowquart, ymax =highquart ), fill = "grey70",alpha=0.5) +  
+    geom_line(aes(y=med))+
+    geom_point(aes(y=med))+
+      geom_line(aes(y=highquart),color="blue", linetype="dotted")+
+     geom_line(aes(y=lowquart),color="blue", linetype="dotted")+
+        geom_line(aes(y=ninefive),color="red", linetype="dotted")+
+      geom_line(aes(y=five),color="red", linetype="dotted")+
+  theme_bw()+
+    labs(
+      title = "",
+      x = "",
+      y = "")+
+  facet_grid(variable~., scales="free")
+plot
+```
+
