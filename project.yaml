@@ -219,7 +219,7 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/result_3.html 
-        csv1: output/quantile_outcome.csv
+     #   csv1: output/quantile_outcome.csv
         csv2: output/quantile_overall.csv
 
   # table2: # confounders
