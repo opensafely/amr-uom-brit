@@ -88,7 +88,7 @@ temp[11,]=colSums(temp)
 top=sort(-temp[11,])
 ab=colnames(top)[1:10]
 
-temp=temp[,ab]
+temp1=temp[,ab]
 
 ```
 
@@ -130,7 +130,7 @@ temp[11,]=colSums(temp)
 top=sort(-temp[11,])
 ab=colnames(top)[1:10]
 
-temp=temp[,ab]
+temp2=temp[,ab]
 
 ```
 
@@ -176,6 +176,22 @@ temp[11,]=colSums(temp)
 top=sort(-temp[11,])
 ab=colnames(top)[1:10]
 
-temp=temp[,ab]
+temp3=temp[,ab]
 
 ```
+
+
+```{r}
+temp1
+```
+
+
+```{r}
+temp2
+```
+
+
+```{r}
+temp3
+```
+
