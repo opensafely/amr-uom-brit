@@ -214,3 +214,11 @@ actions:
     outputs:
       highly_sensitive: 
         rds: output/data_for_cox_model.rds
+
+  uti_model:
+    run: r:latest analysis/prediction/uti_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/forward_selected_variables.csv
+        csv2: output/backward_selected_variables.csv
