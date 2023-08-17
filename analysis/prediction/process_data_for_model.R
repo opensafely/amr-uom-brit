@@ -136,6 +136,6 @@ data$charlsonGrp <- relevel(data$charlsonGrp, ref = "zero")
 # Reclassify total_ab_3yr
 data$ab_3yr <- cut(data$total_ab_3yr, breaks = c(-Inf, 0, 1, 3, Inf), labels = c("0", "1", "2-3", "4+"), right = TRUE, include.lowest = TRUE)
 
-data_output <- data %>% select(age,sex,region,imd,ethnicity,bmi,smoking_status_comb,charlsonGrp,ab_3yr,ab_30d,has_uti,has_urti,has_lrti,has_sinusitis,has_ot_externa,has_otmedia)
+data_output <- data %>% select(EVENT,TEVENT,age,sex,region,imd,ethnicity,bmi,smoking_status_comb,charlsonGrp,ab_3yr,ab_30d,has_uti,has_urti,has_lrti,has_sinusitis,has_ot_externa,has_otmedia)
 
 saveRDS(data_output, here::here("output", "data_for_cox_model.rds"))
