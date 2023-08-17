@@ -64,7 +64,7 @@ tbl
 
 ```{r}
 
-df=DF[,explanatory]
+df=DF
 df=df%>%mutate_at(explanatory, as.numeric)
 
 
@@ -98,7 +98,7 @@ tbl
 ```
 
 ```{r}
-df=DF[,explanatory]
+df=DF
 df=df%>%mutate_at(explanatory, as.numeric)
 
 
