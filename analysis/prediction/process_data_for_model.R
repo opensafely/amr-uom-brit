@@ -132,6 +132,8 @@ data$bmi <- relevel(data$bmi, ref = "Healthy range (18.5-24.9 kg/m2)")
 data$bmi[is.na(data$bmi)] <- "Healthy range (18.5-24.9 kg/m2)"
 data$smoking_status_comb <- relevel(data$smoking_status_comb, ref = "Never and unknown")
 data$charlsonGrp <- relevel(data$charlsonGrp, ref = "zero")
+data$imd <- factor(data$imd, levels = c(levels(data$imd), "Unknown"))
+data$imd[is.na(data$imd)] <- "Unknown"
 
 # Reclassify total_ab_3yr
 data$ab_3yr <- cut(data$total_ab_3yr, breaks = c(-Inf, 0, 1, 3, Inf), labels = c("0", "1", "2-3", "4+"), right = TRUE, include.lowest = TRUE)
