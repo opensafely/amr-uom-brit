@@ -214,6 +214,7 @@ actions:
     outputs:
       highly_sensitive: 
         rds: output/data_for_cox_model.rds
+      moderately_sensitive: 
         csv: output/missing_data_count.csv
 
   uti_model:
