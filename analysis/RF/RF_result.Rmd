@@ -42,8 +42,6 @@ nrow(abtype)
 DF=merge(data,abtype, by=c("patient_id","patient_index_date"))
 nrow(DF)
 
-head(DF)
-tail(DF)
 ```
 
 
@@ -65,20 +63,25 @@ tbl
 ```
 
 ```{r}
-df=DF[,explanatory]
 
+df=DF[,explanatory]
 df=df%>%mutate_at(explanatory, as.numeric)
 
+
+vec=vector()
 temp= data.frame(matrix(nrow = 10, ncol = 79)) 
 colnames(temp)= explanatory
 
-for (i in 1:10) {
-  df=DF%>%filter(decile==i)
-  df=df%>%mutate_at(explanatory, as.numeric)
 
-  vec=data.frame(as.list(colSums(df)))
- temp[i,]= vec
+for (i in 1:10) {
+  sub.dat=df%>%filter(decile==i)
   
+  for (j in 1:79) {
+    vec[j]= sum(sub.dat[,explanatory[j]])
+    
+  }
+  temp[i,]=vec
+
 }
 
 temp
@@ -96,17 +99,23 @@ tbl
 
 ```{r}
 df=DF[,explanatory]
+df=df%>%mutate_at(explanatory, as.numeric)
 
+
+vec=vector()
 temp= data.frame(matrix(nrow = 10, ncol = 79)) 
 colnames(temp)= explanatory
 
-for (i in 1:10) {
-  df=DF%>%filter(decile==i)
-  df=df%>%mutate_at(explanatory, as.numeric)
 
-  vec=data.frame(as.list(colSums(df)))
- temp[i,]= vec
+for (i in 1:10) {
+  sub.dat=df%>%filter(decile==i)
   
+  for (j in 1:79) {
+    vec[j]= sum(sub.dat[,explanatory[j]])
+    
+  }
+  temp[i,]=vec
+
 }
 
 temp
