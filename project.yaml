@@ -782,3 +782,31 @@ actions:
         table1: output/matched_*_ae2_cdi.csv
       moderately_sensitive: 
         report1: output/matching_report_ae2_cdi.txt
+
+  generate_study_population_case_ae2_abvar_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_abvar_cdi
+    needs: [matching_ae2_cdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_abvar_cdi.csv
+
+  generate_study_population_control_ae2_abvar_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_abvar_cdi
+    needs: [matching_ae2_cdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_abvar_cdi.csv
+
+  generate_study_population_case_ae2_othvar_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_othvar_cdi
+    needs: [matching_ae2_cdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_othvar_cdi.csv
+
+  generate_study_population_control_ae2_othvar_cdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_othvar_cdi
+    needs: [matching_ae2_cdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_othvar_cdi.csv
