@@ -766,6 +766,29 @@ actions:
       highly_sensitive: 
         rds1: output/processed/input_control_ae2_othvar_amr.rds
 
+  model2_process_amr:
+    run: r:latest analysis/casecontrol2_amr/model2_process_amr.R
+    needs: [matching_ae2_amr,case2_abvar_process_amr,case2_othvar_process_amr,control2_abvar_process_amr,control2_othvar_process_amr]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model_ae2_amr.rds
+
+  CDIABR_OR_abtype_amr:
+    run: r:latest analysis/casecontrol2_amr/CDIABR_OR_abtype_amr.R
+    needs: [model2_process_amr]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/ae2_model_result_abtype_amr.csv
+        csv2: output/ae2_ab_history_table.csv
+
+  model2_table_amr:
+    run: r:latest analysis/casecontrol2_amr/model2_table_amr.R
+    needs: [model2_process_amr]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/table_2_*_case_amr.csv
+        csv2: output/table_2_*_control_amr.csv
+
 ##########################################################################
 
 
