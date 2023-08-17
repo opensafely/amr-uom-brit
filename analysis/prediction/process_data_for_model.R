@@ -134,6 +134,9 @@ data$smoking_status_comb <- relevel(data$smoking_status_comb, ref = "Never and u
 data$charlsonGrp <- relevel(data$charlsonGrp, ref = "zero")
 data$imd <- factor(data$imd, levels = c(levels(data$imd), "Unknown"))
 data$imd[is.na(data$imd)] <- "Unknown"
+data$region <- factor(data$region, levels = c(levels(data$region), "Unknown"))
+data$region[is.na(data$region)] <- "Unknown"
+data <- data %>% filter(!is.na(sex))
 
 # Reclassify total_ab_3yr
 data$ab_3yr <- cut(data$total_ab_3yr, breaks = c(-Inf, 0, 1, 3, Inf), labels = c("0", "1", "2-3", "4+"), right = TRUE, include.lowest = TRUE)
