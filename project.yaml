@@ -710,7 +710,33 @@ actions:
       moderately_sensitive: 
         report1: output/matching_report_ae2_amr.txt
 
+  generate_study_population_case_ae2_abvar_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_abvar_amr
+    needs: [matching_ae2_amr]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_abvar_amr.csv
 
+  generate_study_population_control_ae2_abvar_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_abvar_amr
+    needs: [matching_ae2_amr]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_abvar_amr.csv
+
+  generate_study_population_case_ae2_othvar_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_othvar_amr
+    needs: [matching_ae2_amr]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_othvar_amr.csv
+
+  generate_study_population_control_ae2_othvar_amr:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_othvar_amr
+    needs: [matching_ae2_amr]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_othvar_amr.csv
 
 ##########################################################################
 
