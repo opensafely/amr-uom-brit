@@ -207,3 +207,10 @@ actions:
     outputs:
       moderately_sensitive: 
         plot1: output/spline_age.jpeg
+
+  process_data_for_model:
+    run: r:latest analysis/prediction/process_data_for_model.R
+    needs: [process_cox_dataset]
+    outputs:
+      highly_sensitive: 
+        rds: output/data_for_cox_model.rds
