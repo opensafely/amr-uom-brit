@@ -738,6 +738,34 @@ actions:
       highly_sensitive:
         cohort: output/input_control_ae2_othvar_amr.csv
 
+  case2_abvar_process_amr:
+    run: r:latest analysis/casecontrol2_amr/case2_abvar_process_amr.R
+    needs: [generate_study_population_case_ae2_abvar_amr]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_case_ae2_abvar_amr.rds
+
+  case2_othvar_process_amr:
+    run: r:latest analysis/casecontrol2_amr/case2_othvar_process_amr.R
+    needs: [generate_study_population_case_ae2_othvar_amr]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_case_ae2_othvar_amr.rds
+
+  control2_abvar_process_amr:
+    run: r:latest analysis/casecontrol2_amr/control2_abvar_process_amr.R
+    needs: [generate_study_population_control_ae2_abvar_amr]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_ae2_abvar_amr.rds
+
+  control2_othvar_process_amr:
+    run: r:latest analysis/casecontrol2_amr/control2_othvar_process_amr.R
+    needs: [generate_study_population_control_ae2_othvar_amr]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_ae2_othvar_amr.rds
+
 ##########################################################################
 
 
