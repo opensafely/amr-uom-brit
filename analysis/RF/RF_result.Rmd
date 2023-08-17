@@ -55,10 +55,7 @@ dependent <- "decile"
 
 
 DF=DF%>%mutate_at(explanatory, as.numeric)
-DF=DF[,explanatory>0]
 
-tbl=DF%>% summary_factorlist(dependent, explanatory, cont = "median")
-tbl
 
 ```
 
@@ -66,7 +63,7 @@ tbl
 
 df=DF
 df=df%>%mutate_at(explanatory, as.numeric)
-
+table(df$decile)
 
 vec=vector()
 temp= data.frame(matrix(nrow = 10, ncol = 79)) 
@@ -85,6 +82,14 @@ for (i in 1:10) {
 }
 
 temp
+
+temp[11,]=colSums(temp)
+
+top=sort(-temp[11,])
+ab=colnames(top)[1:10]
+
+temp=temp[,ab]
+
 ```
 
 
@@ -93,14 +98,14 @@ temp
 DF=DF%>%distinct(patient_id,patient_index_date, .keep_all = TRUE)
 DF=DF%>%mutate_at(explanatory, as.numeric)
 
-tbl=DF%>% summary_factorlist(dependent, explanatory, cont = "median")
-tbl
+nrow(DF)
+
 ```
 
 ```{r}
 df=DF
 df=df%>%mutate_at(explanatory, as.numeric)
-
+table(df$decile)
 
 vec=vector()
 temp= data.frame(matrix(nrow = 10, ncol = 79)) 
@@ -119,4 +124,58 @@ for (i in 1:10) {
 }
 
 temp
+
+temp[11,]=colSums(temp)
+
+top=sort(-temp[11,])
+ab=colnames(top)[1:10]
+
+temp=temp[,ab]
+
+```
+
+
+
+# random pick 1
+```{r}
+df=DF
+df=df%>%group_by(case,subclass)%>%sample_n(1)
+
+df=df%>%ungroup(case,subclass)
+
+nrow(df)
+```
+
+
+```{r}
+
+df=DF
+df=df%>%mutate_at(explanatory, as.numeric)
+table(df$decile)
+
+vec=vector()
+temp= data.frame(matrix(nrow = 10, ncol = 79)) 
+colnames(temp)= explanatory
+
+
+for (i in 1:10) {
+  sub.dat=df%>%filter(decile==i)
+  
+  for (j in 1:79) {
+    vec[j]= sum(sub.dat[,explanatory[j]])
+    
+  }
+  temp[i,]=vec
+
+}
+
+temp
+
+temp[11,]=colSums(temp)
+
+top=sort(-temp[11,])
+ab=colnames(top)[1:10]
+
+temp=temp[,ab]
+
 ```
