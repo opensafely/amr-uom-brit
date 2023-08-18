@@ -205,7 +205,7 @@ data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9"
 ab=ab1
 
 ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
-  geom_line(aes(linetype=ab))+
+  geom_line()+
   geom_point(aes(shape=ab))+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
@@ -244,7 +244,7 @@ data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9"
 ab=ab2
 
 ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
-  geom_line(aes(linetype=ab))+
+  geom_line()+
   geom_point(aes(shape=ab))+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
@@ -282,7 +282,7 @@ data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9"
 
 ab=ab3
 ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
-  geom_line(aes(linetype=ab))+
+  geom_line()+
   geom_point(aes(shape=ab))+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
