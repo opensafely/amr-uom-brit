@@ -199,7 +199,7 @@ temp=temp%>%select(decile, ab)
 data=gather(temp, key =ab, value=value, 2:11)
 
 
-ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
+ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
@@ -230,7 +230,7 @@ temp=temp%>%select(decile, ab)
 data=gather(temp, key =ab, value=value, 2:11)
 
 
-ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
+ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
@@ -260,7 +260,7 @@ temp=temp%>%select(decile, ab)
 data=gather(temp, key =ab, value=value, 2:11)
 
 
-ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
+ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
