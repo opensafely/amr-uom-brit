@@ -196,7 +196,7 @@ temp[,"decile"]=rownames(temp)
 
 temp=temp%>%select(decile, explanatory)
 
-data=gather(temp, key =explanatory, value=value, 2:5)
+data=gather(temp, key =ab, value=value, 2:11)
 
 
 ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
@@ -222,11 +222,12 @@ temp=temp[-11,]
 
 
 
+
 temp[,"decile"]=rownames(temp)
 
 temp=temp%>%select(decile, explanatory)
 
-data=gather(temp, key =explanatory, value=value, 2:5)
+data=gather(temp, key =ab, value=value, 2:11)
 
 
 ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
@@ -256,7 +257,7 @@ temp[,"decile"]=rownames(temp)
 
 temp=temp%>%select(decile, explanatory)
 
-data=gather(temp, key =explanatory, value=value, 2:5)
+data=gather(temp, key =ab, value=value, 2:11)
 
 
 ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
@@ -266,7 +267,6 @@ ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) 
   ylab("")+
   labs(colour="Antibiotics type")+
   theme_bw()
-
 
 ```
 
