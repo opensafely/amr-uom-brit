@@ -84,12 +84,14 @@ print("Part 3. Assess the models apparent calibration is completed successfully!
 centile_LP <- cut(pred_LP,breaks=quantile(pred_LP, prob = c(0,0.25,0.50,0.75,1), na.rm=T),
                   labels=c(1:4),include.lowest=TRUE)
 # Graph the KM curves in the 4 risk groups to visually assess separation
-jpeg(here::here("output", "KM_Curves.jpeg"))
+jpeg(here::here("output", "KM_Curves.jpeg"), res = 700, width = 700, height = 500)
 plot(survfit(Surv(training$TEVENT,training$EVENT)~centile_LP),
      # main="Kaplan-Meier survival estimates",
-     xlab="Days", ylab = "Survival probability", col=c(1:4))
+     xlab="Days", ylab = "Survival probability", col=c(1:4), ylim=c(0.99,1))
 legend(1,0.5,c("Low risk group","Low to medium risk group","Medium to high risk group","High risk group"),col=c(1:4),lty=1,bty="n")
+axis(side=2, at=seq(0.99,1,by=0.001))
 dev.off()
+
 
 ###############################
 # Part 5. Assess for Optimism #
@@ -146,13 +148,17 @@ patient_high_shrunk$pred_LP <- patient_high$pred_LP*vanH
 patient_low_shrunk <- patient_low
 patient_low_shrunk$pred_LP <- patient_low$pred_LP*vanH
 
-jpeg(here::here("output", "High_Low_Risk_Patients.jpeg"))
-plot(survfit(model_selected,newdata=data.frame(patient_high)),main="Cox proportional hazards regression",xlab="Days",ylab="Survival",col=1,conf.int=FALSE)
+jpeg(here::here("output", "High_Low_Risk_Patients.jpeg"), res = 700, width = 700, height = 500)
+plot(survfit(model_selected,newdata=data.frame(patient_high)),
+     main="Cox proportional hazards regression",
+     xlab="Days", ylab="Survival", col=1, conf.int=FALSE, ylim=c(0.8, 1))
 lines(survfit(model_selected,newdata=data.frame(patient_high_shrunk)),col=2,conf.int=FALSE)
 lines(survfit(model_selected,newdata=data.frame(patient_low)),col=3,conf.int=FALSE)
 lines(survfit(model_selected,newdata=data.frame(patient_low_shrunk)),col=4,conf.int=FALSE)
 legend(1,0.3,c("Original LP - High risk","Shrunken LP - High risk","Original LP - Low risk","Shrunken LP - Low risk"),col=c(1:4),lty=1,bty="n")
+axis(side=2, at=seq(0.8, 1, by=0.04))
 dev.off()
+
   
 # # Linear predictor values
 patient_high$pred_LP
@@ -168,7 +174,7 @@ shrunk_mod <- coxph(Surv(training$TEVENT,training$EVENT)~offset(heuristic_lp))
 day30_Cox_shrunk <- summary(survfit(shrunk_mod),time=30)$surv
 day30_Cox_shrunk
 
-# # Estimate the predicted survival probability at 180 days for the high risk patient above
+# # Estimate the predicted survival probability at 30 days for the high risk patient above
 prob_HR <- day30_Cox^exp(patient_high$pred_LP)
 prob_HR
 prob_HR <- day30_Cox^exp(patient_high$pred_LP)
@@ -176,23 +182,41 @@ prob_HR
 prob_HR_shrunk <- day30_Cox_shrunk^exp(patient_high_shrunk$pred_LP)
 prob_HR_shrunk
 
-jpeg(here::here("output", "survival_plot_baseline_survival_curves.jpeg"))
-plot(survfit(model_selected),main="Cox proportional hazards regression",xlab="Days",ylab="Survival",col=1,conf.int=FALSE)
-lines(survfit(shrunk_mod),col=2,lty=2,conf.int=FALSE)
-legend(7.5,0.3,c("Original LP - High risk","Shrunken LP - High risk"),col=c(1:2),lty=1,bty="n")
-  
+jpeg(here::here("output", "survival_plot_baseline_survival_curves.jpeg"), res = 700, width = 700, height = 500)
+
+plot(survfit(model_selected),
+     main="Cox proportional hazards regression",
+     xlab="Days", ylab="Survival", col=1, conf.int=FALSE, ylim=c(0.99, 1))
+lines(survfit(shrunk_mod), col=2, lty=2, conf.int=FALSE)
+legend(7.5, 0.3, c("Original LP - High risk","Shrunken LP - High risk"), col=c(1:2), lty=1, bty="n")
+
 # abline(h=) adds a line crossing the y-axis at the baseline survival probabilities
-abline(h=day30_Cox,col="black")
-abline(h=day30_Cox_shrunk,col="red")
-abline(v=30,col="red")
+abline(h=day30_Cox, col="black")
+abline(h=day30_Cox_shrunk, col="red")
+abline(v=30, col="red")
+
+# Specifying y-axis breaks
+axis(side=2, at=seq(0.99, 1, by=0.001))
+
 dev.off()
+
+
 # # Re-plot the high risk patient curves & draw on lines corresponding to the patients survival probability
 # as calculated above to check they match the predicted survival curves
-jpeg(here::here("output", "survival_plot_baseline_survival_curves2.jpeg"))
-plot(survfit(model_selected,newdata=data.frame(patient_high)),main="Cox proportional hazards regression",xlab="Days",ylab="Survival",col=1,conf.int=FALSE)
-lines(survfit(model_selected,newdata=data.frame(patient_high_shrunk)),col=2,conf.int=FALSE)
-legend(10,0.3,c("Original LP - High risk","Shrunken LP - High risk"),col=c(1:2),lty=1,bty="n")
-abline(h=prob_HR,col="black")
-abline(h=prob_HR_shrunk,col="red")
-abline(v=30,col="red")
+jpeg(here::here("output", "survival_plot_baseline_survival_curves2.jpeg"), res = 700, width = 700, height = 500)
+
+plot(survfit(model_selected, newdata=data.frame(patient_high)),
+     main="Cox proportional hazards regression",
+     xlab="Days", ylab="Survival", col=1, conf.int=FALSE, ylim=c(0.8, 1))
+lines(survfit(model_selected, newdata=data.frame(patient_high_shrunk)), col=2, conf.int=FALSE)
+legend(10, 0.3, c("Original LP - High risk","Shrunken LP - High risk"), col=c(1:2), lty=1, bty="n")
+
+# Adding the horizontal and vertical lines
+abline(h=prob_HR, col="black")
+abline(h=prob_HR_shrunk, col="red")
+abline(v=30, col="red")
+
+# Specifying y-axis breaks
+axis(side=2, at=seq(0.8, 1, by=0.04))
+
 dev.off()
