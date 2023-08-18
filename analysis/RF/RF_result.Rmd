@@ -183,15 +183,45 @@ temp3=temp[,ab]
 
 ```{r}
 temp1
+
+temp=temp1
+temp$decile=c(1:11)
+temp=temp%>%select(decile, ab)
+
+data=gather(temp, key = variable, value=value, 2:11)
+
+ggplot(data=data, aes(x=decile, y=value, group=variable)) +
+  geom_line()
+
 ```
 
 
 ```{r}
 temp2
+
+temp=temp2
+temp$decile=c(1:11)
+temp=temp%>%select(decile, ab)
+
+data=gather(temp, key = variable, value=value, 2:11)
+
+ggplot(data=data, aes(x=decile, y=value, group=variable)) +
+  geom_line()
+
 ```
 
 
 ```{r}
 temp3
+
+temp=temp3
+temp$decile=c(1:11)
+temp=temp%>%select(decile, ab)
+
+data=gather(temp, key = variable, value=value, 2:11)
+
+ggplot(data=data, aes(x=decile, y=value, group=variable)) +
+  geom_line()
+
 ```
 
