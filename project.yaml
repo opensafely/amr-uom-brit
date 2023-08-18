@@ -222,8 +222,11 @@ actions:
     needs: [process_data_for_model]
     outputs:
       moderately_sensitive: 
-        csv1: output/forward_selected_variables.csv
-        csv2: output/backward_selected_variables.csv
+        csv1: output/uti_model_evaluation.csv
+        plot1: output/KM_Curves.jpeg
+        plot2: output/High_Low_Risk_Patients.jpeg
+        plot3: output/survival_plot_baseline_survival_curves.jpeg
+        plot4: output/survival_plot_baseline_survival_curves2.jpeg
 
   cox_urti_model:
     run: r:latest analysis/prediction/cox_urti_model.R
