@@ -17,7 +17,7 @@ library(MASS)
 
 input_data <- readRDS(here::here("output", "data_for_cox_model.rds"))
 
-data <- input_data %>% filter(has_uti)
+data <- input_data %>% filter(has_ot_externa)
 
 # Data Partition 
 set.seed(666)
@@ -55,5 +55,5 @@ backward_terms_list <- all.vars(backward_final_formula)
 backward_response_var <- backward_terms_list[1]  # dependent variable
 backward_predictor_vars <- backward_terms_list[-1]  # selected predictors
 
-write.csv(forward_predictor_vars, here::here("output", "forward_selected_variables.csv"), row.names=FALSE)
-write.csv(backward_predictor_vars, here::here("output", "backward_selected_variables.csv"), row.names=FALSE)
+write.csv(forward_predictor_vars, here::here("output", "forward_selected_variables_otexterna.csv"), row.names=FALSE)
+write.csv(backward_predictor_vars, here::here("output", "backward_selected_variables_otexterna.csv"), row.names=FALSE)

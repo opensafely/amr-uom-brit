@@ -217,10 +217,50 @@ actions:
       moderately_sensitive: 
         csv: output/missing_data_count.csv
 
-  uti_model:
-    run: r:latest analysis/prediction/uti_model.R
+  cox_uti_model:
+    run: r:latest analysis/prediction/cox_uti_model.R
     needs: [process_data_for_model]
     outputs:
       moderately_sensitive: 
         csv1: output/forward_selected_variables.csv
         csv2: output/backward_selected_variables.csv
+
+  cox_urti_model:
+    run: r:latest analysis/prediction/cox_urti_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/forward_selected_variables_urti.csv
+        csv2: output/backward_selected_variables_urti.csv
+
+  cox_lrti_model:
+    run: r:latest analysis/prediction/cox_lrti_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/forward_selected_variables_lrti.csv
+        csv2: output/backward_selected_variables_lrti.csv
+
+  cox_otexterna_model:
+    run: r:latest analysis/prediction/cox_otexterna_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/forward_selected_variables_otexterna.csv
+        csv2: output/backward_selected_variables_otexterna.csv
+
+  cox_otmedia_model:
+    run: r:latest analysis/prediction/cox_otmedia_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/forward_selected_variables_otmedia.csv
+        csv2: output/backward_selected_variables_otmedia.csv
+
+  cox_sinusitis_model:
+    run: r:latest analysis/prediction/cox_sinusitis_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/forward_selected_variables_sinusitis.csv
+        csv2: output/backward_selected_variables_sinusitis.csv
