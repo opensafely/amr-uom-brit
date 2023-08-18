@@ -185,13 +185,28 @@ temp3=temp[,ab]
 temp1
 
 temp=temp1
-temp$decile=c(1:11)
-temp=temp%>%select(decile, ab)
+for (i in 1:10) {
+  temp[i,]=temp[i,]/temp[11,]
+}
+temp=temp[-11,]
 
-data=gather(temp, key = variable, value=value, 2:11)
 
-ggplot(data=data, aes(x=decile, y=value, group=variable)) +
-  geom_line()
+
+temp[,"decile"]=rownames(temp)
+
+temp=temp%>%select(decile, explanatory)
+
+data=gather(temp, key =explanatory, value=value, 2:5)
+
+
+ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::percent)+
+  xlab("")+
+  ylab("")+
+  labs(colour="Antibiotics type")+
+  theme_bw()
+
 
 ```
 
@@ -200,13 +215,28 @@ ggplot(data=data, aes(x=decile, y=value, group=variable)) +
 temp2
 
 temp=temp2
-temp$decile=c(1:11)
-temp=temp%>%select(decile, ab)
+for (i in 1:10) {
+  temp[i,]=temp[i,]/temp[11,]
+}
+temp=temp[-11,]
 
-data=gather(temp, key = variable, value=value, 2:11)
 
-ggplot(data=data, aes(x=decile, y=value, group=variable)) +
-  geom_line()
+
+temp[,"decile"]=rownames(temp)
+
+temp=temp%>%select(decile, explanatory)
+
+data=gather(temp, key =explanatory, value=value, 2:5)
+
+
+ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::percent)+
+  xlab("")+
+  ylab("")+
+  labs(colour="Antibiotics type")+
+  theme_bw()
+
 
 ```
 
@@ -215,13 +245,28 @@ ggplot(data=data, aes(x=decile, y=value, group=variable)) +
 temp3
 
 temp=temp3
-temp$decile=c(1:11)
-temp=temp%>%select(decile, ab)
+for (i in 1:10) {
+  temp[i,]=temp[i,]/temp[11,]
+}
+temp=temp[-11,]
 
-data=gather(temp, key = variable, value=value, 2:11)
 
-ggplot(data=data, aes(x=decile, y=value, group=variable)) +
-  geom_line()
+
+temp[,"decile"]=rownames(temp)
+
+temp=temp%>%select(decile, explanatory)
+
+data=gather(temp, key =explanatory, value=value, 2:5)
+
+
+ggplot(data=data, aes(x=decile, y=value, group=explanatory,colour=explanatory)) +
+  geom_line()+
+  scale_y_continuous(labels = scales::percent)+
+  xlab("")+
+  ylab("")+
+  labs(colour="Antibiotics type")+
+  theme_bw()
+
 
 ```
 
