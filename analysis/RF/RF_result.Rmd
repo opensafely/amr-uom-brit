@@ -194,7 +194,7 @@ temp=temp[-11,]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, explanatory)
+temp=temp%>%select(decile, ab)
 
 data=gather(temp, key =ab, value=value, 2:11)
 
@@ -225,7 +225,7 @@ temp=temp[-11,]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, explanatory)
+temp=temp%>%select(decile, ab)
 
 data=gather(temp, key =ab, value=value, 2:11)
 
@@ -255,7 +255,7 @@ temp=temp[-11,]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, explanatory)
+temp=temp%>%select(decile, ab)
 
 data=gather(temp, key =ab, value=value, 2:11)
 
