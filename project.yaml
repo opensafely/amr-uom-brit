@@ -912,3 +912,125 @@ actions:
       moderately_sensitive: 
         csv1: output/table_2_*_case_cdi.csv
         csv2: output/table_2_*_control_cdi.csv
+
+##########################################################################
+  generate_study_population_case_2_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_2_amrcdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_2_amrcdi.csv
+
+  generate_study_population_p_control_2_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_p_control_2_amrcdi
+    outputs:
+      highly_sensitive:
+        cohort: output/input_p_control_2_amrcdi.csv
+
+  p_control_id_amrcdi:
+    run: r:latest analysis/p_control_id_amrcdi.R
+    needs: [generate_study_population_p_control_2_amrcdi]
+    outputs:
+      highly_sensitive: 
+        csv: output/p_control_id_amrcdi.csv
+
+  generate_study_population_p_control_2_var_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_p_control_2_var_amrcdi
+    needs: [p_control_id_amrcdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_p_control_2_var_amrcdi.csv
+
+  p_control_selection_amrcdi:
+    run: r:latest analysis/p_control_selection_amrcdi.R
+    needs: [generate_study_population_p_control_2_var_amrcdi]
+    outputs:
+      highly_sensitive: 
+        csv: output/p_control_cohort_amrcdi.csv
+
+  matching_ae2_amrcdi:
+    run: python:latest python analysis/matching_ae2_amrcdi.py
+    needs: [generate_study_population_case_2_amrcdi,p_control_selection_amrcdi]
+    outputs:
+      highly_sensitive: 
+        table1: output/matched_*_ae2_amrcdi.csv
+      moderately_sensitive: 
+        report1: output/matching_report_ae2_amrcdi.txt
+
+  generate_study_population_case_ae2_abvar_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_abvar_amrcdi
+    needs: [matching_ae2_amrcdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_abvar_amrcdi.csv
+
+  generate_study_population_control_ae2_abvar_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_abvar_amrcdi
+    needs: [matching_ae2_amrcdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_abvar_amrcdi.csv
+
+  generate_study_population_case_ae2_othvar_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_ae2_othvar_amrcdi
+    needs: [matching_ae2_amrcdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_ae2_othvar_amrcdi.csv
+
+  generate_study_population_control_ae2_othvar_amrcdi:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ae2_othvar_amrcdi
+    needs: [matching_ae2_amrcdi]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_control_ae2_othvar_amrcdi.csv
+
+  case2_abvar_process_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/case2_abvar_process_amrcdi.R
+    needs: [generate_study_population_case_ae2_abvar_amrcdi]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_case_ae2_abvar_amrcdi.rds
+
+  case2_othvar_process_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/case2_othvar_process_amrcdi.R
+    needs: [generate_study_population_case_ae2_othvar_amrcdi]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_case_ae2_othvar_amrcdi.rds
+
+  control2_abvar_process_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/control2_abvar_process_amrcdi.R
+    needs: [generate_study_population_control_ae2_abvar_amrcdi]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_ae2_abvar_amrcdi.rds
+
+  control2_othvar_process_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/control2_othvar_process_amrcdi.R
+    needs: [generate_study_population_control_ae2_othvar_amrcdi]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/input_control_ae2_othvar_amrcdi.rds
+
+  model2_process_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/model2_process_amrcdi.R
+    needs: [matching_ae2_amrcdi,case2_abvar_process_amrcdi,case2_othvar_process_amrcdi,control2_abvar_process_amrcdi,control2_othvar_process_amrcdi]
+    outputs:
+      highly_sensitive: 
+        rds1: output/processed/model_ae2_amrcdi.rds
+
+  CDIABR_OR_abtype_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/CDIABR_OR_abtype_amrcdi.R
+    needs: [model2_process_amrcdi]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/ae2_model_result_abtype_amrcdi.csv
+        csv2: output/ae2_ab_history_table_amrcdi.csv
+
+  model2_table_amrcdi:
+    run: r:latest analysis/casecontrol2_amrcdi/model2_table_amrcdi.R
+    needs: [model2_process_amrcdi]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/table_2_*_case_amrcdi.csv
+        csv2: output/table_2_*_control_amrcdi.csv

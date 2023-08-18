@@ -282,6 +282,9 @@ amr_snomed = codelist_from_csv(
   column = "code"
 )
 
+amr_cdi_snomed = combine_codelists(cdi_snomed,amr_snomed)
+amr_cdi_history = combine_codelists(cdi_snomed,cdi_history_snomed)
+
 ### adverse_event_group_uti
 
 uti_sideeffect = combine_codelists(D59_codelist,D61_codelist,D65_codelist,D68_codelist,D69_codelist,
