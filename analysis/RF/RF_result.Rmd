@@ -86,9 +86,9 @@ temp
 temp[11,]=colSums(temp)
 
 top=sort(-temp[11,])
-ab=colnames(top)[1:10]
+ab1=colnames(top)[1:10]
 
-temp1=temp[,ab]
+temp1=temp[,ab1]
 
 ```
 
@@ -128,9 +128,9 @@ temp
 temp[11,]=colSums(temp)
 
 top=sort(-temp[11,])
-ab=colnames(top)[1:10]
+ab2=colnames(top)[1:10]
 
-temp2=temp[,ab]
+temp2=temp[,ab2]
 
 ```
 
@@ -173,9 +173,9 @@ temp
 temp[11,]=colSums(temp)
 
 top=sort(-temp[11,])
-ab=colnames(top)[1:10]
+ab3=colnames(top)[1:10]
 
-temp3=temp[,ab]
+temp3=temp[,ab3]
 
 ```
 
@@ -184,7 +184,7 @@ temp3=temp[,ab]
 temp1
 
 
-temp$total=rowSums(temp[,ab])
+temp$total=rowSums(temp[,ab1])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
 }
@@ -195,14 +195,14 @@ temp=temp[,-11]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, all_of(ab))
+temp=temp%>%select(decile, all_of(ab1))
 
-data=gather(temp, key =ab, value=value, 2:11)
+data=gather(temp, key =ab1, value=value, 2:11)
 data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
-ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
+ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
@@ -218,7 +218,7 @@ temp2
 
 temp=temp2
 
-temp$total=rowSums(temp[,ab])
+temp$total=rowSums(temp[,ab2])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
 }
@@ -229,14 +229,14 @@ temp=temp[,-11]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, ab)
+temp=temp%>%select(decile, ab2)
 
-data=gather(temp, key =ab, value=value, 2:11)
+data=gather(temp, key =ab2, value=value, 2:11)
 data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
-ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
+ggplot(data=data, aes(x=decile, y=value, group=ab2,colour=ab2)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
@@ -251,7 +251,7 @@ temp3
 
 temp=temp3
 
-temp$total=rowSums(temp[,ab])
+temp$total=rowSums(temp[,ab3])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
 }
@@ -262,14 +262,14 @@ temp=temp[,-11]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, ab)
+temp=temp%>%select(decile, ab3)
 
-data=gather(temp, key =ab, value=value, 2:11)
+data=gather(temp, key =ab3, value=value, 2:11)
 data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
-ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
+ggplot(data=data, aes(x=decile, y=value, group=ab3,colour=ab3)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
   xlab("")+
