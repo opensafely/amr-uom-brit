@@ -184,11 +184,13 @@ temp3=temp[,ab]
 ```{r}
 temp1
 
-temp=temp1
+
+temp$total=rowSums(temp[,ab])
 for (i in 1:10) {
-  temp[i,]=temp[i,]/temp[11,]
+  temp[,i]=temp[,i]/temp$total
 }
 temp=temp[-11,]
+temp=temp[,-11]
 
 
 
@@ -199,6 +201,8 @@ temp=temp%>%select(decile, ab)
 data=gather(temp, key =ab, value=value, 2:11)
 
 
+data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
+  
 ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
@@ -206,7 +210,6 @@ ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   ylab("")+
   labs(colour="Antibiotics type")+
   theme_bw()
-
 
 ```
 
@@ -215,11 +218,13 @@ ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
 temp2
 
 temp=temp2
+
+temp$total=rowSums(temp[,ab])
 for (i in 1:10) {
-  temp[i,]=temp[i,]/temp[11,]
+  temp[,i]=temp[,i]/temp$total
 }
 temp=temp[-11,]
-
+temp=temp[,-11]
 
 
 
@@ -230,6 +235,8 @@ temp=temp%>%select(decile, ab)
 data=gather(temp, key =ab, value=value, 2:11)
 
 
+data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
+  
 ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
@@ -237,8 +244,6 @@ ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   ylab("")+
   labs(colour="Antibiotics type")+
   theme_bw()
-
-
 ```
 
 
@@ -246,10 +251,13 @@ ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
 temp3
 
 temp=temp3
+
+temp$total=rowSums(temp[,ab])
 for (i in 1:10) {
-  temp[i,]=temp[i,]/temp[11,]
+  temp[,i]=temp[,i]/temp$total
 }
 temp=temp[-11,]
+temp=temp[,-11]
 
 
 
@@ -260,6 +268,8 @@ temp=temp%>%select(decile, ab)
 data=gather(temp, key =ab, value=value, 2:11)
 
 
+data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
+  
 ggplot(data=data, aes(x=decile, y=value, group=ab,colour=ab)) +
   geom_line()+
   scale_y_continuous(labels = scales::percent)+
