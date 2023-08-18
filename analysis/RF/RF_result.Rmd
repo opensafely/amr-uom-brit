@@ -95,15 +95,15 @@ temp1=temp[,ab]
 
 # distinct
 ```{r}
-DF=DF%>%distinct(patient_id,patient_index_date, .keep_all = TRUE)
-DF=DF%>%mutate_at(explanatory, as.numeric)
+df=DF
+df=df%>%distinct(patient_id,patient_index_date, .keep_all = TRUE)
+df=df%>%mutate_at(explanatory, as.numeric)
 
-nrow(DF)
+nrow(df)
 
 ```
 
 ```{r}
-df=DF
 df=df%>%mutate_at(explanatory, as.numeric)
 table(df$decile)
 
@@ -149,7 +149,6 @@ nrow(df)
 
 ```{r}
 
-df=DF
 df=df%>%mutate_at(explanatory, as.numeric)
 table(df$decile)
 
@@ -196,10 +195,10 @@ temp=temp[,-11]
 
 temp[,"decile"]=rownames(temp)
 
-temp=temp%>%select(decile, ab)
+temp=temp%>%select(decile, all_of(ab))
 
 data=gather(temp, key =ab, value=value, 2:11)
-
+data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
@@ -233,7 +232,7 @@ temp[,"decile"]=rownames(temp)
 temp=temp%>%select(decile, ab)
 
 data=gather(temp, key =ab, value=value, 2:11)
-
+data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
@@ -266,7 +265,7 @@ temp[,"decile"]=rownames(temp)
 temp=temp%>%select(decile, ab)
 
 data=gather(temp, key =ab, value=value, 2:11)
-
+data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
