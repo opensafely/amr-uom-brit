@@ -81,7 +81,6 @@ for (i in 1:10) {
 
 }
 
-temp
 
 temp[11,]=colSums(temp)
 
@@ -123,7 +122,6 @@ for (i in 1:10) {
 
 }
 
-temp
 
 temp[11,]=colSums(temp)
 
@@ -168,7 +166,6 @@ for (i in 1:10) {
 
 }
 
-temp
 
 temp[11,]=colSums(temp)
 
@@ -188,8 +185,10 @@ temp$total=rowSums(temp[,ab1])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
 }
+
+temp
 temp=temp[-11,]
-temp=temp[,-11]
+temp[,-11]
 
 
 
@@ -202,7 +201,7 @@ data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
   
-
+data
 ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
   geom_line()+
   geom_point(aes(shape=ab1))+
@@ -226,6 +225,8 @@ temp$total=rowSums(temp[,ab2])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
 }
+
+temp
 temp=temp[-11,]
 temp=temp[,-11]
 
@@ -263,6 +264,7 @@ temp$total=rowSums(temp[,ab3])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
 }
+temp
 temp=temp[-11,]
 temp=temp[,-11]
 
