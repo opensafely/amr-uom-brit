@@ -211,7 +211,7 @@ ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
   ylab("")+
   theme_bw()+
    scale_shape_manual(values = c(rep(1:10))) +
-  scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkochid3"))+
+  scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkochid3","deeppink1"))+
    theme(legend.title =element_blank())
 
 ```
@@ -249,7 +249,7 @@ ggplot(data=data, aes(x=decile, y=value, group=ab2,colour=ab2)) +
   ylab("")+
   theme_bw()+
    scale_shape_manual(values = c(rep(1:10))) +
-  scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkochid3"))+
+  scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkochid3","deeppink1"))+
    theme(legend.title =element_blank())
 ```
 
@@ -286,7 +286,7 @@ ggplot(data=data, aes(x=decile, y=value, group=ab3,colour=ab3)) +
   ylab("")+
   theme_bw()+
    scale_shape_manual(values = c(rep(1:10))) +
-  scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkochid3"))+
+  scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkorchid3","deeppink1"))+
    theme(legend.title =element_blank())
 
 ```
