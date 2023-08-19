@@ -179,8 +179,7 @@ temp3=temp[,ab3]
 
 ```{r}
 temp1
-
-
+temp=temp1
 temp$total=rowSums(temp[,ab1])
 for (i in 1:10) {
   temp[,i]=temp[,i]/temp$total
