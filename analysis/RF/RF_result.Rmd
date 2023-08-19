@@ -89,6 +89,7 @@ ab1=colnames(top)[1:10]
 
 temp1=temp[,ab1]
 
+write.csv(temp1, here::here("output","top10_ab_count.csv"))
 ```
 
 
@@ -199,9 +200,9 @@ data=gather(temp, key =ab1, value=value, 2:11)
 data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
-  
+
 data
-ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
+plot=ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
   geom_line()+
   geom_point(aes(shape=ab1))+
   scale_y_continuous(labels = scales::percent)+
@@ -211,7 +212,16 @@ ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
    scale_shape_manual(values = c(rep(1:10))) +
   scale_color_manual(values = c("coral2","darkred","goldenrod2","forestgreen","dodgerblue","black","darkcyan","cadetblue3","darkorchid3","deeppink1"))+
    theme(legend.title =element_blank())
+plot
+```
 
+
+```{r}
+write.csv(data, here::here("output","top10_ab_percent.csv"))
+ggsave(
+   plot= plot,
+   filename="top10_ab_percent.png", path=here::here("output"), dpi = 300,
+)
 ```
 
 

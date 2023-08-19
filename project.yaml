@@ -137,7 +137,9 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/RF_result.html 
-   #     csv1: output/input_range.csv
+        csv1: output/top10_ab_count.csv
+        csv2: output/top10_ab_percent.csv
+        fig1: output/top10_ab_percent.png
 
 
 # final model
