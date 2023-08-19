@@ -260,6 +260,12 @@ actions:
     outputs:
       moderately_sensitive:
         html: output/model_2.html
+        fig1: output/fig4-1.png
+        fig2: output/fig4-2.png
+        fig3: output/fig4-3.png
+        fig4: output/fig4-4.png
+        fig5: output/fig4-5.png
+        fig6: output/fig4-6.png
 
   model_3:  # reference by each ab level
     run: r:latest -e 'rmarkdown::render("analysis/model_3.Rmd", knit_root_dir = "/workspace", output_dir = "output")'
