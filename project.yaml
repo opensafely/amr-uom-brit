@@ -7,6 +7,13 @@ actions:
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 ### study cohort ###
 
+  generate_study_population_flowchart:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_flowchart
+    outputs:
+      highly_sensitive:
+        cohort: output/input_flowchart.csv
+
+
 ### UTI ###
 
   generate_study_population_case_uti:
