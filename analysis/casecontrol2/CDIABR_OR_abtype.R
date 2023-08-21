@@ -44,6 +44,11 @@ main <- function(condition) {
   TRUE ~ "count_0_type_0"
 ))
 
+# Create a frequency table
+freq_table <- table(df$exposure_ab, df$case)
+# Write the frequency table to a CSV file
+write_csv(as.data.frame(freq_table), here::here("output", paste0(condition, "_ab_history_table_icd10.csv")))
+
 df$exposure_ab = relevel(as.factor(df$exposure_ab), ref="count_0_type_0")
 
   # Initialize an empty list

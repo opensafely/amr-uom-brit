@@ -346,6 +346,7 @@ actions:
     outputs:
       moderately_sensitive: 
         csv1: output/ae2_model_result_abtype.csv
+        csv2: output/ae2_ab_history_table_icd10.csv
 
   CDI_OR:
     run: r:latest analysis/casecontrol2/CDI_OR.R
