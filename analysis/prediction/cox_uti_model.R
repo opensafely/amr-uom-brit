@@ -156,7 +156,7 @@ plot(survfit(model_selected,newdata=data.frame(patient_high)),
 lines(survfit(model_selected,newdata=data.frame(patient_high_shrunk)),col=2,conf.int=FALSE)
 lines(survfit(model_selected,newdata=data.frame(patient_low)),col=3,conf.int=FALSE)
 lines(survfit(model_selected,newdata=data.frame(patient_low_shrunk)),col=4,conf.int=FALSE)
-legend(x=0.1, y=0.83, 
+legend(x=0.1, y=0.84, 
        c("Original LP - High risk","Shrunken LP - High risk","Original LP - Low risk","Shrunken LP - Low risk"),
        col=c(1:4), lty=1, bty="n")
 dev.off()
