@@ -260,6 +260,7 @@ dev.off()
 
 
 ## Result
+model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d, data = training)
 results=as.data.frame(names(model_selected$coefficients))
 colnames(results)="term"
 
