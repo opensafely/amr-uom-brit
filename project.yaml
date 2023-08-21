@@ -223,10 +223,14 @@ actions:
     outputs:
       moderately_sensitive: 
         csv1: output/uti_model_evaluation.csv
-        plot1: output/KM_Curves.jpeg
-        plot2: output/High_Low_Risk_Patients.jpeg
-        plot3: output/survival_plot_baseline_survival_curves.jpeg
-        plot4: output/survival_plot_baseline_survival_curves2.jpeg
+        plot1: output/uti_KM_Curves.jpeg
+        plot2: output/uti_High_Low_Risk_Patients.jpeg
+        plot3: output/uti_survival_plot_baseline_survival_curves.jpeg
+        plot4: output/uti_survival_plot_baseline_survival_curves2.jpeg
+        plot5: output/spline_age_uti.jpeg
+        csv2: output/uti_model_HR.csv
+        csv3: output/uti_model_external.csv
+        plot6: output/uti_external_calibration.jpeg
 
   cox_urti_model:
     run: r:latest analysis/prediction/cox_urti_model.R

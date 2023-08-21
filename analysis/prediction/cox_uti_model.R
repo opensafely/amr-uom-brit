@@ -12,6 +12,8 @@ library(ggplot2)
 library(survival)
 library(rms)
 library(MASS)
+library(Hmisc)
+
 
 ## Load data
 
@@ -32,6 +34,41 @@ testing <- data[ind==2,]
 ## Age sex model - age spline
 age3_spline <- rcs(training$age,3)
 
+# Fit a Cox model for each spline function
+cox_age3 <- coxph(Surv(training$TEVENT,training$EVENT)~age3_spline,data=training,ties="breslow")
+cox_age3
+lp_age3 <- predict(cox_age3)
+
+cox_age <- coxph(Surv(training$TEVENT,training$EVENT)~training$age)
+summary(cox_age)
+lp_age1 <- predict(cox_age)
+
+data_part6 <- data.frame(age = training$age, 
+                         lp_age1 = lp_age1, 
+                         lp_age3 = lp_age3)
+data_part6_m <- melt(data_part6, id.vars = 'age')
+plot_part6 <- ggplot(data_part6_m, aes(x = age, y = value, colour = variable)) +
+  geom_line() +
+  scale_colour_manual(labels = c("linear", "3 knots"), 
+                      values = c("gray", "green")) +
+  theme_bw() +
+  labs(x = "Age (years)", y = "Linear Predictor (log odds)", color = "") +
+  theme(legend.position = c(0.2, 0.8))
+plot_part6
+
+ggsave(plot_part6, dpi = 700,
+       filename = "spline_age_uti.jpeg", path = here::here("output"))
+
+age_spline_check <- matrix(c(AIC(cox_age),
+         BIC(cox_age),
+         AIC(cox_age3),
+         BIC(cox_age3)), ncol=2, byrow=TRUE)
+
+colnames(age_spline_check) <- c("AIC", "BIC")
+rownames(age_spline_check) <- c("age_mod","age3_mod")
+age_spline_check
+
+
 k10 <- qchisq(0.10,1,lower.tail=FALSE) # this gives the change in AIC we consider to be significant in our stepwise selection
 
 # Forward selection (by AIC)
@@ -45,13 +82,16 @@ backward_mod_2 <- stepAIC(full_mod_2,k=k10,scope=list(upper=~training$sex+ age3_
                                                         training$smoking_status_comb + training$charlsonGrp + training$ab_3yr + training$ab_30d,lower=~1),direction="backward",trace=TRUE)
 
 
-model_selected <- coxph(Surv(training$TEVENT,training$EVENT)~training$sex+ age3_spline + training$region + training$imd + training$ethnicity + training$bmi +
-                      training$smoking_status_comb + training$charlsonGrp + training$ab_30d)
-
 ## model evaluation ##
+age3_spline_train <- rcs(training$age, 3)
+knots <- attr(age3_spline_train, "knots")
+age3_spline_test <- rcs(testing$age, 3, knots=knots)
+# Bind to training
+training$age3_spline <- age3_spline_train
+# Bind to testing
+testing$age3_spline <- age3_spline_test
 
-model_selected <- coxph(Surv(training$TEVENT,training$EVENT)~training$sex+ age3_spline + training$region + training$imd + training$ethnicity + training$bmi +
-                      training$smoking_status_comb + training$charlsonGrp + training$ab_30d)
+model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d, data = training)
 
 
 pred_LP <- model_selected$linear.predictors
@@ -84,7 +124,7 @@ print("Part 3. Assess the models apparent calibration is completed successfully!
 centile_LP <- cut(pred_LP,breaks=quantile(pred_LP, prob = c(0,0.25,0.50,0.75,1), na.rm=T),
                   labels=c(1:4),include.lowest=TRUE)
 # Graph the KM curves in the 4 risk groups to visually assess separation
-jpeg(here::here("output", "KM_Curves.jpeg"))
+jpeg(here::here("output", "uti_KM_Curves.jpeg"))
 plot(survfit(Surv(training$TEVENT,training$EVENT)~centile_LP),
      # main="Kaplan-Meier survival estimates",
      xlab="Days", ylab = "Survival probability", col=c(1:4), ylim=c(0.9,1))
@@ -149,7 +189,7 @@ patient_high_shrunk$pred_LP <- patient_high$pred_LP*vanH
 patient_low_shrunk <- patient_low
 patient_low_shrunk$pred_LP <- patient_low$pred_LP*vanH
 
-jpeg(here::here("output", "High_Low_Risk_Patients.jpeg"))
+jpeg(here::here("output", "uti_High_Low_Risk_Patients.jpeg"))
 plot(survfit(model_selected,newdata=data.frame(patient_high)),
      main="Cox proportional hazards regression",
      xlab="Days", ylab="Survival", col=1, conf.int=FALSE, ylim=c(0.8, 1))
@@ -184,7 +224,7 @@ prob_HR
 prob_HR_shrunk <- day30_Cox_shrunk^exp(patient_high_shrunk$pred_LP)
 prob_HR_shrunk
 
-jpeg(here::here("output", "survival_plot_baseline_survival_curves.jpeg"))
+jpeg(here::here("output", "uti_survival_plot_baseline_survival_curves.jpeg"))
 
 plot(survfit(model_selected),
      main="Cox proportional hazards regression",
@@ -202,7 +242,7 @@ dev.off()
 
 # # Re-plot the high risk patient curves & draw on lines corresponding to the patients survival probability
 # as calculated above to check they match the predicted survival curves
-jpeg(here::here("output", "survival_plot_baseline_survival_curves2.jpeg"))
+jpeg(here::here("output", "uti_survival_plot_baseline_survival_curves2.jpeg"))
 
 plot(survfit(model_selected, newdata=data.frame(patient_high)),
      main="Cox proportional hazards regression",
@@ -214,5 +254,122 @@ legend("bottomleft", c("Original LP - High risk","Shrunken LP - High risk"), col
 abline(h=prob_HR, col="black")
 abline(h=prob_HR_shrunk, col="red")
 abline(v=30, col="red")
+
+dev.off()
+
+
+
+## Result
+results=as.data.frame(names(model_selected$coefficients))
+colnames(results)="term"
+
+# Hazard ratio and 95% CI, P-value and S.E.
+results$hazard_ratio=exp(model_selected$coefficients)
+
+
+  # if all weights equal 1, use standard method for S.E.
+  results$conf.low = exp(model_selected$coefficients - 1.96* sqrt(diag(vcov(model_selected))))
+  results$conf.high = exp(model_selected$coefficients + 1.96* sqrt(diag(vcov(model_selected))))                                                   
+  results$p.value = round(pnorm(abs(model_selected$coefficients/sqrt(diag(model_selected$var))),lower.tail=F)*2,3)
+  results$std.error=exp(sqrt(diag(vcov(model_selected))))
+
+
+results$concordance <- results$concordance.lower <- results$concordance.upper <- NA
+
+results$concordance[1] <- round(concordance(model_selected)$concordance,3) #
+results$concordance.lower[1] <- round(concordance(model_selected)$concordance - 1.96*sqrt((concordance(model_selected))$var),3)
+results$concordance.upper[1] <- round(concordance(model_selected)$concordance + 1.96*sqrt((concordance(model_selected))$var),3)
+
+results[,2:ncol(results)] <- round(results[,2:ncol(results)], 3)
+print("Print results")
+print(results) 
+
+write_csv(results, here::here("output", "uti_model_HR.csv"), row.names=F)
+
+###### external validation ########
+
+input_test <- testing
+
+input_test$lin_pred <- predict(model_selected, newdata=input_test, type="lp")
+test_cox_model <- cph(Surv(TEVENT,EVENT)~lin_pred,data = input_test, method="breslow")
+c_stat = round(concordance(test_cox_model)$concordance,3)
+c_stat_lower = round(concordance(test_cox_model)$concordance - 1.96*sqrt((concordance(test_cox_model))$var),3)
+c_stat_upper = round(concordance(test_cox_model)$concordance + 1.96*sqrt((concordance(test_cox_model))$var),3)
+c_stat_var = round((concordance(test_cox_model))$var,6)
+
+print("Calculation for the C-statistic is completed!")
+pm_ext <- data.frame(
+  c_stat = c_stat,
+  c_stat_var = c_stat_var,
+  c_stat_lower = c_stat_lower,
+  c_stat_upper = c_stat_upper,
+  cal_slope = cal_slope
+)
+write_csv(pm_ext, here::here("output", "uti_model_external.csv"))
+
+# Calibration slope
+cal_slope = round(test_cox_model$coef,3)
+
+# Calibration plot for the validation data
+# Calculate predicted survival probability at 30 day
+time_point = 30
+y1_cox <- summary(survfit(model_selected),time=time_point)$surv
+y1_cox
+
+pred_surv_prob = y1_cox^exp(input_test$lin_pred)
+
+pred_risk = 1 - pred_surv_prob
+
+val_ests <- val.surv(est.surv = pred_surv_prob,
+                     S = Surv(input_test$TEVENT,input_test$EVENT), 
+                     u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
+print("val_ests is now specified!")
+
+pseudovalues<- pseudosurv(input_test$TEVENT, input_test$EVENT, tmax = 30)
+pseudos<- data.frame(pseudo = pseudovalues$pseudo, risk = pred_risk)
+pseudos_sorted<- arrange(pseudos, risk) #Sort by risk
+
+#Smooth pseudo values using weighted local regression (LOESS)
+loess_pseudo<- predict(loess(pseudo ~ risk, data = pseudos_sorted,
+                             degree = 1, #Fit polynomial of degree 1 (linear) between groups
+                             span = 0.3 #Proportion of closest points to use in fit (span*number of obs)
+),
+se = T)
+
+#PLOT
+#Setting up
+axislim<- 1
+spike_bounds <- c(-0.05, 0)
+bin_breaks <- seq(0, axislim, length.out = 100 + 1)
+freqs <- table(cut(pseudos_sorted$risk, breaks = bin_breaks))
+bins <- bin_breaks[-1]
+freqs_valid <- freqs[freqs > 0]
+freqs_rescaled <- spike_bounds[1] + (spike_bounds[2] - spike_bounds[1]) * 
+  (freqs_valid - min(freqs_valid)) / (max(freqs_valid) - min(freqs_valid))
+
+
+
+#Start with a blank plot
+jpeg(here::here("output", "uti_external_calibration.jpeg"))
+plot(x = pseudos_sorted$risk, y = pseudos_sorted$pseudovalue,
+     xlim = c(0, axislim), ylim = c(spike_bounds[1], axislim), #Lower y axis must leave space for histogram
+     axes = F, xaxs="i",
+     xlab = "Predicted risks", ylab = "Observed outcome proprtion",
+     frame.plot = FALSE, type = "n")
+axis(side = 1, at = seq(0, axislim, by=0.1))
+axis(side = 2, at = seq(0, axislim, by=0.1))
+#Add confidence intervals
+polygon(x = c(pseudos_sorted$risk, rev(pseudos_sorted$risk)),
+        y = c(pmax(loess_pseudo$fit - qt(p = 0.975, df = loess_pseudo$df) * loess_pseudo$se.fit, 0), #Stop confidence interval dipping below 0
+              pmax(rev(loess_pseudo$fit + qt(p = 0.975, df = loess_pseudo$df) * loess_pseudo$se.fit),1)),
+        col = "lightgrey")
+#Add diagonal line for reference of perfect calibration
+abline(a=0, b=1, col="red", lty=2)
+#Add line of calibration
+lines(x = pseudos_sorted$risk, y = loess_pseudo$fit,
+      col = "black", lwd = 2)
+#Add histogram of predicted risk underneath x axis
+segments(x0 = bins[freqs > 0], x1 = bins[freqs > 0],
+         y0 = spike_bounds[1], y1 = freqs_rescaled)
 
 dev.off()
