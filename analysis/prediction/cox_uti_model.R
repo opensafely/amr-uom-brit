@@ -284,7 +284,7 @@ results[,2:ncol(results)] <- round(results[,2:ncol(results)], 3)
 print("Print results")
 print(results) 
 
-write_csv(results, here::here("output", "uti_model_HR.csv"), row.names=F)
+write_csv(results, here::here("output", "uti_model_HR.csv"))
 
 ###### external validation ########
 
