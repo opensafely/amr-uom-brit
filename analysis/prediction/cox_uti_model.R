@@ -84,7 +84,7 @@ print("Part 3. Assess the models apparent calibration is completed successfully!
 centile_LP <- cut(pred_LP,breaks=quantile(pred_LP, prob = c(0,0.25,0.50,0.75,1), na.rm=T),
                   labels=c(1:4),include.lowest=TRUE)
 # Graph the KM curves in the 4 risk groups to visually assess separation
-jpeg(here::here("output", "KM_Curves.jpeg"), res = 700, width = 700, height = 500)
+jpeg(here::here("output", "KM_Curves.jpeg"), res = 300, width = 300, height = 300)
 plot(survfit(Surv(training$TEVENT,training$EVENT)~centile_LP),
      # main="Kaplan-Meier survival estimates",
      xlab="Days", ylab = "Survival probability", col=c(1:4), ylim=c(0.99,1))
@@ -148,7 +148,7 @@ patient_high_shrunk$pred_LP <- patient_high$pred_LP*vanH
 patient_low_shrunk <- patient_low
 patient_low_shrunk$pred_LP <- patient_low$pred_LP*vanH
 
-jpeg(here::here("output", "High_Low_Risk_Patients.jpeg"), res = 700, width = 700, height = 500)
+jpeg(here::here("output", "High_Low_Risk_Patients.jpeg"), res = 300, width = 300, height = 300)
 plot(survfit(model_selected,newdata=data.frame(patient_high)),
      main="Cox proportional hazards regression",
      xlab="Days", ylab="Survival", col=1, conf.int=FALSE, ylim=c(0.8, 1))
@@ -182,7 +182,7 @@ prob_HR
 prob_HR_shrunk <- day30_Cox_shrunk^exp(patient_high_shrunk$pred_LP)
 prob_HR_shrunk
 
-jpeg(here::here("output", "survival_plot_baseline_survival_curves.jpeg"), res = 700, width = 700, height = 500)
+jpeg(here::here("output", "survival_plot_baseline_survival_curves.jpeg"), res = 300, width = 300, height = 300)
 
 plot(survfit(model_selected),
      main="Cox proportional hazards regression",
@@ -203,7 +203,7 @@ dev.off()
 
 # # Re-plot the high risk patient curves & draw on lines corresponding to the patients survival probability
 # as calculated above to check they match the predicted survival curves
-jpeg(here::here("output", "survival_plot_baseline_survival_curves2.jpeg"), res = 700, width = 700, height = 500)
+jpeg(here::here("output", "survival_plot_baseline_survival_curves2.jpeg"), res = 300, width = 300, height = 300)
 
 plot(survfit(model_selected, newdata=data.frame(patient_high)),
      main="Cox proportional hazards regression",
