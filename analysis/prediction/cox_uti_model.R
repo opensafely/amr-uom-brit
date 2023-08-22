@@ -13,7 +13,7 @@ library(survival)
 library(rms)
 library(MASS)
 library(Hmisc)
-
+library(pseudo)
 
 ## Load data
 
