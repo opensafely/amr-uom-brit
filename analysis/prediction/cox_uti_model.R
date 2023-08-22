@@ -69,19 +69,6 @@ rownames(age_spline_check) <- c("age_mod","age3_mod")
 age_spline_check
 
 
-k10 <- qchisq(0.10,1,lower.tail=FALSE) # this gives the change in AIC we consider to be significant in our stepwise selection
-
-# Forward selection (by AIC)
-empty_mod_2 <- coxph(Surv(training$TEVENT,training$EVENT)~1)
-forward_mod_2 <- stepAIC(empty_mod_2,k=k10,scope=list(upper=~training$sex+ age3_spline + training$region + training$imd + training$ethnicity + training$bmi +
-                                                        training$smoking_status_comb + training$charlsonGrp + training$ab_3yr + training$ab_30d,lower=~1),direction="forward",trace=TRUE)
-# Backward selection (by AIC)
-full_mod_2 <- coxph(Surv(training$TEVENT,training$EVENT)~training$sex+ age3_spline + training$region + training$imd + training$ethnicity + training$bmi +
-                      training$smoking_status_comb + training$charlsonGrp + training$ab_3yr + training$ab_30d)
-backward_mod_2 <- stepAIC(full_mod_2,k=k10,scope=list(upper=~training$sex+ age3_spline + training$region + training$imd + training$ethnicity + training$bmi +
-                                                        training$smoking_status_comb + training$charlsonGrp + training$ab_3yr + training$ab_30d,lower=~1),direction="backward",trace=TRUE)
-
-
 ## model evaluation ##
 age3_spline_train <- rcs(training$age, 3)
 knots <- attr(age3_spline_train, "knots")
@@ -325,6 +312,8 @@ val_ests <- val.surv(est.surv = pred_surv_prob,
                      S = Surv(input_test$TEVENT,input_test$EVENT), 
                      u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
 print("val_ests is now specified!")
+
+library(pseudo)
 
 pseudovalues<- pseudosurv(input_test$TEVENT, input_test$EVENT, tmax = 30)
 pseudos<- data.frame(pseudo = pseudovalues$pseudo, risk = pred_risk)
