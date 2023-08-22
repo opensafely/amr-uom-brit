@@ -13,7 +13,7 @@ library(survival)
 library(rms)
 library(MASS)
 library(Hmisc)
-library(pseudo)
+library("pseudo")
 
 ## Load data
 
@@ -313,53 +313,33 @@ val_ests <- val.surv(est.surv = pred_surv_prob,
                      u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
 print("val_ests is now specified!")
 
-library(pseudo)
-
-pseudovalues<- pseudosurv(input_test$TEVENT, input_test$EVENT, tmax = 30)
-pseudos<- data.frame(pseudo = pseudovalues$pseudo, risk = pred_risk)
-pseudos_sorted<- arrange(pseudos, risk) #Sort by risk
-
-#Smooth pseudo values using weighted local regression (LOESS)
-loess_pseudo<- predict(loess(pseudo ~ risk, data = pseudos_sorted,
-                             degree = 1, #Fit polynomial of degree 1 (linear) between groups
-                             span = 0.3 #Proportion of closest points to use in fit (span*number of obs)
-),
-se = T)
-
-#PLOT
-#Setting up
-axislim<- 1
-spike_bounds <- c(-0.05, 0)
-bin_breaks <- seq(0, axislim, length.out = 100 + 1)
-freqs <- table(cut(pseudos_sorted$risk, breaks = bin_breaks))
-bins <- bin_breaks[-1]
-freqs_valid <- freqs[freqs > 0]
-freqs_rescaled <- spike_bounds[1] + (spike_bounds[2] - spike_bounds[1]) * 
-  (freqs_valid - min(freqs_valid)) / (max(freqs_valid) - min(freqs_valid))
-
-
-
-#Start with a blank plot
-jpeg(here::here("output", "uti_external_calibration.jpeg"))
-plot(x = pseudos_sorted$risk, y = pseudos_sorted$pseudovalue,
-     xlim = c(0, axislim), ylim = c(spike_bounds[1], axislim), #Lower y axis must leave space for histogram
-     axes = F, xaxs="i",
-     xlab = "Predicted risks", ylab = "Observed outcome proprtion",
-     frame.plot = FALSE, type = "n")
-axis(side = 1, at = seq(0, axislim, by=0.1))
-axis(side = 2, at = seq(0, axislim, by=0.1))
-#Add confidence intervals
-polygon(x = c(pseudos_sorted$risk, rev(pseudos_sorted$risk)),
-        y = c(pmax(loess_pseudo$fit - qt(p = 0.975, df = loess_pseudo$df) * loess_pseudo$se.fit, 0), #Stop confidence interval dipping below 0
-              pmax(rev(loess_pseudo$fit + qt(p = 0.975, df = loess_pseudo$df) * loess_pseudo$se.fit),1)),
-        col = "lightgrey")
-#Add diagonal line for reference of perfect calibration
-abline(a=0, b=1, col="red", lty=2)
-#Add line of calibration
-lines(x = pseudos_sorted$risk, y = loess_pseudo$fit,
-      col = "black", lwd = 2)
-#Add histogram of predicted risk underneath x axis
-segments(x0 = bins[freqs > 0], x1 = bins[freqs > 0],
-         y0 = spike_bounds[1], y1 = freqs_rescaled)
-
+jpeg(here::here("output", "uti_30day_calibration.jpeg"))
+plot(val_ests,xlab="Expected Survival Probability",ylab="Observed Survival Probability") 
+groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT), 
+        g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
+legend(0.0,0.8,c("Risk groups","Reference line","95% CI"),lty=c(0,2,1),pch=c(19,NA,NA),bty="n")
 dev.off()
+
+print("Calibration plot is created successfully!")
+# Recalibration of the baseline survival function
+recal_mod <- coxph(Surv(input_test$TEVENT,input_test$EVENT)~offset(input_test$lin_pred))
+y_recal_30d <- summary(survfit(recal_mod),time=time_point)$surv
+y_recal_30d
+
+# Calculate new predicted probabilities at 30 days (linear predictor stays the same but needs centering)
+pred_surv_prob2=y_recal_30d^exp(input_test$lin_pred-mean(input_test$lin_pred))
+mean(pred_surv_prob2)
+sd(pred_surv_prob2)
+
+# Redo calibration plot
+val_ests2 <- val.surv(est.surv = pred_surv_prob2,
+                      S = Surv(input_test$TEVENT,input_test$EVENT), 
+                      u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
+
+jpeg(here::here("output", "uti_30day_re-calibration.jpeg"))
+plot(val_ests2,xlab="Expected Survival Probability",ylab="Observed Survival Probability") 
+groupkm(pred_surv_prob2, S = Surv(input_test$TEVENT,input_test$EVENT), 
+        g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
+legend(0.0,0.9,c("Risk groups","Reference line","95% CI"),lty=c(0,2,1),pch=c(19,NA,NA),bty="n")
+dev.off()
+print("Re-calibration plot is created successfully!")
