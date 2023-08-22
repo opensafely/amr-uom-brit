@@ -298,6 +298,9 @@ c_stat_lower = round(concordance(test_cox_model)$concordance - 1.96*sqrt((concor
 c_stat_upper = round(concordance(test_cox_model)$concordance + 1.96*sqrt((concordance(test_cox_model))$var),3)
 c_stat_var = round((concordance(test_cox_model))$var,6)
 
+# Calibration slope
+cal_slope = round(test_cox_model$coef,3)
+
 print("Calculation for the C-statistic is completed!")
 pm_ext <- data.frame(
   c_stat = c_stat,
@@ -307,9 +310,6 @@ pm_ext <- data.frame(
   cal_slope = cal_slope
 )
 write_csv(pm_ext, here::here("output", "uti_model_external.csv"))
-
-# Calibration slope
-cal_slope = round(test_cox_model$coef,3)
 
 # Calibration plot for the validation data
 # Calculate predicted survival probability at 30 day
