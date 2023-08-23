@@ -312,6 +312,7 @@ val_ests <- val.surv(est.surv = pred_surv_prob,
                      u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
 print("val_ests is now specified!")
 
+jpeg(here::here("output", "uti_30day_calibration.jpeg"))
 plot(val_ests,xlab="Expected Survival Probability",ylab="Observed Survival Probability") 
 groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT), 
         g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
@@ -323,20 +324,6 @@ data_km <- groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT),
 data_km <- as.data.frame(data_km)
 head(data_km)
 summary(data_km)
-
-p1 <- ggplot(data_km, aes(x = x, y = KM)) +
-  geom_point() +
-  geom_abline(intercept = 0, slope = 1, color="red") +
-  geom_errorbar(aes(ymin = KM - 1.96*std.err, ymax = KM + 1.96*std.err), width = 0.001) +
-  labs(x = "Predicted Survival Probability", y = "Observed Survival Probability") +
-  scale_x_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
-  scale_y_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
-  theme_minimal()
-
-p1
-
-ggsave(p1, dpi = 700,
-       filename = "uti_30day_calibration.jpeg", path = here::here("output"))
 
 print("Calibration plot is created successfully!")
 # Recalibration of the baseline survival function
@@ -354,27 +341,12 @@ val_ests2 <- val.surv(est.surv = pred_surv_prob2,
                       S = Surv(input_test$TEVENT,input_test$EVENT), 
                       u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
 
+jpeg(here::here("output", "uti_30day_re-calibration.jpeg"))
 plot(val_ests2,xlab="Expected Survival Probability",ylab="Observed Survival Probability") 
 groupkm(pred_surv_prob2, S = Surv(input_test$TEVENT,input_test$EVENT), 
         g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
 legend(0.0,0.9,c("Risk groups","Reference line","95% CI"),lty=c(0,2,1),pch=c(19,NA,NA),bty="n")
 dev.off()
 
-data_km2 <- groupkm(pred_surv_prob2, S = Surv(input_test$TEVENT,input_test$EVENT), 
-        g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
-data_km2 <- as.data.frame(data_km2)
-
-p2 <- ggplot(data_km2, aes(x = x, y = KM)) +
-  geom_point() +
-  geom_abline(intercept = 0, slope = 1, color="red") +
-  geom_errorbar(aes(ymin = KM - 1.96*std.err, ymax = KM + 1.96*std.err), width = 0.001) +
-  labs(x = "Predicted Survival Probability", y = "Observed Survival Probability") +
-  scale_x_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
-  scale_y_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
-  theme_minimal()
-
-p2
-ggsave(p2, dpi = 700,
-       filename = "uti_30day_re-calibration.jpeg", path = here::here("output"))
 
 print("Re-calibration plot is created successfully!")

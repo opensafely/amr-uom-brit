@@ -231,6 +231,7 @@ actions:
         csv2: output/uti_model_HR.csv
         csv3: output/uti_model_external.csv
         plot6: output/uti_external_calibration.jpeg
+        plot7: output/uti_external_re-calibration.jpeg
 
   cox_urti_model:
     run: r:latest analysis/prediction/cox_urti_model.R
