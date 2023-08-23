@@ -265,15 +265,6 @@ actions:
         plot6: output/lrti_external_calibration.jpeg
         plot7: output/lrti_external_re-calibration.jpeg
 
-
-  cox_lrti_model:
-    run: r:latest analysis/prediction/cox_lrti_model.R
-    needs: [process_data_for_model]
-    outputs:
-      moderately_sensitive: 
-        csv1: output/forward_selected_variables_lrti.csv
-        csv2: output/backward_selected_variables_lrti.csv
-
   cox_otexterna_model:
     run: r:latest analysis/prediction/cox_otexterna_model.R
     needs: [process_data_for_model]
