@@ -319,12 +319,15 @@ data_km <- as.data.frame(data_km)
 
 p1 <- ggplot(data_km, aes(x = x, y = KM)) +
   geom_point() +
-  geom_line(aes(y = x), color="red") +
-  geom_errorbar(aes(ymin = KM - 1.96*std.err, ymax = KM + 1.96*std.err), width = 0.003) +
+  geom_abline(intercept = 0, slope = 1, color="red") +
+  geom_errorbar(aes(ymin = KM - 1.96*std.err, ymax = KM + 1.96*std.err), width = 0.001) +
   labs(x = "Predicted Survival Probability", y = "Observed Survival Probability") +
-  scale_x_continuous(limits = c(0.9, 1), breaks = seq(0.9, 1, 0.01)) +
-  scale_y_continuous(limits = c(0.9, 1), breaks = seq(0.9, 1, 0.01)) +
+  scale_x_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
+  scale_y_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
   theme_minimal()
+
+p1
+
 ggsave(p1, dpi = 700,
        filename = "uti_30day_calibration.jpeg", path = here::here("output"))
 #jpeg(here::here("output", "uti_30day_calibration.jpeg"))
@@ -363,12 +366,14 @@ data_km2 <- as.data.frame(data_km2)
 
 p2 <- ggplot(data_km2, aes(x = x, y = KM)) +
   geom_point() +
-  geom_line(aes(y = x), color="red") +
-  geom_errorbar(aes(ymin = KM - 1.96*std.err, ymax = KM + 1.96*std.err), width = 0.003) +
+  geom_abline(intercept = 0, slope = 1, color="red") +
+  geom_errorbar(aes(ymin = KM - 1.96*std.err, ymax = KM + 1.96*std.err), width = 0.001) +
   labs(x = "Predicted Survival Probability", y = "Observed Survival Probability") +
-  scale_x_continuous(limits = c(0.9, 1), breaks = seq(0.9, 1, 0.01)) +
-  scale_y_continuous(limits = c(0.9, 1), breaks = seq(0.9, 1, 0.01)) +
+  scale_x_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
+  scale_y_continuous(limits = c(0.90, 1), breaks = seq(0.90, 1, 0.01)) +
   theme_minimal()
+
+p2
 ggsave(p2, dpi = 700,
        filename = "uti_30day_re-calibration.jpeg", path = here::here("output"))
 
