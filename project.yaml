@@ -230,8 +230,8 @@ actions:
         plot5: output/spline_age_uti.jpeg
         csv2: output/uti_model_HR.csv
         csv3: output/uti_model_external.csv
-        plot6: output/uti_external_calibration.jpeg
-        plot7: output/uti_external_re-calibration.jpeg
+        plot6: output/uti_30day_calibration.jpeg
+        plot7: output/uti_30day_re-calibration.jpeg
 
   cox_urti_model:
     run: r:latest analysis/prediction/cox_urti_model.R
@@ -246,8 +246,8 @@ actions:
         plot5: output/spline_age_urti.jpeg
         csv2: output/urti_model_HR.csv
         csv3: output/urti_model_external.csv
-        plot6: output/urti_external_calibration.jpeg
-        plot7: output/urti_external_re-calibration.jpeg
+        plot6: output/urti_30day_calibration.jpeg
+        plot7: output/urti_30day_re-calibration.jpeg
 
   cox_lrti_model:
     run: r:latest analysis/prediction/cox_lrti_model.R
@@ -262,8 +262,8 @@ actions:
         plot5: output/spline_age_lrti.jpeg
         csv2: output/lrti_model_HR.csv
         csv3: output/lrti_model_external.csv
-        plot6: output/lrti_external_calibration.jpeg
-        plot7: output/lrti_external_re-calibration.jpeg
+        plot6: output/lrti_30day_calibration.jpeg
+        plot7: output/lrti_30day_re-calibration.jpeg
 
   cox_otexterna_model:
     run: r:latest analysis/prediction/cox_otexterna_model.R
