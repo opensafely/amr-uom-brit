@@ -316,6 +316,7 @@ print("val_ests is now specified!")
 data_km <- groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT), 
         g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
 data_km <- as.data.frame(data_km)
+dev.off()
 
 p1 <- ggplot(data_km, aes(x = x, y = KM)) +
   geom_point() +
@@ -363,6 +364,8 @@ val_ests2 <- val.surv(est.surv = pred_surv_prob2,
 data_km2 <- groupkm(pred_surv_prob2, S = Surv(input_test$TEVENT,input_test$EVENT), 
         g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
 data_km2 <- as.data.frame(data_km2)
+
+dev.off()
 
 p2 <- ggplot(data_km2, aes(x = x, y = KM)) +
   geom_point() +
