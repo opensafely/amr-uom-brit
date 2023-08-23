@@ -319,11 +319,6 @@ groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT),
 legend(0.0,0.8,c("Risk groups","Reference line","95% CI"),lty=c(0,2,1),pch=c(19,NA,NA),bty="n")
 dev.off()
 
-data_km <- groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT), 
-        g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
-data_km <- as.data.frame(data_km)
-head(data_km)
-summary(data_km)
 
 print("Calibration plot is created successfully!")
 # Recalibration of the baseline survival function
