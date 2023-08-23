@@ -238,8 +238,33 @@ actions:
     needs: [process_data_for_model]
     outputs:
       moderately_sensitive: 
-        csv1: output/forward_selected_variables_urti.csv
-        csv2: output/backward_selected_variables_urti.csv
+        csv1: output/urti_model_evaluation.csv
+        plot1: output/urti_KM_Curves.jpeg
+        plot2: output/urti_High_Low_Risk_Patients.jpeg
+        plot3: output/urti_survival_plot_baseline_survival_curves.jpeg
+        plot4: output/urti_survival_plot_baseline_survival_curves2.jpeg
+        plot5: output/spline_age_urti.jpeg
+        csv2: output/urti_model_HR.csv
+        csv3: output/urti_model_external.csv
+        plot6: output/urti_external_calibration.jpeg
+        plot7: output/urti_external_re-calibration.jpeg
+
+  cox_lrti_model:
+    run: r:latest analysis/prediction/cox_lrti_model.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/lrti_model_evaluation.csv
+        plot1: output/lrti_KM_Curves.jpeg
+        plot2: output/lrti_High_Low_Risk_Patients.jpeg
+        plot3: output/lrti_survival_plot_baseline_survival_curves.jpeg
+        plot4: output/lrti_survival_plot_baseline_survival_curves2.jpeg
+        plot5: output/spline_age_lrti.jpeg
+        csv2: output/lrti_model_HR.csv
+        csv3: output/lrti_model_external.csv
+        plot6: output/lrti_external_calibration.jpeg
+        plot7: output/lrti_external_re-calibration.jpeg
+
 
   cox_lrti_model:
     run: r:latest analysis/prediction/cox_lrti_model.R
