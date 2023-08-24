@@ -270,21 +270,45 @@ actions:
     needs: [process_data_for_model]
     outputs:
       moderately_sensitive: 
-        csv1: output/forward_selected_variables_otexterna.csv
-        csv2: output/backward_selected_variables_otexterna.csv
+        csv1: output/otexterna_model_evaluation.csv
+        plot1: output/otexterna_KM_Curves.jpeg
+        plot2: output/otexterna_High_Low_Risk_Patients.jpeg
+        plot3: output/otexterna_survival_plot_baseline_survival_curves.jpeg
+        plot4: output/otexterna_survival_plot_baseline_survival_curves2.jpeg
+        plot5: output/spline_age_otexterna.jpeg
+        csv2: output/otexterna_model_HR.csv
+        csv3: output/otexterna_model_external.csv
+        plot6: output/otexterna_30day_calibration.jpeg
+        plot7: output/otexterna_30day_re-calibration.jpeg
 
   cox_otmedia_model:
     run: r:latest analysis/prediction/cox_otmedia_model.R
     needs: [process_data_for_model]
     outputs:
       moderately_sensitive: 
-        csv1: output/forward_selected_variables_otmedia.csv
-        csv2: output/backward_selected_variables_otmedia.csv
+        csv1: output/otmedia_model_evaluation.csv
+        plot1: output/otmedia_KM_Curves.jpeg
+        plot2: output/otmedia_High_Low_Risk_Patients.jpeg
+        plot3: output/otmedia_survival_plot_baseline_survival_curves.jpeg
+        plot4: output/otmedia_survival_plot_baseline_survival_curves2.jpeg
+        plot5: output/spline_age_otmedia.jpeg
+        csv2: output/otmedia_model_HR.csv
+        csv3: output/otmedia_model_external.csv
+        plot6: output/otmedia_30day_calibration.jpeg
+        plot7: output/otmedia_30day_re-calibration.jpeg
 
   cox_sinusitis_model:
     run: r:latest analysis/prediction/cox_sinusitis_model.R
     needs: [process_data_for_model]
     outputs:
       moderately_sensitive: 
-        csv1: output/forward_selected_variables_sinusitis.csv
-        csv2: output/backward_selected_variables_sinusitis.csv
+        csv1: output/sinusitis_model_evaluation.csv
+        plot1: output/sinusitis_KM_Curves.jpeg
+        plot2: output/sinusitis_High_Low_Risk_Patients.jpeg
+        plot3: output/sinusitis_survival_plot_baseline_survival_curves.jpeg
+        plot4: output/sinusitis_survival_plot_baseline_survival_curves2.jpeg
+        plot5: output/spline_age_sinusitis.jpeg
+        csv2: output/sinusitis_model_HR.csv
+        csv3: output/sinusitis_model_external.csv
+        plot6: output/sinusitis_30day_calibration.jpeg
+        plot7: output/sinusitis_30day_re-calibration.jpeg
