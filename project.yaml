@@ -312,3 +312,332 @@ actions:
         csv3: output/sinusitis_model_external.csv
         plot6: output/sinusitis_30day_calibration.jpeg
         plot7: output/sinusitis_30day_re-calibration.jpeg
+
+
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+### study cohort part 2 ###
+
+  generate_study_population_period_2:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2.csv
+
+  period_2_process:
+    run: r:latest analysis/period_2_process.R
+    needs: [generate_study_population_period_2]
+    outputs:
+      highly_sensitive: 
+        csv1: output/period_2a.csv
+        csv2: output/period_2_*.csv
+
+  period_2a_id:
+    run: r:latest analysis/period_2a_id.R
+    needs: [generate_study_population_period_2]
+    outputs:
+      highly_sensitive: 
+        csv1: output/period_2a_id.csv
+
+  generate_study_population_period_2a:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2a
+    needs: [period_2a_id]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2a.csv
+
+  generate_study_population_period_2b:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2b
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2b.csv
+
+  generate_study_population_period_2c:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2c
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2c.csv
+
+  generate_study_population_period_2d:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2d
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2d.csv
+
+  generate_study_population_period_2e:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2e
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2e.csv
+
+  generate_study_population_period_2f:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2f
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2f.csv
+
+  generate_study_population_period_2g:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2g
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2g.csv
+
+  generate_study_population_period_2h:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2h
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2h.csv
+
+  generate_study_population_period_2i:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2i
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2i.csv
+
+  generate_study_population_period_2j:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2j
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2j.csv
+
+  generate_study_population_period_2k:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2k
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2k.csv
+
+  generate_study_population_period_2l:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2l
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2l.csv
+
+  generate_study_population_period_2m:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2m
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2m.csv
+
+  generate_study_population_period_2n:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2n
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2n.csv
+
+  generate_study_population_period_2o:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2o
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2o.csv
+
+  generate_study_population_period_2p:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2p
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2p.csv
+
+  generate_study_population_period_2q:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2q
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2q.csv
+
+  generate_study_population_period_2r:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2r
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2r.csv
+
+  generate_study_population_period_2s:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2s
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2s.csv
+
+  generate_study_population_period_2t:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_2t
+    needs: [period_2_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_2t.csv
+
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+### study cohort part 3 ###
+
+  generate_study_population_period_3:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3.csv
+
+  period_3_process:
+    run: r:latest analysis/period_3_process.R
+    needs: [generate_study_population_period_3]
+    outputs:
+      highly_sensitive: 
+        csv1: output/period_3a.csv
+        csv2: output/period_3_*.csv
+
+  period_3a_id:
+    run: r:latest analysis/period_3a_id.R
+    needs: [generate_study_population_period_3]
+    outputs:
+      highly_sensitive: 
+        csv1: output/period_3a_id.csv
+
+  generate_study_population_period_3a:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3a
+    needs: [period_3a_id]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3a.csv
+
+  generate_study_population_period_3b:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3b
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3b.csv
+
+  generate_study_population_period_3c:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3c
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3c.csv
+
+  generate_study_population_period_3d:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3d
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3d.csv
+
+  generate_study_population_period_3e:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3e
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3e.csv
+
+  generate_study_population_period_3f:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3f
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3f.csv
+
+  generate_study_population_period_3g:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3g
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3g.csv
+
+  generate_study_population_period_3h:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3h
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3h.csv
+
+  generate_study_population_period_3i:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3i
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3i.csv
+
+  generate_study_population_period_3j:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3j
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3j.csv
+
+  generate_study_population_period_3k:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3k
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3k.csv
+
+  generate_study_population_period_3l:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3l
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3l.csv
+
+  generate_study_population_period_3m:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3m
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3m.csv
+
+  generate_study_population_period_3n:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3n
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3n.csv
+
+  generate_study_population_period_3o:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3o
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3o.csv
+
+  generate_study_population_period_3p:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3p
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3p.csv
+
+  generate_study_population_period_3q:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3q
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3q.csv
+
+  generate_study_population_period_3r:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3r
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3r.csv
+
+  generate_study_population_period_3s:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3s
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3s.csv
+
+  generate_study_population_period_3t:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_period_3t
+    needs: [period_3_process]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_period_3t.csv
