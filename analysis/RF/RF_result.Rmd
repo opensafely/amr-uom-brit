@@ -199,6 +199,7 @@ temp[,"decile"]=rownames(temp)
 temp=temp%>%select(decile, all_of(ab1))
 
 data=gather(temp, key =ab1, value=value, 2:11)
+data$ab1=gsub('[Rx_]','',data$ab1)
 data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
