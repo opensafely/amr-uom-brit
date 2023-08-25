@@ -87,6 +87,7 @@ colnames(round_tbl)[i] = paste("decile",i-2,"_midpoint6")
 }
 
 write.csv(round_tbl,here::here("output","crosstab.csv"))
+write.csv(table,here::here("output","crosstab_origin.csv"))
 
 
 ```
