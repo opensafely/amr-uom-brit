@@ -92,6 +92,12 @@ write.csv(table,here::here("output","crosstab_origin.csv"))
 
 ```
 
+## view: dable
+```{r}
+table
+round_tbl
+```
+
 
 # descriptive stat
 ```{r}
