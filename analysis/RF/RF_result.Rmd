@@ -202,7 +202,7 @@ data=gather(temp, key =ab1, value=value, 2:11)
 data
 
 data$decile=factor(data$decile, levels = c("1", "2", "3","4","5","6","7","8","9","10"))
-data$ab1=factor(data$decile, levels = rank)# sort ab rank
+data$ab1=factor(data$ab1, levels = rank)# sort ab rank
 
 data
 plot=ggplot(data=data, aes(x=decile, y=value, group=ab1,colour=ab1)) +
