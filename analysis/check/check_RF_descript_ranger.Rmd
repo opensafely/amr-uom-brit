@@ -86,16 +86,17 @@ colnames(round_tbl)[i] = paste("decile",i-2,"_midpoint6")
 
 }
 
+# rename levels for type and broad
+round_tbl[6,2] <-2
+round_tbl[7,2] <-3
+
+round_tbl[10,2] <-2
+round_tbl[11,2] <-3
+
 write.csv(round_tbl,here::here("output","crosstab.csv"))
 write.csv(table,here::here("output","crosstab_origin.csv"))
 
 
-```
-
-## view: dable
-```{r}
-table
-round_tbl
 ```
 
 
