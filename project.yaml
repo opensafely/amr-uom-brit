@@ -478,6 +478,17 @@ actions:
       highly_sensitive:
         cohort: output/input_period_2t.csv
 
+  process_cox_dataset_2:
+    run: r:latest analysis/process_cox_dataset_2.R
+    needs: [generate_study_population_period_2a,generate_study_population_period_2b,generate_study_population_period_2c,generate_study_population_period_2d,
+    generate_study_population_period_2e,generate_study_population_period_2f,generate_study_population_period_2g,generate_study_population_period_2h,
+    generate_study_population_period_2i,generate_study_population_period_2j,generate_study_population_period_2k,generate_study_population_period_2l,
+    generate_study_population_period_2m,generate_study_population_period_2n,generate_study_population_period_2o,generate_study_population_period_2p,
+    generate_study_population_period_2q,generate_study_population_period_2r,generate_study_population_period_2s,generate_study_population_period_2t]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed_data_2.rds
+
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 ### study cohort part 3 ###
 
@@ -641,3 +652,14 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_period_3t.csv
+
+  process_cox_dataset_3:
+    run: r:latest analysis/process_cox_dataset_3.R
+    needs: [generate_study_population_period_3a,generate_study_population_period_3b,generate_study_population_period_3c,generate_study_population_period_3d,
+    generate_study_population_period_3e,generate_study_population_period_3f,generate_study_population_period_3g,generate_study_population_period_3h,
+    generate_study_population_period_3i,generate_study_population_period_3j,generate_study_population_period_3k,generate_study_population_period_3l,
+    generate_study_population_period_3m,generate_study_population_period_3n,generate_study_population_period_3o,generate_study_population_period_3p,
+    generate_study_population_period_3q,generate_study_population_period_3r,generate_study_population_period_3s,generate_study_population_period_3t]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed_data_3.rds
