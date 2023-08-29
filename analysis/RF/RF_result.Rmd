@@ -192,7 +192,7 @@ temp[,-11]
 
 # ab rank. rename
 rank=colnames(temp)
-rank=gsub('[Rx_]','',rank)
+rank=gsub('Rx_','',rank)
 
 temp[,"decile"]=rownames(temp)
 
