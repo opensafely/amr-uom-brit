@@ -663,3 +663,10 @@ actions:
     outputs:
       highly_sensitive: 
         rds: output/processed_data_3.rds
+
+  KM_overall:
+    run: r:latest analysis/prediction2/KM_overall.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/KM_overall_by_*_with_CI.jpeg
