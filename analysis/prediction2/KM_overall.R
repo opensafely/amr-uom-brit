@@ -6,6 +6,7 @@ library(ggplot2)
 library(tidyverse)
 library(survminer)
 library(lubridate)
+library(ggsci)
 
 data <- readRDS(here::here("output", "processed_data.rds"))
 
@@ -203,35 +204,41 @@ data <- bind_rows(data1, data2, data3) %>% mutate(year = year(patient_index_date
 # Define a vector of the column names
 infection_columns <- c("has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia")
 
-fit_list <- list()
-
+# Loop through each infection column
 for (col_name in infection_columns) {
-  for (year_val in unique(data$year)) {
-    # Filter data based on the current year and infection column
-    infection_data <- data %>% filter(year == year_val & get(col_name) == TRUE)
+  # Filter data for the current infection column
+  data_infection <- data %>% filter(!!sym(col_name))
   
-    # Fit survival curve for this subset of data
-    fit <- survfit(Surv(TEVENT, EVENT) ~ 1, data = infection_data)
-    fit_list[[paste0(col_name, "_", year_val)]] <- fit
-  }
-}
-
-for (col_name in infection_columns) {
-  plot_title <- tools::toTitleCase(sub("^has_", "", col_name))
-  fits <- fit_list[grep(col_name, names(fit_list))]
+  # Fit survival curves for each year within the filtered data
+  surv_fit <- survfit(Surv(TEVENT, EVENT) ~ year, data = data_infection)
   
-  Figure1 <- ggsurvplot(
-    fits, 
+  # Plot the survival curves using ggsurvplot
+  Figure_infection <- ggsurvplot(
+    surv_fit,
     conf.int = TRUE,
     palette = "jco",
-    legend = "right",
+    legend.title = "Year",
+    legend.labs = c("2019", "2020", "2021", "2022", "2023"),
     xlab = "Time (days)",
     ylab = "Survival probability",
-    title = paste("Kaplan-Meier Survival Curve with Confidence Interval for", plot_title),
-    risk.table = TRUE
+    title = paste("Survival Curves for", col_name, "Patients by Year"),
+     # Add p-value and tervals
+    pval = TRUE,
+     # Add risk table
+    risk.table = TRUE,
+    tables.height = 0.2,
+    tables.theme = theme_cleantable(),
   )
+  Figure_infection <- Figure_infection$plot+
+  # Customize the confidence interval and y-axis range
+  scale_y_continuous(limits = c(0.90, 1)) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white")
+  ) + scale_color_jco()
   
-  # Save the plot
-  filename <- paste0("KM_overall_by_", plot_title, "_with_CI.jpeg")
-  ggsave(Figure1, dpi = 700, filename = filename, path = here::here("output"))
+  # Save the plot using ggsave with the plot argument
+  filename <- paste0(col_name, "_survival_plot_by_year.jpeg")
+  ggsave(filename = here::here("output", filename), plot = Figure_infection, dpi = 700)
 }

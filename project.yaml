@@ -669,4 +669,4 @@ actions:
     needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3]
     outputs:
       moderately_sensitive: 
-        plot1: output/KM_overall_by_*_with_CI.jpeg
+        plot1: output/*_survival_plot_by_year.jpeg
