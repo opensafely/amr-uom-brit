@@ -670,3 +670,11 @@ actions:
     outputs:
       moderately_sensitive: 
         plot1: output/*_survival_plot_by_year.jpeg
+
+  trend_by_subgroup:
+    run: r:latest analysis/prediction2/trend_by_subgroup.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/figure_rate.jpeg
+        csv1: output/figure_rate_table.csv
