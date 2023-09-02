@@ -231,7 +231,7 @@ for (col_name in infection_columns) {
   )
   Figure_infection <- Figure_infection$plot+
   # Customize the confidence interval and y-axis range
-  scale_y_continuous(limits = c(0.90, 1)) +
+  scale_y_continuous(limits = c(0.99, 1)) +
   theme_minimal() +
   theme(
     plot.background = element_rect(fill = "white"),
