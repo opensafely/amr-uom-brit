@@ -62,7 +62,7 @@ extract_data <- function(file_name) {
   data_extracted
 }
 
-data <- extract_data(here::here("output", "input_period_3.csv"))
+data <- extract_data(here::here("output", "input_period_4.csv"))
 
 # 1.Count the total number of rows in the dataset
 cat("Total number of rows in the dataset:", nrow(data), "\n")
@@ -95,7 +95,7 @@ data <- data %>%
     TtoAB = ifelse(!is.na(ab_date_2), ab_date_2 - patient_index_date, NA_real_),
     TtoD = ifelse(!is.na(died_any_date), died_any_date - patient_index_date, NA_real_),
     TtoAE = ifelse(!is.na(emergency_admission_date), emergency_admission_date - patient_index_date, NA_real_),
-    TtoEND = as.Date("2022-06-30") - patient_index_date
+    TtoEND = as.Date("2023-06-30") - patient_index_date
   )
 
 # 9. Create the TEVENT column
@@ -128,7 +128,7 @@ df_subset <- data %>%
          has_urti, has_lrti, has_sinusitis, has_ot_externa, has_otmedia)
 
 # Save the subset dataframe to a CSV file
-write_csv(df_subset, here::here("output", "period_3a.csv"))
+write_csv(df_subset, here::here("output", "period_4a.csv"))
 
 for(i in 2:20) {
   # Construct the column name
@@ -141,6 +141,6 @@ for(i in 2:20) {
     rename(patient_index_date = !!date_col)
 
   # Save the dataframe to a CSV file
-  csv_name <- sprintf("period_3_%d.csv", i)
+  csv_name <- sprintf("period_4_%d.csv", i)
   write_csv(df_filtered, here::here("output", csv_name))
 }
