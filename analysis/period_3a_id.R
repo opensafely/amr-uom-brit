@@ -95,7 +95,7 @@ data <- data %>%
     TtoAB = ifelse(!is.na(ab_date_2), ab_date_2 - patient_index_date, NA_real_),
     TtoD = ifelse(!is.na(died_any_date), died_any_date - patient_index_date, NA_real_),
     TtoAE = ifelse(!is.na(emergency_admission_date), emergency_admission_date - patient_index_date, NA_real_),
-    TtoEND = as.Date("2021-03-08") - patient_index_date
+    TtoEND = as.Date("2022-06-30") - patient_index_date
   )
 
 # 9. Create the TEVENT column

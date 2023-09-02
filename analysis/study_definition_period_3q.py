@@ -26,7 +26,7 @@ from codelists import *
 ###### Define study time variables
 from datetime import datetime
 start_date = "2021-03-09"
-end_date = "2023-06-30"
+end_date = "2022-06-30"
 
 emergency_admission_codes = [
     "21",  # Emergency Admission: Emergency Care Department or dental casualty department of the Health Care Provider
