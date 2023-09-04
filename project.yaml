@@ -842,3 +842,14 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_period_4t.csv
+
+  process_cox_dataset_4:
+    run: r:latest analysis/process_cox_dataset_4.R
+    needs: [generate_study_population_period_4a,generate_study_population_period_4b,generate_study_population_period_4c,generate_study_population_period_4d,
+    generate_study_population_period_4e,generate_study_population_period_4f,generate_study_population_period_4g,generate_study_population_period_4h,
+    generate_study_population_period_4i,generate_study_population_period_4j,generate_study_population_period_4k,generate_study_population_period_4l,
+    generate_study_population_period_4m,generate_study_population_period_4n,generate_study_population_period_4o,generate_study_population_period_4p,
+    generate_study_population_period_4q,generate_study_population_period_4r,generate_study_population_period_4s,generate_study_population_period_4t]
+    outputs:
+      highly_sensitive: 
+        rds: output/processed_data_4.rds
