@@ -186,7 +186,7 @@ data <- data %>%
 
 # TtoEND
 data <- data %>%
-  mutate(TtoEND = as.numeric(as.Date("2023-06-30") - patient_index_date))
+  mutate(TtoEND = as.numeric(as.Date("2022-06-30") - patient_index_date))
 
 # Create TEVENT column
 data <- data %>%
@@ -199,7 +199,70 @@ data3 <- data
 
 print("data_3 processed!")
 
-data <- bind_rows(data1, data2, data3) %>% mutate(year = year(patient_index_date))
+data <- readRDS(here::here("output", "processed_data_4.rds"))
+
+# 2. Print the number of patients with chronic respiratory disease
+cat("Number of patients with chronic respiratory disease:", sum(data$has_chronic_respiratory_disease, na.rm = TRUE), "\n")
+
+# 3. Create the infection_indicator column
+data <- data %>% 
+  mutate(infection_indicator = has_uti | has_urti | has_lrti | has_sinusitis | has_ot_externa | has_otmedia)
+
+# 4. Print the number of patients with infection_indicator being TRUE
+cat("Number of patients with infection record:", sum(data$infection_indicator, na.rm = TRUE), "\n")
+
+# 5. Print the number of patients where covid_6weeks is FALSE
+cat("Number of patients without covid-19 positive record in six weeks:", sum(!data$covid_6weeks, na.rm = TRUE), "\n")
+
+# Remove patients with chronic respiratory disease
+data <- data %>% filter(!has_chronic_respiratory_disease)
+
+# Remove patients without infection_indicator
+data <- data %>% filter(infection_indicator)
+
+# Exclude patients with covid_6weeks being TRUE
+data <- data %>% filter(!covid_6weeks)
+
+
+# 6. Create the EVENT column
+data <- data %>% 
+  mutate(EVENT = ifelse(!is.na(emergency_admission_date), 1, 0))
+
+# 7. Print the number of patients where EVENT is 1 and 0
+event_table <- table(data$EVENT)
+cat("Number of patients where EVENT is 0:", event_table["0"], "\n")
+cat("Number of patients where EVENT is 1:", event_table["1"], "\n")
+
+# Create the variables
+
+# TtoAB
+data <- data %>%
+  mutate(TtoAB = ifelse(!is.na(ab_date_next), as.numeric(ab_date_next - patient_index_date), NA))
+
+# TtoD
+data <- data %>%
+  mutate(TtoD = ifelse(!is.na(died_any_date), as.numeric(died_any_date - patient_index_date), NA))
+
+# TtoAE
+data <- data %>%
+  mutate(TtoAE = ifelse(!is.na(emergency_admission_date), as.numeric(emergency_admission_date - patient_index_date), NA))
+
+# TtoEND
+data <- data %>%
+  mutate(TtoEND = as.numeric(as.Date("2023-06-30") - patient_index_date))
+
+# Create TEVENT column
+data <- data %>%
+  rowwise() %>%
+  mutate(TEVENT = min(c(TtoAB, TtoD, TtoAE, TtoEND), na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(TEVENT = ifelse(TEVENT > 30, 30, TEVENT))
+
+data4 <- data
+
+print("data_4 processed!")
+
+data <- bind_rows(data1, data2, data3, data4) %>% mutate(year = year(patient_index_date))
 
 # Define a vector of the column names
 infection_columns <- c("has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia")

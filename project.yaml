@@ -664,21 +664,6 @@ actions:
       highly_sensitive: 
         rds: output/processed_data_3.rds
 
-  KM_overall:
-    run: r:latest analysis/prediction2/KM_overall.R
-    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3]
-    outputs:
-      moderately_sensitive: 
-        plot1: output/*_survival_plot_by_year.jpeg
-
-  trend_by_subgroup:
-    run: r:latest analysis/prediction2/trend_by_subgroup.R
-    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3]
-    outputs:
-      moderately_sensitive: 
-        plot1: output/figure_rate.jpeg
-        csv1: output/figure_rate_table.csv
-
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
 ### study cohort part 4 ###
 
@@ -853,3 +838,18 @@ actions:
     outputs:
       highly_sensitive: 
         rds: output/processed_data_4.rds
+
+  KM_overall:
+    run: r:latest analysis/prediction2/KM_overall.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3,process_cox_dataset_4]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/*_survival_plot_by_year.jpeg
+
+  trend_by_subgroup:
+    run: r:latest analysis/prediction2/trend_by_subgroup.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3,process_cox_dataset_4]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/figure_rate.jpeg
+        csv1: output/figure_rate_table.csv
