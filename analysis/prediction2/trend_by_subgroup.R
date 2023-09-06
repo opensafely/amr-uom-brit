@@ -396,12 +396,12 @@ df.plot$imd <- recode(df.plot$imd,
 
 figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(imd), col = factor(imd), fill = factor(imd))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
-  annotate(geom = "rect", xmin = lockdown_1_start,xmax = lockdown_1_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = lockdown_2_start,xmax = lockdown_2_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  annotate(geom = "rect", xmin = lockdown_3_start,xmax = lockdown_3_end,ymin = -Inf, ymax = Inf,fill="grey80", alpha=0.5)+
-  geom_line(aes(x = monPlot, y = value),size = 0.8)+ 
+  annotate(geom = "rect", xmin = lockdown_1_start, xmax = lockdown_1_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
+  annotate(geom = "rect", xmin = lockdown_2_start, xmax = lockdown_2_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
+  annotate(geom = "rect", xmin = lockdown_3_start, xmax = lockdown_3_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
+  geom_line(aes(x = monPlot, y = value), size = 0.8) + 
   scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2023-07-01"), by = "3 months")) +
-  scale_y_continuous(limits = c(0, 0.01), breaks = seq(0, 0.01, by = 0.001), labels = function(x) sprintf("%0.3f", x)) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 1)) +
   labs(x = "", y = "", title = "", colour = "IMD", fill = "IMD") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
@@ -412,7 +412,7 @@ figure_imd_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, g
         legend.position = "top",
         strip.background = element_rect(fill = "grey", colour =  NA),
         strip.text = element_text(size = 12, hjust = 0)) +
-  theme(axis.text.x=element_text(angle=60,hjust=1))+ scale_color_aaas()+ scale_fill_aaas()
+  theme(axis.text.x=element_text(angle=60,hjust=1)) + scale_color_aaas() + scale_fill_aaas()
 figure_imd_strata
 
 
