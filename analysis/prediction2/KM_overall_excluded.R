@@ -7,11 +7,6 @@ library(tidyverse)
 library(survminer)
 library(lubridate)
 library(ggsci)
-library(readr)
-library(purrr)
-library(stringr)
-library(reshape2)
-library(rms)
 
 data <- readRDS(here::here("output", "processed_data.rds"))
 
@@ -191,7 +186,7 @@ data <- data %>%
 
 # TtoEND
 data <- data %>%
-  mutate(TtoEND = as.numeric(as.Date("2023-06-30") - patient_index_date))
+  mutate(TtoEND = as.numeric(as.Date("2022-06-30") - patient_index_date))
 
 # Create TEVENT column
 data <- data %>%
@@ -263,165 +258,102 @@ data <- data %>%
   ungroup() %>%
   mutate(TEVENT = ifelse(TEVENT > 30, 30, TEVENT))
 
+# Exclude patients with patient_index_date >= 2023-04-30
+data <- data %>% 
+  filter(as.Date(patient_index_date) < as.Date("2023-04-30"))
+
 data4 <- data
 
 print("data_4 processed!")
 
-data <- bind_rows(data1, data2, data3, data4) 
+data <- bind_rows(data1, data2, data3, data4) %>% mutate(year = year(patient_index_date))
 
-## Process Data
-fct_case_when <- function(...) {
-  # uses dplyr::case_when but converts the output to a factor,
-  # with factors ordered as they appear in the case_when's  ... argument
-  args <- as.list(match.call())
-  levels <- sapply(args[-1], function(f) f[[3]])  # extract RHS of formula
-  levels <- levels[!is.na(levels)]
-  factor(dplyr::case_when(...), levels=levels)
+# Define a vector of the column names
+infection_columns <- c("has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia")
+
+# Loop through each infection column
+for (col_name in infection_columns) {
+  # Filter data for the current infection column
+  data_infection <- data %>% filter(!!sym(col_name))
+  
+  # Fit survival curves for each year within the filtered data
+  surv_fit <- survfit(Surv(TEVENT, EVENT) ~ year, data = data_infection)
+  
+  # Plot the survival curves using ggsurvplot
+  Figure_infection <- ggsurvplot(
+    surv_fit,
+    conf.int = TRUE,
+    palette = "jco",
+    legend.title = "Year",
+    legend.labs = c("2019", "2020", "2021", "2022", "2023"),
+    xlab = "Time (days)",
+    ylab = "Survival probability",
+    title = paste("Survival Curves for", col_name, "Patients by Year"),
+     # Add p-value and tervals
+    pval = TRUE,
+     # Add risk table
+    risk.table = TRUE,
+    tables.height = 0.2,
+    tables.theme = theme_cleantable(),
+  )
+  Figure_infection <- Figure_infection$plot+
+  # Customize the confidence interval and y-axis range
+  scale_y_continuous(limits = c(0.99, 1)) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white")
+  ) + scale_color_jco()
+  
+  # Save the plot using ggsave with the plot argument
+  filename <- paste0(col_name, "_survival_plot_excluded_by_year.jpeg")
+  ggsave(filename = here::here("output", filename), plot = Figure_infection, dpi = 700)
 }
 
 
-process_data <- function(data_extracted) {
-  data_processed <-
-    data_extracted %>%
-    mutate(
-      sex = fct_case_when(sex == "F" ~ "Female",
-                          sex == "M" ~ "Male",
-                          TRUE ~ NA_character_),
-      # no missings should occur as only of
-      # individuals with a female/male sex, data is extracted
-      bmi = fct_case_when(
-        bmi == "Underweight (<18.5)" ~ "Underweight (<18.5 kg/m2)",
-        bmi == "Healthy range (18.5-24.9)" ~ "Healthy range (18.5-24.9 kg/m2)",
-        bmi == "Overweight (25-29.9)" ~ "Overweight (25-29.9 kg/m2)",
-        bmi == "Obese I (30-34.9)" ~ "Obese I (30-34.9 kg/m2)",
-        bmi == "Obese II (35-39.9)" ~ "Obese II (35-39.9 kg/m2)",
-        bmi == "Obese III (40+)" ~ "Obese III (40+ kg/m2)",
-        TRUE ~ NA_character_
-      ),
-      
-      ethnicity = fct_case_when(
-        ethnicity == "1" ~ "White",
-        ethnicity == "2" ~ "Mixed",
-        ethnicity == "3" ~ "South Asian",
-        ethnicity == "4" ~ "Black",
-        ethnicity == "5" ~ "Other",
-        ethnicity == "0" ~ "Unknown",
-        TRUE ~ NA_character_ # no missings in real data expected 
-        # (all mapped into 0) but dummy data will have missings (data is joined
-        # and patient ids are not necessarily the same in both cohorts)
-      ),
-      
-      smoking_status_comb = fct_case_when(
-        smoking_status_comb == "N + M" ~ "Never and unknown",
-        smoking_status_comb == "E" ~ "Former",
-        smoking_status_comb == "S" ~ "Current",
-        TRUE ~ NA_character_
-      ),
-      
-      imd = fct_case_when(
-        imd == "5" ~ "5 (least deprived)",
-        imd == "4" ~ "4",
-        imd == "3" ~ "3",
-        imd == "2" ~ "2",
-        imd == "1" ~ "1 (most deprived)",
-        imd == "0" ~ NA_character_
-      ),
-      
-      region = fct_case_when(
-        region == "North East" ~ "North East",
-        region == "North West" ~ "North West",
-        region == "Yorkshire and The Humber" ~ "Yorkshire and the Humber",
-        region == "East Midlands" ~ "East Midlands",
-        region == "West Midlands" ~ "West Midlands",
-        region == "East" ~ "East of England",
-        region == "London" ~ "London",
-        region == "South East" ~ "South East",
-        region == "South West" ~ "South West",
-        TRUE ~ NA_character_
-      ))
-  data_processed
-}
-
-data <- process_data(data)
-
-# Relevel variables
-data$region <- relevel(data$region, ref = "East of England")
-data$imd <- relevel(data$imd, ref = "5 (least deprived)")
-data$ethnicity <- relevel(data$ethnicity, ref = "White")
-data$bmi <- relevel(data$bmi, ref = "Healthy range (18.5-24.9 kg/m2)")
-data$bmi[is.na(data$bmi)] <- "Healthy range (18.5-24.9 kg/m2)"
-data$smoking_status_comb <- relevel(data$smoking_status_comb, ref = "Never and unknown")
-data$charlsonGrp <- relevel(data$charlsonGrp, ref = "zero")
-data$imd <- factor(data$imd, levels = c(levels(data$imd), "Unknown"))
-data$imd[is.na(data$imd)] <- "Unknown"
-data$region <- factor(data$region, levels = c(levels(data$region), "Unknown"))
-data$region[is.na(data$region)] <- "Unknown"
-data <- data %>% filter(!is.na(sex))
-
-# Reclassify total_ab_3yr
-data$ab_3yr <- cut(data$total_ab_3yr, breaks = c(-Inf, 0, 1, 3, Inf), labels = c("0", "1", "2-3", "4+"), right = TRUE, include.lowest = TRUE)
-
-
-df <- data
-
-lockdown_1_start = as.Date("2020-03-26")
-lockdown_1_end = as.Date("2020-06-01")
-lockdown_2_start = as.Date("2020-11-05")
-lockdown_2_end = as.Date("2020-12-02")
-lockdown_3_start = as.Date("2021-01-06")
-lockdown_3_end = as.Date("2021-03-08")
-df$cal_year <- year(df$patient_index_date)
-df$cal_mon <- month(df$patient_index_date)
-df$cal_day <- 1
-df$monPlot <- as.Date(with(df,paste(cal_year,cal_mon,cal_day,sep="-")),"%Y-%m-%d")
-
-
-###  by infection
-df <- df %>%
+data <- data %>% 
   mutate(
-    infection_indicator = case_when(
-      has_uti ~ "UTI",
-      has_urti ~ "URTI",
-      has_lrti ~ "LRTI",
-      has_sinusitis ~ "Sinusitis",
-      has_ot_externa ~ "Otitis externa",
-      has_otmedia ~ "Otitis media",
-      TRUE ~ "no infection record"
+    covid = case_when(
+      as.Date(patient_index_date) >= as.Date("2019-01-01") & as.Date(patient_index_date) <= as.Date("2020-03-25") ~ "period1",
+      as.Date(patient_index_date) >= as.Date("2020-03-26") & as.Date(patient_index_date) <= as.Date("2021-03-08") ~ "period2",
+      as.Date(patient_index_date) >= as.Date("2021-03-09") & as.Date(patient_index_date) <= as.Date("2023-06-30") ~ "period3",
+      TRUE ~ NA_character_  # default case, which assigns NA to dates outside those periods
     )
   )
 
-
-df.plot <- df %>%
-  group_by(monPlot, infection_indicator) %>%
-  summarise(case_count = sum(EVENT == 1), population = n())
-
-df.plot$value <- df.plot$case_count*1000 / df.plot$population
-df.plot$value <- round(df.plot$value, digits = 3)
-
-
-figure_infection_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(infection_indicator), col = factor(infection_indicator), fill = factor(infection_indicator))) +
-  geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
-  annotate(geom = "rect", xmin = lockdown_1_start, xmax = lockdown_1_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
-  annotate(geom = "rect", xmin = lockdown_2_start, xmax = lockdown_2_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
-  annotate(geom = "rect", xmin = lockdown_3_start, xmax = lockdown_3_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
-  geom_line(aes(x = monPlot, y = value), size = 0.8) + 
-  scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2023-07-01"), by = "3 months")) +
-  scale_y_continuous(limits = c(0, 5), breaks = seq(0, 5, by = 0.5)) +
-  labs(x = "", y = "", title = "", colour = "Infection", fill = "Infection") +
-  theme_bw() +
-  theme(axis.title = element_text(size = 18),
-        axis.text = element_text(size = 12),
-        axis.text.x = element_text(angle = 60, hjust = 1),
-        legend.text = element_text(size = 12),
-        legend.title = element_text(size = 12),
-        legend.position = "top",
-        strip.background = element_rect(fill = "grey", colour =  NA),
-        strip.text = element_text(size = 12, hjust = 0)) +
-  theme(axis.text.x=element_text(angle=60,hjust=1)) + scale_color_aaas() + scale_fill_aaas()
-figure_infection_strata
-
-
-ggsave(figure_infection_strata, width = 10, height = 6, dpi = 640,
-       filename="figure_rate.jpeg", path=here::here("output"),
-)  
-write_csv(df.plot, here::here("output", "figure_rate_table.csv"))
+for (col_name in infection_columns) {
+  # Filter data for the current infection column
+  data_infection <- data %>% filter(!!sym(col_name))
+  
+  # Fit survival curves for each covid period within the filtered data
+  surv_fit <- survfit(Surv(TEVENT, EVENT) ~ covid, data = data_infection)
+  
+  # Plot the survival curves using ggsurvplot
+  Figure_infection <- ggsurvplot(
+    surv_fit,
+    conf.int = TRUE,
+    palette = "jco",
+    legend.title = "Period",
+    legend.labs = c("period1", "period2", "period3"),
+    xlab = "Time (days)",
+    ylab = "Survival probability",
+    title = paste("Survival Curves for", col_name, "Patients by Period"),
+     # Add p-value and risk table
+    pval = TRUE,
+    risk.table = TRUE,
+    tables.height = 0.2,
+    tables.theme = theme_cleantable(),
+  )
+  Figure_infection <- Figure_infection$plot+
+  # Customize the confidence interval and y-axis range
+  scale_y_continuous(limits = c(0.99, 1)) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white")
+  ) + scale_color_jco()
+  
+  # Save the plot using ggsave with the plot argument
+  filename <- paste0(col_name, "_survival_plot_excluded_by_period.jpeg")
+  ggsave(filename = here::here("output", filename), plot = Figure_infection, dpi = 700)
+}

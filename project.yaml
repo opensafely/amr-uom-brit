@@ -845,6 +845,16 @@ actions:
     outputs:
       moderately_sensitive: 
         plot1: output/*_survival_plot_by_year.jpeg
+        plot2: output/*_survival_plot_by_period.jpeg
+
+  KM_overall_excluded:
+    run: r:latest analysis/prediction2/KM_overall_excluded.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3,process_cox_dataset_4]
+    outputs:
+      moderately_sensitive: 
+        plot1: output/*_survival_plot_excluded_by_year.jpeg
+        plot2: output/*_survival_plot_excluded_by_period.jpeg
+
 
   trend_by_subgroup:
     run: r:latest analysis/prediction2/trend_by_subgroup.R

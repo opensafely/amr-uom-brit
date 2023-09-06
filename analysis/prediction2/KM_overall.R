@@ -305,3 +305,52 @@ for (col_name in infection_columns) {
   filename <- paste0(col_name, "_survival_plot_by_year.jpeg")
   ggsave(filename = here::here("output", filename), plot = Figure_infection, dpi = 700)
 }
+
+
+
+data <- data %>% 
+  mutate(
+    covid = case_when(
+      as.Date(patient_index_date) >= as.Date("2019-01-01") & as.Date(patient_index_date) <= as.Date("2020-03-25") ~ "period1",
+      as.Date(patient_index_date) >= as.Date("2020-03-26") & as.Date(patient_index_date) <= as.Date("2021-03-08") ~ "period2",
+      as.Date(patient_index_date) >= as.Date("2021-03-09") & as.Date(patient_index_date) <= as.Date("2023-06-30") ~ "period3",
+      TRUE ~ NA_character_  # default case, which assigns NA to dates outside those periods
+    )
+  )
+
+for (col_name in infection_columns) {
+  # Filter data for the current infection column
+  data_infection <- data %>% filter(!!sym(col_name))
+  
+  # Fit survival curves for each covid period within the filtered data
+  surv_fit <- survfit(Surv(TEVENT, EVENT) ~ covid, data = data_infection)
+  
+  # Plot the survival curves using ggsurvplot
+  Figure_infection <- ggsurvplot(
+    surv_fit,
+    conf.int = TRUE,
+    palette = "jco",
+    legend.title = "Period",
+    legend.labs = c("period1", "period2", "period3"),
+    xlab = "Time (days)",
+    ylab = "Survival probability",
+    title = paste("Survival Curves for", col_name, "Patients by Period"),
+     # Add p-value and risk table
+    pval = TRUE,
+    risk.table = TRUE,
+    tables.height = 0.2,
+    tables.theme = theme_cleantable(),
+  )
+  Figure_infection <- Figure_infection$plot+
+  # Customize the confidence interval and y-axis range
+  scale_y_continuous(limits = c(0.99, 1)) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white")
+  ) + scale_color_jco()
+  
+  # Save the plot using ggsave with the plot argument
+  filename <- paste0(col_name, "_survival_plot_by_period.jpeg")
+  ggsave(filename = here::here("output", filename), plot = Figure_infection, dpi = 700)
+}
