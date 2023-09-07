@@ -376,27 +376,58 @@ df$cal_day <- 1
 df$monPlot <- as.Date(with(df,paste(cal_year,cal_mon,cal_day,sep="-")),"%Y-%m-%d")
 
 
-###  by infection
-df <- df %>%
-  mutate(
-    infection_indicator = case_when(
-      has_uti ~ "UTI",
-      has_urti ~ "URTI",
-      has_lrti ~ "LRTI",
-      has_sinusitis ~ "Sinusitis",
-      has_ot_externa ~ "Otitis externa",
-      has_otmedia ~ "Otitis media",
-      TRUE ~ "no infection record"
+
+# Define a function to get the summarized data for a given infection
+get_infection_summary <- function(df, infection_col, infection_label) {
+  
+  df_temp <- df %>%
+    filter(!!sym(infection_col)) %>%
+    group_by(monPlot) %>%
+    summarise(
+      case_count = sum(EVENT == 1),
+      population = n()
+    ) %>%
+    mutate(
+      infection_indicator = infection_label,
+      value = round(case_count * 1000 / population, digits = 3)
     )
+  
+  return(df_temp)
+}
+
+# Create an empty dataframe to store results
+df.plot <- tibble()
+
+# List of infections and their labels
+infections <- list(
+  has_uti = "UTI",
+  has_urti = "URTI",
+  has_lrti = "LRTI",
+  has_sinusitis = "Sinusitis",
+  has_ot_externa = "Otitis externa",
+  has_otmedia = "Otitis media"
+)
+
+# Loop through each infection and bind results
+for (i in names(infections)) {
+  df.plot <- bind_rows(df.plot, get_infection_summary(df, i, infections[[i]]))
+}
+
+# Add a category for "no infection record"
+df_no_infection <- df %>%
+  filter(!infection_indicator) %>%
+  group_by(monPlot) %>%
+  summarise(
+    case_count = sum(EVENT == 1),
+    population = n()
+  ) %>%
+  mutate(
+    infection_indicator = "no infection record",
+    value = round(case_count * 1000 / population, digits = 3)
   )
 
-
-df.plot <- df %>%
-  group_by(monPlot, infection_indicator) %>%
-  summarise(case_count = sum(EVENT == 1), population = n())
-
-df.plot$value <- df.plot$case_count*1000 / df.plot$population
-df.plot$value <- round(df.plot$value, digits = 3)
+# Combine the results
+df.plot <- bind_rows(df.plot, df_no_infection)
 
 
 figure_infection_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(infection_indicator), col = factor(infection_indicator), fill = factor(infection_indicator))) +
