@@ -863,3 +863,12 @@ actions:
       moderately_sensitive: 
         plot1: output/figure_rate.jpeg
         csv1: output/figure_rate_table.csv
+
+  process_data_for_model_all:
+    run: r:latest analysis/prediction2/process_data_for_model_all.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3,process_cox_dataset_4]
+    outputs:
+      highly_sensitive: 
+        rds: output/data_for_cox_model_all.rds
+      moderately_sensitive: 
+        csv: output/missing_data_count_all.csv
