@@ -406,7 +406,7 @@ figure_infection_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = va
   annotate(geom = "rect", xmin = lockdown_3_start, xmax = lockdown_3_end, ymin = -Inf, ymax = Inf, fill="grey80", alpha=0.5) +
   geom_line(aes(x = monPlot, y = value), size = 0.8) + 
   scale_x_date(date_labels = "%Y %b", breaks = seq(as.Date("2019-01-01"), as.Date("2023-07-01"), by = "3 months")) +
-  scale_y_continuous(limits = c(0, 5), breaks = seq(0, 5, by = 0.5)) +
+  scale_y_continuous(limits = c(0, 10), breaks = seq(0, 10, by = 0.5)) +
   labs(x = "", y = "", title = "", colour = "Infection", fill = "Infection") +
   theme_bw() +
   theme(axis.title = element_text(size = 18),
