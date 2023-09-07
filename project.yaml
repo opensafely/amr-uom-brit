@@ -872,3 +872,19 @@ actions:
         rds: output/data_for_cox_model_all.rds
       moderately_sensitive: 
         csv: output/missing_data_count_all.csv
+
+  cox_uti_model_all:
+    run: r:latest analysis/prediction2/cox_uti_model_all.R
+    needs: [process_data_for_model_all]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/uti_model_evaluation_all.csv
+        plot1: output/uti_KM_Curves_all.jpeg
+        plot2: output/uti_High_Low_Risk_Patients_all.jpeg
+        plot3: output/uti_survival_plot_baseline_survival_curves_all.jpeg
+        plot4: output/uti_survival_plot_baseline_survival_curves2_all.jpeg
+        plot5: output/spline_age_uti_all.jpeg
+        csv2: output/uti_model_HR_all.csv
+        csv3: output/uti_model_external_all.csv
+        plot6: output/uti_30day_calibration_all.jpeg
+        plot7: output/uti_30day_re-calibration_all.jpeg
