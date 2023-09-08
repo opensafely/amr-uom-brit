@@ -888,3 +888,83 @@ actions:
         csv3: output/uti_model_external_all.csv
         plot6: output/uti_30day_calibration_all.jpeg
         plot7: output/uti_30day_re-calibration_all.jpeg
+
+  cox_urti_model_all:
+    run: r:latest analysis/prediction2/cox_urti_model_all.R
+    needs: [process_data_for_model_all]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/urti_model_evaluation_all.csv
+        plot1: output/urti_KM_Curves_all.jpeg
+        plot2: output/urti_High_Low_Risk_Patients_all.jpeg
+        plot3: output/urti_survival_plot_baseline_survival_curves_all.jpeg
+        plot4: output/urti_survival_plot_baseline_survival_curves2_all.jpeg
+        plot5: output/spline_age_urti_all.jpeg
+        csv2: output/urti_model_HR_all.csv
+        csv3: output/urti_model_external_all.csv
+        plot6: output/urti_30day_calibration_all.jpeg
+        plot7: output/urti_30day_re-calibration_all.jpeg
+
+  cox_lrti_model_all:
+    run: r:latest analysis/prediction2/cox_lrti_model_all.R
+    needs: [process_data_for_model]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/lrti_model_evaluation_all.csv
+        plot1: output/lrti_KM_Curves_all.jpeg
+        plot2: output/lrti_High_Low_Risk_Patients_all.jpeg
+        plot3: output/lrti_survival_plot_baseline_survival_curves_all.jpeg
+        plot4: output/lrti_survival_plot_baseline_survival_curves2_all.jpeg
+        plot5: output/spline_age_lrti_all.jpeg
+        csv2: output/lrti_model_HR_all.csv
+        csv3: output/lrti_model_external_all.csv
+        plot6: output/lrti_30day_calibration_all.jpeg
+        plot7: output/lrti_30day_re-calibration_all.jpeg
+
+  cox_otexterna_model_all:
+    run: r:latest analysis/prediction2/cox_otexterna_model_all.R
+    needs: [process_data_for_model_all]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/otexterna_model_evaluation_all.csv
+        plot1: output/otexterna_KM_Curves_all.jpeg
+        plot2: output/otexterna_High_Low_Risk_Patients_all.jpeg
+        plot3: output/otexterna_survival_plot_baseline_survival_curves_all.jpeg
+        plot4: output/otexterna_survival_plot_baseline_survival_curves2_all.jpeg
+        plot5: output/spline_age_otexterna_all.jpeg
+        csv2: output/otexterna_model_HR_all.csv
+        csv3: output/otexterna_model_external_all.csv
+        plot6: output/otexterna_30day_calibration_all.jpeg
+        plot7: output/otexterna_30day_re-calibration_all.jpeg
+
+  cox_otmedia_model_all:
+    run: r:latest analysis/prediction2/cox_otmedia_model_all.R
+    needs: [process_data_for_model_all]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/otmedia_model_evaluation_all.csv
+        plot1: output/otmedia_KM_Curves_all.jpeg
+        plot2: output/otmedia_High_Low_Risk_Patients_all.jpeg
+        plot3: output/otmedia_survival_plot_baseline_survival_curves_all.jpeg
+        plot4: output/otmedia_survival_plot_baseline_survival_curves2_all.jpeg
+        plot5: output/spline_age_otmedia_all.jpeg
+        csv2: output/otmedia_model_HR_all.csv
+        csv3: output/otmedia_model_external_all.csv
+        plot6: output/otmedia_30day_calibration_all.jpeg
+        plot7: output/otmedia_30day_re-calibration_all.jpeg
+
+  cox_sinusitis_model_all:
+    run: r:latest analysis/prediction2/cox_sinusitis_model_all.R
+    needs: [process_data_for_model_all]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/sinusitis_model_evaluation_all.csv
+        plot1: output/sinusitis_KM_Curves_all.jpeg
+        plot2: output/sinusitis_High_Low_Risk_Patients_all.jpeg
+        plot3: output/sinusitis_survival_plot_baseline_survival_curves_all.jpeg
+        plot4: output/sinusitis_survival_plot_baseline_survival_curves2_all.jpeg
+        plot5: output/spline_age_sinusitis_all.jpeg
+        csv2: output/sinusitis_model_HR_all.csv
+        csv3: output/sinusitis_model_external_all.csv
+        plot6: output/sinusitis_30day_calibration_all.jpeg
+        plot7: output/sinusitis_30day_re-calibration_all.jpeg

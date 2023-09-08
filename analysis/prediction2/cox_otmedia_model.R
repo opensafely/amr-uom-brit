@@ -1,5 +1,5 @@
 ################################################################################
-# Part 1: LRTI model development process                                        #
+# Part 1: Otitis media model development process                               #
 ################################################################################
 
 library(here)
@@ -16,9 +16,9 @@ library(Hmisc)
 
 ## Load data
 
-input_data <- readRDS(here::here("output", "data_for_cox_model.rds"))
+input_data <- readRDS(here::here("output", "data_for_cox_model_all.rds"))
 
-data <- input_data %>% filter(has_lrti)
+data <- input_data %>% filter(has_otmedia)
 
 # Data Partition 
 set.seed(666)
@@ -56,7 +56,7 @@ plot_part6 <- ggplot(data_part6_m, aes(x = age, y = value, colour = variable)) +
 plot_part6
 
 ggsave(plot_part6, dpi = 700,
-       filename = "spline_age_lrti.jpeg", path = here::here("output"))
+       filename = "spline_age_otmedia_all.jpeg", path = here::here("output"))
 
 age_spline_check <- matrix(c(AIC(cox_age),
          BIC(cox_age),
@@ -77,7 +77,7 @@ training$age3_spline <- age3_spline_train
 # Bind to testing
 testing$age3_spline <- age3_spline_test
 
-model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + ethnicity + bmi + charlsonGrp + ab_3yr + ab_30d, data = training)
+model_selected <- coxph(Surv(TEVENT, EVENT) ~ age3_spline + ethnicity + charlsonGrp + ab_3yr + covid, data = training)
 
 
 pred_LP <- model_selected$linear.predictors
@@ -110,7 +110,7 @@ print("Part 3. Assess the models apparent calibration is completed successfully!
 centile_LP <- cut(pred_LP,breaks=quantile(pred_LP, prob = c(0,0.25,0.50,0.75,1), na.rm=T),
                   labels=c(1:4),include.lowest=TRUE)
 # Graph the KM curves in the 4 risk groups to visually assess separation
-jpeg(here::here("output", "lrti_KM_Curves.jpeg"))
+jpeg(here::here("output", "otmedia_KM_Curves_all.jpeg"))
 plot(survfit(Surv(training$TEVENT,training$EVENT)~centile_LP),
      # main="Kaplan-Meier survival estimates",
      xlab="Days", ylab = "Survival probability", col=c(1:4), ylim=c(0.9,1))
@@ -161,7 +161,7 @@ fit_cox_model3$coef
 pm[nrow(pm)+1, 1] <- "reculated calibration slope using the shrunken linear predictor"
 pm[nrow(pm), 2] <- round(fit_cox_model3$coef,3)
 
-write_csv(pm, here::here("output", "lrti_model_evaluation.csv"))
+write_csv(pm, here::here("output", "otmedia_model_evaluation_all.csv"))
 
 ## plot original predictions (before shrinkage) versus our shrunken model predictions
 ## To do this we can plot the KM curve for one high risk patient, and one low risk patient using the original and shrunken model lp
@@ -175,7 +175,7 @@ patient_high_shrunk$pred_LP <- patient_high$pred_LP*vanH
 patient_low_shrunk <- patient_low
 patient_low_shrunk$pred_LP <- patient_low$pred_LP*vanH
 
-jpeg(here::here("output", "lrti_High_Low_Risk_Patients.jpeg"))
+jpeg(here::here("output", "otmedia_High_Low_Risk_Patients_all.jpeg"))
 plot(survfit(model_selected,newdata=data.frame(patient_high)),
      main="Cox proportional hazards regression",
      xlab="Days", ylab="Survival", col=1, conf.int=FALSE, ylim=c(0.8, 1))
@@ -210,7 +210,7 @@ prob_HR
 prob_HR_shrunk <- day30_Cox_shrunk^exp(patient_high_shrunk$pred_LP)
 prob_HR_shrunk
 
-jpeg(here::here("output", "lrti_survival_plot_baseline_survival_curves.jpeg"))
+jpeg(here::here("output", "otmedia_survival_plot_baseline_survival_curves_all.jpeg"))
 
 plot(survfit(model_selected),
      main="Cox proportional hazards regression",
@@ -228,7 +228,7 @@ dev.off()
 
 # # Re-plot the high risk patient curves & draw on lines corresponding to the patients survival probability
 # as calculated above to check they match the predicted survival curves
-jpeg(here::here("output", "lrti_survival_plot_baseline_survival_curves2.jpeg"))
+jpeg(here::here("output", "otmedia_survival_plot_baseline_survival_curves2_all.jpeg"))
 
 plot(survfit(model_selected, newdata=data.frame(patient_high)),
      main="Cox proportional hazards regression",
@@ -246,7 +246,7 @@ dev.off()
 
 
 ## Result
-model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + ethnicity + bmi + charlsonGrp + ab_3yr + ab_30d, data = training)
+model_selected <- coxph(Surv(TEVENT, EVENT) ~ age3_spline + ethnicity + charlsonGrp + ab_3yr + covid, data = training)
 results=as.data.frame(names(model_selected$coefficients))
 colnames(results)="term"
 
@@ -271,7 +271,7 @@ results[,2:ncol(results)] <- round(results[,2:ncol(results)], 3)
 print("Print results")
 print(results) 
 
-write_csv(results, here::here("output", "lrti_model_HR.csv"))
+write_csv(results, here::here("output", "otmedia_model_HR_all.csv"))
 
 ###### external validation ########
 
@@ -295,7 +295,7 @@ pm_ext <- data.frame(
   c_stat_upper = c_stat_upper,
   cal_slope = cal_slope
 )
-write_csv(pm_ext, here::here("output", "lrti_model_external.csv"))
+write_csv(pm_ext, here::here("output", "otmedia_model_external.csv"))
 
 # Calibration plot for the validation data
 # Calculate predicted survival probability at 30 day
@@ -312,7 +312,7 @@ val_ests <- val.surv(est.surv = pred_surv_prob,
                      u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
 print("val_ests is now specified!")
 
-jpeg(here::here("output", "lrti_30day_calibration.jpeg"))
+jpeg(here::here("output", "otmedia_30day_calibration_all.jpeg"))
 plot(val_ests,xlab="Expected Survival Probability",ylab="Observed Survival Probability") 
 groupkm(pred_surv_prob, S = Surv(input_test$TEVENT,input_test$EVENT), 
         g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
@@ -336,7 +336,7 @@ val_ests2 <- val.surv(est.surv = pred_surv_prob2,
                       S = Surv(input_test$TEVENT,input_test$EVENT), 
                       u=time_point,fun=function(p)log(-log(p)),pred = sort(runif(100, 0, 1)))
 
-jpeg(here::here("output", "lrti_30day_re-calibration.jpeg"))
+jpeg(here::here("output", "otmedia_30day_re-calibration_all.jpeg"))
 plot(val_ests2,xlab="Expected Survival Probability",ylab="Observed Survival Probability") 
 groupkm(pred_surv_prob2, S = Surv(input_test$TEVENT,input_test$EVENT), 
         g=10,u=time_point, pl=T, add=T,lty=0,cex.subtitle=FALSE)
