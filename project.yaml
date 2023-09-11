@@ -968,3 +968,10 @@ actions:
         csv3: output/sinusitis_model_external_all.csv
         plot6: output/sinusitis_30day_calibration_all.jpeg
         plot7: output/sinusitis_30day_re-calibration_all.jpeg
+
+  table1:
+    run: r:latest analysis/prediction2/table1.R
+    needs: [process_data_for_model_all]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/*_table1.csv
