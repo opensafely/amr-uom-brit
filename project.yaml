@@ -1346,3 +1346,10 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/complete_case_model_result_*.csv
+
+  complete_case_mortality_model_time:
+    run: r:latest analysis/complete_case_mortality_model_time.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table: output/complete_case_model_mortality_*.csv
