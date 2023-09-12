@@ -980,7 +980,7 @@ actions:
       highly_sensitive:
         cohort: output/input_case_ab_6w.csv
 
-  extract_control_ab_in6w_191: 
+  extract_control_ab_in6w_191:f 
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_191
     needs: [process3_idextraction]
     outputs:
@@ -1321,3 +1321,21 @@ actions:
     outputs:
       moderately_sensitive:
         csv: output/Figure_mortality_full_all.html
+
+############### Complete case anaylsis ##################
+  complete_case_model_adjusted_plot:
+    run: r:latest analysis/complete_case_model_adjusted_plot.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table6: output/cc_adjusted_plotimd.csv
+        table1: output/cc_adjusted_plot*.csv
+
+  complete_case_model_imd:
+    run: r:latest analysis/complete_case_model_imd.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table1: output/cc_imd_model.csv
+        table2: output/cc_imd_model_covid.csv
+        table3: output/cc_imd_model_cardiometabolic.csv
