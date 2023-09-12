@@ -980,7 +980,7 @@ actions:
       highly_sensitive:
         cohort: output/input_case_ab_6w.csv
 
-  extract_control_ab_in6w_191:f 
+  extract_control_ab_in6w_191:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_control_ab_6w_191
     needs: [process3_idextraction]
     outputs:
