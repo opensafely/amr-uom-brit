@@ -9,7 +9,7 @@ library("ggpubr")
 library("finalfit")
 library("readr")
 library("here")
-columns_of_interest <- c("EVENT", "age", "sex", "region", "imd", "ethnicity", "bmi", "smoking_status_comb", "charlsonGrp", "ab_3yr", "ab_30d")
+columns_of_interest <- c("EVENT", "age", "age_band", "sex", "region", "imd", "ethnicity", "bmi", "smoking_status_comb", "charlsonGrp", "ab_3yr", "ab_30d")
 
 # Load data
 input_data <- readRDS(here::here("output", "data_for_cox_model_all.rds"))
