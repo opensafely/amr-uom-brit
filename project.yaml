@@ -1336,8 +1336,7 @@ actions:
     outputs:
       moderately_sensitive:
         table1: output/cc_imd_model.csv
-        table2: output/cc_imd_model_covid.csv
-        table3: output/cc_imd_model_cardiometabolic.csv
+        table2: output/cc_imd_model_*.csv
 
   complete_case_model_crude:
     run: r:latest analysis/complete_case_model_crude.R

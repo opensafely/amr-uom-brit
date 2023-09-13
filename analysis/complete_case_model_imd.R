@@ -13,6 +13,13 @@ library(here)
 
 
 df <- readRDS("output/processed/input_model_c_h.rds")
+
+# Print the number of missing values for each variable
+cat("Number of missing for smoking_status:", sum(df$smoking_status == "Missing"), "\n")
+cat("Number of missing for bmi_adult:", sum(df$bmi_adult == "Missing"), "\n")
+cat("Number of missing for ethnicity:", sum(df$ethnicity == "Unknown"), "\n")
+
+
 df_clean <- df %>%
   filter(
     !(smoking_status == "Missing" | 
@@ -64,7 +71,30 @@ names(DF)[1]="type"
 
 dfch_3 <- DF
 
+## All comorbidities 
+
+mod=clogit(case ~ imd + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
+             asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
+             stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfch_4 <- DF
+
 df <- readRDS("output/processed/input_model_c.rds")
+
+# Print the number of missing values for each variable
+cat("Number of missing for smoking_status:", sum(df$smoking_status == "Missing"), "\n")
+cat("Number of missing for bmi_adult:", sum(df$bmi_adult == "Missing"), "\n")
+cat("Number of missing for ethnicity:", sum(df$ethnicity == "Unknown"), "\n")
+
 df_clean <- df %>%
   filter(
     !(smoking_status == "Missing" | 
@@ -113,7 +143,31 @@ names(DF)[1]="type"
 
 dfc_3 <- DF
 
+## All comorbidities 
+
+mod=clogit(case ~ imd + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
+             asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
+             stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfc_4 <- DF
+
 df <- readRDS("output/processed/input_model_h.rds")
+
+# Print the number of missing values for each variable
+cat("Number of missing for smoking_status:", sum(df$smoking_status == "Missing"), "\n")
+cat("Number of missing for bmi_adult:", sum(df$bmi_adult == "Missing"), "\n")
+cat("Number of missing for ethnicity:", sum(df$ethnicity == "Unknown"), "\n")
+
+
 df_clean <- df %>%
   filter(
     !(smoking_status == "Missing" | 
@@ -162,6 +216,23 @@ names(DF)[1]="type"
 
 dfh_3 <- DF
 
+## All comorbidities 
+
+mod=clogit(case ~ imd + ethnicity + bmi_adult + smoking_status + hypertension + chronic_respiratory_disease +
+             asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
+             stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + strata(set_id), df)
+sum.mod=summary(mod)
+result=data.frame(sum.mod$conf.int)
+DF=result[,-2]
+names(DF)[1]="OR"
+names(DF)[2]="CI_L"
+names(DF)[3]="CI_U"
+setDT(DF, keep.rownames = TRUE)[]
+names(DF)[1]="type"
+
+dfh_4 <- DF
+
 dfch$group <- "H+C"
 dfc$group <- "C"
 dfh$group <- "H"
@@ -185,6 +256,15 @@ dfh_3$group <- "H"
 plot <- bind_rows(dfch_3,dfc_3,dfh_3)
 
 write_csv(plot, here::here("output", "cc_imd_model_cardiometabolic.csv"))
+
+dfch_4$group <- "H+C"
+dfc_4$group <- "C"
+dfh_4$group <- "H"
+
+plot <- bind_rows(dfch_4,dfc_4,dfh_4)
+
+write_csv(plot, here::here("output", "cc_imd_model_comorbidities.csv"))
+
 
 
 
