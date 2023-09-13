@@ -16,11 +16,11 @@ fit_model <- function(df, var) {
 # Main function to process data
 process_data <- function(file_path, output_name) {
   df <- readRDS(file_path) %>% 
-    filter(
-      !(smoking_status %in% c("Missing", NA) | 
-          is.na(bmi_adult) | 
-          ethnicity %in% c("Unknown", NA))
-    )
+  filter(
+    !(smoking_status == "Missing" | 
+      bmi_adult == "Missing" | 
+      ethnicity == "Unknown"))
+
 
   # Variables to iterate over
   variables <- c('imd', 'region', 'ethnicity', 'bmi_adult', 'smoking_status', 

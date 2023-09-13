@@ -1328,8 +1328,7 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        table6: output/cc_adjusted_plotimd.csv
-        table1: output/cc_adjusted_plot*.csv
+        table: output/cc_adjusted_c*.csv
 
   complete_case_model_imd:
     run: r:latest analysis/complete_case_model_imd.R

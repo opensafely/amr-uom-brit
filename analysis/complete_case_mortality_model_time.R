@@ -13,9 +13,9 @@ library(rms)
 df <- readRDS("output/processed/input_model_c_h.rds")
 df_clean <- df %>%
   filter(
-    !(smoking_status %in% c("Missing", NA) | 
-      is.na(bmi_adult) | 
-      ethnicity %in% c("Unknown", NA))
+    !(smoking_status == "Missing" | 
+      bmi_adult == "Missing" | 
+      ethnicity == "Unknown")
   )
 
 df <- df_clean
