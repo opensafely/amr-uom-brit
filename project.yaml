@@ -1351,4 +1351,4 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        table: output/complete_case_model_mortality_*.csv
+        table: output/cc_model_mortality_*.csv
