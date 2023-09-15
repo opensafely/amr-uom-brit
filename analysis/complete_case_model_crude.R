@@ -15,12 +15,26 @@ fit_model <- function(df, var) {
 
 # Main function to process data
 process_data <- function(file_path, output_name) {
-  df <- readRDS(file_path) %>% 
-  filter(
-    !(smoking_status == "Missing" | 
-      bmi_adult == "Missing" | 
-      ethnicity == "Unknown"))
-
+  df <- readRDS(file_path)
+  
+  # Identify set_ids where the case==1 row has missing data
+  excluded_set_ids <- df %>%
+    filter(
+      (smoking_status == "Missing" | 
+       bmi_adult == "Missing" | 
+       ethnicity == "Unknown") & 
+      case == 1
+    ) %>%
+    pull(set_id)
+  
+  # Clean dataframe based on conditions
+  df_clean <- df %>%
+    filter(
+      !(smoking_status == "Missing" | 
+        bmi_adult == "Missing" | 
+        ethnicity == "Unknown" |
+        set_id %in% excluded_set_ids)
+    )
 
   # Variables to iterate over
   variables <- c('imd', 'region', 'ethnicity', 'bmi_adult', 'smoking_status', 
@@ -32,7 +46,7 @@ process_data <- function(file_path, output_name) {
                  'sev_mental_ill', 'alcohol_problems', 'care_home_type_ba',
                  'ckd_rrt', 'ab_frequency', 'ab_type_num')
 
-  results_list <- lapply(variables, fit_model, df=df)
+  results_list <- lapply(variables, fit_model, df=df_clean)  # Note: Using df_clean here
   result_df <- bind_rows(results_list) %>% 
     select(-Estimate) %>%
     setNames(c("OR", "CI_L", "CI_U")) %>%
