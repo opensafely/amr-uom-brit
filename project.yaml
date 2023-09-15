@@ -1351,3 +1351,10 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/cc_model_mortality_*.csv
+
+  combined_mortality_model_time:
+    run: r:latest analysis/combined_mortality_model_time.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table: output/combined_mortality_part*.csv
