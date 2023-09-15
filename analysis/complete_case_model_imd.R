@@ -14,17 +14,59 @@ library(here)
 
 df <- readRDS("output/processed/input_model_c_h.rds")
 
-# Print the number of missing values for each variable
-cat("Number of missing for smoking_status:", sum(df$smoking_status == "Missing"), "\n")
-cat("Number of missing for bmi_adult:", sum(df$bmi_adult == "Missing"), "\n")
-cat("Number of missing for ethnicity:", sum(df$ethnicity == "Unknown"), "\n")
+# Rows excluded due to missing smoking_status
+excluded_smoking_status <- df %>% 
+  filter(smoking_status == "Missing") %>% 
+  nrow()
+
+# Rows excluded due to missing bmi_adult
+excluded_bmi_adult <- df %>% 
+  filter(bmi_adult == "Missing") %>% 
+  nrow()
+
+# Rows excluded due to unknown ethnicity
+excluded_ethnicity <- df %>% 
+  filter(ethnicity == "Unknown") %>% 
+  nrow()
+
+# Identify set_ids where the case==1 row has missing data
+excluded_set_ids <- df %>%
+  filter(
+    (smoking_status == "Missing" | 
+     bmi_adult == "Missing" | 
+     ethnicity == "Unknown") & 
+    case == 1
+  ) %>%
+  pull(set_id)
+
+# Rows excluded due to paired set_id
+excluded_due_to_set_id <- df %>%
+  filter(set_id %in% excluded_set_ids & case == 0) %>%
+  nrow()
+
+# Printing the counts
+cat("Number of rows excluded due to missing smoking_status:", excluded_smoking_status, "\n")
+cat("Number of rows excluded due to missing bmi_adult:", excluded_bmi_adult, "\n")
+cat("Number of rows excluded due to unknown ethnicity:", excluded_ethnicity, "\n")
+cat("Number of rows excluded due to paired set_id:", excluded_due_to_set_id, "\n")
 
 
+excluded_set_ids <- df %>%
+  filter(
+    (smoking_status == "Missing" | 
+     bmi_adult == "Missing" | 
+     ethnicity == "Unknown") & 
+    case == 1
+  ) %>%
+  pull(set_id)
+
+# Exclude all rows with these set_ids
 df_clean <- df %>%
   filter(
     !(smoking_status == "Missing" | 
       bmi_adult == "Missing" | 
-      ethnicity == "Unknown")
+      ethnicity == "Unknown" |
+      set_id %in% excluded_set_ids)
   )
 
 df <- df_clean
