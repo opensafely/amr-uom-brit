@@ -978,7 +978,7 @@ actions:
 
   bmi_ab_table:
     run: r:latest analysis/prediction2/bmi_ab_table.R
-    needs: [process_data_for_model_all]
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3,process_cox_dataset_4]
     outputs:
       moderately_sensitive: 
         csv1: output/bmi_and_ab_3yr.csv
