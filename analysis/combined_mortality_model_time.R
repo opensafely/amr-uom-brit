@@ -27,40 +27,48 @@ df$agegroup= relevel(as.factor(df$agegroup), ref="50-59")
 
 ###Age###
 mod <- glm(died_any_30d~agegroup + agegroup*covid + covid + sex + strata(region),family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result1 <- result
 
 ###Sex###
 mod <- glm(died_any_30d~rcs(age, 4) + sex + sex*covid + covid + strata(region),family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result2 <- result
 
 ### Region ###
 mod <- glm(died_any_30d~rcs(age, 4) + sex + region + region*covid + covid,family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result3 <- result
 
 ### IMD ###
 mod <- glm(died_any_30d~ imd + + imd*covid + covid + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result4 <- result
 
 ### Other ###
 mod <- glm(died_any_30d~ ethnicity+ ethnicity*covid + covid + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result5 <- result
 
 
 mod <- glm(died_any_30d~ bmi_adult+ bmi_adult*covid + covid + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result6 <- result
 
 
 mod <- glm(died_any_30d~ smoking_status+ smoking_status*covid + covid + rcs(age, 4) + sex + strata(region),family="binomial",data = df)
+summary(mod)
 result <-data.frame(exp(cbind(OR = coef(mod), confint(mod))))
 result7 <- result
 
 result_a <- bind_rows(result1,result2,result3,result4,result5,result6,result7)
+setDT(result_a, keep.rownames = TRUE)
 write_csv(result_a, here::here("output", "combined_mortality_part1.csv"))
 #############
 # List of predictors to be tested
@@ -91,6 +99,7 @@ for(predictor in predictors) {
   # Bind this result to the main result data frame
   all_results <- bind_rows(all_results, result)
 }
+setDT(all_results, keep.rownames = TRUE)
 
 # Save combined results to CSV
 write_csv(all_results, here::here("output", "combined_mortality_part2.csv"))
