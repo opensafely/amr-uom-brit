@@ -7,6 +7,7 @@ library(tidyverse)
 library(survminer)
 library(lubridate)
 library(ggsci)
+library(gridExtra)
 
 data <- readRDS(here::here("output", "processed_data.rds"))
 
@@ -344,16 +345,25 @@ for (col_name in infection_columns) {
     tables.height = 0.2,
     tables.theme = theme_cleantable(),
   )
-  Figure_infection <- Figure_infection$plot+
-  # Customize the confidence interval and y-axis range
-  scale_y_continuous(limits = c(0.99, 1)) +
-  theme_minimal() +
-  theme(
-    plot.background = element_rect(fill = "white"),
-    panel.background = element_rect(fill = "white")
-  ) + scale_color_jco()
+# Customize each plot
+  Figure_infection_plot <- Figure_infection$plot +
+    scale_y_continuous(limits = c(0.99, 1)) +
+    theme_minimal() +
+    theme(
+      plot.background = element_rect(fill = "white"),
+      panel.background = element_rect(fill = "white")
+    ) + scale_color_jco()
   
-  # Save the plot using ggsave with the plot argument
+  Figure_infection_table <- Figure_infection$table +
+    theme_minimal() +
+    theme(
+      plot.background = element_rect(fill = "white"),
+      panel.background = element_rect(fill = "white")
+    ) + scale_color_jco()
+# Combine the two plots using grid.arrange
+  combined_plot <- grid.arrange(Figure_infection_plot, Figure_infection_table, ncol = 1)
+
+  # Save the combined plot
   filename <- paste0(col_name, "_survival_plot_excluded_by_period.jpeg")
-  ggsave(filename = here::here("output", filename), plot = Figure_infection, dpi = 700)
+  ggsave(filename = here::here("output", filename), plot = combined_plot, dpi = 700)
 }
