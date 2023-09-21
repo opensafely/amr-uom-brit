@@ -354,16 +354,13 @@ for (col_name in infection_columns) {
       panel.background = element_rect(fill = "white")
     ) + scale_color_jco()
   
-  Figure_infection_table <- Figure_infection$table +
-    theme_minimal() +
-    theme(
-      plot.background = element_rect(fill = "white"),
-      panel.background = element_rect(fill = "white")
-    ) + scale_color_jco()
-# Combine the two plots using grid.arrange
-  combined_plot <- grid.arrange(Figure_infection_plot, Figure_infection_table, ncol = 1)
+  Figure_infection_table <- Figure_infection$data.survtable 
 
-  # Save the combined plot
+  # Save the plot
   filename <- paste0(col_name, "_survival_plot_excluded_by_period.jpeg")
-  ggsave(filename = here::here("output", filename), plot = combined_plot, dpi = 700)
+  ggsave(filename = here::here("output", filename), plot = Figure_infection_plot, dpi = 700)
+
+  # Save the table
+  filename <- paste0(col_name, "_survival_plot_excluded_by_period_table.csv")
+  write_csv(Figure_infection_table, here::here("output", filename))
 }
