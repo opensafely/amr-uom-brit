@@ -53,14 +53,11 @@ model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd +
 
 print ("Surv model success")
 
-# Get the survival function for each observation
-surv_prob <- survfit(model_selected, newdata=input_training)
 
-# Extract the survival probability at day 30
-day_30_surv_prob <- summary(surv_prob, times=30)$surv
+input_training$lin_pred <- predict(model_selected, newdata=input_training, type="lp")
 
 # Calculate the risk of an event by day 30
-input_training$day_30_risk <- 1 - day_30_surv_prob
+input_training$day_30_risk <- 1 - input_training$lin_pred
 
 print ("risk of an event by day 30 calculate success")
 
