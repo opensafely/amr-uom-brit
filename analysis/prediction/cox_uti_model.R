@@ -34,6 +34,8 @@ input_data <- input_data %>%
 
 data <- input_data %>% filter(has_uti)
 
+data$age_band <- relevel(data$age_band, ref = "40-49")
+
 # Data Partition 
 set.seed(666)
 ind <- sample(2,nrow(data),
