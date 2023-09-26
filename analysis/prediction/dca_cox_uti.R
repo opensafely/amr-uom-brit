@@ -77,6 +77,10 @@ cat("Number of NA values:", na_count, "\n")
 
 print(length(input_training[!(input_training$EVENT == 0 | input_training$EVENT == 1), "EVENT"]))
 input_training <- input_training[input_training$EVENT == 0 | input_training$EVENT == 1, ]
+
+input_training <- as.data.frame(input_training)
+head(input_training,5)
+
 print(length(input_training[!(input_training$EVENT == 0 | input_training$EVENT == 1), "EVENT"]))
 dca_30d <- stdca(
   data = input_training,

@@ -10,7 +10,7 @@ stdca <- function(data, outcome, ttoutcome, timepoint, predictors, xstart=0.01, 
   data=data[complete.cases(data[c(outcome,ttoutcome,predictors)]),c(outcome,ttoutcome,predictors)]
   
   # outcome MUST BE CODED AS 0 AND 1
-  if ((length(data[!(data[outcome]==0 | data[outcome]==1),outcome])>1) & cmprsk==FALSE) {
+  if ((length(data[!(data[outcome]==0 | data[outcome]==1),outcome])>0) & cmprsk==FALSE) {
     stop("outcome must be coded as 0 and 1")
   }
 
