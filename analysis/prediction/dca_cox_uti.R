@@ -18,13 +18,13 @@ library(Hmisc)
 
 input_data <- readRDS(here::here("output", "data_for_cox_model.rds"))
 
-pirnt ("input data success")
+print ("input data success")
 ## Load function
 
 utils_dir <- here("analysis", "utils")
 source(paste0(utils_dir, "/stdca.R")) # function stdca()
 
-pirnt ("Load fuction success")
+print ("Load fuction success")
 
 data <- input_data %>% filter(has_uti)
 
@@ -51,7 +51,7 @@ input_training <- training
 
 model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d, data = input_training)
 
-pirnt ("Surv model success")
+print ("Surv model success")
 
 # Get the survival function for each observation
 surv_prob <- survfit(model_selected, newdata=input_training)
@@ -62,7 +62,7 @@ day_30_surv_prob <- summary(surv_prob, times=30)$surv
 # Calculate the risk of an event by day 30
 input_training$day_30_risk <- 1 - day_30_surv_prob
 
-pirnt ("risk of an event by day 30 calculate success")
+print ("risk of an event by day 30 calculate success")
 
 dca_30d <- stdca(
   data = input_training,
@@ -75,7 +75,7 @@ dca_30d <- stdca(
   graph = FALSE
 )
 
-pirnt ("dca_30d  calculate success")
+print ("dca_30d  calculate success")
 
 dca_smooth <- smooth(dca_30d$net.benefit$day_30_risk
                      [!is.na(dca_30d$net.benefit$day_30_risk)],
