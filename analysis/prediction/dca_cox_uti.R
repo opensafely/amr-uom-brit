@@ -53,11 +53,14 @@ model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd +
 
 print ("Surv model success")
 
+time_point = 30
+input_training$y1_cox <- summary(survfit(model_selected),time=time_point)$surv
 
-input_training$lin_pred <- predict(model_selected, newdata=input_training, type="expected")
+input_training$lin_pred <- predict(model_selected, newdata=input_training, type="lp")
 
-# Calculate the risk of an event by day 30
-input_training$day_30_risk <- 1 - exp(-input_training$lin_pred)
+input_training$pred_surv_prob = input_training$y1_cox^exp(input_training$lin_pred)
+
+input_training$day_30_risk = 1 - input_training$pred_surv_prob
 
 print ("risk of an event by day 30 calculate success")
 
