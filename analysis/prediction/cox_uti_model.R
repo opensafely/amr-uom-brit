@@ -18,6 +18,20 @@ library(Hmisc)
 
 input_data <- readRDS(here::here("output", "data_for_cox_model.rds"))
 
+get_age_band <- function(age) {
+  case_when(
+    age >= 18 & age < 40 ~ "18-39",
+    age >= 40 & age < 50 ~ "40-49",
+    age >= 50 & age < 60 ~ "50-59",
+    age >= 60 & age < 70 ~ "60-69",
+    age >= 70 & age < 80 ~ "70-79",
+    age >= 80 ~ "80+"
+  )
+}
+
+input_data <- input_data %>%
+  mutate(age_band = get_age_band(age))
+
 data <- input_data %>% filter(has_uti)
 
 # Data Partition 
@@ -77,8 +91,7 @@ training$age3_spline <- age3_spline_train
 # Bind to testing
 testing$age3_spline <- age3_spline_test
 
-model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d, data = training)
-
+model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d + ab_3yr, data = training)
 
 pred_LP <- model_selected$linear.predictors
 mean(pred_LP)
@@ -246,7 +259,9 @@ dev.off()
 
 
 ## Result
-model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d, data = training)
+
+model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d + ab_3yr, data = training)
+
 results=as.data.frame(names(model_selected$coefficients))
 colnames(results)="term"
 
@@ -272,6 +287,128 @@ print("Print results")
 print(results) 
 
 write_csv(results, here::here("output", "uti_model_HR.csv"))
+
+### Result for age-sex adjusted model
+
+model_sex_age_band <- coxph(Surv(TEVENT, EVENT) ~ sex + age_band, data = training)
+
+results=as.data.frame(names(model_sex_age_band$coefficients))
+colnames(results)="term"
+
+# Hazard ratio and 95% CI, P-value and S.E.
+results$hazard_ratio=exp(model_sex_age_band$coefficients)
+
+
+  # if all weights equal 1, use standard method for S.E.
+  results$conf.low = exp(model_sex_age_band$coefficients - 1.96* sqrt(diag(vcov(model_sex_age_band))))
+  results$conf.high = exp(model_sex_age_band$coefficients + 1.96* sqrt(diag(vcov(model_sex_age_band))))                                                   
+  results$p.value = round(pnorm(abs(model_sex_age_band$coefficients/sqrt(diag(model_sex_age_band$var))),lower.tail=F)*2,3)
+  results$std.error=exp(sqrt(diag(vcov(model_sex_age_band))))
+
+
+results$concordance <- results$concordance.lower <- results$concordance.upper <- NA
+
+results$concordance[1] <- round(concordance(model_sex_age_band)$concordance,3) #
+results$concordance.lower[1] <- round(concordance(model_sex_age_band)$concordance - 1.96*sqrt((concordance(model_sex_age_band))$var),3)
+results$concordance.upper[1] <- round(concordance(model_sex_age_band)$concordance + 1.96*sqrt((concordance(model_sex_age_band))$var),3)
+
+results[,2:ncol(results)] <- round(results[,2:ncol(results)], 3)
+print("Print results")
+print(results) 
+
+write_csv(results, here::here("output", "uti_sex_age_band_HR.csv"))
+
+model_sex_age_spline <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline, data = training)
+
+results=as.data.frame(names(model_sex_age_spline$coefficients))
+colnames(results)="term"
+
+# Hazard ratio and 95% CI, P-value and S.E.
+results$hazard_ratio=exp(model_sex_age_spline$coefficients)
+
+
+  # if all weights equal 1, use standard method for S.E.
+  results$conf.low = exp(model_sex_age_spline$coefficients - 1.96* sqrt(diag(vcov(model_sex_age_spline))))
+  results$conf.high = exp(model_sex_age_spline$coefficients + 1.96* sqrt(diag(vcov(model_sex_age_spline))))                                                   
+  results$p.value = round(pnorm(abs(model_sex_age_spline$coefficients/sqrt(diag(model_sex_age_spline$var))),lower.tail=F)*2,3)
+  results$std.error=exp(sqrt(diag(vcov(model_sex_age_spline))))
+
+
+results$concordance <- results$concordance.lower <- results$concordance.upper <- NA
+
+results$concordance[1] <- round(concordance(model_sex_age_spline)$concordance,3) #
+results$concordance.lower[1] <- round(concordance(model_sex_age_spline)$concordance - 1.96*sqrt((concordance(model_sex_age_spline))$var),3)
+results$concordance.upper[1] <- round(concordance(model_sex_age_spline)$concordance + 1.96*sqrt((concordance(model_sex_age_spline))$var),3)
+
+results[,2:ncol(results)] <- round(results[,2:ncol(results)], 3)
+print("Print results")
+print(results) 
+
+write_csv(results, here::here("output", "uti_sex_age_spline_HR.csv"))
+
+# List of variables to be added one by one
+vars <- c("region", "imd", "ethnicity", "bmi", "smoking_status_comb", "charlsonGrp", "ab_30d", "ab_3yr")
+
+# Function to fit the model and extract results
+get_results <- function(var) {
+  model <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + get(var), data = training)
+  
+  res <- as.data.frame(names(model$coefficients))
+  colnames(res) <- "term"
+  
+  res$hazard_ratio <- exp(model$coefficients)
+  res$conf.low <- exp(model$coefficients - 1.96 * sqrt(diag(vcov(model))))
+  res$conf.high <- exp(model$coefficients + 1.96 * sqrt(diag(vcov(model))))
+  res$p.value <- round(pnorm(abs(model$coefficients / sqrt(diag(vcov(model)))), lower.tail = F) * 2, 3)
+  res$std.error <- sqrt(diag(vcov(model)))
+  
+  res$concordance <- res$concordance.lower <- res$concordance.upper <- NA
+  conc <- concordance(model)
+  res$concordance[1] <- round(conc$concordance, 3)
+  res$concordance.lower[1] <- round(conc$concordance - 1.96 * sqrt(conc$var), 3)
+  res$concordance.upper[1] <- round(conc$concordance + 1.96 * sqrt(conc$var), 3)
+  
+  # Round all columns (except the first one) to 3 decimal places
+  res[,2:ncol(res)] <- round(res[,2:ncol(res)], 3)
+  
+  return(res)
+}
+
+# Apply the function to each variable and bind the results
+all_results <- bind_rows(lapply(vars, get_results))
+
+# Write the results to a CSV file
+write_csv(all_results, here::here("output", "uti_sex_age_var_HR.csv"))
+
+
+model_sex_age_band_full <- coxph(Surv(TEVENT, EVENT) ~ sex + age_band + region + imd + ethnicity + bmi + smoking_status_comb + charlsonGrp + ab_30d + ab_3yr, data = training)
+
+results=as.data.frame(names(model_sex_age_band_full$coefficients))
+colnames(results)="term"
+
+# Hazard ratio and 95% CI, P-value and S.E.
+results$hazard_ratio=exp(model_sex_age_band_full$coefficients)
+
+
+  # if all weights equal 1, use standard method for S.E.
+  results$conf.low = exp(model_sex_age_band_full$coefficients - 1.96* sqrt(diag(vcov(model_sex_age_band_full))))
+  results$conf.high = exp(model_sex_age_band_full$coefficients + 1.96* sqrt(diag(vcov(model_sex_age_band_full))))                                                   
+  results$p.value = round(pnorm(abs(model_sex_age_band_full$coefficients/sqrt(diag(model_sex_age_band_full$var))),lower.tail=F)*2,3)
+  results$std.error=exp(sqrt(diag(vcov(model_sex_age_band_full))))
+
+
+results$concordance <- results$concordance.lower <- results$concordance.upper <- NA
+
+results$concordance[1] <- round(concordance(model_sex_age_band_full)$concordance,3) #
+results$concordance.lower[1] <- round(concordance(model_sex_age_band_full)$concordance - 1.96*sqrt((concordance(model_sex_age_band_full))$var),3)
+results$concordance.upper[1] <- round(concordance(model_sex_age_band_full)$concordance + 1.96*sqrt((concordance(model_sex_age_band_full))$var),3)
+
+results[,2:ncol(results)] <- round(results[,2:ncol(results)], 3)
+print("Print results")
+print(results) 
+
+write_csv(results, here::here("output", "uti_sex_age_band_full_HR.csv"))
+
 
 ###### external validation ########
 
