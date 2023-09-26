@@ -81,7 +81,7 @@ stdca <- function(data, outcome, ttoutcome, timepoint, predictors, xstart=0.01, 
       pred=NULL
       model=coxph(Surv(data.matrix(data[ttoutcome]),data.matrix(data[outcome])) ~ data.matrix(data[predictors[m]]))
       surv.data=data.frame(0)
-      pred=data.frame(1-c(summary(survfit(model, newdata=surv.data), time=timepoint)$surv))
+      pred=data.frame(1-c(summary(survfit(model, newdata=surv.data), time=timepoint, extend=TRUE)$surv))
       names(pred)=predictors[m]
       data=cbind(data[names(data)!=predictors[m]],pred)
       print(paste(predictors[m],"converted to a probability with Cox regression. Due to linearity and proportional hazards assumption, miscalibration may occur.",sep=" "))
