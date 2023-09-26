@@ -76,13 +76,14 @@ na_count <- sum(is.na(input_training$EVENT))
 cat("Number of NA values:", na_count, "\n")
 
 print(length(input_training[!(input_training$EVENT == 0 | input_training$EVENT == 1), "EVENT"]))
+input_training <- input_training[input_training$EVENT == 0 | input_training$EVENT == 1, ]
 
 dca_30d <- stdca(
   data = input_training,
-  outcome = EVENT,
-  ttoutcome = TEVENT,
+  outcome = "EVENT",
+  ttoutcome = "TEVENT",
   timepoint = 30,
-  predictors = day_30_risk,
+  predictors = "day_30_risk",
   xstop = 1.0,
   ymin = -0.01,
   graph = FALSE
