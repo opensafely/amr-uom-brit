@@ -61,6 +61,20 @@ input_training$day_30_risk <- 1 - input_training$lin_pred
 
 print ("risk of an event by day 30 calculate success")
 
+input_training$EVENT <- as.numeric(input_training$EVENT)
+
+# Create a table of counts for the EVENT column
+event_counts <- table(input_training$EVENT, useNA = "ifany")
+
+# Print the table
+print(event_counts)
+
+# Count the number of NA values in the EVENT column
+na_count <- sum(is.na(input_training$EVENT))
+
+# Print the number of NA values
+cat("Number of NA values:", na_count, "\n")
+
 dca_30d <- stdca(
   data = input_training,
   outcome = "EVENT",
