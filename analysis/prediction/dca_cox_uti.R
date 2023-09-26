@@ -75,7 +75,7 @@ na_count <- sum(is.na(input_training$EVENT))
 # Print the number of NA values
 cat("Number of NA values:", na_count, "\n")
 
-print(length(input_training[!(input_training[EVENT]==0 | input_training[EVENT]==1),EVENT]))
+print(length(input_training[!(input_training$EVENT == 0 | input_training$EVENT == 1), "EVENT"]))
 
 dca_30d <- stdca(
   data = input_training,
