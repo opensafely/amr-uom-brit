@@ -95,7 +95,7 @@ stdca <- function(data, outcome, ttoutcome, timepoint, predictors, xstart=0.01, 
   # this is used for the net benefit associated with treating all patients
   if(cmprsk==FALSE) {
     km.cuminc=survfit(Surv(data.matrix(data[ttoutcome]),data.matrix(data[outcome]))~1)
-    pd=1 - summary(km.cuminc, times=timepoint)$surv
+    pd=1 - summary(km.cuminc, times=timepoint, extend=TRUE)$surv
   } else {
     require(cmprsk)
     cr.cuminc=cuminc(data[[ttoutcome]],data[[outcome]])
@@ -127,7 +127,7 @@ stdca <- function(data, outcome, ttoutcome, timepoint, predictors, xstart=0.01, 
         #calculate risk using Kaplan Meier
         if(cmprsk==FALSE) {
           km.cuminc=survfit(Surv(data.matrix(data[data[predictors[m]]>nb$threshold[t],ttoutcome]),data.matrix(data[data[predictors[m]]>nb$threshold[t],outcome]))~1)
-          pdgivenx=(1 - summary(km.cuminc, times=timepoint)$surv)
+          pdgivenx=(1 - summary(km.cuminc, times=timepoint, extend=TRUE)$surv)
           if(length(pdgivenx)==0){
             error=rbind(error,paste(predictors[m],": No observations with risk greater than ",nb$threshold[t]*100,"% that have followup through the timepoint selected",sep=""))
             break
