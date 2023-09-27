@@ -386,8 +386,10 @@ get_infection_summary <- function(df, infection_col, infection_label) {
     summarise(
       case_count = sum(EVENT == 1),
       population = n()
-    ) %>%
-    mutate(
+    ) %>% mutate(
+    case_count = round(case_count / 5) * 5,
+    population = round(population / 5) * 5
+    ) %>% mutate(
       infection_indicator = infection_label,
       value = round(case_count * 1000 / population, digits = 3)
     )
