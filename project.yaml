@@ -913,6 +913,10 @@ actions:
         csv3: output/uti_model_external_all.csv
         plot6: output/uti_30day_calibration_all.jpeg
         plot7: output/uti_30day_re-calibration_all.jpeg
+        csv4: output/uti_sex_age_band_HR_all.csv
+        csv5: output/uti_sex_age_spline_HR_all.csv
+        csv6: output/uti_sex_age_var_HR_all.csv
+        csv7: output/uti_sex_age_band_full_HR_all.csv
 
   cox_urti_model_all:
     run: r:latest analysis/prediction2/cox_urti_model_all.R
@@ -929,6 +933,10 @@ actions:
         csv3: output/urti_model_external_all.csv
         plot6: output/urti_30day_calibration_all.jpeg
         plot7: output/urti_30day_re-calibration_all.jpeg
+        csv4: output/urti_sex_age_band_HR_all.csv
+        csv5: output/urti_sex_age_spline_HR_all.csv
+        csv6: output/urti_sex_age_var_HR_all.csv
+        csv7: output/urti_sex_age_band_full_HR_all.csv
 
   cox_lrti_model_all:
     run: r:latest analysis/prediction2/cox_lrti_model_all.R
@@ -945,6 +953,10 @@ actions:
         csv3: output/lrti_model_external_all.csv
         plot6: output/lrti_30day_calibration_all.jpeg
         plot7: output/lrti_30day_re-calibration_all.jpeg
+        csv4: output/lrti_sex_age_band_HR_all.csv
+        csv5: output/lrti_sex_age_spline_HR_all.csv
+        csv6: output/lrti_sex_age_var_HR_all.csv
+        csv7: output/lrti_sex_age_band_full_HR_all.csv
 
   cox_otexterna_model_all:
     run: r:latest analysis/prediction2/cox_otexterna_model_all.R
@@ -961,6 +973,10 @@ actions:
         csv3: output/otexterna_model_external_all.csv
         plot6: output/otexterna_30day_calibration_all.jpeg
         plot7: output/otexterna_30day_re-calibration_all.jpeg
+        csv4: output/otexterna_sex_age_band_HR_all.csv
+        csv5: output/otexterna_sex_age_spline_HR_all.csv
+        csv6: output/otexterna_sex_age_var_HR_all.csv
+        csv7: output/otexterna_sex_age_band_full_HR_all.csv
 
   cox_otmedia_model_all:
     run: r:latest analysis/prediction2/cox_otmedia_model_all.R
@@ -977,6 +993,10 @@ actions:
         csv3: output/otmedia_model_external_all.csv
         plot6: output/otmedia_30day_calibration_all.jpeg
         plot7: output/otmedia_30day_re-calibration_all.jpeg
+        csv4: output/otmedia_sex_age_band_HR_all.csv
+        csv5: output/otmedia_sex_age_spline_HR_all.csv
+        csv6: output/otmedia_sex_age_var_HR_all.csv
+        csv7: output/otmedia_sex_age_band_full_HR_all.csv
 
   cox_sinusitis_model_all:
     run: r:latest analysis/prediction2/cox_sinusitis_model_all.R
@@ -993,6 +1013,10 @@ actions:
         csv3: output/sinusitis_model_external_all.csv
         plot6: output/sinusitis_30day_calibration_all.jpeg
         plot7: output/sinusitis_30day_re-calibration_all.jpeg
+        csv4: output/sinusitis_sex_age_band_HR_all.csv
+        csv5: output/sinusitis_sex_age_spline_HR_all.csv
+        csv6: output/sinusitis_sex_age_var_HR_all.csv
+        csv7: output/sinusitis_sex_age_band_full_HR_all.csv
 
   table1:
     run: r:latest analysis/prediction2/table1.R
