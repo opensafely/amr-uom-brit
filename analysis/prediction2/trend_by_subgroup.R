@@ -428,7 +428,7 @@ df_no_infection <- df %>%
 
 # Combine the results
 df.plot <- bind_rows(df.plot, df_no_infection)
-
+df.plot <- df.plot %>% filter(monPlot<=as.Date("2023-05-31"))
 
 figure_infection_strata <- ggplot(df.plot, aes(x = as.Date("2019-01-01"), y = value, group = factor(infection_indicator), col = factor(infection_indicator), fill = factor(infection_indicator))) +
   geom_boxplot(width=20, outlier.size=0, position="identity", alpha=.5) +
