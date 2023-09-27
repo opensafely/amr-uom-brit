@@ -1038,3 +1038,16 @@ actions:
     outputs:
       moderately_sensitive: 
         plot: output/DCA_UTI.jpeg
+
+  generate_study_population_flowchart:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_flowchart
+    outputs:
+      highly_sensitive:
+        cohort: output/input_flowchart.csv
+
+  flowchart_count:
+    run: r:latest analysis/flowchart_count.R
+    needs: [generate_study_population_flowchart]
+    outputs:
+      moderately_sensitive: 
+        csv1: output/flowchart_count.csv
