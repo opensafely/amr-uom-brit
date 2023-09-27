@@ -422,6 +422,10 @@ df_no_infection <- df %>%
     population = n()
   ) %>%
   mutate(
+    case_count = round(case_count / 5) * 5,
+    population = round(population / 5) * 5
+  ) %>%
+  mutate(
     infection_indicator = "no infection record",
     value = round(case_count * 1000 / population, digits = 3)
   )
