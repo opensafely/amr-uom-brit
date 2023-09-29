@@ -1058,3 +1058,10 @@ actions:
     outputs:
       highly_sensitive: 
         csv: output/final_processed_data.csv
+
+  check_overallnum_2:
+    run: r:latest analysis/prediction2/check_overallnum_2.R
+    needs: [process_cox_dataset,process_cox_dataset_2,process_cox_dataset_3,process_cox_dataset_4]
+    outputs:
+      highly_sensitive: 
+        csv: output/final_processed_data_2.csv
