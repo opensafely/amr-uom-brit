@@ -364,3 +364,48 @@ for (col_name in infection_columns) {
   filename <- paste0(col_name, "_survival_plot_excluded_by_period_table.csv")
   write_csv(Figure_infection_table, here::here("output", filename))
 }
+
+
+for (col_name in infection_columns) {
+  # Filter data for the current infection column
+  data_infection <- data %>% filter(!!sym(col_name))
+  
+  # Fit survival curves for each antibiotic use in 30 days within the filtered data
+  surv_fit <- survfit(Surv(TEVENT, EVENT) ~ ab_30d, data = data_infection)
+  
+  # Plot the survival curves using ggsurvplot
+  Figure_infection <- ggsurvplot(
+    surv_fit,
+    conf.int = TRUE,
+    palette = "jco",
+    legend.title = "Antibiotic use in 30 days",
+    legend.labs = c("Yes", "No"),
+    xlab = "Time (days)",
+    ylab = "Survival probability",
+    title = paste("Survival Curves for", col_name, "Patients by ab_30d"),
+     # Add p-value and risk table
+    pval = TRUE,
+    risk.table = TRUE,
+    tables.height = 0.2,
+    tables.theme = theme_cleantable(),
+  )
+# Customize each plot
+  Figure_infection_plot <- Figure_infection$plot +
+    scale_y_continuous(limits = c(0.99, 1)) +
+    theme_minimal() +
+    theme(
+      plot.background = element_rect(fill = "white"),
+      panel.background = element_rect(fill = "white")
+    ) + scale_color_jco()
+  
+  Figure_infection_table <- Figure_infection$data.survtable 
+
+  # Save the plot
+  filename <- paste0(col_name, "_survival_plot_excluded_by_ab_30d.jpeg")
+  ggsave(filename = here::here("output", filename), plot = Figure_infection_plot, dpi = 700)
+
+  # Save the table
+  filename <- paste0(col_name, "_survival_plot_excluded_by_ab_30d_table.csv")
+  write_csv(Figure_infection_table, here::here("output", filename))
+}
+

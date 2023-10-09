@@ -878,7 +878,9 @@ actions:
       moderately_sensitive: 
         plot1: output/*_survival_plot_excluded_by_year.jpeg
         plot2: output/*_survival_plot_excluded_by_period.jpeg
-        talbe: output/*_survival_plot_excluded_by_period_table.csv
+        plot3: output/*_survival_plot_excluded_by_ab_30d.jpeg
+        table1: output/*_survival_plot_excluded_by_period_table.csv
+        table2: output/*_survival_plot_excluded_by_ab_30d_table.csv
 
 
   trend_by_subgroup:
