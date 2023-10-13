@@ -23,7 +23,7 @@ df$imd= relevel(as.factor(df$imd), ref="5")
 df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertension ,chronic_respiratory_disease,
              asthma ,chronic_cardiac_disease ,diabetes_controlled ,cancer ,haem_cancer ,chronic_liver_disease,
              stroke ,dementia ,other_neuro ,organ_kidney_transplant ,asplenia ,ra_sle_psoriasis ,immunosuppression,
-             learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency +set_id)
+             learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency, set_id)
 
 # We run the mice code with 0 iterations 
 
