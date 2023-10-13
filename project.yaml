@@ -1365,3 +1365,10 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/missing_freq_by_age_*.csv
+
+  a_impute_case_model_imd:
+    run: r:latest analysis/a_impute_case_model_imd.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table: output/analysis_result_set_*.csv
