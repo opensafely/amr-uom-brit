@@ -1370,5 +1370,5 @@ actions:
     run: r:latest analysis/a_impute_case_model_imd.R
     needs: [process_model_var]
     outputs:
-      moderately_sensitive:
+      highly_sensitive:
         table: output/imputation_dataframe.csv

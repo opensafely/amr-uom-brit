@@ -43,6 +43,21 @@ imp2 <- mice(df, maxit = 5, seed = 123,
 
 df_imp_long <- mice::complete(imp2, action="long", include = TRUE)            
 
+
+## Function to calculate and print the number of missing values in each column
+print_missing_values <- function(df){
+  missing_values <- sapply(df, function(x) sum(is.na(x)))
+  print(missing_values)
+}
+
+## Print the number of missing values before imputation
+cat("Number of missing values before imputation:\n")
+print_missing_values(df)
+
+## Print the number of missing values after imputation
+cat("Number of missing values after imputation:\n")
+print_missing_values(df_imp_long)
+
 write.csv (df_imp_long, here::here ("output", "imputation_dataframe.csv"))
 
 
