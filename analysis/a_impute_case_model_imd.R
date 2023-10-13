@@ -25,6 +25,7 @@ df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertensio
              stroke ,dementia ,other_neuro ,organ_kidney_transplant ,asplenia ,ra_sle_psoriasis ,immunosuppression,
              learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency, set_id)
 
+df$case <- as.factor(df$case)
 # We run the mice code with 0 iterations 
 
 imp <- mice(df, maxit=0, seed = 123)
@@ -32,10 +33,6 @@ imp <- mice(df, maxit=0, seed = 123)
 predM <- imp$predictorMatrix
 meth <- imp$method
 head(predM)
-
-meth[c("smoking_status")]=""
-meth[c("bmi_adult")]=""
-meth[c("ethnicity")]=""
 
 imp2 <- mice(df, maxit = 5, seed = 123,
              predictorMatrix = predM, 
