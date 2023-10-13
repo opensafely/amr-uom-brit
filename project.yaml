@@ -1371,4 +1371,4 @@ actions:
     needs: [process_model_var]
     outputs:
       moderately_sensitive:
-        table: output/analysis_result_set_*.csv
+        table: output/imputation_dataframe.csv

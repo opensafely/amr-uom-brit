@@ -20,27 +20,29 @@ df$ethnicity[df$ethnicity == "Unknown"] <- NA
 
 df$imd= relevel(as.factor(df$imd), ref="5")
 
-## Perform multiple imputations to handle missing data
-imputed_data <- mice(df, m=5, method='pmm', seed=500)
+df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertension ,chronic_respiratory_disease,
+             asthma ,chronic_cardiac_disease ,diabetes_controlled ,cancer ,haem_cancer ,chronic_liver_disease,
+             stroke ,dementia ,other_neuro ,organ_kidney_transplant ,asplenia ,ra_sle_psoriasis ,immunosuppression,
+             learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency +set_id)
 
-## Now, perform analysis on each imputed dataset
-for(i in 1:5){
-  data <- complete(imputed_data, i)
-  
-  ## You can now perform your analysis on each completed dataset 
-  ## (I'll show the crude model by variables as an example)
-  mod=clogit(case ~ imd + strata(set_id), data)
-  sum.mod=summary(mod)
-  result=data.frame(sum.mod$conf.int)
-  DF=result[,-2]
-  names(DF)[1]="OR"
-  names(DF)[2]="CI_L"
-  names(DF)[3]="CI_U"
-  setDT(DF, keep.rownames = TRUE)[]
-  
-  ## Save the output in a CSV file
-  write_csv(DF, here::here(sprintf("output/analysis_result_set_%d.csv", i)))
-}
+# We run the mice code with 0 iterations 
 
+imp <- mice(df, maxit=0, seed = 123)
+
+predM <- imp$predictorMatrix
+meth <- imp$method
+head(predM)
+
+meth[c("smoking_status")]=""
+meth[c("bmi_adult")]=""
+meth[c("ethnicity")]=""
+
+imp2 <- mice(df, maxit = 5, seed = 123,
+             predictorMatrix = predM, 
+             method = meth, print =  TRUE)
+
+df_imp_long <- mice::complete(imp2, action="long", include = TRUE)            
+
+write.csv (df_imp_long, here::here ("output", "imputation_dataframe.csv"))
 
 
