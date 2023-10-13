@@ -26,35 +26,31 @@ df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertensio
              learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency, set_id)
 
 df$case <- as.factor(df$case)
-# We run the mice code with 0 iterations 
 
-imp <- mice(df, maxit=0, seed = 123)
+set.seed(123) # Setting a seed for reproducibility
 
-predM <- imp$predictorMatrix
-meth <- imp$method
-head(predM)
-
-imp2 <- mice(df, maxit = 5, seed = 123,
-             predictorMatrix = predM, 
-             method = meth, print =  TRUE)
-
-df_imp_long <- mice::complete(imp2, action="long", include = TRUE)            
+## Select 1% of the data randomly
+df_sampled <- df %>% sample_frac(size = 0.01)
 
 
-## Function to calculate and print the number of missing values in each column
-print_missing_values <- function(df){
-  missing_values <- sapply(df, function(x) sum(is.na(x)))
-  print(missing_values)
-}
+## Print the number of missing values before imputation in the sampled data
+cat("Number of missing values before imputation in the sampled data:\n")
+print_missing_values(df_sampled)
 
-## Print the number of missing values before imputation
-cat("Number of missing values before imputation:\n")
-print_missing_values(df)
+## Perform mice imputation on sampled data
+imp_sampled <- mice(df_sampled, maxit=0, seed = 123)
+predM_sampled <- imp_sampled$predictorMatrix
+meth_sampled <- imp_sampled$method
 
-## Print the number of missing values after imputation
-cat("Number of missing values after imputation:\n")
-print_missing_values(df_imp_long)
+imp2_sampled <- mice(df_sampled, maxit = 5, seed = 123,
+                     predictorMatrix = predM_sampled, 
+                     method = meth_sampled, print = TRUE)
 
-write.csv (df_imp_long, here::here ("output", "imputation_dataframe.csv"))
+df_imp_long_sampled <- mice::complete(imp2_sampled, action="long", include = TRUE)            
 
+## Print the number of missing values after imputation in the sampled data
+cat("Number of missing values after imputation in the sampled data:\n")
+print_missing_values(df_imp_long_sampled)
+
+write.csv(df_imp_long_sampled, here::here("output", "imputation_dataframe_sampled.csv"))
 

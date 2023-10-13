@@ -1371,4 +1371,4 @@ actions:
     needs: [process_model_var]
     outputs:
       highly_sensitive:
-        table: output/imputation_dataframe.csv
+        table: output/imputation_dataframe_sampled.csv
