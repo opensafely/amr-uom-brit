@@ -1358,3 +1358,10 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/combined_mortality_part*.csv
+
+  age_dis_in_missing:
+    run: r:latest analysis/age_dis_in_missing.R
+    needs: [process_model_var]
+    outputs:
+      moderately_sensitive:
+        table: output/missing_freq_by_age_*.csv
