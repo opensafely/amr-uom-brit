@@ -32,6 +32,11 @@ set.seed(123) # Setting a seed for reproducibility
 ## Select 1% of the data randomly
 df_sampled <- df %>% sample_frac(size = 0.01)
 
+## Function to calculate and print the number of missing values in each column
+print_missing_values <- function(df){
+  missing_values <- sapply(df, function(x) sum(is.na(x)))
+  print(missing_values)
+}
 
 ## Print the number of missing values before imputation in the sampled data
 cat("Number of missing values before imputation in the sampled data:\n")
