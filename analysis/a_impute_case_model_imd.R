@@ -30,7 +30,7 @@ df$case <- as.factor(df$case)
 set.seed(123) # Setting a seed for reproducibility
 
 ## Select 1% of the data randomly
-df_sampled <- df %>% sample_frac(size = 0.01)
+df_sampled <- df %>% sample_frac(size = 0.001)
 
 ## Function to calculate and print the number of missing values in each column
 print_missing_values <- function(df){
