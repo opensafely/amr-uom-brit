@@ -21,16 +21,14 @@ df$ethnicity[df$ethnicity == "Unknown"] <- NA
 df$imd= relevel(as.factor(df$imd), ref="5")
 
 df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertension ,chronic_respiratory_disease,
-             asthma ,chronic_cardiac_disease ,diabetes_controlled ,cancer ,haem_cancer ,chronic_liver_disease,
-             stroke ,dementia ,other_neuro ,organ_kidney_transplant ,asplenia ,ra_sle_psoriasis ,immunosuppression,
-             learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency, set_id)
+             asthma ,chronic_cardiac_disease ,diabetes_controlled ,cancer ,haem_cancer ,chronic_liver_disease)
 
 df$case <- as.factor(df$case)
 
 set.seed(123) # Setting a seed for reproducibility
 
 ## Select 1% of the data randomly
-df_sampled <- df %>% sample_frac(size = 0.001)
+df_sampled <- df %>% sample_frac(size = 0.01)
 
 ## Function to calculate and print the number of missing values in each column
 print_missing_values <- function(df){
