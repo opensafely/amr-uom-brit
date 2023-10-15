@@ -21,7 +21,9 @@ df$ethnicity[df$ethnicity == "Unknown"] <- NA
 df$imd= relevel(as.factor(df$imd), ref="5")
 
 df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertension ,chronic_respiratory_disease,
-             asthma ,chronic_cardiac_disease ,diabetes_controlled ,cancer ,haem_cancer ,chronic_liver_disease)
+             asthma ,chronic_cardiac_disease ,diabetes_controlled ,cancer ,haem_cancer ,chronic_liver_disease,
+             stroke ,dementia ,other_neuro ,organ_kidney_transplant ,asplenia ,ra_sle_psoriasis ,immunosuppression,
+             learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency, set_id)
 
 df$case <- as.factor(df$case)
 
@@ -44,6 +46,9 @@ print_missing_values(df_sampled)
 imp_sampled <- mice(df_sampled, maxit=0, seed = 123)
 predM_sampled <- imp_sampled$predictorMatrix
 meth_sampled <- imp_sampled$method
+
+
+predM_sampled[, c("set_id")] <- 0
 
 imp2_sampled <- mice(df_sampled, maxit = 5, seed = 123,
                      predictorMatrix = predM_sampled, 
