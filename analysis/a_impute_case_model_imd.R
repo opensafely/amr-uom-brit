@@ -25,8 +25,6 @@ df <- df %>% select(case, imd ,ethnicity ,bmi_adult ,smoking_status ,hypertensio
              stroke ,dementia ,other_neuro ,organ_kidney_transplant ,asplenia ,ra_sle_psoriasis ,immunosuppression,
              learning_disability ,sev_mental_ill ,alcohol_problems ,care_home_type_ba ,ckd_rrt ,ab_frequency, set_id)
 
-df$case <- as.factor(df$case)
-
 set.seed(123) # Setting a seed for reproducibility
 
 ## Select 1% of the data randomly
