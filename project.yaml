@@ -1400,3 +1400,24 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/imputed_crude_*.csv
+
+  a_impute_mortality_ch:
+    run: r:latest analysis/a_impute_mortality_ch.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_mortality_ch.csv
+
+  a_impute_mortality_c:
+    run: r:latest analysis/a_impute_mortality_c.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_mortality_c.csv
+
+  a_impute_mortality_h:
+    run: r:latest analysis/a_impute_mortality_h.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_mortality_h.csv
