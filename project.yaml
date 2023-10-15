@@ -1372,3 +1372,31 @@ actions:
     outputs:
       highly_sensitive:
         table: output/imputation_dataframe_sampled.csv
+
+  a_impute_ch:
+    run: r:latest analysis/a_impute_ch.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_dataframe_ch.csv
+
+  a_impute_c:
+    run: r:latest analysis/a_impute_c.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_dataframe_c.csv
+
+  a_impute_h:
+    run: r:latest analysis/a_impute_h.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_dataframe_h.csv
+
+  sen_imputed_crude_demo:
+    run: r:latest analysis/sensitivity/sen_imputed_crude_demo.R
+    needs: [a_impute_ch,a_impute_c,a_impute_h]
+    outputs:
+      moderately_sensitive:
+        table: output/imputed_crude_*.csv
