@@ -1421,3 +1421,24 @@ actions:
     outputs:
       highly_sensitive:
         table: output/imputation_mortality_h.csv
+
+  a_impute_18_ch:
+    run: r:latest analysis/a_impute_18_ch.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_dataframe_18_ch.csv
+
+  a_impute_18_c:
+    run: r:latest analysis/a_impute_18_c.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_dataframe_18_c.csv
+
+  a_impute_18_h:
+    run: r:latest analysis/a_impute_18_h.R
+    needs: [process_model_var]
+    outputs:
+      highly_sensitive:
+        table: output/imputation_dataframe_18_h.csv
