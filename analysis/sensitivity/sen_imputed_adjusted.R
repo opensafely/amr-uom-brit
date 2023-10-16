@@ -20,7 +20,10 @@ df_imp_long_h_mids<-as.mids(df_imp_long_h)
 
 calculate_ORs <- function(data_mids, variable) {
   model <- with(data_mids,
-                clogit(case ~ get(variable) + strata(set_id)))
+                clogit(case ~  hypertension + chronic_respiratory_disease +
+             asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
+             stroke + dementia + other_neuro + organ_kidney_transplant + asplenia + ra_sle_psoriasis + immunosuppression +
+             learning_disability + sev_mental_ill + alcohol_problems + care_home_type_ba + ckd_rrt + ab_frequency + strata(set_id)))
   model <- summary(pool(model)) 
   
   # Extracting coefficients and other details from the model
@@ -48,7 +51,8 @@ datasets <- list(ch = df_imp_long_ch_mids,
                  h = df_imp_long_h_mids)
 
 # Applying the function to each variable of interest
-variables <- c("imd", "ethnicity", "bmi_adult", "smoking_status")
+variables <- c("
+", "ethnicity", "bmi_adult", "smoking_status")
 
 # Iterating over datasets and variables
 for (data_name in names(datasets)) {
