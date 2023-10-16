@@ -18,7 +18,7 @@ df_imp_long_h <- read_csv (here::here ("output", "imputation_dataframe_h.csv"))
 df$df_imp_long_h= relevel(as.factor(df$df_imp_long_h), ref="5")
 df_imp_long_h_mids<-as.mids(df_imp_long_h)
 
-calculate_ORs <- function(data_mids, variable) {
+calculate_ORs <- function(data_mids) {
   model <- with(data_mids,
                 clogit(case ~  hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
@@ -50,14 +50,9 @@ datasets <- list(ch = df_imp_long_ch_mids,
                  c = df_imp_long_c_mids, 
                  h = df_imp_long_h_mids)
 
-# Applying the function to each variable of interest
-variables <- c("
-", "ethnicity", "bmi_adult", "smoking_status")
 
-# Iterating over datasets and variables
+# Iterating over datasets
 for (data_name in names(datasets)) {
-  for (var in variables) {
-    result_df <- calculate_ORs(datasets[[data_name]], var)
-    write_csv(result_df, here::here("output", paste0("imputed_crude_", data_name, "_", var, ".csv")))
-  }
+  result_df <- calculate_ORs(datasets[[data_name]])
+  write_csv(result_df, here::here("output", paste0("imputed_adjusted_", data_name, ".csv")))
 }

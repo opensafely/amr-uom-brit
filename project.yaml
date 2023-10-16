@@ -1401,6 +1401,13 @@ actions:
       moderately_sensitive:
         table: output/imputed_crude_*.csv
 
+  sen_imputed_adjusted:
+    run: r:latest analysis/sensitivity/sen_imputed_adjusted.R
+    needs: [a_impute_ch,a_impute_c,a_impute_h]
+    outputs:
+      moderately_sensitive:
+        table: output/imputed_adjusted_*.csv
+
   a_impute_mortality_ch:
     run: r:latest analysis/a_impute_mortality_ch.R
     needs: [process_model_var]
