@@ -30,7 +30,6 @@ calculate_ORs <- function(data_mids, glm_formula) {
   data_mids$data$organ_kidney_transplant <-relevel(as.factor(data_mids$data$organ_kidney_transplant), ref="No transplant")
   data_mids$data$ckd_rrt <-relevel(as.factor(data_mids$data$ckd_rrt), ref="No CKD or RRT")
   data_mids$data$ab_frequency <-relevel(as.factor(data_mids$data$ab_frequency), ref="0")
-  data_mids$data$set_id <-as.factor(data_mids$data$set_id)
   data_mids$data$agegroup = case_when(
   data_mids$data$age < 18 ~ "<18",
   data_mids$data$age >= 18 & data_mids$data$age < 40 ~ "18-39",
