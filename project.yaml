@@ -1449,3 +1449,10 @@ actions:
     outputs:
       highly_sensitive:
         table: output/imputation_dataframe_18_h.csv
+
+  sen_imputed_mortality:
+    run: r:latest analysis/sensitivity/sen_imputed_mortality.R
+    needs: [a_impute_c]
+    outputs:
+      moderately_sensitive:
+        table: output/imputed_adjusted_mortality_community_*.csv
