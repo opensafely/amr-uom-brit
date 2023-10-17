@@ -16,6 +16,12 @@ df_imp_long_h <- read_csv (here::here ("output", "imputation_dataframe_h.csv"))
 df_imp_long_h_mids<-as.mids(df_imp_long_h)
 
 calculate_ORs <- function(data_mids) {
+  data_mids$data$diabetes_controlled <-relevel(as.factor(data_mids$data$diabetes_controlled), ref="No diabetes")
+  data_mids$data$organ_kidney_transplant <-relevel(as.factor(data_mids$data$organ_kidney_transplant), ref="No transplant")
+  data_mids$data$ckd_rrt <-relevel(as.factor(data_mids$data$ckd_rrt), ref="No CDK or RRT")
+  data_mids$data$ab_frequency <-relevel(as.factor(data_mids$data$ab_frequency), ref="0")
+  data_mids$data$set_id <-as.factor(data_mids$data$set_id)
+
   model <- with(data_mids,
                 clogit(case ~  hypertension + chronic_respiratory_disease +
              asthma + chronic_cardiac_disease + diabetes_controlled + cancer + haem_cancer + chronic_liver_disease +
