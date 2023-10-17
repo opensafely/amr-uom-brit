@@ -18,7 +18,7 @@ df_imp_long_h_mids<-as.mids(df_imp_long_h)
 calculate_ORs <- function(data_mids) {
   data_mids$data$diabetes_controlled <-relevel(as.factor(data_mids$data$diabetes_controlled), ref="No diabetes")
   data_mids$data$organ_kidney_transplant <-relevel(as.factor(data_mids$data$organ_kidney_transplant), ref="No transplant")
-  data_mids$data$ckd_rrt <-relevel(as.factor(data_mids$data$ckd_rrt), ref="No CDK or RRT")
+  data_mids$data$ckd_rrt <-relevel(as.factor(data_mids$data$ckd_rrt), ref="No CKD or RRT")
   data_mids$data$ab_frequency <-relevel(as.factor(data_mids$data$ab_frequency), ref="0")
   data_mids$data$set_id <-as.factor(data_mids$data$set_id)
 
