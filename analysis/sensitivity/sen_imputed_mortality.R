@@ -15,10 +15,9 @@ library(rms)
 df_imp_long_c <- read_csv(here::here("output", "imputation_mortality_c.csv"))
 
 # Convert the data to mids object
-df_imp_long_c_mids <- as.mids(df_imp_long_c)
+data_mids <- as.mids(df_imp_long_c)
 
-# Function to calculate Odds Ratios
-calculate_ORs <- function(data_mids, variable) {
+
   # Relevel factors
   data_mids$data$imd <-relevel(as.factor(data_mids$data$imd), ref="5")
   data_mids$data$smoking_status <-relevel(as.factor(data_mids$data$smoking_status), ref="Never")
@@ -41,7 +40,7 @@ calculate_ORs <- function(data_mids, variable) {
   data_mids$data <- data_mids$data %>% filter(covid == '1')
 
   model <- with(data_mids,
-                clogit(case ~ get(variable) + rcs(age, 4) + sex + strata(region)))
+                clogit(case ~ ethnicty + rcs(age, 4) + sex + strata(region)))
   model <- summary(pool(model)) 
   
   # Extracting coefficients and other details from the model
@@ -60,28 +59,8 @@ calculate_ORs <- function(data_mids, variable) {
                         Lower_95_CI = lower_95,
                         Upper_95_CI = upper_95)
   
-  return(results)
-}
+  print(results)
 
-
-# List of datasets
-datasets <- list(period1 = df_imp_long_c_mids)
-
-# Applying the function to each variable of interest
-variables <- c("ethnicity", "smoking_status", "hypertension", 
-               "chronic_respiratory_disease", "asthma", "chronic_cardiac_disease", 
-               "diabetes_controlled", "cancer", "haem_cancer", "chronic_liver_disease", 
-               "stroke", "dementia", "other_neuro", "organ_kidney_transplant", "asplenia", 
-               "ra_sle_psoriasis", "immunosuppression", "learning_disability", 
-               "sev_mental_ill", "alcohol_problems", "care_home_type_ba", "ckd_rrt", 
-               "ab_frequency")
-
-# Iterating over datasets and variables
-for (data_name in names(datasets)) {
-  for (var in variables) {
-    result_df <- calculate_ORs(datasets[[data_name]], var)
-    write_csv(result_df, here::here("output", paste0("imputed_adjusted_mortality_community_", data_name, "_", var, ".csv")))
-  }
-}
+  write_csv(results, here::here("output", "imputed_adjusted_mortality_community_ethnicity.csv"))
 
 
