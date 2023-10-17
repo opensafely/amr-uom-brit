@@ -13,14 +13,9 @@ library(rms)
 
 # Read the CSV file
 df_imp_long_c <- read_csv(here::here("output", "imputation_mortality_c.csv"))
-df_imp_long_c_period1 <- filter(df_imp_long_c$covid==1)
-df_imp_long_c_period2 <- filter(df_imp_long_c$covid==2)
-df_imp_long_c_period3 <- filter(df_imp_long_c$covid==3)
 
 # Convert the data to mids object
-df_imp_long_c_period1_mids <- as.mids(df_imp_long_c_period1)
-df_imp_long_c_period2_mids <- as.mids(df_imp_long_c_period2)
-df_imp_long_c_period3_mids <- as.mids(df_imp_long_c_period3)
+df_imp_long_c_mids <- as.mids(df_imp_long_c)
 
 # Function to calculate Odds Ratios
 calculate_ORs <- function(data_mids, variable) {
@@ -42,6 +37,8 @@ calculate_ORs <- function(data_mids, variable) {
   data_mids$data$age >= 70 & data_mids$data$age < 80 ~ "70-79",
   data_mids$data$age >= 80 ~ "80+")
   data_mids$data$agegroup= relevel(as.factor(data_mids$data$agegroup), ref="50-59")
+  data_mids$data$covid= as.factor(data_mids$data$covid)
+  data_mids$data <- filter(data_mids$data$covid == '1')
   model <- with(data_mids,
                 clogit(case ~ get(variable) + rcs(age, 4) + sex + strata(region)))
   model <- summary(pool(model)) 
@@ -67,9 +64,7 @@ calculate_ORs <- function(data_mids, variable) {
 
 
 # List of datasets
-datasets <- list(period1 = df_imp_long_c_period1_mids, 
-                 period2 = df_imp_long_c_period2_mids, 
-                 period3 = df_imp_long_c_period3_mids)
+datasets <- list(period1 = df_imp_long_c_mids)
 
 # Applying the function to each variable of interest
 variables <- c("ethnicity", "smoking_status", "hypertension", 
