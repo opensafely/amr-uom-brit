@@ -95,7 +95,7 @@ for (p in periods) {
   df_filtered_mids <- as.mids(df_filtered)
   
   # Apply the function to each formula
-  period_results <- lapply(formulas, function(frm) calculate_ORs(df_filtered_mids, frm))
+  period_results <- lapply(all_formulas, function(frm) calculate_ORs(df_filtered_mids, frm))
   
   # Combine all results into a single data frame
   results_list[[paste0("Period_", p)]] <- bind_rows(period_results)
