@@ -1408,6 +1408,20 @@ actions:
       moderately_sensitive:
         table: output/imputed_adjusted_*.csv
 
+  sen_imputed_crude_demo_18:
+    run: r:latest analysis/sensitivity/sen_imputed_crude_demo_18.R
+    needs: [a_impute_18_ch,a_impute_18_c,a_impute_18_h]
+    outputs:
+      moderately_sensitive:
+        table: output/imputed_crude_18_*.csv
+
+  sen_imputed_adjusted_18:
+    run: r:latest analysis/sensitivity/sen_imputed_adjusted_18.R
+    needs: [a_impute_18_ch,a_impute_18_c,a_impute_18_h]
+    outputs:
+      moderately_sensitive:
+        table: output/imputed_adjusted_18_*.csv
+
   a_impute_mortality_ch:
     run: r:latest analysis/a_impute_mortality_ch.R
     needs: [process_model_var]
