@@ -13,9 +13,9 @@ library(rms)
 
 # Read the CSV file
 df_imp_long_c <- read_csv(here::here("output", "imputation_mortality_c.csv"))
-df_imp_long_c_period1 <- df_imp_long_c %% filter (covid==1)
-df_imp_long_c_period2 <- df_imp_long_c %% filter (covid==2)
-df_imp_long_c_period3 <- df_imp_long_c %% filter (covid==3)
+df_imp_long_c_period1 <- filter(df_imp_long_c$covid==1)
+df_imp_long_c_period2 <- filter(df_imp_long_c$covid==2)
+df_imp_long_c_period3 <- filter(df_imp_long_c$covid==3)
 
 # Convert the data to mids object
 df_imp_long_c_period1_mids <- as.mids(df_imp_long_c_period1)
