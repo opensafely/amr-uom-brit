@@ -38,7 +38,8 @@ calculate_ORs <- function(data_mids, variable) {
   data_mids$data$age >= 80 ~ "80+")
   data_mids$data$agegroup= relevel(as.factor(data_mids$data$agegroup), ref="50-59")
   data_mids$data$covid= as.factor(data_mids$data$covid)
-  data_mids$data <- filter(data_mids$data$covid == '1')
+  data_mids$data <- data_mids$data %>% filter(covid == '1')
+
   model <- with(data_mids,
                 clogit(case ~ get(variable) + rcs(age, 4) + sex + strata(region)))
   model <- summary(pool(model)) 
