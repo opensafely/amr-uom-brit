@@ -15,6 +15,88 @@ from cohortextractor import codelist, codelist_from_csv, combine_codelists
 
 # --- CODELISTS ---
 
+### cold
+cold_codes = codelist_from_csv(
+    "codelists/user-rriefu-cold_subset.csv", system="snomed", column="code")
+
+
+### cough
+cough_codes= codelist_from_csv(
+  "codelists/user-rriefu-cough.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+### LRTI
+lrti_codes= codelist_from_csv(
+  "codelists/user-rriefu-lrti.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+### ot externa
+ot_externa_codes= codelist_from_csv(
+  "codelists/user-rriefu-ot_externa.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+### otmedia
+otmedia_codes= codelist_from_csv(
+  "codelists/user-rriefu-otmedia.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+###  pneumonia
+pneumonia_codes= codelist_from_csv(
+  "codelists/user-rriefu-pneumonia.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+###  sinusits
+sinusitis_codes= codelist_from_csv(
+  "codelists/user-rriefu-sinusits.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+###  throat
+throat_codes= codelist_from_csv(
+  "codelists/user-rriefu-throat.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+###  URTI
+urti_codes= codelist_from_csv(
+  "codelists/user-rriefu-urti.csv",
+  system = "snomed",
+  column = "code"
+)
+
+
+###  UTI
+uti_codes = codelist_from_csv(
+    "codelists/user-rriefu-uti.csv", system="snomed", column="code"
+)
+
+
+## all upper respiratory infection
+all_urti_codes = combine_codelists(urti_codes,cough_codes,cold_codes,throat_codes)
+
+## all infection code
+all_infection_codes = combine_codelists(lrti_codes,ot_externa_codes,otmedia_codes,pneumonia_codes,sinusitis_codes,uti_codes,all_urti_codes)
+
+
 ethnicity_codes = codelist_from_csv(
     "codelists/opensafely-ethnicity.csv",
     system="ctv3",
@@ -263,8 +345,7 @@ sev_mental_ill_codes = codelist_from_csv(
 )
 
 antibacterials_codes_brit = codelist_from_csv(
-    "codelists/user-BillyZhongUOM-brit_new_dmd.csv", system="snomed", column="dmd_id", category_column="type",
-)
+    "codelists/user-BillyZhongUOM-brit_new_dmd.csv", system="snomed", column="dmd_id")
 ## ab types: 79
 codes_ab_type_Amikacin= codelist_from_csv('codelists/user-yayang-codes_ab_type_amikacincsv.csv', system ='snomed',column ='dmd_id')
 codes_ab_type_Amoxicillin= codelist_from_csv('codelists/user-yayang-codes_ab_type_amoxicillincsv.csv', system ='snomed',column ='dmd_id')
@@ -345,3 +426,4 @@ codes_ab_type_Tinidazole= codelist_from_csv('codelists/user-yayang-codes_ab_type
 codes_ab_type_Tobramycin= codelist_from_csv('codelists/user-yayang-codes_ab_type_tobramycincsv.csv', system ='snomed',column ='dmd_id')
 codes_ab_type_Trimethoprim= codelist_from_csv('codelists/user-yayang-codes_ab_type_trimethoprimcsv.csv', system ='snomed',column ='dmd_id')
 codes_ab_type_Vancomycin= codelist_from_csv('codelists/user-yayang-codes_ab_type_vancomycincsv.csv', system ='snomed',column ='dmd_id')
+

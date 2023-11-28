@@ -1470,3 +1470,10 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/imputed_adjusted_mortality_community_*.csv
+
+  extract_case_infection_30d: 
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_infection_30d
+    needs: [process2_idextraction]
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_infection_30d.csv

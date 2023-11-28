@@ -114,3 +114,14 @@ user/yayang/codes_ab_type_tinidazolecsv/0b9c3332
 user/yayang/codes_ab_type_tobramycincsv/728cbffc
 user/yayang/codes_ab_type_trimethoprimcsv/597d4cc7
 user/yayang/codes_ab_type_vancomycincsv/406dd992
+
+user/rriefu/cold_subset/0c46abca
+user/rriefu/cough/6a0be66d
+user/rriefu/lrti/5cda8555
+user/rriefu/ot_externa/05ce1999
+user/rriefu/otmedia/3a9fbff9
+user/rriefu/pneumonia/0b339985
+user/rriefu/sinusits/21904cc4
+user/rriefu/throat/0880d98f
+user/rriefu/urti/6f716659
+user/rriefu/uti/5661f324
