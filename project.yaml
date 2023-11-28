@@ -1477,3 +1477,9 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_case_infection_30d.csv
+
+  generate_study_population_case_infection:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_case_infection
+    outputs:
+      highly_sensitive:
+        cohort: output/input_case_infection.csv
