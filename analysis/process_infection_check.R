@@ -55,14 +55,17 @@ df <- df %>% filter (GP_positive_6weeks == 0)
 filtered_df <- df %>% filter (covid_admission_6weeks == 0)
 
 
+# Look at community sepsis only
+filtered_df <- df %>% filter (had_sepsis_within_2day == 1)
+
 # Calculate counts and percentages
 total_rows <- nrow(filtered_df)
-counts <- colSums(filtered_df[, c("has_infection", "has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia")])
+counts <- colSums(filtered_df[, c("has_infection", "has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia","has_pneumonia")])
 percentages <- counts / total_rows * 100
 
 # Combine counts and percentages
 results <- data.frame(
-  Condition = c("has_infection", "has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia"),
+  Condition = c("has_infection", "has_uti", "has_urti", "has_lrti", "has_sinusitis", "has_ot_externa", "has_otmedia", "has_pneumonia"),
   Count = counts,
   Percentage = percentages
 )
