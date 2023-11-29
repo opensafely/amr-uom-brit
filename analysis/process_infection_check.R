@@ -33,6 +33,7 @@ col_spec <-cols_only(patient_index_date = col_date(format = ""),
                         has_sinusitis = col_number(),
                         has_ot_externa = col_number(),
                         has_otmedia = col_number(),
+                        has_pneumonia = col_number(), 
                         has_infection = col_number(),                 
                         patient_id = col_number()
 )
