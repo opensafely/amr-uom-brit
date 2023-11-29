@@ -255,6 +255,14 @@ study = StudyDefinition(
         },
     ),
 
+    has_pneumonia=patients.with_these_clinical_events(
+        pneumonia_codes,
+        between=["patient_index_date - 31 days", "patient_index_date - 1 day"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.1,
+        },
+    ),
+
     has_infection=patients.with_these_clinical_events(
         all_infection_codes,
         between=["patient_index_date - 31 days", "patient_index_date - 1 day"],
