@@ -276,6 +276,7 @@ actions:
         csv5: output/lrti_sex_age_spline_HR.csv
         csv6: output/lrti_sex_age_var_HR.csv
         csv7: output/lrti_sex_age_band_full_HR.csv
+        csv8: output/lrti_model_coefficients.csv
 
   cox_otexterna_model:
     run: r:latest analysis/prediction/cox_otexterna_model.R
