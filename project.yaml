@@ -257,6 +257,7 @@ actions:
         csv5: output/urti_sex_age_spline_HR.csv
         csv6: output/urti_sex_age_var_HR.csv
         csv7: output/urti_sex_age_band_full_HR.csv
+        csv8: output/urti_model_coefficients.csv
 
   cox_lrti_model:
     run: r:latest analysis/prediction/cox_lrti_model.R
@@ -298,6 +299,7 @@ actions:
         csv5: output/otexterna_sex_age_spline_HR.csv
         csv6: output/otexterna_sex_age_var_HR.csv
         csv7: output/otexterna_sex_age_band_full_HR.csv
+        csv8: output/otexterna_model_coefficients.csv
 
   cox_otmedia_model:
     run: r:latest analysis/prediction/cox_otmedia_model.R
@@ -318,6 +320,7 @@ actions:
         csv5: output/otmedia_sex_age_spline_HR.csv
         csv6: output/otmedia_sex_age_var_HR.csv
         csv7: output/otmedia_sex_age_band_full_HR.csv
+        csv8: output/otmedia_model_coefficients.csv
 
   cox_sinusitis_model:
     run: r:latest analysis/prediction/cox_sinusitis_model.R
@@ -338,6 +341,7 @@ actions:
         csv5: output/sinusitis_sex_age_spline_HR.csv
         csv6: output/sinusitis_sex_age_var_HR.csv
         csv7: output/sinusitis_sex_age_band_full_HR.csv
+        csv8: output/sinusitis_model_coefficients.csv
 
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###

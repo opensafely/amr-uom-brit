@@ -264,6 +264,12 @@ model_selected <- coxph(Surv(TEVENT, EVENT) ~ sex + age3_spline + region + imd +
 results=as.data.frame(names(model_selected$coefficients))
 colnames(results)="term"
 
+result_coefficients <- results
+
+result_coefficients$coefficients=model_selected$coefficients
+
+write_csv(result_coefficients, here::here("output", "otmedia_model_coefficients.csv"))
+
 # Hazard ratio and 95% CI, P-value and S.E.
 results$hazard_ratio=exp(model_selected$coefficients)
 
