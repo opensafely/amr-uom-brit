@@ -81,7 +81,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_uti/hospitalisation_prediction_uti.html 
-        figures: output/hospitalisation_prediction_uti/*
+    #    figures: output/hospitalisation_prediction_uti/*
 
   generate_notebook_hospitalisation_prediction_sinusitis:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_sinusitis.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_sinusitis --ExecutePreprocessor.timeout=86400
