@@ -65,7 +65,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_urti/hospitalisation_prediction_urti.html 
-        figures: output/hospitalisation_prediction_urti/*
+    #       figures: output/hospitalisation_prediction_urti/*
 
   generate_notebook_hospitalisation_prediction_lrti:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_lrti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_lrti --ExecutePreprocessor.timeout=86400
@@ -73,7 +73,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_lrti/hospitalisation_prediction_lrti.html 
-        figures: output/hospitalisation_prediction_lrti/*
+      #     figures: output/hospitalisation_prediction_lrti/*
 
   generate_notebook_hospitalisation_prediction_uti:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_uti.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_uti --ExecutePreprocessor.timeout=86400
@@ -89,7 +89,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_sinusitis/hospitalisation_prediction_sinusitis.html 
-        figures: output/hospitalisation_prediction_sinusitis/*
+      #     figures: output/hospitalisation_prediction_sinusitis/*
 
   generate_notebook_hospitalisation_prediction_ot_externa:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_ot_externa.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_ot_externa --ExecutePreprocessor.timeout=86400
@@ -97,7 +97,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_ot_externa/hospitalisation_prediction_ot_externa.html 
-        figures: output/hospitalisation_prediction_ot_externa/*
+        #   figures: output/hospitalisation_prediction_ot_externa/*
 
   generate_notebook_hospitalisation_prediction_otmedia:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_otmedia.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_otmedia --ExecutePreprocessor.timeout=86400
@@ -105,7 +105,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_otmedia/hospitalisation_prediction_otmedia.html 
-        figures: output/hospitalisation_prediction_otmedia/*
+        #   figures: output/hospitalisation_prediction_otmedia/*
 
   generate_notebook_hospitalisation_prediction_cough:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_cough.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_cough --ExecutePreprocessor.timeout=86400
@@ -113,7 +113,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_cough/hospitalisation_prediction_cough.html 
-        figures: output/hospitalisation_prediction_cough/*
+        #   figures: output/hospitalisation_prediction_cough/*
 
   generate_notebook_hospitalisation_prediction_cough_cold:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_cough_cold.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_cough_cold --ExecutePreprocessor.timeout=86400
@@ -121,7 +121,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_cough_cold/hospitalisation_prediction_cough_cold.html 
-        figures: output/hospitalisation_prediction_cough_cold/*
+        #   figures: output/hospitalisation_prediction_cough_cold/*
 
   generate_notebook_hospitalisation_prediction_throat:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_throat.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_throat --ExecutePreprocessor.timeout=86400
@@ -129,7 +129,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_throat/hospitalisation_prediction_throat.html 
-        figures: output/hospitalisation_prediction_throat/* 
+        #   figures: output/hospitalisation_prediction_throat/* 
 
   generate_notebook_hospitalisation_prediction_urti_combined:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hospitalisation_prediction_urti_combined.ipynb --execute --to html --output-dir=/workspace/output/hospitalisation_prediction_urti_combined --ExecutePreprocessor.timeout=86400
@@ -137,7 +137,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hospitalisation_prediction_urti_combined/hospitalisation_prediction_urti_combined.html 
-        figures: output/hospitalisation_prediction_urti_combined/* 
+         #  figures: output/hospitalisation_prediction_urti_combined/* 
 
   generate_notebook_hosp_plots:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/hosp_plots.ipynb --execute --to html --output-dir=/workspace/output/hosp_plots --ExecutePreprocessor.timeout=86400
@@ -145,7 +145,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/hosp_plots/hosp_plots.html 
-        figures: output/hosp_plots/*
+         #  figures: output/hosp_plots/*
 
   generate_notebook_aggregate_table:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_baseline_table.ipynb --execute --to html --output-dir=/workspace/output/aggregate_tables --ExecutePreprocessor.timeout=86400
@@ -161,7 +161,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_hosp_table/aggregate_hosp_table.html 
-        figures: output/aggregate_hosp_table/*
+          # figures: output/aggregate_hosp_table/*
 
   generate_notebook_aggregate_cox_hrs_betas:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_hrs_betas.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hrs_betas --ExecutePreprocessor.timeout=86400
@@ -169,7 +169,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_hrs_betas/aggregate_cox_hrs_betas.html 
-        figures: output/aggregate_hrs_betas/*
+           #figures: output/aggregate_hrs_betas/*
 
   generate_notebook_aggregate_cox_hrs_antibiotics:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_hrs_antibiotics.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hrs_antibiotics --ExecutePreprocessor.timeout=86400
@@ -177,7 +177,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_hrs_antibiotics/aggregate_cox_hrs_antibiotics.html 
-        figures: output/aggregate_hrs_antibiotics/*
+         #  figures: output/aggregate_hrs_antibiotics/*
 
   generate_notebook_aggregate_cox_hrs_abhist_antibiotics:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_hrs_abhist_antibiotics.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hrs_abhist_antibiotics --ExecutePreprocessor.timeout=86400
@@ -185,7 +185,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_hrs_abhist_antibiotics/aggregate_cox_hrs_abhist_antibiotics.html 
-        figures: output/aggregate_hrs_abhist_antibiotics/*
+         #  figures: output/aggregate_hrs_abhist_antibiotics/*
 
   generate_notebook_aggregate_cox_cis:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_cox_cis.ipynb --execute --to html --output-dir=/workspace/output/aggregate_cox_cis --ExecutePreprocessor.timeout=86400
@@ -193,7 +193,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_cox_cis/aggregate_cox_cis.html 
-        figures: output/aggregate_cox_cis/*
+       #    figures: output/aggregate_cox_cis/*
 
   generate_notebook_aggregate_ab_prob:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_ab_prob_plots.ipynb --execute --to html --output-dir=/workspace/output/aggregate_ab_prob --ExecutePreprocessor.timeout=86400
@@ -201,4 +201,4 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_ab_prob/aggregate_ab_prob_plots.html 
-        figures: output/aggregate_ab_prob/*
+        #   figures: output/aggregate_ab_prob/*
