@@ -1,40 +1,42 @@
-,obj_type,vpid,snomed_id,bnf_code,dmd_name
-0,amp,348047008,3252611000001103,1404000H0AAAFAF,"Influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes (Novartis Vaccines and Diagnostics Ltd)"
-2,amp,348046004,3244411000001106,1404000H0AAAKAK,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (Sanofi Pasteur)"
-4,amp,348046004,10133911000001103,1404000H0AAAKAK,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (A A H Pharmaceuticals Ltd)"
-6,amp,348046004,11278411000001109,1404000H0AAAKAK,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (Pfizer Ltd)"
-8,amp,37531311000001101,37547211000001103,1404000H0AAAMAM,"Adjuvanted trivalent influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd)"
-9,amp,348047008,3249511000001109,1404000H0BBAAAF,Fluvirin vaccine suspension for injection 0.5ml pre-filled syringes (Novartis Vaccines and Diagnostics Ltd)
-11,amp,348047008,3255011000001100,1404000H0BCAAAF,Influvac Sub-unit vaccine suspension for injection 0.5ml pre-filled syringes (Mylan)
-13,amp,348047008,35727111000001109,1404000H0BCADAF,Influvac sub-unit Tetra vaccine suspension for injection 0.5ml pre-filled syringes (Mylan)
-15,amp,348046004,3245911000001104,1404000H0BFAAAK,Fluarix vaccine suspension for injection 0.5ml pre-filled syringes (GlaxoSmithKline UK Ltd)
-17,amp,348046004,3247011000001105,1404000H0BGAAAK,Begrivac vaccine suspension for injection 0.5ml pre-filled syringes (Novartis Vaccines and Diagnostics Ltd)
-19,amp,348047008,3255311000001102,1404000H0BHAAAF,Agrippal vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd)
-21,amp,10309511000001105,10306611000001101,1404000H0BIAAAF,Inflexal V vaccine suspension for injection 0.5ml pre-filled syringes (Janssen-Cilag Ltd)
-23,amp,348047008,4365711000001104,1404000H0BJAAAF,Mastaflu vaccine suspension for injection 0.5ml pre-filled syringes (Masta Ltd)
-25,amp,348046004,9511411000001107,1404000H0BLAAAK,Enzira vaccine suspension for injection 0.5ml pre-filled syringes (Pfizer Ltd)
-27,amp,10309511000001105,10455811000001107,1404000H0BMAAAF,Viroflu vaccine suspension for injection 0.5ml pre-filled syringes (Janssen-Cilag Ltd)
-29,amp,348047008,10859911000001105,1404000H0BNAAAF,Imuvac vaccine suspension for injection 0.5ml pre-filled syringes (Mylan)
-31,amp,348047008,15382311000001101,1404000H0BPAAAF,Optaflu vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd)
-33,amp,15474011000001107,15454511000001101,1404000H0BQAAAH,Intanza 9microgram strain vaccine suspension for injection 0.1ml pre-filled syringes (sanofi pasteur MSD Ltd)
-34,amp,15507511000001109,15506511000001107,1404000H0BQABAI,Intanza 15microgram strain vaccine suspension for injection 0.1ml pre-filled syringes (sanofi pasteur MSD Ltd)
-35,amp,19821411000001103,19820511000001106,1404000H0BRAAAJ,Fluenz vaccine nasal suspension 0.2ml unit dose (AstraZeneca UK Ltd)
-36,amp,19821411000001103,27114211000001105,1404000H0BRABAJ,Fluenz Tetra vaccine nasal suspension 0.2ml unit dose (AstraZeneca UK Ltd)
-37,amp,348046004,20292211000001109,1404000H0BSAAAK,Preflucel vaccine suspension for injection 0.5ml pre-filled syringes (Baxter Healthcare Ltd)
-39,amp,348047008,22628411000001107,1404000H0BTAAAF,Influvac Desu vaccine suspension for injection 0.5ml pre-filled syringes (Abbott Healthcare Products Ltd)
-41,amp,348046004,22704311000001109,1404000H0BUAAAK,Fluarix Tetra vaccine suspension for injection 0.5ml pre-filled syringes (GlaxoSmithKline UK Ltd)
-43,amp,19821411000001103,30935711000001104,1404000H0BVAAAJ,FluMist Quadrivalent vaccine nasal suspension 0.2ml unit dose (AstraZeneca UK Ltd)
-44,amp,348046004,34680411000001107,1404000H0BWAAAK,"Quadrivalent influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (Sanofi Pasteur)"
-46,amp,37531311000001101,37514711000001105,1404000H0BXAAAM,Fluad vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd)
-47,amp,348047008,35726811000001104,1404000H0BYAAAF,Influenza Tetra MYL vaccine suspension for injection 0.5ml pre-filled syringes (Mylan)
-49,amp,348047008,35727411000001104,1404000H0BYABAF,Influenza MYL vaccine suspension for injection 0.5ml pre-filled syringes (Mylan)
-51,amp,348047008,36509011000001106,1404000H0BZAAAF,Flucelvax Tetra vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd)
-53,amp,36755311000001100,36754111000001101,1404000H0CBAAAL,"Trivalent influenza vaccine (split virion, inactivated) High Dose suspension for injection 0.5ml pre-filled syringes (Sanofi Pasteur)"
-54,vmp,348047008,348047008,1404000H0AAAFAF,"Influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes"
-56,vmp,10309511000001105,10309511000001105,1404000H0AAAFAF,"Influenza vaccine (surface antigen, inactivated, virosome) suspension for injection 0.5ml pre-filled syringes"
-58,vmp,15474011000001107,15474011000001107,1404000H0AAAHAH,"Influenza vaccine (split virion, inactivated) 9microgram strain suspension for injection 0.1ml pre-filled syringes"
-59,vmp,15507511000001109,15507511000001109,1404000H0AAAIAI,"Influenza vaccine (split virion, inactivated) 15microgram strain suspension for injection 0.1ml pre-filled syringes"
-60,vmp,19821411000001103,19821411000001103,1404000H0AAAJAJ,Influenza vaccine (live attenuated) nasal suspension 0.2ml unit dose
-61,vmp,348046004,348046004,1404000H0AAAKAK,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes"
-63,vmp,36755311000001100,36755311000001100,1404000H0AAALAL,"Influenza vaccine (split virion, inactivated) High Dose suspension for injection 0.5ml pre-filled syringes"
-64,vmp,37531311000001101,37531311000001101,1404000H0AAAMAM,"Adjuvanted trivalent influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes"
+code,term,snomed_id,obj_type,vpid,bnf_code
+3252611000001103,"Influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes (Novartis Vaccines and Diagnostics Ltd)",3252611000001103,amp,348047008,1404000H0AAAFAF
+3244411000001106,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (Sanofi Pasteur)",3244411000001106,amp,348046004,1404000H0AAAKAK
+10133911000001103,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (A A H Pharmaceuticals Ltd)",10133911000001103,amp,348046004,1404000H0AAAKAK
+11278411000001109,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (Pfizer Ltd)",11278411000001109,amp,348046004,1404000H0AAAKAK
+37547211000001103,"Adjuvanted trivalent influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd)",37547211000001103,amp,37531311000001101,1404000H0AAAMAM
+3249511000001109,Fluvirin vaccine suspension for injection 0.5ml pre-filled syringes (Novartis Vaccines and Diagnostics Ltd),3249511000001109,amp,348047008,1404000H0BBAAAF
+3255011000001100,Influvac Sub-unit vaccine suspension for injection 0.5ml pre-filled syringes (Mylan),3255011000001100,amp,348047008,1404000H0BCAAAF
+35727111000001109,Influvac sub-unit Tetra vaccine suspension for injection 0.5ml pre-filled syringes (Mylan),35727111000001109,amp,348047008,1404000H0BCADAF
+3245911000001104,Fluarix vaccine suspension for injection 0.5ml pre-filled syringes (GlaxoSmithKline UK Ltd),3245911000001104,amp,348046004,1404000H0BFAAAK
+3247011000001105,Begrivac vaccine suspension for injection 0.5ml pre-filled syringes (Novartis Vaccines and Diagnostics Ltd),3247011000001105,amp,348046004,1404000H0BGAAAK
+3255311000001102,Agrippal vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd),3255311000001102,amp,348047008,1404000H0BHAAAF
+10306611000001101,Inflexal V vaccine suspension for injection 0.5ml pre-filled syringes (Janssen-Cilag Ltd),10306611000001101,amp,10309511000001105,1404000H0BIAAAF
+4365711000001104,Mastaflu vaccine suspension for injection 0.5ml pre-filled syringes (Masta Ltd),4365711000001104,amp,348047008,1404000H0BJAAAF
+9511411000001107,Enzira vaccine suspension for injection 0.5ml pre-filled syringes (Pfizer Ltd),9511411000001107,amp,348046004,1404000H0BLAAAK
+10455811000001107,Viroflu vaccine suspension for injection 0.5ml pre-filled syringes (Janssen-Cilag Ltd),10455811000001107,amp,10309511000001105,1404000H0BMAAAF
+10859911000001105,Imuvac vaccine suspension for injection 0.5ml pre-filled syringes (Mylan),10859911000001105,amp,348047008,1404000H0BNAAAF
+15382311000001101,Optaflu vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd),15382311000001101,amp,348047008,1404000H0BPAAAF
+15454511000001101,Intanza 9microgram strain vaccine suspension for injection 0.1ml pre-filled syringes (sanofi pasteur MSD Ltd),15454511000001101,amp,15474011000001107,1404000H0BQAAAH
+15506511000001107,Intanza 15microgram strain vaccine suspension for injection 0.1ml pre-filled syringes (sanofi pasteur MSD Ltd),15506511000001107,amp,15507511000001109,1404000H0BQABAI
+19820511000001106,Fluenz vaccine nasal suspension 0.2ml unit dose (AstraZeneca UK Ltd),19820511000001106,amp,19821411000001103,1404000H0BRAAAJ
+27114211000001105,Fluenz Tetra vaccine nasal suspension 0.2ml unit dose (AstraZeneca UK Ltd),27114211000001105,amp,19821411000001103,1404000H0BRABAJ
+20292211000001109,Preflucel vaccine suspension for injection 0.5ml pre-filled syringes (Baxter Healthcare Ltd),20292211000001109,amp,348046004,1404000H0BSAAAK
+22628411000001107,Influvac Desu vaccine suspension for injection 0.5ml pre-filled syringes (Abbott Healthcare Products Ltd),22628411000001107,amp,348047008,1404000H0BTAAAF
+22704311000001109,Fluarix Tetra vaccine suspension for injection 0.5ml pre-filled syringes (GlaxoSmithKline UK Ltd),22704311000001109,amp,348046004,1404000H0BUAAAK
+30935711000001104,FluMist Quadrivalent vaccine nasal suspension 0.2ml unit dose (AstraZeneca UK Ltd),30935711000001104,amp,19821411000001103,1404000H0BVAAAJ
+34680411000001107,"Quadrivalent influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes (Sanofi Pasteur)",34680411000001107,amp,348046004,1404000H0BWAAAK
+37514711000001105,Fluad vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd),37514711000001105,amp,37531311000001101,1404000H0BXAAAM
+35726811000001104,Influenza Tetra MYL vaccine suspension for injection 0.5ml pre-filled syringes (Mylan),35726811000001104,amp,348047008,1404000H0BYAAAF
+35727411000001104,Influenza MYL vaccine suspension for injection 0.5ml pre-filled syringes (Mylan),35727411000001104,amp,348047008,1404000H0BYABAF
+36509011000001106,Flucelvax Tetra vaccine suspension for injection 0.5ml pre-filled syringes (Seqirus Vaccines Ltd),36509011000001106,amp,348047008,1404000H0BZAAAF
+36754111000001101,"Trivalent influenza vaccine (split virion, inactivated) High Dose suspension for injection 0.5ml pre-filled syringes (Sanofi Pasteur)",36754111000001101,amp,36755311000001100,1404000H0CBAAAL
+348047008,"Influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes",348047008,vmp,348047008,1404000H0AAAFAF
+10309511000001105,"Influenza vaccine (surface antigen, inactivated, virosome) suspension for injection 0.5ml pre-filled syringes",10309511000001105,vmp,10309511000001105,1404000H0AAAFAF
+15474011000001107,"Influenza vaccine (split virion, inactivated) 9microgram strain suspension for injection 0.1ml pre-filled syringes",15474011000001107,vmp,15474011000001107,1404000H0AAAHAH
+15507511000001109,"Influenza vaccine (split virion, inactivated) 15microgram strain suspension for injection 0.1ml pre-filled syringes",15507511000001109,vmp,15507511000001109,1404000H0AAAIAI
+19821411000001103,Influenza vaccine (live attenuated) nasal suspension 0.2ml unit dose,19821411000001103,vmp,19821411000001103,1404000H0AAAJAJ
+348046004,"Influenza vaccine (split virion, inactivated) suspension for injection 0.5ml pre-filled syringes",348046004,vmp,348046004,1404000H0AAAKAK
+36755311000001100,"Influenza vaccine (split virion, inactivated) High Dose suspension for injection 0.5ml pre-filled syringes",36755311000001100,vmp,36755311000001100,1404000H0AAALAL
+37531311000001101,"Adjuvanted trivalent influenza vaccine (surface antigen, inactivated) suspension for injection 0.5ml pre-filled syringes",37531311000001101,vmp,37531311000001101,1404000H0AAAMAM
+39716611000001104,VMP subsequent to 348047008,39716611000001104,vmp,348047008,1404000H0AAAFAF
+39716811000001100,VMP subsequent to 348046004,39716811000001100,vmp,348046004,1404000H0AAAKAK
