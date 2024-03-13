@@ -153,7 +153,7 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/aggregate_tables/aggregate_baseline_table.html 
-        figures: output/aggregate_tables/*
+    actions -> generate_notebook_aggregate_table -> outputs -> __root__    figures: output/aggregate_tables/*
 
   generate_notebook_aggregate_hosp_table:
     run: jupyter:latest jupyter nbconvert /workspace/analysis/aggregate_hosp_table.ipynb --execute --to html --output-dir=/workspace/output/aggregate_hosp_table --ExecutePreprocessor.timeout=86400
